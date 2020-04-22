@@ -1,30 +1,40 @@
 import shap
-
-explainer = None
-
-
-def fit_contributions(model, X_train):
-    """
-    Fit the shap explainer.
-
-    :param model: the model to explain
-    :param X_train: the standardized training set to calculate the contributions
-    :return: None
-    """
-    global explainer
-    explainer = shap.LinearExplainer(model, X_train)
+import numpy as np
 
 
-def get_contributions(x):
-    """
-    Get the feature contributions for all features in x.
-    Must call fit_shap before calling this function.
+class FeatureContributions:
 
-    :param x: a standardized input into the model
-    :return: the contributions of each feature in x
-    :except: AssertError if fit_contributions has not been called
-    """
-    assert(explainer is not None, "Need to call fit_contributions before " +
-                                  "calling get_contributions")
-    shap_values = explainer.shap_values(x)
-    return shap_values
+    def __init__(self):
+        self.explainer = None
+
+    def fit_contributions(self, model, X_train):
+        """
+        Fit the shap explainer.
+
+        :param model: sklearn.linear_model
+               The model to explain
+        :param X_train: array_like of shape (n_samples, n_features)
+               The training set for the model
+        :return: None
+        """
+        # TODO: Update this to be model agnostic
+        X_train = np.asanyarray(X_train)
+        self.explainer = shap.LinearExplainer(model, X_train)
+
+    def get_contributions(self, x):
+        """
+        Get the feature contributions for all features in x.
+        Must call fit_shap before calling this function.
+
+        :param x: array_like of shape (n_features,)
+               The input into the model
+        :return: array_like of shape (n_features,)
+                 The contributions of each feature in x
+        :except: AssertError
+                 If fit_contributions has not been called
+        """
+        assert self.explainer is not None, \
+            "Need to call fit_contributions before calling get_contributions"
+        x = np.asanyarray(x)
+        shap_values = self.explainer.shap_values(x)
+        return shap_values
