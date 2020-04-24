@@ -11,7 +11,7 @@ import unittest
 from explanation_toolkit import global_explanation
 
 # TODO Fix some of the hardcoding in these tests, it'll be a problem later
-# TODO Maybe remove run_type_test_suite and manually iterate conversions in each
+# TODO Maybe remove run_type_test_suite and manually iterate conversions2d in each
 #      test to maximize flexibility
 
 
@@ -29,11 +29,16 @@ def run_type_test_suite(func, inputs):
     func(*inputs)
 
 
+def identity(X):
+    return X
+
+
 class TestGlobalExplanation(unittest.TestCase):
     """Tests for `explanation_toolkit` package."""
 
     def setUp(self):
-        """Set up test fixtures, if any."""
+        self.conversions2d = [identity, np.array, pd.DataFrame]
+        self.conversions1d = [identity, np.array, pd.Series]
         pass
 
     def tearDown(self):
@@ -42,35 +47,28 @@ class TestGlobalExplanation(unittest.TestCase):
 
     def test_get_global_importance(self):
         # Set up tests
-        X_list =  [[3, 4, 2],
-                   [5, 3, 6],
-                   [0, 1, 2]]
-        y_list = [2, 4, 1]
-        run_type_test_suite(self.global_importance_helper,
-                            inputs=[X_list, y_list])
+        for conv2d, conv1d in [
+                (conv2d, conv1d) for conv2d in self.conversions2d
+                                 for conv1d in self.conversions1d]:
+            self.helper_global_importance(conv2d, conv1d)
 
     def test_get_rows_by_output(self):
-        X = [[0, 4, 2],
-             [1, 3, 6],
-             [0, 1, 2]]
-        run_type_test_suite(self.get_rows_by_output_helper, inputs=[X])
+        for conv in self.conversions2d:
+            self.helper_get_rows_by_output(conv)
 
     def test_summary_categorical(self):
-        X = [[0, 0, 0],
-             [1, 0, 0],
-             [2, 0, 1]]
-        run_type_test_suite(self.summary_categorical_helper,
-                            inputs=[X])
+        for conv in self.conversions2d:
+            self.helper_summary_categorical(conv)
 
     def test_summary_numeric(self):
-        X = [[0, 0, 0],
-             [1, 2, 0],
-             [2, 8, 0],
-             [3, 6, 0],
-             [4, 4, 0]]
-        run_type_test_suite(self.summary_numeric_helper, inputs=[X])
+        for conv in self.conversions2d:
+            self.helper_summary_numeric(conv)
 
-    def global_importance_helper(self, X, y):
+    def helper_global_importance(self, conv2d, conv1d):
+        X = conv2d([[3, 4, 2],
+                  [5, 3, 6],
+                  [0, 1, 2]])
+        y = conv1d([2, 4, 1])
         weights = [1, 0, 0]
         model = Lasso()
         model.fit(X, y)
@@ -83,7 +81,10 @@ class TestGlobalExplanation(unittest.TestCase):
         self.assertAlmostEqual(importances[1], 0, 4)
         self.assertAlmostEqual(importances[2], 0, 4)
 
-    def get_rows_by_output_helper(self, X):
+    def helper_get_rows_by_output(self, conv):
+        X = conv([[0, 4, 2],
+                  [1, 3, 6],
+                  [0, 1, 2]])
         row_labels = ["p", "q", "r"]
         rows_0 = [0, 2]
         labels_0 = ["p", "r"]
@@ -101,7 +102,10 @@ class TestGlobalExplanation(unittest.TestCase):
         self.assertTrue(np.array_equal(labels_0, output_0))
         self.assertTrue(np.array_equal(labels_1, output_1))
 
-    def summary_categorical_helper(self, X):
+    def helper_summary_categorical(self, conv):
+        X = conv([[0, 0, 0],
+                  [1, 0, 0],
+                  [2, 0, 1]])
         correct_values = [[0, 1, 2], [0], [0, 1]]
         correct_counts = [[1, 1, 1], [3], [2, 1]]
         result_values, result_counts = global_explanation.summary_categorical(X)
@@ -112,7 +116,12 @@ class TestGlobalExplanation(unittest.TestCase):
             self.assertTrue(np.array_equal(correct_counts[i], result_counts[i]))
             self.assertEqual(len(result_values[i]), len(result_counts[i]))
 
-    def summary_numeric_helper(self, X):
+    def helper_summary_numeric(self, conv):
+        X = conv([[0, 0, 0],
+                  [1, 2, 0],
+                  [2, 8, 0],
+                  [3, 6, 0],
+                  [4, 4, 0]])
         correct = [[0, 1, 2, 3, 4],
                    [0, 2, 4, 6, 8],
                    [0, 0, 0, 0, 0]]

@@ -12,8 +12,13 @@ from explanation_toolkit import counterfactual_explanation
 def predict_test(X):
     return X[:,0]
 
+
 def predict_test_2(X):
     return X[:,0] + X[:,1]
+
+
+def identity(X):
+    return X
 
 
 class TestCounterfactualExplanation(unittest.TestCase):
@@ -28,25 +33,13 @@ class TestCounterfactualExplanation(unittest.TestCase):
         pass
 
     def test_modify_and_repredict(self):
-        X = [[1, 1, 1],
-             [4, 3, 4],
-             [6, 7, 2]]
+        self.helper_modify_and_repredict_2D(identity)
+        self.helper_modify_and_repredict_2D(np.array)
+        self.helper_modify_and_repredict_2D(pd.DataFrame)
 
-        # Test with no changes
-        original_prediction = [1, 4, 6]
-        no_change = counterfactual_explanation.modify_and_repredict(
-            predict_test, X, features=[], new_values=[])
-        self.assertTrue(np.array_equal(original_prediction, no_change))
-
-        original_prediction_2 = [2, 7, 13]
-        no_change_2 = counterfactual_explanation.modify_and_repredict(
-            predict_test_2, X, features=[], new_values=[])
-        self.assertTrue(np.array_equal(original_prediction_2, no_change_2))
-
-        # test with numeric feature indices
-        self.modify_and_repredict_helper(X)
-        self.modify_and_repredict_helper(np.array(X))
-        self.modify_and_repredict_helper(pd.DataFrame(X))
+        self.helper_modify_and_repredict_1D(identity)
+        self.helper_modify_and_repredict_1D(np.array)
+        self.helper_modify_and_repredict_1D(pd.Series)
 
     def test_binary_flip_all(self):
         x = [1, 0, 0]
@@ -71,7 +64,26 @@ class TestCounterfactualExplanation(unittest.TestCase):
         self.assertEqual(preds_all, [0, 2, 1])
         self.assertEqual(values_all, [0, 1, 1])
 
-    def modify_and_repredict_helper(self, X):
+    def test_modify_input(self):
+        self.helper_modify_input(identity)
+        self.helper_modify_input(np.array)
+        self.helper_modify_input(pd.DataFrame)
+
+    def helper_modify_and_repredict_2D(self, conv):
+        X = conv([[1, 1, 1],
+                  [4, 3, 4],
+                  [6, 7, 2]])
+        pred = [1, 4, 6]
+        pred_2 = [2, 7, 13]
+
+        no_change = counterfactual_explanation.modify_and_repredict(
+            predict_test, X, features=[], new_values=[])
+        self.assertTrue(np.array_equal(pred, no_change))
+
+        no_change_2 = counterfactual_explanation.modify_and_repredict(
+            predict_test_2, X, features=[], new_values=[])
+        self.assertTrue(np.array_equal(pred_2, no_change_2))
+
         change_one = counterfactual_explanation.modify_and_repredict(
             predict_test, X, features=[0], new_values=[[2, 2, 2]])
         prediction_change_one = [2, 2, 2]
@@ -82,3 +94,70 @@ class TestCounterfactualExplanation(unittest.TestCase):
             new_values=[[2, 2, 2], [3, 3, 3]])
         prediction_change_two = [5, 5, 5]
         self.assertTrue(np.array_equal(change_two, prediction_change_two))
+
+    def helper_modify_and_repredict_1D(self, conv):
+        x = conv([4, 3, 2])
+        pred = [4]
+        pred_2 = [7]
+
+        no_change = counterfactual_explanation.modify_and_repredict(
+            predict_test, x, features=[], new_values=[])
+        self.assertTrue(np.array_equal(pred, no_change))
+
+        no_change_2 = counterfactual_explanation.modify_and_repredict(
+            predict_test_2, x, features=[], new_values=[])
+        self.assertTrue(np.array_equal(pred_2, no_change_2))
+
+        change_one = counterfactual_explanation.modify_and_repredict(
+            predict_test, x, features=[0], new_values=[2])
+        prediction_change_one = [2]
+        self.assertTrue(np.array_equal(change_one, prediction_change_one))
+
+        change_two = counterfactual_explanation.modify_and_repredict(
+            predict_test_2, x, features=[0, 1],
+            new_values=[6, 7])
+        prediction_change_two = [13]
+        self.assertTrue(np.array_equal(change_two, prediction_change_two))
+
+    def helper_modify_input(self, conv):
+        X = conv([[1, 1, 1],
+                  [4, 3, 4],
+                  [6, 7, 2]])
+        pred = [1, 4, 6]
+        mi = counterfactual_explanation.ModifyInput(X)
+        self.assertTrue(np.array_equal(X, mi.get()))
+        self.assertTrue(np.array_equal(X, mi.original_X))
+        self.assertTrue(np.array_equal(X, mi.modified_X))
+        self.assertTrue(np.array_equal(pred, mi.predict(predict_test)))
+
+        change = [[2, 2, 2]]
+        X2 = [[2, 1, 1],
+              [2, 3, 4],
+              [2, 7, 2]]
+        mi.modify([0], change)
+        self.assertTrue(np.array_equal(X2, mi.get()))
+        self.assertTrue(np.array_equal([2, 2, 2], mi.predict(predict_test)))
+
+        change2 = [[2, 2, 2], [3, 3, 3]]
+        X3 = [[2, 3, 1],
+              [2, 3, 4],
+              [2, 3, 2]]
+        mi.modify([0, 1], change2)
+        self.assertTrue(np.array_equal(X3, mi.get()))
+        self.assertTrue(np.array_equal([5, 5, 5], mi.predict(predict_test_2)))
+
+        mi.reset(inds=[1])
+        self.assertTrue(np.array_equal(X2, mi.get()))
+        self.assertTrue(np.array_equal([3, 5, 9], mi.predict(predict_test_2)))
+
+        mi.reset()
+        self.assertTrue(np.array_equal(X, mi.get()))
+        self.assertTrue(np.array_equal([2, 7, 13], mi.predict(predict_test_2)))
+
+        mi.modify([0], change)
+        self.assertTrue(np.array_equal(X2, mi.get()))
+        self.assertTrue(np.array_equal([2, 2, 2], mi.predict(predict_test)))
+        self.assertTrue(np.array_equal(X, mi.original_X))
+
+
+

@@ -7,14 +7,14 @@ import unittest
 import numpy as np
 import pandas as pd
 
-from explanation_toolkit import example_explanation
+from explanation_toolkit import nearest_neighbor_explanation
 
 
-class TestExampleExplanation(unittest.TestCase):
+class TestNearestNeighborExplanation(unittest.TestCase):
     """Tests for `explanation_toolkit` package."""
 
     def setUp(self):
-        self.ee = example_explanation.NearestNeighborExplanation()
+        self.ee = nearest_neighbor_explanation.NearestNeighborExplanation()
         self.X = [[0, 0, 0],
                   [1, 1, 1],
                   [2, 3, 2],

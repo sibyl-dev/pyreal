@@ -6,7 +6,7 @@ import pandas as pd
 
 import unittest
 
-from explanation_toolkit import feature_explanation
+from explanation_toolkit import local_feature_explanation
 
 
 def identity(x):
@@ -18,9 +18,10 @@ class TestFeatureExplanation(unittest.TestCase):
 
     def setUp(self):
         """Set up test fixtures"""
-        self.conversions = [identity, np.array, pd.DataFrame]
+        self.conversions2d = [identity, np.array, pd.DataFrame]
+        self.conversions1d = [identity, np.array, pd.Series]
 
-        self.fc = feature_explanation.FeatureContributions()
+        self.fc = local_feature_explanation.LocalFeatureContributions()
         self.X_train = [[1, 1, 1],
                         [4, 3, 4],
                         [6, 7, 2]]
@@ -36,36 +37,42 @@ class TestFeatureExplanation(unittest.TestCase):
 
     def test_fit_contributions(self):
         self.assertIsNone(self.fc.explainer)
-        for conv in self.conversions:
-            self.X_train = conv(self.X_train)
-            output = self.fc.fit_contributions(self.model, self.X_train)
-            self.assertIsNone(output)
-            self.assertIsNotNone(self.fc.explainer)
+        for conv in self.conversions2d:
+            self.helper_fit_contributions(conv)
 
     def test_get_contributions(self):
-        x_low = np.array([1,5,6])
-        x_high = [6,3,2]
-
         self.assertIsNone(self.fc.explainer)
         with self.assertRaises(AssertionError):
-            self.fc.get_contributions(x_low)
+            self.fc.get_contributions([0, 0, 0])
 
-        for conv in self.conversions:
-            self.X_train = conv(self.X_train)
-            self.fc.fit_contributions(self.model, self.X_train)
-            output = self.fc.get_contributions(x_low)
+        for conv2d, conv1d in [
+            (conv2d, conv1d) for conv2d in self.conversions2d
+                             for conv1d in self.conversions1d]:
+            self.helper_get_contributions(conv2d, conv1d)
 
-            self.assertTrue(len(output) == 3)
-            self.assertTrue(output[0] < -0.01)
-            self.assertAlmostEqual(output[1], 0, 4)
-            self.assertAlmostEqual(output[2], 0, 4)
+    def helper_fit_contributions(self, conv):
+        self.X_train = conv(self.X_train)
+        output = self.fc.fit_contributions(self.model, self.X_train)
+        self.assertIsNone(output)
+        self.assertIsNotNone(self.fc.explainer)
 
-            output = self.fc.get_contributions(x_high)
+    def helper_get_contributions(self, conv2d, conv1d):
+        self.X_train = conv2d(self.X_train)
+        x_low = conv1d([1, 5, 6])
+        x_high = conv1d([6, 3, 2])
 
-            self.assertTrue(len(output) == 3)
-            self.assertTrue(output[0] > 0.01)
-            self.assertAlmostEqual(output[1], 0, 4)
-            self.assertAlmostEqual(output[2], 0, 4)
+        self.fc.fit_contributions(self.model, self.X_train)
+        output = self.fc.get_contributions(x_low)
 
+        self.assertTrue(len(output) == 3)
+        self.assertTrue(output[0] < -0.01)
+        self.assertAlmostEqual(output[1], 0, 4)
+        self.assertAlmostEqual(output[2], 0, 4)
 
+        output = self.fc.get_contributions(x_high)
+
+        self.assertTrue(len(output) == 3)
+        self.assertTrue(output[0] > 0.01)
+        self.assertAlmostEqual(output[1], 0, 4)
+        self.assertAlmostEqual(output[2], 0, 4)
 

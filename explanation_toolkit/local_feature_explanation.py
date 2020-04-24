@@ -2,7 +2,7 @@ import shap
 import numpy as np
 
 
-class FeatureContributions:
+class LocalFeatureContributions:
 
     def __init__(self):
         self.explainer = None
