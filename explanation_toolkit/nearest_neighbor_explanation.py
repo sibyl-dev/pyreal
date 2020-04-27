@@ -5,9 +5,10 @@ import numpy as np
 class NearestNeighborExplanation:
     def __init__(self):
         self.nbrs = None
+        self.n_samples = 0
         self.y = None
 
-    def fit_nearest_neighbor(self, X, y=None):
+    def fit_nearest_neighbor(self, X, y=None, metric='minkowski'):
         """
         Fit the nearest neighbor algorithm to the dataset.
 
@@ -15,10 +16,15 @@ class NearestNeighborExplanation:
                   The dataset to search for neighbors in
         :param y: array_like of shape (n_samples, )
                   The true values that accompany X
+        :param metric: distance metric to use
         :return: None
         """
-        self.nbrs = NearestNeighbors(n_neighbors=1, algorithm='ball_tree').fit(X)
-        self.y = np.asanyarray(y)
+        self.nbrs = NearestNeighbors(n_neighbors=1,
+                                     algorithm='ball_tree',
+                                     metric=metric).fit(X)
+        self.n_samples = np.asanyarray(X).shape[0]
+        if y is not None:
+            self.y = np.asanyarray(y)
 
     def nearest_neighbor(self, x, N=1, desired_y=None, y=None,
                          search_by=10, search_depth=1000):
@@ -49,8 +55,8 @@ class NearestNeighborExplanation:
                 If desired_y is not None, but y is None and no y was provided
                 at fitting time
         """
-        assert(self.nbrs is not None,
-               "Must call fit_nearest_neighbor before calling nearest_neighbor")
+        assert self.nbrs is not None,\
+            "Must call fit_nearest_neighbor before calling nearest_neighbor"
 
         if desired_y is None:
             nbr_inds = self.nbrs.kneighbors(
@@ -61,8 +67,11 @@ class NearestNeighborExplanation:
             raise ValueError("Must provide true values when requesting a y if "
                              "they were not provided when fitting")
         if desired_y is not None:
-            y = np.asanyarray(y)
-            current_search_N = search_by
+            if y is None:
+                y = self.y
+            else:
+                y = np.asanyarray(y)
+            current_search_N = min(search_by, self.n_samples)
             inds = []
             while True:
                 nbr_inds = self.nbrs.kneighbors(x, return_distance=False,
@@ -77,4 +86,8 @@ class NearestNeighborExplanation:
                 if current_search_N > search_depth:
                     print("Couldn't find enough appropriate " +
                           "neighbors within search_depth")
+                    return inds
+                if current_search_N > self.n_samples:
+                    print("Couldn't find enough appropriate " +
+                          "neighbors within training set")
                     return inds
