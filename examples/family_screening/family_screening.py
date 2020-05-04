@@ -1,5 +1,4 @@
 from examples.family_screening import family_screening_helpers as helpers
-import explanation_toolkit.counterfactual_explanation as cfe
 
 model = helpers.load_model()
 thresholds = helpers.load_thresholds()
@@ -14,5 +13,3 @@ def predict_class(x):
     pred = model.predict(x)
     scores = helpers.preds_to_scores(pred, thresholds)
     return scores
-
-

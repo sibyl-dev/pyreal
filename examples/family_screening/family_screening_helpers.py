@@ -13,6 +13,8 @@ dataset_filename = "Model_Dataset_Version_01_01_partition_predictions.csv"
 features_filename = "Design_Specification_DOUGLAS_v1.4.csv"
 model_filename = "weights_model_feb2019.csv"
 threshold_filename = "Performance_Matrix.csv"
+feature_mappings_filename = "interpretable_features.csv"
+defaults_filename = "default_values.csv"
 
 
 def load_model():
@@ -75,6 +77,13 @@ def get_feature_types(features):
     types[raw_types.str.contains("numeric")] = IntNumericFeature(0, 300)
 
     return types
+
+
+def load_feature_mappings():
+    feature_mappings = pd.read_csv(directory + feature_mappings_filename,
+                                       header=0, encoding='latin-1')
+    defaults = pd.read_csv(directory+defaults_filename)
+    return feature_mappings.dropna(axis='index'), defaults.dropna(axis='index')
 
 
 def to_probs(arr):
