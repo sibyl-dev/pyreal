@@ -135,7 +135,7 @@ def modify_and_repredict(predict, X, features, new_values,
     :param new_values: array_like, same length as features
                        len(new_values)[n] = n_samples or new_values[n] = scalar
                        for single inputs.
-                       The new values to give the features
+           The new values to give the features
     :param transform: function, array_like of size (n_samples, n_features)
                                 -> array_like of size (n_samples, n_features)
            The transformation function to prepare inputs for predict

@@ -46,11 +46,28 @@ class TestGlobalExplanation(unittest.TestCase):
         pass
 
     def test_get_global_importance(self):
-        # Set up tests
         for conv2d, conv1d in [
                 (conv2d, conv1d) for conv2d in self.conversions2d
                                  for conv1d in self.conversions1d]:
             self.helper_global_importance(conv2d, conv1d)
+
+    def test_consolidate_importances(self):
+        importances = [0, 0, 1, 3, 6, 3]
+        categories = [[0, 1], [3,4,5], [5]]
+        max_importances = [0, 6, 3]
+        mean_importances = [0, 4, 3]
+
+        max_results = global_explanation.consolidate_importances(
+            importances, categories, algorithm="max")
+        self.assertTrue(np.array_equal(max_importances, max_results))
+
+        mean_results = global_explanation.consolidate_importances(
+            importances, categories, algorithm="mean")
+        self.assertTrue(np.array_equal(mean_importances, mean_results))
+
+        with self.assertRaises(ValueError):
+            global_explanation.consolidate_importances(
+                importances, categories, algorithm="fake_algorithm")
 
     def test_get_rows_by_output(self):
         for conv in self.conversions2d:

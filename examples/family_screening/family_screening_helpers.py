@@ -8,21 +8,13 @@ from sklearn.linear_model import Lasso
 from data_processing.feature_types import \
     BooleanFeature, IntNumericFeature, CategoricalFeature
 
-directory = "../../../../Family Screening Project/data_and_models/"
-dataset_filename = "Model_Dataset_Version_01_01_partition_predictions.csv"
-features_filename = "Design_Specification_DOUGLAS_v1.4.csv"
-model_filename = "weights_model_feb2019.csv"
-threshold_filename = "Performance_Matrix.csv"
-feature_mappings_filename = "interpretable_features.csv"
-defaults_filename = "default_values.csv"
 
-
-def load_model():
+def load_model(model_filepath):
     """
     Load the model
     :return: the model
     """
-    model_weights = pd.read_csv(directory+model_filename)
+    model_weights = pd.read_csv(model_filepath)
 
     model = Lasso()
     dummy_X = np.zeros((1, model_weights.shape[1]-1))
@@ -34,28 +26,23 @@ def load_model():
     return model
 
 
-def get_features():
-    model_weights = pd.read_csv(directory + model_filename)
+def get_features(model_filepath):
+    model_weights = pd.read_csv(model_filepath)
     return model_weights["name"].drop(0)
 
 
-def load_thresholds():
+def load_thresholds(directory_filepath):
     """
     Load the score bin thresholds
     :return: list of thresholds
     """
-    thresholds = pd.read_csv(directory+threshold_filename)
+    thresholds = pd.read_csv(directory_filepath)
     thresholds = thresholds["Upper Bound"].to_numpy()[::-1]
     return thresholds
 
 
-def load_data(features):
-    """
-    Load the data
-    :return X: array_like of size (n_samples, n_features)
-            y: array_like of size (n_samples,)
-    """
-    data = pd.read_csv(directory+dataset_filename)
+def load_data(features, dataset_filepath):
+    data = pd.read_csv(dataset_filepath)
 
     y = data.PRO_PLSM_NEXT730_DUMMY
     X = data[features]
@@ -63,8 +50,32 @@ def load_data(features):
     return X, y
 
 
-def get_feature_types(features):
-    feature_descriptions = pd.read_csv(directory+features_filename,
+def load_readable_data(X, y):
+    """
+    Load the data and convert to a human-readable form
+    :return X_readable: array_like of size (n_samples, n_features)
+            y_readable: array_like of size (n_samples,)
+    """
+    #mappings = load_feature_mappings()
+
+    return X, y
+
+
+def transform_data(X_readable, y_readable):
+    """
+    Transform human-readable data to model-input data
+
+    :param X_readable:
+    :param y_readable:
+    :return:
+    """
+    X = None
+    y = None
+    return X, y
+
+
+def get_feature_types(features, features_filepath):
+    feature_descriptions = pd.read_csv(features_filepath,
                                        header=0,encoding='latin-1')
     feature_descriptions = feature_descriptions[
         feature_descriptions["Name"].isin(features)]
@@ -79,10 +90,15 @@ def get_feature_types(features):
     return types
 
 
-def load_feature_mappings():
-    feature_mappings = pd.read_csv(directory + feature_mappings_filename,
+def load_feature_mappings(mappings_filepath, defaults_filepath):
+    """
+    Load in the categorical data to one hot feature mappings
+    :return: 2 columns (feature -> combined feature),
+             2 columns (combined feature -> default)
+    """
+    feature_mappings = pd.read_csv(mappings_filepath,
                                        header=0, encoding='latin-1')
-    defaults = pd.read_csv(directory+defaults_filename)
+    defaults = pd.read_csv(defaults_filepath)
     return feature_mappings.dropna(axis='index'), defaults.dropna(axis='index')
 
 

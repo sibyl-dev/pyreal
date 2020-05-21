@@ -13,7 +13,7 @@ def get_global_importance(model, X, y):
            The standardized training set to calculate the contributions
     :param y: array-like of shape (n_samples, )
            The true values of the items in X_train
-    :return: array of shape (n_features, )
+    :return: array of floats of shape (n_features, )
            The importance of each feature in X_train
     """
     # TODO: Update this function to be model type agnostic
@@ -21,6 +21,33 @@ def get_global_importance(model, X, y):
                                  scoring="neg_mean_squared_error").fit(X, y)
     importances = perm.feature_importances_
     return importances
+
+
+def consolidate_importances(importances, categorical_feature_sets,
+                            algorithm="max"):
+    """
+    Calculate the overall importances for categorical features from the
+    one-hot encoded importances.
+    :param importances: array of floats of shape (n_features, )
+           the importances of each feature
+    :param categorical_feature_sets: list of lists of integer indices
+           each set contains the indices of features in some categorical feature
+           set
+    :param algorithm: "max" or "mean"
+    :return:
+    """
+    if algorithm not in ["max", "mean"]:
+        raise ValueError("Unsupported algorithm %s" % algorithm)
+    importances = np.asanyarray(importances)
+    importance_for_sets = []
+    for feature_set in categorical_feature_sets:
+        importance_for_set = None
+        if algorithm is "max":
+            importance_for_set = np.max(importances[feature_set])
+        if algorithm is "mean":
+            importance_for_set = np.mean(importances[feature_set])
+        importance_for_sets.append(importance_for_set)
+    return importance_for_sets
 
 
 def get_rows_by_output(output, predict, X, row_labels=None):

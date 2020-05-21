@@ -1,3 +1,6 @@
+# includes code from
+# https://towardsdatascience.com/k-medoids-clustering-on-iris-data-set-1931bf781e05
+
 from sklearn.neighbors import NearestNeighbors
 import numpy as np
 
