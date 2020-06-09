@@ -4,7 +4,7 @@ Includes code from
 https://towardsdatascience.com/k-medoids-clustering-on-iris-data-set-1931bf781e05
 """
 import numpy as np
-import matplotlib.pyplot as plt
+import time
 
 
 def sample_points(X, k):
@@ -45,12 +45,11 @@ def update_medoids(X, medoids_inds, p):
 
     out_medoids_inds = medoids_inds
 
-    avg_dissimilarity = np.sum(np.min(compute_d_p(X, medoids_inds, p),axis=1))
+    avg_dissimilarity = np.sum(np.min(S,axis=1))
     for i in set(labels):
         new_medoids_inds = medoids_inds.copy()
 
         cluster_points = np.where(labels == i)[0]
-
         for point in cluster_points:
             new_medoids_inds[i] = point
             new_dissimilarity = np.sum(np.min(compute_d_p(X, new_medoids_inds, p),axis=1))
@@ -68,20 +67,28 @@ def has_converged(old_medoids, medoids):
 
 
 def kmedoids(X, k, p, starting_medoids_inds=None, max_steps=np.inf):
+    t0 = time.time()
+    X = np.asanyarray(X)
     if starting_medoids_inds is None:
         medoids_inds = sample_points(X, k)
     else:
         medoids_inds = starting_medoids_inds
 
+    t1 = time.time()
+    print("Initialized medoids:", t1-t0)
+
     converged = False
     i = 1
     while (not converged) and (i <= max_steps):
+        t2 = time.time()
         old_medoids_inds = medoids_inds.copy()
 
         medoids_inds = update_medoids(X, medoids_inds, p)
 
         converged = has_converged(old_medoids_inds, medoids_inds)
         i += 1
+        t3 = time.time()
+        print("Finished step %i:" % i, t3-t2)
 
     S = compute_d_p(X, medoids_inds, p)
     labels = assign_labels(S)

@@ -7,6 +7,7 @@ import pandas as pd
 from sklearn.linear_model import Lasso
 from data_processing.feature_types import \
     BooleanFeature, IntNumericFeature, CategoricalFeature
+from utils import synthetic_data_gen
 
 
 def load_model(model_filepath):
@@ -50,30 +51,6 @@ def load_data(features, dataset_filepath):
     return X, y
 
 
-def load_readable_data(X, y):
-    """
-    Load the data and convert to a human-readable form
-    :return X_readable: array_like of size (n_samples, n_features)
-            y_readable: array_like of size (n_samples,)
-    """
-    #mappings = load_feature_mappings()
-
-    return X, y
-
-
-def transform_data(X_readable, y_readable):
-    """
-    Transform human-readable data to model-input data
-
-    :param X_readable:
-    :param y_readable:
-    :return:
-    """
-    X = None
-    y = None
-    return X, y
-
-
 def get_feature_types(features, features_filepath):
     feature_descriptions = pd.read_csv(features_filepath,
                                        header=0,encoding='latin-1')
@@ -100,6 +77,52 @@ def load_feature_mappings(mappings_filepath, defaults_filepath):
                                        header=0, encoding='latin-1')
     defaults = pd.read_csv(defaults_filepath)
     return feature_mappings.dropna(axis='index'), defaults.dropna(axis='index')
+
+
+def convert_to_categorical(X, mappings, defaults):
+    cols = X.columns
+    num_rows = X.shape[0]
+    cat_cols = mappings['Feature'].values
+    default_cats = defaults['Feature'].values
+    cat_data = {}
+    for col in cols:
+        if col not in cat_cols:
+            cat_data[col] = X[col]
+        if col in cat_cols:
+            new_name = mappings[mappings['Feature'] == col]["InterpretableFeature"].values[0]
+            if new_name not in cat_data and new_name not in default_cats:
+                cat_data[new_name] = np.empty(num_rows, dtype='object')
+            elif new_name not in cat_data:
+                cat_data[new_name] = np.full(num_rows, defaults[defaults['Feature'] == new_name]["Value"])
+            cat_data[new_name][np.where(X[col]==1)] = mappings[mappings['Feature'] == col]["Value"].values[0]
+    return pd.DataFrame(cat_data)
+
+
+def convert_from_categorical(cat_data, mappings):
+    cols = cat_data.columns
+    num_rows = cat_data.shape[0]
+
+    # List of column names that will be converted to one-hot
+    cat_cols = mappings['InterpretableFeature'].values
+
+    data = {}
+    for col in cols:
+        if col not in cat_cols:
+            data[col] = cat_data[col]
+        if col in cat_cols:
+            values = cat_data[col]
+            relevant_rows = mappings[mappings['InterpretableFeature'] == col]
+            for ind in relevant_rows.index:
+                new_col_name = relevant_rows['Feature'][ind]
+                data[new_col_name] = np.zeros(num_rows)
+                data[new_col_name][np.where(values == relevant_rows['Value'][ind])] = 1
+    return pd.DataFrame(data)
+
+
+def generate_data(X_cat, N, save_file=None):
+    return synthetic_data_gen.generate_data(X_cat, N,
+                                            return_result=True,
+                                            save_file=save_file)
 
 
 def to_probs(arr):

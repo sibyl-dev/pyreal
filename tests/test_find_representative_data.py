@@ -1,6 +1,6 @@
 import unittest
+import pandas as pd
 import numpy as np
-import matplotlib.pyplot as plt
 
 from utils import find_representative_data
 
@@ -9,7 +9,7 @@ class TestFeatureExplanation(unittest.TestCase):
     """Tests for `explanation_toolkit` package."""
 
     def setUp(self):
-        self.X_data = np.array([[0, 0], [1, 0], [1, 1], [1.3, 0],
+        self.X_data = pd.DataFrame([[0, 0], [1, 0], [1, 1], [1.3, 0],
                            [4, 4], [5, 3], [3.4, 3.3], [4, 5],
                            [10, 11], [11, 11], [10.5, 10.5], [14, 14]])
         self.three_medoids = [4,1,9]
