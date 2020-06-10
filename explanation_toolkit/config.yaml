@@ -1,0 +1,13 @@
+# Prediction score range
+score_range: [1, 20]
+
+# Indicate the meaning of the score. pn: from positive to negative; np: from negative to positive
+color_order: 'pn' 
+
+
+# FLASK ENV
+# ===================================
+server_port: 3003 # the port that flask application is running on
+ENV: 'production' # development, production, testing
+DEBUG: False
+TESTING: False

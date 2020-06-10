@@ -183,3 +183,7 @@ clean-test: ## remove test artifacts
 clean-docs: ## remove previously built docs
 	rm -f docs/api/*.rst
 	-$(MAKE) -C docs clean 2>/dev/null  # this fails if sphinx is not yet installed
+
+.PHONY: api-docs
+api-docs:	## generate server API docs
+	apidoc -i explanation_toolkit/server/resources/ -o apidoc/
