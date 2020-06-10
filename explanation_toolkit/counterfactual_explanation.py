@@ -1,6 +1,5 @@
 import numpy as np
 from utils.utils import identity_transform
-from alibi.explainers.counterfactual import CounterFactual
 
 
 class ModifyInput:
@@ -60,25 +59,6 @@ class ModifyInput:
 
     def predict(self, predict):
         return predict(self.modified_X)
-
-
-# TODO: This is not robust (possibly replace with from-scratch implementation)
-class Counterfactual:
-    def __init__(self, predict, X, distance_fn='l1'):
-        X = np.asanyarray(X)
-        self.cf = CounterFactual(predict, (1,X.shape[1]),
-                                 distance_fn=distance_fn, target_proba=1.0,
-                                 target_class='other', max_iter=1000,
-                                 early_stop=50, lam_init=1e-1,
-                                 max_lam_steps=10, tol=0.05,
-                                 learning_rate_init=0.1,
-                                 feature_range=(10, 10), eps=0.01,
-                                 init='identity',
-                                 decay=True, write_dir=None, debug=False)
-
-    def get_counterfactual(self, x):
-        x = np.asanyarray(x).reshape(1,-1)
-        return self.cf.explain(x)
 
 
 def binary_flip_all(predict, x, features=None, transform=identity_transform):
