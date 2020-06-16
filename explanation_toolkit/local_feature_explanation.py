@@ -1,63 +1,57 @@
 import shap
-import lime.lime_tabular
 import numpy as np
+import pickle
 
 
-class LocalFeatureContributions:
+def fit_contribution_explainer(model, X_train,
+                               savefile=None, return_result=False):
+    """
+    Fit a shap explainer.
 
-    def __init__(self):
-        self.explainer = None
-
-    def fit_contributions(self, model, X_train):
-        """
-        Fit the shap explainer.
-
-        :param model: sklearn.linear_model
-               The model to explain
-        :param X_train: array_like of shape (n_samples, n_features)
-               The training set for the model
-        :return: None
-        """
-        # TODO: Update this to be model agnostic
-        X_train = np.asanyarray(X_train)
-        self.explainer = shap.LinearExplainer(model, X_train)
-
-    def get_contributions(self, x):
-        """
-        Get the feature contributions for all features in x.
-        Must call fit_shap before calling this function.
-
-        :param x: array_like of shape (n_features,)
-               The input into the model
-        :return: array_like of shape (n_features,)
-                 The contributions of each feature in x
-        :except: AssertError
-                 If fit_contributions has not been called
-        """
-        assert self.explainer is not None, \
-            "Need to call fit_contributions before calling get_contributions"
-        x = np.asanyarray(x)
-        shap_values = self.explainer.shap_values(x)
-        return shap_values
+    :param model: sklearn.linear_model
+          The model to explain
+    :param X_train: array_like of shape (n_samples, n_features)
+          The training set for the model
+    :param savefile: file object
+          Where the save the explainer. If None, don't save
+    :param return_result: boolean
+          If true, return the resulting explainer, else return none
+    :return: explainer or None
+             Returns the explainer if return_result is True
+    """
+    # TODO: Update this to be model agnostic
+    X_train = np.asanyarray(X_train)
+    explainer = shap.LinearExplainer(model, X_train)
+    if savefile is not None:
+        pickle.dump(explainer, savefile)
+    if return_result:
+        return explainer
 
 
-class LimeExplanation:
+def load_contribution_explainer(file):
+    """
+    Load a contribution explainer.
 
-    def __init__(self):
-        self.explainer = None
+    :param file: file object
+           The file of the pickled explainer
+    :return: explainer object
+             The explainer
+    """
+    return pickle.load(file)
 
-    def fit_contributions(self, X_train, feature_names=None):
-        X_train = np.asanyarray(X_train)
-        self.explainer = lime.lime_tabular.LimeTabularExplainer(X_train,
-                                                            mode="regression",
-                                                            feature_names=feature_names)
 
-    def get_contributions(self, x, predict, num_features=5):
-        assert self.explainer is not None, \
-            "Need to call fit_contributions before calling get_contributions"
-        x = np.asanyarray(x)
-        explanation = self.explainer.explain_instance(x, predict,
-                                                      num_features=num_features)
-        print(explanation.as_list())
+def get_contributions(x, explainer):
+    """
+    Get the feature contributions for all features in x.
+
+    :param x: array_like of shape (n_features,)
+           The input into the model
+    :param explainer: pretrained SHAP explainer
+    :return: array_like of shape (n_features,)
+             The contributions of each feature in x
+    """
+    x = np.asanyarray(x)
+    shap_values = explainer.shap_values(x)
+    return shap_values
 
 

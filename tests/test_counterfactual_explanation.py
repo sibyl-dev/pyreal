@@ -64,11 +64,6 @@ class TestCounterfactualExplanation(unittest.TestCase):
         self.assertEqual(preds_all, [0, 2, 1])
         self.assertEqual(values_all, [0, 1, 1])
 
-    def test_modify_input(self):
-        self.helper_modify_input(identity)
-        self.helper_modify_input(np.array)
-        self.helper_modify_input(pd.DataFrame)
-
     def helper_modify_and_repredict_2D(self, conv):
         X = conv([[1, 1, 1],
                   [4, 3, 4],
@@ -118,46 +113,5 @@ class TestCounterfactualExplanation(unittest.TestCase):
             new_values=[6, 7])
         prediction_change_two = [13]
         self.assertTrue(np.array_equal(change_two, prediction_change_two))
-
-    def helper_modify_input(self, conv):
-        X = conv([[1, 1, 1],
-                  [4, 3, 4],
-                  [6, 7, 2]])
-        pred = [1, 4, 6]
-        mi = counterfactual_explanation.ModifyInput(X)
-        self.assertTrue(np.array_equal(X, mi.get()))
-        self.assertTrue(np.array_equal(X, mi.original_X))
-        self.assertTrue(np.array_equal(X, mi.modified_X))
-        self.assertTrue(np.array_equal(pred, mi.predict(predict_test)))
-
-        change = [[2, 2, 2]]
-        X2 = [[2, 1, 1],
-              [2, 3, 4],
-              [2, 7, 2]]
-        mi.modify([0], change)
-        self.assertTrue(np.array_equal(X2, mi.get()))
-        self.assertTrue(np.array_equal([2, 2, 2], mi.predict(predict_test)))
-
-        change2 = [[2, 2, 2], [3, 3, 3]]
-        X3 = [[2, 3, 1],
-              [2, 3, 4],
-              [2, 3, 2]]
-        mi.modify([0, 1], change2)
-        self.assertTrue(np.array_equal(X3, mi.get()))
-        self.assertTrue(np.array_equal([5, 5, 5], mi.predict(predict_test_2)))
-
-        mi.reset(inds=[1])
-        self.assertTrue(np.array_equal(X2, mi.get()))
-        self.assertTrue(np.array_equal([3, 5, 9], mi.predict(predict_test_2)))
-
-        mi.reset()
-        self.assertTrue(np.array_equal(X, mi.get()))
-        self.assertTrue(np.array_equal([2, 7, 13], mi.predict(predict_test_2)))
-
-        mi.modify([0], change)
-        self.assertTrue(np.array_equal(X2, mi.get()))
-        self.assertTrue(np.array_equal([2, 2, 2], mi.predict(predict_test)))
-        self.assertTrue(np.array_equal(X, mi.original_X))
-
 
 
