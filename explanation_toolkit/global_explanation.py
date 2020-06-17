@@ -122,7 +122,7 @@ def summary_numeric(X):
 
 
 # TODO: Fix these functions and move them to come overarching function file
-'''def overview_categorical(output, predict, X, features=None):
+def overview_categorical(output, predict, X, features=None):
     """
     Return a categorical summary 
 
@@ -133,13 +133,14 @@ def summary_numeric(X):
     :return: the number of each feature value that occurs among elements in X
     predicted as output.
     """
-    xs_of_interest = get_xs_with_predictions(output, predict, X)
+    row_of_interest = get_rows_by_output(output, predict, X)
+    X_pruned = np.asanyarray(X)[row_of_interest]
     if features is not None:
-        xs_of_interest = xs_of_interest[features]
-    return summary_count(xs_of_interest)
+        X_pruned = X_pruned[:,features]
+    return summary_categorical(X_pruned)
 
 
-def overview_numerical(output, predict, X, features=None):
+def overview_numeric(output, predict, X, features=None):
     """
     Return the max, min, and quartiles of the rows in X that are predicted as
     output.
@@ -151,8 +152,9 @@ def overview_numerical(output, predict, X, features=None):
     :return: the minimum, 1st quartile, median, 3rd quartile, and maximum of
     each feature value for rows in X that are predicted as output
     """
-    xs_of_interest = get_xs_with_predictions(output, predict, X)
+    row_of_interest = get_rows_by_output(output, predict, X)
+    X_pruned = np.asanyarray(X)[row_of_interest]
     if features is not None:
-        xs_of_interest = xs_of_interest[features]
-    return summary_metrics(xs_of_interest)'''
+        X_pruned = X_pruned[:, features]
+    return summary_numeric(X_pruned)
 
