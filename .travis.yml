@@ -35,7 +35,7 @@ deploy:
       secure: PLEASE_REPLACE_ME
     on:
       tags: true
-      repo: DAI-Lab/explanation-toolkit
+      repo: DAI-Lab/sibyl
       python: 3.6
 
   # Automatically build and deploy documentation to GitHub Pages after every
