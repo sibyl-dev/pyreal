@@ -14,7 +14,7 @@ from explanation_toolkit import global_explanation
 
 
 def predict_test(X):
-    return X[:,0]
+    return X.iloc[:,0]
 
 
 def identity(X):
@@ -58,8 +58,25 @@ class TestGlobalExplanation(unittest.TestCase):
                 importances, categories, algorithm="fake_algorithm")
 
     def test_get_rows_by_output(self):
-        for conv in self.conversions2d:
-            self.helper_get_rows_by_output(conv)
+        X = pd.DataFrame([[0, 4, 2],
+                          [1, 3, 6],
+                          [0, 1, 2]])
+        row_labels = ["p", "q", "r"]
+        rows_0 = [0, 2]
+        labels_0 = ["p", "r"]
+        rows_1 = [1]
+        labels_1 = ["q"]
+        output_0 = global_explanation.get_rows_by_output(0, predict_test, X)
+        output_1 = global_explanation.get_rows_by_output(1, predict_test, X)
+        self.assertTrue(np.array_equal(rows_0, output_0))
+        self.assertTrue(np.array_equal(rows_1, output_1))
+
+        output_0 = global_explanation.get_rows_by_output(0, predict_test, X,
+                                                         row_labels=row_labels)
+        output_1 = global_explanation.get_rows_by_output(1, predict_test, X,
+                                                         row_labels=row_labels)
+        self.assertTrue(np.array_equal(labels_0, output_0))
+        self.assertTrue(np.array_equal(labels_1, output_1))
 
     def test_summary_categorical(self):
         for conv in self.conversions2d:
@@ -70,12 +87,56 @@ class TestGlobalExplanation(unittest.TestCase):
             self.helper_summary_numeric(conv)
 
     def test_overview_categorical(self):
-        for conv in self.conversions2d:
-            self.helper_overview_categorical(conv)
+        X = pd.DataFrame([[0, 0, 0],
+                          [9, 9, 9],
+                          [0, 0, 2],
+                          [1, 0, 1]])
+        correct_values_0 = [[0], [0], [0, 2]]
+        correct_counts_0 = [[2], [2], [1, 1]]
+
+        result_values_0, result_counts_0 = \
+            global_explanation.overview_categorical(0, predict_test, X)
+        self.assertEqual(len(result_values_0), 3)
+        self.assertEqual(len(result_counts_0), 3)
+        for i in range(3):
+            self.assertTrue(
+                np.array_equal(correct_values_0[i], result_values_0[i]))
+            self.assertTrue(
+                np.array_equal(correct_counts_0[i], result_counts_0[i]))
+            self.assertEqual(len(result_values_0[i]), len(result_counts_0[i]))
+
+        correct_values_1 = [[1], [1]]
+        correct_counts_1 = [[1], [1]]
+
+        result_values_1, result_counts_1 = \
+            global_explanation.overview_categorical(1, predict_test, X,
+                                                    features=[0, 2])
+        self.assertEqual(len(result_values_1), 2)
+        self.assertEqual(len(result_counts_1), 2)
+        for i in range(2):
+            self.assertTrue(
+                np.array_equal(correct_values_1[i], result_values_1[i]))
+            self.assertTrue(
+                np.array_equal(correct_counts_1[i], result_counts_1[i]))
+            self.assertEqual(len(result_values_1[i]), len(result_counts_1[i]))
 
     def test_overview_numeric(self):
-        for conv in self.conversions2d:
-            self.helper_overview_numeric(conv)
+        X = pd.DataFrame([[0, 0, 0, 0],
+                          [0, 1, 2, 0],
+                          [0, 2, 8, 0],
+                          [0, 3, 6, 0],
+                          [0, 4, 4, 0],
+                          [1, 1, 1, 1]])
+        correct_0 = [[0, 1, 2, 3, 4],
+                     [0, 2, 4, 6, 8],
+                     [0, 0, 0, 0, 0]]
+
+        result_0 = global_explanation.overview_numeric(
+            0, predict_test, X, features=[1, 2, 3])
+        self.assertEqual(len(result_0), 3)
+        for i in range(3):
+            self.assertTrue(np.array_equal(correct_0[i], result_0[i]))
+            self.assertEqual(len(result_0[i]), 5)
 
     def helper_global_importance(self, conv2d, conv1d):
         X = conv2d([[3, 4, 2],
@@ -93,27 +154,6 @@ class TestGlobalExplanation(unittest.TestCase):
         self.assertTrue(importances[0] > 0.01)
         self.assertAlmostEqual(importances[1], 0, 4)
         self.assertAlmostEqual(importances[2], 0, 4)
-
-    def helper_get_rows_by_output(self, conv):
-        X = conv([[0, 4, 2],
-                  [1, 3, 6],
-                  [0, 1, 2]])
-        row_labels = ["p", "q", "r"]
-        rows_0 = [0, 2]
-        labels_0 = ["p", "r"]
-        rows_1 = [1]
-        labels_1 = ["q"]
-        output_0 = global_explanation.get_rows_by_output(0, predict_test, X)
-        output_1 = global_explanation.get_rows_by_output(1, predict_test, X)
-        self.assertTrue(np.array_equal(rows_0, output_0))
-        self.assertTrue(np.array_equal(rows_1, output_1))
-
-        output_0 = global_explanation.get_rows_by_output(0, predict_test, X,
-                                                         row_labels=row_labels)
-        output_1 = global_explanation.get_rows_by_output(1, predict_test, X,
-                                                         row_labels=row_labels)
-        self.assertTrue(np.array_equal(labels_0, output_0))
-        self.assertTrue(np.array_equal(labels_1, output_1))
 
     def helper_summary_categorical(self, conv):
         X = conv([[0, 0, 0],
@@ -143,52 +183,3 @@ class TestGlobalExplanation(unittest.TestCase):
         for i in range(3):
             self.assertTrue(np.array_equal(result[i], correct[i]))
             self.assertEqual(len(result[i]), 5)
-
-    def helper_overview_categorical(self, conv):
-        X = conv([[0, 0, 0],
-                  [9, 9, 9],
-                  [0, 0, 2],
-                  [1, 0, 1]])
-        correct_values_0 = [[0], [0], [0, 2]]
-        correct_counts_0 = [[2], [2], [1, 1]]
-
-        result_values_0, result_counts_0 = \
-            global_explanation.overview_categorical(0, predict_test, X)
-        self.assertEqual(len(result_values_0), 3)
-        self.assertEqual(len(result_counts_0), 3)
-        for i in range(3):
-            self.assertTrue(np.array_equal(correct_values_0[i], result_values_0[i]))
-            self.assertTrue(np.array_equal(correct_counts_0[i], result_counts_0[i]))
-            self.assertEqual(len(result_values_0[i]), len(result_counts_0[i]))
-
-        correct_values_1 = [[1], [1]]
-        correct_counts_1 = [[1], [1]]
-
-        result_values_1, result_counts_1 = \
-            global_explanation.overview_categorical(1, predict_test, X, features=[0,2])
-        self.assertEqual(len(result_values_1), 2)
-        self.assertEqual(len(result_counts_1), 2)
-        for i in range(2):
-            self.assertTrue(
-                np.array_equal(correct_values_1[i], result_values_1[i]))
-            self.assertTrue(
-                np.array_equal(correct_counts_1[i], result_counts_1[i]))
-            self.assertEqual(len(result_values_1[i]), len(result_counts_1[i]))
-
-    def helper_overview_numeric(self, conv):
-        X = conv([[0, 0, 0, 0],
-                  [0, 1, 2, 0],
-                  [0, 2, 8, 0],
-                  [0, 3, 6, 0],
-                  [0, 4, 4, 0],
-                  [1, 1, 1, 1]])
-        correct_0 = [[0, 1, 2, 3, 4],
-                     [0, 2, 4, 6, 8],
-                     [0, 0, 0, 0, 0]]
-
-        result_0 = global_explanation.overview_numeric(
-            0, predict_test, X, features=[1,2,3])
-        self.assertEqual(len(result_0), 3)
-        for i in range(3):
-            self.assertTrue(np.array_equal(correct_0[i], result_0[i]))
-            self.assertEqual(len(result_0[i]), 5)

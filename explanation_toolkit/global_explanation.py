@@ -58,7 +58,7 @@ def get_rows_by_output(output, predict, X, row_labels=None):
            The output or outputs to look for
     :param predict: function array-like (X.shape) -> (X.shape[0])
            The prediction function
-    :param X: array-like of shape (n_samples, n_features)
+    :param X: Dataframe of shape(n_samples, n_features)
            The data to look through
     :param row_labels: None or array_like of shape (n_samples,)
            If not None, return the row_labels of relevant rows instead of
@@ -67,7 +67,6 @@ def get_rows_by_output(output, predict, X, row_labels=None):
             The indices or row_labels of the rows of X that result in output
             when run through predict
     """
-    X = np.asanyarray(X)
     preds_train = predict(X)
     if np.isscalar(output):
         output = [output]
@@ -116,19 +115,20 @@ def summary_numeric(X):
         quartiles = np.quantile(col, [0.25, 0.5, 0.75])
         maximum = col.max()
         minimum = col.min()
-        all_metrics.append([minimum, quartiles[0], quartiles[1],
-                            quartiles[2], maximum])
+        all_metrics.append([float(minimum), float(quartiles[0]), float(quartiles[1]),
+                            float(quartiles[2]), float(maximum)])
     return all_metrics
 
 
 # TODO: Fix these functions and move them to come overarching function file
 def overview_categorical(output, predict, X, features=None):
     """
-    Return a categorical summary 
+    Return a categorical summary
 
     :param output: the output to filter on
     :param predict: the prediction function to use
-    :param X: the dataset to look though
+    :param X: dataframe
+              The dataset to look though
     :param features: the features to use
     :return: the number of each feature value that occurs among elements in X
     predicted as output.
@@ -147,7 +147,8 @@ def overview_numeric(output, predict, X, features=None):
 
     :param output: the output to filter on
     :param predict: the prediction function to use
-    :param X: the dataframe dataset to look through
+    :param X: dataframe
+              The dataframe dataset to look through
     :param features: the features to use
     :return: the minimum, 1st quartile, median, 3rd quartile, and maximum of
     each feature value for rows in X that are predicted as output
