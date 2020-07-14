@@ -93,7 +93,7 @@ setup(
     },
     entry_points={
         'console_scripts': [
-            'met=explanation_toolkit.cli:main',
+            'met=sibyl.cli:main',
         ],
     },
     install_package_data=True,
@@ -101,14 +101,14 @@ setup(
     long_description=readme + '\n\n' + history,
     long_description_content_type='text/markdown',
     include_package_data=True,
-    keywords='explanation_toolkit explanation-toolkit Explanation Toolkit',
-    name='explanation-toolkit',
-    packages=find_packages(include=['explanation_toolkit', 'explanation_toolkit.*']),
+    keywords='sibyl Sibyl',
+    name='sibyl',
+    packages=find_packages(include=['sibyl', 'sibyl.*']),
     python_requires='>=3.4',
     setup_requires=setup_requires,
     test_suite='tests',
     tests_require=tests_require,
-    url='https://github.com/DAI-Lab/explanation-toolkit',
+    url='https://github.com/DAI-Lab/sibyl',
     version='0.1.0.dev0',
     zip_safe=False,
 )

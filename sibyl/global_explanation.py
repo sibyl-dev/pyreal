@@ -1,13 +1,14 @@
-from eli5.sklearn import PermutationImportance
+from eli5.permutation_importance import get_score_importances
 import numpy as np
+from sklearn.metrics import mean_squared_error
 
 
-def get_global_importance(model, X, y):
+def get_global_importance(predict, X, y):
     """
     Get the overall importances for all features in x.
     Current only supports sklearn estimators
 
-    :param model: sklearn estimator
+    :param predict: sklearn estimator
            The model to explain
     :param X: array-like of shape (n_samples, n_features)
            The standardized training set to calculate the contributions
@@ -16,10 +17,13 @@ def get_global_importance(model, X, y):
     :return: array of floats of shape (n_features, )
            The importance of each feature in X_train
     """
-    # TODO: Update this function to be model type agnostic
-    perm = PermutationImportance(model, random_state=1,
-                                 scoring="neg_mean_squared_error").fit(X, y)
-    importances = perm.feature_importances_
+
+    def score(X, y):
+        preds = predict(X)
+        return -mean_squared_error(y, preds)
+
+    base_score, score_decreases = get_score_importances(score, np.asanyarray(X), np.asanyarray(y))
+    importances = np.mean(score_decreases, axis=0)
     return importances
 
 

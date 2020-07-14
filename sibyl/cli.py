@@ -1,7 +1,7 @@
 import argparse
 
-from explanation_toolkit.server.explorer import Explorer
-from explanation_toolkit.server.utils import read_config, setup_logging
+from sibyl.server.explorer import Explorer
+from sibyl.server.utils import read_config, setup_logging
 
 
 def _run(explorer, args):
@@ -42,7 +42,7 @@ def main():
     args = parser.parse_args()
 
     setup_logging(args.verbose, args.logfile)
-    config = read_config('./explanation_toolkit/config.yaml')
+    config = read_config('./sibyl/config.yaml')
     explorer = Explorer(config)
 
     args.function(explorer, args)

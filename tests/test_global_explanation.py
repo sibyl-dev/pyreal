@@ -8,7 +8,7 @@ from sklearn.linear_model import Lasso
 
 import unittest
 
-from explanation_toolkit import global_explanation
+from sibyl import global_explanation
 
 # TODO Fix some of the hardcoding in these tests, it'll be a problem later
 
@@ -34,10 +34,20 @@ class TestGlobalExplanation(unittest.TestCase):
         pass
 
     def test_get_global_importance(self):
-        for conv2d, conv1d in [
-                (conv2d, conv1d) for conv2d in self.conversions2d
-                                 for conv1d in self.conversions1d]:
-            self.helper_global_importance(conv2d, conv1d)
+        X = pd.DataFrame([[3, 4, 2],
+                          [5, 3, 6],
+                          [0, 1, 2]])
+        y = [3, 5, 0]
+        weights = [1, 0, 0]
+        model = Lasso()
+        model.fit(X, y)
+        model.coef_ = np.array(weights)
+        importances = global_explanation.get_global_importance(
+            model.predict, X, y)
+        self.assertTrue(len(importances) == 3)
+        self.assertTrue(importances[0] > 0.01)
+        self.assertAlmostEqual(importances[1], 0, 4)
+        self.assertAlmostEqual(importances[2], 0, 4)
 
     def test_consolidate_importances(self):
         importances = [0, 0, 1, 3, 6, 3]
@@ -137,23 +147,6 @@ class TestGlobalExplanation(unittest.TestCase):
         for i in range(3):
             self.assertTrue(np.array_equal(correct_0[i], result_0[i]))
             self.assertEqual(len(result_0[i]), 5)
-
-    def helper_global_importance(self, conv2d, conv1d):
-        X = conv2d([[3, 4, 2],
-                  [5, 3, 6],
-                  [0, 1, 2]])
-        y = conv1d([2, 4, 1])
-        weights = [1, 0, 0]
-        model = Lasso()
-        model.fit(X, y)
-        model.coef_ = np.array(weights)
-
-        importances = global_explanation.get_global_importance(
-            model, X, y)
-        self.assertTrue(len(importances) == 3)
-        self.assertTrue(importances[0] > 0.01)
-        self.assertAlmostEqual(importances[1], 0, 4)
-        self.assertAlmostEqual(importances[2], 0, 4)
 
     def helper_summary_categorical(self, conv):
         X = conv([[0, 0, 0],

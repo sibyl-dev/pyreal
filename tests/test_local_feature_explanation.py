@@ -8,7 +8,7 @@ import os
 import unittest
 import tempfile
 
-from explanation_toolkit import local_feature_explanation
+from sibyl import local_feature_explanation
 
 
 def identity(x):

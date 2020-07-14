@@ -114,3 +114,6 @@ apidoc/
 
 # others
 .DS_Store
+utils/scratch.py
+
+examples/
