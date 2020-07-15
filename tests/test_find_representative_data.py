@@ -6,7 +6,7 @@ from utils import find_representative_data
 
 
 class TestFeatureExplanation(unittest.TestCase):
-    """Tests for `explanation_toolkit` package."""
+    """Tests for `sibyl` package."""
 
     def setUp(self):
         self.X_data = pd.DataFrame([[0, 0], [1, 0], [1, 1], [1.3, 0],

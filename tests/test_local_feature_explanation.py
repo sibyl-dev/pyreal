@@ -3,7 +3,7 @@ from sklearn.linear_model import Lasso
 import pandas as pd
 import os
 
-"""Tests for `explanation_toolkit` package."""
+"""Tests for `sibyl` package."""
 
 import unittest
 import tempfile
@@ -16,7 +16,7 @@ def identity(x):
 
 
 class TestFeatureExplanation(unittest.TestCase):
-    """Tests for `explanation_toolkit` package."""
+    """Tests for `sibyl` package."""
 
     def setUp(self):
         """Set up test fixtures"""

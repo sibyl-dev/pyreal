@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-# Explanation Toolkit documentation build configuration file, created by
+# Sibyl documentation build configuration file, created by
 # sphinx-quickstart on Fri Jun  9 13:47:02 2017.
 #
 # This file is execfile()d with the current directory set to its
@@ -54,8 +54,8 @@ source_suffix = ['.rst', '.md']
 master_doc = 'index'
 
 # General information about the project.
-project = 'Explanation Toolkit'
-slug = 'explanation_toolkit'
+project = 'Sibyl'
+slug = 'sibyl'
 title = project + ' Documentation',
 copyright = '2020, MIT Data To AI Lab'
 author = 'MIT Data To AI Lab'

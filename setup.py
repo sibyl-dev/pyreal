@@ -12,23 +12,12 @@ with open('HISTORY.md') as history_file:
     history = history_file.read()
 
 install_requires = [
-    # Common libs
-    'termcolor==1.1.0',
-    'PyYAML==5.1',
-
     # Math
     'numpy>=1.8',
     'pandas>=1.0.3',
     "scikit-learn>=0.22",
     "shap>=0.35",
     "eli5>=0.10",
-
-    # Flask
-    'Flask==1.0.2',
-    'Flask-Cors==3.0.7',
-    'Flask-RESTful==0.3.7',
-    'Werkzeug==0.15.3',
-    'gevent==1.2.2',
 ]
 
 setup_requires = [
@@ -38,10 +27,6 @@ setup_requires = [
 tests_require = [
     'pytest>=3.4.2',
     'pytest-cov>=2.6.0',
-    
-    # ------------- Flask --------------- #
-    'pytest-flask>=0.14.0',
-    'pytest-xdist>=1.25.0'
 ]
 
 development_requires = [
@@ -90,11 +75,6 @@ setup(
     extras_require={
         'test': tests_require,
         'dev': development_requires + tests_require,
-    },
-    entry_points={
-        'console_scripts': [
-            'met=sibyl.cli:main',
-        ],
     },
     install_package_data=True,
     install_requires=install_requires,

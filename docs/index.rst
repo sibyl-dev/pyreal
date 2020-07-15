@@ -10,7 +10,7 @@
    :caption: Resources
    :hidden:
 
-   API Reference <api/explanation_toolkit>
+   API Reference <api/sibyl>
    contributing
    authors
    history

@@ -4,7 +4,7 @@ import pandas as pd
 import numpy as np
 from sklearn.linear_model import Lasso
 
-"""Tests for `explanation_toolkit` package."""
+"""Tests for `sibyl` package."""
 
 import unittest
 
@@ -22,7 +22,7 @@ def identity(X):
 
 
 class TestGlobalExplanation(unittest.TestCase):
-    """Tests for `explanation_toolkit` package."""
+    """Tests for `sibyl` package."""
 
     def setUp(self):
         self.conversions2d = [identity, np.array, pd.DataFrame]

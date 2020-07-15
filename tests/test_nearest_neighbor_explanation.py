@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-"""Tests for `explanation_toolkit` package."""
+"""Tests for `sibyl` package."""
 
 import unittest
 import numpy as np
@@ -13,7 +13,7 @@ from utils.distance import PartialFeatureDistance
 
 
 class TestNearestNeighborExplanation(unittest.TestCase):
-    """Tests for `explanation_toolkit` package."""
+    """Tests for `sibyl` package."""
 
     def setUp(self):
         self.X = [[0, 0, 0],

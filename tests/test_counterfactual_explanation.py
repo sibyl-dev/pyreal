@@ -22,7 +22,7 @@ def identity(X):
 
 
 class TestCounterfactualExplanation(unittest.TestCase):
-    """Tests for `explanation_toolkit` package."""
+    """Tests for `sibyl` package."""
 
     def setUp(self):
         """Set up test fixtures"""
