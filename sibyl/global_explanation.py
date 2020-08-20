@@ -1,29 +1,39 @@
 from eli5.permutation_importance import get_score_importances
+from sklearn.inspection import permutation_importance
 import numpy as np
 from sklearn.metrics import mean_squared_error
+import pandas as pd
+import warnings
 
 
-def get_global_importance(predict, X, y):
+def get_global_importance(model, X, y, transformer=None):
     """
     Get the overall importances for all features in x.
     Current only supports sklearn estimators
 
-    :param predict: sklearn estimator
+    :param model: sklearn estimator
            The model to explain
     :param X: array-like of shape (n_samples, n_features)
            The standardized training set to calculate the contributions
     :param y: array-like of shape (n_samples, )
            The true values of the items in X_train
+    :param transformer: transformer object
+           Transformer object to use before training explainer
     :return: array of floats of shape (n_features, )
            The importance of each feature in X_train
     """
 
-    def score(X, y):
-        preds = predict(X)
+    def score(model, X, y):
+        if transformer is not None:
+            preds = model.predict(transformer.transform(X))
+        else:
+            preds = model.predict(X)
         return -mean_squared_error(y, preds)
 
-    base_score, score_decreases = get_score_importances(score, np.asanyarray(X), np.asanyarray(y))
-    importances = np.mean(score_decreases, axis=0)
+    columns = X.columns
+    result = permutation_importance(model, X, y, scoring=score)
+    importances = result.importances_mean
+    importances = pd.DataFrame(importances, index=columns, columns=["importance"])
     return importances
 
 
@@ -54,7 +64,7 @@ def consolidate_importances(importances, categorical_feature_sets,
     return importance_for_sets
 
 
-def get_rows_by_output(output, predict, X, row_labels=None):
+def get_rows_by_output(output, predict, X, row_labels=None, transformer=None):
     """
     Return the indices of the rows in X that get predicted as output
 
@@ -67,10 +77,14 @@ def get_rows_by_output(output, predict, X, row_labels=None):
     :param row_labels: None or array_like of shape (n_samples,)
            If not None, return the row_labels of relevant rows instead of
            numerical indices
+    :param transformer: transformer object
+           Transformer object to use before training explainer
     :return: array_like
             The indices or row_labels of the rows of X that result in output
             when run through predict
     """
+    if transformer is not None:
+        X = transformer.transform(X)
     preds_train = predict(X)
     if np.isscalar(output):
         output = [output]
@@ -97,7 +111,7 @@ def summary_categorical(X):
     all_counts = []
     X = np.asanyarray(X)
     for col in X.T:
-        values, counts = np.unique(col, return_counts=True)
+        values, counts = np.unique(col.astype(str), return_counts=True)
         all_values.append(values)
         all_counts.append(counts)
     return all_values, all_counts
