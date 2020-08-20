@@ -1,9 +1,10 @@
+import numpy as np
+
 """
 Finds a set of representative datapoints from a dataset
 Includes code from
 https://towardsdatascience.com/k-medoids-clustering-on-iris-data-set-1931bf781e05
 """
-import numpy as np
 
 
 def sample_points(X, k):

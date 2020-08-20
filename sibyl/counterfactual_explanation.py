@@ -1,4 +1,5 @@
 import numpy as np
+
 from utils.utils import identity_transform
 
 
@@ -77,8 +78,7 @@ def modify_and_repredict(predict, X, features, new_values,
     for i, feature in enumerate(features):
         if new_values[i].size != X.shape[0]:
             raise ValueError("Invalid number of values for number of samples")
-        X_new[:,feature] = new_values[i]
+        X_new[:, feature] = new_values[i]
     X_new = transform(X_new)
     new_pred = predict(X_new)
     return new_pred
-

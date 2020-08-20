@@ -1,12 +1,9 @@
-import numpy as np
-from sklearn.linear_model import Lasso
-import pandas as pd
 import os
-
-"""Tests for `sibyl` package."""
-
 import unittest
-import tempfile
+
+import numpy as np
+import pandas as pd
+from sklearn.linear_model import Lasso
 
 from sibyl import local_feature_explanation
 
@@ -23,10 +20,10 @@ class TestFeatureExplanation(unittest.TestCase):
         self.conversions2d = [identity, np.array, pd.DataFrame]
         self.conversions1d = [identity, np.array, pd.Series]
 
-        self.X_train = [[1, 1, 1],
-                        [4, 3, 4],
-                        [6, 7, 2]]
-        self.y_train = [1, 4, 6]
+        self.X_train = pd.DataFrame([[1, 1, 1],
+                                     [4, 3, 4],
+                                     [6, 7, 2]])
+        self.y_train = pd.Series([1, 4, 6])
         self.model = Lasso()
         self.model.fit(self.X_train, self.y_train)
         self.weights = [1, 0, 0]
@@ -37,11 +34,6 @@ class TestFeatureExplanation(unittest.TestCase):
         pass
 
     def test_fit_contribution_explainer(self):
-        for conv in self.conversions2d:
-            self.helper_fit_contribution_explainer(conv)
-
-    def helper_fit_contribution_explainer(self, conv):
-        self.X_train = conv(self.X_train)
         filepath = "temp"
         with open(filepath, "w+b") as savefile:
             output = local_feature_explanation.fit_contribution_explainer(
@@ -53,11 +45,6 @@ class TestFeatureExplanation(unittest.TestCase):
         os.remove(savefile.name)
 
     def test_load_contribution_explainer(self):
-        for conv in self.conversions2d:
-            self.helper_load_contribution_explainer(conv)
-
-    def helper_load_contribution_explainer(self, conv):
-        self.X_train = conv(self.X_train)
         filename = "temp"
         with open(filename, "w+b") as savefile:
             local_feature_explanation.fit_contribution_explainer(
@@ -69,31 +56,21 @@ class TestFeatureExplanation(unittest.TestCase):
         os.remove(filename)
 
     def test_get_contributions(self):
-        for conv2d, conv1d in [
-            (conv2d, conv1d) for conv2d in self.conversions2d
-                             for conv1d in self.conversions1d]:
-            self.helper_get_contributions(conv2d, conv1d)
-
-    def helper_get_contributions(self, conv2d, conv1d):
-        self.X_train = conv2d(self.X_train)
-        x_low = conv1d([1, 5, 6])
-        x_high = conv1d([6, 3, 2])
+        x_low = pd.DataFrame([[1, 5, 6]])
+        x_high = pd.DataFrame([[6, 3, 2]])
 
         explainer = local_feature_explanation.fit_contribution_explainer(
-                        self.model, self.X_train, return_result=True)
+            self.model, self.X_train, return_result=True)
         output = local_feature_explanation.get_contributions(x_low, explainer)
 
-        self.assertTrue(len(output) == 3)
-        self.assertTrue(output[0] < -0.01)
-        self.assertAlmostEqual(output[1], 0, 4)
-        self.assertAlmostEqual(output[2], 0, 4)
+        self.assertTrue(output.shape == (1, 3))
+        self.assertTrue(float(output[0]) < -0.01)
+        self.assertAlmostEqual(float(output[1]), 0, 4)
+        self.assertAlmostEqual(float(output[2]), 0, 4)
 
         output = local_feature_explanation.get_contributions(x_high, explainer)
 
-        self.assertTrue(len(output) == 3)
-        self.assertTrue(output[0] > 0.01)
-        self.assertAlmostEqual(output[1], 0, 4)
-        self.assertAlmostEqual(output[2], 0, 4)
-
-
-
+        self.assertTrue(output.shape == (1, 3))
+        self.assertTrue(float(output[0]) > 0.01)
+        self.assertAlmostEqual(float(output[1]), 0, 4)
+        self.assertAlmostEqual(float(output[2]), 0, 4)

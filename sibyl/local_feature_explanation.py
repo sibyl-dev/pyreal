@@ -1,7 +1,7 @@
-import shap
-import numpy as np
-import pandas as pd
 import pickle
+
+import pandas as pd
+import shap
 
 
 def fit_contribution_explainer(model, X_train, transformer=None,
@@ -10,9 +10,10 @@ def fit_contribution_explainer(model, X_train, transformer=None,
     """
     Fit a shap explainer.
 
-    :param model: sklearn.linear_model (if "use_linear_explainer" is true) or predictor with .predict function
+    :param model: sklearn.linear_model (if "use_linear_explainer" is true)
+                  or predictor with .predict function
           The model to explain
-    :param X_train: array_like of shape (n_samples, n_features)
+    :param X_train: DataFrame of shape (n_samples, n_features)
           The training set for the model
     :param transformer: transformer object
            Transformer object to use before training explainer
@@ -53,12 +54,12 @@ def get_contributions(X, explainer, transformer=None):
     """
     Get the feature contributions for all features in x.
 
-    :param X: DataFrame of shape (n_features,)
+    :param X: DataFrame of shape (n_samples, n_features,)
            The input into the model
     :param transformer: transformer object
            Transformer object to use before training explainer
     :param explainer: pretrained SHAP explainer
-    :return: array_like of shape (n_features,)
+    :return: DataFrame of shape (n_samples, n_features)
              The contributions of each feature in X
     """
     if transformer is not None:
@@ -69,5 +70,3 @@ def get_contributions(X, explainer, transformer=None):
     if transformer is not None:
         shap_values = transformer.transform_contributions_shap(shap_values)
     return shap_values
-
-

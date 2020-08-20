@@ -1,9 +1,7 @@
-# includes code from
-# https://towardsdatascience.com/k-medoids-clustering-on-iris-data-set-1931bf781e05
-
-from sklearn.neighbors import NearestNeighbors
-import numpy as np
 import pickle
+
+import numpy as np
+from sklearn.neighbors import NearestNeighbors
 
 
 def fit_nearest_neighbor(X, metric='minkowski',
@@ -78,17 +76,14 @@ def nearest_neighbor(nbrs, x, N=1, desired_y=None, y=None,
                          "they were not provided when fitting")
     if desired_y is not None:
         y = np.asanyarray(y)
-        # TODO: this function would be much cleaner if we knew how many samples
-        #  nbrs had, but NearestNeighbors does not share this
         current_search_N = search_by
         inds = []
         while True:
             try:
                 nbr_inds = nbrs.kneighbors(x, return_distance=False,
-                                       n_neighbors=current_search_N)[0]
+                                           n_neighbors=current_search_N)[0]
             except ValueError:
-                print("Couldn't find enough appropriate " +
-                      "neighbors within search_depth")
+                print("Couldn't find enough appropriate neighbors within search_depth")
                 return inds
             else:
                 for ind in nbr_inds:
@@ -101,6 +96,5 @@ def nearest_neighbor(nbrs, x, N=1, desired_y=None, y=None,
                             return inds
             current_search_N += search_by
             if current_search_N > search_depth:
-                print("Couldn't find enough appropriate " +
-                      "neighbors within search_depth")
+                print("Couldn't find enough appropriate neighbors within search_depth")
                 return inds

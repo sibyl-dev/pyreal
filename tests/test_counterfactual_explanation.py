@@ -1,20 +1,17 @@
-import numpy as np
-from sklearn.linear_model import Lasso
-import pandas as pd
-
-"""Tests for `sibyl` package."""
-
 import unittest
+
+import numpy as np
+import pandas as pd
 
 from sibyl import counterfactual_explanation
 
 
 def predict_test(X):
-    return X[:,0]
+    return X[:, 0]
 
 
 def predict_test_2(X):
-    return X[:,0] + X[:,1]
+    return X[:, 0] + X[:, 1]
 
 
 def identity(X):
@@ -113,5 +110,3 @@ class TestCounterfactualExplanation(unittest.TestCase):
             new_values=[6, 7])
         prediction_change_two = [13]
         self.assertTrue(np.array_equal(change_two, prediction_change_two))
-
-

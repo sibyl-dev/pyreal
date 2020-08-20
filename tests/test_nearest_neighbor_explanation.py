@@ -3,10 +3,11 @@
 
 """Tests for `sibyl` package."""
 
+import os
 import unittest
+
 import numpy as np
 import pandas as pd
-import os
 
 from sibyl import nearest_neighbor_explanation
 from utils.distance import PartialFeatureDistance
@@ -74,7 +75,7 @@ class TestNearestNeighborExplanation(unittest.TestCase):
         self.assertTrue(np.array_equal(output4, [2, 3]))
 
         output5 = nearest_neighbor_explanation.nearest_neighbor(
-            nbrs, x, N=3, desired_y=0, y=self.y,search_by=1, search_depth=1)
+            nbrs, x, N=3, desired_y=0, y=self.y, search_by=1, search_depth=1)
         self.assertTrue(np.array_equal(output5, []))
 
     def test_nearest_neighbor_custom_metric(self):

@@ -1,32 +1,30 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-import pandas as pd
-import numpy as np
-from sklearn.linear_model import Lasso
-
-"""Tests for `sibyl` package."""
-
 import unittest
+
+import numpy as np
+import pandas as pd
+from sklearn.linear_model import Lasso
 
 from sibyl import global_explanation
 
-# TODO Fix some of the hardcoding in these tests, it'll be a problem later
+
+class TestEstimator:
+    def fit(self, X, y):
+        return self
+
+    def predict(self, X):
+        return X.iloc[:, 0]
 
 
 def predict_test(X):
-    return X.iloc[:,0]
-
-
-def identity(X):
-    return X
+    return X.iloc[:, 0]
 
 
 class TestGlobalExplanation(unittest.TestCase):
     """Tests for `sibyl` package."""
 
     def setUp(self):
-        self.conversions2d = [identity, np.array, pd.DataFrame]
-        self.conversions1d = [identity, np.array, pd.Series]
         pass
 
     def tearDown(self):
@@ -36,22 +34,22 @@ class TestGlobalExplanation(unittest.TestCase):
     def test_get_global_importance(self):
         X = pd.DataFrame([[3, 4, 2],
                           [5, 3, 6],
-                          [0, 1, 2]])
+                          [0, 1, 2]], columns=["A", "B", "C"])
         y = [3, 5, 0]
         weights = [1, 0, 0]
         model = Lasso()
         model.fit(X, y)
         model.coef_ = np.array(weights)
         importances = global_explanation.get_global_importance(
-            model.predict, X, y)
+            model, X, y)
         self.assertTrue(len(importances) == 3)
-        self.assertTrue(importances[0] > 0.01)
-        self.assertAlmostEqual(importances[1], 0, 4)
-        self.assertAlmostEqual(importances[2], 0, 4)
+        self.assertTrue(float(importances.loc["A"]) > 0.01)
+        self.assertAlmostEqual(float(importances.loc["B"]), 0, 4)
+        self.assertAlmostEqual(float(importances.loc["C"]), 0, 4)
 
     def test_consolidate_importances(self):
         importances = [0, 0, 1, 3, 6, 3]
-        categories = [[0, 1], [3,4,5], [5]]
+        categories = [[0, 1], [3, 4, 5], [5]]
         max_importances = [0, 6, 3]
         mean_importances = [0, 4, 3]
 
@@ -89,12 +87,35 @@ class TestGlobalExplanation(unittest.TestCase):
         self.assertTrue(np.array_equal(labels_1, output_1))
 
     def test_summary_categorical(self):
-        for conv in self.conversions2d:
-            self.helper_summary_categorical(conv)
+        X = pd.DataFrame([[0, 0, "0"],
+                          [1, 0, "0"],
+                          [2, 0, "1"]])
+        correct_values = [[0, 1, 2], [0], ["0", "1"]]
+        correct_counts = [[1, 1, 1], [3], [2, 1]]
+        result_values, result_counts = global_explanation.summary_categorical(X)
+        print("result_values: ", result_values)
+        print("result_counts: ", result_counts)
+        self.assertEqual(len(result_values), 3)
+        self.assertEqual(len(result_counts), 3)
+        for i in range(3):
+            self.assertTrue(np.array_equal(correct_values[i], result_values[i]))
+            self.assertTrue(np.array_equal(correct_counts[i], result_counts[i]))
+            self.assertEqual(len(result_values[i]), len(result_counts[i]))
 
     def test_summary_numeric(self):
-        for conv in self.conversions2d:
-            self.helper_summary_numeric(conv)
+        X = pd.DataFrame([[0, 0, 0],
+                          [1, 2, 0],
+                          [2, 8, 0],
+                          [3, 6, 0],
+                          [4, 4, 0]])
+        correct = [[0, 1, 2, 3, 4],
+                   [0, 2, 4, 6, 8],
+                   [0, 0, 0, 0, 0]]
+        result = global_explanation.summary_numeric(X)
+        self.assertEqual(len(result), 3)
+        for i in range(3):
+            self.assertTrue(np.array_equal(result[i], correct[i]))
+            self.assertEqual(len(result[i]), 5)
 
     def test_overview_categorical(self):
         X = pd.DataFrame([[0, 0, 0],
@@ -147,32 +168,3 @@ class TestGlobalExplanation(unittest.TestCase):
         for i in range(3):
             self.assertTrue(np.array_equal(correct_0[i], result_0[i]))
             self.assertEqual(len(result_0[i]), 5)
-
-    def helper_summary_categorical(self, conv):
-        X = conv([[0, 0, 0],
-                  [1, 0, 0],
-                  [2, 0, 1]])
-        correct_values = [[0, 1, 2], [0], [0, 1]]
-        correct_counts = [[1, 1, 1], [3], [2, 1]]
-        result_values, result_counts = global_explanation.summary_categorical(X)
-        self.assertEqual(len(result_values), 3)
-        self.assertEqual(len(result_counts), 3)
-        for i in range(3):
-            self.assertTrue(np.array_equal(correct_values[i], result_values[i]))
-            self.assertTrue(np.array_equal(correct_counts[i], result_counts[i]))
-            self.assertEqual(len(result_values[i]), len(result_counts[i]))
-
-    def helper_summary_numeric(self, conv):
-        X = conv([[0, 0, 0],
-                  [1, 2, 0],
-                  [2, 8, 0],
-                  [3, 6, 0],
-                  [4, 4, 0]])
-        correct = [[0, 1, 2, 3, 4],
-                   [0, 2, 4, 6, 8],
-                   [0, 0, 0, 0, 0]]
-        result = global_explanation.summary_numeric(X)
-        self.assertEqual(len(result), 3)
-        for i in range(3):
-            self.assertTrue(np.array_equal(result[i], correct[i]))
-            self.assertEqual(len(result[i]), 5)

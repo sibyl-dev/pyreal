@@ -1,9 +1,7 @@
-from eli5.permutation_importance import get_score_importances
-from sklearn.inspection import permutation_importance
 import numpy as np
-from sklearn.metrics import mean_squared_error
 import pandas as pd
-import warnings
+from sklearn.inspection import permutation_importance
+from sklearn.metrics import mean_squared_error
 
 
 def get_global_importance(model, X, y, transformer=None):
@@ -13,13 +11,13 @@ def get_global_importance(model, X, y, transformer=None):
 
     :param model: sklearn estimator
            The model to explain
-    :param X: array-like of shape (n_samples, n_features)
+    :param X: DataFrame of shape (n_samples, n_features)
            The standardized training set to calculate the contributions
     :param y: array-like of shape (n_samples, )
            The true values of the items in X_train
     :param transformer: transformer object
            Transformer object to use before training explainer
-    :return: array of floats of shape (n_features, )
+    :return: DataFrame of floats of shape (n_features, 1)
            The importance of each feature in X_train
     """
 
@@ -56,9 +54,9 @@ def consolidate_importances(importances, categorical_feature_sets,
     importance_for_sets = []
     for feature_set in categorical_feature_sets:
         importance_for_set = None
-        if algorithm is "max":
+        if algorithm == "max":
             importance_for_set = np.max(importances[feature_set])
-        if algorithm is "mean":
+        if algorithm == "mean":
             importance_for_set = np.mean(importances[feature_set])
         importance_for_sets.append(importance_for_set)
     return importance_for_sets
@@ -99,7 +97,7 @@ def get_rows_by_output(output, predict, X, row_labels=None, transformer=None):
 def summary_categorical(X):
     """
     Returns the unique values and counts for each column in X
-    :param X: array_like of shape (n_samples, n_features)
+    :param X: DataFrame of shape (n_samples, n_features)
            The data to summarize
     :return values: list of length n_features of arrays
                     The unique values for each feature
@@ -111,7 +109,7 @@ def summary_categorical(X):
     all_counts = []
     X = np.asanyarray(X)
     for col in X.T:
-        values, counts = np.unique(col.astype(str), return_counts=True)
+        values, counts = np.unique(col, return_counts=True)
         all_values.append(values)
         all_counts.append(counts)
     return all_values, all_counts
@@ -121,7 +119,7 @@ def summary_numeric(X):
     """
     Find the minimum, 1st quartile, median, 2nd quartile, and maximum of the
     values for each column in X
-    :param X: array_like of shape (n_samples, n_features)
+    :param X: DataFrame of shape (n_samples, n_features)
            The data to summarize
     :return: A list of length (n_features) of lists of length 5
              The metrics for each feature:
@@ -154,7 +152,7 @@ def overview_categorical(output, predict, X, features=None):
     row_of_interest = get_rows_by_output(output, predict, X)
     X_pruned = np.asanyarray(X)[row_of_interest]
     if features is not None:
-        X_pruned = X_pruned[:,features]
+        X_pruned = X_pruned[:, features]
     return summary_categorical(X_pruned)
 
 
@@ -176,4 +174,3 @@ def overview_numeric(output, predict, X, features=None):
     if features is not None:
         X_pruned = X_pruned[:, features]
     return summary_numeric(X_pruned)
-
