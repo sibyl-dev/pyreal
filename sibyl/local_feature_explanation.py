@@ -31,7 +31,7 @@ def fit_contribution_explainer(model, X_train, transformer=None,
     if use_linear_explainer:
         explainer = shap.LinearExplainer(model, X_train)
     else:
-        explainer = shap.KernelExplainer(model.predict, X_train)
+        explainer = shap.KernelExplainer(model.predict, X_train, keep_index=True)
     if savefile is not None:
         pickle.dump(explainer, savefile)
     if return_result:
