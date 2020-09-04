@@ -16,7 +16,7 @@ install_requires = [
     'numpy>=1.8',
     'pandas>=1.0.3',
     "scikit-learn>=0.22",
-    "shap>=0.35",
+    "shap==0.35",
     "eli5>=0.10",
 ]
 
