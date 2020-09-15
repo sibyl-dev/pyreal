@@ -8,7 +8,7 @@ import numpy as np
 import pandas as pd
 import os
 
-from sibyl import nearest_neighbor_explanation
+from sibyl.explainers import nearest_neighbor_explanation
 from utils.distance import PartialFeatureDistance
 
 

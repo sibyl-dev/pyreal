@@ -6,9 +6,8 @@ import os
 """Tests for `sibyl` package."""
 
 import unittest
-import tempfile
 
-from sibyl import local_feature_explanation
+from sibyl.explainers import local_feature_explanation
 
 
 def identity(x):

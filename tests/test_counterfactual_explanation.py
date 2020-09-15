@@ -1,12 +1,11 @@
 import numpy as np
-from sklearn.linear_model import Lasso
 import pandas as pd
 
 """Tests for `sibyl` package."""
 
 import unittest
 
-from sibyl import counterfactual_explanation
+from sibyl.explainers import counterfactual_explanation
 
 
 def predict_test(X):

@@ -8,7 +8,8 @@ from sklearn.linear_model import Lasso
 
 import unittest
 
-from sibyl import global_explanation
+from sibyl.explainers import global_explanation
+
 
 # TODO Fix some of the hardcoding in these tests, it'll be a problem later
 
