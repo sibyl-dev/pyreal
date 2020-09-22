@@ -6,16 +6,16 @@ import pickle
 
 
 class FeatureContributionExplainer:
-    def __init__(self, model, transformers, dataset,
+    def __init__(self, model, dataset, transformers=None,
                  algorithm="shap", fit_on_init=True):
         """
         Initial a FeatureContributions object
         :param model: model object
                The model to explain
-        :param transformers: transformer object or list of transformer objects
-               Transformer(s) to use before getting contributions
         :param dataset: dataframe of shape (n_instances, n_features)
                The training set for the explainer
+        :param transformers: transformer object or list of transformer objects
+               Transformer(s) to use before getting contributions
         :param algorithm: one of ["shap"]
         :param fit_on_init: Boolean
                If True, fit the feature contribution explainer on initiation.
@@ -41,6 +41,10 @@ class FeatureContributionExplainer:
         self.model = model
         self.dataset = dataset
 
+        if self.transformers is not None:
+            for transformer in self.transformers:
+                dataset = transformer.transform(dataset)
+
         self.explainer = None
 
         if fit_on_init:
@@ -50,7 +54,8 @@ class FeatureContributionExplainer:
         if self.algorithm == "shap":
             # TODO: if model is linear sklearn, set explainer type to linear
             self.explainer = fit_contributions_shap(self.model, self.dataset,
-                                                    savefile=False, return_result=True)
+                                                    savefile=None, return_result=True,
+                                                    explainer_type="linear")
 
     def get_contributions(self, x):
         """
@@ -62,7 +67,7 @@ class FeatureContributionExplainer:
             raise AttributeError("Instance has no explainer. Must call "
                                  "fit_contribution_explainer before "
                                  "get_contributions")
-        if x.shape != (self.expected_feature_number,):
+        if x.shape[1] != self.expected_feature_number:
             raise ValueError("Received input of wrong size."
                              "Expected ({},), received {}"
                              .format(self.expected_feature_number, x.shape))

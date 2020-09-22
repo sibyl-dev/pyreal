@@ -19,6 +19,20 @@ def generate_categorical_to_one_hot(one_hot_to_categorical):
     return categorical_to_one_hot
 
 
+def generate_from_df(df):
+    # TODO: rename columns to be more natural
+    categorical_to_one_hot = {}
+    for i in range(df.shape[0]):
+        cf = df["name"][i]
+        ohf = df["original_name"][i]
+        value = df["value"][i]
+        if cf not in categorical_to_one_hot:
+            categorical_to_one_hot[cf] = {ohf: value}
+        else:
+            categorical_to_one_hot[cf][ohf] = value
+    return categorical_to_one_hot
+
+
 class Mappings:
     def __init__(self, categorical_to_one_hot, one_hot_to_categorical):
         """
@@ -35,8 +49,8 @@ class Mappings:
 
     @staticmethod
     def generate_mappings(categorical_to_one_hot=None,
-                         one_hot_to_categorical=None,
-                         dataframe=None):
+                          one_hot_to_categorical=None,
+                          dataframe=None):
         """
         Generate a new Mappings object using one of the input formats
         One one keyword should be None
@@ -55,5 +69,9 @@ class Mappings:
         if one_hot_to_categorical is not None:
             return Mappings(generate_categorical_to_one_hot(one_hot_to_categorical),
                             one_hot_to_categorical)
-        
+        if dataframe is not None:
+            categorical_to_one_hot = generate_from_df(dataframe)
+            return Mappings(categorical_to_one_hot,
+                            generate_one_hot_to_categorical(categorical_to_one_hot))
+
 

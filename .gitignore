@@ -116,4 +116,4 @@ apidoc/
 .DS_Store
 utils/scratch.py
 
-examples/
+examples/family_screening/data
