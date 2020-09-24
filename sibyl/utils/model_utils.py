@@ -4,6 +4,11 @@ Provides helper functions for more flexibility with Model inputs
 
 from sklearn.linear_model import LinearRegression, LogisticRegression
 import numpy as np
+import pickle
+
+
+def load_model_from_pickle(filepath):
+    return pickle.load(open(filepath, "rb"))
 
 
 def load_model_from_weights(weights, model_type, includes_intercept=True):
