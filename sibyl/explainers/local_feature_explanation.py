@@ -5,7 +5,7 @@ import pickle
 from abc import ABC, abstractmethod
 
 
-class FeatureContributionExplainer(Explainer):
+class LocalFeatureContribution(Explainer):
     def __init__(self, *args, e_algorithm="shap"):
         """
         Initial a FeatureContributions object
@@ -26,7 +26,7 @@ class FeatureContributionExplainer(Explainer):
                If False, explainer will be set to None and must be fit before
                          get_contributions is called
         """
-        super(FeatureContributionExplainer, self).__init__(*args)
+        super(LocalFeatureContribution, self).__init__(*args)
 
         # TODO: add some functionality to automatically pick e_algorithm
         if e_algorithm is None:
