@@ -88,6 +88,8 @@ class Explainer(ABC):
         :param x_orig: DataFrame of shape (n_instances, x_orig_feature_count)
         :return: x_explain: DataFrame of shape (n_instances, x_explain_feature_count)
         """
+        if self.e_transforms is None:
+            return x_orig
         x_explain = x_orig.copy()
         for transform in self.e_transforms:
             x_explain = transform.transform(x_explain)
@@ -99,8 +101,11 @@ class Explainer(ABC):
         :param x_orig: DataFrame of shape (n_instances, x_orig_feature_count)
         :return: x_model: DataFrame of shape (n_instances, x_model_feature_count)
         """
+        if self.m_transforms is None:
+            return x_orig
         x_model = x_orig.copy()
         for transform in self.m_transforms:
+            print(x_model.shape)
             x_model = transform.transform(x_model)
         return x_model
 
@@ -110,6 +115,8 @@ class Explainer(ABC):
         :param x_orig: DataFrame of shape (n_instances, x_orig_feature_count)
         :return: x_interpret: DataFrame of shape (n_instances, x_interpret_feature_count)
         """
+        if self.i_transforms is None:
+            return x_orig
         x_interpret = x_orig.copy()
         for transform in self.i_transforms:
             x_interpret = transform.transform(x_interpret)

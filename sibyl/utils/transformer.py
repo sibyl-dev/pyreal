@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 import numpy as np
 import pandas as pd
+from sklearn.preprocessing import OneHotEncoder
 
 
 class BaseTransformer(ABC):
@@ -61,3 +62,52 @@ class FeatureSelectTransformer(BaseTransformer):
     def transform(self, data):
         return data[self.feature_names]
 
+
+class OneHotEncoderWrapper:
+    def __init__(self):
+        self.ohe = OneHotEncoder(sparse=False)
+        self.feature_list = None
+        self.is_fit = False
+
+    def fit(self, x_orig, feature_list=None):
+        self.feature_list = feature_list
+        if self.feature_list is None:
+            self.feature_list = x_orig.columns
+        self.ohe.fit(x_orig[feature_list])
+        self.is_fit = True
+
+    def transform(self, x_orig):
+        if not self.is_fit:
+            raise RuntimeError("Must fit one hot encoder before transforming")
+        x_to_encode = x_orig[self.feature_list]
+        columns = self.ohe.get_feature_names(x_to_encode.columns)
+        index = x_to_encode.index
+        x_cat_ohe = self.ohe.transform(x_to_encode)
+        x_cat_ohe = pd.DataFrame(x_cat_ohe, columns=columns, index=index)
+        return pd.concat([x_orig.drop(self.feature_list, axis="columns"), x_cat_ohe], axis=1)
+
+    def transform_contributions(self, contributions):
+        if contributions.ndim == 1:
+            contributions = contributions.reshape(1, -1)
+        encoded_columns = self.ohe.get_feature_names(self.feature_list)
+        for original_feature in self.feature_list:
+            encoded_features = [item for item in encoded_columns if item.startswith(original_feature + "_")]
+            summed_contribution = contributions[encoded_features].sum(axis=1)
+            contributions = contributions.drop(encoded_features, axis="columns")
+            contributions[original_feature] = summed_contribution
+        return contributions
+
+
+class DataFrameWrapper:
+    """
+    Allows use of standard sklearn transformers while maintaining DataFrame type.
+    """
+    def __init__(self, base_transformer):
+        self.base_tranformer = base_transformer
+
+    def fit(self, x):
+        self.base_tranformer.fit(x)
+
+    def transform(self, x):
+        transformed_np = self.base_tranformer.transform(x)
+        return pd.DataFrame(transformed_np, columns=x.columns, index=x.index)
