@@ -64,16 +64,15 @@ class FeatureSelectTransformer(BaseTransformer):
 
 
 class OneHotEncoderWrapper:
-    def __init__(self):
+    def __init__(self, feature_list=None):
         self.ohe = OneHotEncoder(sparse=False)
-        self.feature_list = None
+        self.feature_list = feature_list
         self.is_fit = False
 
-    def fit(self, x_orig, feature_list=None):
-        self.feature_list = feature_list
+    def fit(self, x_orig):
         if self.feature_list is None:
             self.feature_list = x_orig.columns
-        self.ohe.fit(x_orig[feature_list])
+        self.ohe.fit(x_orig[self.feature_list])
         self.is_fit = True
 
     def transform(self, x_orig):
@@ -103,11 +102,11 @@ class DataFrameWrapper:
     Allows use of standard sklearn transformers while maintaining DataFrame type.
     """
     def __init__(self, base_transformer):
-        self.base_tranformer = base_transformer
+        self.base_transformer = base_transformer
 
     def fit(self, x):
-        self.base_tranformer.fit(x)
+        self.base_transformer.fit(x)
 
     def transform(self, x):
-        transformed_np = self.base_tranformer.transform(x)
+        transformed_np = self.base_transformer.transform(x)
         return pd.DataFrame(transformed_np, columns=x.columns, index=x.index)

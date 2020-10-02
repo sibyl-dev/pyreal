@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 from sibyl.utils import model_utils
+import pandas as pd
 
 
 class Explainer(ABC):
@@ -41,25 +42,26 @@ class Explainer(ABC):
         self.X_orig = X_orig
         self.y_orig = y_orig
 
+        if not isinstance(X_orig, pd.DataFrame) or \
+                (y_orig is not None and not isinstance(y_orig, pd.DataFrame)):
+            raise TypeError("X_orig and y_orig must be of type DataFrame")
+
         self.expected_feature_number = X_orig.shape[1]
 
         self.x_orig_feature_count = X_orig.shape[1]
 
-        self.i_transforms = i_transforms
-        self.m_transforms = m_transforms
-        self.e_transforms = e_transforms
-        if not isinstance(e_transforms, list):
-            self.e_transformers = [e_transforms]
+        if e_transforms is not None and not isinstance(e_transforms, list):
+            self.e_transforms = [e_transforms]
         else:
-            self.e_transformers = e_transforms
-        if not isinstance(m_transforms, list):
-            self.e_transformers = [m_transforms]
+            self.e_transforms = e_transforms
+        if m_transforms is not None and not isinstance(m_transforms, list):
+            self.m_transforms = [m_transforms]
         else:
-            self.e_transformers = m_transforms
-        if not isinstance(i_transforms, list):
-            self.e_transformers = [i_transforms]
+            self.m_transforms = m_transforms
+        if i_transforms is not None and not isinstance(i_transforms, list):
+            self.i_transforms = [i_transforms]
         else:
-            self.e_transformers = i_transforms
+            self.i_transforms = i_transforms
 
         self.feature_descriptions = feature_descriptions
 
@@ -78,7 +80,7 @@ class Explainer(ABC):
     def produce(self, x):
         """
         Return the explanation
-        :return:
+        :return: Type varies by subclass
         """
         pass
 
@@ -105,7 +107,6 @@ class Explainer(ABC):
             return x_orig
         x_model = x_orig.copy()
         for transform in self.m_transforms:
-            print(x_model.shape)
             x_model = transform.transform(x_model)
         return x_model
 

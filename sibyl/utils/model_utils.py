@@ -8,7 +8,8 @@ import pickle
 
 
 def load_model_from_pickle(filepath):
-    return pickle.load(open(filepath, "rb"))
+    with open(filepath, "rb") as f:
+        return pickle.load(f)
 
 
 def load_model_from_weights(weights, model_type, includes_intercept=True):

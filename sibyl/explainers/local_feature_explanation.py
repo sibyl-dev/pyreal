@@ -1,4 +1,4 @@
-from shap import KernelExplainer, LinearExplainer
+from shap import Explainer as ShapExplainer, LinearExplainer, KernelExplainer
 from sibyl.explainers.base import Explainer
 import numpy as np
 import pickle
@@ -7,14 +7,10 @@ import pandas as pd
 
 
 class LocalFeatureContribution(Explainer):
-    def __init__(self, e_algorithm="shap", contribution_transformers=None, **kwargs):
+    def __init__(self, model_pickle_filepath, X_orig,
+                 e_algorithm="shap", contribution_transformers=None, **kwargs):
         """
         Initial a FeatureContributions object
-        :param e_algorithm: string
-               Explanation algorithm to use
-        :param contribution_transformers: contribution transformer object(s)
-               Object or list of objects that include .transform_contributions(contributions)
-               functions, used to adjust the contributions back to interpretable form.
         :param model_pickle_filepath: filepath
                Filepath to the pickled model to explain
         :param X_orig: dataframe of shape (n_instances, x_orig_feature_count)
@@ -33,42 +29,92 @@ class LocalFeatureContribution(Explainer):
         :param i_transforms: transformer object or list of transformer objects
                Transformer(s) needed to make x_orig interpretable
                     x_orig -> x_interpret
-        :param combination_transformer: transformer object
-               Transformer used to combine
         :param fit_on_init: Boolean
                If True, fit the explainer on initiation.
                If False, self.fit() must be manually called before produce() is called
+        :param e_algorithm: string
+               Explanation algorithm to use
+        :param contribution_transformers: contribution transformer object(s)
+               Object or list of objects that include .transform_contributions(contributions)
+               functions, used to adjust the contributions back to interpretable form.
         """
-        super(LocalFeatureContribution, self).__init__(**kwargs)
-
-        # TODO: add some functionality to automatically pick e_algorithm
         if e_algorithm is None:
             e_algorithm = choose_algorithm(self.model)
         if e_algorithm not in ["shap"]:
             raise ValueError("Algorithm %s not understood" % e_algorithm)
 
-        if not isinstance(contribution_transformers, list):
+        if contribution_transformers is not None and \
+                not isinstance(contribution_transformers, list):
             self.contribution_transformers = [contribution_transformers]
         else:
             self.contribution_transformers = contribution_transformers
 
-        self.algorithm = e_algorithm
-        self.explainer = None
+        if e_algorithm is "shap":
+            self.base_local_feature_contribution = ShapFeatureContribution(
+                model_pickle_filepath, X_orig,
+                contribution_transformers, **kwargs)
+
+        super(LocalFeatureContribution, self).__init__(model_pickle_filepath, X_orig, **kwargs)
 
     def fit(self):
         """
         Fit the contribution explainer
         """
-        # TODO: if model is linear sklearn, set explainer type to linear
-        explainer_type = "linear"
-        if self.algorithm == "shap":
-            dataset = self.transform_to_x_explain(self.X_orig)
-            if explainer_type is "kernel":
-                self.explainer = KernelExplainer(self.model.predict, dataset)
-            elif explainer_type is "linear":
-                self.explainer = LinearExplainer(self.model, dataset)
-            else:
-                raise ValueError("Unrecognized shap type %s" % type)
+        self.base_local_feature_contribution.fit()
+
+    def produce(self, x):
+        """
+        Returns the contributions of each feature in x
+        :param x: DataFrame of shape (n_instances, n_features)
+               The input to be explained
+        :return: DataFrame of shape (n_instances, n_features
+                 The contribution of each feature
+        """
+        return self.base_local_feature_contribution.produce(x)
+
+    def transform_contributions(self, contributions):
+        """
+        Transform contributions to interpretable form
+        :param contributions: DataFrame of shape (n_instances, x_explain_feature_count)
+        :return: DataFrame of shape (n_instances, x_interpret_feature_count)
+        """
+        if self.contribution_transformers is None:
+            return contributions
+        for transform in self.contribution_transformers:
+            contributions = transform.transform_contributions(contributions)
+        return contributions
+
+
+class ShapFeatureContribution(Explainer):
+    def __init__(self, model_pickle_filepath, X_orig,
+                 contribution_transformers=None, shap_type=None, **kwargs):
+        if contribution_transformers is not None and \
+                not isinstance(contribution_transformers, list):
+            self.contribution_transformers = [contribution_transformers]
+        else:
+            self.contribution_transformers = contribution_transformers
+        supported_types = ["kernel", "linear"]
+        if shap_type is not None and shap_type not in supported_types:
+            raise ValueError("Shap type not supported, given %s, expected one of %s or None" %
+                  (shap_type, str(supported_types)))
+        else:
+            self.shap_type = shap_type
+
+        self.explainer = None
+        super(ShapFeatureContribution, self).__init__(model_pickle_filepath, X_orig, **kwargs)
+
+    def fit(self):
+        """
+        Fit the contribution explainer
+        """
+        dataset = self.transform_to_x_explain(self.X_orig)
+        if self.shap_type == "kernel":
+            self.explainer = KernelExplainer(self.model.predict, dataset)
+        # Note: we manually check for linear model here because of SHAP bug
+        elif self.shap_type is "linear" or LinearExplainer.supports_model(self.model):
+            self.explainer = LinearExplainer(self.model, dataset)
+        else:
+            self.explainer = ShapExplainer(self.model, dataset)  # SHAP will pick an algorithm
 
     def produce(self, x):
         """
@@ -79,8 +125,7 @@ class LocalFeatureContribution(Explainer):
                  The contribution of each feature
         """
         if x.ndim == 1:
-            x = x.to_frame().T
-        print(x.shape)
+            x = x.to_frame().reshape(1, -1)
         if self.explainer is None:
             raise AttributeError("Instance has no explainer. Must call "
                                  "fit_contribution_explainer before "
@@ -89,12 +134,11 @@ class LocalFeatureContribution(Explainer):
             raise ValueError("Received input of wrong size."
                              "Expected ({},), received {}"
                              .format(self.expected_feature_number, x.shape))
-        if self.algorithm == "shap":
-            x = self.transform_to_x_explain(x)
-            columns = x.columns
-            x = np.asanyarray(x)
-            contributions = pd.DataFrame(self.explainer.shap_values(x), columns=columns)
-            return self.transform_contributions(contributions)
+        x = self.transform_to_x_explain(x)
+        columns = x.columns
+        x = np.asanyarray(x)
+        contributions = pd.DataFrame(self.explainer.shap_values(x), columns=columns)
+        return self.transform_contributions(contributions)
 
     def transform_contributions(self, contributions):
         """
@@ -112,7 +156,7 @@ class LocalFeatureContribution(Explainer):
 def choose_algorithm(model):
     """
     Choose an algorithm based on the model type.
-    Current, shap is the only supported algorithm
+    Currently, shap is the only supported algorithm
     :param model: model object
     :return: one of ["shap"]
     """

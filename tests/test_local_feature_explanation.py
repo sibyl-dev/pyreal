@@ -1,13 +1,16 @@
 import numpy as np
-from sklearn.linear_model import Lasso
+from sklearn.linear_model import Lasso, LinearRegression
 import pandas as pd
 import os
+import pickle
+from shap import LinearExplainer
+from sibyl.utils.transformer import OneHotEncoderWrapper
 
 """Tests for `sibyl` package."""
 
 import unittest
 
-from sibyl.explainers import local_feature_explanation
+from sibyl.explainers import local_feature_explanation as lfe
 
 
 def identity(x):
@@ -19,80 +22,102 @@ class TestFeatureExplanation(unittest.TestCase):
 
     def setUp(self):
         """Set up test fixtures"""
-        self.conversions2d = [identity, np.array, pd.DataFrame]
-        self.conversions1d = [identity, np.array, pd.Series]
+        self.X_train = pd.DataFrame([[2, 1, 3],
+                                     [4, 3, 4],
+                                     [6, 7, 2]], columns=["A", "B", "C"])
+        self.y_train = pd.DataFrame([2, 4, 6])
+        self.expected = np.mean(self.y_train)[0]
+        model_no_transforms = LinearRegression()
+        model_no_transforms.fit(self.X_train, self.y_train)
+        model_no_transforms.coef_ = np.array([1, 0, 0])
+        self.model_no_transforms_filename = "model_no_transforms.pkl"
+        with open(self.model_no_transforms_filename, "wb") as f:
+            pickle.dump(model_no_transforms, f)
 
-        self.X_train = [[1, 1, 1],
-                        [4, 3, 4],
-                        [6, 7, 2]]
-        self.y_train = [1, 4, 6]
-        self.model = Lasso()
-        self.model.fit(self.X_train, self.y_train)
-        self.weights = [1, 0, 0]
-        self.model.coef_ = np.array(self.weights)
+        # TODO: replace with ML primitives
+        self.one_hot_encoder = OneHotEncoderWrapper(feature_list=["A"])
+        self.one_hot_encoder.fit(self.X_train)
+        self.X_transformed = self.one_hot_encoder.transform(self.X_train)
+        self.y_transformed = pd.DataFrame([1, 2, 3])
+        self.expected_transformed = np.mean(self.y_transformed)[0]
+        model_one_hot = LinearRegression()
+        model_one_hot.fit(self.X_transformed, self.y_transformed)
+        model_one_hot.coef_ = np.array([0, 0, 1, 2, 3])
+        self.model_one_hot_filename = "model_one_hot.pkl"
+        with open(self.model_one_hot_filename, "wb") as f:
+            pickle.dump(model_one_hot, f)
 
     def tearDown(self):
-        """Tear down test fixtures, if any."""
-        pass
+        """Tear down test fixtures"""
+        os.remove(self.model_no_transforms_filename)
 
-    def test_fit_contribution_explainer(self):
-        for conv in self.conversions2d:
-            self.helper_fit_contribution_explainer(conv)
+    def test_fit_shap_no_transforms(self):
+        lfc = lfe.LocalFeatureContribution(model_pickle_filepath=self.model_no_transforms_filename,
+                                           X_orig=self.X_train, e_algorithm='shap')
+        lfc.fit()
 
-    def helper_fit_contribution_explainer(self, conv):
-        self.X_train = conv(self.X_train)
-        filepath = "temp"
-        with open(filepath, "w+b") as savefile:
-            output = local_feature_explanation.fit_contribution_explainer(
-                self.model, self.X_train,
-                savefile=savefile, return_result=True)
-            self.assertIsNotNone(output)
-            assert os.path.exists(savefile.name)
-        assert (os.path.getsize(savefile.name) > 0)
-        os.remove(savefile.name)
+        shap = lfe.ShapFeatureContribution(
+            model_pickle_filepath=self.model_no_transforms_filename, X_orig=self.X_train)
+        shap.fit()
+        self.assertIsNotNone(shap.explainer)
+        self.assertIsInstance(shap.explainer, LinearExplainer)
 
-    def test_load_contribution_explainer(self):
-        for conv in self.conversions2d:
-            self.helper_load_contribution_explainer(conv)
+    def test_produce_shap_no_transforms(self):
 
-    def helper_load_contribution_explainer(self, conv):
-        self.X_train = conv(self.X_train)
-        filename = "temp"
-        with open(filename, "w+b") as savefile:
-            local_feature_explanation.fit_contribution_explainer(
-                self.model, self.X_train, savefile=savefile)
-        with open(filename, "rb") as savefile:
-            explainer = local_feature_explanation.load_contribution_explainer(
-                savefile)
-        self.assertIsNotNone(explainer)
-        os.remove(filename)
+        lfc = lfe.LocalFeatureContribution(model_pickle_filepath=self.model_no_transforms_filename,
+                                           X_orig=self.X_train, e_algorithm='shap',
+                                           fit_on_init=True)
+        shap = lfe.ShapFeatureContribution(
+            model_pickle_filepath=self.model_no_transforms_filename, X_orig=self.X_train,
+            fit_on_init=True)
 
-    def test_get_contributions(self):
-        for conv2d, conv1d in [
-            (conv2d, conv1d) for conv2d in self.conversions2d
-                             for conv1d in self.conversions1d]:
-            self.helper_get_contributions(conv2d, conv1d)
+        self.helper_produce_shape_no_transforms(lfc)
+        self.helper_produce_shape_no_transforms(shap)
 
-    def helper_get_contributions(self, conv2d, conv1d):
-        self.X_train = conv2d(self.X_train)
-        x_low = conv1d([1, 5, 6])
-        x_high = conv1d([6, 3, 2])
+    def helper_produce_shape_no_transforms(self, explainer):
+        x_one_dim = pd.DataFrame([[10, 10, 10]], columns=["A", "B", "C"])
+        x_multi_dim = pd.DataFrame([[10, 1, 1],
+                                    [0, 2, 3]], columns=["A", "B", "C"])
+        contributions = explainer.produce(x_one_dim)
+        self.assertEqual(x_one_dim.shape, contributions.shape)
+        self.assertEqual(contributions.iloc[0, 0], x_one_dim.iloc[0, 0] - self.expected)
+        self.assertEqual(contributions.iloc[0, 1], 0)
+        self.assertEqual(contributions.iloc[0, 2], 0)
 
-        explainer = local_feature_explanation.fit_contribution_explainer(
-                        self.model, self.X_train, return_result=True)
-        output = local_feature_explanation.get_contributions(x_low, explainer)
+        contributions = explainer.produce(x_multi_dim)
+        self.assertEqual(x_multi_dim.shape, contributions.shape)
+        self.assertAlmostEqual(contributions.iloc[0, 0], x_multi_dim.iloc[0, 0] - self.expected)
+        self.assertAlmostEqual(contributions.iloc[1, 0], x_multi_dim.iloc[1, 0] - self.expected)
+        self.assertTrue((contributions.iloc[:, 1] == 0).all())
+        self.assertTrue((contributions.iloc[:, 2] == 0).all())
 
-        self.assertTrue(len(output) == 3)
-        self.assertTrue(output[0] < -0.01)
-        self.assertAlmostEqual(output[1], 0, 4)
-        self.assertAlmostEqual(output[2], 0, 4)
+    def test_produce_shap_one_hot(self):
+        e_transforms = self.one_hot_encoder
+        lfc = lfe.LocalFeatureContribution(model_pickle_filepath=self.model_one_hot_filename,
+                                           X_orig=self.X_train, e_algorithm='shap',
+                                           fit_on_init=True, e_transforms=e_transforms,
+                                           contribution_transformers=e_transforms)
+        shap = lfe.ShapFeatureContribution(model_pickle_filepath=self.model_one_hot_filename,
+                                           X_orig=self.X_train, fit_on_init=True,
+                                           e_transforms=e_transforms,
+                                           contribution_transformers=e_transforms)
+        self.helper_produce_shap_one_hot(lfc)
+        self.helper_produce_shap_one_hot(shap)
 
-        output = local_feature_explanation.get_contributions(x_high, explainer)
+    def helper_produce_shap_one_hot(self, explainer):
+        x_one_dim = pd.DataFrame([[2, 10, 10]], columns=["A", "B", "C"])
+        x_multi_dim = pd.DataFrame([[4, 1, 1],
+                                    [6, 2, 3]], columns=["A", "B", "C"])
+        contributions = explainer.produce(x_one_dim)
+        self.assertEqual(x_one_dim.shape, contributions.shape)
+        self.assertAlmostEqual(contributions["A"][0], -1, places=5)
+        self.assertAlmostEqual(contributions["B"][0], 0, places=5)
+        self.assertAlmostEqual(contributions["C"][0], 0, places=5)
 
-        self.assertTrue(len(output) == 3)
-        self.assertTrue(output[0] > 0.01)
-        self.assertAlmostEqual(output[1], 0, 4)
-        self.assertAlmostEqual(output[2], 0, 4)
-
-
+        contributions = explainer.produce(x_multi_dim)
+        self.assertEqual(x_multi_dim.shape, contributions.shape)
+        self.assertAlmostEqual(contributions["A"][0], 0, places=5)
+        self.assertAlmostEqual(contributions["A"][1], 1, places=5)
+        self.assertTrue((contributions["B"] == 0).all())
+        self.assertTrue((contributions["C"] == 0).all())
 
