@@ -1,5 +1,5 @@
 import numpy as np
-from sklearn.linear_model import Lasso, LinearRegression
+from sklearn.linear_model import LinearRegression
 import pandas as pd
 import os
 import pickle
@@ -30,7 +30,7 @@ class TestFeatureExplanation(unittest.TestCase):
         model_no_transforms = LinearRegression()
         model_no_transforms.fit(self.X_train, self.y_train)
         model_no_transforms.coef_ = np.array([1, 0, 0])
-        self.model_no_transforms_filename = "model_no_transforms.pkl"
+        self.model_no_transforms_filename = os.path.join("data", "model_no_transforms.pkl")
         with open(self.model_no_transforms_filename, "wb") as f:
             pickle.dump(model_no_transforms, f)
 
@@ -43,13 +43,14 @@ class TestFeatureExplanation(unittest.TestCase):
         model_one_hot = LinearRegression()
         model_one_hot.fit(self.X_transformed, self.y_transformed)
         model_one_hot.coef_ = np.array([0, 0, 1, 2, 3])
-        self.model_one_hot_filename = "model_one_hot.pkl"
+        self.model_one_hot_filename = os.path.join("data", "model_one_hot.pkl")
         with open(self.model_one_hot_filename, "wb") as f:
             pickle.dump(model_one_hot, f)
 
     def tearDown(self):
         """Tear down test fixtures"""
         os.remove(self.model_no_transforms_filename)
+        os.remove(self.model_one_hot_filename)
 
     def test_fit_shap_no_transforms(self):
         lfc = lfe.LocalFeatureContribution(model_pickle_filepath=self.model_no_transforms_filename,

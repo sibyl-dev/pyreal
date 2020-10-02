@@ -1,43 +1,48 @@
 from shap import Explainer as ShapExplainer, LinearExplainer, KernelExplainer
 from sibyl.explainers.base import Explainer
 import numpy as np
-import pickle
-from abc import ABC, abstractmethod
 import pandas as pd
 
 
 class LocalFeatureContribution(Explainer):
+    """
+    LocalFeatureContributions explainer object
+
+    A LocalFeatureContributions object explains a machine learning prediction by assigning an
+    importance or contribution score to every feature. LocalFeatureContribution objects explain by
+    taking an instance and returning one number per feature, per instance.
+
+    Args:
+        model_pickle_filepath (filepath string):
+           Filepath to the pickled model to explain
+        X_orig (dataframe of shape (n_instances, x_orig_feature_count)):
+           The training set for the explainer
+        y_orig (dataframe of shape (n_instances,)):
+           The y values for the dataset
+        feature_descriptions (dict):
+           Interpretable descriptions of each feature
+        e_transforms (transformer object or list of transformer objects):
+           Transformer(s) that need to be used on x_orig for the explanation algorithm:
+                x_orig -> x_explain
+        m_transforms (transformer object or list of transformer objects):
+           Transformer(s) needed on x_orig to make predictions on the dataset with model, if different
+           than ex_transforms
+                x_orig -> x_model
+        i_transforms (transformer object or list of transformer objects):
+           Transformer(s) needed to make x_orig interpretable
+                x_orig -> x_interpret
+        fit_on_init (Boolean):
+           If True, fit the explainer on initiation.
+           If False, self.fit() must be manually called before produce() is called
+        e_algorithm (string, one of ["shap"]):
+           Explanation algorithm to use. If none, one will be chosen automatically based on model
+           type
+        contribution_transformers (contribution transformer object(s)):
+           Object or list of objects that include .transform_contributions(contributions)
+           functions, used to adjust the contributions back to interpretable form.
+    """
     def __init__(self, model_pickle_filepath, X_orig,
                  e_algorithm="shap", contribution_transformers=None, **kwargs):
-        """
-        Initial a FeatureContributions object
-        :param model_pickle_filepath: filepath
-               Filepath to the pickled model to explain
-        :param X_orig: dataframe of shape (n_instances, x_orig_feature_count)
-               The training set for the explainer
-        :param y_orig: dataframe of shape (n_instances,)
-               The y values for the dataset
-        :param feature_descriptions: dict
-               Interpretable descriptions of each feature
-        :param e_transforms: transformer object or list of transformer objects
-               Transformer(s) that need to be used on x_orig for the explanation algorithm:
-                    x_orig -> x_explain
-        :param m_transforms: transformer object or list of transformer objects
-               Transformer(s) needed on x_orig to make predictions on the dataset with model, if different
-               than ex_transforms
-                    x_orig -> x_model
-        :param i_transforms: transformer object or list of transformer objects
-               Transformer(s) needed to make x_orig interpretable
-                    x_orig -> x_interpret
-        :param fit_on_init: Boolean
-               If True, fit the explainer on initiation.
-               If False, self.fit() must be manually called before produce() is called
-        :param e_algorithm: string
-               Explanation algorithm to use
-        :param contribution_transformers: contribution transformer object(s)
-               Object or list of objects that include .transform_contributions(contributions)
-               functions, used to adjust the contributions back to interpretable form.
-        """
         if e_algorithm is None:
             e_algorithm = choose_algorithm(self.model)
         if e_algorithm not in ["shap"]:
@@ -64,19 +69,26 @@ class LocalFeatureContribution(Explainer):
 
     def produce(self, x):
         """
-        Returns the contributions of each feature in x
-        :param x: DataFrame of shape (n_instances, n_features)
+        Calculate the contributions of each feature in x
+
+        Args:
+            x (DataFrame of shape (n_instances, n_features)):
                The input to be explained
-        :return: DataFrame of shape (n_instances, n_features
+        Returns:
+            DataFrame of shape (n_instances, n_features):
                  The contribution of each feature
         """
         return self.base_local_feature_contribution.produce(x)
 
     def transform_contributions(self, contributions):
         """
-        Transform contributions to interpretable form
-        :param contributions: DataFrame of shape (n_instances, x_explain_feature_count)
-        :return: DataFrame of shape (n_instances, x_interpret_feature_count)
+        Transform contributions to an interpretable form.
+
+        Args:
+            contributions (DataFrame of shape (n_instances, x_explain_feature_count)):
+        Returns:
+            DataFrame of shape (n_instances, x_interpret_feature_count)
+                The transformed contributions
         """
         if self.contribution_transformers is None:
             return contributions
@@ -86,6 +98,22 @@ class LocalFeatureContribution(Explainer):
 
 
 class ShapFeatureContribution(Explainer):
+    """
+    ShapFeatureContribution object.
+
+    A ShapFeatureContribution object gets feature contributions using the SHAP algorithm.
+
+    Args:
+        model_pickle_filepath (string filepath):
+            Filepath to the pickled model to explain
+        X_orig (DataFrame of size (n_instances, n_features)):
+            Training set in original form.
+        contribution_transformers (transformer or list of transformers):
+            Transformer that convert contributions from explanation form to interpretable form
+        shap_type (string, one of ["kernel", "linear"]):
+            Type of shap algorithm to use. If None, SHAP will pick one.
+        **kwargs: see base Explainer args
+    """
     def __init__(self, model_pickle_filepath, X_orig,
                  contribution_transformers=None, shap_type=None, **kwargs):
         if contribution_transformers is not None and \
@@ -118,10 +146,13 @@ class ShapFeatureContribution(Explainer):
 
     def produce(self, x):
         """
-        Returns the contributions of each feature in x
-        :param x: DataFrame of shape (n_instances, n_features)
+        Calculate the contributions of each feature in x using SHAP.
+
+        Args:
+            x (DataFrame of shape (n_instances, n_features)):
                The input to be explained
-        :return: DataFrame of shape (n_instances, n_features
+        Returns:
+            DataFrame of shape (n_instances, n_features):
                  The contribution of each feature
         """
         if x.ndim == 1:
@@ -142,9 +173,13 @@ class ShapFeatureContribution(Explainer):
 
     def transform_contributions(self, contributions):
         """
-        Transform contributions to interpretable form
-        :param contributions: DataFrame of shape (n_instances, x_explain_feature_count)
-        :return: DataFrame of shape (n_instances, x_interpret_feature_count)
+        Transform contributions to an interpretable form.
+
+        Args:
+            contributions (DataFrame of shape (n_instances, x_explain_feature_count)):
+        Returns:
+            DataFrame of shape (n_instances, x_interpret_feature_count)
+                The transformed contributions
         """
         if self.contribution_transformers is None:
             return contributions
@@ -157,8 +192,13 @@ def choose_algorithm(model):
     """
     Choose an algorithm based on the model type.
     Currently, shap is the only supported algorithm
-    :param model: model object
-    :return: one of ["shap"]
+
+    Args:
+        model (model object)
+            Model to be explained
+    Return:
+        string (one of ["shap"])
+            Explanation algorithm to use
     """
     return "shap"
 

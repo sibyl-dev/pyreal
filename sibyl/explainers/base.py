@@ -10,30 +10,31 @@ class Explainer(ABC):
                  e_transforms=None, m_transforms=None, i_transforms=None,
                  fit_on_init=False):
         """
-        Initialize an Explainer object
-        :param model_pickle_filepath: filepath
+        Generic Explainer object
+        Args:
+            model_pickle_filepath (string filepath):
                Filepath to the pickled model to explain
-        :param X_orig: dataframe of shape (n_instances, x_orig_feature_count)
+            X_orig (dataframe of shape (n_instances, x_orig_feature_count)):
                The training set for the explainer
-        :param y_orig: dataframe of shape (n_instances,)
+            y_orig (dataframe of shape (n_instances,)):
                The y values for the dataset
-        :param feature_descriptions: dict
+            feature_descriptions (dict):
                Interpretable descriptions of each feature
-        :param e_transforms: transformer object or list of transformer objects
+            e_transforms (transformer object or list of transformer objects):
                Transformer(s) that need to be used on x_orig for the explanation algorithm:
                     x_orig -> x_explain
-        :param m_transforms: transformer object or list of transformer objects
+            m_transforms (transformer object or list of transformer objects):
                Transformer(s) needed on x_orig to make predictions on the dataset with model, if different
                than ex_transforms
                     x_orig -> x_model
-        :param i_transforms: transformer object or list of transformer objects
+            i_transforms (transformer object or list of transformer objects):
                Transformer(s) needed to make x_orig interpretable
                     x_orig -> x_interpret
-        :param fit_on_init: Boolean
+            fit_on_init (Boolean):
                If True, fit the explainer on initiation.
                If False, self.fit() must be manually called before produce() is called
         """
-        # TODO: check is model has .predict function
+        # TODO: check if model has .predict function
         # TODO: check if transformer(s) have transform
         # TODO: add multiple different types of model reading utilities, and select one
 
@@ -72,23 +73,31 @@ class Explainer(ABC):
     def fit(self):
         """
         Fit this explainer object
-        :return: None
         """
         pass
 
     @abstractmethod
-    def produce(self, x):
+    def produce(self, x_orig):
         """
         Return the explanation
-        :return: Type varies by subclass
+        Args:
+            x_orig (DataFrame of shape (n_instances, n_features):
+                Input to explain
+        Returns:
+            Type varies by subclass
+                Explanation
         """
         pass
 
     def transform_to_x_explain(self, x_orig):
         """
         Transform x_orig to x_explain, using the e_transforms
-        :param x_orig: DataFrame of shape (n_instances, x_orig_feature_count)
-        :return: x_explain: DataFrame of shape (n_instances, x_explain_feature_count)
+
+        Args:
+            x_orig (DataFrame of shape (n_instances, x_orig_feature_count)):
+        Returns:
+             DataFrame of shape (n_instances, x_explain_feature_count)
+                x_orig converted to explainable form
         """
         if self.e_transforms is None:
             return x_orig
@@ -99,9 +108,12 @@ class Explainer(ABC):
 
     def transform_to_x_model(self, x_orig):
         """
-        Transform x_orig to x_model, using the e_transforms
-        :param x_orig: DataFrame of shape (n_instances, x_orig_feature_count)
-        :return: x_model: DataFrame of shape (n_instances, x_model_feature_count)
+        Transform x_orig to x_model, using the m_transforms
+        Args:
+            x_orig (DataFrame of shape (n_instances, x_orig_feature_count)):
+        Returns:
+             DataFrame of shape (n_instances, x_explain_feature_count)
+                x_orig converted to model-ready form
         """
         if self.m_transforms is None:
             return x_orig
@@ -112,9 +124,12 @@ class Explainer(ABC):
 
     def transform_to_x_interpret(self, x_orig):
         """
-        Transform x_orig to x_interpret, using the e_transforms
-        :param x_orig: DataFrame of shape (n_instances, x_orig_feature_count)
-        :return: x_interpret: DataFrame of shape (n_instances, x_interpret_feature_count)
+        Transform x_orig to x_interpret, using the i_transforms
+        Args:
+            x_orig (DataFrame of shape (n_instances, x_orig_feature_count)):
+        Returns:
+             DataFrame of shape (n_instances, x_explain_feature_count)
+                x_orig converted to interpretable form
         """
         if self.i_transforms is None:
             return x_orig
@@ -126,8 +141,13 @@ class Explainer(ABC):
     def model_predict(self, x_orig):
         """
         Predict on x_orig using the model and return the result
-        :param x_orig: DataFrame of shape (n_instances, x_orig_feature_count)
-        :return: prediction
+
+        Args:
+            x_orig (DataFrame of shape (n_instances, x_orig_feature_count)):
+                Data to predict on
+        Returns:
+            model output type
+                Model prediction
         """
         x_model = self.transform_to_x_model(x_orig)
         return self.model.predict(x_model)
@@ -135,8 +155,11 @@ class Explainer(ABC):
     def feature_description(self, feature_name):
         """
         Returns the interpretable description associated with a feature
-        :param feature_name: string
-        :return: string
+
+        Args:
+            feature_name (string)
+        Returns:
+            string
                  Description of feature
         """
         return self.feature_descriptions[feature_name]
