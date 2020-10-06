@@ -54,11 +54,11 @@ class TestFeatureExplanation(unittest.TestCase):
 
     def test_fit_shap_no_transforms(self):
         lfc = lfe.LocalFeatureContribution(model_pickle_filepath=self.model_no_transforms_filename,
-                                           X_orig=self.X_train, e_algorithm='shap')
+                                           x_orig=self.X_train, e_algorithm='shap')
         lfc.fit()
 
         shap = lfe.ShapFeatureContribution(
-            model_pickle_filepath=self.model_no_transforms_filename, X_orig=self.X_train)
+            model_pickle_filepath=self.model_no_transforms_filename, x_orig=self.X_train)
         shap.fit()
         self.assertIsNotNone(shap.explainer)
         self.assertIsInstance(shap.explainer, LinearExplainer)
@@ -66,10 +66,10 @@ class TestFeatureExplanation(unittest.TestCase):
     def test_produce_shap_no_transforms(self):
 
         lfc = lfe.LocalFeatureContribution(model_pickle_filepath=self.model_no_transforms_filename,
-                                           X_orig=self.X_train, e_algorithm='shap',
+                                           x_orig=self.X_train, e_algorithm='shap',
                                            fit_on_init=True)
         shap = lfe.ShapFeatureContribution(
-            model_pickle_filepath=self.model_no_transforms_filename, X_orig=self.X_train,
+            model_pickle_filepath=self.model_no_transforms_filename, x_orig=self.X_train,
             fit_on_init=True)
 
         self.helper_produce_shape_no_transforms(lfc)
@@ -95,11 +95,12 @@ class TestFeatureExplanation(unittest.TestCase):
     def test_produce_shap_one_hot(self):
         e_transforms = self.one_hot_encoder
         lfc = lfe.LocalFeatureContribution(model_pickle_filepath=self.model_one_hot_filename,
-                                           X_orig=self.X_train, e_algorithm='shap',
+                                           x_orig=self.X_train, e_algorithm='shap',
                                            fit_on_init=True, e_transforms=e_transforms,
-                                           contribution_transformers=e_transforms)
+                                           contribution_transformers=e_transforms,
+                                           interpretable_features=False)
         shap = lfe.ShapFeatureContribution(model_pickle_filepath=self.model_one_hot_filename,
-                                           X_orig=self.X_train, fit_on_init=True,
+                                           x_orig=self.X_train, fit_on_init=True,
                                            e_transforms=e_transforms,
                                            contribution_transformers=e_transforms)
         self.helper_produce_shap_one_hot(lfc)
@@ -122,3 +123,19 @@ class TestFeatureExplanation(unittest.TestCase):
         self.assertTrue((contributions["B"] == 0).all())
         self.assertTrue((contributions["C"] == 0).all())
 
+    def test_produce_with_renames(self):
+        e_transforms = self.one_hot_encoder
+        feature_descriptions = {"A": "Feature A", "B": "Feature B"}
+        lfc = lfe.LocalFeatureContribution(model_pickle_filepath=self.model_one_hot_filename,
+                                           x_orig=self.X_train, e_algorithm='shap',
+                                           fit_on_init=True, e_transforms=e_transforms,
+                                           contribution_transformers=e_transforms,
+                                           interpretable_features=True,
+                                           feature_descriptions=feature_descriptions)
+        x_one_dim = pd.DataFrame([[2, 10, 10]], columns=["A", "B", "C"])
+
+        contributions = lfc.produce(x_one_dim)
+        self.assertEqual(x_one_dim.shape, contributions.shape)
+        self.assertAlmostEqual(contributions["Feature A"][0], -1, places=5)
+        self.assertAlmostEqual(contributions["Feature B"][0], 0, places=5)
+        self.assertAlmostEqual(contributions["C"][0], 0, places=5)

@@ -8,6 +8,18 @@ import pickle
 
 
 def load_model_from_pickle(filepath):
+    """
+    Load the model from a pickle filepath
+
+    Args:
+        filepath (string filepath):
+            The location of the pickled mode
+
+    Returns:
+        model object:
+            The loaded model
+
+    """
     with open(filepath, "rb") as f:
         return pickle.load(f)
 
@@ -15,14 +27,19 @@ def load_model_from_pickle(filepath):
 def load_model_from_weights(weights, model_type, includes_intercept=True):
     """
     Generates an sklearn model from a list of weights
-    :param weights: array_like
+
+    Args:
+        weights (array_like):
            Ordered list of model weights. Can be a list/numpy array, in which feature
-    :param feature_names:
-    :param model_type:
-    :param includes_intercept: Boolean
+        model_type (string):
+            Base model type. One of: `linear_regression` and `logistic_regression`
+        includes_intercept: Boolean
            True if first element of weights is the intercept, False otherwise
            If False, intercept defaults to 0
-    :return:
+
+    Returns:
+        sklearn model
+            The loaded model with given weights
     """
     if model_type == "linear_regression":
         model = LinearRegression()

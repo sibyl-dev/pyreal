@@ -112,8 +112,10 @@ ENV/
 # Restful API documentation
 apidoc/
 
+# Docs
+docs/api_reference/api/
+
 # others
 .DS_Store
 utils/scratch.py
-
-examples/family_screening/data
+examples/family_screening/data/

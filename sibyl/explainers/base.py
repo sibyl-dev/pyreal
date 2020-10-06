@@ -4,36 +4,37 @@ import pandas as pd
 
 
 class Explainer(ABC):
+    """
+    Generic Explainer object
+
+    Args:
+        model_pickle_filepath (string filepath):
+           Filepath to the pickled model to explain
+        X_orig (dataframe of shape (n_instances, x_orig_feature_count)):
+           The training set for the explainer
+        y_orig (dataframe of shape (n_instances,-)):
+           The y values for the dataset
+        feature_descriptions (dict):
+           Interpretable descriptions of each feature
+        e_transforms (transformer object or list of transformer objects):
+           Transformer(s) that need to be used on x_orig for the explanation algorithm:
+           x_orig -> x_explain
+        m_transforms (transformer object or list of transformer objects):
+           Transformer(s) needed on x_orig to make predictions on the dataset with model, if different
+           than ex_transforms
+           x_orig -> x_model
+        i_transforms (transformer object or list of transformer objects):
+           Transformer(s) needed to make x_orig interpretable
+           x_orig -> x_interpret
+        fit_on_init (Boolean):
+           If True, fit the explainer on initiation.
+           If False, self.fit() must be manually called before produce() is called
+    """
     def __init__(self, model_pickle_filepath,
                  X_orig, y_orig=None,
                  feature_descriptions=None,
                  e_transforms=None, m_transforms=None, i_transforms=None,
                  fit_on_init=False):
-        """
-        Generic Explainer object
-        Args:
-            model_pickle_filepath (string filepath):
-               Filepath to the pickled model to explain
-            X_orig (dataframe of shape (n_instances, x_orig_feature_count)):
-               The training set for the explainer
-            y_orig (dataframe of shape (n_instances,)):
-               The y values for the dataset
-            feature_descriptions (dict):
-               Interpretable descriptions of each feature
-            e_transforms (transformer object or list of transformer objects):
-               Transformer(s) that need to be used on x_orig for the explanation algorithm:
-                    x_orig -> x_explain
-            m_transforms (transformer object or list of transformer objects):
-               Transformer(s) needed on x_orig to make predictions on the dataset with model, if different
-               than ex_transforms
-                    x_orig -> x_model
-            i_transforms (transformer object or list of transformer objects):
-               Transformer(s) needed to make x_orig interpretable
-                    x_orig -> x_interpret
-            fit_on_init (Boolean):
-               If True, fit the explainer on initiation.
-               If False, self.fit() must be manually called before produce() is called
-        """
         # TODO: check if model has .predict function
         # TODO: check if transformer(s) have transform
         # TODO: add multiple different types of model reading utilities, and select one
@@ -80,9 +81,11 @@ class Explainer(ABC):
     def produce(self, x_orig):
         """
         Return the explanation
+
         Args:
             x_orig (DataFrame of shape (n_instances, n_features):
                 Input to explain
+
         Returns:
             Type varies by subclass
                 Explanation
@@ -95,6 +98,7 @@ class Explainer(ABC):
 
         Args:
             x_orig (DataFrame of shape (n_instances, x_orig_feature_count)):
+                Original input
         Returns:
              DataFrame of shape (n_instances, x_explain_feature_count)
                 x_orig converted to explainable form
@@ -109,8 +113,11 @@ class Explainer(ABC):
     def transform_to_x_model(self, x_orig):
         """
         Transform x_orig to x_model, using the m_transforms
+
         Args:
             x_orig (DataFrame of shape (n_instances, x_orig_feature_count)):
+                Original input
+
         Returns:
              DataFrame of shape (n_instances, x_explain_feature_count)
                 x_orig converted to model-ready form
@@ -127,6 +134,8 @@ class Explainer(ABC):
         Transform x_orig to x_interpret, using the i_transforms
         Args:
             x_orig (DataFrame of shape (n_instances, x_orig_feature_count)):
+                Original input
+
         Returns:
              DataFrame of shape (n_instances, x_explain_feature_count)
                 x_orig converted to interpretable form
@@ -145,6 +154,7 @@ class Explainer(ABC):
         Args:
             x_orig (DataFrame of shape (n_instances, x_orig_feature_count)):
                 Data to predict on
+
         Returns:
             model output type
                 Model prediction
@@ -158,10 +168,17 @@ class Explainer(ABC):
 
         Args:
             feature_name (string)
+
         Returns:
             string
                  Description of feature
         """
         return self.feature_descriptions[feature_name]
+
+    def convert_columns_to_interpretable(self, df):
+        if self.feature_descriptions is None:
+            # TODO: log a warning
+            return df
+        return df.rename(self.feature_descriptions, axis="columns")
 
 

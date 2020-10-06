@@ -16,7 +16,7 @@ install_requires = [
     'numpy>=1.8',
     'pandas>=1.0.3',
     "scikit-learn>=0.22",
-    "shap>=0.37.0",
+    "shap>=0.36.0",
     "eli5>=0.10",
 ]
 
@@ -36,10 +36,14 @@ development_requires = [
     'watchdog>=0.8.3',
 
     # docs
-    'm2r>=0.2.0',
-    'Sphinx>=1.7.1',
-    'sphinx_rtd_theme>=0.2.4',
+    'm2r2>=0.2.5,<0.3',
+    'nbsphinx>=0.5.0,<0.7',
+    'Sphinx>=3,<4',
+    'pydata-sphinx-theme',
     'autodocsumm>=0.1.10',
+    'PyYaml>=5.3.1,<6',
+    'argh>=0.26.2,<1',
+
 
     # style check
     'flake8>=3.7.7',
