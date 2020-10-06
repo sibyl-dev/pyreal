@@ -103,7 +103,7 @@ class LocalFeatureContribution(LocalFeatureContributionsBase):
     def __init__(self, model_pickle_filepath, x_orig,
                  contribution_transformers=None, e_algorithm=None, **kwargs):
         if e_algorithm is None:
-            e_algorithm = choose_algorithm(self.model)
+            e_algorithm = choose_algorithm()
 
         self.base_local_feature_contribution = None
         if e_algorithm is "shap":
@@ -186,14 +186,11 @@ class ShapFeatureContribution(LocalFeatureContributionsBase):
         return pd.DataFrame(self.explainer.shap_values(x), columns=columns)
 
 
-def choose_algorithm(model):
+def choose_algorithm():
     """
     Choose an algorithm based on the model type.
     Currently, shap is the only supported algorithm
 
-    Args:
-        model (model object)
-            Model to be explained
     Return:
         string (one of ["shap"])
             Explanation algorithm to use
