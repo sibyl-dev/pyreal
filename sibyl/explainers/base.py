@@ -3,6 +3,20 @@ from sibyl.utils import model_utils
 import pandas as pd
 
 
+def check_transforms(transforms):
+    if transforms is None:
+        return None
+    if not isinstance(transforms, list):
+        transforms = [transforms]
+    else:
+        transforms = transforms
+    for transformer in transforms:
+        transform_method = getattr(transformer, "transform", None)
+        if not callable(transform_method):
+            raise ValueError("Given transformer that does not have a .transform function")
+    return transforms
+
+
 class Explainer(ABC):
     """
     Generic Explainer object
@@ -35,10 +49,6 @@ class Explainer(ABC):
                  feature_descriptions=None,
                  e_transforms=None, m_transforms=None, i_transforms=None,
                  fit_on_init=False):
-        # TODO: check if model has .predict function
-        # TODO: check if transformer(s) have transform
-        # TODO: add multiple different types of model reading utilities, and select one
-
         self.model = model_utils.load_model_from_pickle(model_pickle_filepath)
 
         self.X_orig = X_orig
@@ -52,18 +62,9 @@ class Explainer(ABC):
 
         self.x_orig_feature_count = X_orig.shape[1]
 
-        if e_transforms is not None and not isinstance(e_transforms, list):
-            self.e_transforms = [e_transforms]
-        else:
-            self.e_transforms = e_transforms
-        if m_transforms is not None and not isinstance(m_transforms, list):
-            self.m_transforms = [m_transforms]
-        else:
-            self.m_transforms = m_transforms
-        if i_transforms is not None and not isinstance(i_transforms, list):
-            self.i_transforms = [i_transforms]
-        else:
-            self.i_transforms = i_transforms
+        self.e_transforms = check_transforms(e_transforms)
+        self.m_transforms = check_transforms(m_transforms)
+        self.i_transforms = check_transforms(i_transforms)
 
         self.feature_descriptions = feature_descriptions
 
@@ -73,14 +74,14 @@ class Explainer(ABC):
     @abstractmethod
     def fit(self):
         """
-        Fit this explainer object
+        Fit this explainer object. Abstract method
         """
         pass
 
     @abstractmethod
     def produce(self, x_orig):
         """
-        Return the explanation
+        Return the explanation. Abstract method
 
         Args:
             x_orig (DataFrame of shape (n_instances, n_features):

@@ -43,9 +43,23 @@ class LocalFeatureContributionsBase(Explainer, ABC):
 
     @abstractmethod
     def fit(self):
+        """
+        Fit this explainer object
+        """
         pass
 
     def produce(self, x_orig):
+        """
+        Produce the local feature contribution explanation
+
+        Args:
+            x_orig (DataFrame of shape (n_instances, n_features):
+                Input to explain
+
+        Returns:
+            DataFrame of shape (n_instances, n_features)
+                Contribution of each feature for each instance
+        """
         if x_orig.ndim == 1:
             x_orig = x_orig.to_frame().reshape(1, -1)
         if x_orig.shape[1] != self.expected_feature_number:
@@ -57,6 +71,16 @@ class LocalFeatureContributionsBase(Explainer, ABC):
 
     @abstractmethod
     def get_contributions(self, x_orig):
+        """
+        Gets the raw contributions. Abstract method.
+        Args:
+            x_orig (DataFrame of shape (n_instances, n_features):
+                Input to explain
+
+        Returns:
+            DataFrame of shape (n_instances, n_features)
+                Contribution of each feature for each instance
+        """
         pass
 
     def transform_contributions(self, contributions):
@@ -84,7 +108,9 @@ class LocalFeatureContribution(LocalFeatureContributionsBase):
     """
     Generic LocalFeatureContribution wrapper
 
-    A LocalFeatureContributions object wraps multiple local feature-based explanations.
+    A LocalFeatureContributions object wraps multiple local feature-based explanations. If no
+    specific algorithm is requested, one will be chosen based on the information given.
+    Currently, only SHAP is supported.
 
     Args:
         model_pickle_filepath (filepath string):
@@ -117,9 +143,22 @@ class LocalFeatureContribution(LocalFeatureContributionsBase):
                                                        contribution_transformers, **kwargs)
 
     def fit(self):
+        """
+        Fit this explainer object
+        """
         self.base_local_feature_contribution.fit()
 
     def get_contributions(self, x_orig):
+        """
+        Gets the raw contributions.
+        Args:
+            x_orig (DataFrame of shape (n_instances, n_features):
+                Input to explain
+
+        Returns:
+            DataFrame of shape (n_instances, n_features)
+                Contribution of each feature for each instance
+        """
         return self.base_local_feature_contribution.get_contributions(x_orig)
 
 
