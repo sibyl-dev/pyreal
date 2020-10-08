@@ -3,6 +3,7 @@ from sibyl.explainers.base import Explainer
 import numpy as np
 import pandas as pd
 from abc import ABC, abstractmethod
+import pickle
 
 
 class LocalFeatureContributionsBase(Explainer, ABC):
@@ -224,6 +225,9 @@ class ShapFeatureContribution(LocalFeatureContributionsBase):
         x = np.asanyarray(x)
         return pd.DataFrame(self.explainer.shap_values(x), columns=columns)
 
+# ------------------------------------------------------ #
+#  HELPERS                                               #
+# ------------------------------------------------------ #
 
 def choose_algorithm():
     """
@@ -235,3 +239,133 @@ def choose_algorithm():
             Explanation algorithm to use
     """
     return "shap"
+
+# ------------------------------------------------------ #
+#  FUNCTIONAL IMPLEMENTATIONS                            #
+# ------------------------------------------------------ #
+
+
+def fit_and_produce_local_feature_contributions(model_pickle_filepath, x_input, x_train,
+                                                contribution_transformers=None,
+                                                e_algorithm=None, feature_descriptions=None,
+                                                e_transforms=None, m_transforms=None,
+                                                i_transforms=None, interpretable_features=True):
+    """
+    Get a local feature contribution for x_input
+
+    Args:
+        model_pickle_filepath (filepath string):
+           Filepath to the pickled model to explain
+        x_input (dataframe of shape (n_instances, x_orig_feature_count)):
+           The input to explain
+        x_train (dataframe of shape (n_instances, x_orig_feature_count)):
+           The training set for the explainer
+        contribution_transformers (contribution transformer object(s)):
+           Object or list of objects that include .transform_contributions(contributions)
+           functions, used to adjust the contributions back to interpretable form.
+        e_algorithm (string, one of ["shap"]):
+           Explanation algorithm to use. If none, one will be chosen automatically based on model
+           type
+        feature_descriptions (dict):
+           Interpretable descriptions of each feature
+        e_transforms (transformer object or list of transformer objects):
+           Transformer(s) that need to be used on x_orig for the explanation algorithm:
+           x_orig -> x_explain
+        m_transforms (transformer object or list of transformer objects):
+           Transformer(s) needed on x_orig to make predictions on the dataset with model, if different
+           than ex_transforms
+           x_orig -> x_model
+        i_transforms (transformer object or list of transformer objects):
+           Transformer(s) needed to make x_orig interpretable
+           x_orig -> x_interpret
+        interpretable_features (Boolean):
+            If True, return explanations using the interpretable feature descriptions instead of
+            default names
+
+    Returns:
+        DataFrame of shape (n_instances, n_features):
+            The contribution of each feature
+    """
+    lfc = LocalFeatureContribution(model_pickle_filepath, x_train,
+                                   contribution_transformers=contribution_transformers,
+                                   e_algorithm=e_algorithm,
+                                   feature_descriptions=feature_descriptions,
+                                   e_transforms=e_transforms, m_transforms=m_transforms,
+                                   i_transforms=i_transforms,
+                                   interpretable_features=interpretable_features,
+                                   fit_on_init=True)
+    return lfc.produce(x_input)
+
+
+def fit_local_feature_contributions(model_pickle_filepath, x_train,
+                                    save_filepath=None, contribution_transformers=None,
+                                    e_algorithm=None, feature_descriptions=None,
+                                    e_transforms=None, m_transforms=None,
+                                    i_transforms=None, interpretable_features=True):
+    """
+    Fit a local feature contributions object that can later be used to get explanations
+
+    Args:
+        model_pickle_filepath (filepath string):
+           Filepath to the pickled model to explain
+        x_train (dataframe of shape (n_instances, x_orig_feature_count)):
+           The training set for the explainer
+        save_filepath (string):
+            Location to save the pickled object return. If none, do not sav
+        contribution_transformers (contribution transformer object(s)):
+           Object or list of objects that include .transform_contributions(contributions)
+           functions, used to adjust the contributions back to interpretable form.
+        e_algorithm (string, one of ["shap"]):
+           Explanation algorithm to use. If none, one will be chosen automatically based on model
+           type
+        feature_descriptions (dict):
+           Interpretable descriptions of each feature
+        e_transforms (transformer object or list of transformer objects):
+           Transformer(s) that need to be used on x_orig for the explanation algorithm:
+           x_orig -> x_explain
+        m_transforms (transformer object or list of transformer objects):
+           Transformer(s) needed on x_orig to make predictions on the dataset with model, if different
+           than ex_transforms
+           x_orig -> x_model
+        i_transforms (transformer object or list of transformer objects):
+           Transformer(s) needed to make x_orig interpretable
+           x_orig -> x_interpret
+        interpretable_features (Boolean):
+            If True, return explanations using the interpretable feature descriptions instead of
+            default names
+
+    Returns:
+        LocalFeatureContribution object
+            Fitted local feature contribution object
+    """
+    # TODO: should we return the full object, or just the explainer?
+    lfc = LocalFeatureContribution(model_pickle_filepath, x_train,
+                                   contribution_transformers=contribution_transformers,
+                                   e_algorithm=e_algorithm,
+                                   feature_descriptions=feature_descriptions,
+                                   e_transforms=e_transforms, m_transforms=m_transforms,
+                                   i_transforms=i_transforms,
+                                   interpretable_features=interpretable_features,
+                                   fit_on_init=True)
+    if save_filepath is not None:
+        with open(save_filepath, "wb") as f:
+            pickle.dump(lfc, f)
+    return lfc
+
+
+def produce_feature_contributions(x_orig, local_feature_contribution):
+    """
+    Get a local feature contribution from a fitted explainer
+
+    Args:
+        x_orig (DataFrame of shape (n_instances, n_features):
+            Input to explain
+        local_feature_contribution (LocalFeatureContribution object):
+            Fitted explainer object
+
+    Returns:
+        DataFrame of shape (n_instances, n_features):
+            The contribution of each feature
+    """
+    return local_feature_contribution.produce(x_orig)
+

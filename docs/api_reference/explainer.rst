@@ -23,11 +23,20 @@ Local Feature Contribution Explainer
 .. autosummary::
     :toctree: api/
 
+    LocalFeatureContributionsBase
+    LocalFeatureContributionsBase.fit
+    LocalFeatureContributionsBase.produce
+    LocalFeatureContributionsBase.transform_contributions
     LocalFeatureContribution
     LocalFeatureContribution.fit
     LocalFeatureContribution.produce
-    LocalFeatureContribution.transform_contributions
     ShapFeatureContribution
-    LocalFeatureContribution.fit
-    LocalFeatureContribution.produce
-    LocalFeatureContribution.transform_contributions
+    ShapFeatureContribution.fit
+    ShapFeatureContribution.produce
+    ShapFeatureContribution.get_contributions
+    ShapFeatureContribution.transform_contributions
+    fit_and_produce_local_feature_contributions
+    fit_local_feature_contributions
+    produce_feature_contributions
+
+

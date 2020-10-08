@@ -86,7 +86,7 @@ setup(
     long_description_content_type='text/markdown',
     include_package_data=True,
     keywords='sibyl Sibyl',
-    name='sibyl',
+    name='real',
     packages=find_packages(include=['sibyl', 'sibyl.*']),
     python_requires='>=3.4',
     setup_requires=setup_requires,

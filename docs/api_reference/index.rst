@@ -4,7 +4,7 @@ API Reference
 =============
 
 In this section you will find a detailed specification of all the public functions
-and classes in REAL.
+and classes in Sibyl
 
 .. toctree::
    :maxdepth: 2
