@@ -1,5 +1,5 @@
 from shap import Explainer as ShapExplainer, LinearExplainer, KernelExplainer
-from sibyl.explainers.base import Explainer
+from real.explainers.base import Explainer
 import numpy as np
 import pandas as pd
 from abc import ABC, abstractmethod

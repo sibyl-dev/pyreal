@@ -5,7 +5,7 @@ import pandas as pd
 
 import unittest
 
-from sibyl.explainers import counterfactual_explanation
+from real.explainers import counterfactual_explanation
 
 
 def predict_test(X):

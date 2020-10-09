@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from sibyl.utils import model_utils
+from real.utils import model_utils
 import pandas as pd
 
 

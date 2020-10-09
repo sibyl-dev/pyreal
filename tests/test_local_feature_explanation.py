@@ -4,13 +4,13 @@ import pandas as pd
 import os
 import pickle
 from shap import LinearExplainer
-from sibyl.utils.transformer import OneHotEncoderWrapper
+from real.utils.transformer import OneHotEncoderWrapper
 
 """Tests for `sibyl` package."""
 
 import unittest
 
-from sibyl.explainers import local_feature_explanation as lfe
+from real.explainers import local_feature_explanation as lfe
 
 
 def identity(x):
