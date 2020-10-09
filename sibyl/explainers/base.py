@@ -22,8 +22,8 @@ class Explainer(ABC):
     Generic Explainer object
 
     Args:
-        model_pickle_filepath (string filepath):
-           Filepath to the pickled model to explain
+        model (string filepath or model object):
+           Filepath to the pickled model to explain, or model object with .predict() function
         X_orig (dataframe of shape (n_instances, x_orig_feature_count)):
            The training set for the explainer
         y_orig (dataframe of shape (n_instances,-)):
@@ -44,12 +44,16 @@ class Explainer(ABC):
            If True, fit the explainer on initiation.
            If False, self.fit() must be manually called before produce() is called
     """
-    def __init__(self, model_pickle_filepath,
+    def __init__(self, model,
                  X_orig, y_orig=None,
                  feature_descriptions=None,
                  e_transforms=None, m_transforms=None, i_transforms=None,
                  fit_on_init=False):
-        self.model = model_utils.load_model_from_pickle(model_pickle_filepath)
+        if isinstance(model, str):
+            self.model = model_utils.load_model_from_pickle(model)
+        else:
+            # TODO: confirm model is valid
+            self.model = model
 
         self.X_orig = X_orig
         self.y_orig = y_orig
