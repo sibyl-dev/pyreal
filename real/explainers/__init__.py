@@ -1,7 +1,9 @@
 from real.explainers.base import Explainer
-from real.explainers.local_feature_explanation import \
-    LocalFeatureContribution, ShapFeatureContribution
-from real.explainers.local_feature_explanation import \
-    fit_and_produce_local_feature_contributions, \
-    fit_local_feature_contributions, \
-    produce_feature_contributions
+from real.explainers.lfc.base import LocalFeatureContributionsBase
+from real.explainers.lfc.shap_feature_contribution import ShapFeatureContribution
+from real.explainers.lfc.local_feature_contribution import LocalFeatureContribution
+from real.explainers.lfc.local_feature_contribution import lfc
+
+__all__ = ['Explainer',
+           'LocalFeatureContributionsBase', 'ShapFeatureContribution', 'LocalFeatureContribution',
+           'lfc']

@@ -65,4 +65,3 @@ def load_model_from_weights(weights, model_type, includes_intercept=True):
         model.coef_ = np.array(weights)
         model.intercept_ = 0
     return model
-

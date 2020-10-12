@@ -1,16 +1,19 @@
-import numpy as np
-from sklearn.linear_model import LinearRegression
-import pandas as pd
 import os
 import pickle
+
+import numpy as np
+import pandas as pd
 from shap import LinearExplainer
+from sklearn.linear_model import LinearRegression
+
 from real.utils.transformer import OneHotEncoderWrapper
 
 """Tests for `sibyl` package."""
 
 import unittest
 
-from real.explainers import local_feature_explanation as lfe
+from real.explainers import LocalFeatureContribution
+from real.explainers import ShapFeatureContribution
 
 
 def identity(x):
@@ -53,22 +56,22 @@ class TestFeatureExplanation(unittest.TestCase):
         os.remove(self.model_one_hot_filename)
 
     def test_fit_shap_no_transforms(self):
-        lfc = lfe.LocalFeatureContribution(model_pickle_filepath=self.model_no_transforms_filename,
-                                           x_orig=self.X_train, e_algorithm='shap')
-        lfc.fit()
+        lfc_object = LocalFeatureContribution(
+            model=self.model_no_transforms_filename,
+            x_orig=self.X_train, e_algorithm='shap')
+        lfc_object.fit()
 
-        shap = lfe.ShapFeatureContribution(
+        shap = ShapFeatureContribution(
             model_pickle_filepath=self.model_no_transforms_filename, x_orig=self.X_train)
         shap.fit()
         self.assertIsNotNone(shap.explainer)
         self.assertIsInstance(shap.explainer, LinearExplainer)
 
     def test_produce_shap_no_transforms(self):
-
-        lfc = lfe.LocalFeatureContribution(model_pickle_filepath=self.model_no_transforms_filename,
-                                           x_orig=self.X_train, e_algorithm='shap',
-                                           fit_on_init=True)
-        shap = lfe.ShapFeatureContribution(
+        lfc = LocalFeatureContribution(model=self.model_no_transforms_filename,
+                                       x_orig=self.X_train, e_algorithm='shap',
+                                       fit_on_init=True)
+        shap = ShapFeatureContribution(
             model_pickle_filepath=self.model_no_transforms_filename, x_orig=self.X_train,
             fit_on_init=True)
 
@@ -94,15 +97,15 @@ class TestFeatureExplanation(unittest.TestCase):
 
     def test_produce_shap_one_hot(self):
         e_transforms = self.one_hot_encoder
-        lfc = lfe.LocalFeatureContribution(model_pickle_filepath=self.model_one_hot_filename,
-                                           x_orig=self.X_train, e_algorithm='shap',
-                                           fit_on_init=True, e_transforms=e_transforms,
-                                           contribution_transformers=e_transforms,
-                                           interpretable_features=False)
-        shap = lfe.ShapFeatureContribution(model_pickle_filepath=self.model_one_hot_filename,
-                                           x_orig=self.X_train, fit_on_init=True,
-                                           e_transforms=e_transforms,
-                                           contribution_transformers=e_transforms)
+        lfc = LocalFeatureContribution(model=self.model_one_hot_filename,
+                                       x_orig=self.X_train, e_algorithm='shap',
+                                       fit_on_init=True, e_transforms=e_transforms,
+                                       contribution_transformers=e_transforms,
+                                       interpretable_features=False)
+        shap = ShapFeatureContribution(model_pickle_filepath=self.model_one_hot_filename,
+                                       x_orig=self.X_train, fit_on_init=True,
+                                       e_transforms=e_transforms,
+                                       contribution_transformers=e_transforms)
         self.helper_produce_shap_one_hot(lfc)
         self.helper_produce_shap_one_hot(shap)
 
@@ -126,12 +129,12 @@ class TestFeatureExplanation(unittest.TestCase):
     def test_produce_with_renames(self):
         e_transforms = self.one_hot_encoder
         feature_descriptions = {"A": "Feature A", "B": "Feature B"}
-        lfc = lfe.LocalFeatureContribution(model_pickle_filepath=self.model_one_hot_filename,
-                                           x_orig=self.X_train, e_algorithm='shap',
-                                           fit_on_init=True, e_transforms=e_transforms,
-                                           contribution_transformers=e_transforms,
-                                           interpretable_features=True,
-                                           feature_descriptions=feature_descriptions)
+        lfc = LocalFeatureContribution(model=self.model_one_hot_filename,
+                                       x_orig=self.X_train, e_algorithm='shap',
+                                       fit_on_init=True, e_transforms=e_transforms,
+                                       contribution_transformers=e_transforms,
+                                       interpretable_features=True,
+                                       feature_descriptions=feature_descriptions)
         x_one_dim = pd.DataFrame([[2, 10, 10]], columns=["A", "B", "C"])
 
         contributions = lfc.produce(x_one_dim)

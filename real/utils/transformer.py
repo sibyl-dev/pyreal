@@ -90,7 +90,8 @@ class OneHotEncoderWrapper:
             contributions = contributions.reshape(1, -1)
         encoded_columns = self.ohe.get_feature_names(self.feature_list)
         for original_feature in self.feature_list:
-            encoded_features = [item for item in encoded_columns if item.startswith(original_feature + "_")]
+            encoded_features = [item for item in encoded_columns if
+                                item.startswith(original_feature + "_")]
             summed_contribution = contributions[encoded_features].sum(axis=1)
             contributions = contributions.drop(encoded_features, axis="columns")
             contributions[original_feature] = summed_contribution

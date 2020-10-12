@@ -73,5 +73,3 @@ class Mappings:
             categorical_to_one_hot = generate_from_df(dataframe)
             return Mappings(categorical_to_one_hot,
                             generate_one_hot_to_categorical(categorical_to_one_hot))
-
-

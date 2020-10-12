@@ -1,6 +1,9 @@
-from abc import ABC, abstractmethod
-from real.utils import model_utils
+from abc import ABC
+from abc import abstractmethod
+
 import pandas as pd
+
+from real.utils import model_utils
 
 
 def check_transforms(transforms):
@@ -34,8 +37,8 @@ class Explainer(ABC):
            Transformer(s) that need to be used on x_orig for the explanation algorithm:
            x_orig -> x_explain
         m_transforms (transformer object or list of transformer objects):
-           Transformer(s) needed on x_orig to make predictions on the dataset with model, if different
-           than ex_transforms
+           Transformer(s) needed on x_orig to make predictions on the dataset with model,
+           if different than e_transforms
            x_orig -> x_model
         i_transforms (transformer object or list of transformer objects):
            Transformer(s) needed to make x_orig interpretable
@@ -185,5 +188,3 @@ class Explainer(ABC):
             # TODO: log a warning
             return df
         return df.rename(self.feature_descriptions, axis="columns")
-
-
