@@ -76,7 +76,7 @@ def lfc(return_contributions=True, return_explainer=False, explainer=None,
 
     if explainer is None:
         explainer = LocalFeatureContribution(model, x_train,
-                                             contribution_transformers=contribution_transformers,
+                                             contribution_transforms=contribution_transformers,
                                              e_algorithm=e_algorithm,
                                              feature_descriptions=feature_descriptions,
                                              e_transforms=e_transforms, m_transforms=m_transforms,
@@ -102,19 +102,19 @@ class LocalFeatureContribution(LocalFeatureContributionsBase):
     Args:
         model (string filepath or model object):
            Filepath to the pickled model to explain, or model object with .predict() function
-        X_orig (dataframe of shape (n_instances, x_orig_feature_count)):
+        x_orig (dataframe of shape (n_instances, x_orig_feature_count)):
            The training set for the explainer
         e_algorithm (string, one of ["shap"]):
            Explanation algorithm to use. If none, one will be chosen automatically based on model
            type
-        contribution_transformers (contribution transformer object(s)):
+        contribution_transforms (contribution transformer object(s)):
            Object or list of objects that include .transform_contributions(contributions)
            functions, used to adjust the contributions back to interpretable form.
         **kwargs: see base Explainer args
     """
 
     def __init__(self, model, x_orig,
-                 contribution_transformers=None, e_algorithm=None, **kwargs):
+                 contribution_transforms=None, e_algorithm=None, **kwargs):
         if e_algorithm is None:
             e_algorithm = choose_algorithm()
 
@@ -122,12 +122,12 @@ class LocalFeatureContribution(LocalFeatureContributionsBase):
         if e_algorithm == "shap":
             self.base_local_feature_contribution = ShapFeatureContribution(
                 model, x_orig,
-                contribution_transformers=contribution_transformers, **kwargs)
+                contribution_transformers=contribution_transforms, **kwargs)
         if self.base_local_feature_contribution is None:
             raise ValueError("Invalid algorithm type %s" % e_algorithm)
 
         super(LocalFeatureContribution, self).__init__(model, x_orig,
-                                                       contribution_transformers, **kwargs)
+                                                       contribution_transforms, **kwargs)
 
     def fit(self):
         """

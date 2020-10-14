@@ -5,7 +5,7 @@ from real.explainers import Explainer
 
 
 class LocalFeatureContributionsBase(Explainer, ABC):
-    """
+    """/
     Base class for LocalFeatureContributionsBase explainer objects
 
     A LocalFeatureContributionsBase object explains a machine learning prediction by assigning an
@@ -60,7 +60,7 @@ class LocalFeatureContributionsBase(Explainer, ABC):
                 Contribution of each feature for each instance
         """
         if x_orig.ndim == 1:
-            x_orig = x_orig.to_frame().reshape(1, -1)
+            x_orig = x_orig.to_frame().T
         if x_orig.shape[1] != self.expected_feature_number:
             raise ValueError("Received input of wrong size."
                              "Expected ({},), received {}"

@@ -4,9 +4,10 @@ from abc import abstractmethod
 import pandas as pd
 
 from real.utils import model_utils
+from real.utils.transformer import run_transformers
 
 
-def check_transforms(transforms):
+def _check_transforms(transforms):
     if transforms is None:
         return None
     if not isinstance(transforms, list):
@@ -27,7 +28,7 @@ class Explainer(ABC):
     Args:
         model (string filepath or model object):
            Filepath to the pickled model to explain, or model object with .predict() function
-        X_orig (dataframe of shape (n_instances, x_orig_feature_count)):
+        x_orig (dataframe of shape (n_instances, x_orig_feature_count)):
            The training set for the explainer
         y_orig (dataframe of shape (n_instances,-)):
            The y values for the dataset
@@ -48,7 +49,7 @@ class Explainer(ABC):
            If False, self.fit() must be manually called before produce() is called
     """
     def __init__(self, model,
-                 X_orig, y_orig=None,
+                 x_orig, y_orig=None,
                  feature_descriptions=None,
                  e_transforms=None, m_transforms=None, i_transforms=None,
                  fit_on_init=False):
@@ -58,20 +59,20 @@ class Explainer(ABC):
             # TODO: confirm model is valid
             self.model = model
 
-        self.X_orig = X_orig
+        self.X_orig = x_orig
         self.y_orig = y_orig
 
-        if not isinstance(X_orig, pd.DataFrame) or \
+        if not isinstance(x_orig, pd.DataFrame) or \
                 (y_orig is not None and not isinstance(y_orig, pd.DataFrame)):
             raise TypeError("X_orig and y_orig must be of type DataFrame")
 
-        self.expected_feature_number = X_orig.shape[1]
+        self.expected_feature_number = x_orig.shape[1]
 
-        self.x_orig_feature_count = X_orig.shape[1]
+        self.x_orig_feature_count = x_orig.shape[1]
 
-        self.e_transforms = check_transforms(e_transforms)
-        self.m_transforms = check_transforms(m_transforms)
-        self.i_transforms = check_transforms(i_transforms)
+        self.e_transforms = _check_transforms(e_transforms)
+        self.m_transforms = _check_transforms(m_transforms)
+        self.i_transforms = _check_transforms(i_transforms)
 
         self.feature_descriptions = feature_descriptions
 
@@ -113,10 +114,7 @@ class Explainer(ABC):
         """
         if self.e_transforms is None:
             return x_orig
-        x_explain = x_orig.copy()
-        for transform in self.e_transforms:
-            x_explain = transform.transform(x_explain)
-        return x_explain
+        return run_transformers(self.e_transforms, x_orig)
 
     def transform_to_x_model(self, x_orig):
         """
@@ -132,10 +130,7 @@ class Explainer(ABC):
         """
         if self.m_transforms is None:
             return x_orig
-        x_model = x_orig.copy()
-        for transform in self.m_transforms:
-            x_model = transform.transform(x_model)
-        return x_model
+        return run_transformers(self.m_transforms, x_orig)
 
     def transform_to_x_interpret(self, x_orig):
         """
@@ -150,10 +145,7 @@ class Explainer(ABC):
         """
         if self.i_transforms is None:
             return x_orig
-        x_interpret = x_orig.copy()
-        for transform in self.i_transforms:
-            x_interpret = transform.transform(x_interpret)
-        return x_interpret
+        return run_transformers(self.i_transforms, x_orig)
 
     def model_predict(self, x_orig):
         """

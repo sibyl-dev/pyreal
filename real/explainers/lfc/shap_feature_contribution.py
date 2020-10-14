@@ -18,7 +18,7 @@ class ShapFeatureContribution(LocalFeatureContributionsBase):
             Filepath to the pickled model to explain
         x_orig (DataFrame of size (n_instances, n_features)):
             Training set in original form.
-        contribution_transformers (transformer or list of transformers):
+        contribution_transforms (transformer or list of transformers):
             Transformer that convert contributions from explanation form to interpretable form
         shap_type (string, one of ["kernel", "linear"]):
             Type of shap algorithm to use. If None, SHAP will pick one.

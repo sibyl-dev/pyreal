@@ -100,7 +100,7 @@ class TestFeatureExplanation(unittest.TestCase):
         lfc = LocalFeatureContribution(model=self.model_one_hot_filename,
                                        x_orig=self.X_train, e_algorithm='shap',
                                        fit_on_init=True, e_transforms=e_transforms,
-                                       contribution_transformers=e_transforms,
+                                       contribution_transforms=e_transforms,
                                        interpretable_features=False)
         shap = ShapFeatureContribution(model_pickle_filepath=self.model_one_hot_filename,
                                        x_orig=self.X_train, fit_on_init=True,
@@ -132,7 +132,7 @@ class TestFeatureExplanation(unittest.TestCase):
         lfc = LocalFeatureContribution(model=self.model_one_hot_filename,
                                        x_orig=self.X_train, e_algorithm='shap',
                                        fit_on_init=True, e_transforms=e_transforms,
-                                       contribution_transformers=e_transforms,
+                                       contribution_transforms=e_transforms,
                                        interpretable_features=True,
                                        feature_descriptions=feature_descriptions)
         x_one_dim = pd.DataFrame([[2, 10, 10]], columns=["A", "B", "C"])
