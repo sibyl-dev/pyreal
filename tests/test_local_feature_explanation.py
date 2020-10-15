@@ -15,6 +15,8 @@ import unittest
 from real.explainers import LocalFeatureContribution
 from real.explainers import ShapFeatureContribution
 
+TEST_ROOT = os.path.dirname(os.path.abspath(__file__))
+
 
 def identity(x):
     return x
@@ -33,7 +35,8 @@ class TestFeatureExplanation(unittest.TestCase):
         model_no_transforms = LinearRegression()
         model_no_transforms.fit(self.X_train, self.y_train)
         model_no_transforms.coef_ = np.array([1, 0, 0])
-        self.model_no_transforms_filename = os.path.join("data", "model_no_transforms.pkl")
+        self.model_no_transforms_filename = os.path.join(TEST_ROOT, "data",
+                                                         "model_no_transforms.pkl")
         with open(self.model_no_transforms_filename, "wb") as f:
             pickle.dump(model_no_transforms, f)
 
@@ -46,7 +49,7 @@ class TestFeatureExplanation(unittest.TestCase):
         model_one_hot = LinearRegression()
         model_one_hot.fit(self.X_transformed, self.y_transformed)
         model_one_hot.coef_ = np.array([0, 0, 1, 2, 3])
-        self.model_one_hot_filename = os.path.join("data", "model_one_hot.pkl")
+        self.model_one_hot_filename = os.path.join(TEST_ROOT, "data", "model_one_hot.pkl")
         with open(self.model_one_hot_filename, "wb") as f:
             pickle.dump(model_one_hot, f)
 

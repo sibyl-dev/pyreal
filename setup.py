@@ -18,6 +18,7 @@ install_requires = [
     "scikit-learn>=0.22",
     "shap>=0.36.0",
     "eli5>=0.10",
+    'matplotlib>=3.2.1'
 ]
 
 setup_requires = [
