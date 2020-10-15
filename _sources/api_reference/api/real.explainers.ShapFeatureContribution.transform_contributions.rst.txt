@@ -1,0 +1,6 @@
+﻿real.explainers.ShapFeatureContribution.transform\_contributions
+================================================================
+
+.. currentmodule:: real.explainers
+
+.. automethod:: ShapFeatureContribution.transform_contributions

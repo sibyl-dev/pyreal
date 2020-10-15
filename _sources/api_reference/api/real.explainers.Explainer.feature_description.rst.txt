@@ -1,0 +1,6 @@
+﻿real.explainers.Explainer.feature\_description
+==============================================
+
+.. currentmodule:: real.explainers
+
+.. automethod:: Explainer.feature_description

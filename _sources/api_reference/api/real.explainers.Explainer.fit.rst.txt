@@ -1,0 +1,6 @@
+﻿real.explainers.Explainer.fit
+=============================
+
+.. currentmodule:: real.explainers
+
+.. automethod:: Explainer.fit

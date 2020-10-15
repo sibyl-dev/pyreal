@@ -1,0 +1,6 @@
+﻿real.explainers.Explainer.transform\_to\_x\_model
+=================================================
+
+.. currentmodule:: real.explainers
+
+.. automethod:: Explainer.transform_to_x_model

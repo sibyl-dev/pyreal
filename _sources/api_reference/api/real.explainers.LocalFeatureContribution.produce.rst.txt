@@ -1,0 +1,6 @@
+﻿real.explainers.LocalFeatureContribution.produce
+================================================
+
+.. currentmodule:: real.explainers
+
+.. automethod:: LocalFeatureContribution.produce

@@ -2,7 +2,7 @@
 
 Explainer
 ================
-.. currentmodule:: sibyl.explainers
+.. currentmodule:: real.explainers
 
 Base Explainer
 ~~~~~~~~~~~~~~~
