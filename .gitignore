@@ -117,3 +117,5 @@ apidoc/
 utils/scratch.py
 
 examples/
+
+docs/api_reference/api/
