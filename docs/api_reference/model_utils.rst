@@ -2,12 +2,12 @@
 
 Model Utils
 ================
-.. currentmodule:: sibyl.utils.model_utils
+.. currentmodule:: real.utils.model_utils
 
 Loading Models
 ~~~~~~~~~~~~~~~
 .. autosummary::
     :toctree: api/
 
-    sibyl.utils.model_utils.load_model_from_pickle
-    sibyl.utils.model_utils.load_model_from_weights
+    real.utils.model_utils.load_model_from_pickle
+    real.utils.model_utils.load_model_from_weights
