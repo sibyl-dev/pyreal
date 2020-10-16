@@ -19,7 +19,9 @@ Library for evaluating and deploying machine learning explanations.
 
 # Overview
 
-TODO: Provide a short overview of the project here.
+**Sibyl** wraps the complete machine learning explainability pipeline into Explainer objects. Explainer objects
+handle all the transforming logic, in order to provide a human-interpretable explanation from any original
+data form.
 
 # Install
 
@@ -71,13 +73,13 @@ git checkout stable
 make install
 ```
 
-## Install for Development
+<!--## Install for Development
 
 If you want to contribute to the project, a few more steps are required to make the project ready
 for development.
 
 Please head to the [Contributing Guide](https://DAI-Lab.github.io/sibyl/contributing.html#get-started)
-for more details about this process.
+for more details about this process.-->
 
 # Quickstart
 
