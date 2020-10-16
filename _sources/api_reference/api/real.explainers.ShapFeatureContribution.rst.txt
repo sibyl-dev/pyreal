@@ -15,6 +15,7 @@
    
       ~ShapFeatureContribution.__init__
       ~ShapFeatureContribution.convert_columns_to_interpretable
+      ~ShapFeatureContribution.convert_data_to_interpretable
       ~ShapFeatureContribution.feature_description
       ~ShapFeatureContribution.fit
       ~ShapFeatureContribution.get_contributions

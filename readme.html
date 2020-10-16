@@ -243,8 +243,50 @@ for more details about this process.</p>
 <div class="section" id="quickstart">
 <h2>Quickstart<a class="headerlink" href="#quickstart" title="Permalink to this headline">¶</a></h2>
 <p>In this short tutorial we will guide you through a series of steps that will help you
-getting started with <strong>Sibyl</strong>.</p>
-<p>TODO: Create a step by step guide here.</p>
+getting started with <strong>Sibyl</strong>. For a more detailed version of this tutorial, see
+<code class="docutils literal notranslate"><span class="pre">examples.titanic.titanic_tutorial.ipynb</span></code></p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">real.explainers</span> <span class="kn">import</span> <span class="n">LocalFeatureContribution</span>
+<span class="kn">import</span> <span class="nn">real.applications.titanic</span> <span class="k">as</span> <span class="nn">titanic</span>
+<span class="kn">from</span> <span class="nn">real.utils.transformer</span> <span class="kn">import</span> <span class="n">ColumnDropTransformer</span><span class="p">,</span> <span class="n">MultiTypeImputer</span>
+<span class="kn">from</span> <span class="nn">real.utils</span> <span class="kn">import</span> <span class="n">visualize</span>
+
+<span class="c1"># First, we will load in the Titanic dataset</span>
+<span class="n">x_orig</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">real</span><span class="o">.</span><span class="n">applications</span><span class="o">.</span><span class="n">titanic</span><span class="o">.</span><span class="n">load_titanic_data</span><span class="p">()</span>
+
+<span class="c1"># Next, we load in a dictionary that provides human-readable descriptions of the feature names</span>
+<span class="c1">#   Format: {feature_name : feature_description, ...}</span>
+<span class="n">feature_descriptions</span> <span class="o">=</span> <span class="n">real</span><span class="o">.</span><span class="n">applications</span><span class="o">.</span><span class="n">titanic</span><span class="o">.</span><span class="n">load_feature_descriptions</span><span class="p">()</span>
+
+<span class="c1"># Finally, we load in the trained model and corresponding fitted transformers</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">real</span><span class="o">.</span><span class="n">applications</span><span class="o">.</span><span class="n">titanic</span><span class="o">.</span><span class="n">load_titanic_model</span><span class="p">()</span>
+<span class="n">transformers</span> <span class="o">=</span> <span class="n">real</span><span class="o">.</span><span class="n">applications</span><span class="o">.</span><span class="n">titanic</span><span class="o">.</span><span class="n">load_titanic_transformers</span><span class="p">()</span>
+
+<span class="c1"># Now, we can make and fit a LocalFeatureContribution object, which will handle all the</span>
+<span class="c1">#   transformations needed to get an interpretable SHAP feature contribution explanation</span>
+<span class="n">lfc</span> <span class="o">=</span> <span class="n">LocalFeatureContribution</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span> <span class="n">x_orig</span><span class="o">=</span><span class="n">x_orig</span><span class="p">,</span> <span class="n">m_transforms</span><span class="o">=</span><span class="n">transformers</span><span class="p">,</span> <span class="n">e_transforms</span><span class="o">=</span><span class="n">transformers</span><span class="p">,</span>
+                               <span class="n">contribution_transforms</span><span class="o">=</span><span class="n">transformers</span><span class="p">,</span>
+                               <span class="n">feature_descriptions</span><span class="o">=</span><span class="n">feature_descriptions</span><span class="p">)</span>
+<span class="n">lfc</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+
+<span class="c1"># We can now choose an input, and see the model&#39;s prediction.</span>
+<span class="n">input_to_explain</span> <span class="o">=</span> <span class="n">x_orig</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Prediction:&quot;</span><span class="p">,</span> <span class="n">lfc</span><span class="o">.</span><span class="n">model_predict</span><span class="p">(</span><span class="n">input_to_explain</span><span class="p">))</span> <span class="c1"># Output -&gt; Prediction: [0]</span>
+
+<span class="c1"># We see that this person is not predicted to survive.</span>
+<span class="c1">#   Let&#39;s see why, by using LocalFeatureContribution&#39;s .produce() function</span>
+<span class="n">contributions</span> <span class="o">=</span> <span class="n">lfc</span><span class="o">.</span><span class="n">produce</span><span class="p">(</span><span class="n">input_to_explain</span><span class="p">)</span>
+
+<span class="c1"># We can visualize the most contributing features using the real.utils.visualize module.</span>
+<span class="c1">#   We will also convert our input to the interpretable space, so we can add it&#39;s values to</span>
+<span class="c1">#   the visualization</span>
+<span class="n">x_interpret</span> <span class="o">=</span> <span class="n">lfc</span><span class="o">.</span><span class="n">convert_data_to_interpretable</span><span class="p">(</span><span class="n">input_to_explain</span><span class="p">)</span>
+<span class="n">visualize</span><span class="o">.</span><span class="n">plot_top_contributors</span><span class="p">(</span><span class="n">contributions</span><span class="p">,</span> <span class="n">select_by</span><span class="o">=</span><span class="s2">&quot;absolute&quot;</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="n">x_interpret</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The output will be a bar plot showing the most contributing features, by absolute value.</p>
+<a class="reference external image-reference" href="docs/images/quickstart.png"><img alt="Quickstart" src="docs/images/quickstart.png" /></a>
+<p>We can see here that the input passenger’s predicted chance of survival was greatly reduced
+because of their sex (male) and ticket class (3rd class).</p>
 </div>
 <div class="section" id="what-s-next">
 <h2>What’s next?<a class="headerlink" href="#what-s-next" title="Permalink to this headline">¶</a></h2>

@@ -214,7 +214,10 @@
                              <span class="s2">&quot;Expected (</span><span class="si">{}</span><span class="s2">,), received </span><span class="si">{}</span><span class="s2">&quot;</span>
                              <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">expected_feature_number</span><span class="p">,</span> <span class="n">x_orig</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span>
         <span class="n">contributions</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_contributions</span><span class="p">(</span><span class="n">x_orig</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform_contributions</span><span class="p">(</span><span class="n">contributions</span><span class="p">)</span></div>
+        <span class="n">contributions</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform_contributions</span><span class="p">(</span><span class="n">contributions</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">interpretable_features</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">convert_columns_to_interpretable</span><span class="p">(</span><span class="n">contributions</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">contributions</span></div>
 
     <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">get_contributions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_orig</span><span class="p">):</span>
@@ -243,9 +246,9 @@
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">contribution_transformers</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">contributions</span>
         <span class="k">for</span> <span class="n">transform</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">contribution_transformers</span><span class="p">:</span>
-            <span class="n">contributions</span> <span class="o">=</span> <span class="n">transform</span><span class="o">.</span><span class="n">transform_contributions</span><span class="p">(</span><span class="n">contributions</span><span class="p">)</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">interpretable_features</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">convert_columns_to_interpretable</span><span class="p">(</span><span class="n">contributions</span><span class="p">)</span>
+            <span class="n">transform_func</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">transform</span><span class="p">,</span> <span class="s2">&quot;transform_contributions&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">callable</span><span class="p">(</span><span class="n">transform_func</span><span class="p">):</span>
+                <span class="n">contributions</span> <span class="o">=</span> <span class="n">transform_func</span><span class="p">(</span><span class="n">contributions</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">contributions</span></div></div>
 </pre></div>
 

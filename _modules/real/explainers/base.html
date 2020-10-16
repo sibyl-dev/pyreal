@@ -273,7 +273,7 @@
 <span class="sd">                Original input</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">             DataFrame of shape (n_instances, x_explain_feature_count)</span>
+<span class="sd">             DataFrame of shape (n_instances, x_model_feature_count)</span>
 <span class="sd">                x_orig converted to model-ready form</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">m_transforms</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -288,7 +288,7 @@
 <span class="sd">                Original input</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">             DataFrame of shape (n_instances, x_explain_feature_count)</span>
+<span class="sd">             DataFrame of shape (n_instances, x_interpret_feature_count)</span>
 <span class="sd">                x_orig converted to interpretable form</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">i_transforms</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -307,6 +307,8 @@
 <span class="sd">            model output type</span>
 <span class="sd">                Model prediction</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">x_orig</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">x_orig</span> <span class="o">=</span> <span class="n">x_orig</span><span class="o">.</span><span class="n">to_frame</span><span class="p">()</span><span class="o">.</span><span class="n">T</span>
         <span class="n">x_model</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform_to_x_model</span><span class="p">(</span><span class="n">x_orig</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">x_model</span><span class="p">)</span></div>
 
@@ -327,7 +329,20 @@
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">feature_descriptions</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="c1"># TODO: log a warning</span>
             <span class="k">return</span> <span class="n">df</span>
-        <span class="k">return</span> <span class="n">df</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">feature_descriptions</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="s2">&quot;columns&quot;</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">df</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">feature_descriptions</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="s2">&quot;columns&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">convert_data_to_interpretable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_orig</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Convert data in its original form to an interpretable form, with interpretable features</span>
+<span class="sd">        Args:</span>
+<span class="sd">            x_orig (DataFrame of shape (n_instances, n_features)):</span>
+<span class="sd">                Input data to convert</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            DataFrame of shape (n_instances, x_interpret_feature_count)</span>
+<span class="sd">                Transformed, interpretable data</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">convert_columns_to_interpretable</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">transform_to_x_interpret</span><span class="p">(</span><span class="n">x_orig</span><span class="p">))</span></div>
 </pre></div>
 
               </div>

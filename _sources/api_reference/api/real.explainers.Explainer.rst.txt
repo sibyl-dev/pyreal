@@ -15,6 +15,7 @@
    
       ~Explainer.__init__
       ~Explainer.convert_columns_to_interpretable
+      ~Explainer.convert_data_to_interpretable
       ~Explainer.feature_description
       ~Explainer.fit
       ~Explainer.model_predict
