@@ -125,7 +125,7 @@ class Explainer(ABC):
                 Original input
 
         Returns:
-             DataFrame of shape (n_instances, x_explain_feature_count)
+             DataFrame of shape (n_instances, x_model_feature_count)
                 x_orig converted to model-ready form
         """
         if self.m_transforms is None:
@@ -140,7 +140,7 @@ class Explainer(ABC):
                 Original input
 
         Returns:
-             DataFrame of shape (n_instances, x_explain_feature_count)
+             DataFrame of shape (n_instances, x_interpret_feature_count)
                 x_orig converted to interpretable form
         """
         if self.i_transforms is None:
@@ -159,6 +159,8 @@ class Explainer(ABC):
             model output type
                 Model prediction
         """
+        if x_orig.ndim == 1:
+            x_orig = x_orig.to_frame().T
         x_model = self.transform_to_x_model(x_orig)
         return self.model.predict(x_model)
 
@@ -180,3 +182,16 @@ class Explainer(ABC):
             # TODO: log a warning
             return df
         return df.rename(self.feature_descriptions, axis="columns")
+
+    def convert_data_to_interpretable(self, x_orig):
+        """
+        Convert data in its original form to an interpretable form, with interpretable features
+        Args:
+            x_orig (DataFrame of shape (n_instances, n_features)):
+                Input data to convert
+
+        Returns:
+            DataFrame of shape (n_instances, x_interpret_feature_count)
+                Transformed, interpretable data
+        """
+        return self.convert_columns_to_interpretable(self.transform_to_x_interpret(x_orig))

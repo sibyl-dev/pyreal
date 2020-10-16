@@ -82,9 +82,53 @@ for more details about this process.
 # Quickstart
 
 In this short tutorial we will guide you through a series of steps that will help you
-getting started with **Sibyl**.
+getting started with **Sibyl**. For a more detailed version of this tutorial, see 
+`examples.titanic.titanic_tutorial.ipynb`
 
-TODO: Create a step by step guide here.
+```python3
+from real.explainers import LocalFeatureContribution
+import real.applications.titanic as titanic
+from real.utils.transformer import ColumnDropTransformer, MultiTypeImputer
+from real.utils import visualize
+
+# First, we will load in the Titanic dataset
+x_orig, y = real.applications.titanic.load_titanic_data()
+
+# Next, we load in a dictionary that provides human-readable descriptions of the feature names
+#   Format: {feature_name : feature_description, ...}
+feature_descriptions = real.applications.titanic.load_feature_descriptions()
+
+# Finally, we load in the trained model and corresponding fitted transformers
+model = real.applications.titanic.load_titanic_model()
+transformers = real.applications.titanic.load_titanic_transformers()
+
+# Now, we can make and fit a LocalFeatureContribution object, which will handle all the 
+#   transformations needed to get an interpretable SHAP feature contribution explanation
+lfc = LocalFeatureContribution(model=model, x_orig=x_orig, m_transforms=transformers, e_transforms=transformers, 
+                               contribution_transforms=transformers, 
+                               feature_descriptions=feature_descriptions)
+lfc.fit()
+
+# We can now choose an input, and see the model's prediction.
+input_to_explain = x_orig.iloc[0]
+print("Prediction:", lfc.model_predict(input_to_explain)) # Output -> Prediction: [0]
+
+# We see that this person is not predicted to survive. 
+#   Let's see why, by using LocalFeatureContribution's .produce() function
+contributions = lfc.produce(input_to_explain)
+
+# We can visualize the most contributing features using the real.utils.visualize module. 
+#   We will also convert our input to the interpretable space, so we can add it's values to
+#   the visualization
+x_interpret = lfc.convert_data_to_interpretable(input_to_explain)
+visualize.plot_top_contributors(contributions, select_by="absolute", values=x_interpret)
+```
+The output will be a bar plot showing the most contributing features, by absolute value. 
+
+![Quickstart](docs/images/quickstart.png)
+
+We can see here that the input passenger's predicted chance of survival was greatly reduced
+because of their sex (male) and ticket class (3rd class).
 
 # What's next?
 

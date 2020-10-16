@@ -2,6 +2,7 @@ from abc import ABC, abstractmethod
 import numpy as np
 import pandas as pd
 from sklearn.preprocessing import OneHotEncoder
+from sklearn.impute import SimpleImputer
 
 
 def fit_transformers(transformers, x_orig):
@@ -104,7 +105,7 @@ class FeatureSelectTransformer(BaseTransformer):
         return data[self.feature_names]
 
 
-class OneHotEncoderWrapper:
+class OneHotEncoderWrapper(BaseTransformer):
     def __init__(self, feature_list=None):
         self.ohe = OneHotEncoder(sparse=False)
         self.feature_list = feature_list
@@ -139,7 +140,7 @@ class OneHotEncoderWrapper:
         return contributions
 
 
-class DataFrameWrapper:
+class DataFrameWrapper(BaseTransformer):
     """
     Allows use of standard sklearn transformers while maintaining DataFrame type.
     """
@@ -152,3 +153,45 @@ class DataFrameWrapper:
     def transform(self, x):
         transformed_np = self.base_transformer.transform(x)
         return pd.DataFrame(transformed_np, columns=x.columns, index=x.index)
+
+
+class ColumnDropTransformer(BaseTransformer):
+    """
+    Removes columns that should not be predictive
+    """
+
+    def __init__(self, columns_to_drop):
+        self.columns_to_drop = columns_to_drop
+
+    def transform(self, x):
+        return x.drop(self.columns_to_drop, axis="columns")
+
+    def transform_contributions(self, contributions):
+        for col in self.columns_to_drop:
+            contributions[col] = 0
+        return contributions
+
+
+class MultiTypeImputer(BaseTransformer):
+    """
+    Imputes, choosing a strategy based on column type.
+    """
+
+    def __init__(self):
+        self.numeric_cols = None
+        self.categorical_cols = None
+        self.numeric_imputer = SimpleImputer(missing_values=np.nan, strategy="mean")
+        self.categorical_imputer = SimpleImputer(missing_values=np.nan, strategy="most_frequent")
+
+    def fit(self, x):
+        self.numeric_cols = x.select_dtypes(include="number").columns
+        self.categorical_cols = x.select_dtypes(exclude="number").columns
+        self.numeric_imputer.fit(x[self.numeric_cols])
+        self.categorical_imputer.fit(x[self.categorical_cols])
+
+    def transform(self, x):
+        new_numeric_cols = self.numeric_imputer.transform(x[self.numeric_cols])
+        new_categorical_cols = self.categorical_imputer.transform(x[self.categorical_cols])
+        return pd.concat([pd.DataFrame(new_numeric_cols, columns=self.numeric_cols, index=x.index),
+                          pd.DataFrame(new_categorical_cols, columns=self.categorical_cols,
+                                       index=x.index)], axis=1)

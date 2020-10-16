@@ -66,7 +66,10 @@ class LocalFeatureContributionsBase(Explainer, ABC):
                              "Expected ({},), received {}"
                              .format(self.expected_feature_number, x_orig.shape))
         contributions = self.get_contributions(x_orig)
-        return self.transform_contributions(contributions)
+        contributions = self.transform_contributions(contributions)
+        if self.interpretable_features:
+            return self.convert_columns_to_interpretable(contributions)
+        return contributions
 
     @abstractmethod
     def get_contributions(self, x_orig):
@@ -95,7 +98,7 @@ class LocalFeatureContributionsBase(Explainer, ABC):
         if self.contribution_transformers is None:
             return contributions
         for transform in self.contribution_transformers:
-            contributions = transform.transform_contributions(contributions)
-        if self.interpretable_features:
-            return self.convert_columns_to_interpretable(contributions)
+            transform_func = getattr(transform, "transform_contributions", None)
+            if callable(transform_func):
+                contributions = transform_func(contributions)
         return contributions
