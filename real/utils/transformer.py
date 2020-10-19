@@ -1,8 +1,10 @@
-from abc import ABC, abstractmethod
+from abc import ABC
+from abc import abstractmethod
+
 import numpy as np
 import pandas as pd
-from sklearn.preprocessing import OneHotEncoder
 from sklearn.impute import SimpleImputer
+from sklearn.preprocessing import OneHotEncoder
 
 
 def fit_transformers(transformers, x_orig):

@@ -1,7 +1,7 @@
-import pandas as pd
-import pickle
 import os
+import pickle
 
+import pandas as pd
 
 DATA_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)),
                         "..", "..", "examples", "titanic", "data")

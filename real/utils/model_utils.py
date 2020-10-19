@@ -2,9 +2,11 @@
 Provides helper functions for more flexibility with Model inputs
 """
 
-from sklearn.linear_model import LinearRegression, LogisticRegression
-import numpy as np
 import pickle
+
+import numpy as np
+from sklearn.linear_model import LinearRegression
+from sklearn.linear_model import LogisticRegression
 
 
 def load_model_from_pickle(filepath):
