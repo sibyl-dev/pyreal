@@ -1,10 +1,10 @@
 .. _sibyl.visualize
 
-Model Utils
+Visualization
 ================
 .. currentmodule:: real.utils.visualize
 
-Loading Models
+Feature Contribution Visualizations
 ~~~~~~~~~~~~~~~
 .. autosummary::
     :toctree: api/
