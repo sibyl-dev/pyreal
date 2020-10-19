@@ -153,12 +153,12 @@
 
 
 <div class="viewcode-block" id="LocalFeatureContributionsBase"><a class="viewcode-back" href="../../../../api_reference/api/real.explainers.LocalFeatureContributionsBase.html#real.explainers.LocalFeatureContributionsBase">[docs]</a><span class="k">class</span> <span class="nc">LocalFeatureContributionsBase</span><span class="p">(</span><span class="n">Explainer</span><span class="p">,</span> <span class="n">ABC</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;/</span>
-<span class="sd">    Base class for LocalFeatureContributionsBase explainer objects</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Base class for LocalFeatureContributionsBase explainer objects. Abstract class</span>
 
 <span class="sd">    A LocalFeatureContributionsBase object explains a machine learning prediction by assigning an</span>
-<span class="sd">    importance or contribution score to every feature. LocalFeatureContribution objects explain by</span>
-<span class="sd">    taking an instance and returning one number per feature, per instance.</span>
+<span class="sd">    importance or contribution score to every feature. LocalFeatureContributionBase objects explain</span>
+<span class="sd">    by taking an instance and returning one number per feature, per instance.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        model (string filepath or model object):</span>
@@ -219,7 +219,7 @@
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">convert_columns_to_interpretable</span><span class="p">(</span><span class="n">contributions</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">contributions</span></div>
 
-    <span class="nd">@abstractmethod</span>
+<div class="viewcode-block" id="LocalFeatureContributionsBase.get_contributions"><a class="viewcode-back" href="../../../../api_reference/api/real.explainers.LocalFeatureContributionsBase.get_contributions.html#real.explainers.LocalFeatureContributionsBase.get_contributions">[docs]</a>    <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">get_contributions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_orig</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Gets the raw contributions. Abstract method.</span>
@@ -231,7 +231,7 @@
 <span class="sd">            DataFrame of shape (n_instances, n_features)</span>
 <span class="sd">                Contribution of each feature for each instance</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">pass</span>
+        <span class="k">pass</span></div>
 
 <div class="viewcode-block" id="LocalFeatureContributionsBase.transform_contributions"><a class="viewcode-back" href="../../../../api_reference/api/real.explainers.LocalFeatureContributionsBase.transform_contributions.html#real.explainers.LocalFeatureContributionsBase.transform_contributions">[docs]</a>    <span class="k">def</span> <span class="nf">transform_contributions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">contributions</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>

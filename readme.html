@@ -242,15 +242,15 @@ getting started with <strong>Sibyl</strong>. For a more detailed version of this
 <span class="kn">from</span> <span class="nn">real.utils</span> <span class="kn">import</span> <span class="n">visualize</span>
 
 <span class="c1"># First, we will load in the Titanic dataset</span>
-<span class="n">x_orig</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">real</span><span class="o">.</span><span class="n">applications</span><span class="o">.</span><span class="n">titanic</span><span class="o">.</span><span class="n">load_titanic_data</span><span class="p">()</span>
+<span class="n">x_orig</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">titanic</span><span class="o">.</span><span class="n">load_titanic_data</span><span class="p">()</span>
 
 <span class="c1"># Next, we load in a dictionary that provides human-readable descriptions of the feature names</span>
 <span class="c1">#   Format: {feature_name : feature_description, ...}</span>
-<span class="n">feature_descriptions</span> <span class="o">=</span> <span class="n">real</span><span class="o">.</span><span class="n">applications</span><span class="o">.</span><span class="n">titanic</span><span class="o">.</span><span class="n">load_feature_descriptions</span><span class="p">()</span>
+<span class="n">feature_descriptions</span> <span class="o">=</span> <span class="n">titanic</span><span class="o">.</span><span class="n">load_feature_descriptions</span><span class="p">()</span>
 
 <span class="c1"># Finally, we load in the trained model and corresponding fitted transformers</span>
 <span class="n">model</span> <span class="o">=</span> <span class="n">real</span><span class="o">.</span><span class="n">applications</span><span class="o">.</span><span class="n">titanic</span><span class="o">.</span><span class="n">load_titanic_model</span><span class="p">()</span>
-<span class="n">transformers</span> <span class="o">=</span> <span class="n">real</span><span class="o">.</span><span class="n">applications</span><span class="o">.</span><span class="n">titanic</span><span class="o">.</span><span class="n">load_titanic_transformers</span><span class="p">()</span>
+<span class="n">transformers</span> <span class="o">=</span> <span class="n">titanic</span><span class="o">.</span><span class="n">load_titanic_transformers</span><span class="p">()</span>
 
 <span class="c1"># Now, we can make and fit a LocalFeatureContribution object, which will handle all the</span>
 <span class="c1">#   transformations needed to get an interpretable SHAP feature contribution explanation</span>

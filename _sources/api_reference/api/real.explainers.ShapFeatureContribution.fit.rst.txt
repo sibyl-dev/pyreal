@@ -1,6 +1,0 @@
-﻿real.explainers.ShapFeatureContribution.fit
-===========================================
-
-.. currentmodule:: real.explainers
-
-.. automethod:: ShapFeatureContribution.fit

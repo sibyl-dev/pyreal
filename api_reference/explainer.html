@@ -158,6 +158,10 @@
                         </li>
                     
                         <li class="">
+                            <a href="api/real.explainers.Explainer.convert_data_to_interpretable.html">real.explainers.Explainer.convert_data_to_interpretable</a>
+                        </li>
+                    
+                        <li class="">
                             <a href="api/real.explainers.LocalFeatureContributionsBase.html">real.explainers.LocalFeatureContributionsBase</a>
                         </li>
                     
@@ -167,6 +171,10 @@
                     
                         <li class="">
                             <a href="api/real.explainers.LocalFeatureContributionsBase.produce.html">real.explainers.LocalFeatureContributionsBase.produce</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="api/real.explainers.LocalFeatureContributionsBase.get_contributions.html">real.explainers.LocalFeatureContributionsBase.get_contributions</a>
                         </li>
                     
                         <li class="">
@@ -185,26 +193,6 @@
                             <a href="api/real.explainers.LocalFeatureContribution.produce.html">real.explainers.LocalFeatureContribution.produce</a>
                         </li>
                     
-                        <li class="">
-                            <a href="api/real.explainers.ShapFeatureContribution.html">real.explainers.ShapFeatureContribution</a>
-                        </li>
-                    
-                        <li class="">
-                            <a href="api/real.explainers.ShapFeatureContribution.fit.html">real.explainers.ShapFeatureContribution.fit</a>
-                        </li>
-                    
-                        <li class="">
-                            <a href="api/real.explainers.ShapFeatureContribution.produce.html">real.explainers.ShapFeatureContribution.produce</a>
-                        </li>
-                    
-                        <li class="">
-                            <a href="api/real.explainers.ShapFeatureContribution.get_contributions.html">real.explainers.ShapFeatureContribution.get_contributions</a>
-                        </li>
-                    
-                        <li class="">
-                            <a href="api/real.explainers.ShapFeatureContribution.transform_contributions.html">real.explainers.ShapFeatureContribution.transform_contributions</a>
-                        </li>
-                    
                     </ul>
                 </li>
             
@@ -212,6 +200,12 @@
             
                 <li class="">
                     <a href="model_utils.html">Model Utils</a>
+                </li>
+            
+          
+            
+                <li class="">
+                    <a href="visualize.html">Model Utils</a>
                 </li>
             
           
@@ -240,7 +234,15 @@
         </li>
     
         <li class="nav-item toc-entry toc-h2">
+            <a href="#local-feature-contribution-base" class="nav-link">Local Feature Contribution Base</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
             <a href="#local-feature-contribution-explainer" class="nav-link">Local Feature Contribution Explainer</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#shap-feature-contribution-explainer" class="nav-link">SHAP Feature Contribution Explainer</a>
         </li>
     
     </ul>
@@ -290,6 +292,35 @@
 <tr class="row-even"><td><p><a class="reference internal" href="api/real.explainers.Explainer.feature_description.html#real.explainers.Explainer.feature_description" title="real.explainers.Explainer.feature_description"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Explainer.feature_description</span></code></a>(feature_name)</p></td>
 <td><p>Returns the interpretable description associated with a feature</p></td>
 </tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/real.explainers.Explainer.convert_data_to_interpretable.html#real.explainers.Explainer.convert_data_to_interpretable" title="real.explainers.Explainer.convert_data_to_interpretable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Explainer.convert_data_to_interpretable</span></code></a>(x_orig)</p></td>
+<td><p>Convert data in its original form to an interpretable form, with interpretable features :param x_orig: Input data to convert :type x_orig: DataFrame of shape (n_instances, n_features)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="local-feature-contribution-base">
+<h2>Local Feature Contribution Base<a class="headerlink" href="#local-feature-contribution-base" title="Permalink to this headline">¶</a></h2>
+<table class="longtable table autosummary">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/real.explainers.LocalFeatureContributionsBase.html#real.explainers.LocalFeatureContributionsBase" title="real.explainers.LocalFeatureContributionsBase"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LocalFeatureContributionsBase</span></code></a>(model, x_orig)</p></td>
+<td><p>Base class for LocalFeatureContributionsBase explainer objects.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/real.explainers.LocalFeatureContributionsBase.fit.html#real.explainers.LocalFeatureContributionsBase.fit" title="real.explainers.LocalFeatureContributionsBase.fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LocalFeatureContributionsBase.fit</span></code></a>()</p></td>
+<td><p>Fit this explainer object</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/real.explainers.LocalFeatureContributionsBase.produce.html#real.explainers.LocalFeatureContributionsBase.produce" title="real.explainers.LocalFeatureContributionsBase.produce"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LocalFeatureContributionsBase.produce</span></code></a>(x_orig)</p></td>
+<td><p>Produce the local feature contribution explanation</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/real.explainers.LocalFeatureContributionsBase.get_contributions.html#real.explainers.LocalFeatureContributionsBase.get_contributions" title="real.explainers.LocalFeatureContributionsBase.get_contributions"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LocalFeatureContributionsBase.get_contributions</span></code></a>(x_orig)</p></td>
+<td><p>Gets the raw contributions.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/real.explainers.LocalFeatureContributionsBase.transform_contributions.html#real.explainers.LocalFeatureContributionsBase.transform_contributions" title="real.explainers.LocalFeatureContributionsBase.transform_contributions"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LocalFeatureContributionsBase.transform_contributions</span></code></a>(…)</p></td>
+<td><p>Transform contributions to an interpretable form.</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -301,19 +332,6 @@
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/real.explainers.LocalFeatureContributionsBase.html#real.explainers.LocalFeatureContributionsBase" title="real.explainers.LocalFeatureContributionsBase"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LocalFeatureContributionsBase</span></code></a>(model, x_orig)</p></td>
-<td><p><p>/</p>
-</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/real.explainers.LocalFeatureContributionsBase.fit.html#real.explainers.LocalFeatureContributionsBase.fit" title="real.explainers.LocalFeatureContributionsBase.fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LocalFeatureContributionsBase.fit</span></code></a>()</p></td>
-<td><p>Fit this explainer object</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/real.explainers.LocalFeatureContributionsBase.produce.html#real.explainers.LocalFeatureContributionsBase.produce" title="real.explainers.LocalFeatureContributionsBase.produce"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LocalFeatureContributionsBase.produce</span></code></a>(x_orig)</p></td>
-<td><p>Produce the local feature contribution explanation</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/real.explainers.LocalFeatureContributionsBase.transform_contributions.html#real.explainers.LocalFeatureContributionsBase.transform_contributions" title="real.explainers.LocalFeatureContributionsBase.transform_contributions"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LocalFeatureContributionsBase.transform_contributions</span></code></a>(…)</p></td>
-<td><p>Transform contributions to an interpretable form.</p></td>
-</tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="api/real.explainers.LocalFeatureContribution.html#real.explainers.LocalFeatureContribution" title="real.explainers.LocalFeatureContribution"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LocalFeatureContribution</span></code></a>(model, x_orig[, …])</p></td>
 <td><p>Generic LocalFeatureContribution wrapper</p></td>
 </tr>
@@ -323,23 +341,18 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="api/real.explainers.LocalFeatureContribution.produce.html#real.explainers.LocalFeatureContribution.produce" title="real.explainers.LocalFeatureContribution.produce"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LocalFeatureContribution.produce</span></code></a>(x_orig)</p></td>
 <td><p>Produce the local feature contribution explanation</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/real.explainers.ShapFeatureContribution.html#real.explainers.ShapFeatureContribution" title="real.explainers.ShapFeatureContribution"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ShapFeatureContribution</span></code></a>(…[, shap_type])</p></td>
-<td><p>ShapFeatureContribution object.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/real.explainers.ShapFeatureContribution.fit.html#real.explainers.ShapFeatureContribution.fit" title="real.explainers.ShapFeatureContribution.fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ShapFeatureContribution.fit</span></code></a>()</p></td>
-<td><p>Fit the contribution explainer</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/real.explainers.ShapFeatureContribution.produce.html#real.explainers.ShapFeatureContribution.produce" title="real.explainers.ShapFeatureContribution.produce"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ShapFeatureContribution.produce</span></code></a>(x_orig)</p></td>
-<td><p>Produce the local feature contribution explanation</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/real.explainers.ShapFeatureContribution.get_contributions.html#real.explainers.ShapFeatureContribution.get_contributions" title="real.explainers.ShapFeatureContribution.get_contributions"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ShapFeatureContribution.get_contributions</span></code></a>(x_orig)</p></td>
-<td><p>Calculate the contributions of each feature in x using SHAP.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/real.explainers.ShapFeatureContribution.transform_contributions.html#real.explainers.ShapFeatureContribution.transform_contributions" title="real.explainers.ShapFeatureContribution.transform_contributions"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ShapFeatureContribution.transform_contributions</span></code></a>(…)</p></td>
-<td><p>Transform contributions to an interpretable form.</p></td>
-</tr>
 </tbody>
 </table>
+</div>
+<div class="section" id="shap-feature-contribution-explainer">
+<h2>SHAP Feature Contribution Explainer<a class="headerlink" href="#shap-feature-contribution-explainer" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p>ShapFeatureContribution
+ShapFeatureContribution.fit
+ShapFeatureContribution.produce
+ShapFeatureContribution.get_contributions
+ShapFeatureContribution.transform_contributions</p>
+</div></blockquote>
 </div>
 </div>
 

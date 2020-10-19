@@ -11,3 +11,4 @@ and classes in Sibyl
 
    explainer
    model_utils
+   visualize

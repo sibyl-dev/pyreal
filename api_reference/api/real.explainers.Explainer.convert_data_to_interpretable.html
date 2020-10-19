@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>real.explainers.ShapFeatureContribution.produce &#8212; Sibyl 0.1.0.dev0 documentation</title>
+    <title>real.explainers.Explainer.convert_data_to_interpretable &#8212; Sibyl 0.1.0.dev0 documentation</title>
     
   <link rel="stylesheet" href="../../_static/css/index.73d71520a4ca3b99cfee5594769eaaae.css">
 
@@ -39,8 +39,8 @@
     <link rel="shortcut icon" href="../../_static/dai-logo-white.ico"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="real.explainers.ShapFeatureContribution.get_contributions" href="real.explainers.ShapFeatureContribution.get_contributions.html" />
-    <link rel="prev" title="real.explainers.ShapFeatureContribution.fit" href="real.explainers.ShapFeatureContribution.fit.html" />
+    <link rel="next" title="real.explainers.LocalFeatureContributionsBase" href="real.explainers.LocalFeatureContributionsBase.html" />
+    <link rel="prev" title="real.explainers.Explainer.feature_description" href="real.explainers.Explainer.feature_description.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
   </head>
@@ -157,6 +157,10 @@
                             <a href="real.explainers.Explainer.feature_description.html">real.explainers.Explainer.feature_description</a>
                         </li>
                     
+                        <li class="active">
+                            <a href="">real.explainers.Explainer.convert_data_to_interpretable</a>
+                        </li>
+                    
                         <li class="">
                             <a href="real.explainers.LocalFeatureContributionsBase.html">real.explainers.LocalFeatureContributionsBase</a>
                         </li>
@@ -167,6 +171,10 @@
                     
                         <li class="">
                             <a href="real.explainers.LocalFeatureContributionsBase.produce.html">real.explainers.LocalFeatureContributionsBase.produce</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="real.explainers.LocalFeatureContributionsBase.get_contributions.html">real.explainers.LocalFeatureContributionsBase.get_contributions</a>
                         </li>
                     
                         <li class="">
@@ -185,26 +193,6 @@
                             <a href="real.explainers.LocalFeatureContribution.produce.html">real.explainers.LocalFeatureContribution.produce</a>
                         </li>
                     
-                        <li class="">
-                            <a href="real.explainers.ShapFeatureContribution.html">real.explainers.ShapFeatureContribution</a>
-                        </li>
-                    
-                        <li class="">
-                            <a href="real.explainers.ShapFeatureContribution.fit.html">real.explainers.ShapFeatureContribution.fit</a>
-                        </li>
-                    
-                        <li class="active">
-                            <a href="">real.explainers.ShapFeatureContribution.produce</a>
-                        </li>
-                    
-                        <li class="">
-                            <a href="real.explainers.ShapFeatureContribution.get_contributions.html">real.explainers.ShapFeatureContribution.get_contributions</a>
-                        </li>
-                    
-                        <li class="">
-                            <a href="real.explainers.ShapFeatureContribution.transform_contributions.html">real.explainers.ShapFeatureContribution.transform_contributions</a>
-                        </li>
-                    
                     </ul>
                 </li>
             
@@ -212,6 +200,12 @@
             
                 <li class="">
                     <a href="../model_utils.html">Model Utils</a>
+                </li>
+            
+          
+            
+                <li class="">
+                    <a href="../visualize.html">Model Utils</a>
                 </li>
             
           
@@ -245,19 +239,18 @@
               
               <div>
                 
-  <div class="section" id="real-explainers-shapfeaturecontribution-produce">
-<h1>real.explainers.ShapFeatureContribution.produce<a class="headerlink" href="#real-explainers-shapfeaturecontribution-produce" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="real-explainers-explainer-convert-data-to-interpretable">
+<h1>real.explainers.Explainer.convert_data_to_interpretable<a class="headerlink" href="#real-explainers-explainer-convert-data-to-interpretable" title="Permalink to this headline">¶</a></h1>
 <dl class="py method">
-<dt id="real.explainers.ShapFeatureContribution.produce">
-<code class="sig-prename descclassname">ShapFeatureContribution.</code><code class="sig-name descname">produce</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x_orig</span></em><span class="sig-paren">)</span><a class="headerlink" href="#real.explainers.ShapFeatureContribution.produce" title="Permalink to this definition">¶</a></dt>
-<dd><p>Produce the local feature contribution explanation</p>
+<dt id="real.explainers.Explainer.convert_data_to_interpretable">
+<code class="sig-prename descclassname">Explainer.</code><code class="sig-name descname">convert_data_to_interpretable</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x_orig</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/real/explainers/base.html#Explainer.convert_data_to_interpretable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#real.explainers.Explainer.convert_data_to_interpretable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert data in its original form to an interpretable form, with interpretable features
+:param x_orig: Input data to convert
+:type x_orig: DataFrame of shape (n_instances, n_features)</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>x_orig</strong> (<em>DataFrame of shape</em><em> (</em><em>n_instances</em><em>, </em><em>n_features</em>) – Input to explain</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><dl class="simple">
-<dt>DataFrame of shape (n_instances, n_features)</dt><dd><p>Contribution of each feature for each instance</p>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><dl class="simple">
+<dt>DataFrame of shape (n_instances, x_interpret_feature_count)</dt><dd><p>Transformed, interpretable data</p>
 </dd>
 </dl>
 </p>
@@ -273,8 +266,8 @@
               
               <div class='prev-next-bottom'>
                 
-    <a class='left-prev' id="prev-link" href="real.explainers.ShapFeatureContribution.fit.html" title="previous page">real.explainers.ShapFeatureContribution.fit</a>
-    <a class='right-next' id="next-link" href="real.explainers.ShapFeatureContribution.get_contributions.html" title="next page">real.explainers.ShapFeatureContribution.get_contributions</a>
+    <a class='left-prev' id="prev-link" href="real.explainers.Explainer.feature_description.html" title="previous page">real.explainers.Explainer.feature_description</a>
+    <a class='right-next' id="next-link" href="real.explainers.LocalFeatureContributionsBase.html" title="next page">real.explainers.LocalFeatureContributionsBase</a>
 
               </div>
               

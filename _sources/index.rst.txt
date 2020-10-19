@@ -11,13 +11,15 @@ Sibyl - Applied Explainability
 -  License:
 -  Development Status:
 
--  Documentation:
+-  Documentation: https://dai-lab.github.io/sibyl/
 -  Homepage: https://github.com/DAI-Lab/sibyl
 
 Overview
 --------
 
-insert overview
+**Sibyl** wraps the complete machine learning explainability pipeline into Explainer objects. Explainer objects
+handle all the transforming logic, in order to provide a human-interpretable explanation from any original
+data form.
 
 Current functionality and features:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

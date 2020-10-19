@@ -1,6 +1,0 @@
-﻿real.explainers.ShapFeatureContribution.get\_contributions
-==========================================================
-
-.. currentmodule:: real.explainers
-
-.. automethod:: ShapFeatureContribution.get_contributions

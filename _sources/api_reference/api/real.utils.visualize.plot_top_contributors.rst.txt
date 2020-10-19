@@ -1,0 +1,6 @@
+﻿real.utils.visualize.plot\_top\_contributors
+============================================
+
+.. currentmodule:: real.utils.visualize
+
+.. autofunction:: plot_top_contributors

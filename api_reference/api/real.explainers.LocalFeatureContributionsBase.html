@@ -40,7 +40,7 @@
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="real.explainers.LocalFeatureContributionsBase.fit" href="real.explainers.LocalFeatureContributionsBase.fit.html" />
-    <link rel="prev" title="real.explainers.Explainer.feature_description" href="real.explainers.Explainer.feature_description.html" />
+    <link rel="prev" title="real.explainers.Explainer.convert_data_to_interpretable" href="real.explainers.Explainer.convert_data_to_interpretable.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
   </head>
@@ -157,6 +157,10 @@
                             <a href="real.explainers.Explainer.feature_description.html">real.explainers.Explainer.feature_description</a>
                         </li>
                     
+                        <li class="">
+                            <a href="real.explainers.Explainer.convert_data_to_interpretable.html">real.explainers.Explainer.convert_data_to_interpretable</a>
+                        </li>
+                    
                         <li class="active">
                             <a href="">real.explainers.LocalFeatureContributionsBase</a>
                         </li>
@@ -167,6 +171,10 @@
                     
                         <li class="">
                             <a href="real.explainers.LocalFeatureContributionsBase.produce.html">real.explainers.LocalFeatureContributionsBase.produce</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="real.explainers.LocalFeatureContributionsBase.get_contributions.html">real.explainers.LocalFeatureContributionsBase.get_contributions</a>
                         </li>
                     
                         <li class="">
@@ -185,26 +193,6 @@
                             <a href="real.explainers.LocalFeatureContribution.produce.html">real.explainers.LocalFeatureContribution.produce</a>
                         </li>
                     
-                        <li class="">
-                            <a href="real.explainers.ShapFeatureContribution.html">real.explainers.ShapFeatureContribution</a>
-                        </li>
-                    
-                        <li class="">
-                            <a href="real.explainers.ShapFeatureContribution.fit.html">real.explainers.ShapFeatureContribution.fit</a>
-                        </li>
-                    
-                        <li class="">
-                            <a href="real.explainers.ShapFeatureContribution.produce.html">real.explainers.ShapFeatureContribution.produce</a>
-                        </li>
-                    
-                        <li class="">
-                            <a href="real.explainers.ShapFeatureContribution.get_contributions.html">real.explainers.ShapFeatureContribution.get_contributions</a>
-                        </li>
-                    
-                        <li class="">
-                            <a href="real.explainers.ShapFeatureContribution.transform_contributions.html">real.explainers.ShapFeatureContribution.transform_contributions</a>
-                        </li>
-                    
                     </ul>
                 </li>
             
@@ -212,6 +200,12 @@
             
                 <li class="">
                     <a href="../model_utils.html">Model Utils</a>
+                </li>
+            
+          
+            
+                <li class="">
+                    <a href="../visualize.html">Model Utils</a>
                 </li>
             
           
@@ -250,11 +244,10 @@
 <dl class="py class">
 <dt id="real.explainers.LocalFeatureContributionsBase">
 <em class="property">class </em><code class="sig-prename descclassname">real.explainers.</code><code class="sig-name descname">LocalFeatureContributionsBase</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">model</span></em>, <em class="sig-param"><span class="n">x_orig</span></em>, <em class="sig-param"><span class="n">contribution_transformers</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">interpretable_features</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/real/explainers/lfc/base.html#LocalFeatureContributionsBase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#real.explainers.LocalFeatureContributionsBase" title="Permalink to this definition">¶</a></dt>
-<dd><p>/
-Base class for LocalFeatureContributionsBase explainer objects</p>
+<dd><p>Base class for LocalFeatureContributionsBase explainer objects. Abstract class</p>
 <p>A LocalFeatureContributionsBase object explains a machine learning prediction by assigning an
-importance or contribution score to every feature. LocalFeatureContribution objects explain by
-taking an instance and returning one number per feature, per instance.</p>
+importance or contribution score to every feature. LocalFeatureContributionBase objects explain
+by taking an instance and returning one number per feature, per instance.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -298,7 +291,7 @@ default names</p></li>
 <tr class="row-odd"><td><p><a class="reference internal" href="real.explainers.LocalFeatureContributionsBase.fit.html#real.explainers.LocalFeatureContributionsBase.fit" title="real.explainers.LocalFeatureContributionsBase.fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit</span></code></a>()</p></td>
 <td><p>Fit this explainer object</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_contributions</span></code>(x_orig)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="real.explainers.LocalFeatureContributionsBase.get_contributions.html#real.explainers.LocalFeatureContributionsBase.get_contributions" title="real.explainers.LocalFeatureContributionsBase.get_contributions"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_contributions</span></code></a>(x_orig)</p></td>
 <td><p>Gets the raw contributions.</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">model_predict</span></code>(x_orig)</p></td>
@@ -331,7 +324,7 @@ default names</p></li>
               
               <div class='prev-next-bottom'>
                 
-    <a class='left-prev' id="prev-link" href="real.explainers.Explainer.feature_description.html" title="previous page">real.explainers.Explainer.feature_description</a>
+    <a class='left-prev' id="prev-link" href="real.explainers.Explainer.convert_data_to_interpretable.html" title="previous page">real.explainers.Explainer.convert_data_to_interpretable</a>
     <a class='right-next' id="next-link" href="real.explainers.LocalFeatureContributionsBase.fit.html" title="next page">real.explainers.LocalFeatureContributionsBase.fit</a>
 
               </div>

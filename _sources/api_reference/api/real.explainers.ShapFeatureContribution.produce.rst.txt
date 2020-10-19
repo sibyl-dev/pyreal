@@ -1,6 +1,0 @@
-﻿real.explainers.ShapFeatureContribution.produce
-===============================================
-
-.. currentmodule:: real.explainers
-
-.. automethod:: ShapFeatureContribution.produce
