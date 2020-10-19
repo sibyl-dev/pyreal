@@ -5,12 +5,12 @@ from real.explainers import Explainer
 
 
 class LocalFeatureContributionsBase(Explainer, ABC):
-    """/
-    Base class for LocalFeatureContributionsBase explainer objects
+    """
+    Base class for LocalFeatureContributionsBase explainer objects. Abstract class
 
     A LocalFeatureContributionsBase object explains a machine learning prediction by assigning an
-    importance or contribution score to every feature. LocalFeatureContribution objects explain by
-    taking an instance and returning one number per feature, per instance.
+    importance or contribution score to every feature. LocalFeatureContributionBase objects explain
+    by taking an instance and returning one number per feature, per instance.
 
     Args:
         model (string filepath or model object):

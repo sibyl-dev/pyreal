@@ -94,15 +94,15 @@ from real.utils.transformer import ColumnDropTransformer, MultiTypeImputer
 from real.utils import visualize
 
 # First, we will load in the Titanic dataset
-x_orig, y = real.applications.titanic.load_titanic_data()
+x_orig, y = titanic.load_titanic_data()
 
 # Next, we load in a dictionary that provides human-readable descriptions of the feature names
 #   Format: {feature_name : feature_description, ...}
-feature_descriptions = real.applications.titanic.load_feature_descriptions()
+feature_descriptions = titanic.load_feature_descriptions()
 
 # Finally, we load in the trained model and corresponding fitted transformers
 model = real.applications.titanic.load_titanic_model()
-transformers = real.applications.titanic.load_titanic_transformers()
+transformers = titanic.load_titanic_transformers()
 
 # Now, we can make and fit a LocalFeatureContribution object, which will handle all the 
 #   transformations needed to get an interpretable SHAP feature contribution explanation

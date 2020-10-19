@@ -17,26 +17,34 @@ Base Explainer
     Explainer.transform_to_x_interpret
     Explainer.model_predict
     Explainer.feature_description
+    Explainer.convert_data_to_interpretable
 
-Local Feature Contribution Explainer
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Local Feature Contribution Base
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .. autosummary::
     :toctree: api/
 
     LocalFeatureContributionsBase
     LocalFeatureContributionsBase.fit
     LocalFeatureContributionsBase.produce
+    LocalFeatureContributionsBase.get_contributions
     LocalFeatureContributionsBase.transform_contributions
+
+Local Feature Contribution Explainer
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.. autosummary::
+    :toctree: api/
+
     LocalFeatureContribution
     LocalFeatureContribution.fit
     LocalFeatureContribution.produce
+
+SHAP Feature Contribution Explainer
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     ShapFeatureContribution
     ShapFeatureContribution.fit
     ShapFeatureContribution.produce
     ShapFeatureContribution.get_contributions
     ShapFeatureContribution.transform_contributions
-    fit_and_produce_local_feature_contributions
-    fit_local_feature_contributions
-    produce_feature_contributions
 
 
