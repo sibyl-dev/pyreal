@@ -5,7 +5,7 @@ Visualization
 .. currentmodule:: real.utils.visualize
 
 Feature Contribution Visualizations
-~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .. autosummary::
     :toctree: api/
 
