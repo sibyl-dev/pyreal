@@ -118,4 +118,3 @@ docs/api_reference/api/
 # others
 .DS_Store
 utils/scratch.py
-examples/family_screening/data/
