@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-# Sibyl documentation build configuration file, created by
+# Pyreal documentation build configuration file, created by
 # sphinx-quickstart on Fri Jun  9 13:47:02 2017.
 #
 # This file is execfile()d with the current directory set to its
@@ -77,7 +77,7 @@ nbsphinx_prolog = """
 """
 
 # General information about the project.
-project = 'Sibyl'
+project = 'Pyreal'
 slug = 'pyreal'
 title = project + ' Documentation',
 copyright = '2020, MIT Data To AI Lab'

@@ -9,7 +9,7 @@
 [![Travis CI Shield](https://travis-ci.org/DAI-Lab/pyreal.svg?branch=master)](https://travis-ci.org/DAI-Lab/pyreal)
 [![Coverage Status](https://codecov.io/gh/DAI-Lab/pyreal/branch/master/graph/badge.svg)](https://codecov.io/gh/DAI-Lab/pyreal)
 
-# Sibyl
+# Pyreal
 
 Library for evaluating and deploying machine learning explanations.
 
@@ -19,7 +19,7 @@ Library for evaluating and deploying machine learning explanations.
 
 # Overview
 
-**Sibyl** wraps the complete machine learning explainability pipeline into Explainer objects. Explainer objects
+**Pyreal** wraps the complete machine learning explainability pipeline into Explainer objects. Explainer objects
 handle all the transforming logic, in order to provide a human-interpretable explanation from any original
 data form.
 
@@ -27,13 +27,13 @@ data form.
 
 ## Requirements
 
-**Sibyl** has been developed and tested on [Python3.4, 3.5, 3.6 and 3.7](https://www.python.org/downloads/)
+**Pyreal** has been developed and tested on [Python3.4, 3.5, 3.6 and 3.7](https://www.python.org/downloads/)
 
 Also, although it is not strictly required, the usage of a [virtualenv](https://virtualenv.pypa.io/en/latest/)
 is highly recommended in order to avoid interfering with other software installed in the system
-in which **Sibyl** is run.
+in which **Pyreal** is run.
 
-These are the minimum commands needed to create a virtualenv using python3.6 for **Sibyl**:
+These are the minimum commands needed to create a virtualenv using python3.6 for **Pyreal**:
 
 ```bash
 pip install virtualenv
@@ -46,13 +46,13 @@ Afterwards, you have to execute this command to activate the virtualenv:
 source pyreal-venv/bin/activate
 ```
 
-Remember to execute it every time you start a new console to work on **Sibyl**!
+Remember to execute it every time you start a new console to work on **Pyreal**!
 
 <!-- Uncomment this section after releasing the package to PyPI for installation instructions
 ## Install from PyPI
 
 After creating the virtualenv and activating it, we recommend using
-[pip](https://pip.pypa.io/en/stable/) in order to install **Sibyl**:
+[pip](https://pip.pypa.io/en/stable/) in order to install **Pyreal**:
 
 ```bash
 pip install pyreal
@@ -84,7 +84,7 @@ for more details about this process.-->
 # Quickstart
 
 In this short tutorial we will guide you through a series of steps that will help you
-getting started with **Sibyl**. For a more detailed version of this tutorial, see 
+getting started with **Pyreal**. For a more detailed version of this tutorial, see 
 `examples.titanic.titanic_tutorial.ipynb`
 
 ```python3
@@ -134,6 +134,6 @@ because of their sex (male) and ticket class (3rd class).
 
 # What's next?
 
-For more details about **Sibyl** and all its possibilities
+For more details about **Pyreal** and all its possibilities
 and features, please check the [documentation site](
 https://DAI-Lab.github.io/pyreal/).

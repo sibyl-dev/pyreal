@@ -5,7 +5,7 @@
    <i>An open source project from Data to AI Lab at MIT.</i>
    </p>
 
-Sibyl - Applied Explainability
+Pyreal - Applied Explainability
 ==============================
 
 -  License:
@@ -17,7 +17,7 @@ Sibyl - Applied Explainability
 Overview
 --------
 
-**Sibyl** wraps the complete machine learning explainability pipeline into Explainer objects. Explainer objects
+**Pyreal** wraps the complete machine learning explainability pipeline into Explainer objects. Explainer objects
 handle all the transforming logic, in order to provide a human-interpretable explanation from any original
 data form.
 

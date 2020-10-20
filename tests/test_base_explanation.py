@@ -14,7 +14,7 @@ TEST_ROOT = os.path.dirname(os.path.abspath(__file__))
 
 
 class TestFeatureExplanation(unittest.TestCase):
-    """Tests for `sibyl` package."""
+    """Tests for `pyreal` package."""
 
     def setUp(self):
         """Set up test fixtures"""

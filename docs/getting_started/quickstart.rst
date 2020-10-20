@@ -4,7 +4,7 @@ Quickstart
 ==========
 
 In this short tutorial we will guide you through a series of steps that will help you
-getting started with **Sibyl**. For a more detailed version of this tutorial, see
+getting started with **Pyreal**. For a more detailed version of this tutorial, see
 ``examples.titanic.titanic_tutorial.ipynb``.
 
 Get a Feature Contribution Explanation

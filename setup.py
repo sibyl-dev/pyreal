@@ -94,7 +94,7 @@ setup(
     setup_requires=setup_requires,
     test_suite='tests',
     tests_require=tests_require,
-    url='https://github.com/DAI-Lab/sibyl',
+    url='https://github.com/DAI-Lab/pyreal',
     version='0.1.0.dev0',
     zip_safe=False,
 )
