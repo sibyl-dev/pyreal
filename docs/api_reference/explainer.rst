@@ -1,4 +1,4 @@
-.. _sibyl.explainer
+.. _pyreal.explainer
 
 Explainer
 ================

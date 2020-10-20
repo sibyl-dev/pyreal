@@ -3,8 +3,8 @@ from abc import abstractmethod
 
 import pandas as pd
 
-from real.utils import model_utils
-from real.utils.transformer import run_transformers
+from pyreal.utils import model_utils
+from pyreal.utils.transformer import run_transformers
 
 
 def _check_transforms(transforms):

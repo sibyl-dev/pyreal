@@ -11,8 +11,8 @@ Sibyl - Applied Explainability
 -  License:
 -  Development Status:
 
--  Documentation: https://dai-lab.github.io/sibyl/
--  Homepage: https://github.com/DAI-Lab/sibyl
+-  Documentation: https://dai-lab.github.io/pyreal/
+-  Homepage: https://github.com/DAI-Lab/pyreal
 
 Overview
 --------

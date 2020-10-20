@@ -4,18 +4,18 @@
 </p>
 
 <!-- Uncomment these lines after releasing the package to PyPI for version and downloads badges -->
-<!--[![PyPI Shield](https://img.shields.io/pypi/v/sibyl.svg)](https://pypi.python.org/pypi/sibyl)-->
-<!--[![Downloads](https://pepy.tech/badge/sibyl)](https://pepy.tech/project/sibyl)-->
-[![Travis CI Shield](https://travis-ci.org/DAI-Lab/sibyl.svg?branch=master)](https://travis-ci.org/DAI-Lab/sibyl)
-[![Coverage Status](https://codecov.io/gh/DAI-Lab/sibyl/branch/master/graph/badge.svg)](https://codecov.io/gh/DAI-Lab/sibyl)
+<!--[![PyPI Shield](https://img.shields.io/pypi/v/pyreal.svg)](https://pypi.python.org/pypi/pyreal)-->
+<!--[![Downloads](https://pepy.tech/badge/pyreal)](https://pepy.tech/project/pyreal)-->
+[![Travis CI Shield](https://travis-ci.org/DAI-Lab/pyreal.svg?branch=master)](https://travis-ci.org/DAI-Lab/pyreal)
+[![Coverage Status](https://codecov.io/gh/DAI-Lab/pyreal/branch/master/graph/badge.svg)](https://codecov.io/gh/DAI-Lab/pyreal)
 
 # Sibyl
 
 Library for evaluating and deploying machine learning explanations.
 
 - Free software: Not open source
-- Documentation: https://DAI-Lab.github.io/sibyl
-- Homepage: https://github.com/DAI-Lab/sibyl
+- Documentation: https://DAI-Lab.github.io/pyreal
+- Homepage: https://github.com/DAI-Lab/pyreal
 
 # Overview
 
@@ -37,13 +37,13 @@ These are the minimum commands needed to create a virtualenv using python3.6 for
 
 ```bash
 pip install virtualenv
-virtualenv -p $(which python3.6) sibyl-venv
+virtualenv -p $(which python3.6) pyreal-venv
 ```
 
 Afterwards, you have to execute this command to activate the virtualenv:
 
 ```bash
-source sibyl-venv/bin/activate
+source pyreal-venv/bin/activate
 ```
 
 Remember to execute it every time you start a new console to work on **Sibyl**!
@@ -55,7 +55,7 @@ After creating the virtualenv and activating it, we recommend using
 [pip](https://pip.pypa.io/en/stable/) in order to install **Sibyl**:
 
 ```bash
-pip install sibyl
+pip install pyreal
 ```
 
 This will pull and install the latest stable release from [PyPI](https://pypi.org/).
@@ -67,8 +67,8 @@ With your virtualenv activated, you can clone the repository and install it from
 source by running `make install` on the `stable` branch:
 
 ```bash
-git clone git@github.com:DAI-Lab/sibyl.git
-cd sibyl
+git clone git@github.com:DAI-Lab/pyreal.git
+cd pyreal
 git checkout stable
 make install
 ```
@@ -78,7 +78,7 @@ make install
 If you want to contribute to the project, a few more steps are required to make the project ready
 for development.
 
-Please head to the [Contributing Guide](https://DAI-Lab.github.io/sibyl/contributing.html#get-started)
+Please head to the [Contributing Guide](https://DAI-Lab.github.io/pyreal/contributing.html#get-started)
 for more details about this process.-->
 
 # Quickstart
@@ -136,4 +136,4 @@ because of their sex (male) and ticket class (3rd class).
 
 For more details about **Sibyl** and all its possibilities
 and features, please check the [documentation site](
-https://DAI-Lab.github.io/sibyl/).
+https://DAI-Lab.github.io/pyreal/).

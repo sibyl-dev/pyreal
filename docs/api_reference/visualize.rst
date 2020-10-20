@@ -1,4 +1,4 @@
-.. _sibyl.visualize
+.. _pyreal.visualize
 
 Visualization
 ================
