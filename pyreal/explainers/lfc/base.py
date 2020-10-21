@@ -1,7 +1,7 @@
 from abc import ABC
 from abc import abstractmethod
 
-from real.explainers import Explainer
+from pyreal.explainers import Explainer
 
 
 class LocalFeatureContributionsBase(Explainer, ABC):
@@ -20,7 +20,7 @@ class LocalFeatureContributionsBase(Explainer, ABC):
         e_algorithm (string, one of ["shap"]):
            Explanation algorithm to use. If none, one will be chosen automatically based on model
            type
-        contribution_transformers (contribution transformer object(s)):
+        contribution_transforms (contribution transformer object(s)):
            Object or list of objects that include .transform_contributions(contributions)
            functions, used to adjust the contributions back to interpretable form.
         interpretable_features (Boolean):
@@ -29,16 +29,15 @@ class LocalFeatureContributionsBase(Explainer, ABC):
         **kwargs: see base Explainer args
     """
     def __init__(self, model, x_orig,
-                 contribution_transformers=None, interpretable_features=True, **kwargs):
-        if contribution_transformers is not None and \
-                not isinstance(contribution_transformers, list):
-            self.contribution_transformers = [contribution_transformers]
+                 contribution_transforms=None, interpretable_features=True, **kwargs):
+        if contribution_transforms is not None and \
+                not isinstance(contribution_transforms, list):
+            self.contribution_transforms = [contribution_transforms]
         else:
-            self.contribution_transformers = contribution_transformers
+            self.contribution_transforms = contribution_transforms
 
         self.interpretable_features = interpretable_features
-        super(LocalFeatureContributionsBase, self).__init__(model, x_orig,
-                                                            **kwargs)
+        super(LocalFeatureContributionsBase, self).__init__(model, x_orig, **kwargs)
 
     @abstractmethod
     def fit(self):
@@ -95,9 +94,9 @@ class LocalFeatureContributionsBase(Explainer, ABC):
             DataFrame of shape (n_instances, x_interpret_feature_count)
                 The transformed contributions
         """
-        if self.contribution_transformers is None:
+        if self.contribution_transforms is None:
             return contributions
-        for transform in self.contribution_transformers:
+        for transform in self.contribution_transforms:
             transform_func = getattr(transform, "transform_contributions", None)
             if callable(transform_func):
                 contributions = transform_func(contributions)
