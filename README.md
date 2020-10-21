@@ -88,10 +88,10 @@ getting started with **Pyreal**. For a more detailed version of this tutorial, s
 `examples.titanic.titanic_tutorial.ipynb`
 
 ```python3
-from real.explainers import LocalFeatureContribution
-import real.applications.titanic as titanic
-from real.utils.transformer import ColumnDropTransformer, MultiTypeImputer
-from real.utils import visualize
+from pyreal.explainers import LocalFeatureContribution
+import pyreal.applications.titanic as titanic
+from pyreal.utils.transformer import ColumnDropTransformer, MultiTypeImputer
+from pyreal.utils import visualize
 
 # First, we will load in the Titanic dataset
 x_orig, y = titanic.load_titanic_data()
@@ -101,7 +101,7 @@ x_orig, y = titanic.load_titanic_data()
 feature_descriptions = titanic.load_feature_descriptions()
 
 # Finally, we load in the trained model and corresponding fitted transformers
-model = real.applications.titanic.load_titanic_model()
+model = titanic.load_titanic_model()
 transformers = titanic.load_titanic_transformers()
 
 # Now, we can make and fit a LocalFeatureContribution object, which will handle all the 
@@ -119,7 +119,7 @@ print("Prediction:", lfc.model_predict(input_to_explain)) # Output -> Prediction
 #   Let's see why, by using LocalFeatureContribution's .produce() function
 contributions = lfc.produce(input_to_explain)
 
-# We can visualize the most contributing features using the real.utils.visualize module. 
+# We can visualize the most contributing features using the pyreal.utils.visualize module. 
 #   We will also convert our input to the interpretable space, so we can add it's values to
 #   the visualization
 x_interpret = lfc.convert_data_to_interpretable(input_to_explain)

@@ -4,8 +4,7 @@ Quickstart
 ==========
 
 In this short tutorial we will guide you through a series of steps that will help you
-getting started with **Pyreal**. For a more detailed version of this tutorial, see
-``examples.titanic.titanic_tutorial.ipynb``.
+getting started with **Pyreal**.
 
 Get a Feature Contribution Explanation
 --------------------------------------
@@ -15,10 +14,10 @@ To get a feature contribution explanation of a pre-trained model, we can use the
 .. ipython:: python
     :okwarning:
 
-    from real.explainers import LocalFeatureContribution
-    import real.applications.titanic as titanic
-    from real.utils.transformer import ColumnDropTransformer, MultiTypeImputer
-    from real.utils import visualize
+    from pyreal.explainers import LocalFeatureContribution
+    import pyreal.applications.titanic as titanic
+    from pyreal.utils.transformer import ColumnDropTransformer, MultiTypeImputer
+    from pyreal.utils import visualize
 
     # First, we will load in the Titanic dataset
     x_orig, y = titanic.load_titanic_data()
