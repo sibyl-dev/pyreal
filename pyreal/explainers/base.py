@@ -3,8 +3,8 @@ from abc import abstractmethod
 
 import pandas as pd
 
-from real.utils import model_utils
-from real.utils.transformer import run_transformers
+from pyreal.utils import model_utils
+from pyreal.utils.transformer import run_transformers
 
 
 def _check_transforms(transforms):
@@ -17,7 +17,7 @@ def _check_transforms(transforms):
     for transformer in transforms:
         transform_method = getattr(transformer, "transform", None)
         if not callable(transform_method):
-            raise ValueError("Given transformer that does not have a .transform function")
+            raise TypeError("Given transformer that does not have a .transform function")
     return transforms
 
 
@@ -56,7 +56,9 @@ class Explainer(ABC):
         if isinstance(model, str):
             self.model = model_utils.load_model_from_pickle(model)
         else:
-            # TODO: confirm model is valid
+            predict_method = getattr(model, "predict", None)
+            if not callable(predict_method):
+                raise TypeError("Given model that does not have a .predict function")
             self.model = model
 
         self.X_orig = x_orig

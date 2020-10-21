@@ -1,5 +1,5 @@
-from real.explainers import LocalFeatureContributionsBase
-from real.explainers import ShapFeatureContribution
+from pyreal.explainers import LocalFeatureContributionsBase
+from pyreal.explainers import ShapFeatureContribution
 
 
 def choose_algorithm():
@@ -16,7 +16,7 @@ def choose_algorithm():
 
 def lfc(return_contributions=True, return_explainer=False, explainer=None,
         model=None, x_input=None, x_train=None,
-        contribution_transformers=None, e_algorithm=None, feature_descriptions=None,
+        contribution_transforms=None, e_algorithm=None, feature_descriptions=None,
         e_transforms=None, m_transforms=None, i_transforms=None,
         interpretable_features=True):
     """
@@ -37,7 +37,7 @@ def lfc(return_contributions=True, return_explainer=False, explainer=None,
            The input to explain
         x_train (dataframe of shape (n_instances, x_orig_feature_count)):
            The training set for the explainer
-        contribution_transformers (contribution transformer object(s)):
+        contribution_transforms (contribution transformer object(s)):
            Object or list of objects that include .transform_contributions(contributions)
            functions, used to adjust the contributions back to interpretable form.
         e_algorithm (string, one of ["shap"]):
@@ -76,7 +76,7 @@ def lfc(return_contributions=True, return_explainer=False, explainer=None,
 
     if explainer is None:
         explainer = LocalFeatureContribution(model, x_train,
-                                             contribution_transforms=contribution_transformers,
+                                             contribution_transforms=contribution_transforms,
                                              e_algorithm=e_algorithm,
                                              feature_descriptions=feature_descriptions,
                                              e_transforms=e_transforms, m_transforms=m_transforms,
@@ -107,27 +107,19 @@ class LocalFeatureContribution(LocalFeatureContributionsBase):
         e_algorithm (string, one of ["shap"]):
            Explanation algorithm to use. If none, one will be chosen automatically based on model
            type
-        contribution_transforms (contribution transformer object(s)):
-           Object or list of objects that include .transform_contributions(contributions)
-           functions, used to adjust the contributions back to interpretable form.
-        **kwargs: see base Explainer args
+        **kwargs: see LocalFeatureContributionsBase args
     """
 
-    def __init__(self, model, x_orig,
-                 contribution_transforms=None, e_algorithm=None, **kwargs):
+    def __init__(self, model, x_orig, e_algorithm=None, **kwargs):
         if e_algorithm is None:
             e_algorithm = choose_algorithm()
-
         self.base_local_feature_contribution = None
         if e_algorithm == "shap":
-            self.base_local_feature_contribution = ShapFeatureContribution(
-                model, x_orig,
-                contribution_transformers=contribution_transforms, **kwargs)
+            self.base_local_feature_contribution = ShapFeatureContribution(model, x_orig, **kwargs)
         if self.base_local_feature_contribution is None:
             raise ValueError("Invalid algorithm type %s" % e_algorithm)
 
-        super(LocalFeatureContribution, self).__init__(model, x_orig,
-                                                       contribution_transforms, **kwargs)
+        super(LocalFeatureContribution, self).__init__(model, x_orig, **kwargs)
 
     def fit(self):
         """

@@ -1,12 +1,12 @@
-.. _sibyl.visualize
+.. _pyreal.visualize
 
 Visualization
 ================
-.. currentmodule:: real.utils.visualize
+.. currentmodule:: pyreal.utils.visualize
 
 Feature Contribution Visualizations
-~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .. autosummary::
     :toctree: api/
 
-    real.utils.visualize.plot_top_contributors
+    pyreal.utils.visualize.plot_top_contributors

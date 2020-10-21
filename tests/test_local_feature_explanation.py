@@ -6,14 +6,14 @@ import pandas as pd
 from shap import LinearExplainer
 from sklearn.linear_model import LinearRegression
 
-from real.utils.transformer import OneHotEncoderWrapper
+from pyreal.utils.transformer import OneHotEncoderWrapper
 
-"""Tests for `sibyl` package."""
+"""Tests for `pyreal` package."""
 
 import unittest
 
-from real.explainers import LocalFeatureContribution
-from real.explainers import ShapFeatureContribution
+from pyreal.explainers import LocalFeatureContribution
+from pyreal.explainers import ShapFeatureContribution
 
 TEST_ROOT = os.path.dirname(os.path.abspath(__file__))
 
@@ -23,7 +23,7 @@ def identity(x):
 
 
 class TestFeatureExplanation(unittest.TestCase):
-    """Tests for `sibyl` package."""
+    """Tests for `pyreal` package."""
 
     def setUp(self):
         """Set up test fixtures"""
@@ -108,7 +108,7 @@ class TestFeatureExplanation(unittest.TestCase):
         shap = ShapFeatureContribution(model_pickle_filepath=self.model_one_hot_filename,
                                        x_orig=self.X_train, fit_on_init=True,
                                        e_transforms=e_transforms,
-                                       contribution_transformers=e_transforms)
+                                       contribution_transforms=e_transforms)
         self.helper_produce_shap_one_hot(lfc)
         self.helper_produce_shap_one_hot(shap)
 
