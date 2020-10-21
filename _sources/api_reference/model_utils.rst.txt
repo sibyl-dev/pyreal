@@ -1,13 +1,13 @@
-.. _sibyl.model_utils
+.. _pyreal.model_utils
 
 Model Utils
 ================
-.. currentmodule:: real.utils.model_utils
+.. currentmodule:: pyreal.utils.model_utils
 
 Loading Models
 ~~~~~~~~~~~~~~~
 .. autosummary::
     :toctree: api/
 
-    real.utils.model_utils.load_model_from_pickle
-    real.utils.model_utils.load_model_from_weights
+    pyreal.utils.model_utils.load_model_from_pickle
+    pyreal.utils.model_utils.load_model_from_weights

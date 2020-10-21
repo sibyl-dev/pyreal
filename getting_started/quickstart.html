@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Quickstart &#8212; Sibyl 0.1.0.dev0 documentation</title>
+    <title>Quickstart &#8212; Pyreal 0.1.0.dev0 documentation</title>
     
   <link rel="stylesheet" href="../_static/css/index.73d71520a4ca3b99cfee5594769eaaae.css">
 
@@ -87,7 +87,7 @@
       <ul class="navbar-nav">
         
           <li class="nav-item">
-            <a class="nav-link" href="https://github.com/dai-lab/sibyl" target="_blank" rel="noopener">
+            <a class="nav-link" href="https://github.com/dai-lab/pyreal" target="_blank" rel="noopener">
               <span><i class="fab fa-github-square"></i></span>
             </a>
           </li>
@@ -171,19 +171,18 @@
   <div class="section" id="quickstart">
 <span id="id1"></span><h1>Quickstart<a class="headerlink" href="#quickstart" title="Permalink to this headline">¶</a></h1>
 <p>In this short tutorial we will guide you through a series of steps that will help you
-getting started with <strong>Sibyl</strong>. For a more detailed version of this tutorial, see
-<code class="docutils literal notranslate"><span class="pre">examples.titanic.titanic_tutorial.ipynb</span></code>.</p>
+getting started with <strong>Pyreal</strong>.</p>
 <div class="section" id="get-a-feature-contribution-explanation">
 <h2>Get a Feature Contribution Explanation<a class="headerlink" href="#get-a-feature-contribution-explanation" title="Permalink to this headline">¶</a></h2>
 <p>To get a feature contribution explanation of a pre-trained model, we can use the
 <code class="docutils literal notranslate"><span class="pre">LocalFeatureContribution</span></code> class. We begin by loading in the model and transformers.</p>
-<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [1]: </span><span class="kn">from</span> <span class="nn">real.explainers</span> <span class="kn">import</span> <span class="n">LocalFeatureContribution</span>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [1]: </span><span class="kn">from</span> <span class="nn">pyreal.explainers</span> <span class="kn">import</span> <span class="n">LocalFeatureContribution</span>
 
-<span class="gp">In [2]: </span><span class="kn">import</span> <span class="nn">real.applications.titanic</span> <span class="k">as</span> <span class="nn">titanic</span>
+<span class="gp">In [2]: </span><span class="kn">import</span> <span class="nn">pyreal.applications.titanic</span> <span class="k">as</span> <span class="nn">titanic</span>
 
-<span class="gp">In [3]: </span><span class="kn">from</span> <span class="nn">real.utils.transformer</span> <span class="kn">import</span> <span class="n">ColumnDropTransformer</span><span class="p">,</span> <span class="n">MultiTypeImputer</span>
+<span class="gp">In [3]: </span><span class="kn">from</span> <span class="nn">pyreal.utils.transformer</span> <span class="kn">import</span> <span class="n">ColumnDropTransformer</span><span class="p">,</span> <span class="n">MultiTypeImputer</span>
 
-<span class="gp">In [4]: </span><span class="kn">from</span> <span class="nn">real.utils</span> <span class="kn">import</span> <span class="n">visualize</span>
+<span class="gp">In [4]: </span><span class="kn">from</span> <span class="nn">pyreal.utils</span> <span class="kn">import</span> <span class="n">visualize</span>
 
 <span class="go"># First, we will load in the Titanic dataset</span>
 <span class="gp">In [5]: </span><span class="n">x_orig</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">titanic</span><span class="o">.</span><span class="n">load_titanic_data</span><span class="p">()</span>

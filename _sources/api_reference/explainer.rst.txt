@@ -1,8 +1,8 @@
-.. _sibyl.explainer
+.. _pypyreal.explainer
 
 Explainer
 ================
-.. currentmodule:: real.explainers
+.. currentmodule:: pyreal.explainers
 
 Base Explainer
 ~~~~~~~~~~~~~~~

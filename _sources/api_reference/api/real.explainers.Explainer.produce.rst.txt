@@ -1,6 +1,0 @@
-﻿real.explainers.Explainer.produce
-=================================
-
-.. currentmodule:: real.explainers
-
-.. automethod:: Explainer.produce

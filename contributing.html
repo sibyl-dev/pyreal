@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Contributing &#8212; Sibyl 0.1.0.dev0 documentation</title>
+    <title>Contributing &#8212; Pyreal 0.1.0.dev0 documentation</title>
     
   <link rel="stylesheet" href="_static/css/index.73d71520a4ca3b99cfee5594769eaaae.css">
 
@@ -85,7 +85,7 @@
       <ul class="navbar-nav">
         
           <li class="nav-item">
-            <a class="nav-link" href="https://github.com/dai-lab/sibyl" target="_blank" rel="noopener">
+            <a class="nav-link" href="https://github.com/dai-lab/pyreal" target="_blank" rel="noopener">
               <span><i class="fab fa-github-square"></i></span>
             </a>
           </li>
@@ -247,11 +247,11 @@ are welcome :)</p></li>
 </div>
 <div class="section" id="get-started">
 <h2>Get Started!<a class="headerlink" href="#get-started" title="Permalink to this headline">¶</a></h2>
-<p>Ready to contribute? Here’s how to set up <cite>sibyl</cite> for local development.</p>
+<p>Ready to contribute? Here’s how to set up <cite>pyreal</cite> for local development.</p>
 <ol class="arabic">
-<li><p>Fork the <cite>sibyl</cite> repo on GitHub.</p></li>
+<li><p>Fork the <cite>pyreal</cite> repo on GitHub.</p></li>
 <li><p>Clone your fork locally:</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$ git clone git@github.com:your_name_here/sibyl.git
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$ git clone git@github.com:your_name_here/pyreal.git
 </pre></div>
 </div>
 </li>
@@ -327,9 +327,9 @@ Status page</a> and make sure that all the checks pass.</p></li>
 <p>All the Unit Tests should comply with the following requirements:</p>
 <ol class="arabic simple">
 <li><p>Unit Tests should be based only in unittest and pytest modules.</p></li>
-<li><p>The tests that cover a module called <code class="docutils literal notranslate"><span class="pre">sibyl/path/to/a_module.py</span></code>
+<li><p>The tests that cover a module called <code class="docutils literal notranslate"><span class="pre">pyreal/path/to/a_module.py</span></code>
 should be implemented in a separated module called
-<code class="docutils literal notranslate"><span class="pre">tests/sibyl/path/to/test_a_module.py</span></code>.
+<code class="docutils literal notranslate"><span class="pre">tests/pyreal/path/to/test_a_module.py</span></code>.
 Note that the module name has the <code class="docutils literal notranslate"><span class="pre">test_</span></code> prefix and is located in a path similar
 to the one of the tested module, just inside the <code class="docutils literal notranslate"><span class="pre">tests</span></code> folder.</p></li>
 <li><p>Each method of the tested module should have at least one associated test method, and
@@ -364,11 +364,11 @@ $ python -m pytest -k <span class="s1">&#39;foo&#39;</span>
 <code class="docutils literal notranslate"><span class="pre">bumpversion</span></code> which, briefly:</p>
 <ol class="arabic simple">
 <li><p>Merge what is in <code class="docutils literal notranslate"><span class="pre">master</span></code> branch into <code class="docutils literal notranslate"><span class="pre">stable</span></code> branch.</p></li>
-<li><p>Update the version in <code class="docutils literal notranslate"><span class="pre">setup.cfg</span></code>, <code class="docutils literal notranslate"><span class="pre">sibyl/__init__.py</span></code> and
+<li><p>Update the version in <code class="docutils literal notranslate"><span class="pre">setup.cfg</span></code>, <code class="docutils literal notranslate"><span class="pre">pyreal/__init__.py</span></code> and
 <code class="docutils literal notranslate"><span class="pre">HISTORY.md</span></code> files.</p></li>
 <li><p>Create a new git tag pointing at the corresponding commit in <code class="docutils literal notranslate"><span class="pre">stable</span></code> branch.</p></li>
 <li><p>Merge the new commit from <code class="docutils literal notranslate"><span class="pre">stable</span></code> into <code class="docutils literal notranslate"><span class="pre">master</span></code>.</p></li>
-<li><p>Update the version in <code class="docutils literal notranslate"><span class="pre">setup.cfg</span></code> and <code class="docutils literal notranslate"><span class="pre">sibyl/__init__.py</span></code>
+<li><p>Update the version in <code class="docutils literal notranslate"><span class="pre">setup.cfg</span></code> and <code class="docutils literal notranslate"><span class="pre">pyreal/__init__.py</span></code>
 to open the next development iteration.</p></li>
 </ol>
 <div class="admonition note">

@@ -1,6 +1,0 @@
-﻿real.explainers.Explainer.convert\_data\_to\_interpretable
-==========================================================
-
-.. currentmodule:: real.explainers
-
-.. automethod:: Explainer.convert_data_to_interpretable

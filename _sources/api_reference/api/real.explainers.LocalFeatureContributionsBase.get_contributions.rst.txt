@@ -1,6 +1,0 @@
-﻿real.explainers.LocalFeatureContributionsBase.get\_contributions
-================================================================
-
-.. currentmodule:: real.explainers
-
-.. automethod:: LocalFeatureContributionsBase.get_contributions

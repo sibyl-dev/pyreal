@@ -1,6 +1,0 @@
-﻿real.explainers.LocalFeatureContributionsBase.transform\_contributions
-======================================================================
-
-.. currentmodule:: real.explainers
-
-.. automethod:: LocalFeatureContributionsBase.transform_contributions

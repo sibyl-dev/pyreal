@@ -1,6 +1,0 @@
-﻿real.explainers.Explainer.transform\_to\_x\_interpret
-=====================================================
-
-.. currentmodule:: real.explainers
-
-.. automethod:: Explainer.transform_to_x_interpret

@@ -1,6 +1,0 @@
-﻿real.explainers.LocalFeatureContributionsBase.fit
-=================================================
-
-.. currentmodule:: real.explainers
-
-.. automethod:: LocalFeatureContributionsBase.fit

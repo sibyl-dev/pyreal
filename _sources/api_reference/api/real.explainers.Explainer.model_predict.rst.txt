@@ -1,6 +1,0 @@
-﻿real.explainers.Explainer.model\_predict
-========================================
-
-.. currentmodule:: real.explainers
-
-.. automethod:: Explainer.model_predict
