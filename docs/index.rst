@@ -6,7 +6,7 @@
    </p>
 
 Pyreal - Applied Explainability
-==============================
+===============================
 
 -  License:
 -  Development Status:
