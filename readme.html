@@ -136,7 +136,29 @@
     <ul class="nav section-nav flex-column">
     
         <li class="nav-item toc-entry toc-h2">
-            <a href="#quickstart" class="nav-link">Quickstart</a>
+            <a href="#quickstart" class="nav-link">Quickstart</a><ul class="nav section-nav flex-column">
+                
+        <li class="nav-item toc-entry toc-h3">
+            <a href="#load-in-demo-dataset-pre-fit-model-and-transformers" class="nav-link">Load in demo dataset, pre-fit model, and transformers</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h3">
+            <a href="#create-and-fit-localfeaturecontribution-explainer-object" class="nav-link">Create and fit LocalFeatureContribution Explainer object</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h3">
+            <a href="#make-predictions-on-an-input" class="nav-link">Make predictions on an input</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h3">
+            <a href="#explain-an-input" class="nav-link">Explain an input</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h3">
+            <a href="#visualize-the-explanation" class="nav-link">Visualize the explanation</a>
+        </li>
+    
+            </ul>
         </li>
     
         <li class="nav-item toc-entry toc-h2">
@@ -234,43 +256,60 @@ Please head to the [Contributing Guide](https://DAI-Lab.github.io/pyreal/contrib
 for more details about this process.--><div class="section" id="quickstart">
 <h2>Quickstart<a class="headerlink" href="#quickstart" title="Permalink to this headline">¶</a></h2>
 <p>In this short tutorial we will guide you through a series of steps that will help you
-getting started with <strong>Pyreal</strong>. For a more detailed version of this tutorial, see
-<code class="docutils literal notranslate"><span class="pre">examples.titanic.titanic_tutorial.ipynb</span></code></p>
-<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyreal.explainers</span> <span class="kn">import</span> <span class="n">LocalFeatureContribution</span>
-<span class="kn">import</span> <span class="nn">pyreal.applications.titanic</span> <span class="k">as</span> <span class="nn">titanic</span>
+getting started with <strong>Pyreal</strong>. We will get an explanation for a prediction on whether a
+passenger on the Titanic would have survived.</p>
+<blockquote>
+<div><p>For a more detailed version of this tutorial, see</p>
+</div></blockquote>
+<p><code class="docutils literal notranslate"><span class="pre">examples.titanic.titanic_lfc.ipynb</span></code></p>
+<div class="section" id="load-in-demo-dataset-pre-fit-model-and-transformers">
+<h3>Load in demo dataset, pre-fit model, and transformers<a class="headerlink" href="#load-in-demo-dataset-pre-fit-model-and-transformers" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pyreal.applications.titanic</span> <span class="k">as</span> <span class="nn">titanic</span>
 <span class="kn">from</span> <span class="nn">pyreal.utils.transformer</span> <span class="kn">import</span> <span class="n">ColumnDropTransformer</span><span class="p">,</span> <span class="n">MultiTypeImputer</span>
-<span class="kn">from</span> <span class="nn">pyreal.utils</span> <span class="kn">import</span> <span class="n">visualize</span>
 
-<span class="c1"># First, we will load in the Titanic dataset</span>
+<span class="c1"># Load in data</span>
 <span class="n">x_orig</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">titanic</span><span class="o">.</span><span class="n">load_titanic_data</span><span class="p">()</span>
 
-<span class="c1"># Next, we load in a dictionary that provides human-readable descriptions of the feature names</span>
-<span class="c1">#   Format: {feature_name : feature_description, ...}</span>
+<span class="c1"># Load in feature descriptions -&gt; dict(feature_name: feature_description, ...)</span>
 <span class="n">feature_descriptions</span> <span class="o">=</span> <span class="n">titanic</span><span class="o">.</span><span class="n">load_feature_descriptions</span><span class="p">()</span>
 
-<span class="c1"># Finally, we load in the trained model and corresponding fitted transformers</span>
+<span class="c1"># Load in model</span>
 <span class="n">model</span> <span class="o">=</span> <span class="n">titanic</span><span class="o">.</span><span class="n">load_titanic_model</span><span class="p">()</span>
-<span class="n">transformers</span> <span class="o">=</span> <span class="n">titanic</span><span class="o">.</span><span class="n">load_titanic_transformers</span><span class="p">()</span>
 
-<span class="c1"># Now, we can make and fit a LocalFeatureContribution object, which will handle all the</span>
-<span class="c1">#   transformations needed to get an interpretable SHAP feature contribution explanation</span>
+<span class="c1"># Load in list of transformers</span>
+<span class="n">transformers</span> <span class="o">=</span> <span class="n">titanic</span><span class="o">.</span><span class="n">load_titanic_transformers</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="create-and-fit-localfeaturecontribution-explainer-object">
+<h3>Create and fit LocalFeatureContribution Explainer object<a class="headerlink" href="#create-and-fit-localfeaturecontribution-explainer-object" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyreal.explainers</span> <span class="kn">import</span> <span class="n">LocalFeatureContribution</span>
 <span class="n">lfc</span> <span class="o">=</span> <span class="n">LocalFeatureContribution</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span> <span class="n">x_orig</span><span class="o">=</span><span class="n">x_orig</span><span class="p">,</span> <span class="n">m_transforms</span><span class="o">=</span><span class="n">transformers</span><span class="p">,</span> <span class="n">e_transforms</span><span class="o">=</span><span class="n">transformers</span><span class="p">,</span>
                                <span class="n">contribution_transforms</span><span class="o">=</span><span class="n">transformers</span><span class="p">,</span>
                                <span class="n">feature_descriptions</span><span class="o">=</span><span class="n">feature_descriptions</span><span class="p">)</span>
 <span class="n">lfc</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
-
-<span class="c1"># We can now choose an input, and see the model&#39;s prediction.</span>
-<span class="n">input_to_explain</span> <span class="o">=</span> <span class="n">x_orig</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Prediction:&quot;</span><span class="p">,</span> <span class="n">lfc</span><span class="o">.</span><span class="n">model_predict</span><span class="p">(</span><span class="n">input_to_explain</span><span class="p">))</span> <span class="c1"># Output -&gt; Prediction: [0]</span>
-
-<span class="c1"># We see that this person is not predicted to survive.</span>
-<span class="c1">#   Let&#39;s see why, by using LocalFeatureContribution&#39;s .produce() function</span>
-<span class="n">contributions</span> <span class="o">=</span> <span class="n">lfc</span><span class="o">.</span><span class="n">produce</span><span class="p">(</span><span class="n">input_to_explain</span><span class="p">)</span>
-
-<span class="c1"># We can visualize the most contributing features using the pyreal.utils.visualize module.</span>
-<span class="c1">#   We will also convert our input to the interpretable space, so we can add it&#39;s values to</span>
-<span class="c1">#   the visualization</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="make-predictions-on-an-input">
+<h3>Make predictions on an input<a class="headerlink" href="#make-predictions-on-an-input" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">input_to_explain</span> <span class="o">=</span> <span class="n">x_orig</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">prediction</span> <span class="o">=</span> <span class="n">lfc</span><span class="o">.</span><span class="n">model_predict</span><span class="p">(</span><span class="n">input_to_explain</span><span class="p">)</span> <span class="c1"># Prediction: [0]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="explain-an-input">
+<h3>Explain an input<a class="headerlink" href="#explain-an-input" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">contributions</span> <span class="o">=</span> <span class="n">lfc</span><span class="o">.</span><span class="n">produce</span><span class="p">(</span><span class="n">input_to_explain</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="visualize-the-explanation">
+<h3>Visualize the explanation<a class="headerlink" href="#visualize-the-explanation" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyreal.utils</span> <span class="kn">import</span> <span class="n">visualize</span>
 <span class="n">x_interpret</span> <span class="o">=</span> <span class="n">lfc</span><span class="o">.</span><span class="n">convert_data_to_interpretable</span><span class="p">(</span><span class="n">input_to_explain</span><span class="p">)</span>
+
+<span class="c1"># Plot a bar plot of top contributing features, by asbolute value</span>
 <span class="n">visualize</span><span class="o">.</span><span class="n">plot_top_contributors</span><span class="p">(</span><span class="n">contributions</span><span class="p">,</span> <span class="n">select_by</span><span class="o">=</span><span class="s2">&quot;absolute&quot;</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="n">x_interpret</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -278,6 +317,7 @@ getting started with <strong>Pyreal</strong>. For a more detailed version of thi
 <a class="reference external image-reference" href="docs/images/quickstart.png"><img alt="Quickstart" src="docs/images/quickstart.png" /></a>
 <p>We can see here that the input passenger’s predicted chance of survival was greatly reduced
 because of their sex (male) and ticket class (3rd class).</p>
+</div>
 </div>
 <div class="section" id="what-s-next">
 <h2>What’s next?<a class="headerlink" href="#what-s-next" title="Permalink to this headline">¶</a></h2>
