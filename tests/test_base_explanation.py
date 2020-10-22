@@ -4,11 +4,11 @@ import unittest
 
 import numpy as np
 import pandas as pd
-from sklearn.linear_model import LinearRegression
-from pyreal.explainers import LocalFeatureContribution
-
-from pyreal.utils.transformer import OneHotEncoderWrapper
 from pandas.testing import assert_frame_equal
+from sklearn.linear_model import LinearRegression
+
+from pyreal.explainers import LocalFeatureContribution
+from pyreal.utils.transformer import OneHotEncoderWrapper
 
 TEST_ROOT = os.path.dirname(os.path.abspath(__file__))
 

@@ -5,8 +5,7 @@ Provides helper functions for more flexibility with Model inputs
 import pickle
 
 import numpy as np
-from sklearn.linear_model import LinearRegression
-from sklearn.linear_model import LogisticRegression
+from sklearn.linear_model import LinearRegression, LogisticRegression
 
 
 def load_model_from_pickle(filepath):

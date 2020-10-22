@@ -1,8 +1,7 @@
 import numpy as np
 import pandas as pd
 from shap import Explainer as ShapExplainer
-from shap import KernelExplainer
-from shap import LinearExplainer
+from shap import KernelExplainer, LinearExplainer
 
 from pyreal.explainers import LocalFeatureContributionsBase
 
