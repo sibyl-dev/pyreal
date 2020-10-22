@@ -44,7 +44,7 @@ test: ## run tests quickly with the default Python
 .PHONY: lint
 lint: ## check style with flake8 and isort
 	flake8 pyreal tests
-	isort -c --recursive pyreal tests
+	isort -c pyreal tests
 
 .PHONY: install-develop
 install-develop: clean-build clean-pyc ## install the package in editable mode and dependencies for development

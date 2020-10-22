@@ -1,19 +1,14 @@
 import os
 import pickle
+import unittest
 
 import numpy as np
 import pandas as pd
 from shap import LinearExplainer
 from sklearn.linear_model import LinearRegression
 
+from pyreal.explainers import LocalFeatureContribution, ShapFeatureContribution
 from pyreal.utils.transformer import OneHotEncoderWrapper
-
-"""Tests for `pyreal` package."""
-
-import unittest
-
-from pyreal.explainers import LocalFeatureContribution
-from pyreal.explainers import ShapFeatureContribution
 
 TEST_ROOT = os.path.dirname(os.path.abspath(__file__))
 
