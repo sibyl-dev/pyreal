@@ -16,8 +16,9 @@ install_requires = [
     'numpy>=1.8',
     'pandas>=1.0.3',
     "scikit-learn>=0.22",
-    "shap==0.35",
+    "shap>=0.36.0",
     "eli5>=0.10",
+    'matplotlib>=3.2.1'
 ]
 
 setup_requires = [
@@ -27,6 +28,7 @@ setup_requires = [
 tests_require = [
     'pytest>=3.4.2',
     'pytest-cov>=2.6.0',
+    'jupyter>=1.0.0,<2'
 ]
 
 development_requires = [
@@ -36,10 +38,14 @@ development_requires = [
     'watchdog>=0.8.3',
 
     # docs
-    'm2r>=0.2.0',
-    'Sphinx>=1.7.1',
-    'sphinx_rtd_theme>=0.2.4',
+    'm2r2>=0.2.5,<0.3',
+    'nbsphinx>=0.5.0,<0.7',
+    'Sphinx>=3,<4',
+    'pydata-sphinx-theme',
     'autodocsumm>=0.1.10',
+    'PyYaml>=5.3.1,<6',
+    'argh>=0.26.2,<1',
+
 
     # style check
     'flake8>=3.7.7',
@@ -81,14 +87,14 @@ setup(
     long_description=readme + '\n\n' + history,
     long_description_content_type='text/markdown',
     include_package_data=True,
-    keywords='sibyl Sibyl',
-    name='sibyl',
-    packages=find_packages(include=['sibyl', 'sibyl.*']),
+    keywords='pyreal Pyreal',
+    name='pyreal',
+    packages=find_packages(include=['pyreal', 'pyreal.*']),
     python_requires='>=3.4',
     setup_requires=setup_requires,
     test_suite='tests',
     tests_require=tests_require,
-    url='https://github.com/DAI-Lab/sibyl',
+    url='https://github.com/DAI-Lab/pyreal',
     version='0.1.0.dev0',
     zip_safe=False,
 )
