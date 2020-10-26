@@ -18,6 +18,11 @@ class TestFeatureExplanation(unittest.TestCase):
 
     def setUp(self):
         """Set up test fixtures"""
+        try:
+            os.makedirs(os.path.join(TEST_ROOT, "data"))
+        except FileExistsError:
+            pass
+        
         self.X_train = pd.DataFrame([[2, 1, 3],
                                      [4, 3, 4],
                                      [6, 7, 2]], columns=["A", "B", "C"])
