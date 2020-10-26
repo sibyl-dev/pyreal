@@ -1,5 +1,4 @@
-from pyreal.explainers import LocalFeatureContributionsBase
-from pyreal.explainers import ShapFeatureContribution
+from pyreal.explainers import LocalFeatureContributionsBase, ShapFeatureContribution
 
 
 def choose_algorithm():
