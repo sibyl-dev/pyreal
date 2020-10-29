@@ -39,12 +39,12 @@ install-test: clean-build clean-pyc ## install the package and test dependencies
 
 .PHONY: test
 test: ## run tests quickly with the default Python
-	python -m pytest --basetemp=${ENVTMPDIR} --cov=pyreal
+	python -m pytest --cov=pyreal
 
 .PHONY: lint
 lint: ## check style with flake8 and isort
 	flake8 pyreal tests
-	isort -c pyreal tests
+	isort -c pyreal tests --skip __init__.py
 
 .PHONY: install-develop
 install-develop: clean-build clean-pyc ## install the package in editable mode and dependencies for development

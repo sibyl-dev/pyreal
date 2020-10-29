@@ -6,9 +6,9 @@
 <!-- Uncomment these lines after releasing the package to PyPI for version and downloads badges -->
 <!--[![PyPI Shield](https://img.shields.io/pypi/v/pyreal.svg)](https://pypi.python.org/pypi/pyreal)-->
 <!--[![Downloads](https://pepy.tech/badge/pyreal)](https://pepy.tech/project/pyreal)-->
-[![Travis CI Shield](https://travis-ci.org/DAI-Lab/pyreal.svg?branch=master)](https://travis-ci.org/DAI-Lab/pyreal)
+<!--[![Travis CI Shield](https://travis-ci.org/DAI-Lab/pyreal.svg?branch=master)](https://travis-ci.org/DAI-Lab/pyreal)-->
 [![Coverage Status](https://codecov.io/gh/DAI-Lab/pyreal/branch/master/graph/badge.svg)](https://codecov.io/gh/DAI-Lab/pyreal)
-
+[![Build Action Status](https://github.com/DAI-Lab/pyreal/workflows/Test%20CI/badge.svg)](https://github.com/DAI-Lab/pyreal/actions)
 # Pyreal
 
 Library for evaluating and deploying machine learning explanations.
@@ -111,7 +111,8 @@ transformers = titanic.load_titanic_transformers()
 #### Create and fit LocalFeatureContribution Explainer object
 ```python3
 from pyreal.explainers import LocalFeatureContribution
-lfc = LocalFeatureContribution(model=model, x_orig=x_orig, m_transforms=transformers, e_transforms=transformers,
+lfc = LocalFeatureContribution(model=model, x_orig=x_orig,
+                               m_transforms=transformers, e_transforms=transformers,
                                contribution_transforms=transformers,
                                feature_descriptions=feature_descriptions)
 lfc.fit()
