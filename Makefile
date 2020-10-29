@@ -39,8 +39,7 @@ install-test: clean-build clean-pyc ## install the package and test dependencies
 
 .PHONY: test
 test: ## run tests quickly with the default Python
-	coverage run -m unittest discover
-	coverage report
+	python -m pytest --basetemp=${ENVTMPDIR} --cov=pyreal
 
 .PHONY: lint
 lint: ## check style with flake8 and isort
