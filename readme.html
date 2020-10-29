@@ -184,9 +184,9 @@
 </p><!-- Uncomment these lines after releasing the package to PyPI for version and downloads badges -->
 <!--[![PyPI Shield](https://img.shields.io/pypi/v/pyreal.svg)](https://pypi.python.org/pypi/pyreal)-->
 <!--[![Downloads](https://pepy.tech/badge/pyreal)](https://pepy.tech/project/pyreal)-->
-[![Travis CI Shield](https://travis-ci.org/DAI-Lab/pyreal.svg?branch=master)](https://travis-ci.org/DAI-Lab/pyreal)
+<!--[![Travis CI Shield](https://travis-ci.org/DAI-Lab/pyreal.svg?branch=master)](https://travis-ci.org/DAI-Lab/pyreal)-->
 [![Coverage Status](https://codecov.io/gh/DAI-Lab/pyreal/branch/master/graph/badge.svg)](https://codecov.io/gh/DAI-Lab/pyreal)
-
+[![Build Action Status](https://github.com/DAI-Lab/pyreal/workflows/Test%20CI/badge.svg)](https://github.com/DAI-Lab/pyreal/actions)
 # Pyreal
 
 Library for evaluating and deploying machine learning explanations.
@@ -284,7 +284,8 @@ passenger on the Titanic would have survived.</p>
 <div class="section" id="create-and-fit-localfeaturecontribution-explainer-object">
 <h3>Create and fit LocalFeatureContribution Explainer object<a class="headerlink" href="#create-and-fit-localfeaturecontribution-explainer-object" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyreal.explainers</span> <span class="kn">import</span> <span class="n">LocalFeatureContribution</span>
-<span class="n">lfc</span> <span class="o">=</span> <span class="n">LocalFeatureContribution</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span> <span class="n">x_orig</span><span class="o">=</span><span class="n">x_orig</span><span class="p">,</span> <span class="n">m_transforms</span><span class="o">=</span><span class="n">transformers</span><span class="p">,</span> <span class="n">e_transforms</span><span class="o">=</span><span class="n">transformers</span><span class="p">,</span>
+<span class="n">lfc</span> <span class="o">=</span> <span class="n">LocalFeatureContribution</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span> <span class="n">x_orig</span><span class="o">=</span><span class="n">x_orig</span><span class="p">,</span>
+                               <span class="n">m_transforms</span><span class="o">=</span><span class="n">transformers</span><span class="p">,</span> <span class="n">e_transforms</span><span class="o">=</span><span class="n">transformers</span><span class="p">,</span>
                                <span class="n">contribution_transforms</span><span class="o">=</span><span class="n">transformers</span><span class="p">,</span>
                                <span class="n">feature_descriptions</span><span class="o">=</span><span class="n">feature_descriptions</span><span class="p">)</span>
 <span class="n">lfc</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
