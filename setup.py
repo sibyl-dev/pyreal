@@ -44,7 +44,7 @@ development_requires = [
     'autodocsumm>=0.1.10',
     'PyYaml>=5.3.1,<6',
     'argh>=0.26.2,<1',
-
+    'ipython>7.0.0',
 
     # style check
     'flake8>=3.7.7',
@@ -61,6 +61,11 @@ development_requires = [
     # Advanced testing
     'coverage>=4.5.1',
     'tox>=2.9.1',
+]
+
+examples_require = [
+    "keras>=2.4.3",
+    "tensorflow>=2.2",
 ]
 
 setup(
@@ -80,6 +85,7 @@ setup(
     extras_require={
         'test': tests_require,
         'dev': development_requires + tests_require,
+        'examples': examples_require,
     },
     install_package_data=True,
     install_requires=install_requires,

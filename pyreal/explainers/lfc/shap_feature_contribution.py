@@ -4,26 +4,25 @@ from shap import Explainer as ShapExplainer
 from shap import KernelExplainer, LinearExplainer
 
 from pyreal.explainers import LocalFeatureContributionsBase
+from pyreal.utils.transformer import ExplanationAlgorithm
 
 
 class ShapFeatureContribution(LocalFeatureContributionsBase):
     """
     ShapFeatureContribution object.
 
-    A ShapFeatureContribution object gets feature contributions using the SHAP algorithm.
+    A ShapFeatureContribution object gets feature explanation using the SHAP algorithm.
 
     Args:
-        model_pickle_filepath (string filepath):
-            Filepath to the pickled model to explain
+        model (string filepath or model object):
+           Filepath to the pickled model to explain, or model object with .predict() function
         x_orig (DataFrame of size (n_instances, n_features)):
             Training set in original form.
-        contribution_transforms (transformer or list of transformers):
-            Transformer that convert contributions from explanation form to interpretable form
         shap_type (string, one of ["kernel", "linear"]):
             Type of shap algorithm to use. If None, SHAP will pick one.
         **kwargs: see base Explainer args
     """
-    def __init__(self, model_pickle_filepath, x_orig,
+    def __init__(self, model, x_orig,
                  shap_type=None, **kwargs):
         supported_types = ["kernel", "linear"]
         if shap_type is not None and shap_type not in supported_types:
@@ -33,7 +32,8 @@ class ShapFeatureContribution(LocalFeatureContributionsBase):
             self.shap_type = shap_type
 
         self.explainer = None
-        super(ShapFeatureContribution, self).__init__(model_pickle_filepath, x_orig, **kwargs)
+        self.algorithm = ExplanationAlgorithm.SHAP
+        super(ShapFeatureContribution, self).__init__(self.algorithm, model, x_orig, **kwargs)
 
     def fit(self):
         """
@@ -50,7 +50,7 @@ class ShapFeatureContribution(LocalFeatureContributionsBase):
 
     def get_contributions(self, x_orig):
         """
-        Calculate the contributions of each feature in x using SHAP.
+        Calculate the explanation of each feature in x using SHAP.
 
         Args:
             x_orig (DataFrame of shape (n_instances, n_features)):

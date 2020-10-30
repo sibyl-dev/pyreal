@@ -14,13 +14,13 @@ def plot_top_contributors(contributions, select_by="absolute", n=5, values=None,
         contributions (Series or DataFrame of shape (1, n_features):
             Contributions, with feature names as the column names
         select_by (one of "absolute", "max", "min"):
-            Which contributions to plot.
+            Which explanation to plot.
         n (int):
             Number of features to plot
         values (Series or DataFrame of shape (1, n_features):
             If given, show the corresponding values alongside the feature names
         flip_colors (Boolean):
-            If True, make the positive contributions red and negative contributions blue.
+            If True, make the positive explanation red and negative explanation blue.
             Useful if the target variable has a negative connotation
 
     Returns:

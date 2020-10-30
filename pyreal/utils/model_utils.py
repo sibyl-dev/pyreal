@@ -56,7 +56,6 @@ def load_model_from_weights(weights, model_type, includes_intercept=True):
         weight_size = weights.size
     dummy_X = np.zeros((2, weight_size))
     dummy_y = np.zeros(2)
-    print(dummy_X.shape, weights[1:].shape)
     model.fit(dummy_X, dummy_y)
 
     if includes_intercept:
