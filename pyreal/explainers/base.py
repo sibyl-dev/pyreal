@@ -87,12 +87,12 @@ class Explainer(ABC):
         if transforms is not None and e_transforms is not None:
             # TODO: replace with proper warning
             print("Warning: transforms and e_transform provided. Defaulting to using e_transforms")
-        else:
+        elif transforms is not None:
             e_transforms = transforms
         if transforms is not None and m_transforms is not None:
             # TODO: replace with proper warning
             print("Warning: transforms and m_transform provided. Defaulting to using m_transforms")
-        else:
+        elif transforms is not None:
             m_transforms = transforms
 
         self.e_transforms = _check_transforms(e_transforms)
