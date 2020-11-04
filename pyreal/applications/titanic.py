@@ -3,8 +3,7 @@ import pickle
 
 import pandas as pd
 
-DATA_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)),
-                        "..", "..", "examples", "titanic", "data")
+DATA_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data")
 
 
 def load_titanic_data():

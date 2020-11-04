@@ -25,6 +25,8 @@ class Explainer(ABC):
     Generic Explainer object
 
     Args:
+        algorithm (ExplanationAlgorithm or None):
+            Name of the algorithm this Explainer uses
         model (string filepath or model object):
            Filepath to the pickled model to explain, or model object with .predict() function
         x_orig (dataframe of shape (n_instances, x_orig_feature_count)):
@@ -50,13 +52,20 @@ class Explainer(ABC):
         fit_on_init (Boolean):
            If True, fit the explainer on initiation.
            If False, self.fit() must be manually called before produce() is called
+        skip_e_transform_explanation (Boolean):
+           If True, do not run the transform_explanation methods from e_transforms or i_transforms
+           on the explanation after producing.
+        skip_i_transform_explanation (Boolean):
+           If True, do not run the transform_explanation methods from i_transforms
+           on the explanation after producing.
     """
-    def __init__(self, model,
+    def __init__(self, algorithm, model,
                  x_orig, y_orig=None,
                  feature_descriptions=None,
                  transforms=None,
                  e_transforms=None, m_transforms=None, i_transforms=None,
-                 fit_on_init=False):
+                 fit_on_init=False,
+                 skip_e_transform_explanation=False, skip_i_transform_explanation=False):
         if isinstance(model, str):
             self.model = model_utils.load_model_from_pickle(model)
         else:
@@ -64,6 +73,7 @@ class Explainer(ABC):
             if not callable(predict_method):
                 raise TypeError("Given model that does not have a .predict function")
             self.model = model
+        self.algorithm = algorithm
 
         self.X_orig = x_orig
         self.y_orig = y_orig
@@ -91,6 +101,9 @@ class Explainer(ABC):
 
         self.feature_descriptions = feature_descriptions
 
+        self.skip_e_transform_explanation = skip_e_transform_explanation
+        self.skip_i_transform_explanation = skip_i_transform_explanation
+
         if fit_on_init:
             self.fit()
 
@@ -104,7 +117,7 @@ class Explainer(ABC):
     @abstractmethod
     def produce(self, x_orig):
         """
-        Return the explanation. Abstract method
+        Return the explanation, in the desired form.
 
         Args:
             x_orig (DataFrame of shape (n_instances, n_features):
@@ -161,6 +174,33 @@ class Explainer(ABC):
         if self.i_transforms is None:
             return x_orig
         return run_transformers(self.i_transforms, x_orig)
+
+    def transform_explanation(self, explanation):
+        """
+        Transform the explanation into its interpretable form, by running the e_transform and
+        i_transform's "transform_explanation" functions in reverse.
+
+        Args:
+            explanation (type varies by subclass):
+                The raw explanation to transform
+
+        Returns:
+            type varies by subclass
+                The interpretable form of the explanation
+        """
+        if not self.skip_e_transform_explanation:
+            if self.e_transforms is not None:
+                for transform in self.e_transforms[::-1]:
+                    transform_func = getattr(transform, "transform_explanation", None)
+                    if callable(transform_func):
+                        explanation = transform_func(explanation, algorithm=self.algorithm)
+            if not self.skip_i_transform_explanation:
+                if self.i_transforms is not None:
+                    for transform in self.i_transforms[::-1]:
+                        transform_func = getattr(transform, "transform_explanation", None)
+                        if callable(transform_func):
+                            explanation = transform_func(explanation, algorithm=self.algorithm)
+        return explanation
 
     def model_predict(self, x_orig):
         """

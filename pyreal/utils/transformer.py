@@ -1,9 +1,14 @@
 from abc import ABC, abstractmethod
+from enum import Enum, auto
 
 import numpy as np
 import pandas as pd
 from sklearn.impute import SimpleImputer
 from sklearn.preprocessing import OneHotEncoder
+
+
+class ExplanationAlgorithm(Enum):
+    SHAP = auto()
 
 
 def fit_transformers(transformers, x_orig):
@@ -51,6 +56,18 @@ class BaseTransformer(ABC):
     @abstractmethod
     def transform(self, data):
         pass
+
+    def fit(self, *args, **kwargs):
+        pass
+
+    def transform_explanation(self, explanation, algorithm):
+        if algorithm == ExplanationAlgorithm.SHAP:
+            return self.transform_explanation_shap(explanation)
+        raise ValueError("Invalid algorithm %s" % algorithm)
+
+    # noinspection PyMethodMayBeStatic
+    def transform_explanation_shap(self, explanation):
+        return explanation
 
 
 class MappingsEncoderTransformer(BaseTransformer):
@@ -128,17 +145,17 @@ class OneHotEncoderWrapper(BaseTransformer):
         x_cat_ohe = pd.DataFrame(x_cat_ohe, columns=columns, index=index)
         return pd.concat([x_orig.drop(self.feature_list, axis="columns"), x_cat_ohe], axis=1)
 
-    def transform_contributions(self, contributions):
-        if contributions.ndim == 1:
-            contributions = contributions.reshape(1, -1)
+    def transform_explanation_shap(self, explanation):
+        if explanation.ndim == 1:
+            explanation = explanation.reshape(1, -1)
         encoded_columns = self.ohe.get_feature_names(self.feature_list)
         for original_feature in self.feature_list:
             encoded_features = [item for item in encoded_columns if
                                 item.startswith(original_feature + "_")]
-            summed_contribution = contributions[encoded_features].sum(axis=1)
-            contributions = contributions.drop(encoded_features, axis="columns")
-            contributions[original_feature] = summed_contribution
-        return contributions
+            summed_contribution = explanation[encoded_features].sum(axis=1)
+            explanation = explanation.drop(encoded_features, axis="columns")
+            explanation[original_feature] = summed_contribution
+        return explanation
 
 
 class DataFrameWrapper(BaseTransformer):
@@ -167,10 +184,10 @@ class ColumnDropTransformer(BaseTransformer):
     def transform(self, x):
         return x.drop(self.columns_to_drop, axis="columns")
 
-    def transform_contributions(self, contributions):
+    def transform_explanation_shap(self, explanation):
         for col in self.columns_to_drop:
-            contributions[col] = 0
-        return contributions
+            explanation[col] = 0
+        return explanation
 
 
 class MultiTypeImputer(BaseTransformer):
