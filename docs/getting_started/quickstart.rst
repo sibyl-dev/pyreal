@@ -36,7 +36,7 @@ application:
 - ``ColumnDropTransformer``: removes features that should not be used in prediction
 - ``MultiTypeImputer``: replaces missing data from all columns with a reasonable replacement
 - ``OneHotEncoderWrapper``: one-hot encodes categorical features. We use the built-in wrapper type,
-  which includes a ``transform_contributions`` function.
+  which includes a ``transform_explanation`` function.
 
 These transformers transform the data from it's `original` state (``x_orig``) to its
 `explanation ready` state (``x_explain``). In this case, the explanation algorithm used expects
@@ -47,9 +47,9 @@ Next, we can create the ``Explainer`` object, and fit it.
 .. ipython:: python
     :okwarning:
 
-    lfc = LocalFeatureContribution(model=model, x_orig=x_orig, m_transforms=transformers, e_transforms=transformers,
-                               contribution_transforms=transformers,
-                               feature_descriptions=feature_descriptions)
+    lfc = LocalFeatureContribution(model=model, x_orig=x_orig,
+                                   m_transforms=transformers, e_transforms=transformers,
+                                   feature_descriptions=feature_descriptions)
     lfc.fit()
 
 Finally, we can get the explanation using the ``.produce()`` function. We will also visualize

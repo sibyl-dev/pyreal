@@ -28,7 +28,6 @@ Local Feature Contribution Base
     LocalFeatureContributionsBase.fit
     LocalFeatureContributionsBase.produce
     LocalFeatureContributionsBase.get_contributions
-    LocalFeatureContributionsBase.transform_contributions
 
 Local Feature Contribution Explainer
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -45,6 +44,5 @@ SHAP Feature Contribution Explainer
     ShapFeatureContribution.fit
     ShapFeatureContribution.produce
     ShapFeatureContribution.get_contributions
-    ShapFeatureContribution.transform_contributions
 
 

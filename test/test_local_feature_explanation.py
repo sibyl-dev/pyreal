@@ -65,7 +65,7 @@ class TestFeatureExplanation(unittest.TestCase):
         lfc_object.fit()
 
         shap = ShapFeatureContribution(
-            model_pickle_filepath=self.model_no_transforms_filename, x_orig=self.X_train)
+            model=self.model_no_transforms_filename, x_orig=self.X_train)
         shap.fit()
         self.assertIsNotNone(shap.explainer)
         self.assertIsInstance(shap.explainer, LinearExplainer)
@@ -75,7 +75,7 @@ class TestFeatureExplanation(unittest.TestCase):
                                        x_orig=self.X_train, e_algorithm='shap',
                                        fit_on_init=True)
         shap = ShapFeatureContribution(
-            model_pickle_filepath=self.model_no_transforms_filename, x_orig=self.X_train,
+            model=self.model_no_transforms_filename, x_orig=self.X_train,
             fit_on_init=True)
 
         self.helper_produce_shape_no_transforms(lfc)
@@ -103,12 +103,10 @@ class TestFeatureExplanation(unittest.TestCase):
         lfc = LocalFeatureContribution(model=self.model_one_hot_filename,
                                        x_orig=self.X_train, e_algorithm='shap',
                                        fit_on_init=True, e_transforms=e_transforms,
-                                       contribution_transforms=e_transforms,
                                        interpretable_features=False)
-        shap = ShapFeatureContribution(model_pickle_filepath=self.model_one_hot_filename,
+        shap = ShapFeatureContribution(model=self.model_one_hot_filename,
                                        x_orig=self.X_train, fit_on_init=True,
-                                       e_transforms=e_transforms,
-                                       contribution_transforms=e_transforms)
+                                       e_transforms=e_transforms)
         self.helper_produce_shap_one_hot(lfc)
         self.helper_produce_shap_one_hot(shap)
 
@@ -135,7 +133,6 @@ class TestFeatureExplanation(unittest.TestCase):
         lfc = LocalFeatureContribution(model=self.model_one_hot_filename,
                                        x_orig=self.X_train, e_algorithm='shap',
                                        fit_on_init=True, e_transforms=e_transforms,
-                                       contribution_transforms=e_transforms,
                                        interpretable_features=True,
                                        feature_descriptions=feature_descriptions)
         x_one_dim = pd.DataFrame([[2, 10, 10]], columns=["A", "B", "C"])
