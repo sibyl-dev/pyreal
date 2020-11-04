@@ -35,6 +35,10 @@ class Explainer(ABC):
            The y values for the dataset
         feature_descriptions (dict):
            Interpretable descriptions of each feature
+        transforms (transformer object or lis of transformer objects):
+            Transformer(s) that need to be used on x_orig for the explanation algorithm and model
+            prediction. If different transformations are needed for the explanation and model,
+            these should be defined separately using e_transforms and m_transforms.
         e_transforms (transformer object or list of transformer objects):
            Transformer(s) that need to be used on x_orig for the explanation algorithm:
            x_orig -> x_explain
@@ -58,6 +62,7 @@ class Explainer(ABC):
     def __init__(self, algorithm, model,
                  x_orig, y_orig=None,
                  feature_descriptions=None,
+                 transforms=None,
                  e_transforms=None, m_transforms=None, i_transforms=None,
                  fit_on_init=False,
                  skip_e_transform_explanation=False, skip_i_transform_explanation=False):
@@ -77,9 +82,18 @@ class Explainer(ABC):
                 (y_orig is not None and not isinstance(y_orig, pd.DataFrame)):
             raise TypeError("X_orig and y_orig must be of type DataFrame")
 
-        self.expected_feature_number = x_orig.shape[1]
-
         self.x_orig_feature_count = x_orig.shape[1]
+
+        if transforms is not None and e_transforms is not None:
+            # TODO: replace with proper warning
+            print("Warning: transforms and e_transform provided. Defaulting to using e_transforms")
+        elif transforms is not None:
+            e_transforms = transforms
+        if transforms is not None and m_transforms is not None:
+            # TODO: replace with proper warning
+            print("Warning: transforms and m_transform provided. Defaulting to using m_transforms")
+        elif transforms is not None:
+            m_transforms = transforms
 
         self.e_transforms = _check_transforms(e_transforms)
         self.m_transforms = _check_transforms(m_transforms)

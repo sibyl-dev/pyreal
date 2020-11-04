@@ -33,6 +33,7 @@ class ShapFeatureContribution(LocalFeatureContributionsBase):
 
         self.explainer = None
         self.algorithm = ExplanationAlgorithm.SHAP
+        self.explainer_input_size = None
         super(ShapFeatureContribution, self).__init__(self.algorithm, model, x_orig, **kwargs)
 
     def fit(self):
@@ -40,6 +41,7 @@ class ShapFeatureContribution(LocalFeatureContributionsBase):
         Fit the contribution explainer
         """
         dataset = self.transform_to_x_explain(self.X_orig)
+        self.explainer_input_size = dataset.shape[1]
         if self.shap_type == "kernel":
             self.explainer = KernelExplainer(self.model.predict, dataset)
         # Note: we manually check for linear model here because of SHAP bug
@@ -64,6 +66,10 @@ class ShapFeatureContribution(LocalFeatureContributionsBase):
                                  "fit_contribution_explainer before "
                                  "get_contributions")
         x = self.transform_to_x_explain(x_orig)
+        if x.shape[1] != self.explainer_input_size:
+            raise ValueError("Received input of wrong size."
+                             "Expected ({},), received {}"
+                             .format(self.explainer_input_size, x.shape))
         columns = x.columns
         x = np.asanyarray(x)
         return pd.DataFrame(self.explainer.shap_values(x), columns=columns)
