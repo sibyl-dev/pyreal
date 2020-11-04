@@ -72,8 +72,6 @@ class Explainer(ABC):
                 (y_orig is not None and not isinstance(y_orig, pd.DataFrame)):
             raise TypeError("X_orig and y_orig must be of type DataFrame")
 
-        self.expected_feature_number = x_orig.shape[1]
-
         self.x_orig_feature_count = x_orig.shape[1]
 
         if transforms is not None and e_transforms is not None:

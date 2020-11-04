@@ -59,10 +59,6 @@ class LocalFeatureContributionsBase(Explainer, ABC):
         """
         if x_orig.ndim == 1:
             x_orig = x_orig.to_frame().T
-        if x_orig.shape[1] != self.expected_feature_number:
-            raise ValueError("Received input of wrong size."
-                             "Expected ({},), received {}"
-                             .format(self.expected_feature_number, x_orig.shape))
         contributions = self.get_contributions(x_orig)
         contributions = self.transform_contributions(contributions)
         if self.interpretable_features:
