@@ -3,7 +3,7 @@ from abc import ABC, abstractmethod
 import pandas as pd
 
 from pyreal.utils import model_utils
-from pyreal.utils.transformer import run_transformers
+from pyreal.utils.transformer import run_transforms
 
 
 def _check_transforms(transforms):
@@ -142,7 +142,7 @@ class Explainer(ABC):
         """
         if self.e_transforms is None:
             return x_orig
-        return run_transformers(self.e_transforms, x_orig)
+        return run_transforms(self.e_transforms, x_orig)
 
     def transform_to_x_model(self, x_orig):
         """
@@ -158,7 +158,7 @@ class Explainer(ABC):
         """
         if self.m_transforms is None:
             return x_orig
-        return run_transformers(self.m_transforms, x_orig)
+        return run_transforms(self.m_transforms, x_orig)
 
     def transform_to_x_interpret(self, x_orig):
         """
@@ -173,7 +173,7 @@ class Explainer(ABC):
         """
         if self.i_transforms is None:
             return x_orig
-        return run_transformers(self.i_transforms, x_orig)
+        return run_transforms(self.i_transforms, x_orig)
 
     def transform_explanation(self, explanation):
         """

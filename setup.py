@@ -15,7 +15,7 @@ install_requires = [
     'numpy>=1.8',
     'pandas>=1.0.3',
     "scikit-learn>=0.22",
-    "shap>=0.36.0",
+    "shap>=0.37.0",
     "eli5>=0.10",
     'matplotlib>=3.2.1'
 ]
@@ -68,6 +68,10 @@ examples_require = [
     "tensorflow>=2.2",
 ]
 
+benchmark_require = [
+    "openml",
+]
+
 setup(
     author='MIT Data To AI Lab',
     author_email='dailabmit@gmail.com',
@@ -86,6 +90,7 @@ setup(
         'test': tests_require,
         'dev': development_requires + tests_require,
         'examples': examples_require,
+        'benchmark': benchmark_require,
     },
     install_package_data=True,
     install_requires=install_requires,

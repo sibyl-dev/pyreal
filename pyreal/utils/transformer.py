@@ -11,12 +11,12 @@ class ExplanationAlgorithm(Enum):
     SHAP = auto()
 
 
-def fit_transformers(transformers, x_orig):
+def fit_transforms(transforms, x_orig):
     """
     Fit a set of transformers in-place, transforming the data after each fit. Checks if each
     transformer has a fit function and if so, calls it.
     Args:
-        transformers (list of Transformers):
+        transforms (list of Transformers):
             List of transformers to fit, in order
         x_orig (DataFrame of shape (n_instances, n_features)):
             Dataset to fit on.
@@ -25,20 +25,20 @@ def fit_transformers(transformers, x_orig):
         None
     """
     x_transform = x_orig.copy()
-    for transformer in transformers:
+    for transformer in transforms:
         fit_func = getattr(transformer, "fit", None)
         if callable(fit_func):
             fit_func(x_transform)
         x_transform = transformer.transform(x_transform)
 
 
-def run_transformers(transformers, x_orig):
+def run_transforms(transforms, x_orig):
     """
-    Run a series of transformers on x_orig
+    Run a series of transforms on x_orig
 
     Args:
-        transformers (list of Transformers):
-            List of transformers to fit, in order
+        transforms (list of Transformers):
+            List of transforms to fit, in order
         x_orig (DataFrame of shape (n_instances, n_features)):
             Dataset to transform
 
@@ -47,7 +47,7 @@ def run_transformers(transformers, x_orig):
             Transformed data
     """
     x_transform = x_orig.copy()
-    for transform in transformers:
+    for transform in transforms:
         x_transform = transform.transform(x_transform)
     return x_transform
 
@@ -132,6 +132,8 @@ class OneHotEncoderWrapper(BaseTransformer):
     def fit(self, x_orig):
         if self.feature_list is None:
             self.feature_list = x_orig.columns
+        allowed_features = np.array(x_orig.columns)
+        self.feature_list = [f for f in self.feature_list if f in x_orig.columns]
         self.ohe.fit(x_orig[self.feature_list])
         self.is_fit = True
 
@@ -160,7 +162,7 @@ class OneHotEncoderWrapper(BaseTransformer):
 
 class DataFrameWrapper(BaseTransformer):
     """
-    Allows use of standard sklearn transformers while maintaining DataFrame type.
+    Allows use of standard sklearn transforms while maintaining DataFrame type.
     """
     def __init__(self, base_transformer):
         self.base_transformer = base_transformer
@@ -202,12 +204,26 @@ class MultiTypeImputer(BaseTransformer):
         self.categorical_imputer = SimpleImputer(missing_values=np.nan, strategy="most_frequent")
 
     def fit(self, x):
-        self.numeric_cols = x.select_dtypes(include="number").columns
-        self.categorical_cols = x.select_dtypes(exclude="number").columns
-        self.numeric_imputer.fit(x[self.numeric_cols])
-        self.categorical_imputer.fit(x[self.categorical_cols])
+        self.numeric_cols = x.dropna(axis="columns", how="all")\
+            .select_dtypes(include="number").columns
+        self.categorical_cols = x.dropna(axis="columns", how="all")\
+            .select_dtypes(exclude="number").columns
+        if len(self.numeric_cols) == 0 and len(self.categorical_cols) == 0:
+            raise ValueError("No valid numeric or categorical cols")
+        if len(self.numeric_cols) > 0:
+            self.numeric_imputer.fit(x[self.numeric_cols])
+        if len(self.categorical_cols) > 0:
+            self.categorical_imputer.fit(x[self.categorical_cols])
 
     def transform(self, x):
+        if len(self.categorical_cols) == 0:
+            new_numeric_cols = self.numeric_imputer.transform(x[self.numeric_cols])
+            return pd.DataFrame(new_numeric_cols, columns=self.numeric_cols, index=x.index)
+
+        if len(self.numeric_cols) == 0:
+            new_categorical_cols = self.categorical_imputer.transform(x[self.categorical_cols])
+            return pd.DataFrame(new_categorical_cols, columns=self.categorical_cols, index=x.index)
+
         new_numeric_cols = self.numeric_imputer.transform(x[self.numeric_cols])
         new_categorical_cols = self.categorical_imputer.transform(x[self.categorical_cols])
         return pd.concat([pd.DataFrame(new_numeric_cols, columns=self.numeric_cols, index=x.index),
