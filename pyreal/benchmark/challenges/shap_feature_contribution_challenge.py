@@ -1,5 +1,6 @@
-from pyreal.benchmark.challenges import explainer_challenge
 import numpy as np
+
+from pyreal.benchmark.challenges import explainer_challenge
 from pyreal.explainers import ShapFeatureContribution
 
 

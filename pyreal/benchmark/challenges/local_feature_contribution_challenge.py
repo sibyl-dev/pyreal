@@ -1,5 +1,6 @@
-from pyreal.benchmark.challenges.explainer_challenge import ExplainerChallenge
 import numpy as np
+
+from pyreal.benchmark.challenges.explainer_challenge import ExplainerChallenge
 from pyreal.explainers import LocalFeatureContribution
 
 

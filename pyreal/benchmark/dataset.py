@@ -1,8 +1,10 @@
-from pyreal.utils.transformer import run_transforms, fit_transforms, \
-    MultiTypeImputer, OneHotEncoderWrapper
-from sklearn.preprocessing import LabelEncoder
-import pickle
 import os
+import pickle
+
+from sklearn.preprocessing import LabelEncoder
+
+from pyreal.utils.transformer import (
+    MultiTypeImputer, OneHotEncoderWrapper, fit_transforms, run_transforms,)
 
 
 class Dataset:

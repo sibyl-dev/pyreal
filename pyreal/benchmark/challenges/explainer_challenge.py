@@ -1,5 +1,6 @@
 import time
 from abc import abstractmethod
+
 import numpy as np
 
 
@@ -48,13 +49,13 @@ class ExplainerChallenge:
         # TEST ON A SINGLE SERIES
         if self.evaluate("series"):
             explanation_series, time_series = self.run_challenge_once(self.dataset.X.iloc[0])
-            returns["series"] = (explanation_series, time_series)
+            returns["series"] = {"explanation": explanation_series, "time": time_series}
 
         # TEST ON N_ROWS ITEMS
         if self.evaluate("produce") or self.evaluate("consistency"):
             explanation, time = self.run_challenge_once(self.dataset.X.iloc[0:self.n_rows])
             if self.evaluate("produce"):
-                returns["produce"] = (explanation, time)
+                returns["produce"] = {"explanation": explanation, "time": time}
 
             # TEST EXPLANATION CONSISTENCY
             if self.evaluate("consistency"):

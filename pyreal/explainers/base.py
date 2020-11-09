@@ -59,6 +59,7 @@ class Explainer(ABC):
            If True, do not run the transform_explanation methods from i_transforms
            on the explanation after producing.
     """
+
     def __init__(self, algorithm, model,
                  x_orig, y_orig=None,
                  feature_descriptions=None,
@@ -112,7 +113,6 @@ class Explainer(ABC):
         """
         Fit this explainer object. Abstract method
         """
-        pass
 
     @abstractmethod
     def produce(self, x_orig):
@@ -127,7 +127,6 @@ class Explainer(ABC):
             Type varies by subclass
                 Explanation
         """
-        pass
 
     def transform_to_x_explain(self, x_orig):
         """

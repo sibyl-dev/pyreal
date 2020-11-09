@@ -6,8 +6,6 @@ from shap import KernelExplainer, LinearExplainer
 from pyreal.explainers import LocalFeatureContributionsBase
 from pyreal.utils.transformer import ExplanationAlgorithm
 
-import random
-
 
 class ShapFeatureContribution(LocalFeatureContributionsBase):
     """
@@ -24,12 +22,13 @@ class ShapFeatureContribution(LocalFeatureContributionsBase):
             Type of shap algorithm to use. If None, SHAP will pick one.
         **kwargs: see base Explainer args
     """
+
     def __init__(self, model, x_orig,
                  shap_type=None, **kwargs):
         supported_types = ["kernel", "linear"]
         if shap_type is not None and shap_type not in supported_types:
             raise ValueError("Shap type not supported, given %s, expected one of %s or None" %
-                  (shap_type, str(supported_types)))
+                             (shap_type, str(supported_types)))
         else:
             self.shap_type = shap_type
 
@@ -74,9 +73,6 @@ class ShapFeatureContribution(LocalFeatureContributionsBase):
                              .format(self.explainer_input_size, x.shape))
         columns = x.columns
         x = np.asanyarray(x)
-
-        if random.random() < 0.1:
-            raise(ValueError("Low random number"))
 
         shap_values = np.array(self.explainer.shap_values(x))
         if shap_values.ndim > 2:
