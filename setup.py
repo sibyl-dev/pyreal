@@ -44,7 +44,7 @@ development_requires = [
     'autodocsumm>=0.1.10',
     'PyYaml>=5.3.1,<6',
     'argh>=0.26.2,<1',
-    'ipython>7.0.0',
+    'ipython>7.18.0',
 
     # style check
     'flake8>=3.7.7',
