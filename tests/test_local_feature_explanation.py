@@ -23,7 +23,7 @@ class TestFeatureExplanation(unittest.TestCase):
     def setUp(self):
         """Set up test fixtures"""
         try:
-            os.makedirs(os.path.join(TEST_ROOT, "data"))
+            os.makedirs(os.path.join(TEST_ROOT, "../test/data"))
         except FileExistsError:
             pass
 

@@ -45,7 +45,7 @@ class ShapFeatureContribution(LocalFeatureContributionsBase):
         if self.shap_type == "kernel":
             self.explainer = KernelExplainer(self.model.predict, dataset)
         # Note: we manually check for linear model here because of SHAP bug
-        elif self.shap_type == "linear" or LinearExplainer.supports_model(self.model):
+        elif self.shap_type == "linear":
             self.explainer = LinearExplainer(self.model, dataset)
         else:
             self.explainer = ShapExplainer(self.model, dataset)  # SHAP will pick an algorithm
