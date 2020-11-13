@@ -4,8 +4,6 @@
 name: Test CI
 
 on:
-  push:
-    branches: [ release ]
   pull_request:
 
 jobs:
