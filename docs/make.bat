@@ -9,7 +9,7 @@ if "%SPHINXBUILD%" == "" (
 )
 set SOURCEDIR=.
 set BUILDDIR=_build
-set SPHINXPROJ=explanation_toolkit
+set SPHINXPROJ=pyreal
 
 if "%1" == "" goto help
 

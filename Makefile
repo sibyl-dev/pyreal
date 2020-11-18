@@ -39,12 +39,12 @@ install-test: clean-build clean-pyc ## install the package and test dependencies
 
 .PHONY: test
 test: ## run tests quickly with the default Python
-	python -m pytest --basetemp=${ENVTMPDIR} --cov=explanation_toolkit
+	python -m pytest --cov=pyreal
 
 .PHONY: lint
 lint: ## check style with flake8 and isort
-	flake8 explanation_toolkit tests
-	isort -c --recursive explanation_toolkit tests
+	flake8 pyreal tests
+	isort -c pyreal tests --skip __init__.py
 
 .PHONY: install-develop
 install-develop: clean-build clean-pyc ## install the package in editable mode and dependencies for development
@@ -56,20 +56,19 @@ test-all: ## run tests on every Python version with tox
 
 .PHONY: fix-lint
 fix-lint: ## fix lint issues using autoflake, autopep8, and isort
-	find explanation_toolkit tests -name '*.py' | xargs autoflake --in-place --remove-all-unused-imports --remove-unused-variables
-	autopep8 --in-place --recursive --aggressive explanation_toolkit tests
-	isort --apply --atomic --recursive explanation_toolkit tests
+	find pyreal tests -name '*.py' | xargs autoflake --in-place --remove-all-unused-imports --remove-unused-variables
+	autopep8 --in-place --recursive --aggressive pyreal tests
+	isort --apply --atomic --recursive pyreal tests
 
 .PHONY: coverage
 coverage: ## check code coverage quickly with the default Python
-	coverage run --source explanation_toolkit -m pytest
+	coverage run --source pyreal -m pytest
 	coverage report -m
 	coverage html
 	$(BROWSER) htmlcov/index.html
 
 .PHONY: docs
 docs: clean-docs ## generate Sphinx HTML documentation, including API docs
-	sphinx-apidoc --separate --no-toc -o docs/api/ explanation_toolkit
 	$(MAKE) -C docs html
 
 .PHONY: view-docs
@@ -159,7 +158,7 @@ clean-build: ## remove build artifacts
 	rm -fr dist/
 	rm -fr .eggs/
 	find . -name '*.egg-info' -exec rm -fr {} +
-	find . -name '*.egg' -exec rm -f {} +
+	find . -name '*.egg' -exec rm -fr {} +
 
 .PHONY: clean-pyc
 clean-pyc: ## remove Python file artifacts
