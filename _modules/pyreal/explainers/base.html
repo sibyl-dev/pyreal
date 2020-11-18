@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pyreal.explainers.base &#8212; Pyreal 0.1.0.dev0 documentation</title>
+    <title>pyreal.explainers.base &#8212; Pyreal 0.1.0 documentation</title>
     
   <link rel="stylesheet" href="../../../_static/css/index.73d71520a4ca3b99cfee5594769eaaae.css">
 
@@ -173,6 +173,8 @@
 <span class="sd">    Generic Explainer object</span>
 
 <span class="sd">    Args:</span>
+<span class="sd">        algorithm (ExplanationAlgorithm or None):</span>
+<span class="sd">            Name of the algorithm this Explainer uses</span>
 <span class="sd">        model (string filepath or model object):</span>
 <span class="sd">           Filepath to the pickled model to explain, or model object with .predict() function</span>
 <span class="sd">        x_orig (dataframe of shape (n_instances, x_orig_feature_count)):</span>
@@ -181,6 +183,10 @@
 <span class="sd">           The y values for the dataset</span>
 <span class="sd">        feature_descriptions (dict):</span>
 <span class="sd">           Interpretable descriptions of each feature</span>
+<span class="sd">        transforms (transformer object or lis of transformer objects):</span>
+<span class="sd">            Transformer(s) that need to be used on x_orig for the explanation algorithm and model</span>
+<span class="sd">            prediction. If different transformations are needed for the explanation and model,</span>
+<span class="sd">            these should be defined separately using e_transforms and m_transforms.</span>
 <span class="sd">        e_transforms (transformer object or list of transformer objects):</span>
 <span class="sd">           Transformer(s) that need to be used on x_orig for the explanation algorithm:</span>
 <span class="sd">           x_orig -&gt; x_explain</span>
@@ -194,12 +200,20 @@
 <span class="sd">        fit_on_init (Boolean):</span>
 <span class="sd">           If True, fit the explainer on initiation.</span>
 <span class="sd">           If False, self.fit() must be manually called before produce() is called</span>
+<span class="sd">        skip_e_transform_explanation (Boolean):</span>
+<span class="sd">           If True, do not run the transform_explanation methods from e_transforms or i_transforms</span>
+<span class="sd">           on the explanation after producing.</span>
+<span class="sd">        skip_i_transform_explanation (Boolean):</span>
+<span class="sd">           If True, do not run the transform_explanation methods from i_transforms</span>
+<span class="sd">           on the explanation after producing.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-<div class="viewcode-block" id="Explainer.__init__"><a class="viewcode-back" href="../../../api_reference/api/pyreal.explainers.Explainer.html#pyreal.explainers.Explainer.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span>
+<div class="viewcode-block" id="Explainer.__init__"><a class="viewcode-back" href="../../../api_reference/api/pyreal.explainers.Explainer.html#pyreal.explainers.Explainer.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">algorithm</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span>
                  <span class="n">x_orig</span><span class="p">,</span> <span class="n">y_orig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">feature_descriptions</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">transforms</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">e_transforms</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">m_transforms</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">i_transforms</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">fit_on_init</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+                 <span class="n">fit_on_init</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                 <span class="n">skip_e_transform_explanation</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">skip_i_transform_explanation</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">model_utils</span><span class="o">.</span><span class="n">load_model_from_pickle</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
@@ -207,6 +221,7 @@
             <span class="k">if</span> <span class="ow">not</span> <span class="n">callable</span><span class="p">(</span><span class="n">predict_method</span><span class="p">):</span>
                 <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Given model that does not have a .predict function&quot;</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">model</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">algorithm</span> <span class="o">=</span> <span class="n">algorithm</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">X_orig</span> <span class="o">=</span> <span class="n">x_orig</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">y_orig</span> <span class="o">=</span> <span class="n">y_orig</span>
@@ -215,15 +230,27 @@
                 <span class="p">(</span><span class="n">y_orig</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">y_orig</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)):</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;X_orig and y_orig must be of type DataFrame&quot;</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">expected_feature_number</span> <span class="o">=</span> <span class="n">x_orig</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-
         <span class="bp">self</span><span class="o">.</span><span class="n">x_orig_feature_count</span> <span class="o">=</span> <span class="n">x_orig</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">transforms</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">e_transforms</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># TODO: replace with proper warning</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Warning: transforms and e_transform provided. Defaulting to using e_transforms&quot;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">transforms</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">e_transforms</span> <span class="o">=</span> <span class="n">transforms</span>
+        <span class="k">if</span> <span class="n">transforms</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">m_transforms</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># TODO: replace with proper warning</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Warning: transforms and m_transform provided. Defaulting to using m_transforms&quot;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">transforms</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">m_transforms</span> <span class="o">=</span> <span class="n">transforms</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">e_transforms</span> <span class="o">=</span> <span class="n">_check_transforms</span><span class="p">(</span><span class="n">e_transforms</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">m_transforms</span> <span class="o">=</span> <span class="n">_check_transforms</span><span class="p">(</span><span class="n">m_transforms</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">i_transforms</span> <span class="o">=</span> <span class="n">_check_transforms</span><span class="p">(</span><span class="n">i_transforms</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">feature_descriptions</span> <span class="o">=</span> <span class="n">feature_descriptions</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">skip_e_transform_explanation</span> <span class="o">=</span> <span class="n">skip_e_transform_explanation</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">skip_i_transform_explanation</span> <span class="o">=</span> <span class="n">skip_i_transform_explanation</span>
 
         <span class="k">if</span> <span class="n">fit_on_init</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span></div>
@@ -238,7 +265,7 @@
 <div class="viewcode-block" id="Explainer.produce"><a class="viewcode-back" href="../../../api_reference/api/pyreal.explainers.Explainer.produce.html#pyreal.explainers.Explainer.produce">[docs]</a>    <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">produce</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_orig</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Return the explanation. Abstract method</span>
+<span class="sd">        Return the explanation, in the desired form.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            x_orig (DataFrame of shape (n_instances, n_features):</span>
@@ -295,6 +322,33 @@
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">i_transforms</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">x_orig</span>
         <span class="k">return</span> <span class="n">run_transformers</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">i_transforms</span><span class="p">,</span> <span class="n">x_orig</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">transform_explanation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">explanation</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Transform the explanation into its interpretable form, by running the e_transform and</span>
+<span class="sd">        i_transform&#39;s &quot;transform_explanation&quot; functions in reverse.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            explanation (type varies by subclass):</span>
+<span class="sd">                The raw explanation to transform</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            type varies by subclass</span>
+<span class="sd">                The interpretable form of the explanation</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">skip_e_transform_explanation</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">e_transforms</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">transform</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">e_transforms</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+                    <span class="n">transform_func</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">transform</span><span class="p">,</span> <span class="s2">&quot;transform_explanation&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">callable</span><span class="p">(</span><span class="n">transform_func</span><span class="p">):</span>
+                        <span class="n">explanation</span> <span class="o">=</span> <span class="n">transform_func</span><span class="p">(</span><span class="n">explanation</span><span class="p">,</span> <span class="n">algorithm</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">algorithm</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">skip_i_transform_explanation</span><span class="p">:</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">i_transforms</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="k">for</span> <span class="n">transform</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">i_transforms</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+                        <span class="n">transform_func</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">transform</span><span class="p">,</span> <span class="s2">&quot;transform_explanation&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+                        <span class="k">if</span> <span class="n">callable</span><span class="p">(</span><span class="n">transform_func</span><span class="p">):</span>
+                            <span class="n">explanation</span> <span class="o">=</span> <span class="n">transform_func</span><span class="p">(</span><span class="n">explanation</span><span class="p">,</span> <span class="n">algorithm</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">algorithm</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">explanation</span>
 
 <div class="viewcode-block" id="Explainer.model_predict"><a class="viewcode-back" href="../../../api_reference/api/pyreal.explainers.Explainer.model_predict.html#pyreal.explainers.Explainer.model_predict">[docs]</a>    <span class="k">def</span> <span class="nf">model_predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_orig</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>

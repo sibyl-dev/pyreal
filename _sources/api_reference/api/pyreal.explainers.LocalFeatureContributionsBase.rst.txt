@@ -21,7 +21,7 @@
       ~LocalFeatureContributionsBase.get_contributions
       ~LocalFeatureContributionsBase.model_predict
       ~LocalFeatureContributionsBase.produce
-      ~LocalFeatureContributionsBase.transform_contributions
+      ~LocalFeatureContributionsBase.transform_explanation
       ~LocalFeatureContributionsBase.transform_to_x_explain
       ~LocalFeatureContributionsBase.transform_to_x_interpret
       ~LocalFeatureContributionsBase.transform_to_x_model

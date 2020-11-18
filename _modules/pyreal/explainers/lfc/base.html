@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pyreal.explainers.lfc.base &#8212; Pyreal 0.1.0.dev0 documentation</title>
+    <title>pyreal.explainers.lfc.base &#8212; Pyreal 0.1.0 documentation</title>
     
   <link rel="stylesheet" href="../../../../_static/css/index.73d71520a4ca3b99cfee5594769eaaae.css">
 
@@ -160,6 +160,8 @@
 <span class="sd">    by taking an instance and returning one number per feature, per instance.</span>
 
 <span class="sd">    Args:</span>
+<span class="sd">        algorithm (ExplanationAlgorithm or None):</span>
+<span class="sd">            Name of the algorithm this Explainer uses</span>
 <span class="sd">        model (string filepath or model object):</span>
 <span class="sd">           Filepath to the pickled model to explain, or model object with .predict() function</span>
 <span class="sd">        x_orig (dataframe of shape (n_instances, x_orig_feature_count)):</span>
@@ -167,24 +169,14 @@
 <span class="sd">        e_algorithm (string, one of [&quot;shap&quot;]):</span>
 <span class="sd">           Explanation algorithm to use. If none, one will be chosen automatically based on model</span>
 <span class="sd">           type</span>
-<span class="sd">        contribution_transforms (contribution transformer object(s)):</span>
-<span class="sd">           Object or list of objects that include .transform_contributions(contributions)</span>
-<span class="sd">           functions, used to adjust the contributions back to interpretable form.</span>
 <span class="sd">        interpretable_features (Boolean):</span>
 <span class="sd">            If True, return explanations using the interpretable feature descriptions instead of</span>
 <span class="sd">            default names</span>
 <span class="sd">        **kwargs: see base Explainer args</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-<div class="viewcode-block" id="LocalFeatureContributionsBase.__init__"><a class="viewcode-back" href="../../../../api_reference/api/pyreal.explainers.LocalFeatureContributionsBase.html#pyreal.explainers.LocalFeatureContributionsBase.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">x_orig</span><span class="p">,</span>
-                 <span class="n">contribution_transforms</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">interpretable_features</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">contribution_transforms</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> \
-                <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">contribution_transforms</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">contribution_transforms</span> <span class="o">=</span> <span class="p">[</span><span class="n">contribution_transforms</span><span class="p">]</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">contribution_transforms</span> <span class="o">=</span> <span class="n">contribution_transforms</span>
-
+<div class="viewcode-block" id="LocalFeatureContributionsBase.__init__"><a class="viewcode-back" href="../../../../api_reference/api/pyreal.explainers.LocalFeatureContributionsBase.html#pyreal.explainers.LocalFeatureContributionsBase.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">algorithm</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">x_orig</span><span class="p">,</span> <span class="n">interpretable_features</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">interpretable_features</span> <span class="o">=</span> <span class="n">interpretable_features</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">LocalFeatureContributionsBase</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">x_orig</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+        <span class="nb">super</span><span class="p">(</span><span class="n">LocalFeatureContributionsBase</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">algorithm</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">x_orig</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="LocalFeatureContributionsBase.fit"><a class="viewcode-back" href="../../../../api_reference/api/pyreal.explainers.LocalFeatureContributionsBase.fit.html#pyreal.explainers.LocalFeatureContributionsBase.fit">[docs]</a>    <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -207,12 +199,8 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">x_orig</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
             <span class="n">x_orig</span> <span class="o">=</span> <span class="n">x_orig</span><span class="o">.</span><span class="n">to_frame</span><span class="p">()</span><span class="o">.</span><span class="n">T</span>
-        <span class="k">if</span> <span class="n">x_orig</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">expected_feature_number</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Received input of wrong size.&quot;</span>
-                             <span class="s2">&quot;Expected (</span><span class="si">{}</span><span class="s2">,), received </span><span class="si">{}</span><span class="s2">&quot;</span>
-                             <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">expected_feature_number</span><span class="p">,</span> <span class="n">x_orig</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span>
         <span class="n">contributions</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_contributions</span><span class="p">(</span><span class="n">x_orig</span><span class="p">)</span>
-        <span class="n">contributions</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform_contributions</span><span class="p">(</span><span class="n">contributions</span><span class="p">)</span>
+        <span class="n">contributions</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform_explanation</span><span class="p">(</span><span class="n">contributions</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">interpretable_features</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">convert_columns_to_interpretable</span><span class="p">(</span><span class="n">contributions</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">contributions</span></div>
@@ -220,7 +208,7 @@
 <div class="viewcode-block" id="LocalFeatureContributionsBase.get_contributions"><a class="viewcode-back" href="../../../../api_reference/api/pyreal.explainers.LocalFeatureContributionsBase.get_contributions.html#pyreal.explainers.LocalFeatureContributionsBase.get_contributions">[docs]</a>    <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">get_contributions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_orig</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Gets the raw contributions. Abstract method.</span>
+<span class="sd">        Gets the raw explanation explanation.</span>
 <span class="sd">        Args:</span>
 <span class="sd">            x_orig (DataFrame of shape (n_instances, n_features):</span>
 <span class="sd">                Input to explain</span>
@@ -229,25 +217,7 @@
 <span class="sd">            DataFrame of shape (n_instances, n_features)</span>
 <span class="sd">                Contribution of each feature for each instance</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">pass</span></div>
-
-<div class="viewcode-block" id="LocalFeatureContributionsBase.transform_contributions"><a class="viewcode-back" href="../../../../api_reference/api/pyreal.explainers.LocalFeatureContributionsBase.transform_contributions.html#pyreal.explainers.LocalFeatureContributionsBase.transform_contributions">[docs]</a>    <span class="k">def</span> <span class="nf">transform_contributions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">contributions</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Transform contributions to an interpretable form.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            contributions (DataFrame of shape (n_instances, x_explain_feature_count)):</span>
-<span class="sd">        Returns:</span>
-<span class="sd">            DataFrame of shape (n_instances, x_interpret_feature_count)</span>
-<span class="sd">                The transformed contributions</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">contribution_transforms</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">contributions</span>
-        <span class="k">for</span> <span class="n">transform</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">contribution_transforms</span><span class="p">:</span>
-            <span class="n">transform_func</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">transform</span><span class="p">,</span> <span class="s2">&quot;transform_contributions&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">callable</span><span class="p">(</span><span class="n">transform_func</span><span class="p">):</span>
-                <span class="n">contributions</span> <span class="o">=</span> <span class="n">transform_func</span><span class="p">(</span><span class="n">contributions</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">contributions</span></div></div>
+        <span class="k">pass</span></div></div>
 </pre></div>
 
               </div>

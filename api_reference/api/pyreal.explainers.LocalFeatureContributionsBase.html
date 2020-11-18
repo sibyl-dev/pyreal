@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pyreal.explainers.LocalFeatureContributionsBase &#8212; Pyreal 0.1.0.dev0 documentation</title>
+    <title>pyreal.explainers.LocalFeatureContributionsBase &#8212; Pyreal 0.1.0 documentation</title>
     
   <link rel="stylesheet" href="../../_static/css/index.73d71520a4ca3b99cfee5594769eaaae.css">
 
@@ -178,10 +178,6 @@
                         </li>
                     
                         <li class="">
-                            <a href="pyreal.explainers.LocalFeatureContributionsBase.transform_contributions.html">pyreal.explainers.LocalFeatureContributionsBase.transform_contributions</a>
-                        </li>
-                    
-                        <li class="">
                             <a href="pyreal.explainers.LocalFeatureContribution.html">pyreal.explainers.LocalFeatureContribution</a>
                         </li>
                     
@@ -243,7 +239,7 @@
 <h1>pyreal.explainers.LocalFeatureContributionsBase<a class="headerlink" href="#pyreal-explainers-localfeaturecontributionsbase" title="Permalink to this headline">¶</a></h1>
 <dl class="py class">
 <dt id="pyreal.explainers.LocalFeatureContributionsBase">
-<em class="property">class </em><code class="sig-prename descclassname">pyreal.explainers.</code><code class="sig-name descname">LocalFeatureContributionsBase</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">model</span></em>, <em class="sig-param"><span class="n">x_orig</span></em>, <em class="sig-param"><span class="n">contribution_transforms</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">interpretable_features</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyreal/explainers/lfc/base.html#LocalFeatureContributionsBase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyreal.explainers.LocalFeatureContributionsBase" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">pyreal.explainers.</code><code class="sig-name descname">LocalFeatureContributionsBase</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">algorithm</span></em>, <em class="sig-param"><span class="n">model</span></em>, <em class="sig-param"><span class="n">x_orig</span></em>, <em class="sig-param"><span class="n">interpretable_features</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyreal/explainers/lfc/base.html#LocalFeatureContributionsBase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyreal.explainers.LocalFeatureContributionsBase" title="Permalink to this definition">¶</a></dt>
 <dd><p>Base class for LocalFeatureContributionsBase explainer objects. Abstract class</p>
 <p>A LocalFeatureContributionsBase object explains a machine learning prediction by assigning an
 importance or contribution score to every feature. LocalFeatureContributionBase objects explain
@@ -251,12 +247,11 @@ by taking an instance and returning one number per feature, per instance.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
+<li><p><strong>algorithm</strong> (<em>ExplanationAlgorithm</em><em> or </em><em>None</em>) – Name of the algorithm this Explainer uses</p></li>
 <li><p><strong>model</strong> (<em>string filepath</em><em> or </em><em>model object</em>) – Filepath to the pickled model to explain, or model object with .predict() function</p></li>
 <li><p><strong>x_orig</strong> (<em>dataframe of shape</em><em> (</em><em>n_instances</em><em>, </em><em>x_orig_feature_count</em><em>)</em>) – The training set for the explainer</p></li>
 <li><p><strong>e_algorithm</strong> (<em>string</em><em>, </em><em>one of</em><em> [</em><em>&quot;shap&quot;</em><em>]</em>) – Explanation algorithm to use. If none, one will be chosen automatically based on model
 type</p></li>
-<li><p><strong>contribution_transforms</strong> (<em>contribution transformer object</em><em>(</em><em>s</em><em>)</em>) – Object or list of objects that include .transform_contributions(contributions)
-functions, used to adjust the contributions back to interpretable form.</p></li>
 <li><p><strong>interpretable_features</strong> (<em>Boolean</em>) – If True, return explanations using the interpretable feature descriptions instead of
 default names</p></li>
 <li><p><strong>**kwargs</strong> – see base Explainer args</p></li>
@@ -265,7 +260,7 @@ default names</p></li>
 </dl>
 <dl class="py method">
 <dt id="pyreal.explainers.LocalFeatureContributionsBase.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">model</span></em>, <em class="sig-param"><span class="n">x_orig</span></em>, <em class="sig-param"><span class="n">contribution_transforms</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">interpretable_features</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyreal/explainers/lfc/base.html#LocalFeatureContributionsBase.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyreal.explainers.LocalFeatureContributionsBase.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">algorithm</span></em>, <em class="sig-param"><span class="n">model</span></em>, <em class="sig-param"><span class="n">x_orig</span></em>, <em class="sig-param"><span class="n">interpretable_features</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyreal/explainers/lfc/base.html#LocalFeatureContributionsBase.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyreal.explainers.LocalFeatureContributionsBase.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
 </dd></dl>
 
@@ -276,7 +271,7 @@ default names</p></li>
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#pyreal.explainers.LocalFeatureContributionsBase.__init__" title="pyreal.explainers.LocalFeatureContributionsBase.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(model, x_orig[, …])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pyreal.explainers.LocalFeatureContributionsBase.__init__" title="pyreal.explainers.LocalFeatureContributionsBase.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(algorithm, model, x_orig[, …])</p></td>
 <td><p>Initialize self.</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">convert_columns_to_interpretable</span></code>(df)</p></td>
@@ -292,7 +287,7 @@ default names</p></li>
 <td><p>Fit this explainer object</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="pyreal.explainers.LocalFeatureContributionsBase.get_contributions.html#pyreal.explainers.LocalFeatureContributionsBase.get_contributions" title="pyreal.explainers.LocalFeatureContributionsBase.get_contributions"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_contributions</span></code></a>(x_orig)</p></td>
-<td><p>Gets the raw contributions.</p></td>
+<td><p>Gets the raw explanation explanation.</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">model_predict</span></code>(x_orig)</p></td>
 <td><p>Predict on x_orig using the model and return the result</p></td>
@@ -300,8 +295,8 @@ default names</p></li>
 <tr class="row-even"><td><p><a class="reference internal" href="pyreal.explainers.LocalFeatureContributionsBase.produce.html#pyreal.explainers.LocalFeatureContributionsBase.produce" title="pyreal.explainers.LocalFeatureContributionsBase.produce"><code class="xref py py-obj docutils literal notranslate"><span class="pre">produce</span></code></a>(x_orig)</p></td>
 <td><p>Produce the local feature contribution explanation</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="pyreal.explainers.LocalFeatureContributionsBase.transform_contributions.html#pyreal.explainers.LocalFeatureContributionsBase.transform_contributions" title="pyreal.explainers.LocalFeatureContributionsBase.transform_contributions"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_contributions</span></code></a>(contributions)</p></td>
-<td><p>Transform contributions to an interpretable form.</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_explanation</span></code>(explanation)</p></td>
+<td><p>Transform the explanation into its interpretable form, by running the e_transform and i_transform’s “transform_explanation” functions in reverse.</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_to_x_explain</span></code>(x_orig)</p></td>
 <td><p>Transform x_orig to x_explain, using the e_transforms</p></td>

@@ -1,6 +1,0 @@
-﻿pyreal.explainers.LocalFeatureContributionsBase.transform\_contributions
-========================================================================
-
-.. currentmodule:: pyreal.explainers
-
-.. automethod:: LocalFeatureContributionsBase.transform_contributions

@@ -20,6 +20,7 @@
       ~Explainer.fit
       ~Explainer.model_predict
       ~Explainer.produce
+      ~Explainer.transform_explanation
       ~Explainer.transform_to_x_explain
       ~Explainer.transform_to_x_interpret
       ~Explainer.transform_to_x_model

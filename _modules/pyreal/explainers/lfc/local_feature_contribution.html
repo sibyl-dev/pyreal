@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pyreal.explainers.lfc.local_feature_contribution &#8212; Pyreal 0.1.0.dev0 documentation</title>
+    <title>pyreal.explainers.lfc.local_feature_contribution &#8212; Pyreal 0.1.0 documentation</title>
     
   <link rel="stylesheet" href="../../../../_static/css/index.73d71520a4ca3b99cfee5594769eaaae.css">
 
@@ -163,7 +163,7 @@
 
 <span class="k">def</span> <span class="nf">lfc</span><span class="p">(</span><span class="n">return_contributions</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">return_explainer</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">explainer</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">model</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">x_input</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">x_train</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-        <span class="n">contribution_transforms</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">e_algorithm</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">feature_descriptions</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">e_algorithm</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">feature_descriptions</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">e_transforms</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">m_transforms</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">i_transforms</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">interpretable_features</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -171,7 +171,7 @@
 
 <span class="sd">    Args:</span>
 <span class="sd">        return_contributions (Boolean):</span>
-<span class="sd">            If true, return contributions of features in x_input.</span>
+<span class="sd">            If true, return explanation of features in x_input.</span>
 <span class="sd">            If true, requires `x_input` and one of `explainer` or (`model and x_train`)</span>
 <span class="sd">        return_explainer (Boolean):</span>
 <span class="sd">            If true, return the fitted Explainer object.</span>
@@ -184,9 +184,6 @@
 <span class="sd">           The input to explain</span>
 <span class="sd">        x_train (dataframe of shape (n_instances, x_orig_feature_count)):</span>
 <span class="sd">           The training set for the explainer</span>
-<span class="sd">        contribution_transforms (contribution transformer object(s)):</span>
-<span class="sd">           Object or list of objects that include .transform_contributions(contributions)</span>
-<span class="sd">           functions, used to adjust the contributions back to interpretable form.</span>
 <span class="sd">        e_algorithm (string, one of [&quot;shap&quot;]):</span>
 <span class="sd">           Explanation algorithm to use. If none, one will be chosen automatically based on model</span>
 <span class="sd">           type</span>
@@ -223,7 +220,6 @@
 
     <span class="k">if</span> <span class="n">explainer</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">explainer</span> <span class="o">=</span> <span class="n">LocalFeatureContribution</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">x_train</span><span class="p">,</span>
-                                             <span class="n">contribution_transforms</span><span class="o">=</span><span class="n">contribution_transforms</span><span class="p">,</span>
                                              <span class="n">e_algorithm</span><span class="o">=</span><span class="n">e_algorithm</span><span class="p">,</span>
                                              <span class="n">feature_descriptions</span><span class="o">=</span><span class="n">feature_descriptions</span><span class="p">,</span>
                                              <span class="n">e_transforms</span><span class="o">=</span><span class="n">e_transforms</span><span class="p">,</span> <span class="n">m_transforms</span><span class="o">=</span><span class="n">m_transforms</span><span class="p">,</span>
@@ -266,7 +262,8 @@
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_local_feature_contribution</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Invalid algorithm type </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">e_algorithm</span><span class="p">)</span>
 
-        <span class="nb">super</span><span class="p">(</span><span class="n">LocalFeatureContribution</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">x_orig</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+        <span class="nb">super</span><span class="p">(</span><span class="n">LocalFeatureContribution</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">base_local_feature_contribution</span><span class="o">.</span><span class="n">algorithm</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">x_orig</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="LocalFeatureContribution.fit"><a class="viewcode-back" href="../../../../api_reference/api/pyreal.explainers.LocalFeatureContribution.fit.html#pyreal.explainers.LocalFeatureContribution.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -276,7 +273,7 @@
 
     <span class="k">def</span> <span class="nf">get_contributions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_orig</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Gets the raw contributions.</span>
+<span class="sd">        Gets the raw explanation.</span>
 <span class="sd">        Args:</span>
 <span class="sd">            x_orig (DataFrame of shape (n_instances, n_features):</span>
 <span class="sd">                Input to explain</span>

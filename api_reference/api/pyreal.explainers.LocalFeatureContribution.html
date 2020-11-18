@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pyreal.explainers.LocalFeatureContribution &#8212; Pyreal 0.1.0.dev0 documentation</title>
+    <title>pyreal.explainers.LocalFeatureContribution &#8212; Pyreal 0.1.0 documentation</title>
     
   <link rel="stylesheet" href="../../_static/css/index.73d71520a4ca3b99cfee5594769eaaae.css">
 
@@ -40,7 +40,7 @@
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="pyreal.explainers.LocalFeatureContribution.fit" href="pyreal.explainers.LocalFeatureContribution.fit.html" />
-    <link rel="prev" title="pyreal.explainers.LocalFeatureContributionsBase.transform_contributions" href="pyreal.explainers.LocalFeatureContributionsBase.transform_contributions.html" />
+    <link rel="prev" title="pyreal.explainers.LocalFeatureContributionsBase.get_contributions" href="pyreal.explainers.LocalFeatureContributionsBase.get_contributions.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
   </head>
@@ -177,10 +177,6 @@
                             <a href="pyreal.explainers.LocalFeatureContributionsBase.get_contributions.html">pyreal.explainers.LocalFeatureContributionsBase.get_contributions</a>
                         </li>
                     
-                        <li class="">
-                            <a href="pyreal.explainers.LocalFeatureContributionsBase.transform_contributions.html">pyreal.explainers.LocalFeatureContributionsBase.transform_contributions</a>
-                        </li>
-                    
                         <li class="active">
                             <a href="">pyreal.explainers.LocalFeatureContribution</a>
                         </li>
@@ -288,7 +284,7 @@ type</p></li>
 <td><p>Fit this explainer object</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_contributions</span></code>(x_orig)</p></td>
-<td><p>Gets the raw contributions.</p></td>
+<td><p>Gets the raw explanation.</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">model_predict</span></code>(x_orig)</p></td>
 <td><p>Predict on x_orig using the model and return the result</p></td>
@@ -296,8 +292,8 @@ type</p></li>
 <tr class="row-even"><td><p><a class="reference internal" href="pyreal.explainers.LocalFeatureContribution.produce.html#pyreal.explainers.LocalFeatureContribution.produce" title="pyreal.explainers.LocalFeatureContribution.produce"><code class="xref py py-obj docutils literal notranslate"><span class="pre">produce</span></code></a>(x_orig)</p></td>
 <td><p>Produce the local feature contribution explanation</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_contributions</span></code>(contributions)</p></td>
-<td><p>Transform contributions to an interpretable form.</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_explanation</span></code>(explanation)</p></td>
+<td><p>Transform the explanation into its interpretable form, by running the e_transform and i_transform’s “transform_explanation” functions in reverse.</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_to_x_explain</span></code>(x_orig)</p></td>
 <td><p>Transform x_orig to x_explain, using the e_transforms</p></td>
@@ -320,7 +316,7 @@ type</p></li>
               
               <div class='prev-next-bottom'>
                 
-    <a class='left-prev' id="prev-link" href="pyreal.explainers.LocalFeatureContributionsBase.transform_contributions.html" title="previous page">pyreal.explainers.LocalFeatureContributionsBase.transform_contributions</a>
+    <a class='left-prev' id="prev-link" href="pyreal.explainers.LocalFeatureContributionsBase.get_contributions.html" title="previous page">pyreal.explainers.LocalFeatureContributionsBase.get_contributions</a>
     <a class='right-next' id="next-link" href="pyreal.explainers.LocalFeatureContribution.fit.html" title="next page">pyreal.explainers.LocalFeatureContribution.fit</a>
 
               </div>

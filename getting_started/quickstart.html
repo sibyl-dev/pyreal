@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Quickstart &#8212; Pyreal 0.1.0.dev0 documentation</title>
+    <title>Quickstart &#8212; Pyreal 0.1.0 documentation</title>
     
   <link rel="stylesheet" href="../_static/css/index.73d71520a4ca3b99cfee5594769eaaae.css">
 
@@ -203,15 +203,15 @@ application:</p>
 <li><p><code class="docutils literal notranslate"><span class="pre">ColumnDropTransformer</span></code>: removes features that should not be used in prediction</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">MultiTypeImputer</span></code>: replaces missing data from all columns with a reasonable replacement</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">OneHotEncoderWrapper</span></code>: one-hot encodes categorical features. We use the built-in wrapper type,
-which includes a <code class="docutils literal notranslate"><span class="pre">transform_contributions</span></code> function.</p></li>
+which includes a <code class="docutils literal notranslate"><span class="pre">transform_explanation</span></code> function.</p></li>
 </ul>
 <p>These transformers transform the data from it’s <cite>original</cite> state (<code class="docutils literal notranslate"><span class="pre">x_orig</span></code>) to its
 <cite>explanation ready</cite> state (<code class="docutils literal notranslate"><span class="pre">x_explain</span></code>). In this case, the explanation algorithm used expects
 data in the <cite>model ready</cite> state (<code class="docutils literal notranslate"><span class="pre">x_model</span></code>), so <code class="docutils literal notranslate"><span class="pre">x_explain</span> <span class="pre">==</span> <span class="pre">x_model</span></code>.</p>
 <p>Next, we can create the <code class="docutils literal notranslate"><span class="pre">Explainer</span></code> object, and fit it.</p>
-<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [9]: </span><span class="n">lfc</span> <span class="o">=</span> <span class="n">LocalFeatureContribution</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span> <span class="n">x_orig</span><span class="o">=</span><span class="n">x_orig</span><span class="p">,</span> <span class="n">m_transforms</span><span class="o">=</span><span class="n">transformers</span><span class="p">,</span> <span class="n">e_transforms</span><span class="o">=</span><span class="n">transformers</span><span class="p">,</span>
-<span class="gp">   ...: </span>                           <span class="n">contribution_transforms</span><span class="o">=</span><span class="n">transformers</span><span class="p">,</span>
-<span class="gp">   ...: </span>                           <span class="n">feature_descriptions</span><span class="o">=</span><span class="n">feature_descriptions</span><span class="p">)</span>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [9]: </span><span class="n">lfc</span> <span class="o">=</span> <span class="n">LocalFeatureContribution</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span> <span class="n">x_orig</span><span class="o">=</span><span class="n">x_orig</span><span class="p">,</span>
+<span class="gp">   ...: </span>                               <span class="n">m_transforms</span><span class="o">=</span><span class="n">transformers</span><span class="p">,</span> <span class="n">e_transforms</span><span class="o">=</span><span class="n">transformers</span><span class="p">,</span>
+<span class="gp">   ...: </span>                               <span class="n">feature_descriptions</span><span class="o">=</span><span class="n">feature_descriptions</span><span class="p">)</span>
 <span class="gp">   ...: </span>
 
 <span class="gp">In [10]: </span><span class="n">lfc</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
