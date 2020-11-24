@@ -4,6 +4,7 @@ import pandas as pd
 
 from pyreal.utils import model_utils
 from pyreal.utils.transformer import run_transformers
+from sklearn.metrics import get_scorer
 
 
 def _check_transforms(transforms):
@@ -75,12 +76,12 @@ class Explainer(ABC):
             self.model = model
         self.algorithm = algorithm
 
-        self.X_orig = x_orig
+        self.x_orig = x_orig
         self.y_orig = y_orig
 
         if not isinstance(x_orig, pd.DataFrame) or \
                 (y_orig is not None and not isinstance(y_orig, pd.DataFrame)):
-            raise TypeError("X_orig and y_orig must be of type DataFrame")
+            raise TypeError("x_orig and y_orig must be of type DataFrame")
 
         self.x_orig_feature_count = x_orig.shape[1]
 
@@ -250,3 +251,23 @@ class Explainer(ABC):
                 Transformed, interpretable data
         """
         return self.convert_columns_to_interpretable(self.transform_to_x_interpret(x_orig))
+
+    def evaluate_model(self, scorer):
+        """
+        Evaluate the model using a chosen scorer algorithm.
+
+        Args:
+            scorer (string):
+                Type of scorer to use. See sklearn's scoring parameter options here:
+                https://scikit-learn.org/stable/modules/model_evaluation.html#scoring-parameter
+
+        Returns:
+            A score for the model
+
+        """
+        if self.y_orig is None:
+            raise ValueError("Explainer must have a y_orig parameter to score model")
+        scorer = get_scorer(scorer)
+        x = self.transform_to_x_model(self.x_orig)
+        score = scorer(self.model, x, self.y_orig)
+        return score
