@@ -70,6 +70,8 @@ examples_require = [
 
 benchmark_require = [
     "openml",
+    "keras",
+    "tensorflow"
 ]
 
 setup(

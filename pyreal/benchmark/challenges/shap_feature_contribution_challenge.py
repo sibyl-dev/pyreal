@@ -1,13 +1,14 @@
 import numpy as np
 
-from pyreal.benchmark.challenges import explainer_challenge
+from pyreal.benchmark.challenges.explainer_challenge import ExplainerChallenge
 from pyreal.explainers import ShapFeatureContribution
 
 
-class LocalFeatureContributionChallenge(explainer_challenge):
+class ShapFeatureContributionChallenge(ExplainerChallenge):
     def create_explainer(self):
         return ShapFeatureContribution(model=self.dataset.model, x_orig=self.dataset.X,
-                                       transforms=self.dataset.transforms, fit_on_init=True)
+                                       transforms=self.dataset.transforms, fit_on_init=True,
+                                       shap_type="kernel")
 
     def evaluate_consistency(self, results):
         # TODO: consider alternative evaluation approaches
