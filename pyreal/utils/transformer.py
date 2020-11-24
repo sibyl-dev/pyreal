@@ -83,11 +83,25 @@ class MappingsEncoderTransformer(BaseTransformer):
         ohe_data = {}
         for col in cols:
             values = data[col]
+            if col not in self.mappings.categorical_to_one_hot:
+                ohe_data[col] = values
             for item in self.mappings.categorical_to_one_hot[col]:
                 new_col_name = item[0]
                 ohe_data[new_col_name] = np.zeros(num_rows)
                 ohe_data[new_col_name][np.where(values == item[1])] = 1
         return pd.DataFrame(ohe_data)
+
+    def transform_explanation_shap(self, explanation):
+        if explanation.ndim == 1:
+            explanation = explanation.reshape(1, -1)
+        encoded_columns = self.mappings.one_hot_to_categorical.keys()
+        for original_feature in self.mappings.categorical_to_one_hot.keys():
+            encoded_features = [item for item in encoded_columns if
+                                item.startswith(original_feature + "_")]
+            summed_contribution = explanation[encoded_features].sum(axis=1)
+            explanation = explanation.drop(encoded_features, axis="columns")
+            explanation[original_feature] = summed_contribution
+        return explanation
 
 
 class MappingsDecoderTransformer(BaseTransformer):
