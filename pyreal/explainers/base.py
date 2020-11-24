@@ -1,10 +1,10 @@
 from abc import ABC, abstractmethod
 
 import pandas as pd
+from sklearn.metrics import get_scorer
 
 from pyreal.utils import model_utils
 from pyreal.utils.transformer import run_transformers
-from sklearn.metrics import get_scorer
 
 
 def _check_transforms(transforms):
