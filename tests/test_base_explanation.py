@@ -1,117 +1,88 @@
-import os
-import pickle
-import unittest
-
 import numpy as np
 import pandas as pd
 from pandas.testing import assert_frame_equal
-from sklearn.linear_model import LinearRegression
+import pytest
 
 from pyreal.explainers import LocalFeatureContribution
-from pyreal.utils.transformer import OneHotEncoderWrapper
-
-TEST_ROOT = os.path.dirname(os.path.abspath(__file__))
 
 
-class TestFeatureExplanation(unittest.TestCase):
-    """Tests for `pyreal` package."""
+def test_init_invalid_transforms(regression_no_transforms):
+    invalid_transform = "invalid"
+    with pytest.raises(TypeError):
+        LocalFeatureContribution(regression_no_transforms["model"], regression_no_transforms["x"],
+                                 m_transforms=invalid_transform)
+    with pytest.raises(TypeError):
+        LocalFeatureContribution(regression_no_transforms["model"], regression_no_transforms["x"],
+                                 e_transforms=invalid_transform)
+    with pytest.raises(TypeError):
+        LocalFeatureContribution(regression_no_transforms["model"], regression_no_transforms["x"],
+                                 i_transforms=invalid_transform)
 
-    def setUp(self):
-        """Set up test fixtures"""
-        try:
-            os.makedirs(os.path.join(TEST_ROOT, "data"))
-        except FileExistsError:
-            pass
 
-        self.X_train = pd.DataFrame([[2, 1, 3],
-                                     [4, 3, 4],
-                                     [6, 7, 2]], columns=["A", "B", "C"])
-        self.y_train = pd.DataFrame([2, 4, 6])
-        self.expected = np.mean(self.y_train)[0]
-        model_no_transforms = LinearRegression()
-        model_no_transforms.fit(self.X_train, self.y_train)
-        model_no_transforms.coef_ = np.array([1, 0, 0])
-        model_no_transforms.intercept_ = 0
-        self.model_no_transforms_filename = os.path.join(TEST_ROOT, "data",
-                                                         "model_no_transforms.pkl")
-        with open(self.model_no_transforms_filename, "wb") as f:
-            pickle.dump(model_no_transforms, f)
+def test_init_invalid_model():
+    invalid_model = []
+    with pytest.raises(TypeError):
+        LocalFeatureContribution(invalid_model, pd.DataFrame([0]))
 
-        # TODO: replace with ML primitives
-        self.one_hot_encoder = OneHotEncoderWrapper(feature_list=["A"])
-        self.one_hot_encoder.fit(self.X_train)
-        self.X_transformed = self.one_hot_encoder.transform(self.X_train)
-        self.y_transformed = pd.DataFrame([1, 2, 3])
-        self.expected_transformed = np.mean(self.y_transformed)[0]
-        model_one_hot = LinearRegression()
-        model_one_hot.fit(self.X_transformed, self.y_transformed)
-        model_one_hot.coef_ = np.array([0, 0, 1, 2, 3])
-        model_one_hot.intercept_ = 0
-        self.model_one_hot_filename = os.path.join(TEST_ROOT, "data", "model_one_hot.pkl")
-        with open(self.model_one_hot_filename, "wb") as f:
-            pickle.dump(model_one_hot, f)
 
-    def tearDown(self):
-        """Tear down test fixtures"""
-        os.remove(self.model_no_transforms_filename)
-        os.remove(self.model_one_hot_filename)
+def test_run_transforms(regression_one_hot):
+    x = pd.DataFrame([[2, 1, 3],
+                      [4, 3, 4],
+                      [6, 7, 2]], columns=["A", "B", "C"])
+    expected = pd.DataFrame([[1, 3, 1, 0, 0],
+                             [3, 4, 0, 1, 0],
+                             [7, 2, 0, 0, 1]], columns=["B", "C", "A_2", "A_4", "A_6"])
+    explainer = LocalFeatureContribution(regression_one_hot["model"], x,
+                                         e_transforms=regression_one_hot["transforms"],
+                                         m_transforms=regression_one_hot["transforms"],
+                                         i_transforms=regression_one_hot["transforms"])
+    result = explainer.transform_to_x_interpret(x)
+    assert_frame_equal(result, expected, check_like=True, check_dtype=False)
+    result = explainer.transform_to_x_model(x)
+    assert_frame_equal(result, expected, check_like=True, check_dtype=False)
+    result = explainer.transform_to_x_explain(x)
+    assert_frame_equal(result, expected, check_like=True, check_dtype=False)
 
-    def test_init_invalid_transforms(self):
-        invalid_transform = "invalid"
-        with self.assertRaises(TypeError):
-            LocalFeatureContribution(self.model_no_transforms_filename, self.X_train,
-                                     m_transforms=invalid_transform)
-        with self.assertRaises(TypeError):
-            LocalFeatureContribution(self.model_no_transforms_filename, self.X_train,
-                                     e_transforms=invalid_transform)
-        with self.assertRaises(TypeError):
-            LocalFeatureContribution(self.model_no_transforms_filename, self.X_train,
-                                     i_transforms=invalid_transform)
 
-    def test_init_invalid_model(self):
-        invalid_model = []
-        with self.assertRaises(TypeError):
-            LocalFeatureContribution(invalid_model, self.X_train)
+def test_predict_regression(regression_no_transforms, regression_one_hot):
+    model = regression_no_transforms
+    explainer = LocalFeatureContribution(model["model"], model["x"],
+                                         m_transforms=model["transforms"])
+    expected = np.array(model["y"]).reshape(-1)
+    result = explainer.model_predict(model["x"])
+    assert np.array_equal(result, expected)
 
-    def test_run_transforms(self):
-        expected = pd.DataFrame([[1, 3, 1, 0, 0],
-                                 [3, 4, 0, 1, 0],
-                                 [7, 2, 0, 0, 1]], columns=["B", "C", "A_2", "A_4", "A_6"])
-        explainer = LocalFeatureContribution(self.model_no_transforms_filename, self.X_train,
-                                             e_transforms=self.one_hot_encoder,
-                                             m_transforms=self.one_hot_encoder,
-                                             i_transforms=self.one_hot_encoder)
-        result = explainer.transform_to_x_interpret(self.X_train)
-        assert_frame_equal(result, expected, check_like=True, check_dtype=False)
-        result = explainer.transform_to_x_model(self.X_train)
-        assert_frame_equal(result, expected, check_like=True, check_dtype=False)
-        result = explainer.transform_to_x_explain(self.X_train)
-        assert_frame_equal(result, expected, check_like=True, check_dtype=False)
+    model = regression_one_hot
+    explainer = LocalFeatureContribution(model["model"], model["x"],
+                                         m_transforms=model["transforms"])
+    expected = np.array(model["y"]).reshape(-1)
+    result = explainer.model_predict(model["x"])
+    assert np.array_equal(result, expected)
 
-    def test_predict(self):
-        explainer = LocalFeatureContribution(self.model_no_transforms_filename, self.X_train)
-        expected = [2, 4, 6]
-        result = explainer.model_predict(self.X_train)
-        self.assertTrue(np.array_equal(result, expected))
 
-        explainer = LocalFeatureContribution(self.model_one_hot_filename, self.X_train,
-                                             m_transforms=self.one_hot_encoder)
-        expected = [1, 2, 3]
-        result = explainer.model_predict(self.X_train)
-        self.assertTrue(np.array_equal(result, expected))
+def test_predict_classification(classification_no_transforms):
+    model = classification_no_transforms
+    explainer = LocalFeatureContribution(model["model"], model["x"],
+                                         m_transforms=model["transforms"])
+    expected = np.array(model["y"])
+    result = explainer.model_predict(model["x"])
+    assert np.array_equal(result, expected)
 
-    def test_evaluate_model(self):
-        explainer = LocalFeatureContribution(self.model_no_transforms_filename, self.X_train,
-                                             y_orig=self.y_train)
-        score = explainer.evaluate_model("accuracy")
-        self.assertEqual(score, 1)
 
-        score = explainer.evaluate_model("neg_mean_squared_error")
-        self.assertEqual(score, 0)
+def test_evaluate_model(regression_no_transforms):
+    explainer = LocalFeatureContribution(regression_no_transforms["model"],
+                                         regression_no_transforms["x"],
+                                         y_orig=regression_no_transforms["y"])
+    score = explainer.evaluate_model("accuracy")
+    assert score == 1
 
-        new_y = self.X_train.iloc[:, 0:1].copy()
-        new_y.iloc[0, 0] = 0
-        explainer = LocalFeatureContribution(self.model_no_transforms_filename, self.X_train,
-                                             y_orig=new_y)
-        score = explainer.evaluate_model("accuracy")
-        self.assertAlmostEqual(score, .6667, places=3)
+    score = explainer.evaluate_model("neg_mean_squared_error")
+    assert score == 0
+
+    new_y = regression_no_transforms["x"].iloc[:, 0:1].copy()
+    new_y.iloc[0, 0] = 0
+    explainer = LocalFeatureContribution(regression_no_transforms["model"],
+                                         regression_no_transforms["x"],
+                                         y_orig=new_y)
+    score = explainer.evaluate_model("accuracy")
+    assert abs(score - .6667) <= 0.0001
