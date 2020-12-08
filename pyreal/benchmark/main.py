@@ -47,8 +47,7 @@ def get_datasets():
 
 
 def get_challenges():
-    #return [LocalFeatureContributionChallenge]
-    return [ShapFeatureContributionChallenge]
+    return [LocalFeatureContributionChallenge, ShapFeatureContributionChallenge]
 
 
 def format_results(record_dict, results, name):
