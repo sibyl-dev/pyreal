@@ -16,6 +16,7 @@
       ~LocalFeatureContributionsBase.__init__
       ~LocalFeatureContributionsBase.convert_columns_to_interpretable
       ~LocalFeatureContributionsBase.convert_data_to_interpretable
+      ~LocalFeatureContributionsBase.evaluate_model
       ~LocalFeatureContributionsBase.feature_description
       ~LocalFeatureContributionsBase.fit
       ~LocalFeatureContributionsBase.get_contributions

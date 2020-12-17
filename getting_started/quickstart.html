@@ -176,25 +176,21 @@ getting started with <strong>Pyreal</strong>.</p>
 <h2>Get a Feature Contribution Explanation<a class="headerlink" href="#get-a-feature-contribution-explanation" title="Permalink to this headline">¶</a></h2>
 <p>To get a feature contribution explanation of a pre-trained model, we can use the
 <code class="docutils literal notranslate"><span class="pre">LocalFeatureContribution</span></code> class. We begin by loading in the model and transformers.</p>
-<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [1]: </span><span class="kn">from</span> <span class="nn">pyreal.explainers</span> <span class="kn">import</span> <span class="n">LocalFeatureContribution</span>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [1]: </span><span class="kn">import</span> <span class="nn">pyreal.applications.titanic</span> <span class="k">as</span> <span class="nn">titanic</span>
 
-<span class="gp">In [2]: </span><span class="kn">import</span> <span class="nn">pyreal.applications.titanic</span> <span class="k">as</span> <span class="nn">titanic</span>
+<span class="gp">In [2]: </span><span class="kn">from</span> <span class="nn">pyreal.utils.transformer</span> <span class="kn">import</span> <span class="n">ColumnDropTransformer</span><span class="p">,</span> <span class="n">MultiTypeImputer</span>
 
-<span class="gp">In [3]: </span><span class="kn">from</span> <span class="nn">pyreal.utils.transformer</span> <span class="kn">import</span> <span class="n">ColumnDropTransformer</span><span class="p">,</span> <span class="n">MultiTypeImputer</span>
+<span class="go"># Load in data</span>
+<span class="gp">In [3]: </span><span class="n">x_orig</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">titanic</span><span class="o">.</span><span class="n">load_titanic_data</span><span class="p">()</span>
 
-<span class="gp">In [4]: </span><span class="kn">from</span> <span class="nn">pyreal.utils</span> <span class="kn">import</span> <span class="n">visualize</span>
+<span class="go"># Load in feature descriptions -&gt; dict(feature_name: feature_description, ...)</span>
+<span class="gp">In [4]: </span><span class="n">feature_descriptions</span> <span class="o">=</span> <span class="n">titanic</span><span class="o">.</span><span class="n">load_feature_descriptions</span><span class="p">()</span>
 
-<span class="go"># First, we will load in the Titanic dataset</span>
-<span class="gp">In [5]: </span><span class="n">x_orig</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">titanic</span><span class="o">.</span><span class="n">load_titanic_data</span><span class="p">()</span>
+<span class="go"># Load in model</span>
+<span class="gp">In [5]: </span><span class="n">model</span> <span class="o">=</span> <span class="n">titanic</span><span class="o">.</span><span class="n">load_titanic_model</span><span class="p">()</span>
 
-<span class="go"># Next, we load in a dictionary that provides human-readable descriptions of the feature names</span>
-<span class="go">#   Format: {feature_name : feature_description, ...}</span>
-<span class="gp">In [6]: </span><span class="n">feature_descriptions</span> <span class="o">=</span> <span class="n">titanic</span><span class="o">.</span><span class="n">load_feature_descriptions</span><span class="p">()</span>
-
-<span class="go"># Finally, we load in the trained model and corresponding fitted transformers</span>
-<span class="gp">In [7]: </span><span class="n">model</span> <span class="o">=</span> <span class="n">titanic</span><span class="o">.</span><span class="n">load_titanic_model</span><span class="p">()</span>
-
-<span class="gp">In [8]: </span><span class="n">transformers</span> <span class="o">=</span> <span class="n">titanic</span><span class="o">.</span><span class="n">load_titanic_transformers</span><span class="p">()</span>
+<span class="go"># Load in list of transformers</span>
+<span class="gp">In [6]: </span><span class="n">transformers</span> <span class="o">=</span> <span class="n">titanic</span><span class="o">.</span><span class="n">load_titanic_transformers</span><span class="p">()</span>
 </pre></div>
 </div>
 <p>The <code class="docutils literal notranslate"><span class="pre">transformers</span></code> object is a list that includes three types of transformers, specific for this
@@ -209,31 +205,29 @@ which includes a <code class="docutils literal notranslate"><span class="pre">tr
 <cite>explanation ready</cite> state (<code class="docutils literal notranslate"><span class="pre">x_explain</span></code>). In this case, the explanation algorithm used expects
 data in the <cite>model ready</cite> state (<code class="docutils literal notranslate"><span class="pre">x_model</span></code>), so <code class="docutils literal notranslate"><span class="pre">x_explain</span> <span class="pre">==</span> <span class="pre">x_model</span></code>.</p>
 <p>Next, we can create the <code class="docutils literal notranslate"><span class="pre">Explainer</span></code> object, and fit it.</p>
-<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [9]: </span><span class="n">lfc</span> <span class="o">=</span> <span class="n">LocalFeatureContribution</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span> <span class="n">x_orig</span><span class="o">=</span><span class="n">x_orig</span><span class="p">,</span>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [7]: </span><span class="kn">from</span> <span class="nn">pyreal.explainers</span> <span class="kn">import</span> <span class="n">LocalFeatureContribution</span>
+
+<span class="gp">In [8]: </span><span class="n">lfc</span> <span class="o">=</span> <span class="n">LocalFeatureContribution</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span> <span class="n">x_orig</span><span class="o">=</span><span class="n">x_orig</span><span class="p">,</span>
 <span class="gp">   ...: </span>                               <span class="n">m_transforms</span><span class="o">=</span><span class="n">transformers</span><span class="p">,</span> <span class="n">e_transforms</span><span class="o">=</span><span class="n">transformers</span><span class="p">,</span>
-<span class="gp">   ...: </span>                               <span class="n">feature_descriptions</span><span class="o">=</span><span class="n">feature_descriptions</span><span class="p">)</span>
+<span class="gp">   ...: </span>                               <span class="n">feature_descriptions</span><span class="o">=</span><span class="n">feature_descriptions</span><span class="p">,</span> <span class="n">fit_on_init</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="gp">   ...: </span>
 
-<span class="gp">In [10]: </span><span class="n">lfc</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="gp">In [9]: </span><span class="n">lfc</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
 </pre></div>
 </div>
 <p>Finally, we can get the explanation using the <code class="docutils literal notranslate"><span class="pre">.produce()</span></code> function. We will also visualize
 the most contributing features using the <cite>visualize</cite> model.</p>
-<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="go"># We can now choose an input, and see the model&#39;s prediction.</span>
-<span class="gp">In [11]: </span><span class="n">input_to_explain</span> <span class="o">=</span> <span class="n">x_orig</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [10]: </span><span class="n">input_to_explain</span> <span class="o">=</span> <span class="n">x_orig</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 
-<span class="gp">In [12]: </span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Prediction:&quot;</span><span class="p">,</span> <span class="n">lfc</span><span class="o">.</span><span class="n">model_predict</span><span class="p">(</span><span class="n">input_to_explain</span><span class="p">))</span> <span class="c1"># Output -&gt; Prediction: [0]</span>
-<span class="go">Prediction: [0]</span>
+<span class="gp">In [11]: </span><span class="n">prediction</span> <span class="o">=</span> <span class="n">lfc</span><span class="o">.</span><span class="n">model_predict</span><span class="p">(</span><span class="n">input_to_explain</span><span class="p">)</span> <span class="c1"># Prediction: [0]</span>
 
-<span class="go"># We see that this person is not predicted to survive.</span>
-<span class="go">#   Let&#39;s see why, by using LocalFeatureContribution&#39;s .produce() function</span>
-<span class="gp">In [13]: </span><span class="n">contributions</span> <span class="o">=</span> <span class="n">lfc</span><span class="o">.</span><span class="n">produce</span><span class="p">(</span><span class="n">input_to_explain</span><span class="p">)</span>
+<span class="gp">In [12]: </span><span class="n">contributions</span> <span class="o">=</span> <span class="n">lfc</span><span class="o">.</span><span class="n">produce</span><span class="p">(</span><span class="n">input_to_explain</span><span class="p">)</span>
 
-<span class="go"># We can visualize the most contributing features using the real.utils.visualize module.</span>
-<span class="go">#   We will also convert our input to the interpretable space, so we can add it&#39;s values to</span>
-<span class="go">#   the visualization</span>
+<span class="gp">In [13]: </span><span class="kn">from</span> <span class="nn">pyreal.utils</span> <span class="kn">import</span> <span class="n">visualize</span>
+
 <span class="gp">In [14]: </span><span class="n">x_interpret</span> <span class="o">=</span> <span class="n">lfc</span><span class="o">.</span><span class="n">convert_data_to_interpretable</span><span class="p">(</span><span class="n">input_to_explain</span><span class="p">)</span>
 
+<span class="go"># Plot a bar plot of top contributing features, by asbolute value</span>
 <span class="gp">In [15]: </span><span class="n">visualize</span><span class="o">.</span><span class="n">plot_top_contributors</span><span class="p">(</span><span class="n">contributions</span><span class="p">,</span> <span class="n">select_by</span><span class="o">=</span><span class="s2">&quot;absolute&quot;</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="n">x_interpret</span><span class="p">)</span>
 </pre></div>
 </div>
