@@ -113,8 +113,7 @@ transformers = titanic.load_titanic_transformers()
 from pyreal.explainers import LocalFeatureContribution
 lfc = LocalFeatureContribution(model=model, x_orig=x_orig,
                                m_transforms=transformers, e_transforms=transformers,
-                               contribution_transforms=transformers,
-                               feature_descriptions=feature_descriptions)
+                               feature_descriptions=feature_descriptions, fit_on_init=True)
 lfc.fit()
 ```
 
