@@ -72,4 +72,9 @@ class ShapFeatureContribution(LocalFeatureContributionsBase):
                              .format(self.explainer_input_size, x.shape))
         columns = x.columns
         x = np.asanyarray(x)
-        return pd.DataFrame(self.explainer.shap_values(x), columns=columns)
+
+        shap_values = np.array(self.explainer.shap_values(x))
+        if shap_values.ndim > 2:
+            predictions = self.model_predict(x_orig)
+            shap_values = shap_values[predictions, np.arange(shap_values.shape[1]), :]
+        return pd.DataFrame(shap_values, columns=columns)

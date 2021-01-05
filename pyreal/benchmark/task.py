@@ -4,7 +4,7 @@ import pickle
 from sklearn.preprocessing import LabelEncoder
 
 from pyreal.utils.transformer import (
-    MultiTypeImputer, OneHotEncoderWrapper, fit_transforms, run_transforms,)
+    MultiTypeImputer, OneHotEncoderWrapper, fit_transformers, run_transformers,)
 
 
 class Task:
@@ -23,8 +23,8 @@ def create_task(df, dataset_name, model_func):
     transforms = [MultiTypeImputer(), OneHotEncoderWrapper(
         feature_list=X.select_dtypes(include=["object", "category"]).columns)]
 
-    fit_transforms(transforms, X)
-    Xt = run_transforms(transforms, X)
+    fit_transformers(transforms, X)
+    Xt = run_transformers(transforms, X)
 
     y = LabelEncoder().fit_transform(y)
 

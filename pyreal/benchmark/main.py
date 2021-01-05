@@ -51,7 +51,7 @@ def get_tasks(n):
             url = dataset.get_dataset_url(dataset_name)
             df = pd.read_csv(url)
         tasks.append(create_task(df, dataset_name, logistic_regression))
-        if i >= n:
+        if i == (n-1):
             break
     return tasks
 
