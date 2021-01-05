@@ -32,4 +32,4 @@ def load_titanic_model():
 
 
 def load_titanic_transformers():
-    return pickle.load(open(os.path.join(DATA_DIR, "transforms.pkl"), "rb"))
+    return pickle.load(open(os.path.join(DATA_DIR, "transformers.pkl"), "rb"))

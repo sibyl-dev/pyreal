@@ -99,3 +99,19 @@ class TestFeatureExplanation(unittest.TestCase):
         expected = [1, 2, 3]
         result = explainer.model_predict(self.X_train)
         self.assertTrue(np.array_equal(result, expected))
+
+    def test_evaluate_model(self):
+        explainer = LocalFeatureContribution(self.model_no_transforms_filename, self.X_train,
+                                             y_orig=self.y_train)
+        score = explainer.evaluate_model("accuracy")
+        self.assertEqual(score, 1)
+
+        score = explainer.evaluate_model("neg_mean_squared_error")
+        self.assertEqual(score, 0)
+
+        new_y = self.X_train.iloc[:, 0:1].copy()
+        new_y.iloc[0, 0] = 0
+        explainer = LocalFeatureContribution(self.model_no_transforms_filename, self.X_train,
+                                             y_orig=new_y)
+        score = explainer.evaluate_model("accuracy")
+        self.assertAlmostEqual(score, .6667, places=3)

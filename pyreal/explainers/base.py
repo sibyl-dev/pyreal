@@ -1,9 +1,10 @@
 from abc import ABC, abstractmethod
 
 import pandas as pd
+from sklearn.metrics import get_scorer
 
 from pyreal.utils import model_utils
-from pyreal.utils.transformer import run_transforms
+from pyreal.utils.transformer import run_transformers
 
 
 def _check_transforms(transforms):
@@ -59,7 +60,6 @@ class Explainer(ABC):
            If True, do not run the transform_explanation methods from i_transforms
            on the explanation after producing.
     """
-
     def __init__(self, algorithm, model,
                  x_orig, y_orig=None,
                  feature_descriptions=None,
@@ -76,12 +76,12 @@ class Explainer(ABC):
             self.model = model
         self.algorithm = algorithm
 
-        self.X_orig = x_orig
+        self.x_orig = x_orig
         self.y_orig = y_orig
 
         if not isinstance(x_orig, pd.DataFrame) or \
                 (y_orig is not None and not isinstance(y_orig, pd.DataFrame)):
-            raise TypeError("X_orig and y_orig must be of type DataFrame")
+            raise TypeError("x_orig and y_orig must be of type DataFrame")
 
         self.x_orig_feature_count = x_orig.shape[1]
 
@@ -113,6 +113,7 @@ class Explainer(ABC):
         """
         Fit this explainer object. Abstract method
         """
+        pass
 
     @abstractmethod
     def produce(self, x_orig):
@@ -127,6 +128,7 @@ class Explainer(ABC):
             Type varies by subclass
                 Explanation
         """
+        pass
 
     def transform_to_x_explain(self, x_orig):
         """
@@ -141,7 +143,7 @@ class Explainer(ABC):
         """
         if self.e_transforms is None:
             return x_orig
-        return run_transforms(self.e_transforms, x_orig)
+        return run_transformers(self.e_transforms, x_orig)
 
     def transform_to_x_model(self, x_orig):
         """
@@ -157,7 +159,7 @@ class Explainer(ABC):
         """
         if self.m_transforms is None:
             return x_orig
-        return run_transforms(self.m_transforms, x_orig)
+        return run_transformers(self.m_transforms, x_orig)
 
     def transform_to_x_interpret(self, x_orig):
         """
@@ -172,7 +174,7 @@ class Explainer(ABC):
         """
         if self.i_transforms is None:
             return x_orig
-        return run_transforms(self.i_transforms, x_orig)
+        return run_transformers(self.i_transforms, x_orig)
 
     def transform_explanation(self, explanation):
         """
@@ -249,3 +251,23 @@ class Explainer(ABC):
                 Transformed, interpretable data
         """
         return self.convert_columns_to_interpretable(self.transform_to_x_interpret(x_orig))
+
+    def evaluate_model(self, scorer):
+        """
+        Evaluate the model using a chosen scorer algorithm.
+
+        Args:
+            scorer (string):
+                Type of scorer to use. See sklearn's scoring parameter options here:
+                https://scikit-learn.org/stable/modules/model_evaluation.html#scoring-parameter
+
+        Returns:
+            A score for the model
+
+        """
+        if self.y_orig is None:
+            raise ValueError("Explainer must have a y_orig parameter to score model")
+        scorer = get_scorer(scorer)
+        x = self.transform_to_x_model(self.x_orig)
+        score = scorer(self.model, x, self.y_orig)
+        return score

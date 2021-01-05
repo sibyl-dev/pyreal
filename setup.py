@@ -15,7 +15,7 @@ install_requires = [
     'numpy>=1.8',
     'pandas>=1.0.3',
     "scikit-learn>=0.22",
-    "shap>=0.37.0",
+    "shap>=0.36.0",
     "eli5>=0.10",
     'matplotlib>=3.2.1'
 ]
@@ -39,12 +39,12 @@ development_requires = [
     # docs
     'm2r2>=0.2.5,<0.3',
     'nbsphinx>=0.5.0,<0.7',
-    'Sphinx>=3,<4',
+    'Sphinx>=3,<3.3',
     'pydata-sphinx-theme',
     'autodocsumm>=0.1.10',
     'PyYaml>=5.3.1,<6',
     'argh>=0.26.2,<1',
-    'ipython>7.0.0',
+    'ipython>7.18.0',
 
     # style check
     'flake8>=3.7.7',
@@ -107,6 +107,6 @@ setup(
     test_suite='tests',
     tests_require=tests_require,
     url='https://github.com/DAI-Lab/pyreal',
-    version='0.1.0.dev0',
+    version='0.1.0',
     zip_safe=False,
 )

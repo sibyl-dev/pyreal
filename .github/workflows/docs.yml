@@ -2,7 +2,7 @@ name: Generate Docs
 
 on:
   push:
-    branches: [ stable ]
+    branches: [ dev ]
 
 jobs:
 

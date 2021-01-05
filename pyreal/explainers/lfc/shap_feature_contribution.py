@@ -22,13 +22,12 @@ class ShapFeatureContribution(LocalFeatureContributionsBase):
             Type of shap algorithm to use. If None, SHAP will pick one.
         **kwargs: see base Explainer args
     """
-
     def __init__(self, model, x_orig,
                  shap_type=None, **kwargs):
         supported_types = ["kernel", "linear"]
         if shap_type is not None and shap_type not in supported_types:
             raise ValueError("Shap type not supported, given %s, expected one of %s or None" %
-                             (shap_type, str(supported_types)))
+                  (shap_type, str(supported_types)))
         else:
             self.shap_type = shap_type
 
@@ -41,7 +40,7 @@ class ShapFeatureContribution(LocalFeatureContributionsBase):
         """
         Fit the contribution explainer
         """
-        dataset = self.transform_to_x_explain(self.X_orig)
+        dataset = self.transform_to_x_explain(self.x_orig)
         self.explainer_input_size = dataset.shape[1]
         if self.shap_type == "kernel":
             self.explainer = KernelExplainer(self.model.predict, dataset)
@@ -73,9 +72,4 @@ class ShapFeatureContribution(LocalFeatureContributionsBase):
                              .format(self.explainer_input_size, x.shape))
         columns = x.columns
         x = np.asanyarray(x)
-
-        shap_values = np.array(self.explainer.shap_values(x))
-        if shap_values.ndim > 2:
-            predictions = self.model_predict(x_orig)
-            shap_values = shap_values[predictions, np.arange(shap_values.shape[1]), :]
-        return pd.DataFrame(shap_values, columns=columns)
+        return pd.DataFrame(self.explainer.shap_values(x), columns=columns)
