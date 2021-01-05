@@ -20,6 +20,9 @@ ROOT = os.path.dirname(os.path.abspath(__file__))
 
 
 def set_up_record_dir():
+    if not os.path.isdir(os.path.join(ROOT, "results")):
+        os.mkdir(os.path.join(ROOT, "results"))
+
     timestr = time.strftime("%Y%m%d-%H%M%S")
     directory = os.path.join(ROOT, "results", timestr)
     os.mkdir(directory)
@@ -38,9 +41,15 @@ def set_up_logging(directory):
 def get_tasks(n):
     datasets = dataset.DEFAULT_DATASET_NAMES
     tasks = []
+    if not os.path.isdir(os.path.join(ROOT, "datasets")):
+        os.mkdir(os.path.join(ROOT, "datasets"))
     for (i, dataset_name) in enumerate(datasets):
-        url = dataset.get_dataset_url(dataset_name)
-        df = pd.read_csv(url)
+        filename = os.path.join(ROOT, "datasets", dataset_name + ".csv")
+        if os.path.exists(filename):
+            df = pd.read_csv(filename)
+        else:
+            url = dataset.get_dataset_url(dataset_name)
+            df = pd.read_csv(url)
         tasks.append(create_task(df, dataset_name, logistic_regression))
         if i >= n:
             break
