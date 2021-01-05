@@ -1,42 +1,85 @@
-import os
-import pickle
+from urllib.parse import urljoin
 
-from sklearn.preprocessing import LabelEncoder
+AWS_BASE_URL = 'https://pyreal-data.s3.amazonaws.com/'
 
-from pyreal.utils.transformer import (
-    MultiTypeImputer, OneHotEncoderWrapper, fit_transforms, run_transforms,)
+DEFAULT_DATASET_NAMES = [
+    'kr-vs-kp',
+    'letter',
+    'balance-scale',
+    'mfeat-factors',
+    'mfeat-fourier',
+    'breast-w',
+    'mfeat-karhunen',
+    'mfeat-morphological',
+    'mfeat-zernike',
+    'cmc',
+    'optdigits',
+    'credit-approval',
+    'credit-g',
+    'pendigits',
+    'diabetes',
+    'spambase',
+    'splice',
+    'tic-tac-toe',
+    'vehicle',
+    'electricity',
+    'satimage',
+    'eucalyptus',
+    'sick',
+    'vowel',
+    'isolet',
+    'analcatdata_authorship',
+    'analcatdata_dmft',
+    'mnist_784',
+    'pc4',
+    'pc3',
+    'jm1',
+    'kc2',
+    'kc1',
+    'pc1',
+    'adult',
+    'Bioresponse',
+    'wdbc',
+    'phoneme',
+    'qsar-biodeg',
+    'wall-robot-navigation',
+    'semeion',
+    'ilpd',
+    'madelon',
+    'nomao',
+    'ozone-level-8hr',
+    'cnae-9',
+    'first-order-theorem-proving',
+    'banknote-authentication',
+    'blood-transfusion-service-center',
+    'PhishingWebsites',
+    'cylinder-bands',
+    'bank-marketing',
+    'GesturePhaseSegmentationProcessed',
+    'har',
+    'dresses-sales',
+    'texture',
+    'connect-4',
+    'MiceProtein',
+    'steel-plates-fault',
+    'climate-model-simulation-crashes',
+    'wilt',
+    'car',
+    'segment',
+    'mfeat-pixel',
+    'Fashion-MNIST',
+    'jungle_chess_2pcs_raw_endgame_complete',
+    'numerai28.6',
+    'Devnagari-Script',
+    'CIFAR_10',
+    'Internet-Advertisements',
+    'dna',
+    'churn',
+]
 
 
-class Dataset:
-    def __init__(self, X, y, model, transforms, name):
-        self.X = X
-        self.y = y
-        self.model = model
-        self.transforms = transforms
-        self.name = name
+def get_dataset_url(name):
+    if not name.endswith('.csv'):
+        name = name + '.csv'
 
-
-def create_dataset(dataset_obj, model_func):
-    X, y, categorical_indicator, attribute_names = dataset_obj.get_data(
-        target=dataset_obj.default_target_attribute, dataset_format="dataframe")
-
-    transforms = [MultiTypeImputer(), OneHotEncoderWrapper(
-        feature_list=X.select_dtypes(include=["object", "category"]).columns)]
-
-    fit_transforms(transforms, X)
-    Xt = run_transforms(transforms, X)
-
-    y = LabelEncoder().fit_transform(y)
-
-    name = str(dataset_obj.name) + "_" + model_func.__name__
-
-    filename = os.path.join("models", name + ".pkl")
-    if os.path.exists(filename):
-        with open(filename, "rb") as f:
-            model = pickle.load(f)
-    else:
-        model = model_func(Xt, y)
-        with open(filename, "wb") as f:
-            pickle.dump(model, f)
-
-    return Dataset(X, y, model, transforms, name)
+    return urljoin(AWS_BASE_URL, name)

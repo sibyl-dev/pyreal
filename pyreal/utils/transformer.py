@@ -19,7 +19,7 @@ def fit_transforms(transforms, x_orig):
         transforms (list of Transformers):
             List of transformers to fit, in order
         x_orig (DataFrame of shape (n_instances, n_features)):
-            Dataset to fit on.
+            Task to fit on.
 
     Returns:
         None
@@ -40,7 +40,7 @@ def run_transforms(transforms, x_orig):
         transforms (list of Transformers):
             List of transforms to fit, in order
         x_orig (DataFrame of shape (n_instances, n_features)):
-            Dataset to transform
+            Task to transform
 
     Returns:
         DataFrame of shape (n_instances, n_features)

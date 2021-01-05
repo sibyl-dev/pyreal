@@ -23,7 +23,7 @@ def generate_from_df(df):
     # TODO: rename columns to be more natural
     categorical_to_one_hot = {}
     for i in range(df.shape[0]):
-        cf = df["name"][i]
+        cf = df["task_name"][i]
         ohf = df["original_name"][i]
         value = df["value"][i]
         if cf not in categorical_to_one_hot:

@@ -11,15 +11,17 @@ from pyreal.benchmark.challenges.local_feature_contribution_challenge import (
     LocalFeatureContributionChallenge,)
 from pyreal.benchmark.challenges.shap_feature_contribution_challenge import (
     ShapFeatureContributionChallenge,)
-from pyreal.benchmark.dataset import create_dataset
+from pyreal.benchmark.task import create_task
 from pyreal.benchmark.models import logistic_regression, small_neural_network
+from pyreal.benchmark import dataset
 
 LOG = True
+ROOT = os.path.dirname(os.path.abspath(__file__))
 
 
 def set_up_record_dir():
     timestr = time.strftime("%Y%m%d-%H%M%S")
-    directory = os.path.join("results", timestr)
+    directory = os.path.join(ROOT, "results", timestr)
     os.mkdir(directory)
     return directory
 
@@ -33,17 +35,16 @@ def set_up_logging(directory):
     logging.basicConfig(filename=os.path.join(directory, "log.log"), filemode='w')
 
 
-def get_datasets():
-    # TODO: replace with AWS access
-    suite = openml.study.get_suite(99)
-    datasets = []
-    for task_id in suite.tasks:
-        task = openml.tasks.get_task(task_id)
-        dataset_obj = task.get_dataset()
-        datasets.append(create_dataset(dataset_obj, logistic_regression))
-        if len(datasets) >= 2:
-            return datasets
-    return datasets
+def get_tasks(n):
+    datasets = dataset.DEFAULT_DATASET_NAMES
+    tasks = []
+    for (i, dataset_name) in enumerate(datasets):
+        url = dataset.get_dataset_url(dataset_name)
+        df = pd.read_csv(url)
+        tasks.append(create_task(df, dataset_name, logistic_regression))
+        if i >= n:
+            break
+    return tasks
 
 
 def get_challenges():
@@ -67,7 +68,7 @@ def run_one_challenge(base_challenge, results_directory):
     crash_count = 0
     total_count = 0
     n = 50
-    datasets = get_datasets()
+    datasets = get_tasks(n)
     record_dict = {}
     for (i, dataset) in enumerate(datasets):
         total_count += 1
@@ -83,8 +84,6 @@ def run_one_challenge(base_challenge, results_directory):
             crash_count += 1
             record_dict[dataset.name] = "crashed"
             raise e
-        if total_count >= n:
-            break
     print("%i tasks done, %i crashes" % (total_count, crash_count))
     record_dict["total_count"] = total_count
     record_dict["crash_count"] = crash_count
