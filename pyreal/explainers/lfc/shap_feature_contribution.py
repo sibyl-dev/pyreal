@@ -22,12 +22,13 @@ class ShapFeatureContribution(LocalFeatureContributionsBase):
             Type of shap algorithm to use. If None, SHAP will pick one.
         **kwargs: see base Explainer args
     """
+
     def __init__(self, model, x_orig,
                  shap_type=None, **kwargs):
         supported_types = ["kernel", "linear"]
         if shap_type is not None and shap_type not in supported_types:
             raise ValueError("Shap type not supported, given %s, expected one of %s or None" %
-                  (shap_type, str(supported_types)))
+                             (shap_type, str(supported_types)))
         else:
             self.shap_type = shap_type
 
