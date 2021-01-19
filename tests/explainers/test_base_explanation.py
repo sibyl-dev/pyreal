@@ -19,7 +19,7 @@ class TestFeatureExplanation(unittest.TestCase):
     def setUp(self):
         """Set up test fixtures"""
         try:
-            os.makedirs(os.path.join(TEST_ROOT, "data"))
+            os.makedirs(os.path.join(TEST_ROOT, "../data"))
         except FileExistsError:
             pass
 
@@ -32,7 +32,7 @@ class TestFeatureExplanation(unittest.TestCase):
         model_no_transforms.fit(self.X_train, self.y_train)
         model_no_transforms.coef_ = np.array([1, 0, 0])
         model_no_transforms.intercept_ = 0
-        self.model_no_transforms_filename = os.path.join(TEST_ROOT, "data",
+        self.model_no_transforms_filename = os.path.join(TEST_ROOT, "../data",
                                                          "model_no_transforms.pkl")
         with open(self.model_no_transforms_filename, "wb") as f:
             pickle.dump(model_no_transforms, f)
@@ -47,7 +47,7 @@ class TestFeatureExplanation(unittest.TestCase):
         model_one_hot.fit(self.X_transformed, self.y_transformed)
         model_one_hot.coef_ = np.array([0, 0, 1, 2, 3])
         model_one_hot.intercept_ = 0
-        self.model_one_hot_filename = os.path.join(TEST_ROOT, "data", "model_one_hot.pkl")
+        self.model_one_hot_filename = os.path.join(TEST_ROOT, "../data", "model_one_hot.pkl")
         with open(self.model_one_hot_filename, "wb") as f:
             pickle.dump(model_one_hot, f)
 

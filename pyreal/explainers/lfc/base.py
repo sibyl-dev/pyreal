@@ -5,7 +5,7 @@ from pyreal.explainers import Explainer
 
 class LocalFeatureContributionsBase(Explainer, ABC):
     """
-    Base class for LocalFeatureContributionsBase explainer objects. Abstract class
+    Base class for LocalFeatureContributions explainer objects. Abstract class
 
     A LocalFeatureContributionsBase object explains a machine learning prediction by assigning an
     importance or contribution score to every feature. LocalFeatureContributionBase objects explain
@@ -26,6 +26,7 @@ class LocalFeatureContributionsBase(Explainer, ABC):
             default names
         **kwargs: see base Explainer args
     """
+
     def __init__(self, algorithm, model, x_orig, interpretable_features=True, **kwargs):
         self.interpretable_features = interpretable_features
         super(LocalFeatureContributionsBase, self).__init__(algorithm, model, x_orig, **kwargs)
@@ -35,14 +36,13 @@ class LocalFeatureContributionsBase(Explainer, ABC):
         """
         Fit this explainer object
         """
-        pass
 
     def produce(self, x_orig):
         """
         Produce the local feature contribution explanation
 
         Args:
-            x_orig (DataFrame of shape (n_instances, n_features):
+            x_orig (DataFrame of shape (n_instances, n_features)):
                 Input to explain
 
         Returns:
@@ -60,7 +60,7 @@ class LocalFeatureContributionsBase(Explainer, ABC):
     @abstractmethod
     def get_contributions(self, x_orig):
         """
-        Gets the raw explanation explanation.
+        Gets the raw explanation.
         Args:
             x_orig (DataFrame of shape (n_instances, n_features):
                 Input to explain
@@ -69,4 +69,3 @@ class LocalFeatureContributionsBase(Explainer, ABC):
             DataFrame of shape (n_instances, n_features)
                 Contribution of each feature for each instance
         """
-        pass
