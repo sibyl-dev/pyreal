@@ -1,11 +1,11 @@
-.. _pypyreal.explainer
+.. _pyreal.explainer:
 
 Explainer
-================
+=========
 .. currentmodule:: pyreal.explainers
 
 Base Explainer
-~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~
 .. autosummary::
     :toctree: api/
 
@@ -18,31 +18,3 @@ Base Explainer
     Explainer.model_predict
     Explainer.feature_description
     Explainer.convert_data_to_interpretable
-
-Local Feature Contribution Base
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.. autosummary::
-    :toctree: api/
-
-    LocalFeatureContributionsBase
-    LocalFeatureContributionsBase.fit
-    LocalFeatureContributionsBase.produce
-    LocalFeatureContributionsBase.get_contributions
-
-Local Feature Contribution Explainer
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.. autosummary::
-    :toctree: api/
-
-    LocalFeatureContribution
-    LocalFeatureContribution.fit
-    LocalFeatureContribution.produce
-
-SHAP Feature Contribution Explainer
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    ShapFeatureContribution
-    ShapFeatureContribution.fit
-    ShapFeatureContribution.produce
-    ShapFeatureContribution.get_contributions
-
-
