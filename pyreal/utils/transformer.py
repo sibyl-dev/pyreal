@@ -74,6 +74,7 @@ class MappingsEncoderTransformer(BaseTransformer):
     """
     Converts data from categorical form to one-hot-encoded
     """
+
     def __init__(self, mappings):
         self.mappings = mappings
 
@@ -94,6 +95,7 @@ class MappingsDecoderTransformer(BaseTransformer):
     """
     Converts data from one-hot encoded form to categorical
     """
+
     def __init__(self, mappings):
         self.mappings = mappings
 
@@ -162,6 +164,7 @@ class DataFrameWrapper(BaseTransformer):
     """
     Allows use of standard sklearn transformers while maintaining DataFrame type.
     """
+
     def __init__(self, base_transformer):
         self.base_transformer = base_transformer
 

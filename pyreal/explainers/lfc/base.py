@@ -26,6 +26,7 @@ class LocalFeatureContributionsBase(Explainer, ABC):
             default names
         **kwargs: see base Explainer args
     """
+
     def __init__(self, algorithm, model, x_orig, interpretable_features=True, **kwargs):
         self.interpretable_features = interpretable_features
         super(LocalFeatureContributionsBase, self).__init__(algorithm, model, x_orig, **kwargs)
@@ -35,7 +36,6 @@ class LocalFeatureContributionsBase(Explainer, ABC):
         """
         Fit this explainer object
         """
-        pass
 
     def produce(self, x_orig):
         """
@@ -69,4 +69,3 @@ class LocalFeatureContributionsBase(Explainer, ABC):
             DataFrame of shape (n_instances, n_features)
                 Contribution of each feature for each instance
         """
-        pass
