@@ -25,10 +25,9 @@ def load_titanic_data():
 
         if not os.path.isdir(DATA_DIR):
             os.mkdir(DATA_DIR)
-        df.to_csv(DATA_FILE)
+        df.to_csv(DATA_FILE, index=False)
     y = df["target"].rename("Survived")
     x_orig = df.drop("target", axis="columns")
-
     return x_orig, y
 
 
