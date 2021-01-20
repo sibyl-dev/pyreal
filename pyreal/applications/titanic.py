@@ -5,8 +5,9 @@ from urllib.parse import urljoin
 import pandas as pd
 from sklearn.linear_model import LogisticRegression
 
-from pyreal.utils.transformer import OneHotEncoderWrapper, ColumnDropTransformer, \
-    MultiTypeImputer, fit_transformers, run_transformers
+from pyreal.utils.transformer import (
+    ColumnDropTransformer, MultiTypeImputer, OneHotEncoderWrapper, fit_transformers,
+    run_transformers,)
 
 DATA_DIR = os.path.join(os.path.dirname(__file__), "data")
 DATA_FILE = os.path.join(DATA_DIR, "data.csv")
@@ -78,4 +79,3 @@ def load_titanic_transformers():
         with open(TRANSFORMER_FILE, "wb") as f:
             pickle.dump(transformers, f)
         return transformers
-
