@@ -136,6 +136,7 @@ x_interpret = lfc.convert_data_to_interpretable(input_to_explain)
 # Plot a bar plot of top contributing features, by asbolute value
 visualize.plot_top_contributors(contributions, select_by="absolute", values=x_interpret)
 ```
+
 The output will be a bar plot showing the most contributing features, by absolute value.
 
 ![Quickstart](docs/images/quickstart.png)

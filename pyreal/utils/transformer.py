@@ -148,6 +148,7 @@ class OneHotEncoderWrapper(BaseTransformer):
         return pd.concat([x_orig.drop(self.feature_list, axis="columns"), x_cat_ohe], axis=1)
 
     def transform_explanation_shap(self, explanation):
+        explanation = pd.DataFrame(explanation)
         if explanation.ndim == 1:
             explanation = explanation.reshape(1, -1)
         encoded_columns = self.ohe.get_feature_names(self.feature_list)
