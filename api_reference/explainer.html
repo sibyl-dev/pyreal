@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Explainer &#8212; Pyreal 0.1.0 documentation</title>
     
-  <link rel="stylesheet" href="../_static/css/index.73d71520a4ca3b99cfee5594769eaaae.css">
+  <link rel="stylesheet" href="../_static/css/index.f658d18f9b420779cfdf24aa0a7e2d77.css">
 
     
   <link rel="stylesheet"
@@ -28,7 +28,7 @@
     <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     
-  <link rel="preload" as="script" href="../_static/js/index.3da636dd464baa7582d2.js">
+  <link rel="preload" as="script" href="../_static/js/index.d3f166471bb80abb5163.js">
 
     <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
@@ -161,35 +161,19 @@
                             <a href="api/pyreal.explainers.Explainer.convert_data_to_interpretable.html">pyreal.explainers.Explainer.convert_data_to_interpretable</a>
                         </li>
                     
-                        <li class="">
-                            <a href="api/pyreal.explainers.LocalFeatureContributionsBase.html">pyreal.explainers.LocalFeatureContributionsBase</a>
-                        </li>
-                    
-                        <li class="">
-                            <a href="api/pyreal.explainers.LocalFeatureContributionsBase.fit.html">pyreal.explainers.LocalFeatureContributionsBase.fit</a>
-                        </li>
-                    
-                        <li class="">
-                            <a href="api/pyreal.explainers.LocalFeatureContributionsBase.produce.html">pyreal.explainers.LocalFeatureContributionsBase.produce</a>
-                        </li>
-                    
-                        <li class="">
-                            <a href="api/pyreal.explainers.LocalFeatureContributionsBase.get_contributions.html">pyreal.explainers.LocalFeatureContributionsBase.get_contributions</a>
-                        </li>
-                    
-                        <li class="">
-                            <a href="api/pyreal.explainers.LocalFeatureContribution.html">pyreal.explainers.LocalFeatureContribution</a>
-                        </li>
-                    
-                        <li class="">
-                            <a href="api/pyreal.explainers.LocalFeatureContribution.fit.html">pyreal.explainers.LocalFeatureContribution.fit</a>
-                        </li>
-                    
-                        <li class="">
-                            <a href="api/pyreal.explainers.LocalFeatureContribution.produce.html">pyreal.explainers.LocalFeatureContribution.produce</a>
-                        </li>
-                    
                     </ul>
+                </li>
+            
+          
+            
+                <li class="">
+                    <a href="local_feature_contribution.html">Local Feature Contribution</a>
+                </li>
+            
+          
+            
+                <li class="">
+                    <a href="global_feature_importance.html">Global Feature Importance</a>
                 </li>
             
           
@@ -229,18 +213,6 @@
             <a href="#base-explainer" class="nav-link">Base Explainer</a>
         </li>
     
-        <li class="nav-item toc-entry toc-h2">
-            <a href="#local-feature-contribution-base" class="nav-link">Local Feature Contribution Base</a>
-        </li>
-    
-        <li class="nav-item toc-entry toc-h2">
-            <a href="#local-feature-contribution-explainer" class="nav-link">Local Feature Contribution Explainer</a>
-        </li>
-    
-        <li class="nav-item toc-entry toc-h2">
-            <a href="#shap-feature-contribution-explainer" class="nav-link">SHAP Feature Contribution Explainer</a>
-        </li>
-    
     </ul>
 </nav>
 
@@ -255,7 +227,7 @@
               <div>
                 
   <div class="section" id="explainer">
-<h1>Explainer<a class="headerlink" href="#explainer" title="Permalink to this headline">¶</a></h1>
+<span id="pyreal-explainer"></span><h1>Explainer<a class="headerlink" href="#explainer" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="base-explainer">
 <h2>Base Explainer<a class="headerlink" href="#base-explainer" title="Permalink to this headline">¶</a></h2>
 <table class="longtable table autosummary">
@@ -294,58 +266,6 @@
 </tbody>
 </table>
 </div>
-<div class="section" id="local-feature-contribution-base">
-<h2>Local Feature Contribution Base<a class="headerlink" href="#local-feature-contribution-base" title="Permalink to this headline">¶</a></h2>
-<table class="longtable table autosummary">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
-<tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/pyreal.explainers.LocalFeatureContributionsBase.html#pyreal.explainers.LocalFeatureContributionsBase" title="pyreal.explainers.LocalFeatureContributionsBase"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LocalFeatureContributionsBase</span></code></a>(algorithm, …)</p></td>
-<td><p>Base class for LocalFeatureContributionsBase explainer objects.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/pyreal.explainers.LocalFeatureContributionsBase.fit.html#pyreal.explainers.LocalFeatureContributionsBase.fit" title="pyreal.explainers.LocalFeatureContributionsBase.fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LocalFeatureContributionsBase.fit</span></code></a>()</p></td>
-<td><p>Fit this explainer object</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/pyreal.explainers.LocalFeatureContributionsBase.produce.html#pyreal.explainers.LocalFeatureContributionsBase.produce" title="pyreal.explainers.LocalFeatureContributionsBase.produce"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LocalFeatureContributionsBase.produce</span></code></a>(x_orig)</p></td>
-<td><p>Produce the local feature contribution explanation</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/pyreal.explainers.LocalFeatureContributionsBase.get_contributions.html#pyreal.explainers.LocalFeatureContributionsBase.get_contributions" title="pyreal.explainers.LocalFeatureContributionsBase.get_contributions"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LocalFeatureContributionsBase.get_contributions</span></code></a>(x_orig)</p></td>
-<td><p>Gets the raw explanation explanation.</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="section" id="local-feature-contribution-explainer">
-<h2>Local Feature Contribution Explainer<a class="headerlink" href="#local-feature-contribution-explainer" title="Permalink to this headline">¶</a></h2>
-<table class="longtable table autosummary">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
-<tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/pyreal.explainers.LocalFeatureContribution.html#pyreal.explainers.LocalFeatureContribution" title="pyreal.explainers.LocalFeatureContribution"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LocalFeatureContribution</span></code></a>(model, x_orig[, …])</p></td>
-<td><p>Generic LocalFeatureContribution wrapper</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/pyreal.explainers.LocalFeatureContribution.fit.html#pyreal.explainers.LocalFeatureContribution.fit" title="pyreal.explainers.LocalFeatureContribution.fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LocalFeatureContribution.fit</span></code></a>()</p></td>
-<td><p>Fit this explainer object</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/pyreal.explainers.LocalFeatureContribution.produce.html#pyreal.explainers.LocalFeatureContribution.produce" title="pyreal.explainers.LocalFeatureContribution.produce"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LocalFeatureContribution.produce</span></code></a>(x_orig)</p></td>
-<td><p>Produce the local feature contribution explanation</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="section" id="shap-feature-contribution-explainer">
-<h2>SHAP Feature Contribution Explainer<a class="headerlink" href="#shap-feature-contribution-explainer" title="Permalink to this headline">¶</a></h2>
-<blockquote>
-<div><p>ShapFeatureContribution
-ShapFeatureContribution.fit
-ShapFeatureContribution.produce
-ShapFeatureContribution.get_contributions</p>
-</div></blockquote>
-</div>
 </div>
 
 
@@ -366,7 +286,7 @@ ShapFeatureContribution.get_contributions</p>
     </div>
 
     
-  <script src="../_static/js/index.3da636dd464baa7582d2.js"></script>
+  <script src="../_static/js/index.d3f166471bb80abb5163.js"></script>
 
 
     <footer class="footer mt-5 mt-md-0">

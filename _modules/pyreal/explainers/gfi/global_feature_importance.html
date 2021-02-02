@@ -1,0 +1,311 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>pyreal.explainers.gfi.global_feature_importance &#8212; Pyreal 0.1.0 documentation</title>
+    
+  <link rel="stylesheet" href="../../../../_static/css/index.f658d18f9b420779cfdf24aa0a7e2d77.css">
+
+    
+  <link rel="stylesheet"
+    href="../../../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+  <link rel="stylesheet"
+    href="../../../../_static/vendor/open-sans_all/1.44.1/index.css">
+  <link rel="stylesheet"
+    href="../../../../_static/vendor/lato_latin-ext/1.44.1/index.css">
+
+    
+    <link rel="stylesheet" href="../../../../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+    
+  <link rel="preload" as="script" href="../../../../_static/js/index.d3f166471bb80abb5163.js">
+
+    <script id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
+    <script src="../../../../_static/jquery.js"></script>
+    <script src="../../../../_static/underscore.js"></script>
+    <script src="../../../../_static/doctools.js"></script>
+    <script src="../../../../_static/language_data.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <link rel="shortcut icon" href="../../../../_static/dai-logo-white.ico"/>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <nav class="navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main">
+<div class="container-xl">
+
+    <a class="navbar-brand" href="../../../../index.html">
+    
+      <img src="../../../../_static/dai-logo-white-200.png" class="logo" alt="logo" />
+    
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-menu" aria-controls="navbar-menu" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div id="navbar-menu" class="col-lg-9 collapse navbar-collapse">
+      <ul id="navbar-main-elements" class="navbar-nav mr-auto">
+        
+        
+        <li class="nav-item ">
+            <a class="nav-link" href="../../../../getting_started/index.html">Getting Started</a>
+        </li>
+        
+        <li class="nav-item ">
+            <a class="nav-link" href="../../../../user_guides/index.html">User Guides</a>
+        </li>
+        
+        <li class="nav-item ">
+            <a class="nav-link" href="../../../../api_reference/index.html">API Reference</a>
+        </li>
+        
+        <li class="nav-item ">
+            <a class="nav-link" href="../../../../developer_guides/index.html">Developer Guides</a>
+        </li>
+        
+        
+      </ul>
+
+
+      
+
+      <ul class="navbar-nav">
+        
+          <li class="nav-item">
+            <a class="nav-link" href="https://github.com/dai-lab/pyreal" target="_blank" rel="noopener">
+              <span><i class="fab fa-github-square"></i></span>
+            </a>
+          </li>
+        
+        
+      </ul>
+    </div>
+</div>
+    </nav>
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+          <div class="col-12 col-md-3 bd-sidebar"><form class="bd-search d-flex align-items-center" action="../../../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form>
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+
+    <div class="bd-toc-item active">
+    
+  
+    <ul class="nav bd-sidenav">
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      </ul>
+  
+  </nav>
+          </div>
+          
+
+          
+          <div class="d-none d-xl-block col-xl-2 bd-toc">
+              
+
+<nav id="bd-toc-nav">
+    <ul class="nav section-nav flex-column">
+    
+    </ul>
+</nav>
+
+
+              
+          </div>
+          
+
+          
+          <main class="col-12 col-md-9 col-xl-7 py-md-5 pl-md-5 pr-md-4 bd-content" role="main">
+              
+              <div>
+                
+  <h1>Source code for pyreal.explainers.gfi.global_feature_importance</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">pyreal.explainers</span> <span class="kn">import</span> <span class="n">GlobalFeatureImportanceBase</span><span class="p">,</span> <span class="n">ShapFeatureImportance</span>
+
+
+<span class="k">def</span> <span class="nf">choose_algorithm</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Choose an algorithm based on the model type.</span>
+<span class="sd">    Currently, shap is the only supported algorithm</span>
+
+<span class="sd">    Return:</span>
+<span class="sd">        string (one of [&quot;shap&quot;])</span>
+<span class="sd">            Explanation algorithm to use</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="s2">&quot;shap&quot;</span>
+
+
+<span class="k">def</span> <span class="nf">gfi</span><span class="p">(</span><span class="n">return_importances</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">return_explainer</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">explainer</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">model</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">x_train</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">e_algorithm</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">feature_descriptions</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">e_transforms</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">m_transforms</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">i_transforms</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">interpretable_features</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get a global feature importance</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        return_importances (Boolean):</span>
+<span class="sd">            If true, return explanation of features importance.</span>
+<span class="sd">            If true, requires one of `explainer` or (`model and x_train`)</span>
+<span class="sd">        return_explainer (Boolean):</span>
+<span class="sd">            If true, return the fitted Explainer object.</span>
+<span class="sd">            If true, requires one of `explainer` or (`model and x_train`)</span>
+<span class="sd">        explainer (Explainer):</span>
+<span class="sd">            Fitted explainer object.</span>
+<span class="sd">        model (string filepath or model object):</span>
+<span class="sd">           Filepath to the pickled model to explain, or model object with .predict() function</span>
+<span class="sd">        x_train (dataframe of shape (n_instances, x_orig_feature_count)):</span>
+<span class="sd">           The training set for the explainer</span>
+<span class="sd">        e_algorithm (string, one of [&quot;shap&quot;]):</span>
+<span class="sd">           Explanation algorithm to use. If none, one will be chosen automatically based on model</span>
+<span class="sd">           type</span>
+<span class="sd">        feature_descriptions (dict):</span>
+<span class="sd">           Interpretable descriptions of each feature</span>
+<span class="sd">        e_transforms (transformer object or list of transformer objects):</span>
+<span class="sd">           Transformer(s) that need to be used on x_orig for the explanation algorithm:</span>
+<span class="sd">           x_orig -&gt; x_explain</span>
+<span class="sd">        m_transforms (transformer object or list of transformer objects):</span>
+<span class="sd">           Transformer(s) needed on x_orig to make predictions on the dataset with model,</span>
+<span class="sd">           if different than e_transforms</span>
+<span class="sd">           x_orig -&gt; x_model</span>
+<span class="sd">        i_transforms (transformer object or list of transformer objects):</span>
+<span class="sd">           Transformer(s) needed to make x_orig interpretable</span>
+<span class="sd">           x_orig -&gt; x_interpret</span>
+<span class="sd">        interpretable_features (Boolean):</span>
+<span class="sd">            If True, return explanations using the interpretable feature descriptions instead of</span>
+<span class="sd">            default names</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Explainer:</span>
+<span class="sd">            The fitted explainer. Only returned in return_explainer is True</span>
+<span class="sd">        DataFrame of shape (n_instances, n_features):</span>
+<span class="sd">            The importance of each feature. Only returned if return_importance is True</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">return_importances</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">return_explainer</span><span class="p">:</span>
+        <span class="c1"># TODO: replace with formal warning system</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;gfi is non-functional with return_importances and return_explainer set to false&quot;</span><span class="p">)</span>
+        <span class="k">return</span>
+    <span class="k">if</span> <span class="n">explainer</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="p">(</span><span class="n">model</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">x_train</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;gfi requires either explainer OR model and x_train to be passed&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">explainer</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">explainer</span> <span class="o">=</span> <span class="n">GlobalFeatureImportance</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">x_train</span><span class="p">,</span>
+                                            <span class="n">e_algorithm</span><span class="o">=</span><span class="n">e_algorithm</span><span class="p">,</span>
+                                            <span class="n">feature_descriptions</span><span class="o">=</span><span class="n">feature_descriptions</span><span class="p">,</span>
+                                            <span class="n">e_transforms</span><span class="o">=</span><span class="n">e_transforms</span><span class="p">,</span> <span class="n">m_transforms</span><span class="o">=</span><span class="n">m_transforms</span><span class="p">,</span>
+                                            <span class="n">i_transforms</span><span class="o">=</span><span class="n">i_transforms</span><span class="p">,</span>
+                                            <span class="n">interpretable_features</span><span class="o">=</span><span class="n">interpretable_features</span><span class="p">,</span>
+                                            <span class="n">fit_on_init</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">return_explainer</span> <span class="ow">and</span> <span class="n">return_importances</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">explainer</span><span class="p">,</span> <span class="n">explainer</span><span class="o">.</span><span class="n">produce</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">return_explainer</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">explainer</span>
+    <span class="k">if</span> <span class="n">return_importances</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">explainer</span><span class="o">.</span><span class="n">produce</span><span class="p">()</span>
+
+
+<div class="viewcode-block" id="GlobalFeatureImportance"><a class="viewcode-back" href="../../../../api_reference/api/pyreal.explainers.GlobalFeatureImportance.html#pyreal.explainers.GlobalFeatureImportance">[docs]</a><span class="k">class</span> <span class="nc">GlobalFeatureImportance</span><span class="p">(</span><span class="n">GlobalFeatureImportanceBase</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Generic GlobalFeatureImportance wrapper</span>
+
+<span class="sd">    A GlobalFeatureImportance object wraps multiple global feature-based explanations. If no</span>
+<span class="sd">    specific algorithm is requested, one will be chosen based on the information given.</span>
+<span class="sd">    Currently, only SHAP is supported.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        model (string filepath or model object):</span>
+<span class="sd">           Filepath to the pickled model to explain, or model object with .predict() function</span>
+<span class="sd">        x_orig (dataframe of shape (n_instances, x_orig_feature_count)):</span>
+<span class="sd">           The training set for the explainer</span>
+<span class="sd">        e_algorithm (string, one of [&quot;shap&quot;]):</span>
+<span class="sd">           Explanation algorithm to use. If none, one will be chosen automatically based on model</span>
+<span class="sd">           type</span>
+<span class="sd">        **kwargs: see LocalFeatureContributionsBase args</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="GlobalFeatureImportance.__init__"><a class="viewcode-back" href="../../../../api_reference/api/pyreal.explainers.GlobalFeatureImportance.html#pyreal.explainers.GlobalFeatureImportance.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">x_orig</span><span class="p">,</span> <span class="n">e_algorithm</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">e_algorithm</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">e_algorithm</span> <span class="o">=</span> <span class="n">choose_algorithm</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">base_global_feature_importance</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">e_algorithm</span> <span class="o">==</span> <span class="s2">&quot;shap&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">base_global_feature_importance</span> <span class="o">=</span> <span class="n">ShapFeatureImportance</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">x_orig</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_global_feature_importance</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Invalid algorithm type </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">e_algorithm</span><span class="p">)</span>
+
+        <span class="nb">super</span><span class="p">(</span><span class="n">GlobalFeatureImportance</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">base_global_feature_importance</span><span class="o">.</span><span class="n">algorithm</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">x_orig</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="GlobalFeatureImportance.fit"><a class="viewcode-back" href="../../../../api_reference/api/pyreal.explainers.GlobalFeatureImportance.fit.html#pyreal.explainers.GlobalFeatureImportance.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Fit this explainer object</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">base_global_feature_importance</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span></div>
+
+    <span class="k">def</span> <span class="nf">get_importance</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gets the raw explanation.</span>
+<span class="sd">        Args:</span>
+<span class="sd">            x_orig (DataFrame of shape (n_instances, n_features):</span>
+<span class="sd">                Input to explain</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            DataFrame of shape (n_instances, n_features)</span>
+<span class="sd">                Contribution of each feature for each instance</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_global_feature_importance</span><span class="o">.</span><span class="n">get_importance</span><span class="p">()</span></div>
+</pre></div>
+
+              </div>
+              
+              
+              <div class='prev-next-bottom'>
+                
+
+              </div>
+              
+          </main>
+          
+
+      </div>
+    </div>
+
+    
+  <script src="../../../../_static/js/index.d3f166471bb80abb5163.js"></script>
+
+
+    <footer class="footer mt-5 mt-md-0">
+  <div class="container">
+    <p>
+          &copy; Copyright 2020, MIT Data To AI Lab.<br/>
+        Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.2.1.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>
