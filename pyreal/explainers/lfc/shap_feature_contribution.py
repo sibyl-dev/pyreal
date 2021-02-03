@@ -16,14 +16,14 @@ class ShapFeatureContribution(LocalFeatureContributionsBase):
     Args:
         model (string filepath or model object):
            Filepath to the pickled model to explain, or model object with .predict() function
-        x_orig (DataFrame of size (n_instances, n_features)):
+        x_train_orig (DataFrame of size (n_instances, n_features)):
             Training set in original form.
         shap_type (string, one of ["kernel", "linear"]):
             Type of shap algorithm to use. If None, SHAP will pick one.
         **kwargs: see base Explainer args
     """
 
-    def __init__(self, model, x_orig,
+    def __init__(self, model, x_train_orig,
                  shap_type=None, **kwargs):
         supported_types = ["kernel", "linear"]
         if shap_type is not None and shap_type not in supported_types:
@@ -35,13 +35,14 @@ class ShapFeatureContribution(LocalFeatureContributionsBase):
         self.explainer = None
         self.algorithm = ExplanationAlgorithm.SHAP
         self.explainer_input_size = None
-        super(ShapFeatureContribution, self).__init__(self.algorithm, model, x_orig, **kwargs)
+        super(ShapFeatureContribution, self).__init__(
+            self.algorithm, model, x_train_orig, **kwargs)
 
     def fit(self):
         """
         Fit the contribution explainer
         """
-        dataset = self.transform_to_x_explain(self.x_orig)
+        dataset = self.transform_to_x_explain(self.x_train_orig)
         self.explainer_input_size = dataset.shape[1]
         if self.shap_type == "kernel":
             self.explainer = KernelExplainer(self.model.predict, dataset)

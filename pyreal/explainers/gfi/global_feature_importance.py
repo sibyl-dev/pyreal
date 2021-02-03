@@ -14,7 +14,7 @@ def choose_algorithm():
 
 
 def gfi(return_importances=True, return_explainer=False, explainer=None,
-        model=None, x_train=None,
+        model=None, x_train_orig=None,
         e_algorithm=None, feature_descriptions=None,
         e_transforms=None, m_transforms=None, i_transforms=None,
         interpretable_features=True):
@@ -32,7 +32,7 @@ def gfi(return_importances=True, return_explainer=False, explainer=None,
             Fitted explainer object.
         model (string filepath or model object):
            Filepath to the pickled model to explain, or model object with .predict() function
-        x_train (dataframe of shape (n_instances, x_orig_feature_count)):
+        x_train_orig (dataframe of shape (n_instances, x_orig_feature_count)):
            The training set for the explainer
         e_algorithm (string, one of ["shap"]):
            Explanation algorithm to use. If none, one will be chosen automatically based on model
@@ -63,11 +63,11 @@ def gfi(return_importances=True, return_explainer=False, explainer=None,
         # TODO: replace with formal warning system
         print("gfi is non-functional with return_importances and return_explainer set to false")
         return
-    if explainer is None and (model is None or x_train is None):
+    if explainer is None and (model is None or x_train_orig is None):
         raise ValueError("gfi requires either explainer OR model and x_train to be passed")
 
     if explainer is None:
-        explainer = GlobalFeatureImportance(model, x_train,
+        explainer = GlobalFeatureImportance(model, x_train_orig,
                                             e_algorithm=e_algorithm,
                                             feature_descriptions=feature_descriptions,
                                             e_transforms=e_transforms, m_transforms=m_transforms,
@@ -93,7 +93,7 @@ class GlobalFeatureImportance(GlobalFeatureImportanceBase):
     Args:
         model (string filepath or model object):
            Filepath to the pickled model to explain, or model object with .predict() function
-        x_orig (dataframe of shape (n_instances, x_orig_feature_count)):
+        x_train_orig (dataframe of shape (n_instances, x_orig_feature_count)):
            The training set for the explainer
         e_algorithm (string, one of ["shap"]):
            Explanation algorithm to use. If none, one will be chosen automatically based on model
@@ -101,17 +101,18 @@ class GlobalFeatureImportance(GlobalFeatureImportanceBase):
         **kwargs: see LocalFeatureContributionsBase args
     """
 
-    def __init__(self, model, x_orig, e_algorithm=None, **kwargs):
+    def __init__(self, model, x_train_orig, e_algorithm=None, **kwargs):
         if e_algorithm is None:
             e_algorithm = choose_algorithm()
         self.base_global_feature_importance = None
         if e_algorithm == "shap":
-            self.base_global_feature_importance = ShapFeatureImportance(model, x_orig, **kwargs)
+            self.base_global_feature_importance = ShapFeatureImportance(
+                model, x_train_orig, **kwargs)
         if self.base_global_feature_importance is None:
             raise ValueError("Invalid algorithm type %s" % e_algorithm)
 
         super(GlobalFeatureImportance, self).__init__(
-            self.base_global_feature_importance.algorithm, model, x_orig, **kwargs)
+            self.base_global_feature_importance.algorithm, model, x_train_orig, **kwargs)
 
     def fit(self):
         """
@@ -122,9 +123,6 @@ class GlobalFeatureImportance(GlobalFeatureImportanceBase):
     def get_importance(self):
         """
         Gets the raw explanation.
-        Args:
-            x_orig (DataFrame of shape (n_instances, n_features):
-                Input to explain
 
         Returns:
             DataFrame of shape (n_instances, n_features)

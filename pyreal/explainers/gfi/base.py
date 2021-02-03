@@ -16,7 +16,7 @@ class GlobalFeatureImportanceBase(Explainer, ABC):
             Name of the algorithm this Explainer uses
         model (string filepath or model object):
            Filepath to the pickled model to explain, or model object with .predict() function
-        x_orig (dataframe of shape (n_instances, x_orig_feature_count)):
+        x_train_orig (dataframe of shape (n_instances, x_orig_feature_count)):
            The training set for the explainer
         e_algorithm (string, one of ["shap"]):
            Explanation algorithm to use. If none, one will be chosen automatically based on model
@@ -27,10 +27,10 @@ class GlobalFeatureImportanceBase(Explainer, ABC):
         **kwargs: see base Explainer args
     """
 
-    def __init__(self, algorithm, model, x_orig, interpretable_features=True, **kwargs):
+    def __init__(self, algorithm, model, x_train_orig, interpretable_features=True, **kwargs):
         self.interpretable_features = interpretable_features
         self.importance = None
-        super(GlobalFeatureImportanceBase, self).__init__(algorithm, model, x_orig, **kwargs)
+        super(GlobalFeatureImportanceBase, self).__init__(algorithm, model, x_train_orig, **kwargs)
 
     @abstractmethod
     def fit(self):
