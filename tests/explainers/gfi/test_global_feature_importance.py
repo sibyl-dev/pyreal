@@ -61,21 +61,21 @@ class TestGlobalFeatureImportance(unittest.TestCase):
     def test_fit_shap_no_transforms(self):
         gfi_object = GlobalFeatureImportance(
             model=self.model_no_transforms_filename,
-            x_orig=self.X_train, e_algorithm='shap')
+            x_train_orig=self.X_train, e_algorithm='shap')
         gfi_object.fit()
 
         shap = ShapFeatureImportance(
-            model=self.model_no_transforms_filename, x_orig=self.X_train)
+            model=self.model_no_transforms_filename, x_train_orig=self.X_train)
         shap.fit()
         self.assertIsNotNone(shap.explainer)
         self.assertIsInstance(shap.explainer, LinearExplainer)
 
     def test_produce_shap_no_transforms(self):
         gfi = GlobalFeatureImportance(model=self.model_no_transforms_filename,
-                                      x_orig=self.X_train, e_algorithm='shap',
+                                      x_train_orig=self.X_train, e_algorithm='shap',
                                       fit_on_init=True)
         shap = ShapFeatureImportance(
-            model=self.model_no_transforms_filename, x_orig=self.X_train,
+            model=self.model_no_transforms_filename, x_train_orig=self.X_train,
             fit_on_init=True)
 
         self.helper_produce_shap_no_transforms(gfi)
@@ -92,11 +92,11 @@ class TestGlobalFeatureImportance(unittest.TestCase):
     def test_produce_shap_one_hot(self):
         e_transforms = self.one_hot_encoder
         gfi = GlobalFeatureImportance(model=self.model_one_hot_filename,
-                                      x_orig=self.X_train, e_algorithm='shap',
+                                      x_train_orig=self.X_train, e_algorithm='shap',
                                       fit_on_init=True, e_transforms=e_transforms,
                                       interpretable_features=False)
         shap = ShapFeatureImportance(model=self.model_one_hot_filename,
-                                     x_orig=self.X_train, fit_on_init=True,
+                                     x_train_orig=self.X_train, fit_on_init=True,
                                      e_transforms=e_transforms)
         self.helper_produce_shap_one_hot(gfi)
         self.helper_produce_shap_one_hot(shap)
@@ -113,7 +113,7 @@ class TestGlobalFeatureImportance(unittest.TestCase):
         e_transforms = self.one_hot_encoder
         feature_descriptions = {"A": "Feature A", "B": "Feature B"}
         gfi = GlobalFeatureImportance(model=self.model_one_hot_filename,
-                                      x_orig=self.X_train, e_algorithm='shap',
+                                      x_train_orig=self.X_train, e_algorithm='shap',
                                       fit_on_init=True, e_transforms=e_transforms,
                                       interpretable_features=True,
                                       feature_descriptions=feature_descriptions)
