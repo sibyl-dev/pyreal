@@ -268,7 +268,7 @@ passenger on the Titanic would have survived.</p>
 <span class="kn">from</span> <span class="nn">pyreal.utils.transformer</span> <span class="kn">import</span> <span class="n">ColumnDropTransformer</span><span class="p">,</span> <span class="n">MultiTypeImputer</span>
 
 <span class="c1"># Load in data</span>
-<span class="n">x_orig</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">titanic</span><span class="o">.</span><span class="n">load_titanic_data</span><span class="p">()</span>
+<span class="n">x_train_orig</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">titanic</span><span class="o">.</span><span class="n">load_titanic_data</span><span class="p">()</span>
 
 <span class="c1"># Load in feature descriptions -&gt; dict(feature_name: feature_description, ...)</span>
 <span class="n">feature_descriptions</span> <span class="o">=</span> <span class="n">titanic</span><span class="o">.</span><span class="n">load_feature_descriptions</span><span class="p">()</span>
@@ -284,7 +284,7 @@ passenger on the Titanic would have survived.</p>
 <div class="section" id="create-and-fit-localfeaturecontribution-explainer-object">
 <h3>Create and fit LocalFeatureContribution Explainer object<a class="headerlink" href="#create-and-fit-localfeaturecontribution-explainer-object" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyreal.explainers</span> <span class="kn">import</span> <span class="n">LocalFeatureContribution</span>
-<span class="n">lfc</span> <span class="o">=</span> <span class="n">LocalFeatureContribution</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span> <span class="n">x_orig</span><span class="o">=</span><span class="n">x_orig</span><span class="p">,</span>
+<span class="n">lfc</span> <span class="o">=</span> <span class="n">LocalFeatureContribution</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span> <span class="n">x_train_orig</span><span class="o">=</span><span class="n">x_train_orig</span><span class="p">,</span>
                                <span class="n">m_transforms</span><span class="o">=</span><span class="n">transformers</span><span class="p">,</span> <span class="n">e_transforms</span><span class="o">=</span><span class="n">transformers</span><span class="p">,</span>
                                <span class="n">feature_descriptions</span><span class="o">=</span><span class="n">feature_descriptions</span><span class="p">,</span> <span class="n">fit_on_init</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">lfc</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
@@ -293,7 +293,7 @@ passenger on the Titanic would have survived.</p>
 </div>
 <div class="section" id="make-predictions-on-an-input">
 <h3>Make predictions on an input<a class="headerlink" href="#make-predictions-on-an-input" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">input_to_explain</span> <span class="o">=</span> <span class="n">x_orig</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">input_to_explain</span> <span class="o">=</span> <span class="n">x_train_orig</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 <span class="n">prediction</span> <span class="o">=</span> <span class="n">lfc</span><span class="o">.</span><span class="n">model_predict</span><span class="p">(</span><span class="n">input_to_explain</span><span class="p">)</span> <span class="c1"># Prediction: [0]</span>
 </pre></div>
 </div>

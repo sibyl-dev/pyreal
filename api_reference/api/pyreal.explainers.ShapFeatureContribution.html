@@ -231,14 +231,14 @@
 <h1>pyreal.explainers.ShapFeatureContribution<a class="headerlink" href="#pyreal-explainers-shapfeaturecontribution" title="Permalink to this headline">¶</a></h1>
 <dl class="py class">
 <dt id="pyreal.explainers.ShapFeatureContribution">
-<em class="property">class </em><code class="sig-prename descclassname">pyreal.explainers.</code><code class="sig-name descname">ShapFeatureContribution</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">model</span></em>, <em class="sig-param"><span class="n">x_orig</span></em>, <em class="sig-param"><span class="n">shap_type</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyreal/explainers/lfc/shap_feature_contribution.html#ShapFeatureContribution"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyreal.explainers.ShapFeatureContribution" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">pyreal.explainers.</code><code class="sig-name descname">ShapFeatureContribution</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">model</span></em>, <em class="sig-param"><span class="n">x_train_orig</span></em>, <em class="sig-param"><span class="n">shap_type</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyreal/explainers/lfc/shap_feature_contribution.html#ShapFeatureContribution"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyreal.explainers.ShapFeatureContribution" title="Permalink to this definition">¶</a></dt>
 <dd><p>ShapFeatureContribution object.</p>
 <p>A ShapFeatureContribution object gets feature explanation using the SHAP algorithm.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>model</strong> (<em>string filepath</em><em> or </em><em>model object</em>) – Filepath to the pickled model to explain, or model object with .predict() function</p></li>
-<li><p><strong>x_orig</strong> (<em>DataFrame of size</em><em> (</em><em>n_instances</em><em>, </em><em>n_features</em><em>)</em>) – Training set in original form.</p></li>
+<li><p><strong>x_train_orig</strong> (<em>DataFrame of size</em><em> (</em><em>n_instances</em><em>, </em><em>n_features</em><em>)</em>) – Training set in original form.</p></li>
 <li><p><strong>shap_type</strong> (<em>string</em><em>, </em><em>one of</em><em> [</em><em>&quot;kernel&quot;</em><em>, </em><em>&quot;linear&quot;</em><em>]</em>) – Type of shap algorithm to use. If None, SHAP will pick one.</p></li>
 <li><p><strong>**kwargs</strong> – see base Explainer args</p></li>
 </ul>
@@ -246,7 +246,7 @@
 </dl>
 <dl class="py method">
 <dt id="pyreal.explainers.ShapFeatureContribution.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">model</span></em>, <em class="sig-param"><span class="n">x_orig</span></em>, <em class="sig-param"><span class="n">shap_type</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyreal/explainers/lfc/shap_feature_contribution.html#ShapFeatureContribution.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyreal.explainers.ShapFeatureContribution.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">model</span></em>, <em class="sig-param"><span class="n">x_train_orig</span></em>, <em class="sig-param"><span class="n">shap_type</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyreal/explainers/lfc/shap_feature_contribution.html#ShapFeatureContribution.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyreal.explainers.ShapFeatureContribution.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
 </dd></dl>
 
@@ -257,7 +257,7 @@
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#pyreal.explainers.ShapFeatureContribution.__init__" title="pyreal.explainers.ShapFeatureContribution.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(model, x_orig[, shap_type])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pyreal.explainers.ShapFeatureContribution.__init__" title="pyreal.explainers.ShapFeatureContribution.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(model, x_train_orig[, shap_type])</p></td>
 <td><p>Initialize self.</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">convert_columns_to_interpretable</span></code>(df)</p></td>

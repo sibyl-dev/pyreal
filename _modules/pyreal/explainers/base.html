@@ -178,7 +178,7 @@
 <span class="sd">            Name of the algorithm this Explainer uses</span>
 <span class="sd">        model (string filepath or model object):</span>
 <span class="sd">           Filepath to the pickled model to explain, or model object with .predict() function</span>
-<span class="sd">        x_orig (dataframe of shape (n_instances, x_orig_feature_count)):</span>
+<span class="sd">        x_train_orig (dataframe of shape (n_instances, x_orig_feature_count)):</span>
 <span class="sd">           The training set for the explainer</span>
 <span class="sd">        y_orig (dataframe of shape (n_instances,-)):</span>
 <span class="sd">           The y values for the dataset</span>
@@ -210,7 +210,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="Explainer.__init__"><a class="viewcode-back" href="../../../api_reference/api/pyreal.explainers.Explainer.html#pyreal.explainers.Explainer.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">algorithm</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span>
-                 <span class="n">x_orig</span><span class="p">,</span> <span class="n">y_orig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">x_train_orig</span><span class="p">,</span> <span class="n">y_orig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">feature_descriptions</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">transforms</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">e_transforms</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">m_transforms</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">i_transforms</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -225,14 +225,14 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">model</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">algorithm</span> <span class="o">=</span> <span class="n">algorithm</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">x_orig</span> <span class="o">=</span> <span class="n">x_orig</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">x_train_orig</span> <span class="o">=</span> <span class="n">x_train_orig</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">y_orig</span> <span class="o">=</span> <span class="n">y_orig</span>
 
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x_orig</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="ow">or</span> \
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x_train_orig</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="ow">or</span> \
                 <span class="p">(</span><span class="n">y_orig</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">y_orig</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)):</span>
-            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;x_orig and y_orig must be of type DataFrame&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;x_train_orig and y_orig must be of type DataFrame&quot;</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">x_orig_feature_count</span> <span class="o">=</span> <span class="n">x_orig</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">x_orig_feature_count</span> <span class="o">=</span> <span class="n">x_train_orig</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
 
         <span class="k">if</span> <span class="n">transforms</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">e_transforms</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="c1"># TODO: replace with proper warning</span>
@@ -415,7 +415,7 @@
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">y_orig</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Explainer must have a y_orig parameter to score model&quot;</span><span class="p">)</span>
         <span class="n">scorer</span> <span class="o">=</span> <span class="n">get_scorer</span><span class="p">(</span><span class="n">scorer</span><span class="p">)</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform_to_x_model</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x_orig</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform_to_x_model</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x_train_orig</span><span class="p">)</span>
         <span class="n">score</span> <span class="o">=</span> <span class="n">scorer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y_orig</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">score</span></div>
 </pre></div>

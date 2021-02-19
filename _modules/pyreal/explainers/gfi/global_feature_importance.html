@@ -162,7 +162,7 @@
 
 
 <span class="k">def</span> <span class="nf">gfi</span><span class="p">(</span><span class="n">return_importances</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">return_explainer</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">explainer</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-        <span class="n">model</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">x_train</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">model</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">x_train_orig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">e_algorithm</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">feature_descriptions</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">e_transforms</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">m_transforms</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">i_transforms</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">interpretable_features</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
@@ -180,7 +180,7 @@
 <span class="sd">            Fitted explainer object.</span>
 <span class="sd">        model (string filepath or model object):</span>
 <span class="sd">           Filepath to the pickled model to explain, or model object with .predict() function</span>
-<span class="sd">        x_train (dataframe of shape (n_instances, x_orig_feature_count)):</span>
+<span class="sd">        x_train_orig (dataframe of shape (n_instances, x_orig_feature_count)):</span>
 <span class="sd">           The training set for the explainer</span>
 <span class="sd">        e_algorithm (string, one of [&quot;shap&quot;]):</span>
 <span class="sd">           Explanation algorithm to use. If none, one will be chosen automatically based on model</span>
@@ -211,11 +211,11 @@
         <span class="c1"># TODO: replace with formal warning system</span>
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;gfi is non-functional with return_importances and return_explainer set to false&quot;</span><span class="p">)</span>
         <span class="k">return</span>
-    <span class="k">if</span> <span class="n">explainer</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="p">(</span><span class="n">model</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">x_train</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">explainer</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="p">(</span><span class="n">model</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">x_train_orig</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;gfi requires either explainer OR model and x_train to be passed&quot;</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">explainer</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">explainer</span> <span class="o">=</span> <span class="n">GlobalFeatureImportance</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">x_train</span><span class="p">,</span>
+        <span class="n">explainer</span> <span class="o">=</span> <span class="n">GlobalFeatureImportance</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">x_train_orig</span><span class="p">,</span>
                                             <span class="n">e_algorithm</span><span class="o">=</span><span class="n">e_algorithm</span><span class="p">,</span>
                                             <span class="n">feature_descriptions</span><span class="o">=</span><span class="n">feature_descriptions</span><span class="p">,</span>
                                             <span class="n">e_transforms</span><span class="o">=</span><span class="n">e_transforms</span><span class="p">,</span> <span class="n">m_transforms</span><span class="o">=</span><span class="n">m_transforms</span><span class="p">,</span>
@@ -241,7 +241,7 @@
 <span class="sd">    Args:</span>
 <span class="sd">        model (string filepath or model object):</span>
 <span class="sd">           Filepath to the pickled model to explain, or model object with .predict() function</span>
-<span class="sd">        x_orig (dataframe of shape (n_instances, x_orig_feature_count)):</span>
+<span class="sd">        x_train_orig (dataframe of shape (n_instances, x_orig_feature_count)):</span>
 <span class="sd">           The training set for the explainer</span>
 <span class="sd">        e_algorithm (string, one of [&quot;shap&quot;]):</span>
 <span class="sd">           Explanation algorithm to use. If none, one will be chosen automatically based on model</span>
@@ -249,17 +249,18 @@
 <span class="sd">        **kwargs: see LocalFeatureContributionsBase args</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="GlobalFeatureImportance.__init__"><a class="viewcode-back" href="../../../../api_reference/api/pyreal.explainers.GlobalFeatureImportance.html#pyreal.explainers.GlobalFeatureImportance.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">x_orig</span><span class="p">,</span> <span class="n">e_algorithm</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="GlobalFeatureImportance.__init__"><a class="viewcode-back" href="../../../../api_reference/api/pyreal.explainers.GlobalFeatureImportance.html#pyreal.explainers.GlobalFeatureImportance.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">x_train_orig</span><span class="p">,</span> <span class="n">e_algorithm</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">e_algorithm</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">e_algorithm</span> <span class="o">=</span> <span class="n">choose_algorithm</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">base_global_feature_importance</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">if</span> <span class="n">e_algorithm</span> <span class="o">==</span> <span class="s2">&quot;shap&quot;</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">base_global_feature_importance</span> <span class="o">=</span> <span class="n">ShapFeatureImportance</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">x_orig</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">base_global_feature_importance</span> <span class="o">=</span> <span class="n">ShapFeatureImportance</span><span class="p">(</span>
+                <span class="n">model</span><span class="p">,</span> <span class="n">x_train_orig</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_global_feature_importance</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Invalid algorithm type </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">e_algorithm</span><span class="p">)</span>
 
         <span class="nb">super</span><span class="p">(</span><span class="n">GlobalFeatureImportance</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">base_global_feature_importance</span><span class="o">.</span><span class="n">algorithm</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">x_orig</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+            <span class="bp">self</span><span class="o">.</span><span class="n">base_global_feature_importance</span><span class="o">.</span><span class="n">algorithm</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">x_train_orig</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="GlobalFeatureImportance.fit"><a class="viewcode-back" href="../../../../api_reference/api/pyreal.explainers.GlobalFeatureImportance.fit.html#pyreal.explainers.GlobalFeatureImportance.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -270,9 +271,6 @@
     <span class="k">def</span> <span class="nf">get_importance</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Gets the raw explanation.</span>
-<span class="sd">        Args:</span>
-<span class="sd">            x_orig (DataFrame of shape (n_instances, n_features):</span>
-<span class="sd">                Input to explain</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            DataFrame of shape (n_instances, n_features)</span>
