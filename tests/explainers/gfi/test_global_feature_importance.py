@@ -40,7 +40,6 @@ class TestGlobalFeatureImportance(unittest.TestCase):
         with open(self.model_no_transforms_filename, "wb") as f:
             pickle.dump(model_no_transforms, f)
 
-        # TODO: replace with ML primitives
         self.one_hot_encoder = OneHotEncoderWrapper(feature_list=["A"])
         self.one_hot_encoder.fit(self.X_train)
         self.X_transformed = self.one_hot_encoder.transform(self.X_train)
