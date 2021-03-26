@@ -34,7 +34,7 @@ class Explainer(ABC):
            model.predict() should return a single value prediction for each input
            Classification models should return the index or class. If the latter, the `classes`
            parameter should be provided.
-        x_orig (DataFrame of shape (n_instances, x_orig_feature_count)):
+        x_train_orig (DataFrame of shape (n_instances, x_orig_feature_count)):
            The training set for the explainer
         y_orig (DataFrame of shape (n_instances,)):
            The y values for the dataset
@@ -73,7 +73,7 @@ class Explainer(ABC):
            on the explanation after producing.
     """
     def __init__(self, algorithm, model,
-                 x_orig, y_orig=None,
+                 x_train_orig, y_orig=None,
                  feature_descriptions=None,
                  classes=None,
                  class_descriptions=None,
@@ -90,14 +90,14 @@ class Explainer(ABC):
             self.model = model
         self.algorithm = algorithm
 
-        self.x_orig = x_orig
+        self.x_train_orig = x_train_orig
         self.y_orig = y_orig
 
-        if not isinstance(x_orig, pd.DataFrame) or \
+        if not isinstance(x_train_orig, pd.DataFrame) or \
                 (y_orig is not None and not isinstance(y_orig, pd.DataFrame)):
             raise TypeError("x_orig and y_orig must be of type DataFrame")
 
-        self.x_orig_feature_count = x_orig.shape[1]
+        self.x_orig_feature_count = x_train_orig.shape[1]
 
         if transforms is not None and e_transforms is not None:
             # TODO: replace with proper warning
@@ -120,8 +120,6 @@ class Explainer(ABC):
         if classes is None and str(self.model.__module__.startswith("sklearn")) \
                 and is_classifier(model) and hasattr(model, "classes_"):
             self.classes = model.classes_
-
-        # TODO: extract number of classes and initialize self.classes to arange()
 
         self.class_descriptions = class_descriptions
 
@@ -291,6 +289,6 @@ class Explainer(ABC):
         if self.y_orig is None:
             raise ValueError("Explainer must have a y_orig parameter to score model")
         scorer = get_scorer(scorer)
-        x = self.transform_to_x_model(self.x_orig)
+        x = self.transform_to_x_model(self.x_train_orig)
         score = scorer(self.model, x, self.y_orig)
         return score

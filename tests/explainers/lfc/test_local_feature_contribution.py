@@ -9,12 +9,12 @@ def test_fit_shap(all_models):
     for model in all_models:
         lfc_object = LocalFeatureContribution(
             model=model["model"],
-            x_orig=model["x"], transforms=model["transforms"],
+            x_train_orig=model["x"], transforms=model["transforms"],
             e_algorithm='shap')
         lfc_object.fit()
         shap = ShapFeatureContribution(
             model=model["model"],
-            x_orig=model["x"], transforms=model["transforms"])
+            x_train_orig=model["x"], transforms=model["transforms"])
         shap.fit()
         assert shap.explainer is not None
         assert isinstance(shap.explainer, LinearExplainer)
@@ -23,11 +23,11 @@ def test_fit_shap(all_models):
 def test_produce_shap_regression_no_transforms(regression_no_transforms):
     model = regression_no_transforms
     lfc = LocalFeatureContribution(model=model["model"],
-                                   x_orig=model["x"], e_algorithm='shap',
+                                   x_train_orig=model["x"], e_algorithm='shap',
                                    transforms=model["transforms"],
                                    fit_on_init=True)
     shap = ShapFeatureContribution(
-        model=model["model"], x_orig=model["x"], transforms=model["transforms"],
+        model=model["model"], x_train_orig=model["x"], transforms=model["transforms"],
         fit_on_init=True)
 
     helper_produce_shap_regression_no_transforms(lfc, model)
@@ -56,11 +56,11 @@ def helper_produce_shap_regression_no_transforms(explainer, model):
 def test_produce_shap_regression_transforms(regression_one_hot):
     model = regression_one_hot
     lfc = LocalFeatureContribution(model=model["model"],
-                                   x_orig=model["x"], e_algorithm='shap',
+                                   x_train_orig=model["x"], e_algorithm='shap',
                                    transforms=model["transforms"],
                                    fit_on_init=True)
     shap = ShapFeatureContribution(
-        model=model["model"], x_orig=model["x"], transforms=model["transforms"],
+        model=model["model"], x_train_orig=model["x"], transforms=model["transforms"],
         fit_on_init=True)
 
     helper_produce_shap_regression_one_hot(lfc)
@@ -89,12 +89,12 @@ def helper_produce_shap_regression_one_hot(explainer):
 def test_produce_shap_classification_no_transforms(classification_no_transforms):
     model = classification_no_transforms
     lfc = LocalFeatureContribution(model=model["model"],
-                                   x_orig=model["x"], e_algorithm='shap',
+                                   x_train_orig=model["x"], e_algorithm='shap',
                                    transforms=model["transforms"],
                                    fit_on_init=True,
                                    classes=np.arange(1, 4))
     shap = ShapFeatureContribution(
-        model=model["model"], x_orig=model["x"], transforms=model["transforms"],
+        model=model["model"], x_train_orig=model["x"], transforms=model["transforms"],
         fit_on_init=True, classes=np.arange(1, 4))
 
     helper_produce_shap_classification_no_transforms(lfc)
@@ -125,7 +125,7 @@ def test_produce_with_renames(regression_one_hot):
     e_transforms = model["transforms"]
     feature_descriptions = {"A": "Feature A", "B": "Feature B"}
     lfc = LocalFeatureContribution(model=model["model"],
-                                   x_orig=model["x"], e_algorithm='shap',
+                                   x_train_orig=model["x"], e_algorithm='shap',
                                    fit_on_init=True, e_transforms=e_transforms,
                                    interpretable_features=True,
                                    feature_descriptions=feature_descriptions)
