@@ -96,7 +96,7 @@ import pyreal.applications.titanic as titanic
 from pyreal.utils.transformer import ColumnDropTransformer, MultiTypeImputer
 
 # Load in data
-x_orig, y = titanic.load_titanic_data()
+x_train_orig, y = titanic.load_titanic_data()
 
 # Load in feature descriptions -> dict(feature_name: feature_description, ...)
 feature_descriptions = titanic.load_feature_descriptions()
@@ -111,16 +111,15 @@ transformers = titanic.load_titanic_transformers()
 #### Create and fit LocalFeatureContribution Explainer object
 ```python3
 from pyreal.explainers import LocalFeatureContribution
-lfc = LocalFeatureContribution(model=model, x_orig=x_orig,
+lfc = LocalFeatureContribution(model=model, x_train_orig=x_train_orig,
                                m_transforms=transformers, e_transforms=transformers,
-                               contribution_transforms=transformers,
-                               feature_descriptions=feature_descriptions)
+                               feature_descriptions=feature_descriptions, fit_on_init=True)
 lfc.fit()
 ```
 
 #### Make predictions on an input
 ```python3
-input_to_explain = x_orig.iloc[0]
+input_to_explain = x_train_orig.iloc[0]
 prediction = lfc.model_predict(input_to_explain) # Prediction: [0]
 ```
 
@@ -137,6 +136,7 @@ x_interpret = lfc.convert_data_to_interpretable(input_to_explain)
 # Plot a bar plot of top contributing features, by asbolute value
 visualize.plot_top_contributors(contributions, select_by="absolute", values=x_interpret)
 ```
+
 The output will be a bar plot showing the most contributing features, by absolute value.
 
 ![Quickstart](docs/images/quickstart.png)

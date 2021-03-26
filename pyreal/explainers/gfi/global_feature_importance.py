@@ -1,4 +1,4 @@
-from pyreal.explainers import LocalFeatureContributionsBase, ShapFeatureContribution
+from pyreal.explainers import GlobalFeatureImportanceBase, ShapFeatureImportance
 
 
 def choose_algorithm():
@@ -13,18 +13,18 @@ def choose_algorithm():
     return "shap"
 
 
-def lfc(return_contributions=True, return_explainer=False, explainer=None,
-        model=None, x_orig=None, x_train_orig=None,
+def gfi(return_importances=True, return_explainer=False, explainer=None,
+        model=None, x_train_orig=None,
         e_algorithm=None, feature_descriptions=None,
         e_transforms=None, m_transforms=None, i_transforms=None,
         interpretable_features=True):
     """
-    Get a local feature contribution for x_input
+    Get a global feature importance
 
     Args:
-        return_contributions (Boolean):
-            If true, return explanation of features in x_input.
-            If true, requires `x_input` and one of `explainer` or (`model and x_train`)
+        return_importances (Boolean):
+            If true, return explanation of features importance.
+            If true, requires one of `explainer` or (`model and x_train`)
         return_explainer (Boolean):
             If true, return the fitted Explainer object.
             If true, requires one of `explainer` or (`model and x_train`)
@@ -32,8 +32,6 @@ def lfc(return_contributions=True, return_explainer=False, explainer=None,
             Fitted explainer object.
         model (string filepath or model object):
            Filepath to the pickled model to explain, or model object with .predict() function
-        x_orig (dataframe of shape (n_instances, x_orig_feature_count)):
-           The input to explain
         x_train_orig (dataframe of shape (n_instances, x_orig_feature_count)):
            The training set for the explainer
         e_algorithm (string, one of ["shap"]):
@@ -59,38 +57,36 @@ def lfc(return_contributions=True, return_explainer=False, explainer=None,
         Explainer:
             The fitted explainer. Only returned in return_explainer is True
         DataFrame of shape (n_instances, n_features):
-            The contribution of each feature. Only returned if return_contributions is True
+            The importance of each feature. Only returned if return_importance is True
     """
-    if not return_contributions and not return_explainer:
+    if not return_importances and not return_explainer:
         # TODO: replace with formal warning system
-        print("lfc is non-functional with return_contribution and return_explainer set to false")
+        print("gfi is non-functional with return_importances and return_explainer set to false")
         return
     if explainer is None and (model is None or x_train_orig is None):
-        raise ValueError("lfc requires either explainer OR model and x_train to be passed")
-    if return_contributions is True and x_orig is None:
-        raise ValueError("return_contributions tag require x_input to be passed")
+        raise ValueError("gfi requires either explainer OR model and x_train to be passed")
 
     if explainer is None:
-        explainer = LocalFeatureContribution(model, x_train_orig,
-                                             e_algorithm=e_algorithm,
-                                             feature_descriptions=feature_descriptions,
-                                             e_transforms=e_transforms, m_transforms=m_transforms,
-                                             i_transforms=i_transforms,
-                                             interpretable_features=interpretable_features,
-                                             fit_on_init=True)
-    if return_explainer and return_contributions:
-        return explainer, explainer.produce(x_orig)
+        explainer = GlobalFeatureImportance(model, x_train_orig,
+                                            e_algorithm=e_algorithm,
+                                            feature_descriptions=feature_descriptions,
+                                            e_transforms=e_transforms, m_transforms=m_transforms,
+                                            i_transforms=i_transforms,
+                                            interpretable_features=interpretable_features,
+                                            fit_on_init=True)
+    if return_explainer and return_importances:
+        return explainer, explainer.produce()
     if return_explainer:
         return explainer
-    if return_contributions:
-        return explainer.produce(x_orig)
+    if return_importances:
+        return explainer.produce()
 
 
-class LocalFeatureContribution(LocalFeatureContributionsBase):
+class GlobalFeatureImportance(GlobalFeatureImportanceBase):
     """
-    Generic LocalFeatureContribution wrapper
+    Generic GlobalFeatureImportance wrapper
 
-    A LocalFeatureContributions object wraps multiple local feature-based explanations. If no
+    A GlobalFeatureImportance object wraps multiple global feature-based explanations. If no
     specific algorithm is requested, one will be chosen based on the information given.
     Currently, only SHAP is supported.
 
@@ -108,31 +104,28 @@ class LocalFeatureContribution(LocalFeatureContributionsBase):
     def __init__(self, model, x_train_orig, e_algorithm=None, **kwargs):
         if e_algorithm is None:
             e_algorithm = choose_algorithm()
-        self.base_local_feature_contribution = None
+        self.base_global_feature_importance = None
         if e_algorithm == "shap":
-            self.base_local_feature_contribution = ShapFeatureContribution(
+            self.base_global_feature_importance = ShapFeatureImportance(
                 model, x_train_orig, **kwargs)
-        if self.base_local_feature_contribution is None:
+        if self.base_global_feature_importance is None:
             raise ValueError("Invalid algorithm type %s" % e_algorithm)
 
-        super(LocalFeatureContribution, self).__init__(
-            self.base_local_feature_contribution.algorithm, model, x_train_orig, **kwargs)
+        super(GlobalFeatureImportance, self).__init__(
+            self.base_global_feature_importance.algorithm, model, x_train_orig, **kwargs)
 
     def fit(self):
         """
         Fit this explainer object
         """
-        self.base_local_feature_contribution.fit()
+        self.base_global_feature_importance.fit()
 
-    def get_contributions(self, x_orig):
+    def get_importance(self):
         """
         Gets the raw explanation.
-        Args:
-            x_orig (DataFrame of shape (n_instances, n_features):
-                Input to explain
 
         Returns:
             DataFrame of shape (n_instances, n_features)
                 Contribution of each feature for each instance
         """
-        return self.base_local_feature_contribution.get_contributions(x_orig)
+        return self.base_global_feature_importance.get_importance()

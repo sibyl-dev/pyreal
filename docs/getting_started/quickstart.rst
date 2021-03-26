@@ -14,20 +14,19 @@ To get a feature contribution explanation of a pre-trained model, we can use the
 .. ipython:: python
     :okwarning:
 
-    from pyreal.explainers import LocalFeatureContribution
     import pyreal.applications.titanic as titanic
     from pyreal.utils.transformer import ColumnDropTransformer, MultiTypeImputer
-    from pyreal.utils import visualize
 
-    # First, we will load in the Titanic dataset
+    # Load in data
     x_orig, y = titanic.load_titanic_data()
 
-    # Next, we load in a dictionary that provides human-readable descriptions of the feature names
-    #   Format: {feature_name : feature_description, ...}
+    # Load in feature descriptions -> dict(feature_name: feature_description, ...)
     feature_descriptions = titanic.load_feature_descriptions()
 
-    # Finally, we load in the trained model and corresponding fitted transformers
+    # Load in model
     model = titanic.load_titanic_model()
+
+    # Load in list of transformers
     transformers = titanic.load_titanic_transformers()
 
 The ``transformers`` object is a list that includes three types of transformers, specific for this
@@ -47,9 +46,10 @@ Next, we can create the ``Explainer`` object, and fit it.
 .. ipython:: python
     :okwarning:
 
-    lfc = LocalFeatureContribution(model=model, x_orig=x_orig,
+    from pyreal.explainers import LocalFeatureContribution
+    lfc = LocalFeatureContribution(model=model, x_train_orig=x_orig,
                                    m_transforms=transformers, e_transforms=transformers,
-                                   feature_descriptions=feature_descriptions)
+                                   feature_descriptions=feature_descriptions, fit_on_init=True)
     lfc.fit()
 
 Finally, we can get the explanation using the ``.produce()`` function. We will also visualize
@@ -58,18 +58,15 @@ the most contributing features using the `visualize` model.
 .. ipython:: python
     :okwarning:
 
-    # We can now choose an input, and see the model's prediction.
     input_to_explain = x_orig.iloc[0]
-    print("Prediction:", lfc.model_predict(input_to_explain)) # Output -> Prediction: [0]
+    prediction = lfc.model_predict(input_to_explain) # Prediction: [0]
 
-    # We see that this person is not predicted to survive.
-    #   Let's see why, by using LocalFeatureContribution's .produce() function
     contributions = lfc.produce(input_to_explain)
 
-    # We can visualize the most contributing features using the real.utils.visualize module.
-    #   We will also convert our input to the interpretable space, so we can add it's values to
-    #   the visualization
+    from pyreal.utils import visualize
     x_interpret = lfc.convert_data_to_interpretable(input_to_explain)
+
+    # Plot a bar plot of top contributing features, by asbolute value
     visualize.plot_top_contributors(contributions, select_by="absolute", values=x_interpret)
 
 The output will be a bar plot showing the most contributing features, by absolute value.

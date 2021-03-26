@@ -17,7 +17,7 @@ install_requires = [
     "scikit-learn>=0.22",
     "shap>=0.37.0",
     "eli5>=0.10",
-    'matplotlib>=3.2.1'
+    'matplotlib>=3.2.1',
 ]
 
 setup_requires = [
@@ -27,7 +27,9 @@ setup_requires = [
 tests_require = [
     'pytest>=3.4.2',
     'pytest-cov>=2.6.0',
-    'jupyter>=1.0.0,<2'
+    'jupyter>=1.0.0,<2',
+    'rundoc>=0.4.3,<0.5',
+    'invoke',
 ]
 
 development_requires = [
