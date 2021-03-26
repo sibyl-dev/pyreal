@@ -1,8 +1,8 @@
 from abc import ABC, abstractmethod
 
 import pandas as pd
-from sklearn.metrics import get_scorer
 from sklearn.base import is_classifier
+from sklearn.metrics import get_scorer
 
 from pyreal.utils import model_utils
 from pyreal.utils.transformer import run_transformers
@@ -72,6 +72,7 @@ class Explainer(ABC):
            If True, do not run the transform_explanation methods from i_transforms
            on the explanation after producing.
     """
+
     def __init__(self, algorithm, model,
                  x_train_orig, y_orig=None,
                  feature_descriptions=None,
@@ -134,7 +135,6 @@ class Explainer(ABC):
         """
         Fit this explainer object. Abstract method
         """
-        pass
 
     @abstractmethod
     def produce(self, x_orig):
@@ -149,7 +149,6 @@ class Explainer(ABC):
             Type varies by subclass
                 Explanation
         """
-        pass
 
     def transform_to_x_explain(self, x_orig):
         """

@@ -133,6 +133,6 @@ def test_produce_with_renames(regression_one_hot):
 
     contributions = lfc.produce(x_one_dim)
     assert x_one_dim.shape == contributions.shape
-    assert abs(contributions["Feature A"][0]+1) < 0.0001
+    assert abs(contributions["Feature A"][0] + 1) < 0.0001
     assert abs(contributions["Feature B"][0]) < 0.0001
     assert abs(contributions["C"][0]) < 0.0001

@@ -86,4 +86,3 @@ class ShapFeatureContribution(LocalFeatureContributionsBase):
                 predictions = [np.where(self.classes == i)[0][0] for i in predictions]
             shap_values = shap_values[predictions, np.arange(shap_values.shape[1]), :]
             return pd.DataFrame(shap_values, columns=columns)
-

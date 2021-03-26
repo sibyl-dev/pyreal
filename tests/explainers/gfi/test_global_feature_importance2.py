@@ -1,5 +1,4 @@
 import numpy as np
-import pandas as pd
 from shap import LinearExplainer
 
 from pyreal.explainers import GlobalFeatureImportance, ShapFeatureImportance
@@ -59,7 +58,7 @@ def test_produce_shap_regression_transforms(regression_one_hot):
 def helper_produce_shap_regression_one_hot(explainer, model):
     importances = explainer.produce()
     assert importances.shape == (1, model["x"].shape[1])
-    assert abs(importances["A"][0] - (8/3)) < .0001
+    assert abs(importances["A"][0] - (8 / 3)) < .0001
     assert abs(importances["B"][0]) < .0001
     assert abs(importances["C"][0]) < .0001
 
@@ -82,9 +81,9 @@ def test_produce_shap_classification_no_transforms(classification_no_transforms)
 def helper_produce_shap_classification_no_transforms(explainer, model):
     importances = explainer.produce()
     assert importances.shape == (1, model["x"].shape[1])
-    assert abs(importances["A"][0] - (2/3)) < .0001
-    assert abs(importances["B"][0] - (2/3)) < .0001
-    assert abs(importances["C"][0] - (2/3)) < .0001
+    assert abs(importances["A"][0] - (2 / 3)) < .0001
+    assert abs(importances["B"][0] - (2 / 3)) < .0001
+    assert abs(importances["C"][0] - (2 / 3)) < .0001
 
 
 def test_produce_with_renames(regression_one_hot):
@@ -99,6 +98,6 @@ def test_produce_with_renames(regression_one_hot):
 
     importances = gfi.produce()
     assert importances.shape == (1, model["x"].shape[1])
-    assert abs(importances["Feature A"][0] - (8/3)) < 0.0001
+    assert abs(importances["Feature A"][0] - (8 / 3)) < 0.0001
     assert abs(importances["Feature B"][0]) < 0.0001
     assert abs(importances["C"][0]) < 0.0001
