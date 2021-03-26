@@ -2,6 +2,7 @@ from abc import ABC, abstractmethod
 
 import pandas as pd
 from sklearn.metrics import get_scorer
+from sklearn.base import is_classifier
 
 from pyreal.utils import model_utils
 from pyreal.utils.transformer import run_transformers
@@ -30,12 +31,23 @@ class Explainer(ABC):
             Name of the algorithm this Explainer uses
         model (string filepath or model object):
            Filepath to the pickled model to explain, or model object with .predict() function
-        x_orig (dataframe of shape (n_instances, x_orig_feature_count)):
+           model.predict() should return a single value prediction for each input
+           Classification models should return the index or class. If the latter, the `classes`
+           parameter should be provided.
+        x_orig (DataFrame of shape (n_instances, x_orig_feature_count)):
            The training set for the explainer
-        y_orig (dataframe of shape (n_instances,-)):
+        y_orig (DataFrame of shape (n_instances,)):
            The y values for the dataset
         feature_descriptions (dict):
            Interpretable descriptions of each feature
+        classes (array):
+            List of class names returned by the model, in the order that the internal model
+            considers them if applicable.
+            Can be automatically extracted if model is an sklearn classifier
+            None if model is not a classifier
+        class_descriptions (dict):
+            Interpretable descriptions of each class
+            None if model is not a classifier
         transforms (transformer object or lis of transformer objects):
             Transformer(s) that need to be used on x_orig for the explanation algorithm and model
             prediction. If different transformations are needed for the explanation and model,
@@ -63,6 +75,8 @@ class Explainer(ABC):
     def __init__(self, algorithm, model,
                  x_orig, y_orig=None,
                  feature_descriptions=None,
+                 classes=None,
+                 class_descriptions=None,
                  transforms=None,
                  e_transforms=None, m_transforms=None, i_transforms=None,
                  fit_on_init=False,
@@ -101,6 +115,15 @@ class Explainer(ABC):
         self.i_transforms = _check_transforms(i_transforms)
 
         self.feature_descriptions = feature_descriptions
+
+        self.classes = classes
+        if classes is None and str(self.model.__module__.startswith("sklearn")) \
+                and is_classifier(model) and hasattr(model, "classes_"):
+            self.classes = model.classes_
+
+        # TODO: extract number of classes and initialize self.classes to arange()
+
+        self.class_descriptions = class_descriptions
 
         self.skip_e_transform_explanation = skip_e_transform_explanation
         self.skip_i_transform_explanation = skip_i_transform_explanation
@@ -212,8 +235,8 @@ class Explainer(ABC):
                 Data to predict on
 
         Returns:
-            model output type
-                Model prediction
+            DataFrame of shape (n_instances,)
+                Model prediction on x_orig
         """
         if x_orig.ndim == 1:
             x_orig = x_orig.to_frame().T

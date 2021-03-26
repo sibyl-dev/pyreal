@@ -91,10 +91,11 @@ def test_produce_shap_classification_no_transforms(classification_no_transforms)
     lfc = LocalFeatureContribution(model=model["model"],
                                    x_orig=model["x"], e_algorithm='shap',
                                    transforms=model["transforms"],
-                                   fit_on_init=True)
+                                   fit_on_init=True,
+                                   classes=np.arange(1, 4))
     shap = ShapFeatureContribution(
         model=model["model"], x_orig=model["x"], transforms=model["transforms"],
-        fit_on_init=True)
+        fit_on_init=True, classes=np.arange(1, 4))
 
     helper_produce_shap_classification_no_transforms(lfc)
     helper_produce_shap_classification_no_transforms(shap)
@@ -106,13 +107,13 @@ def helper_produce_shap_classification_no_transforms(explainer):
                                 [1, 0, 0]], columns=["A", "B", "C"])
     contributions = explainer.produce(x_one_dim)
     assert x_one_dim.shape == contributions.shape
-    assert abs(contributions["A"][0] + 1) < .0001
+    assert abs(contributions["A"][0]) < .0001
     assert abs(contributions["B"][0]) < .0001
     assert abs(contributions["C"][0]) < .0001
 
     contributions = explainer.produce(x_multi_dim)
+    print(contributions)
     assert x_multi_dim.shape == contributions.shape
-    assert abs(contributions["A"][0]) < .0001
     assert abs(contributions["A"][0]) < .0001
     assert abs(contributions["A"][1] - 1 < .0001)
     assert (contributions["B"] == 0).all()

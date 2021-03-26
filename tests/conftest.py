@@ -57,6 +57,7 @@ def classification_no_transforms(test_root):
                                           [0, 1, 0],
                                           [0, 0, 1]])
     model_no_transforms.intercept_ = np.array([0])
+
     model_no_transforms_filename = os.path.join(test_root, "data",
                                                 "model_no_transforms.pkl")
     with open(model_no_transforms_filename, "wb") as f:
