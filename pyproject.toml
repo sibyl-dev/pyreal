@@ -1,0 +1,109 @@
+# Project Metadata
+[tool.poetry]
+authors = [
+    "Alexandra Zytek <zyteka@mit.edu>"
+]
+
+maintainers = [
+    "MIT Data To AI Lab <dailabmit@gmail.com>"    
+]
+
+description = "Library for evaluating and deploying machine learning explanations."
+name = "pyreal"
+version = "0.1.0"
+
+license = ""
+
+readme = "README.md"
+
+homepage = "TODO"
+documentation = "TODO"
+repository = "https://github.com/DAI-Lab/pyreal"
+
+keywords = ["pyreal", "Pyreal"]
+
+classifiers = [
+  'Intended Audience :: Developers',
+  'Natural Language :: English',
+]
+
+# Library Requirements
+[tool.poetry.dependencies]
+
+# Main Python Requirements
+python = ">=3.7.1, <3.10"
+
+#Library Dependencies
+eli5 = "^0.11.0"
+matplotlib = "^3.4.1"
+numpy = "^1.20.2"
+pandas = "^1.2.3"
+scikit-learn = "^0.24.1"
+shap = "^0.39.0"
+
+# Example Dependencies
+keras = {version = "^2.4.3", optional = true}
+
+# TODO: Switch to stable release
+tensorflow = {git = "https://github.com/tensorflow/tensorflow.git", tag = "v2.5.0-rc0", optional = true}
+
+# Development Requirements
+[tool.poetry.dev-dependencies]
+
+# Testing Dependencies
+coverage = "^5.5"
+pytest = "^6.2.2"
+pytest-cov = "^2.11.1"
+#jupyter = "^1.0.0"
+#rundoc = "^0.4.3,<0.5"
+#invoke = "^1.5.0"
+
+# Style Dependencies
+black = "^20.8b1"
+flake8 = "^3.9.0"
+isort = "^5.8.0"
+
+# Documentation Dependencies
+PyYaml = "^5.4.1"
+Sphinx = "^3.5.3"
+argh = "^0.26.2"
+autodocsumm = "^0.2.2"
+ipython = "^7.22.0"
+m2r2 = "^0.2.7"
+nbsphinx = "^0.8.2"
+pydata-sphinx-theme = "^0.5.2"
+
+# Extra Dependency Bundles
+[tool.poetry.extras]
+examples = ["keras", "tensorflow"]
+
+[tool.isort]
+include_trailing_comma = true
+line_length = 99
+lines_between_types = 0
+multi_line_output = 4
+use_parentheses = true
+
+[tool.black]
+exclude = '''
+(
+  /(
+      \.eggs         # exclude a few common directories in the
+    | \.git          # root of the project
+    | \.hg
+    | \.mypy_cache
+    | \.tox
+    | \.venv
+    | _build
+    | buck-out
+    | build
+    | dist
+  )/
+)
+'''
+include = '\.pyi?$'
+line-length = 99
+
+[build-system]
+build-backend = "poetry.core.masonry.api"
+requires = ["poetry-core>=1.1.5"]
