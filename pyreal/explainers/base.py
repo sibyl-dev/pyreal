@@ -30,7 +30,7 @@ class Explainer(ABC):
             Name of the algorithm this Explainer uses
         model (string filepath or model object):
            Filepath to the pickled model to explain, or model object with .predict() function
-        x_orig (dataframe of shape (n_instances, x_orig_feature_count)):
+        x_train_orig (dataframe of shape (n_instances, x_orig_feature_count)):
            The training set for the explainer
         y_orig (dataframe of shape (n_instances,-)):
            The y values for the dataset
@@ -60,8 +60,9 @@ class Explainer(ABC):
            If True, do not run the transform_explanation methods from i_transforms
            on the explanation after producing.
     """
+
     def __init__(self, algorithm, model,
-                 x_orig, y_orig=None,
+                 x_train_orig, y_orig=None,
                  feature_descriptions=None,
                  transforms=None,
                  e_transforms=None, m_transforms=None, i_transforms=None,
@@ -76,14 +77,14 @@ class Explainer(ABC):
             self.model = model
         self.algorithm = algorithm
 
-        self.x_orig = x_orig
+        self.x_train_orig = x_train_orig
         self.y_orig = y_orig
 
-        if not isinstance(x_orig, pd.DataFrame) or \
+        if not isinstance(x_train_orig, pd.DataFrame) or \
                 (y_orig is not None and not isinstance(y_orig, pd.DataFrame)):
-            raise TypeError("x_orig and y_orig must be of type DataFrame")
+            raise TypeError("x_train_orig and y_orig must be of type DataFrame")
 
-        self.x_orig_feature_count = x_orig.shape[1]
+        self.x_orig_feature_count = x_train_orig.shape[1]
 
         if transforms is not None and e_transforms is not None:
             # TODO: replace with proper warning
@@ -113,7 +114,6 @@ class Explainer(ABC):
         """
         Fit this explainer object. Abstract method
         """
-        pass
 
     @abstractmethod
     def produce(self, x_orig):
@@ -128,7 +128,6 @@ class Explainer(ABC):
             Type varies by subclass
                 Explanation
         """
-        pass
 
     def transform_to_x_explain(self, x_orig):
         """
@@ -268,6 +267,6 @@ class Explainer(ABC):
         if self.y_orig is None:
             raise ValueError("Explainer must have a y_orig parameter to score model")
         scorer = get_scorer(scorer)
-        x = self.transform_to_x_model(self.x_orig)
+        x = self.transform_to_x_model(self.x_train_orig)
         score = scorer(self.model, x, self.y_orig)
         return score

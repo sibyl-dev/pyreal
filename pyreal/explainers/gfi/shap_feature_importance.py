@@ -3,15 +3,15 @@ import pandas as pd
 from shap import Explainer as ShapExplainer
 from shap import KernelExplainer, LinearExplainer
 
-from pyreal.explainers import LocalFeatureContributionsBase
+from pyreal.explainers import GlobalFeatureImportanceBase
 from pyreal.utils.transformer import ExplanationAlgorithm
 
 
-class ShapFeatureContribution(LocalFeatureContributionsBase):
+class ShapFeatureImportance(GlobalFeatureImportanceBase):
     """
-    ShapFeatureContribution object.
+    ShapFeatureImportance object.
 
-    A ShapFeatureContribution object gets feature explanation using the SHAP algorithm.
+    A ShapFeatureImportance object gets feature explanation using the SHAP algorithm.
 
     Args:
         model (string filepath or model object):
@@ -35,8 +35,7 @@ class ShapFeatureContribution(LocalFeatureContributionsBase):
         self.explainer = None
         self.algorithm = ExplanationAlgorithm.SHAP
         self.explainer_input_size = None
-        super(ShapFeatureContribution, self).__init__(
-            self.algorithm, model, x_train_orig, **kwargs)
+        super(ShapFeatureImportance, self).__init__(self.algorithm, model, x_train_orig, **kwargs)
 
     def fit(self):
         """
@@ -52,31 +51,21 @@ class ShapFeatureContribution(LocalFeatureContributionsBase):
         else:
             self.explainer = ShapExplainer(self.model, dataset)  # SHAP will pick an algorithm
 
-    def get_contributions(self, x_orig):
+    def get_importance(self):
         """
-        Calculate the explanation of each feature in x using SHAP.
+        Calculate the explanation of each feature using SHAP.
 
-        Args:
-            x_orig (DataFrame of shape (n_instances, n_features)):
-               The input to be explained
         Returns:
-            DataFrame of shape (n_instances, n_features):
-                 The contribution of each feature
+            DataFrame of shape (n_features, ):
+                 The global importance of each feature
         """
         if self.explainer is None:
             raise AttributeError("Instance has no explainer. Must call "
                                  "fit_contribution_explainer before "
                                  "get_contributions")
-        x = self.transform_to_x_explain(x_orig)
-        if x.shape[1] != self.explainer_input_size:
-            raise ValueError("Received input of wrong size."
-                             "Expected ({},), received {}"
-                             .format(self.explainer_input_size, x.shape))
+        x = self.transform_to_x_explain(self.x_train_orig)
         columns = x.columns
         x = np.asanyarray(x)
-
-        shap_values = np.array(self.explainer.shap_values(x))
-        if shap_values.ndim > 2:
-            predictions = self.model_predict(x_orig)
-            shap_values = shap_values[predictions, np.arange(shap_values.shape[1]), :]
-        return pd.DataFrame(shap_values, columns=columns)
+        all_contributions = self.explainer.shap_values(x)
+        importances = np.mean(np.absolute(all_contributions), axis=0).reshape(1, -1)
+        return pd.DataFrame(importances, columns=columns)

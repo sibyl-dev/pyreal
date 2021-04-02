@@ -1,4 +1,4 @@
-.. _pyreal.model_utils
+.. _pyreal.model_utils:
 
 Model Utils
 ================

@@ -17,7 +17,7 @@ def identity(x):
     return x
 
 
-class TestFeatureExplanation(unittest.TestCase):
+class TestLocalFeatureContribution(unittest.TestCase):
     """Tests for `pyreal` package."""
 
     def setUp(self):
@@ -35,7 +35,7 @@ class TestFeatureExplanation(unittest.TestCase):
         model_no_transforms = LinearRegression()
         model_no_transforms.fit(self.X_train, self.y_train)
         model_no_transforms.coef_ = np.array([1, 0, 0])
-        self.model_no_transforms_filename = os.path.join(TEST_ROOT, "data",
+        self.model_no_transforms_filename = os.path.join(TEST_ROOT, "../../data",
                                                          "model_no_transforms.pkl")
         with open(self.model_no_transforms_filename, "wb") as f:
             pickle.dump(model_no_transforms, f)
@@ -49,7 +49,7 @@ class TestFeatureExplanation(unittest.TestCase):
         model_one_hot = LinearRegression()
         model_one_hot.fit(self.X_transformed, self.y_transformed)
         model_one_hot.coef_ = np.array([0, 0, 1, 2, 3])
-        self.model_one_hot_filename = os.path.join(TEST_ROOT, "data", "model_one_hot.pkl")
+        self.model_one_hot_filename = os.path.join(TEST_ROOT, "../../data", "model_one_hot.pkl")
         with open(self.model_one_hot_filename, "wb") as f:
             pickle.dump(model_one_hot, f)
 
@@ -61,27 +61,27 @@ class TestFeatureExplanation(unittest.TestCase):
     def test_fit_shap_no_transforms(self):
         lfc_object = LocalFeatureContribution(
             model=self.model_no_transforms_filename,
-            x_orig=self.X_train, e_algorithm='shap')
+            x_train_orig=self.X_train, e_algorithm='shap')
         lfc_object.fit()
 
         shap = ShapFeatureContribution(
-            model=self.model_no_transforms_filename, x_orig=self.X_train)
+            model=self.model_no_transforms_filename, x_train_orig=self.X_train)
         shap.fit()
         self.assertIsNotNone(shap.explainer)
         self.assertIsInstance(shap.explainer, LinearExplainer)
 
     def test_produce_shap_no_transforms(self):
         lfc = LocalFeatureContribution(model=self.model_no_transforms_filename,
-                                       x_orig=self.X_train, e_algorithm='shap',
+                                       x_train_orig=self.X_train, e_algorithm='shap',
                                        fit_on_init=True)
         shap = ShapFeatureContribution(
-            model=self.model_no_transforms_filename, x_orig=self.X_train,
+            model=self.model_no_transforms_filename, x_train_orig=self.X_train,
             fit_on_init=True)
 
-        self.helper_produce_shape_no_transforms(lfc)
-        self.helper_produce_shape_no_transforms(shap)
+        self.helper_produce_shap_no_transforms(lfc)
+        self.helper_produce_shap_no_transforms(shap)
 
-    def helper_produce_shape_no_transforms(self, explainer):
+    def helper_produce_shap_no_transforms(self, explainer):
         x_one_dim = pd.DataFrame([[10, 10, 10]], columns=["A", "B", "C"])
         x_multi_dim = pd.DataFrame([[10, 1, 1],
                                     [0, 2, 3]], columns=["A", "B", "C"])
@@ -101,11 +101,11 @@ class TestFeatureExplanation(unittest.TestCase):
     def test_produce_shap_one_hot(self):
         e_transforms = self.one_hot_encoder
         lfc = LocalFeatureContribution(model=self.model_one_hot_filename,
-                                       x_orig=self.X_train, e_algorithm='shap',
+                                       x_train_orig=self.X_train, e_algorithm='shap',
                                        fit_on_init=True, e_transforms=e_transforms,
                                        interpretable_features=False)
         shap = ShapFeatureContribution(model=self.model_one_hot_filename,
-                                       x_orig=self.X_train, fit_on_init=True,
+                                       x_train_orig=self.X_train, fit_on_init=True,
                                        e_transforms=e_transforms)
         self.helper_produce_shap_one_hot(lfc)
         self.helper_produce_shap_one_hot(shap)
@@ -131,7 +131,7 @@ class TestFeatureExplanation(unittest.TestCase):
         e_transforms = self.one_hot_encoder
         feature_descriptions = {"A": "Feature A", "B": "Feature B"}
         lfc = LocalFeatureContribution(model=self.model_one_hot_filename,
-                                       x_orig=self.X_train, e_algorithm='shap',
+                                       x_train_orig=self.X_train, e_algorithm='shap',
                                        fit_on_init=True, e_transforms=e_transforms,
                                        interpretable_features=True,
                                        feature_descriptions=feature_descriptions)

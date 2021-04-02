@@ -74,6 +74,7 @@ class MappingsEncoderTransformer(BaseTransformer):
     """
     Converts data from categorical form to one-hot-encoded
     """
+
     def __init__(self, mappings):
         self.mappings = mappings
 
@@ -94,6 +95,7 @@ class MappingsDecoderTransformer(BaseTransformer):
     """
     Converts data from one-hot encoded form to categorical
     """
+
     def __init__(self, mappings):
         self.mappings = mappings
 
@@ -146,6 +148,7 @@ class OneHotEncoderWrapper(BaseTransformer):
         return pd.concat([x_orig.drop(self.feature_list, axis="columns"), x_cat_ohe], axis=1)
 
     def transform_explanation_shap(self, explanation):
+        explanation = pd.DataFrame(explanation)
         if explanation.ndim == 1:
             explanation = explanation.reshape(1, -1)
         encoded_columns = self.ohe.get_feature_names(self.feature_list)
@@ -162,6 +165,7 @@ class DataFrameWrapper(BaseTransformer):
     """
     Allows use of standard sklearn transformers while maintaining DataFrame type.
     """
+
     def __init__(self, base_transformer):
         self.base_transformer = base_transformer
 

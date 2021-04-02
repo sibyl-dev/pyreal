@@ -10,5 +10,7 @@ and classes in Pyreal
    :maxdepth: 2
 
    explainer
+   local_feature_contribution
+   global_feature_importance
    model_utils
    visualize
