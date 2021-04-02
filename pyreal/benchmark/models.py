@@ -1,6 +1,6 @@
-from sklearn.linear_model import LogisticRegression
-from keras.models import Sequential
 from keras.layers import Dense
+from keras.models import Sequential
+from sklearn.linear_model import LogisticRegression
 
 
 def logistic_regression(X, y):

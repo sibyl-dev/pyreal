@@ -6,13 +6,13 @@ import warnings
 
 import pandas as pd
 
+from pyreal.benchmark import dataset
 from pyreal.benchmark.challenges.local_feature_contribution_challenge import (
     LocalFeatureContributionChallenge,)
 from pyreal.benchmark.challenges.shap_feature_contribution_challenge import (
     ShapFeatureContributionChallenge,)
+from pyreal.benchmark.models import logistic_regression
 from pyreal.benchmark.task import create_task
-from pyreal.benchmark.models import logistic_regression, small_neural_network
-from pyreal.benchmark import dataset
 
 LOG = True
 ROOT = os.path.dirname(os.path.abspath(__file__))
@@ -52,7 +52,7 @@ def get_tasks(n):
             url = dataset.get_dataset_url(dataset_name)
             df = pd.read_csv(url)
         tasks.append(create_task(df, dataset_name, logistic_regression))
-        if i == (n-1):
+        if i == (n - 1):
             break
     return tasks
 
@@ -80,19 +80,19 @@ def run_one_challenge(base_challenge, results_directory):
     n = 50
     datasets = get_tasks(n)
     record_dict = {}
-    for (i, dataset) in enumerate(datasets):
+    for (i, dataset_obj) in enumerate(datasets):
         total_count += 1
         try:
-            challenge = base_challenge(dataset,
+            challenge = base_challenge(dataset_obj,
                                        evaluations=["produce_time", "fit_time",
                                                     "pre_fit_consistency", "post_fit_consistency"])
             results = challenge.run()
-            record_dict = format_results(record_dict, results, dataset.name)
-            print("%s: Task %s. Success" % (i, dataset.name))
+            record_dict = format_results(record_dict, results, dataset_obj.name)
+            print("%s: Task %s. Success" % (i, dataset_obj.name))
         except Exception as e:
-            logging.error("Exception with dataset %s:" % dataset.name, exc_info=True)
+            logging.error("Exception with dataset %s:" % dataset_obj.name, exc_info=True)
             crash_count += 1
-            record_dict[dataset.name] = "crashed"
+            record_dict[dataset_obj.name] = "crashed"
             raise e
     print("%i tasks done, %i crashes" % (total_count, crash_count))
     record_dict["total_count"] = total_count
