@@ -59,6 +59,10 @@ class Explainer(ABC):
         skip_i_transform_explanation (Boolean):
            If True, do not run the transform_explanation methods from i_transforms
            on the explanation after producing.
+        training_size (Integer):
+            If given this value, sample a training set with size of this value
+            from x_train_orig and use it to train the explainer instead of the
+            entire x_train_orig.
     """
 
     def __init__(self, algorithm, model,
@@ -67,7 +71,8 @@ class Explainer(ABC):
                  transforms=None,
                  e_transforms=None, m_transforms=None, i_transforms=None,
                  fit_on_init=False,
-                 skip_e_transform_explanation=False, skip_i_transform_explanation=False):
+                 skip_e_transform_explanation=False, skip_i_transform_explanation=False,
+                 training_size=None):
         if isinstance(model, str):
             self.model = model_utils.load_model_from_pickle(model)
         else:
@@ -105,6 +110,12 @@ class Explainer(ABC):
 
         self.skip_e_transform_explanation = skip_e_transform_explanation
         self.skip_i_transform_explanation = skip_i_transform_explanation
+
+        self.training_size = training_size
+
+        if self.training_size is None:
+            print("Warning: training_size not provided. Defaulting to train with full dataset,\
+                running time might be slow.")
 
         if fit_on_init:
             self.fit()
