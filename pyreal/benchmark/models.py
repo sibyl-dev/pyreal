@@ -20,4 +20,4 @@ def small_neural_network(X, y):
     model.add(Dense(12, input_dim=input_dim, activation='relu'))
     model.add(Dense(output_dim), activation='sigmoid')
     model.compile(loss=loss, optimizer='adam', metrics=['accuracy'])
-    model.fix(X, y, epochs=10)
+    model.fit(X, y, epochs=10)

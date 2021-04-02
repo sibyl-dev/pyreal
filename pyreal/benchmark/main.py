@@ -4,7 +4,6 @@ import os
 import time
 import warnings
 
-import openml
 import pandas as pd
 
 from pyreal.benchmark.challenges.local_feature_contribution_challenge import (
