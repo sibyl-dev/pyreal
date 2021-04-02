@@ -42,6 +42,8 @@ def get_tasks(n):
     tasks = []
     if not os.path.isdir(os.path.join(ROOT, "datasets")):
         os.mkdir(os.path.join(ROOT, "datasets"))
+    if not os.path.isdir(os.path.join(ROOT, "models")):
+        os.mkdir(os.path.join(ROOT, "models"))
     for (i, dataset_name) in enumerate(datasets):
         filename = os.path.join(ROOT, "datasets", dataset_name + ".csv")
         if os.path.exists(filename):
