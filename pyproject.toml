@@ -1,11 +1,11 @@
 # Project Metadata
 [tool.poetry]
 authors = [
-    "Alexandra Zytek <zyteka@mit.edu>"
+  "Alexandra Zytek <zyteka@mit.edu>",
 ]
 
 maintainers = [
-    "MIT Data To AI Lab <dailabmit@gmail.com>"    
+  "MIT Data To AI Lab <dailabmit@gmail.com>",
 ]
 
 description = "Library for evaluating and deploying machine learning explanations."
@@ -16,8 +16,8 @@ license = ""
 
 readme = "README.md"
 
-homepage = "TODO"
 documentation = "TODO"
+homepage = "TODO"
 repository = "https://github.com/DAI-Lab/pyreal"
 
 keywords = ["pyreal", "Pyreal"]
@@ -44,8 +44,8 @@ shap = "^0.39.0"
 # Example Dependencies
 keras = {version = "^2.4.3", optional = true}
 
-# TODO: Switch to stable release
-tensorflow = {git = "https://github.com/tensorflow/tensorflow.git", tag = "v2.5.0-rc0", optional = true}
+# TODO: Enable once released to Pypo. Note: Can't use a git repo dependency because tf doesn't have a canonical name
+#tensorflow = "^2.5.0"
 
 # Development Requirements
 [tool.poetry.dev-dependencies]
