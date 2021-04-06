@@ -16,8 +16,15 @@ def test_fit_shap(all_models):
             model=model["model"],
             x_train_orig=model["x"], transforms=model["transforms"])
         shap.fit()
+        # training_size set to 2 because the size of x_train_orig is only 3
+        shap_with_size = ShapFeatureContribution(
+            model=model["model"],
+            x_train_orig=model["x"], transforms=model["transforms"], training_size=2)
+        shap_with_size.fit()
+
         assert shap.explainer is not None
         assert isinstance(shap.explainer, LinearExplainer)
+        assert isinstance(shap_with_size.explainer, LinearExplainer)
 
 
 def test_produce_shap_regression_no_transforms(regression_no_transforms):
