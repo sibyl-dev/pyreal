@@ -34,7 +34,7 @@ jobs:
         run: poetry install --no-interaction
         
       - name: Build Documentation
-        run: poetry run sphinx-build -b html docs docs/_build
+        run: poetry run docs
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3

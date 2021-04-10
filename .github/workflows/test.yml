@@ -40,13 +40,10 @@ jobs:
 
       - name: Install Package
         if: steps.cache-primes.outputs.cache-hit != 'true' # Only run if the cache is old
-        run: poetry install --no-interaction
+        run: poetry install --no-interaction -E examples
 
       - name: Lint
-        run: |
-          poetry run flake8 pyreal tests
-          poetry run isort -c pyreal tests --skip __init__.py
+        run: poetry run lint
 
       - name: Test
-        run: |
-          poetry run pytest --cov=pyreal
+        run: poetry run test
