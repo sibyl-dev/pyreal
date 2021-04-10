@@ -1,18 +1,18 @@
 import subprocess
 import webbrowser
+import shutil
 
-from shutil import rmtree
 from pathlib import Path
 
 
 def _rm_recursive(path: Path, pattern: str):
     """
     Glob the given relative pattern in the directory represented by this path,
-        calling rmtree on them all
+        calling shutil.rmtree on them all
     """
 
     for p in path.glob(pattern):
-        rmtree(p, ignore_errors=True)
+        shutil.rmtree(p, ignore_errors=True)
 
 
 def clean_build():
@@ -20,9 +20,9 @@ def clean_build():
     Cleans the build
     """
 
-    rmtree(Path("build"), ignore_errors=True)
-    rmtree(Path("dist"), ignore_errors=True)
-    rmtree(Path(".eggs"), ignore_errors=True)
+    shutil.rmtree(Path("build"), ignore_errors=True)
+    shutil.rmtree(Path("dist"), ignore_errors=True)
+    shutil.rmtree(Path(".eggs"), ignore_errors=True)
 
     _rm_recursive(Path("."), "**/*.egg-info")
     _rm_recursive(Path("."), "**/*.egg")
@@ -38,7 +38,7 @@ def clean_coverage():
     for path in Path(".").glob(".coverage.*"):
         path.unlink(missing_ok=True)
 
-    rmtree(Path("htmlcov"), ignore_errors=True)
+    shutil.rmtree(Path("htmlcov"), ignore_errors=True)
 
 
 def clean_docs():
@@ -65,7 +65,7 @@ def clean_test():
     Cleans the test store
     """
 
-    rmtree(Path(".pytest_cache"), ignore_errors=True)
+    shutil.rmtree(Path(".pytest_cache"), ignore_errors=True)
 
 
 def coverage():
@@ -128,7 +128,15 @@ def test_readme():
     Runs all scripts in the README and checks for exceptions
     """
 
-    subprocess.run(["invoke", "readme"])
+    test_path = Path('tests/readme_test')
+    shutil.rmtree(test_path, ignore_errors=True)
+
+    test_path.mkdir(parents=True, exist_ok=True)
+    shutil.copy('README.md', test_path / 'README.md')
+
+    subprocess.run(["rundoc", "run", "--single-session", "python3",
+                   "-t", "python3", "README.md"], cwd=test_path)
+    shutil.rmtree(test_path)
 
 
 def test_tutorials():
@@ -136,7 +144,12 @@ def test_tutorials():
     Runs all scripts in the tutorials directory and checks for exceptions
     """
 
-    subprocess.run(["invoke", "tutorials"])
+    for ipynb_file in Path("tutorials").glob('**/*.ipynb'):
+        checkpoints = ipynb_file.parents[0] / '.ipynb_checkpoints'
+        if not checkpoints.is_file():
+            subprocess.run(["jupyter", "nbconvert", "--execute",
+                            "--ExecutePreprocessor.timeout=60",
+                            "--to=html", "--stdout", f"{ipynb_file}"], stdout=subprocess.DEVNULL)
 
 
 def test_unit():
