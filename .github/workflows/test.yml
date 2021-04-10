@@ -7,7 +7,7 @@ on:
   pull_request:
 
 jobs:
-  build:
+  test:
     strategy:
       fail-fast: false
       matrix:
@@ -36,32 +36,14 @@ jobs:
         uses: actions/cache@v2
         with:
           path: .venv
-          key: venv-${{ runner.os }}-${{ matrix.python-version }}-${{ hashFiles('**/poetry.lock') }}
+          key: venv-${{ runner.os }}-${{ matrix.python-version }}-${{ matrix.poetry-version }}-${{ hashFiles('**/poetry.lock') }}
 
       - name: Install Package
         if: steps.cache-primes.outputs.cache-hit != 'true' # Only run if the cache is old
         run: poetry install --no-interaction -E examples
-  lint:   
-    needs: build
-    runs-on: ${{ matrix.os }}
-    steps:
+
       - name: Lint
         run: poetry run lint
-  test-unit:
-    needs: build
-    runs-on: ${{ matrix.os }}
-    steps:
-      - name: Unit Test
-        run: poetry run test-unit
-  test-readme:
-    needs: build
-    runs-on: ${{ matrix.os }}
-    steps:
-      - name: Test Readme
-        run: poetry run test-readme
-  test-tutorials:
-    needs: build
-    runs-on: ${{ matrix.os }}
-    steps:
-      - name: Test Tutorials
-        run: poetry run test-tutorials
+
+      - name: Test
+        run: poetry run test
