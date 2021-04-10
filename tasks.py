@@ -3,6 +3,7 @@ import webbrowser
 import shutil
 
 from pathlib import Path
+from invoke import task
 
 
 def _rm_recursive(path: Path, pattern: str):
@@ -15,7 +16,8 @@ def _rm_recursive(path: Path, pattern: str):
         shutil.rmtree(p, ignore_errors=True)
 
 
-def clean_build():
+@task
+def clean_build(context):
     """
     Cleans the build
     """
@@ -28,7 +30,8 @@ def clean_build():
     _rm_recursive(Path("."), "**/*.egg")
 
 
-def clean_coverage():
+@task
+def clean_coverage(context):
     """
     Cleans the coverage results
     """
@@ -41,7 +44,8 @@ def clean_coverage():
     shutil.rmtree(Path("htmlcov"), ignore_errors=True)
 
 
-def clean_docs():
+@task
+def clean_docs(context):
 
     for path in Path("docs/api").glob("*.rst"):
         path.unlink(missing_ok=True)
@@ -49,7 +53,8 @@ def clean_docs():
     subprocess.run(["make", "clean"], cwd=Path("docs"), shell=True)
 
 
-def clean_pyc():
+@task
+def clean_pyc(context):
     """
     Cleans compiled files
     """
@@ -60,7 +65,8 @@ def clean_pyc():
     _rm_recursive(Path("."), "**/__pycache__")
 
 
-def clean_test():
+@task
+def clean_test(context):
     """
     Cleans the test store
     """
@@ -68,7 +74,8 @@ def clean_test():
     shutil.rmtree(Path(".pytest_cache"), ignore_errors=True)
 
 
-def coverage():
+@task
+def coverage(context):
     """
     Runs the unit test coverage analysis
     """
@@ -81,17 +88,19 @@ def coverage():
     webbrowser.open(url)
 
 
-def docs():
+@task
+def docs(context):
     """
     Cleans the doc builds and builds the docs
     """
 
-    clean_docs()
+    clean_docs(context)
 
     subprocess.run(["make", "html"], cwd=Path("docs"), shell=True)
 
 
-def fix_lint():
+@task
+def fix_lint(context):
     """
     Fixes all linting and import sort errors. Skips init.py files for import sorts
     """
@@ -104,7 +113,8 @@ def fix_lint():
     subprocess.run(["isort", "--atomic", "pyreal", "tests", "--skip", "__init__.py"])
 
 
-def lint():
+@task
+def lint(context):
     """
     Runs the linting and import sort process on all library files and tests and prints errors.
         Skips init.py files for import sorts
@@ -113,17 +123,19 @@ def lint():
     subprocess.run(["isort", "-c", "pyreal", "tests", "--skip", "__init__.py"])
 
 
-def test():
+@task
+def test(context):
     """
     Runs all test commands.
     """
 
-    test_unit()
-    test_readme()
-    test_tutorials()
+    test_unit(context)
+    test_readme(context)
+    test_tutorials(context)
 
 
-def test_readme():
+@task
+def test_readme(context):
     """
     Runs all scripts in the README and checks for exceptions
     """
@@ -139,7 +151,8 @@ def test_readme():
     shutil.rmtree(test_path)
 
 
-def test_tutorials():
+@task
+def test_tutorials(context):
     """
     Runs all scripts in the tutorials directory and checks for exceptions
     """
@@ -152,19 +165,21 @@ def test_tutorials():
                             "--to=html", "--stdout", f"{ipynb_file}"], stdout=subprocess.DEVNULL)
 
 
-def test_unit():
+@task
+def test_unit(context):
     """
     Runs all unit tests and outputs results and coverage
     """
     subprocess.run(["pytest", "--cov=pyreal"])
 
 
-def view_docs():
+@task
+def view_docs(context):
     """
     Opens the docs in a browser window
     """
 
-    docs()
+    docs(context)
 
     url = Path("docs/_build/html/index.html").absolute()
     webbrowser.open(url)

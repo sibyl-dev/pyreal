@@ -43,7 +43,7 @@ jobs:
         run: poetry install --no-interaction -E examples
 
       - name: Lint
-        run: poetry run lint
+        run: poetry run invoke lint
 
       - name: Test
-        run: poetry run test
+        run: poetry run invoke test

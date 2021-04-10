@@ -57,6 +57,7 @@ pytest = "^6.2.2"
 pytest-cov = "^2.11.1"
 jupyter = "^1.0.0"
 rundoc = "^0.4.5"
+invoke = "^1.5.0"
 
 # Style Dependencies
 flake8 = "^3.9.0"
@@ -77,23 +78,6 @@ pydata-sphinx-theme = "^0.5.2"
 # Extra Dependency Bundles
 [tool.poetry.extras]
 examples = ["tensorflow"]
-
-# Scripts for tooling tasks
-[tool.poetry.scripts]
-clean-build = "scripts:clean_build"
-clean-coverage = "scripts:clean_coverage"
-clean-docs = "scripts:clean_docs"
-clean-pyc = "scripts:clean_pyc"
-clean-test = "scripts:clean_test"
-coverage = "scripts:coverage"
-docs = "scripts:docs"
-fix-lint = "scripts:fix_lint"
-lint = "scripts:lint"
-test = "scripts:test"
-test-readme = "scripts:test_readme"
-test-tutorials = "scripts:test_tutorials"
-test-unit = "scripts:test_unit"
-view-docs = "scripts:view_docs"
 
 [tool.isort]
 include_trailing_comma = true

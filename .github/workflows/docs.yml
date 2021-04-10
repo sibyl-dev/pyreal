@@ -34,7 +34,7 @@ jobs:
         run: poetry install --no-interaction
         
       - name: Build Documentation
-        run: poetry run docs
+        run: poetry run invoke docs
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
