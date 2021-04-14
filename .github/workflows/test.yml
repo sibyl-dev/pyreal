@@ -40,6 +40,7 @@ jobs:
         run: echo "$APPDATA\Python\Scripts" >> $GITHUB_PATH
 
       - name: Configure Poetry
+        shell: bash
         run: poetry config virtualenvs.in-project true
 
       - name: Cache Virtual Environment
@@ -50,10 +51,13 @@ jobs:
 
       - name: Install Package
         if: steps.cache-primes.outputs.cache-hit != 'true' # Only run if the cache is old
+        shell: bash
         run: poetry install --no-interaction -E examples
 
       - name: Lint
+        shell: bash
         run: poetry run invoke lint
 
       - name: Test
+        shell: bash
         run: poetry run invoke test
