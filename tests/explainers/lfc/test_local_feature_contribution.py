@@ -157,7 +157,25 @@ def test_produce_shap_regression_no_transforms_with_size(regression_no_transform
         model=model["model"], x_train_orig=model["x"], transforms=model["transforms"],
         fit_on_init=True, training_size=2)
 
-    helper_produce_shap_regression_no_transforms(shap, model)
+    helper_produce_shap_regression_no_transforms_with_size(shap, model)
+
+def helper_produce_shap_regression_no_transforms_with_size(explainer, model):
+    x_one_dim = pd.DataFrame([[2, 10, 10]], columns=["A", "B", "C"])
+    x_multi_dim = pd.DataFrame([[2, 1, 1],
+                                [4, 2, 3]], columns=["A", "B", "C"])
+    expected = np.mean(model["y"])[0]
+    contributions = explainer.produce(x_one_dim)
+    assert x_one_dim.shape == contributions.shape
+    assert contributions.iloc[0, 0] != 0
+    assert contributions.iloc[0, 1] == 0
+    assert contributions.iloc[0, 2] == 0
+
+    contributions = explainer.produce(x_multi_dim)
+    assert x_multi_dim.shape == contributions.shape
+    assert contributions.iloc[0, 0] != 0
+    assert contributions.iloc[1, 0] != 0
+    assert (contributions.iloc[:, 1] == 0).all()
+    assert (contributions.iloc[:, 2] == 0).all()
 
 def test_produce_shap_regression_transforms_with_size(regression_one_hot):
     model = regression_one_hot
@@ -170,13 +188,11 @@ def test_produce_shap_regression_transforms_with_size(regression_one_hot):
 
 
 
-
-
 def test_produce_shap_classification_no_transforms_with_size(classification_no_transforms):
     model = classification_no_transforms
     shap = ShapFeatureContribution(
         model=model["model"], x_train_orig=model["x"], transforms=model["transforms"],
-        fit_on_init=True, classes=np.arange(1, 4))
+        fit_on_init=True, classes=np.arange(1, 4), training_size=2)
 
     helper_produce_shap_classification_no_transforms(shap)
 

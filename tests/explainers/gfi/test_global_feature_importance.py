@@ -1,3 +1,4 @@
+from tests.conftest import regression_no_transforms
 import numpy as np
 from shap import LinearExplainer
 
@@ -109,11 +110,11 @@ def test_shap_with_training_size(all_models):
         gfi_object = GlobalFeatureImportance(
             model=model["model"],
             x_train_orig=model["x"], transforms=model["transforms"],
-            e_algorithm='shap')
+            e_algorithm='shap', classes=model.get("classes", None))
         gfi_object.fit()
         shap = ShapFeatureImportance(
             model=model["model"],
-            x_train_orig=model["x"], transforms=model["transforms"])
+            x_train_orig=model["x"], transforms=model["transforms"], classes=model.get("classes", None))
         shap.fit()
         assert shap.explainer is not None
         assert isinstance(shap.explainer, LinearExplainer)

@@ -63,7 +63,7 @@ def classification_no_transforms(test_root):
     with open(model_no_transforms_filename, "wb") as f:
         pickle.dump(model_no_transforms, f)
 
-    return {"model": model_no_transforms_filename, "transforms": None, "x": x, "y": y}
+    return {"model": model_no_transforms_filename, "transforms": None, "x": x, "y": y, "classes": np.arange(1,4)}
 
 
 @pytest.fixture()
