@@ -16,15 +16,9 @@ def test_fit_shap(all_models):
             model=model["model"],
             x_train_orig=model["x"], transforms=model["transforms"])
         shap.fit()
-        # training_size set to 2 because the size of x_train_orig is only 3
-        shap_with_size = ShapFeatureContribution(
-            model=model["model"],
-            x_train_orig=model["x"], transforms=model["transforms"], training_size=2)
-        shap_with_size.fit()
 
         assert shap.explainer is not None
         assert isinstance(shap.explainer, LinearExplainer)
-        assert isinstance(shap_with_size.explainer, LinearExplainer)
 
 
 def test_produce_shap_regression_no_transforms(regression_no_transforms):
@@ -136,6 +130,66 @@ def test_produce_with_renames(regression_one_hot):
                                    fit_on_init=True, e_transforms=e_transforms,
                                    interpretable_features=True,
                                    feature_descriptions=feature_descriptions)
+    x_one_dim = pd.DataFrame([[2, 10, 10]], columns=["A", "B", "C"])
+
+    contributions = lfc.produce(x_one_dim)
+    assert x_one_dim.shape == contributions.shape
+    assert abs(contributions["Feature A"][0] + 1) < 0.0001
+    assert abs(contributions["Feature B"][0]) < 0.0001
+    assert abs(contributions["C"][0]) < 0.0001
+
+
+def test_fit_shap_with_size(all_models):
+    for model in all_models:
+        shap_with_size = ShapFeatureContribution(
+            model=model["model"],
+            x_train_orig=model["x"], transforms=model["transforms"], training_size=2)
+        shap_with_size.fit()
+
+        assert shap_with_size.explainer is not None
+        assert isinstance(shap_with_size.explainer, LinearExplainer)
+
+
+def test_produce_shap_regression_no_transforms_with_size(regression_no_transforms):
+    model = regression_no_transforms
+
+    shap = ShapFeatureContribution(
+        model=model["model"], x_train_orig=model["x"], transforms=model["transforms"],
+        fit_on_init=True, training_size=2)
+
+    helper_produce_shap_regression_no_transforms(shap, model)
+
+def test_produce_shap_regression_transforms_with_size(regression_one_hot):
+    model = regression_one_hot
+
+    shap = ShapFeatureContribution(
+        model=model["model"], x_train_orig=model["x"], transforms=model["transforms"],
+        fit_on_init=True, training_size=2)
+
+    helper_produce_shap_regression_one_hot(shap)
+
+
+
+
+
+def test_produce_shap_classification_no_transforms_with_size(classification_no_transforms):
+    model = classification_no_transforms
+    shap = ShapFeatureContribution(
+        model=model["model"], x_train_orig=model["x"], transforms=model["transforms"],
+        fit_on_init=True, classes=np.arange(1, 4))
+
+    helper_produce_shap_classification_no_transforms(shap)
+
+def test_produce_with_renames_with_size(regression_one_hot):
+    model = regression_one_hot
+    e_transforms = model["transforms"]
+    feature_descriptions = {"A": "Feature A", "B": "Feature B"}
+    lfc = LocalFeatureContribution(model=model["model"],
+                                   x_train_orig=model["x"], e_algorithm='shap',
+                                   fit_on_init=True, e_transforms=e_transforms,
+                                   interpretable_features=True,
+                                   feature_descriptions=feature_descriptions,
+                                   training_size=2)
     x_one_dim = pd.DataFrame([[2, 10, 10]], columns=["A", "B", "C"])
 
     contributions = lfc.produce(x_one_dim)

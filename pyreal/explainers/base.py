@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 
 import pandas as pd
+import numpy as np
 from sklearn.base import is_classifier
 from sklearn.metrics import get_scorer
 
@@ -70,7 +71,7 @@ class Explainer(ABC):
            on the explanation after producing.
         skip_i_transform_explanation (Boolean):
            If True, do not run the transform_explanation methods from i_transforms
-           on the explanation after producing.
+           on the explanation after producing
         training_size (Integer):
             If given this value, sample a training set with size of this value
             from x_train_orig and use it to train the explainer instead of the
@@ -133,10 +134,17 @@ class Explainer(ABC):
         self.skip_i_transform_explanation = skip_i_transform_explanation
 
         self.training_size = training_size
+        # this argument stores the indices of the rows of data we want to use
+        self.data_sample_indices = self.x_train_orig.index
 
         if self.training_size is None:
             print("Warning: training_size not provided. Defaulting to train with full dataset,\
                 running time might be slow.")
+        else:
+            if self.classes is not None and self.training_size < len(self.classes):
+                raise ValueError("training_size must be larger than the number of classes")
+            self.data_sample_indices = pd.Index(np.random.choice(self.x_train_orig.index, 
+            self.training_size))
 
         if fit_on_init:
             self.fit()

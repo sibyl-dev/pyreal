@@ -15,15 +15,9 @@ def test_fit_shap(all_models):
             model=model["model"],
             x_train_orig=model["x"], transforms=model["transforms"])
         shap.fit()
-        # training_size set to 2 because the size of x_train_orig is only 3
-        shap_with_size = ShapFeatureImportance(
-            model=model["model"],
-            x_train_orig=model["x"], transforms=model["transforms"], training_size=2)
-        shap_with_size.fit()
 
         assert shap.explainer is not None
         assert isinstance(shap.explainer, LinearExplainer)
-        assert isinstance(shap_with_size.explainer, LinearExplainer)
 
 
 def test_produce_shap_regression_no_transforms(regression_no_transforms):
@@ -108,3 +102,23 @@ def test_produce_with_renames(regression_one_hot):
     assert abs(importances["Feature A"][0] - (8 / 3)) < 0.0001
     assert abs(importances["Feature B"][0]) < 0.0001
     assert abs(importances["C"][0]) < 0.0001
+
+
+def test_shap_with_training_size(all_models):
+    for model in all_models:
+        gfi_object = GlobalFeatureImportance(
+            model=model["model"],
+            x_train_orig=model["x"], transforms=model["transforms"],
+            e_algorithm='shap')
+        gfi_object.fit()
+        shap = ShapFeatureImportance(
+            model=model["model"],
+            x_train_orig=model["x"], transforms=model["transforms"])
+        shap.fit()
+        assert shap.explainer is not None
+        assert isinstance(shap.explainer, LinearExplainer)
+    
+        gfi_importances = gfi_object.produce()
+        shap_importances = shap.produce()
+        assert gfi_importances is not None
+        assert shap_importances is not None

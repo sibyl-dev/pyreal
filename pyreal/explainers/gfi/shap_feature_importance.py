@@ -41,10 +41,7 @@ class ShapFeatureImportance(GlobalFeatureImportanceBase):
         """
         Fit the contribution explainer
         """
-        if self.training_size is None:
-            dataset = self.transform_to_x_explain(self.x_train_orig)
-        else:
-            dataset = self.transform_to_x_explain(self.x_train_orig.sample(n=self.training_size))
+        dataset = self.transform_to_x_explain(self.x_train_orig.loc[self.data_sample_indices])
 
         self.explainer_input_size = dataset.shape[1]
         if self.shap_type == "kernel":
@@ -67,7 +64,7 @@ class ShapFeatureImportance(GlobalFeatureImportanceBase):
             raise AttributeError("Instance has no explainer. Must call "
                                  "fit_contribution_explainer before "
                                  "get_contributions")
-        x = self.transform_to_x_explain(self.x_train_orig)
+        x = self.transform_to_x_explain(self.x_train_orig.loc[self.data_sample_indices])
         columns = x.columns
         x = np.asanyarray(x)
         shap_values = np.array(self.explainer.shap_values(x))
