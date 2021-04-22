@@ -9,10 +9,11 @@ on:
 jobs:
   build:
     runs-on: ${{ matrix.os }}
+    timeout-minutes: 15
     strategy:
       matrix:
-        os: [ubuntu-latest]
-        python-version: [3.8]
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        python-version: [3.7, 3.8]
 
     steps:
       - uses: actions/checkout@v2
@@ -25,8 +26,10 @@ jobs:
           python -m pip install --upgrade pip
           pip install .[dev,examples]
       - name: Lint with flake8
+        shell: bash
         run: |
           make lint
       - name: Test with py.test (flask)
+        shell: bash
         run: |
           make test
