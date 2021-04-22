@@ -147,7 +147,7 @@ def test_readme(context):
     shutil.copy('README.md', test_path / 'README.md')
 
     subprocess.run(["rundoc", "run", "--single-session", "python3",
-                   "-t", "python3", "README.md"], cwd=test_path)
+                   "-t", "python3", "README.md"], cwd=test_path, check=True)
     shutil.rmtree(test_path)
 
 
@@ -162,7 +162,8 @@ def test_tutorials(context):
         if not checkpoints.is_file():
             subprocess.run(["jupyter", "nbconvert", "--execute",
                             "--ExecutePreprocessor.timeout=60",
-                            "--to=html", "--stdout", f"{ipynb_file}"], stdout=subprocess.DEVNULL)
+                            "--to=html", "--stdout", f"{ipynb_file}"], stdout=subprocess.DEVNULL,
+                           check=True)
 
 
 @task
@@ -170,7 +171,7 @@ def test_unit(context):
     """
     Runs all unit tests and outputs results and coverage
     """
-    subprocess.run(["pytest", "--cov=pyreal"])
+    subprocess.run(["pytest", "--cov=pyreal"], check=True)
 
 
 @task
