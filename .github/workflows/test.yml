@@ -10,7 +10,9 @@ jobs:
   build:
     runs-on: ${{ matrix.os }}
     timeout-minutes: 25
-    shell: bash
+    defaults:
+      run:
+        shell: bash
 
     strategy:
       fail-fast: false
