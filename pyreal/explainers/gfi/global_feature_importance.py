@@ -61,8 +61,8 @@ def gfi(return_importances=True, return_explainer=False, explainer=None,
     """
     if not return_importances and not return_explainer:
         # TODO: replace with formal warning system
-        print("gfi is non-functional with return_importances and return_explainer set to false")
-        return
+        raise ValueError("gfi is non-functional with return_importances and return_explainer set to false")
+        
     if explainer is None and (model is None or x_train_orig is None):
         raise ValueError("gfi requires either explainer OR model and x_train to be passed")
 
