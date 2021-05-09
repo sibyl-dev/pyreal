@@ -1,14 +1,8 @@
-from pyreal.explainers import DecisionTreeExplainerBase
-import numpy as np
-import pandas as pd
-from sklearn.tree import DecisionTreeClassifier, plot_tree, export_text
-from sklearn.model_selection import GridSearchCV, train_test_split
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.preprocessing import scale
-from sklearn.linear_model import LogisticRegression, ElasticNet, LinearRegression
+from sklearn import tree
 
 from pyreal.explainers import DecisionTreeExplainerBase
 from pyreal.utils.transformer import ExplanationAlgorithm
+
 
 class SurrogateDecisionTree(DecisionTreeExplainerBase):
     """
@@ -27,7 +21,7 @@ class SurrogateDecisionTree(DecisionTreeExplainerBase):
 
     def __init__(self, model, x_train_orig, **kwargs):
         self.explainer = None
-        # self.algorithm = ExplanationAlgorithm.SHAP
+        self.algorithm = ExplanationAlgorithm.DT
         self.explainer_input_size = None
         super(SurrogateDecisionTree, self).__init__(self.algorithm, model, x_train_orig, **kwargs)
 
@@ -38,8 +32,8 @@ class SurrogateDecisionTree(DecisionTreeExplainerBase):
         e_dataset = self.transform_to_x_explain(self.x_train_orig)
         m_dataset = self.transform_to_x_model(self.x_train_orig)
         self.explainer_input_size = e_dataset.shape[1]
-        self.explainer = DecisionTreeClassifier().fit(e_dataset, self.model.predict(m_dataset))
-
+        self.explainer = tree.DecisionTreeClassifier().fit(
+            e_dataset, self.model.predict(m_dataset))
 
     def produce(self):
         """
@@ -49,7 +43,7 @@ class SurrogateDecisionTree(DecisionTreeExplainerBase):
             DataFrame of shape (n_features, ):
                  The global importance of each feature
         """
-        
+
         if self.explainer is None:
             self.fit()
             # raise AttributeError("Instance has no explainer. Decision tree training failed.")

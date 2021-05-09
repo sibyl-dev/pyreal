@@ -1,11 +1,14 @@
 from abc import ABC, abstractmethod
+
 from pyreal.explainers import Explainer
+
 
 class DecisionTreeExplainerBase(Explainer, ABC):
     """
     Base class for DecisionTree explainer objects. Abstract class
 
-    A DecisionTreeExplainerBase object explains by 1) decomposing arbitrary models into decision trees and 2) visualizing the decision rules associated with a prediction.
+    A DecisionTreeExplainerBase object explains by 1) decomposing arbitrary models into
+    decision trees and 2) visualizing the decision rules associated with a prediction.
 
     Args:
         algorithm (ExplanationAlgorithm or None):

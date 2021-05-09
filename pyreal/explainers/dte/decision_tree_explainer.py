@@ -1,6 +1,5 @@
-from abc import ABC, abstractmethod
-from pyreal.explainers.dte.surrogate_decision_tree import SurrogateDecisionTree
-from pyreal.explainers import DecisionTreeExplainerBase
+from pyreal.explainers import DecisionTreeExplainerBase, SurrogateDecisionTree
+
 
 def choose_algorithm():
     """
@@ -61,17 +60,19 @@ def dte(return_explainer=False, explainer=None,
 
     if explainer is None:
         explainer = DecisionTreeExplainer(model, x_train_orig,
-                                            e_algorithm=e_algorithm,
-                                            feature_descriptions=feature_descriptions,
-                                            e_transforms=e_transforms, m_transforms=m_transforms,
-                                            i_transforms=i_transforms,
-                                            fit_on_init=True)
+                                          e_algorithm=e_algorithm,
+                                          feature_descriptions=feature_descriptions,
+                                          e_transforms=e_transforms,
+                                          m_transforms=m_transforms,
+                                          i_transforms=i_transforms,
+                                          fit_on_init=True)
     # if return_explainer and return_importances:
     #     return explainer, explainer.produce()
     if return_explainer:
         return explainer
     # if return_importances:
     #     return explainer.produce()
+
 
 class DecisionTreeExplainer(DecisionTreeExplainerBase):
     """
@@ -100,7 +101,8 @@ class DecisionTreeExplainer(DecisionTreeExplainerBase):
         if self.base_decision_tree is None:
             raise ValueError("Invalid algorithm type %s" % e_algorithm)
 
-        super(DecisionTreeExplainer, self).__init__(self.base_decision_tree.algorithm, model, x_train_orig, **kwargs)
+        super(DecisionTreeExplainer, self).__init__(self.base_decision_tree.algorithm,
+                                                    model, x_train_orig, **kwargs)
 
     def fit(self):
         """
