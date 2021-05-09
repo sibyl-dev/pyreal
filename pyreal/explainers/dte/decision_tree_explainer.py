@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from pyreal.explainers.dte.surrogate_decision_tree import SurrogateDecisionTree
 from pyreal.explainers import DecisionTreeExplainerBase
 
 def choose_algorithm():
@@ -13,18 +14,14 @@ def choose_algorithm():
     return "surrogate_tree"
 
 
-def dte(return_importances=True, return_explainer=False, explainer=None,
+def dte(return_explainer=False, explainer=None,
         model=None, x_train_orig=None,
         e_algorithm=None, feature_descriptions=None,
-        e_transforms=None, m_transforms=None, i_transforms=None,
-        interpretable_features=True):
+        e_transforms=None, m_transforms=None, i_transforms=None):
     """
     Get a decision tree explanation
 
     Args:
-        return_importances (Boolean):
-            If true, return explanation of features importance.
-            If true, requires one of `explainer` or (`model and x_train`)
         return_explainer (Boolean):
             If true, return the fitted Explainer object.
             If true, requires one of `explainer` or (`model and x_train`)
@@ -59,9 +56,6 @@ def dte(return_importances=True, return_explainer=False, explainer=None,
         DataFrame of shape (n_instances, n_features):
             The importance of each feature. Only returned if return_importance is True
     """
-    if not return_importances and not return_explainer:
-        # TODO: replace with formal warning system
-        raise ValueError("dte is non-functional with return_importances and return_explainer set to false")
     if explainer is None and (model is None or x_train_orig is None):
         raise ValueError("gfi requires either explainer OR model and x_train to be passed")
 
@@ -71,14 +65,13 @@ def dte(return_importances=True, return_explainer=False, explainer=None,
                                             feature_descriptions=feature_descriptions,
                                             e_transforms=e_transforms, m_transforms=m_transforms,
                                             i_transforms=i_transforms,
-                                            interpretable_features=interpretable_features,
                                             fit_on_init=True)
-    if return_explainer and return_importances:
-        return explainer, explainer.produce()
+    # if return_explainer and return_importances:
+    #     return explainer, explainer.produce()
     if return_explainer:
         return explainer
-    if return_importances:
-        return explainer.produce()
+    # if return_importances:
+    #     return explainer.produce()
 
 class DecisionTreeExplainer(DecisionTreeExplainerBase):
     """
@@ -99,19 +92,18 @@ class DecisionTreeExplainer(DecisionTreeExplainerBase):
         **kwargs: see DecisionTreeExplainerBase args
     """
 
-    def __init__(self, algorithm, model, x_train_orig, interpretable_features=True, **kwargs):
-        self.interpretable_features = interpretable_features
-        self.importance = None
-        super(DecisionTreeExplainerBase, self).__init__(algorithm, model, x_train_orig, **kwargs)
+    def __init__(self, model, x_train_orig, e_algorithm=None, **kwargs):
+        if e_algorithm is None:
+            e_algorithm = choose_algorithm()
+        if e_algorithm == "surrogate_tree":
+            self.base_decision_tree = SurrogateDecisionTree(model, x_train_orig, **kwargs)
+        if self.base_decision_tree is None:
+            raise ValueError("Invalid algorithm type %s" % e_algorithm)
 
-    @abstractmethod
+        super(DecisionTreeExplainer, self).__init__(self.base_decision_tree.algorithm, model, x_train_orig, **kwargs)
+
     def fit(self):
         """
         Fit this explainer object
         """
-
-    @abstractmethod
-    def produce(self, x_orig=None):
-        """
-        Produce a decision tree
-        """
+        self.base_decision_tree.fit()

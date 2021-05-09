@@ -1,4 +1,4 @@
-from pyreal.explainers.dte.decision_tree_explainer import DecisionTreeExplainer
+from pyreal.explainers import DecisionTreeExplainerBase
 import numpy as np
 import pandas as pd
 from sklearn.tree import DecisionTreeClassifier, plot_tree, export_text
@@ -27,42 +27,31 @@ class SurrogateDecisionTree(DecisionTreeExplainerBase):
 
     def __init__(self, model, x_train_orig, **kwargs):
         self.explainer = None
-        self.algorithm = ExplanationAlgorithm.SHAP
+        # self.algorithm = ExplanationAlgorithm.SHAP
         self.explainer_input_size = None
         super(SurrogateDecisionTree, self).__init__(self.algorithm, model, x_train_orig, **kwargs)
 
     def fit(self):
         """
-        Fit the contribution explainer
+        Fit the decision tree
         """
-        dataset = self.transform_to_x_explain(self.x_train_orig)
-        self.explainer_input_size = dataset.shape[1]
+        e_dataset = self.transform_to_x_explain(self.x_train_orig)
+        m_dataset = self.transform_to_x_model(self.x_train_orig)
+        self.explainer_input_size = e_dataset.shape[1]
+        self.explainer = DecisionTreeClassifier().fit(e_dataset, self.model.predict(m_dataset))
 
 
-    def get_importance(self):
+    def produce(self):
         """
-        Calculate the explanation of each feature using SHAP.
+        Produce the explanation as a decision tree model.
 
         Returns:
             DataFrame of shape (n_features, ):
                  The global importance of each feature
         """
+        
         if self.explainer is None:
-            raise AttributeError("Instance has no explainer. Must call "
-                                 "fit_contribution_explainer before "
-                                 "get_contributions")
-        x = self.transform_to_x_explain(self.x_train_orig)
-        columns = x.columns
-        x = np.asanyarray(x)
-        # shap_values = np.array(self.explainer.shap_values(x))
+            self.fit()
+            # raise AttributeError("Instance has no explainer. Decision tree training failed.")
 
-        # if shap_values.ndim < 2:
-        #     raise RuntimeError("Something went wrong with SHAP - expected at least 2 dimensions")
-        # if shap_values.ndim > 2:
-        #     predictions = self.model_predict(x)
-        #     if self.classes is not None:
-        #         predictions = [np.where(self.classes == i)[0][0] for i in predictions]
-        #     shap_values = shap_values[predictions, np.arange(shap_values.shape[1]), :]
-
-        # importances = np.mean(np.absolute(shap_values), axis=0).reshape(1, -1)
-        # return pd.DataFrame(importances, columns=columns)
+        return self.explainer

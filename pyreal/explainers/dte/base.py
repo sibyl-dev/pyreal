@@ -23,9 +23,7 @@ class DecisionTreeExplainerBase(Explainer, ABC):
         **kwargs: see base Explainer args
     """
 
-    def __init__(self, algorithm, model, x_train_orig, interpretable_features=True, **kwargs):
-        self.interpretable_features = interpretable_features
-        self.importance = None
+    def __init__(self, algorithm, model, x_train_orig, **kwargs):
         super(DecisionTreeExplainerBase, self).__init__(algorithm, model, x_train_orig, **kwargs)
 
     @abstractmethod
@@ -41,29 +39,8 @@ class DecisionTreeExplainerBase(Explainer, ABC):
 
         Args:
             x_orig (None):
-                Global explanations do not take inputs - dummy to match signature
+                Decision tree explanations do not take inputs - dummy to match signature
 
         Returns:
-            DataFrame of shape (n_features,)
-                Importance of each feature for the model
+            A decision tree model
         """
-        # Importance for a given model stays constant, so can be saved and re-returned
-        if self.importance is not None:
-            return self.importance
-        importance = self.get_importance()
-        importance = self.transform_explanation(importance)
-        if self.interpretable_features:
-            return self.convert_columns_to_interpretable(importance)
-        self.importance = importance
-        return importance
-
-    @abstractmethod
-    def get_importance(self):
-        """
-        Gets the raw explanation.
-
-        Returns:
-            DataFrame of shape (n_features, )
-                Importance of each feature
-        """
-
