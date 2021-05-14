@@ -19,10 +19,11 @@ class SurrogateDecisionTree(DecisionTreeExplainerBase):
         **kwargs: see base Explainer args
     """
 
-    def __init__(self, model, x_train_orig, **kwargs):
+    def __init__(self, model, x_train_orig, is_classifier=False, **kwargs):
         self.explainer = None
-        self.algorithm = ExplanationAlgorithm.DT
+        self.algorithm = ExplanationAlgorithm.SURROGATE_DECISION_TREE
         self.explainer_input_size = None
+        self.is_classifer = is_classifier
         super(SurrogateDecisionTree, self).__init__(self.algorithm, model, x_train_orig, **kwargs)
 
     def fit(self):
@@ -32,8 +33,12 @@ class SurrogateDecisionTree(DecisionTreeExplainerBase):
         e_dataset = self.transform_to_x_explain(self.x_train_orig)
         m_dataset = self.transform_to_x_model(self.x_train_orig)
         self.explainer_input_size = e_dataset.shape[1]
-        self.explainer = tree.DecisionTreeClassifier().fit(
-            e_dataset, self.model.predict(m_dataset))
+        if self.is_classifer:
+            self.explainer = tree.DecisionTreeClassifier().fit(
+                e_dataset, self.model.predict(m_dataset))
+        else:
+            self.explainer = tree.DecisionTreeRegressor().fit(
+                e_dataset, self.model.predict(m_dataset))
 
     def produce(self):
         """
