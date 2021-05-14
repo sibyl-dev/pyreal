@@ -50,14 +50,13 @@ def classification_no_transforms(test_root):
     x = pd.DataFrame([[3, 0, 0],
                       [0, 3, 0],
                       [0, 0, 3]], columns=["A", "B", "C"])
-    y = pd.Series([1, 2, 3])
+    y = pd.Series([1, 1, 3])
     model_no_transforms = LogisticRegression()
-    model_no_transforms.fit(x, y)
+    model_no_transforms.fit(x, pd.Series([1, 2, 3]))
     model_no_transforms.coef_ = np.array([[0, 1, 0],
                                           [0, 1, 0],
                                           [0, 0, 1]])
     model_no_transforms.intercept_ = np.array([0])
-    print("RESULT:", model_no_transforms.predict(x))
     model_no_transforms_filename = os.path.join(test_root, "data",
                                                 "model_no_transforms.pkl")
     with open(model_no_transforms_filename, "wb") as f:

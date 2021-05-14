@@ -1,5 +1,5 @@
-from pyreal.explainers import GlobalFeatureImportanceBase, \
-    ShapFeatureImportance, PermutationFeatureImportance
+from pyreal.explainers import (
+    GlobalFeatureImportanceBase, PermutationFeatureImportance, ShapFeatureImportance,)
 
 
 def choose_algorithm():

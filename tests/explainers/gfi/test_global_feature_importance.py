@@ -1,8 +1,8 @@
 import numpy as np
 from shap import LinearExplainer
 
-from pyreal.explainers import GlobalFeatureImportance, ShapFeatureImportance, \
-    PermutationFeatureImportance
+from pyreal.explainers import (
+    GlobalFeatureImportance, PermutationFeatureImportance, ShapFeatureImportance,)
 
 
 def test_fit_shap(all_models):
@@ -130,7 +130,6 @@ def test_shap_produce_classification_no_transforms(classification_no_transforms)
 def helper_shap_produce_classification_no_transforms(explainer, model):
     importances = explainer.produce()
     assert importances.shape == (1, model["x"].shape[1])
-    print(importances)
     assert abs(importances["A"][0]) < .0001
     assert abs(importances["B"][0] - 1) < .0001
     assert abs(importances["C"][0] - (2 / 3)) < .0001
@@ -156,7 +155,6 @@ def test_permutation_produce_classification_no_transforms(classification_no_tran
 def helper_permutation_produce_classification_no_transforms(explainer, model):
     importances = explainer.produce()
     assert importances.shape == (1, model["x"].shape[1])
-    print(importances)
     assert abs(importances["A"][0]) < .0001
     assert importances["B"][0] > .0001
     assert importances["C"][0] > .0001

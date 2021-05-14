@@ -33,7 +33,6 @@ class PermutationFeatureImportance(GlobalFeatureImportanceBase):
         Fit the feature importance explainer.
         No-op as permutation_importance does not require fitting
         """
-        pass
 
     def get_importance(self):
         """
