@@ -34,7 +34,7 @@ SHAP Feature Importance Explainer
     ShapFeatureImportance.get_importance
 
 Permutation Feature Importance Explainer
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .. autosummary::
     :toctree: api/
 
