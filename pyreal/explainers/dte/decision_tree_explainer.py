@@ -93,7 +93,7 @@ class DecisionTreeExplainer(DecisionTreeExplainerBase):
         **kwargs: see DecisionTreeExplainerBase args
     """
 
-    def __init__(self, model, x_train_orig, e_algorithm=None, **kwargs):
+    def __init__(self, model, x_train_orig, e_algorithm=None, is_classifier=False, **kwargs):
         if e_algorithm is None:
             e_algorithm = choose_algorithm()
         if e_algorithm == "surrogate_tree":
@@ -101,6 +101,7 @@ class DecisionTreeExplainer(DecisionTreeExplainerBase):
         if self.base_decision_tree is None:
             raise ValueError("Invalid algorithm type %s" % e_algorithm)
 
+        self.is_classifier = is_classifier
         super(DecisionTreeExplainer, self).__init__(self.base_decision_tree.algorithm,
                                                     model, x_train_orig, **kwargs)
 
