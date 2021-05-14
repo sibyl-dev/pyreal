@@ -50,7 +50,7 @@ def classification_no_transforms(test_root):
     x = pd.DataFrame([[3, 0, 0],
                       [0, 3, 0],
                       [0, 0, 3]], columns=["A", "B", "C"])
-    y = [1, 2, 3]
+    y = pd.Series([1, 2, 3])
     model_no_transforms = LogisticRegression()
     model_no_transforms.fit(x, y)
     model_no_transforms.coef_ = np.array([[1, 0, 0],

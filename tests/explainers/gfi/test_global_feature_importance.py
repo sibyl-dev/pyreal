@@ -1,7 +1,8 @@
 import numpy as np
 from shap import LinearExplainer
 
-from pyreal.explainers import GlobalFeatureImportance, ShapFeatureImportance
+from pyreal.explainers import GlobalFeatureImportance, ShapFeatureImportance, \
+    PermutationFeatureImportance
 
 
 def test_fit_shap(all_models):
@@ -63,7 +64,31 @@ def helper_produce_shap_regression_one_hot(explainer, model):
     assert abs(importances["C"][0]) < .0001
 
 
-def test_produce_shap_classification_no_transforms(classification_no_transforms):
+def test_permutation_produce_classification_no_transforms(classification_no_transforms):
+    model = classification_no_transforms
+    gfi = GlobalFeatureImportance(model=model["model"],
+                                  x_train_orig=model["x"], y_orig=model["y"],
+                                  e_algorithm='permutation',
+                                  transforms=model["transforms"],
+                                  fit_on_init=True,
+                                  classes=np.arange(1, 4))
+    permutation = PermutationFeatureImportance(
+        model=model["model"], x_train_orig=model["x"], y_orig=model["y"],
+        transforms=model["transforms"], fit_on_init=True, classes=np.arange(1, 4))
+
+    helper_permutation_produce_classification_no_transforms(gfi, classification_no_transforms)
+    helper_permutation_produce_classification_no_transforms(permutation,
+                                                            classification_no_transforms)
+
+
+def helper_permutation_produce_classification_no_transforms(explainer, model):
+    importances = explainer.produce()
+    assert importances.shape == (1, model["x"].shape[1])
+    assert abs(importances["A"][0]) > .001
+    assert abs(importances["B"][0]) > .001
+    assert abs(importances["C"][0]) > .001
+
+def test_shap_produce_classification_no_transforms(classification_no_transforms):
     model = classification_no_transforms
     gfi = GlobalFeatureImportance(model=model["model"],
                                   x_train_orig=model["x"], e_algorithm='shap',
@@ -74,11 +99,11 @@ def test_produce_shap_classification_no_transforms(classification_no_transforms)
         model=model["model"], x_train_orig=model["x"], transforms=model["transforms"],
         fit_on_init=True, classes=np.arange(1, 4))
 
-    helper_produce_shap_classification_no_transforms(gfi, classification_no_transforms)
-    helper_produce_shap_classification_no_transforms(shap, classification_no_transforms)
+    helper_shap_produce_classification_no_transforms(gfi, classification_no_transforms)
+    helper_shap_produce_classification_no_transforms(shap, classification_no_transforms)
 
 
-def helper_produce_shap_classification_no_transforms(explainer, model):
+def helper_shap_produce_classification_no_transforms(explainer, model):
     importances = explainer.produce()
     assert importances.shape == (1, model["x"].shape[1])
     assert abs(importances["A"][0] - (2 / 3)) < .0001

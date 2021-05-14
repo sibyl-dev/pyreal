@@ -9,6 +9,7 @@ from sklearn.preprocessing import OneHotEncoder
 
 class ExplanationAlgorithm(Enum):
     SHAP = auto()
+    PERMUTATION_IMPORTANCE = auto()
 
 
 def fit_transformers(transformers, x_orig):
