@@ -67,7 +67,7 @@ development_requires = [
 
 examples_require = [
     "keras>=2.4.3",
-    "tensorflow>=2.2",
+    "tensorflow==2.2.1",
 ]
 
 setup(
