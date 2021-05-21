@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pyreal.explainers.LocalFeatureContributionsBase &#8212; Pyreal 0.1.0 documentation</title>
+    <title>pyreal.explainers.PermutationFeatureImportance &#8212; Pyreal 0.1.0 documentation</title>
     
   <link href="../../_static/css/theme.css" rel="stylesheet" />
   <link href="../../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
@@ -36,8 +36,8 @@
     <link rel="shortcut icon" href="../../_static/dai-logo-white.ico"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="pyreal.explainers.LocalFeatureContributionsBase.fit" href="pyreal.explainers.LocalFeatureContributionsBase.fit.html" />
-    <link rel="prev" title="Local Feature Contribution" href="../local_feature_contribution.html" />
+    <link rel="next" title="pyreal.explainers.PermutationFeatureImportance.fit" href="pyreal.explainers.PermutationFeatureImportance.fit.html" />
+    <link rel="prev" title="pyreal.explainers.ShapFeatureImportance.get_importance" href="pyreal.explainers.ShapFeatureImportance.get_importance.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
     
@@ -188,18 +188,18 @@
    </li>
   </ul>
  </li>
- <li class="toctree-l1 current active has-children">
+ <li class="toctree-l1 has-children">
   <a class="reference internal" href="../local_feature_contribution.html">
    Local Feature Contribution
   </a>
-  <input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+  <input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
   <label for="toctree-checkbox-2">
    <i class="fas fa-chevron-down">
    </i>
   </label>
-  <ul class="current">
-   <li class="toctree-l2 current active">
-    <a class="current reference internal" href="#">
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pyreal.explainers.LocalFeatureContributionsBase.html">
      pyreal.explainers.LocalFeatureContributionsBase
     </a>
    </li>
@@ -255,16 +255,16 @@
    </li>
   </ul>
  </li>
- <li class="toctree-l1 has-children">
+ <li class="toctree-l1 current active has-children">
   <a class="reference internal" href="../global_feature_importance.html">
    Global Feature Importance
   </a>
-  <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
   <label for="toctree-checkbox-3">
    <i class="fas fa-chevron-down">
    </i>
   </label>
-  <ul>
+  <ul class="current">
    <li class="toctree-l2">
     <a class="reference internal" href="pyreal.explainers.GlobalFeatureImportanceBase.html">
      pyreal.explainers.GlobalFeatureImportanceBase
@@ -320,8 +320,8 @@
      pyreal.explainers.ShapFeatureImportance.get_importance
     </a>
    </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="pyreal.explainers.PermutationFeatureImportance.html">
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
      pyreal.explainers.PermutationFeatureImportance
     </a>
    </li>
@@ -417,32 +417,26 @@
               
               <div>
                 
-  <div class="section" id="pyreal-explainers-localfeaturecontributionsbase">
-<h1>pyreal.explainers.LocalFeatureContributionsBase<a class="headerlink" href="#pyreal-explainers-localfeaturecontributionsbase" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="pyreal-explainers-permutationfeatureimportance">
+<h1>pyreal.explainers.PermutationFeatureImportance<a class="headerlink" href="#pyreal-explainers-permutationfeatureimportance" title="Permalink to this headline">¶</a></h1>
 <dl class="py class">
-<dt id="pyreal.explainers.LocalFeatureContributionsBase">
-<em class="property">class </em><code class="sig-prename descclassname">pyreal.explainers.</code><code class="sig-name descname">LocalFeatureContributionsBase</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">algorithm</span></em>, <em class="sig-param"><span class="n">model</span></em>, <em class="sig-param"><span class="n">x_train_orig</span></em>, <em class="sig-param"><span class="n">interpretable_features</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyreal/explainers/lfc/base.html#LocalFeatureContributionsBase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyreal.explainers.LocalFeatureContributionsBase" title="Permalink to this definition">¶</a></dt>
-<dd><p>Base class for LocalFeatureContributions explainer objects. Abstract class</p>
-<p>A LocalFeatureContributionsBase object explains a machine learning prediction by assigning an
-importance or contribution score to every feature. LocalFeatureContributionBase objects explain
-by taking an instance and returning one number per feature, per instance.</p>
+<dt id="pyreal.explainers.PermutationFeatureImportance">
+<em class="property">class </em><code class="sig-prename descclassname">pyreal.explainers.</code><code class="sig-name descname">PermutationFeatureImportance</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">model</span></em>, <em class="sig-param"><span class="n">x_train_orig</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyreal/explainers/gfi/permutation_feature_importance.html#PermutationFeatureImportance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyreal.explainers.PermutationFeatureImportance" title="Permalink to this definition">¶</a></dt>
+<dd><p>PermutationFeatureImportance object.</p>
+<p>A PermutationFeatureImportance object gets a global feature explanation using the Permutation
+Feature Importance algorithm.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>algorithm</strong> (<em>ExplanationAlgorithm</em><em> or </em><em>None</em>) – Name of the algorithm this Explainer uses</p></li>
 <li><p><strong>model</strong> (<em>string filepath</em><em> or </em><em>model object</em>) – Filepath to the pickled model to explain, or model object with .predict() function</p></li>
-<li><p><strong>x_train_orig</strong> (<em>dataframe of shape</em><em> (</em><em>n_instances</em><em>, </em><em>x_orig_feature_count</em><em>)</em>) – The training set for the explainer</p></li>
-<li><p><strong>e_algorithm</strong> (<em>string</em><em>, </em><em>one of</em><em> [</em><em>&quot;shap&quot;</em><em>]</em>) – Explanation algorithm to use. If none, one will be chosen automatically based on model
-type</p></li>
-<li><p><strong>interpretable_features</strong> (<em>Boolean</em>) – If True, return explanations using the interpretable feature descriptions instead of
-default names</p></li>
+<li><p><strong>x_train_orig</strong> (<em>DataFrame of size</em><em> (</em><em>n_instances</em><em>, </em><em>n_features</em><em>)</em>) – Training set in original form.</p></li>
 <li><p><strong>**kwargs</strong> – see base Explainer args</p></li>
 </ul>
 </dd>
 </dl>
 <dl class="py method">
-<dt id="pyreal.explainers.LocalFeatureContributionsBase.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">algorithm</span></em>, <em class="sig-param"><span class="n">model</span></em>, <em class="sig-param"><span class="n">x_train_orig</span></em>, <em class="sig-param"><span class="n">interpretable_features</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyreal/explainers/lfc/base.html#LocalFeatureContributionsBase.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyreal.explainers.LocalFeatureContributionsBase.__init__" title="Permalink to this definition">¶</a></dt>
+<dt id="pyreal.explainers.PermutationFeatureImportance.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">model</span></em>, <em class="sig-param"><span class="n">x_train_orig</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyreal/explainers/gfi/permutation_feature_importance.html#PermutationFeatureImportance.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyreal.explainers.PermutationFeatureImportance.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
 </dd></dl>
 
@@ -453,7 +447,7 @@ default names</p></li>
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#pyreal.explainers.LocalFeatureContributionsBase.__init__" title="pyreal.explainers.LocalFeatureContributionsBase.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(algorithm, model, x_train_orig[, …])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pyreal.explainers.PermutationFeatureImportance.__init__" title="pyreal.explainers.PermutationFeatureImportance.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(model, x_train_orig, **kwargs)</p></td>
 <td><p>Initialize self.</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">convert_columns_to_interpretable</span></code>(df)</p></td>
@@ -468,17 +462,17 @@ default names</p></li>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">feature_description</span></code>(feature_name)</p></td>
 <td><p>Returns the interpretable description associated with a feature</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="pyreal.explainers.LocalFeatureContributionsBase.fit.html#pyreal.explainers.LocalFeatureContributionsBase.fit" title="pyreal.explainers.LocalFeatureContributionsBase.fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit</span></code></a>()</p></td>
-<td><p>Fit this explainer object</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="pyreal.explainers.PermutationFeatureImportance.fit.html#pyreal.explainers.PermutationFeatureImportance.fit" title="pyreal.explainers.PermutationFeatureImportance.fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit</span></code></a>()</p></td>
+<td><p>Fit the feature importance explainer.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="pyreal.explainers.LocalFeatureContributionsBase.get_contributions.html#pyreal.explainers.LocalFeatureContributionsBase.get_contributions" title="pyreal.explainers.LocalFeatureContributionsBase.get_contributions"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_contributions</span></code></a>(x_orig)</p></td>
-<td><p>Gets the raw explanation.</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="pyreal.explainers.PermutationFeatureImportance.get_importance.html#pyreal.explainers.PermutationFeatureImportance.get_importance" title="pyreal.explainers.PermutationFeatureImportance.get_importance"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_importance</span></code></a>()</p></td>
+<td><p>Calculate the explanation of each feature using the permutation feature importance algorithm.</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">model_predict</span></code>(x_orig)</p></td>
 <td><p>Predict on x_orig using the model and return the result</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="pyreal.explainers.LocalFeatureContributionsBase.produce.html#pyreal.explainers.LocalFeatureContributionsBase.produce" title="pyreal.explainers.LocalFeatureContributionsBase.produce"><code class="xref py py-obj docutils literal notranslate"><span class="pre">produce</span></code></a>(x_orig)</p></td>
-<td><p>Produce the local feature contribution explanation</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="pyreal.explainers.PermutationFeatureImportance.produce.html#pyreal.explainers.PermutationFeatureImportance.produce" title="pyreal.explainers.PermutationFeatureImportance.produce"><code class="xref py py-obj docutils literal notranslate"><span class="pre">produce</span></code></a>([x_orig])</p></td>
+<td><p>Produce the global feature importance explanation</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_explanation</span></code>(explanation)</p></td>
 <td><p>Transform the explanation into its interpretable form, by running the e_transform and i_transform’s “transform_explanation” functions in reverse.</p></td>
@@ -504,8 +498,8 @@ default names</p></li>
               
               <div class='prev-next-bottom'>
                 
-    <a class='left-prev' id="prev-link" href="../local_feature_contribution.html" title="previous page">Local Feature Contribution</a>
-    <a class='right-next' id="next-link" href="pyreal.explainers.LocalFeatureContributionsBase.fit.html" title="next page">pyreal.explainers.LocalFeatureContributionsBase.fit</a>
+    <a class='left-prev' id="prev-link" href="pyreal.explainers.ShapFeatureImportance.get_importance.html" title="previous page">pyreal.explainers.ShapFeatureImportance.get_importance</a>
+    <a class='right-next' id="next-link" href="pyreal.explainers.PermutationFeatureImportance.fit.html" title="next page">pyreal.explainers.PermutationFeatureImportance.fit</a>
 
               </div>
               

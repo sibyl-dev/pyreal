@@ -320,6 +320,26 @@
      pyreal.explainers.ShapFeatureImportance.get_importance
     </a>
    </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="api/pyreal.explainers.PermutationFeatureImportance.html">
+     pyreal.explainers.PermutationFeatureImportance
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="api/pyreal.explainers.PermutationFeatureImportance.fit.html">
+     pyreal.explainers.PermutationFeatureImportance.fit
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="api/pyreal.explainers.PermutationFeatureImportance.produce.html">
+     pyreal.explainers.PermutationFeatureImportance.produce
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="api/pyreal.explainers.PermutationFeatureImportance.get_importance.html">
+     pyreal.explainers.PermutationFeatureImportance.get_importance
+    </a>
+   </li>
   </ul>
  </li>
  <li class="toctree-l1 has-children">
@@ -394,6 +414,11 @@
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#shap-feature-importance-explainer">
    SHAP Feature Importance Explainer
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#permutation-feature-importance-explainer">
+   Permutation Feature Importance Explainer
   </a>
  </li>
 </ul>
@@ -474,13 +499,36 @@
 <td><p>ShapFeatureImportance object.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="api/pyreal.explainers.ShapFeatureImportance.fit.html#pyreal.explainers.ShapFeatureImportance.fit" title="pyreal.explainers.ShapFeatureImportance.fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ShapFeatureImportance.fit</span></code></a>()</p></td>
-<td><p>Fit the contribution explainer</p></td>
+<td><p>Fit the feature importance explainer</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="api/pyreal.explainers.ShapFeatureImportance.produce.html#pyreal.explainers.ShapFeatureImportance.produce" title="pyreal.explainers.ShapFeatureImportance.produce"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ShapFeatureImportance.produce</span></code></a>([x_orig])</p></td>
 <td><p>Produce the global feature importance explanation</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="api/pyreal.explainers.ShapFeatureImportance.get_importance.html#pyreal.explainers.ShapFeatureImportance.get_importance" title="pyreal.explainers.ShapFeatureImportance.get_importance"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ShapFeatureImportance.get_importance</span></code></a>()</p></td>
 <td><p>Calculate the explanation of each feature using SHAP.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="permutation-feature-importance-explainer">
+<h2>Permutation Feature Importance Explainer<a class="headerlink" href="#permutation-feature-importance-explainer" title="Permalink to this headline">¶</a></h2>
+<table class="longtable table autosummary">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/pyreal.explainers.PermutationFeatureImportance.html#pyreal.explainers.PermutationFeatureImportance" title="pyreal.explainers.PermutationFeatureImportance"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PermutationFeatureImportance</span></code></a>(model, …)</p></td>
+<td><p>PermutationFeatureImportance object.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/pyreal.explainers.PermutationFeatureImportance.fit.html#pyreal.explainers.PermutationFeatureImportance.fit" title="pyreal.explainers.PermutationFeatureImportance.fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PermutationFeatureImportance.fit</span></code></a>()</p></td>
+<td><p>Fit the feature importance explainer.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/pyreal.explainers.PermutationFeatureImportance.produce.html#pyreal.explainers.PermutationFeatureImportance.produce" title="pyreal.explainers.PermutationFeatureImportance.produce"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PermutationFeatureImportance.produce</span></code></a>([x_orig])</p></td>
+<td><p>Produce the global feature importance explanation</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/pyreal.explainers.PermutationFeatureImportance.get_importance.html#pyreal.explainers.PermutationFeatureImportance.get_importance" title="pyreal.explainers.PermutationFeatureImportance.get_importance"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PermutationFeatureImportance.get_importance</span></code></a>()</p></td>
+<td><p>Calculate the explanation of each feature using the permutation feature importance algorithm.</p></td>
 </tr>
 </tbody>
 </table>
@@ -503,11 +551,10 @@
 
       </div>
     </div>
-    
+  
   <script src="../_static/js/index.1c5a1a01449ed65a7b51.js"></script>
 
-
-    <footer class="footer mt-5 mt-md-0">
+  <footer class="footer mt-5 mt-md-0">
   <div class="container">
     
     <div class="footer-item">

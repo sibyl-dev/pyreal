@@ -138,20 +138,6 @@
           
           <div class="d-none d-xl-block col-xl-2 bd-toc">
             
-              
-              <div class="toc-item">
-                
-
-<nav id="bd-toc-nav">
-    
-</nav>
-              </div>
-              
-              <div class="toc-item">
-                
-              </div>
-              
-            
           </div>
           
 
@@ -205,7 +191,7 @@
 
 <div class="viewcode-block" id="ShapFeatureImportance.fit"><a class="viewcode-back" href="../../../../api_reference/api/pyreal.explainers.ShapFeatureImportance.fit.html#pyreal.explainers.ShapFeatureImportance.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Fit the contribution explainer</span>
+<span class="sd">        Fit the feature importance explainer</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">dataset</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform_to_x_explain</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x_train_orig</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">explainer_input_size</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
@@ -259,11 +245,10 @@
 
       </div>
     </div>
-    
+  
   <script src="../../../../_static/js/index.1c5a1a01449ed65a7b51.js"></script>
 
-
-    <footer class="footer mt-5 mt-md-0">
+  <footer class="footer mt-5 mt-md-0">
   <div class="container">
     
     <div class="footer-item">

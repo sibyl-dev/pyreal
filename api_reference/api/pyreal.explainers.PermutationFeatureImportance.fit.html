@@ -5,39 +5,39 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>API Reference &#8212; Pyreal 0.1.0 documentation</title>
+    <title>pyreal.explainers.PermutationFeatureImportance.fit &#8212; Pyreal 0.1.0 documentation</title>
     
-  <link href="../_static/css/theme.css" rel="stylesheet" />
-  <link href="../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
+  <link href="../../_static/css/theme.css" rel="stylesheet" />
+  <link href="../../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
 
     
   <link rel="stylesheet"
-    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+    href="../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
   <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
   <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
 
     
       
 
     
-    <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     
-  <link rel="preload" as="script" href="../_static/js/index.1c5a1a01449ed65a7b51.js">
+  <link rel="preload" as="script" href="../../_static/js/index.1c5a1a01449ed65a7b51.js">
 
-    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-    <script src="../_static/jquery.js"></script>
-    <script src="../_static/underscore.js"></script>
-    <script src="../_static/doctools.js"></script>
-    <script src="../_static/language_data.js"></script>
+    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/language_data.js"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    <link rel="shortcut icon" href="../_static/dai-logo-white.ico"/>
-    <link rel="index" title="Index" href="../genindex.html" />
-    <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Explainer" href="explainer.html" />
-    <link rel="prev" title="User Guides" href="../user_guides/index.html" />
+    <link rel="shortcut icon" href="../../_static/dai-logo-white.ico"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="pyreal.explainers.PermutationFeatureImportance.produce" href="pyreal.explainers.PermutationFeatureImportance.produce.html" />
+    <link rel="prev" title="pyreal.explainers.PermutationFeatureImportance" href="pyreal.explainers.PermutationFeatureImportance.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
     
@@ -53,8 +53,8 @@
     
     
 
-<a class="navbar-brand" href="../index.html">
-  <img src="../_static/dai-logo-white-200.png" class="logo" alt="logo">
+<a class="navbar-brand" href="../../index.html">
+  <img src="../../_static/dai-logo-white-200.png" class="logo" alt="logo">
 </a>
 
 
@@ -72,25 +72,25 @@
       <div class="navbar-center-item">
         <ul id="navbar-main-elements" class="navbar-nav">
     <li class="toctree-l1 nav-item">
- <a class="reference internal nav-link" href="../getting_started/index.html">
+ <a class="reference internal nav-link" href="../../getting_started/index.html">
   Getting Started
  </a>
 </li>
 
 <li class="toctree-l1 nav-item">
- <a class="reference internal nav-link" href="../user_guides/index.html">
+ <a class="reference internal nav-link" href="../../user_guides/index.html">
   User Guides
  </a>
 </li>
 
 <li class="toctree-l1 current active nav-item">
- <a class="current reference internal nav-link" href="#">
+ <a class="reference internal nav-link" href="../index.html">
   API Reference
  </a>
 </li>
 
 <li class="toctree-l1 nav-item">
- <a class="reference internal nav-link" href="../developer_guides/index.html">
+ <a class="reference internal nav-link" href="../../developer_guides/index.html">
   Developer Guides
  </a>
 </li>
@@ -125,14 +125,14 @@
           
             
             <!-- Only show if we have sidebars configured, else just a small margin  -->
-            <div class="col-12 col-md-3 bd-sidebar"><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+            <div class="col-12 col-md-3 bd-sidebar"><form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
   <i class="icon fas fa-search"></i>
   <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
 </form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
   <div class="bd-toc-item active">
-    <ul class="nav bd-sidenav">
+    <ul class="current nav bd-sidenav">
  <li class="toctree-l1 has-children">
-  <a class="reference internal" href="explainer.html">
+  <a class="reference internal" href="../explainer.html">
    Explainer
   </a>
   <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
@@ -142,54 +142,54 @@
   </label>
   <ul>
    <li class="toctree-l2">
-    <a class="reference internal" href="api/pyreal.explainers.Explainer.html">
+    <a class="reference internal" href="pyreal.explainers.Explainer.html">
      pyreal.explainers.Explainer
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="api/pyreal.explainers.Explainer.fit.html">
+    <a class="reference internal" href="pyreal.explainers.Explainer.fit.html">
      pyreal.explainers.Explainer.fit
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="api/pyreal.explainers.Explainer.produce.html">
+    <a class="reference internal" href="pyreal.explainers.Explainer.produce.html">
      pyreal.explainers.Explainer.produce
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="api/pyreal.explainers.Explainer.transform_to_x_explain.html">
+    <a class="reference internal" href="pyreal.explainers.Explainer.transform_to_x_explain.html">
      pyreal.explainers.Explainer.transform_to_x_explain
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="api/pyreal.explainers.Explainer.transform_to_x_model.html">
+    <a class="reference internal" href="pyreal.explainers.Explainer.transform_to_x_model.html">
      pyreal.explainers.Explainer.transform_to_x_model
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="api/pyreal.explainers.Explainer.transform_to_x_interpret.html">
+    <a class="reference internal" href="pyreal.explainers.Explainer.transform_to_x_interpret.html">
      pyreal.explainers.Explainer.transform_to_x_interpret
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="api/pyreal.explainers.Explainer.model_predict.html">
+    <a class="reference internal" href="pyreal.explainers.Explainer.model_predict.html">
      pyreal.explainers.Explainer.model_predict
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="api/pyreal.explainers.Explainer.feature_description.html">
+    <a class="reference internal" href="pyreal.explainers.Explainer.feature_description.html">
      pyreal.explainers.Explainer.feature_description
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="api/pyreal.explainers.Explainer.convert_data_to_interpretable.html">
+    <a class="reference internal" href="pyreal.explainers.Explainer.convert_data_to_interpretable.html">
      pyreal.explainers.Explainer.convert_data_to_interpretable
     </a>
    </li>
   </ul>
  </li>
  <li class="toctree-l1 has-children">
-  <a class="reference internal" href="local_feature_contribution.html">
+  <a class="reference internal" href="../local_feature_contribution.html">
    Local Feature Contribution
   </a>
   <input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
@@ -199,151 +199,151 @@
   </label>
   <ul>
    <li class="toctree-l2">
-    <a class="reference internal" href="api/pyreal.explainers.LocalFeatureContributionsBase.html">
+    <a class="reference internal" href="pyreal.explainers.LocalFeatureContributionsBase.html">
      pyreal.explainers.LocalFeatureContributionsBase
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="api/pyreal.explainers.LocalFeatureContributionsBase.fit.html">
+    <a class="reference internal" href="pyreal.explainers.LocalFeatureContributionsBase.fit.html">
      pyreal.explainers.LocalFeatureContributionsBase.fit
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="api/pyreal.explainers.LocalFeatureContributionsBase.produce.html">
+    <a class="reference internal" href="pyreal.explainers.LocalFeatureContributionsBase.produce.html">
      pyreal.explainers.LocalFeatureContributionsBase.produce
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="api/pyreal.explainers.LocalFeatureContributionsBase.get_contributions.html">
+    <a class="reference internal" href="pyreal.explainers.LocalFeatureContributionsBase.get_contributions.html">
      pyreal.explainers.LocalFeatureContributionsBase.get_contributions
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="api/pyreal.explainers.LocalFeatureContribution.html">
+    <a class="reference internal" href="pyreal.explainers.LocalFeatureContribution.html">
      pyreal.explainers.LocalFeatureContribution
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="api/pyreal.explainers.LocalFeatureContribution.fit.html">
+    <a class="reference internal" href="pyreal.explainers.LocalFeatureContribution.fit.html">
      pyreal.explainers.LocalFeatureContribution.fit
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="api/pyreal.explainers.LocalFeatureContribution.produce.html">
+    <a class="reference internal" href="pyreal.explainers.LocalFeatureContribution.produce.html">
      pyreal.explainers.LocalFeatureContribution.produce
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="api/pyreal.explainers.ShapFeatureContribution.html">
+    <a class="reference internal" href="pyreal.explainers.ShapFeatureContribution.html">
      pyreal.explainers.ShapFeatureContribution
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="api/pyreal.explainers.ShapFeatureContribution.fit.html">
+    <a class="reference internal" href="pyreal.explainers.ShapFeatureContribution.fit.html">
      pyreal.explainers.ShapFeatureContribution.fit
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="api/pyreal.explainers.ShapFeatureContribution.produce.html">
+    <a class="reference internal" href="pyreal.explainers.ShapFeatureContribution.produce.html">
      pyreal.explainers.ShapFeatureContribution.produce
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="api/pyreal.explainers.ShapFeatureContribution.get_contributions.html">
+    <a class="reference internal" href="pyreal.explainers.ShapFeatureContribution.get_contributions.html">
      pyreal.explainers.ShapFeatureContribution.get_contributions
     </a>
    </li>
   </ul>
  </li>
- <li class="toctree-l1 has-children">
-  <a class="reference internal" href="global_feature_importance.html">
+ <li class="toctree-l1 current active has-children">
+  <a class="reference internal" href="../global_feature_importance.html">
    Global Feature Importance
   </a>
-  <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
   <label for="toctree-checkbox-3">
    <i class="fas fa-chevron-down">
    </i>
   </label>
-  <ul>
+  <ul class="current">
    <li class="toctree-l2">
-    <a class="reference internal" href="api/pyreal.explainers.GlobalFeatureImportanceBase.html">
+    <a class="reference internal" href="pyreal.explainers.GlobalFeatureImportanceBase.html">
      pyreal.explainers.GlobalFeatureImportanceBase
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="api/pyreal.explainers.GlobalFeatureImportanceBase.fit.html">
+    <a class="reference internal" href="pyreal.explainers.GlobalFeatureImportanceBase.fit.html">
      pyreal.explainers.GlobalFeatureImportanceBase.fit
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="api/pyreal.explainers.GlobalFeatureImportanceBase.produce.html">
+    <a class="reference internal" href="pyreal.explainers.GlobalFeatureImportanceBase.produce.html">
      pyreal.explainers.GlobalFeatureImportanceBase.produce
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="api/pyreal.explainers.GlobalFeatureImportanceBase.get_importance.html">
+    <a class="reference internal" href="pyreal.explainers.GlobalFeatureImportanceBase.get_importance.html">
      pyreal.explainers.GlobalFeatureImportanceBase.get_importance
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="api/pyreal.explainers.GlobalFeatureImportance.html">
+    <a class="reference internal" href="pyreal.explainers.GlobalFeatureImportance.html">
      pyreal.explainers.GlobalFeatureImportance
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="api/pyreal.explainers.GlobalFeatureImportance.fit.html">
+    <a class="reference internal" href="pyreal.explainers.GlobalFeatureImportance.fit.html">
      pyreal.explainers.GlobalFeatureImportance.fit
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="api/pyreal.explainers.GlobalFeatureImportance.produce.html">
+    <a class="reference internal" href="pyreal.explainers.GlobalFeatureImportance.produce.html">
      pyreal.explainers.GlobalFeatureImportance.produce
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="api/pyreal.explainers.ShapFeatureImportance.html">
+    <a class="reference internal" href="pyreal.explainers.ShapFeatureImportance.html">
      pyreal.explainers.ShapFeatureImportance
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="api/pyreal.explainers.ShapFeatureImportance.fit.html">
+    <a class="reference internal" href="pyreal.explainers.ShapFeatureImportance.fit.html">
      pyreal.explainers.ShapFeatureImportance.fit
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="api/pyreal.explainers.ShapFeatureImportance.produce.html">
+    <a class="reference internal" href="pyreal.explainers.ShapFeatureImportance.produce.html">
      pyreal.explainers.ShapFeatureImportance.produce
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="api/pyreal.explainers.ShapFeatureImportance.get_importance.html">
+    <a class="reference internal" href="pyreal.explainers.ShapFeatureImportance.get_importance.html">
      pyreal.explainers.ShapFeatureImportance.get_importance
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="api/pyreal.explainers.PermutationFeatureImportance.html">
+    <a class="reference internal" href="pyreal.explainers.PermutationFeatureImportance.html">
      pyreal.explainers.PermutationFeatureImportance
     </a>
    </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="api/pyreal.explainers.PermutationFeatureImportance.fit.html">
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
      pyreal.explainers.PermutationFeatureImportance.fit
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="api/pyreal.explainers.PermutationFeatureImportance.produce.html">
+    <a class="reference internal" href="pyreal.explainers.PermutationFeatureImportance.produce.html">
      pyreal.explainers.PermutationFeatureImportance.produce
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="api/pyreal.explainers.PermutationFeatureImportance.get_importance.html">
+    <a class="reference internal" href="pyreal.explainers.PermutationFeatureImportance.get_importance.html">
      pyreal.explainers.PermutationFeatureImportance.get_importance
     </a>
    </li>
   </ul>
  </li>
  <li class="toctree-l1 has-children">
-  <a class="reference internal" href="model_utils.html">
+  <a class="reference internal" href="../model_utils.html">
    Model Utils
   </a>
   <input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
@@ -353,19 +353,19 @@
   </label>
   <ul>
    <li class="toctree-l2">
-    <a class="reference internal" href="api/pyreal.utils.model_utils.load_model_from_pickle.html">
+    <a class="reference internal" href="pyreal.utils.model_utils.load_model_from_pickle.html">
      pyreal.utils.model_utils.load_model_from_pickle
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="api/pyreal.utils.model_utils.load_model_from_weights.html">
+    <a class="reference internal" href="pyreal.utils.model_utils.load_model_from_weights.html">
      pyreal.utils.model_utils.load_model_from_weights
     </a>
    </li>
   </ul>
  </li>
  <li class="toctree-l1 has-children">
-  <a class="reference internal" href="visualize.html">
+  <a class="reference internal" href="../visualize.html">
    Visualization
   </a>
   <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
@@ -375,7 +375,7 @@
   </label>
   <ul>
    <li class="toctree-l2">
-    <a class="reference internal" href="api/pyreal.utils.visualize.plot_top_contributors.html">
+    <a class="reference internal" href="pyreal.utils.visualize.plot_top_contributors.html">
      pyreal.utils.visualize.plot_top_contributors
     </a>
    </li>
@@ -417,39 +417,15 @@
               
               <div>
                 
-  <div class="section" id="api-reference">
-<span id="api"></span><h1>API Reference<a class="headerlink" href="#api-reference" title="Permalink to this headline">¶</a></h1>
-<p>In this section you will find a detailed specification of all the public functions
-and classes in Pyreal</p>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="explainer.html">Explainer</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="explainer.html#base-explainer">Base Explainer</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="local_feature_contribution.html">Local Feature Contribution</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="local_feature_contribution.html#local-feature-contribution-base">Local Feature Contribution Base</a></li>
-<li class="toctree-l2"><a class="reference internal" href="local_feature_contribution.html#id1">Local Feature Contribution</a></li>
-<li class="toctree-l2"><a class="reference internal" href="local_feature_contribution.html#shap-feature-contribution-explainer">SHAP Feature Contribution Explainer</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="global_feature_importance.html">Global Feature Importance</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="global_feature_importance.html#global-feature-importance-base">Global Feature Importance Base</a></li>
-<li class="toctree-l2"><a class="reference internal" href="global_feature_importance.html#id1">Global Feature Importance</a></li>
-<li class="toctree-l2"><a class="reference internal" href="global_feature_importance.html#shap-feature-importance-explainer">SHAP Feature Importance Explainer</a></li>
-<li class="toctree-l2"><a class="reference internal" href="global_feature_importance.html#permutation-feature-importance-explainer">Permutation Feature Importance Explainer</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="model_utils.html">Model Utils</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="model_utils.html#loading-models">Loading Models</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="visualize.html">Visualization</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="visualize.html#feature-contribution-visualizations">Feature Contribution Visualizations</a></li>
-</ul>
-</li>
-</ul>
-</div>
+  <div class="section" id="pyreal-explainers-permutationfeatureimportance-fit">
+<h1>pyreal.explainers.PermutationFeatureImportance.fit<a class="headerlink" href="#pyreal-explainers-permutationfeatureimportance-fit" title="Permalink to this headline">¶</a></h1>
+<dl class="py method">
+<dt id="pyreal.explainers.PermutationFeatureImportance.fit">
+<code class="sig-prename descclassname">PermutationFeatureImportance.</code><code class="sig-name descname">fit</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyreal/explainers/gfi/permutation_feature_importance.html#PermutationFeatureImportance.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyreal.explainers.PermutationFeatureImportance.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fit the feature importance explainer.
+No-op as permutation_importance does not require fitting</p>
+</dd></dl>
+
 </div>
 
 
@@ -458,8 +434,8 @@ and classes in Pyreal</p>
               
               <div class='prev-next-bottom'>
                 
-    <a class='left-prev' id="prev-link" href="../user_guides/index.html" title="previous page">User Guides</a>
-    <a class='right-next' id="next-link" href="explainer.html" title="next page">Explainer</a>
+    <a class='left-prev' id="prev-link" href="pyreal.explainers.PermutationFeatureImportance.html" title="previous page">pyreal.explainers.PermutationFeatureImportance</a>
+    <a class='right-next' id="next-link" href="pyreal.explainers.PermutationFeatureImportance.produce.html" title="next page">pyreal.explainers.PermutationFeatureImportance.produce</a>
 
               </div>
               
@@ -469,7 +445,7 @@ and classes in Pyreal</p>
       </div>
     </div>
   
-  <script src="../_static/js/index.1c5a1a01449ed65a7b51.js"></script>
+  <script src="../../_static/js/index.1c5a1a01449ed65a7b51.js"></script>
 
   <footer class="footer mt-5 mt-md-0">
   <div class="container">
