@@ -1,4 +1,6 @@
 import numpy as np
+from sklearn.tree import plot_tree
+from sklearn.tree import export_text
 
 from pyreal.explainers import DecisionTreeExplainer, SurrogateDecisionTree
 
@@ -19,7 +21,8 @@ def test_produce_decision_tree_regression_no_transforms(regression_no_transforms
 
 
 def helper_produce_decision_tree_regression_no_transforms(explainer, model):
-    explainer.produce()
+    tree_object = explainer.produce()
+    print(export_text(tree_object))
     # assert importances.shape == (1, model["x"].shape[1])
     # assert abs(importances["A"][0] - (4 / 3)) < 0.0001
     # assert abs(importances["B"][0]) < 0.0001
@@ -42,7 +45,8 @@ def test_produce_decision_tree_regression_transforms(regression_one_hot):
 
 
 def helper_produce_decision_tree_regression_one_hot(explainer, model):
-    explainer.produce()
+    tree_object = explainer.produce()
+    plot_tree(tree_object)
     # assert importances.shape == (1, model["x"].shape[1])
     # assert abs(importances["A"][0] - (8 / 3)) < .0001
     # assert abs(importances["B"][0]) < .0001
@@ -68,7 +72,8 @@ def test_produce_decision_tree_classification_no_transforms(classification_no_tr
 
 
 def helper_produce_decision_tree_classification_no_transforms(explainer, model):
-    explainer.produce()
+    tree_object = explainer.produce()
+    plot_tree(tree_object)
     # assert importances.shape == (1, model["x"].shape[1])
     # assert abs(importances["A"][0] - (2 / 3)) < .0001
     # assert abs(importances["B"][0] - (2 / 3)) < .0001
@@ -81,12 +86,14 @@ def test_produce_with_renames(regression_one_hot):
     feature_descriptions = {"A": "Feature A", "B": "Feature B"}
     dte = DecisionTreeExplainer(model=model["model"],
                                 x_train_orig=model["x"],
+                                is_classifier=True,
                                 e_algorithm='surrogate_tree',
                                 fit_on_init=True, e_transforms=e_transforms,
                                 interpretable_features=True,
                                 feature_descriptions=feature_descriptions)
 
-    dte.produce()
+    tree_object = dte.produce()
+    plot_tree(tree_object)
     # assert importances.shape == (1, model["x"].shape[1])
     # assert abs(importances["Feature A"][0] - (8 / 3)) < 0.0001
     # assert abs(importances["Feature B"][0]) < 0.0001

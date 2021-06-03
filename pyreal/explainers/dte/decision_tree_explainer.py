@@ -15,8 +15,10 @@ def choose_algorithm():
 
 def dte(return_explainer=False, explainer=None,
         model=None, x_train_orig=None,
+        is_classifier=True,
         e_algorithm=None, feature_descriptions=None,
-        e_transforms=None, m_transforms=None, i_transforms=None):
+        e_transforms=None, m_transforms=None, i_transforms=None,
+        interpretable_features=True):
     """
     Get a decision tree explanation
 
@@ -30,6 +32,8 @@ def dte(return_explainer=False, explainer=None,
            Filepath to the pickled model to explain, or model object with .predict() function
         x_train_orig (dataframe of shape (n_instances, x_orig_feature_count)):
            The training set for the explainer
+        is_classifier (Boolean):
+            If true, fit a decision tree classifier; otherwise fit a decision tree regressor.
         e_algorithm (string, one of ["shap"]):
            Explanation algorithm to use. If none, one will be chosen automatically based on model
            type
@@ -60,12 +64,14 @@ def dte(return_explainer=False, explainer=None,
 
     if explainer is None:
         explainer = DecisionTreeExplainer(model, x_train_orig,
+                                          is_classifier=is_classifier,
                                           e_algorithm=e_algorithm,
                                           feature_descriptions=feature_descriptions,
                                           e_transforms=e_transforms,
                                           m_transforms=m_transforms,
                                           i_transforms=i_transforms,
-                                          fit_on_init=True)
+                                          fit_on_init=True,
+                                          interpretable_features=interpretable_features)
     # if return_explainer and return_importances:
     #     return explainer, explainer.produce()
     if return_explainer:
@@ -93,15 +99,16 @@ class DecisionTreeExplainer(DecisionTreeExplainerBase):
         **kwargs: see DecisionTreeExplainerBase args
     """
 
-    def __init__(self, model, x_train_orig, e_algorithm=None, is_classifier=False, **kwargs):
+    def __init__(self, model, x_train_orig, e_algorithm=None, is_classifier=True, **kwargs):
+        self.is_classifier = is_classifier
         if e_algorithm is None:
             e_algorithm = choose_algorithm()
         if e_algorithm == "surrogate_tree":
-            self.base_decision_tree = SurrogateDecisionTree(model, x_train_orig, **kwargs)
+            self.base_decision_tree = SurrogateDecisionTree(model, x_train_orig, is_classifier, **kwargs)
         if self.base_decision_tree is None:
             raise ValueError("Invalid algorithm type %s" % e_algorithm)
 
-        self.is_classifier = is_classifier
+        
         super(DecisionTreeExplainer, self).__init__(self.base_decision_tree.algorithm,
                                                     model, x_train_orig, **kwargs)
 
@@ -110,3 +117,9 @@ class DecisionTreeExplainer(DecisionTreeExplainerBase):
         Fit this explainer object
         """
         self.base_decision_tree.fit()
+
+    def produce(self):
+        """
+        Produce this decision tree object
+        """
+        return self.base_decision_tree.produce()
