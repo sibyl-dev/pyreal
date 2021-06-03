@@ -104,11 +104,11 @@ class DecisionTreeExplainer(DecisionTreeExplainerBase):
         if e_algorithm is None:
             e_algorithm = choose_algorithm()
         if e_algorithm == "surrogate_tree":
-            self.base_decision_tree = SurrogateDecisionTree(model, x_train_orig, is_classifier, **kwargs)
+            self.base_decision_tree = SurrogateDecisionTree(model, x_train_orig,
+                                                            is_classifier, **kwargs)
         if self.base_decision_tree is None:
             raise ValueError("Invalid algorithm type %s" % e_algorithm)
 
-        
         super(DecisionTreeExplainer, self).__init__(self.base_decision_tree.algorithm,
                                                     model, x_train_orig, **kwargs)
 
