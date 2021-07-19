@@ -104,19 +104,18 @@ def test_produce_shap_classification_no_transforms(classification_no_transforms)
 def helper_produce_shap_classification_no_transforms(explainer):
     x_one_dim = pd.DataFrame([[1, 0, 0]], columns=["A", "B", "C"])
     x_multi_dim = pd.DataFrame([[1, 0, 0],
-                                [1, 0, 0]], columns=["A", "B", "C"])
+                                [1, 1, 0]], columns=["A", "B", "C"])
     contributions = explainer.produce(x_one_dim)
     assert x_one_dim.shape == contributions.shape
     assert abs(contributions["A"][0]) < .0001
-    assert abs(contributions["B"][0]) < .0001
+    assert abs(contributions["B"][0] + 1) < .0001
     assert abs(contributions["C"][0]) < .0001
 
     contributions = explainer.produce(x_multi_dim)
-    print(contributions)
     assert x_multi_dim.shape == contributions.shape
-    assert abs(contributions["A"][0]) < .0001
-    assert abs(contributions["A"][1] - 1 < .0001)
-    assert (contributions["B"] == 0).all()
+    assert (contributions["A"] == 0).all()
+    assert abs(contributions["B"][0] + 1) < .0001
+    assert abs(contributions["B"][1]) < .0001
     assert (contributions["C"] == 0).all()
 
 

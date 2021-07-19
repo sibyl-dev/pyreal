@@ -1,4 +1,5 @@
-from pyreal.explainers import GlobalFeatureImportanceBase, ShapFeatureImportance
+from pyreal.explainers import (
+    GlobalFeatureImportanceBase, PermutationFeatureImportance, ShapFeatureImportance,)
 
 
 def choose_algorithm():
@@ -108,6 +109,9 @@ class GlobalFeatureImportance(GlobalFeatureImportanceBase):
         self.base_global_feature_importance = None
         if e_algorithm == "shap":
             self.base_global_feature_importance = ShapFeatureImportance(
+                model, x_train_orig, **kwargs)
+        if e_algorithm == "permutation":
+            self.base_global_feature_importance = PermutationFeatureImportance(
                 model, x_train_orig, **kwargs)
         if self.base_global_feature_importance is None:
             raise ValueError("Invalid algorithm type %s" % e_algorithm)
