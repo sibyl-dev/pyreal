@@ -122,11 +122,11 @@ def helper_produce_shap_classification_no_transforms(explainer):
 
 def test_produce_with_renames(regression_one_hot):
     model = regression_one_hot
-    e_transforms = model["transforms"]
+    transforms = model["transforms"]
     feature_descriptions = {"A": "Feature A", "B": "Feature B"}
     lfc = LocalFeatureContribution(model=model["model"],
                                    x_train_orig=model["x"], e_algorithm='shap',
-                                   fit_on_init=True, e_transforms=e_transforms,
+                                   fit_on_init=True, transforms=transforms,
                                    interpretable_features=True,
                                    feature_descriptions=feature_descriptions)
     x_one_dim = pd.DataFrame([[2, 10, 10]], columns=["A", "B", "C"])

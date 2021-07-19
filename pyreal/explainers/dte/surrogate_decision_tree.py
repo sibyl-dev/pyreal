@@ -31,14 +31,14 @@ class SurrogateDecisionTree(DecisionTreeExplainerBase):
         Fit the decision tree
         """
         e_dataset = self.transform_to_x_explain(self.x_train_orig)
-        # m_dataset = self.transform_to_x_model(self.x_train_orig)
+        m_dataset = self.transform_to_x_model(self.x_train_orig)
         self.explainer_input_size = e_dataset.shape[1]
         if self.is_classifer:
             self.explainer = tree.DecisionTreeClassifier()
-            self.explainer.fit(e_dataset, self.model.predict(e_dataset))
+            self.explainer.fit(e_dataset, self.model.predict(m_dataset))
         else:
             self.explainer = tree.DecisionTreeRegressor()
-            self.explainer.fit(e_dataset, self.model.predict(e_dataset))
+            self.explainer.fit(e_dataset, self.model.predict(m_dataset))
 
     def produce(self):
         """
