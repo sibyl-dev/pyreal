@@ -15,12 +15,12 @@ def choose_algorithm():
 
 def dte(return_explainer=False, explainer=None,
         model=None, x_train_orig=None,
-        is_classifier=True,
+        is_classifier=True, max_depth=None,
         e_algorithm=None, feature_descriptions=None,
         e_transforms=None, m_transforms=None, i_transforms=None,
         interpretable_features=True):
     """
-    Get a decision tree explanation
+    Get a decision tree explanation, recommended for classification models.
 
     Args:
         return_explainer (Boolean):
@@ -34,6 +34,8 @@ def dte(return_explainer=False, explainer=None,
            The training set for the explainer
         is_classifier (Boolean):
             If true, fit a decision tree classifier; otherwise fit a decision tree regressor.
+        max_depth (Integer):
+            If given, this sets the maximum depth of the decision tree produced by the explainer.
         e_algorithm (string, one of ["shap"]):
            Explanation algorithm to use. If none, one will be chosen automatically based on model
            type
@@ -65,6 +67,7 @@ def dte(return_explainer=False, explainer=None,
     if explainer is None:
         explainer = DecisionTreeExplainer(model, x_train_orig,
                                           is_classifier=is_classifier,
+                                          max_depth=max_depth,
                                           e_algorithm=e_algorithm,
                                           feature_descriptions=feature_descriptions,
                                           e_transforms=e_transforms,
@@ -99,13 +102,14 @@ class DecisionTreeExplainer(DecisionTreeExplainerBase):
         **kwargs: see DecisionTreeExplainerBase args
     """
 
-    def __init__(self, model, x_train_orig, e_algorithm=None, is_classifier=True, **kwargs):
+    def __init__(self, model, x_train_orig, e_algorithm=None, is_classifier=True, max_depth=None, 
+                 **kwargs):
         self.is_classifier = is_classifier
         if e_algorithm is None:
             e_algorithm = choose_algorithm()
         if e_algorithm == "surrogate_tree":
             self.base_decision_tree = SurrogateDecisionTree(model, x_train_orig,
-                                                            is_classifier, **kwargs)
+                                                            is_classifier, max_depth, **kwargs)
         if self.base_decision_tree is None:
             raise ValueError("Invalid algorithm type %s" % e_algorithm)
 
