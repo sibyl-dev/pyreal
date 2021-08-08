@@ -14,9 +14,11 @@ class SurrogateDecisionTree(DecisionTreeExplainerBase):
 
     Args:
         model (string filepath or model object):
-           Filepath to the pickled model to explain, or model object with .predict() function
+            Filepath to the pickled model to explain, or model object with .predict() function
         x_train_orig (DataFrame of size (n_instances, n_features)):
             Training set in original form.
+        is_classifier (bool):
+            Set this True for a classification model, False for a regression model.
         **kwargs: see base Explainer args
     """
 
@@ -30,7 +32,8 @@ class SurrogateDecisionTree(DecisionTreeExplainerBase):
 
     def fit(self):
         """
-        Fit the decision tree. Use the sklearn's GridSearchCV to find the "best" tree.
+        Fit the decision tree. 
+        TODO: Perhaps use sklearn's GridSearchCV to find the "best" tree.
         """
         e_dataset = self.transform_to_x_explain(self.x_train_orig)
         m_dataset = self.transform_to_x_model(self.x_train_orig)
