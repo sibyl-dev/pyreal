@@ -1,5 +1,5 @@
 from sklearn import tree
-from sklearn.model_selection import GridSearchCV
+# from sklearn.model_selection import GridSearchCV
 
 from pyreal.explainers import DecisionTreeExplainerBase
 from pyreal.utils.transformer import ExplanationAlgorithm
@@ -32,7 +32,7 @@ class SurrogateDecisionTree(DecisionTreeExplainerBase):
 
     def fit(self):
         """
-        Fit the decision tree. 
+        Fit the decision tree.
         TODO: Perhaps use sklearn's GridSearchCV to find the "best" tree.
         """
         e_dataset = self.transform_to_x_explain(self.x_train_orig)

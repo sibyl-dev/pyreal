@@ -75,16 +75,16 @@ def plot_decision_tree(dte, size=(30, 30), class_names=None, fontsize=10, color=
     Plot the tree structure of a decision tree explainer
 
     Args:
-        dte: 
+        dte:
             The decision tree explainer
-        size (a tuple of two integers): 
+        size (a tuple of two integers):
             The size of the plot, see matplotlib
         class_names (a list of n_label strings or None):
             Set the names of the labels
         fontsize (int):
             The size of the font in the plot
         color (bool):
-            If true, the tree nodes will be colored 
+            If true, the tree nodes will be colored
     """
     x_explain = dte.transform_to_x_explain(dte.x_train_orig)
     features = dte.convert_columns_to_interpretable(x_explain).columns
@@ -94,7 +94,7 @@ def plot_decision_tree(dte, size=(30, 30), class_names=None, fontsize=10, color=
     fig, ax = plt.subplots(figsize=size)
     plot_tree(decision_tree, feature_names=features, class_names=class_names,
               impurity=False, fontsize=fontsize, ax=ax, filled=color)
-    
+
     plt.show()
 
 
@@ -125,6 +125,6 @@ def plot_tree_importances(dte, select_by="absolute", n=5, values=None,
     features = dte.convert_columns_to_interpretable(x_explain).columns
 
     importances = decision_tree.feature_importances_
-    df = pd.DataFrame(importances[None,:], columns=features)
+    df = pd.DataFrame(importances[None, :], columns=features)
 
     plot_top_contributors(df, select_by=select_by, n=n, values=values, flip_colors=flip_colors)

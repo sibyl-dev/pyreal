@@ -102,7 +102,7 @@ class DecisionTreeExplainer(DecisionTreeExplainerBase):
         **kwargs: see DecisionTreeExplainerBase args
     """
 
-    def __init__(self, model, x_train_orig, e_algorithm=None, is_classifier=True, max_depth=None, 
+    def __init__(self, model, x_train_orig, e_algorithm=None, is_classifier=True, max_depth=None,
                  **kwargs):
         self.is_classifier = is_classifier
         if e_algorithm is None:
