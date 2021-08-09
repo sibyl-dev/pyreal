@@ -70,7 +70,7 @@ def plot_top_contributors(contributions, select_by="absolute", n=5, values=None,
     plt.show()
 
 
-def plot_decision_tree(dte, size=(30, 30), fontsize=10, color=True):
+def plot_decision_tree(dte, size=(30, 30), class_names=None, fontsize=10, color=True):
     """
     Plot the tree structure of a decision tree explainer
 
@@ -79,6 +79,8 @@ def plot_decision_tree(dte, size=(30, 30), fontsize=10, color=True):
             The decision tree explainer
         size (a tuple of two integers): 
             The size of the plot, see matplotlib
+        class_names (a list of n_label strings or None):
+            Set the names of the labels
         fontsize (int):
             The size of the font in the plot
         color (bool):
@@ -90,7 +92,7 @@ def plot_decision_tree(dte, size=(30, 30), fontsize=10, color=True):
     decision_tree = dte.produce()
 
     fig, ax = plt.subplots(figsize=size)
-    plot_tree(decision_tree, feature_names=features, class_names=["Died", "Survived"],
+    plot_tree(decision_tree, feature_names=features, class_names=class_names,
               impurity=False, fontsize=fontsize, ax=ax, filled=color)
     
     plt.show()
@@ -123,6 +125,6 @@ def plot_tree_importances(dte, select_by="absolute", n=5, values=None,
     features = dte.convert_columns_to_interpretable(x_explain).columns
 
     importances = decision_tree.feature_importances_
-    df = pd.DataFrame(importances[:,None], columns=features)
+    df = pd.DataFrame(importances[None,:], columns=features)
 
     plot_top_contributors(df, select_by=select_by, n=n, values=values, flip_colors=flip_colors)
