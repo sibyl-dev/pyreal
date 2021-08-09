@@ -19,6 +19,8 @@ class SurrogateDecisionTree(DecisionTreeExplainerBase):
             Training set in original form.
         is_classifier (bool):
             Set this True for a classification model, False for a regression model.
+        max_depth (int):
+            The max_depth of the tree
         **kwargs: see base Explainer args
     """
 

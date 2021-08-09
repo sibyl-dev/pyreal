@@ -87,7 +87,7 @@ class DecisionTreeExplainer(DecisionTreeExplainerBase):
     """
     Generic DecisionTreeExplainer wrapper
 
-    An DecisionTreeExplainer object wraps multiple global feature-based explanations. If no
+    An DecisionTreeExplainer object wraps multiple decision tree-based explanations. If no
     specific algorithm is requested, one will be chosen based on the information given.
     Currently, only surrogate tree is supported.
 
@@ -99,6 +99,10 @@ class DecisionTreeExplainer(DecisionTreeExplainerBase):
         e_algorithm (string, one of ["surrogate_tree"]):
            Explanation algorithm to use. If none, one will be chosen automatically based on model
            type
+        is_classifier (bool):
+            Set this True for a classification model, False for a regression model.
+        max_depth (int):
+            The max_depth of the tree
         **kwargs: see DecisionTreeExplainerBase args
     """
 
@@ -124,6 +128,6 @@ class DecisionTreeExplainer(DecisionTreeExplainerBase):
 
     def produce(self):
         """
-        Produce this decision tree object
+        Returns the decision tree object, either DecisionTreeClassifier or DecisionTreeRegressor
         """
         return self.base_decision_tree.produce()
