@@ -1,4 +1,6 @@
+from tests.conftest import classification_no_transform_tree
 import numpy as np
+from sklearn import tree
 
 from pyreal.explainers import DecisionTreeExplainer, SurrogateDecisionTree
 
@@ -54,41 +56,40 @@ def helper_produce_decision_tree_regression_one_hot(explainer, model):
     # assert abs(importances["C"][0]) < .0001
 
 
-def test_produce_decision_tree_classification_no_transforms(classification_no_transforms):
-    model = classification_no_transforms
+def test_produce_decision_tree_classification_no_transforms(classification_no_transform_tree):
+    model = classification_no_transform_tree
     dte = DecisionTreeExplainer(model=model["model"],
                                 x_train_orig=model["x"],
                                 e_algorithm='surrogate_tree',
                                 is_classifier=True,
                                 transforms=model["transforms"],
                                 fit_on_init=True,
-                                classes=np.arange(1, 4))
+                                classes=np.arange(2))
     SUdte = SurrogateDecisionTree(
         model=model["model"], x_train_orig=model["x"], transforms=model["transforms"],
-        fit_on_init=True, classes=np.arange(1, 4))
+        fit_on_init=True, classes=np.arange(2))
 
     helper_produce_decision_tree_classification_no_transforms(
-        dte, classification_no_transforms)
+        dte, classification_no_transform_tree)
     helper_produce_decision_tree_classification_no_transforms(
-        SUdte, classification_no_transforms)
+        SUdte, classification_no_transform_tree)
 
 
 def helper_produce_decision_tree_classification_no_transforms(explainer, model):
     tree_object = explainer.produce()
     assert tree_object.feature_importances_.shape == \
         (explainer.transform_to_x_explain(model["x"]).shape[1],)
-    # assert abs(importances["A"][0] - (2 / 3)) < .0001
-    # assert abs(importances["B"][0] - (2 / 3)) < .0001
-    # assert abs(importances["C"][0] - (2 / 3)) < .0001
+    assert (tree_object.predict(model["x"].to_numpy()) == model["y"].to_numpy().ravel()).all()
 
 
-def test_produce_with_renames(regression_one_hot):
-    model = regression_one_hot
+
+def test_produce_with_renames(classification_no_transform_tree):
+    model = classification_no_transform_tree
     transforms = model["transforms"]
     feature_descriptions = {"A": "Feature A", "B": "Feature B"}
     dte = DecisionTreeExplainer(model=model["model"],
                                 x_train_orig=model["x"],
-                                is_classifier=False,
+                                is_classifier=True,
                                 e_algorithm='surrogate_tree',
                                 fit_on_init=True, transforms=transforms,
                                 interpretable_features=True,
@@ -97,6 +98,4 @@ def test_produce_with_renames(regression_one_hot):
     tree_object = dte.produce()
     assert tree_object.feature_importances_.shape == \
         (dte.transform_to_x_explain(model["x"]).shape[1],)
-    # assert abs(importances["Feature A"][0] - (8 / 3)) < 0.0001
-    # assert abs(importances["Feature B"][0]) < 0.0001
-    # assert abs(importances["C"][0]) < 0.0001
+    assert (tree_object.predict(model["x"].to_numpy()) == model["y"].to_numpy().ravel()).all()
