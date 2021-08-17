@@ -83,6 +83,7 @@ def regression_one_hot(test_root):
         pickle.dump(model_one_hot, f)
     return {"model": model_one_hot_filename, "transforms": one_hot_encoder, "x": x, "y": y}
 
+
 @pytest.fixture()
 def classification_no_transform_tree(test_root):
     x = pd.DataFrame([[1, 1, 1],

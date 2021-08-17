@@ -14,6 +14,6 @@ __all__ = ['Explainer',
            'LocalFeatureContributionsBase', 'ShapFeatureContribution', 'LocalFeatureContribution',
            'lfc',
            'GlobalFeatureImportanceBase', 'ShapFeatureImportance', 'GlobalFeatureImportance',
-           'gfi'
+           'gfi',
            'DecisionTreeExplainerBase', 'DecisionTreeExplainer', 'SurrogateDecisionTree',
            'dte']

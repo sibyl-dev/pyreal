@@ -1,6 +1,4 @@
-from tests.conftest import classification_no_transform_tree
 import numpy as np
-from sklearn import tree
 
 from pyreal.explainers import DecisionTreeExplainer, SurrogateDecisionTree
 
@@ -26,9 +24,6 @@ def helper_produce_decision_tree_regression_no_transforms(explainer, model):
     tree_object = explainer.produce()
     assert tree_object.feature_importances_.shape == \
         (explainer.transform_to_x_explain(model["x"]).shape[1],)
-    # assert abs(importances["A"][0] - (4 / 3)) < 0.0001
-    # assert abs(importances["B"][0]) < 0.0001
-    # assert abs(importances["C"][0]) < 0.0001
 
 
 def test_produce_decision_tree_regression_transforms(regression_one_hot):
@@ -51,9 +46,6 @@ def helper_produce_decision_tree_regression_one_hot(explainer, model):
     tree_object = explainer.produce()
     assert tree_object.feature_importances_.shape == \
         (explainer.transform_to_x_explain(model["x"]).shape[1],)
-    # assert abs(importances["A"][0] - (8 / 3)) < .0001
-    # assert abs(importances["B"][0]) < .0001
-    # assert abs(importances["C"][0]) < .0001
 
 
 def test_produce_decision_tree_classification_no_transforms(classification_no_transform_tree):
@@ -80,7 +72,6 @@ def helper_produce_decision_tree_classification_no_transforms(explainer, model):
     assert tree_object.feature_importances_.shape == \
         (explainer.transform_to_x_explain(model["x"]).shape[1],)
     assert (tree_object.predict(model["x"].to_numpy()) == model["y"].to_numpy().ravel()).all()
-
 
 
 def test_produce_with_renames(classification_no_transform_tree):

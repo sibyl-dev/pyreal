@@ -48,3 +48,20 @@ class DecisionTreeExplainerBase(Explainer, ABC):
         Returns:
             A decision tree model
         """
+
+    def return_features(self):
+        """
+        Returns the (interpreted) features of the dataset.
+
+        Returns:
+            The features of the dataset. Interpret the features if
+            `interpretable_features` is set to true.
+        """
+        x_explain = self.transform_to_x_explain(self.x_train_orig)
+
+        if self.interpretable_features:
+            features = self.convert_columns_to_interpretable(x_explain).columns
+        else:
+            features = x_explain.columns
+
+        return features

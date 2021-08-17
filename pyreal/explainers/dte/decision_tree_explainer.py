@@ -13,7 +13,7 @@ def choose_algorithm():
     return "surrogate_tree"
 
 
-def dte(return_explainer=False, explainer=None,
+def dte(return_explainer=True, return_importances=False, explainer=None,
         model=None, x_train_orig=None,
         is_classifier=True, max_depth=None,
         e_algorithm=None, feature_descriptions=None,
@@ -25,6 +25,9 @@ def dte(return_explainer=False, explainer=None,
     Args:
         return_explainer (Boolean):
             If true, return the fitted Explainer object.
+            If true, requires one of `explainer` or (`model and x_train`)
+        return_importances (Boolean):
+            If true, return explanation of features importance.
             If true, requires one of `explainer` or (`model and x_train`)
         explainer (Explainer):
             Fitted explainer object.
@@ -75,12 +78,12 @@ def dte(return_explainer=False, explainer=None,
                                           i_transforms=i_transforms,
                                           fit_on_init=True,
                                           interpretable_features=interpretable_features)
-    # if return_explainer and return_importances:
-    #     return explainer, explainer.produce()
+    if return_explainer and return_importances:
+        return explainer, explainer.produce_importances()
     if return_explainer:
         return explainer
-    # if return_importances:
-    #     return explainer.produce()
+    if return_importances:
+        return explainer.produce_importances()
 
 
 class DecisionTreeExplainer(DecisionTreeExplainerBase):
@@ -131,3 +134,9 @@ class DecisionTreeExplainer(DecisionTreeExplainerBase):
         Returns the decision tree object, either DecisionTreeClassifier or DecisionTreeRegressor
         """
         return self.base_decision_tree.produce()
+
+    def produce_importances(self):
+        """
+        Returns the feature importance created by the decision tree explainer
+        """
+        return self.base_decision_tree.produce_importances()

@@ -1,4 +1,5 @@
 from sklearn import tree
+import pandas as pd
 # from sklearn.model_selection import GridSearchCV
 
 from pyreal.explainers import DecisionTreeExplainerBase
@@ -20,7 +21,7 @@ class SurrogateDecisionTree(DecisionTreeExplainerBase):
         is_classifier (bool):
             Set this True for a classification model, False for a regression model.
         max_depth (int):
-            The max_depth of the tree
+            The max_depth of the tree.
         **kwargs: see base Explainer args
     """
 
@@ -60,3 +61,17 @@ class SurrogateDecisionTree(DecisionTreeExplainerBase):
             # raise AttributeError("Instance has no explainer. Decision tree training failed.")
 
         return self.explainer
+
+    def produce_importances(self):
+        """
+        Produce the explanation in terms of feature importances.
+
+        Returns:
+            The feature importances of the decision tree explainer.
+        """
+        if self.explainer is None:
+            self.fit()
+
+        features = self.return_features()
+        importances = pd.DataFrame(self.explainer.feature_importances_[None, :], columns=features)
+        return importances
