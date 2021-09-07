@@ -1,6 +1,5 @@
-from sklearn import tree
 import pandas as pd
-# from sklearn.model_selection import GridSearchCV
+from sklearn import tree
 
 from pyreal.explainers import DecisionTreeExplainerBase
 from pyreal.utils.transformer import ExplanationAlgorithm
