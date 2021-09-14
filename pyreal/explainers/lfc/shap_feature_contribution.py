@@ -66,8 +66,8 @@ class ShapFeatureContribution(LocalFeatureContributionsBase):
         """
         if self.explainer is None:
             raise AttributeError("Instance has no explainer. Must call "
-                                 "fit_contribution_explainer before "
-                                 "get_contributions")
+                                 "fit() before "
+                                 "produce()")
         x = self.transform_to_x_explain(x_orig)
         if x.shape[1] != self.explainer_input_size:
             raise ValueError("Received input of wrong size."

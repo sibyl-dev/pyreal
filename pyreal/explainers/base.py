@@ -100,8 +100,8 @@ class Explainer(ABC):
         self.x_train_orig = x_train_orig
         self.y_orig = y_orig
 
-        if not isinstance(x_train_orig, pd.DataFrame) or \
-                (y_orig is not None and not isinstance(y_orig, pd.DataFrame)):
+        if not isinstance(x_train_orig, pd.DataFrame) or (y_orig is not None and not (
+                isinstance(y_orig, pd.DataFrame) or isinstance(y_orig, pd.Series))):
             raise TypeError("x_orig and y_orig must be of type DataFrame")
 
         self.x_orig_feature_count = x_train_orig.shape[1]
