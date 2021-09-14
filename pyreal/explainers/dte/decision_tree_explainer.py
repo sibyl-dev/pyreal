@@ -129,9 +129,11 @@ class DecisionTreeExplainer(DecisionTreeExplainerBase):
         """
         self.base_decision_tree.fit()
 
-    def produce(self):
+    def produce(self, x_orig=None):
         """
         Returns the decision tree object, either DecisionTreeClassifier or DecisionTreeRegressor
+
+        x_orig is a dummy param to match signature
         """
         return self.base_decision_tree.produce()
 
