@@ -50,7 +50,7 @@ test-readme: ## run the readme snippets
 	invoke readme
 
 .PHONY: test
-test: test-unit test-readme ## test everything that needs test dependencies
+test: test-unit ## test everything that needs test dependencies
 
 .PHONY: lint
 lint: ## check style with flake8 and isort
