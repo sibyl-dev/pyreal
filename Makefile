@@ -43,14 +43,15 @@ test-unit: ## run tests quickly with the default Python
 
 .PHONY: test-tutorials
 test-tutorials: ## run the tutorial notebooks
-	invoke tutorials
+	python -m pytest --nbmake "./tutorials"
+
 
 .PHONY: test-readme
 test-readme: ## run the readme snippets
 	invoke readme
 
 .PHONY: test
-test: test-unit ## test everything that needs test dependencies
+test: test-unit ## run unit tests
 
 .PHONY: lint
 lint: ## check style with flake8 and isort
