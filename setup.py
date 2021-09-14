@@ -12,7 +12,7 @@ with open('HISTORY.md') as history_file:
 
 install_requires = [
     # Math
-    'numpy>=1.8',
+    'numpy>=1.8,<1.19',
     'pandas>=1.0.3',
     "scikit-learn>=0.22",
     "shap>=0.37.0",
@@ -30,6 +30,7 @@ tests_require = [
     'jupyter>=1.0.0,<2',
     'rundoc>=0.4.3,<0.5',
     'invoke',
+    'nbmake==0.7.',
 ]
 
 development_requires = [
