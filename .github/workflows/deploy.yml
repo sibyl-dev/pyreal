@@ -39,7 +39,9 @@ jobs:
 
       - name: Configure Poetry
         shell: bash
-        run: poetry config virtualenvs.in-project true
+        run: | # The parallel installer can easily break as of 1.1.8
+          poetry config virtualenvs.in-project true \
+             poetry config  installer.parallel false 
           
       - name: Build
         shell: bash
