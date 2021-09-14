@@ -1,5 +1,4 @@
-from pyreal.explainers import (
-    GlobalFeatureImportanceBase, PermutationFeatureImportance, ShapFeatureImportance,)
+from pyreal.explainers import DecisionTreeExplainerBase, SurrogateDecisionTree
 
 
 def choose_algorithm():
@@ -8,26 +7,27 @@ def choose_algorithm():
     Currently, shap is the only supported algorithm
 
     Return:
-        string (one of ["shap"])
+        string (one of ["surrogate_tree"])
             Explanation algorithm to use
     """
-    return "shap"
+    return "surrogate_tree"
 
 
-def gfi(return_importances=True, return_explainer=False, explainer=None,
+def dte(return_explainer=True, return_importances=False, explainer=None,
         model=None, x_train_orig=None,
+        is_classifier=True, max_depth=None,
         e_algorithm=None, feature_descriptions=None,
         e_transforms=None, m_transforms=None, i_transforms=None,
         interpretable_features=True):
     """
-    Get a global feature importance
+    Get a decision tree explanation, recommended for classification models.
 
     Args:
-        return_importances (Boolean):
-            If true, return explanation of features importance.
-            If true, requires one of `explainer` or (`model and x_train`)
         return_explainer (Boolean):
             If true, return the fitted Explainer object.
+            If true, requires one of `explainer` or (`model and x_train`)
+        return_importances (Boolean):
+            If true, return explanation of features importance.
             If true, requires one of `explainer` or (`model and x_train`)
         explainer (Explainer):
             Fitted explainer object.
@@ -35,6 +35,10 @@ def gfi(return_importances=True, return_explainer=False, explainer=None,
            Filepath to the pickled model to explain, or model object with .predict() function
         x_train_orig (dataframe of shape (n_instances, x_orig_feature_count)):
            The training set for the explainer
+        is_classifier (Boolean):
+            If true, fit a decision tree classifier; otherwise fit a decision tree regressor.
+        max_depth (Integer):
+            If given, this sets the maximum depth of the decision tree produced by the explainer.
         e_algorithm (string, one of ["shap"]):
            Explanation algorithm to use. If none, one will be chosen automatically based on model
            type
@@ -60,77 +64,81 @@ def gfi(return_importances=True, return_explainer=False, explainer=None,
         DataFrame of shape (n_instances, n_features):
             The importance of each feature. Only returned if return_importance is True
     """
-    if not return_importances and not return_explainer:
-        # TODO: replace with formal warning system
-        print("gfi is non-functional with return_importances and return_explainer set to false")
-        return
-
     if explainer is None and (model is None or x_train_orig is None):
         raise ValueError("gfi requires either explainer OR model and x_train to be passed")
 
     if explainer is None:
-        explainer = GlobalFeatureImportance(model, x_train_orig,
-                                            e_algorithm=e_algorithm,
-                                            feature_descriptions=feature_descriptions,
-                                            e_transforms=e_transforms, m_transforms=m_transforms,
-                                            i_transforms=i_transforms,
-                                            interpretable_features=interpretable_features,
-                                            fit_on_init=True)
+        explainer = DecisionTreeExplainer(model, x_train_orig,
+                                          is_classifier=is_classifier,
+                                          max_depth=max_depth,
+                                          e_algorithm=e_algorithm,
+                                          feature_descriptions=feature_descriptions,
+                                          e_transforms=e_transforms,
+                                          m_transforms=m_transforms,
+                                          i_transforms=i_transforms,
+                                          fit_on_init=True,
+                                          interpretable_features=interpretable_features)
     if return_explainer and return_importances:
-        return explainer, explainer.produce()
+        return explainer, explainer.produce_importances()
     if return_explainer:
         return explainer
     if return_importances:
-        return explainer.produce()
+        return explainer.produce_importances()
 
 
-class GlobalFeatureImportance(GlobalFeatureImportanceBase):
+class DecisionTreeExplainer(DecisionTreeExplainerBase):
     """
-    Generic GlobalFeatureImportance wrapper
+    Generic DecisionTreeExplainer wrapper
 
-    A GlobalFeatureImportance object wraps multiple global feature-based explanations. If no
+    An DecisionTreeExplainer object wraps multiple decision tree-based explanations. If no
     specific algorithm is requested, one will be chosen based on the information given.
-    Currently, only SHAP is supported.
+    Currently, only surrogate tree is supported.
 
     Args:
         model (string filepath or model object):
            Filepath to the pickled model to explain, or model object with .predict() function
         x_train_orig (dataframe of shape (n_instances, x_orig_feature_count)):
            The training set for the explainer
-        e_algorithm (string, one of ["shap"]):
+        e_algorithm (string, one of ["surrogate_tree"]):
            Explanation algorithm to use. If none, one will be chosen automatically based on model
            type
-        **kwargs: see LocalFeatureContributionsBase args
+        is_classifier (bool):
+            Set this True for a classification model, False for a regression model.
+        max_depth (int):
+            The max_depth of the tree
+        **kwargs: see DecisionTreeExplainerBase args
     """
 
-    def __init__(self, model, x_train_orig, e_algorithm=None, **kwargs):
+    def __init__(self, model, x_train_orig, e_algorithm=None, is_classifier=True, max_depth=None,
+                 **kwargs):
+        self.is_classifier = is_classifier
         if e_algorithm is None:
             e_algorithm = choose_algorithm()
-        self.base_global_feature_importance = None
-        if e_algorithm == "shap":
-            self.base_global_feature_importance = ShapFeatureImportance(
-                model, x_train_orig, **kwargs)
-        if e_algorithm == "permutation":
-            self.base_global_feature_importance = PermutationFeatureImportance(
-                model, x_train_orig, **kwargs)
-        if self.base_global_feature_importance is None:
+        if e_algorithm == "surrogate_tree":
+            self.base_decision_tree = SurrogateDecisionTree(model, x_train_orig,
+                                                            is_classifier, max_depth, **kwargs)
+        if self.base_decision_tree is None:
             raise ValueError("Invalid algorithm type %s" % e_algorithm)
 
-        super(GlobalFeatureImportance, self).__init__(
-            self.base_global_feature_importance.algorithm, model, x_train_orig, **kwargs)
+        super(DecisionTreeExplainer, self).__init__(self.base_decision_tree.algorithm,
+                                                    model, x_train_orig, **kwargs)
 
     def fit(self):
         """
         Fit this explainer object
         """
-        self.base_global_feature_importance.fit()
+        self.base_decision_tree.fit()
 
-    def get_importance(self):
+    def produce(self, x_orig=None):
         """
-        Gets the raw explanation.
+        Returns the decision tree object, either DecisionTreeClassifier or DecisionTreeRegressor
 
-        Returns:
-            DataFrame of shape (n_instances, n_features)
-                Contribution of each feature for each instance
+        x_orig is a dummy param to match signature
         """
-        return self.base_global_feature_importance.get_importance()
+        return self.base_decision_tree.produce()
+
+    def produce_importances(self):
+        """
+        Returns the feature importance created by the decision tree explainer
+        """
+        return self.base_decision_tree.produce_importances()
