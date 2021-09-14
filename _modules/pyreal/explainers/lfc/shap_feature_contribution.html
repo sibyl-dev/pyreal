@@ -217,8 +217,8 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">explainer</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s2">&quot;Instance has no explainer. Must call &quot;</span>
-                                 <span class="s2">&quot;fit_contribution_explainer before &quot;</span>
-                                 <span class="s2">&quot;get_contributions&quot;</span><span class="p">)</span>
+                                 <span class="s2">&quot;fit() before &quot;</span>
+                                 <span class="s2">&quot;produce()&quot;</span><span class="p">)</span>
         <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform_to_x_explain</span><span class="p">(</span><span class="n">x_orig</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">explainer_input_size</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Received input of wrong size.&quot;</span>
