@@ -131,7 +131,9 @@ def test(context):
 
     test_unit(context)
     test_readme(context)
-    test_tutorials(context)
+
+    # TODO: Replace the implementation
+    # test_tutorials(context)
 
 
 @task
