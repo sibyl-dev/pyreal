@@ -14,8 +14,8 @@
 Library for evaluating and deploying machine learning explanations.
 
 - Free software: Not open source
-- Documentation: https://DAI-Lab.github.io/pyreal
-- Homepage: https://github.com/DAI-Lab/pyreal
+- Documentation: https://sibyl-dev.github.io/pyreal
+- Homepage: https://github.com/sibyl-dev/pyreal
 
 # Overview
 
@@ -27,7 +27,7 @@ data form.
 
 ## Requirements
 
-**Pyreal** has been developed and tested on [Python 3.5, 3.6, 3.7, and 3.8](https://www.python.org/downloads/)
+**Pyreal** has been developed and tested on [Python 3.7 and 3.8](https://www.python.org/downloads/)
 
 Also, although it is not strictly required, the usage of a [virtualenv](https://virtualenv.pypa.io/en/latest/)
 is highly recommended in order to avoid interfering with other software installed in the system

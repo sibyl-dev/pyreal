@@ -12,7 +12,7 @@ with open('HISTORY.md') as history_file:
 
 install_requires = [
     # Math
-    'numpy>=1.8',
+    'numpy>=1.8,<1.19',
     'pandas>=1.0.3',
     "scikit-learn>=0.22",
     "shap>=0.37.0",
@@ -30,6 +30,7 @@ tests_require = [
     'jupyter>=1.0.0,<2',
     'rundoc>=0.4.3,<0.5',
     'invoke',
+    'nbmake==0.7.',
 ]
 
 development_requires = [
@@ -46,7 +47,7 @@ development_requires = [
     'autodocsumm>=0.1.10',
     'PyYaml>=5.3.1,<6',
     'argh>=0.26.2,<1',
-    'ipython>7.18.0',
+    'ipython>7.16.0',
 
     # style check
     'flake8>=3.7.7',
@@ -67,7 +68,7 @@ development_requires = [
 
 examples_require = [
     "keras>=2.4.3",
-    "tensorflow>=2.2",
+    "tensorflow==2.2.1",
 ]
 
 setup(
@@ -78,10 +79,8 @@ setup(
         'Intended Audience :: Developers',
         'Natural Language :: English',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.4',
-        'Programming Language :: Python :: 3.5',
-        'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
+        'Programming Language :: Python :: 3.8',
     ],
     description='Library for evaluating and deploying machine learning explanations.',
     extras_require={
@@ -97,7 +96,7 @@ setup(
     keywords='pyreal Pyreal',
     name='pyreal',
     packages=find_packages(include=['pyreal', 'pyreal.*']),
-    python_requires='>=3.4',
+    python_requires='>=3.7',
     setup_requires=setup_requires,
     test_suite='tests',
     tests_require=tests_require,
