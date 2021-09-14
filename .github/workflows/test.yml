@@ -23,7 +23,7 @@ jobs:
       - name: Install Package
         run: |
           python -m pip install --upgrade pip
-          pip install -e .[dev,examples]
+          pip install .[dev,examples]
       - name: Lint with flake8
         run: |
           make lint
