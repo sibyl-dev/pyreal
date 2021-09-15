@@ -1,0 +1,6 @@
+﻿pyreal.explainers.DecisionTreeExplainerBase.fit
+===============================================
+
+.. currentmodule:: pyreal.explainers
+
+.. automethod:: DecisionTreeExplainerBase.fit
