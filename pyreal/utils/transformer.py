@@ -9,6 +9,7 @@ from sklearn.preprocessing import OneHotEncoder
 
 class ExplanationAlgorithm(Enum):
     SHAP = auto()
+    SURROGATE_DECISION_TREE = auto()
     PERMUTATION_IMPORTANCE = auto()
 
 

@@ -12,5 +12,6 @@ and classes in Pyreal
    explainer
    local_feature_contribution
    global_feature_importance
+   decision_tree_explainer
    model_utils
    visualize
