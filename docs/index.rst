@@ -11,8 +11,8 @@ Pyreal - Applied Explainability
 -  License:
 -  Development Status:
 
--  Documentation: https://dai-lab.github.io/pyreal/
--  Homepage: https://github.com/DAI-Lab/pyreal
+-  Documentation: https://sibyl-dev.github.io/pyreal/
+-  Homepage: https://github.com/sibyl-dev/pyreal
 
 Overview
 --------

@@ -9,6 +9,8 @@ from sklearn.preprocessing import OneHotEncoder
 
 class ExplanationAlgorithm(Enum):
     SHAP = auto()
+    SURROGATE_DECISION_TREE = auto()
+    PERMUTATION_IMPORTANCE = auto()
 
 
 def fit_transformers(transformers, x_orig):
@@ -63,10 +65,16 @@ class BaseTransformer(ABC):
     def transform_explanation(self, explanation, algorithm):
         if algorithm == ExplanationAlgorithm.SHAP:
             return self.transform_explanation_shap(explanation)
+        if algorithm == ExplanationAlgorithm.PERMUTATION_IMPORTANCE:
+            return self.transform_explanation_permutation_importance(explanation)
         raise ValueError("Invalid algorithm %s" % algorithm)
 
     # noinspection PyMethodMayBeStatic
     def transform_explanation_shap(self, explanation):
+        return explanation
+
+    # noinspection PyMethodMayBeStatic
+    def transform_explanation_permutation_importance(self, explanation):
         return explanation
 
 
@@ -148,6 +156,22 @@ class OneHotEncoderWrapper(BaseTransformer):
         return pd.concat([x_orig.drop(self.feature_list, axis="columns"), x_cat_ohe], axis=1)
 
     def transform_explanation_shap(self, explanation):
+        return self.helper_summed_values(explanation)
+
+    # TODO: replace this with a more theoretically grounded approach to combining feature
+    #  importance
+    def transform_explanation_permutation_importance(self, explanation):
+        return self.helper_summed_values(explanation)
+
+    def helper_summed_values(self, explanation):
+        """
+        Sum together the items in the explanation.
+        Args:
+            explanation: a list of values, one per feature
+
+        Returns:
+            the values summed together for all features involved in the one-hot encoding
+        """
         explanation = pd.DataFrame(explanation)
         if explanation.ndim == 1:
             explanation = explanation.reshape(1, -1)
@@ -189,6 +213,11 @@ class ColumnDropTransformer(BaseTransformer):
         return x.drop(self.columns_to_drop, axis="columns")
 
     def transform_explanation_shap(self, explanation):
+        for col in self.columns_to_drop:
+            explanation[col] = 0
+        return explanation
+
+    def transform_explanation_permutation_importance(self, explanation):
         for col in self.columns_to_drop:
             explanation[col] = 0
         return explanation

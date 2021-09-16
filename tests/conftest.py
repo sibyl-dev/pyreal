@@ -50,14 +50,13 @@ def classification_no_transforms(test_root):
     x = pd.DataFrame([[3, 0, 0],
                       [0, 3, 0],
                       [0, 0, 3]], columns=["A", "B", "C"])
-    y = [1, 2, 3]
+    y = pd.Series([1, 1, 3])
     model_no_transforms = LogisticRegression()
-    model_no_transforms.fit(x, y)
-    model_no_transforms.coef_ = np.array([[1, 0, 0],
+    model_no_transforms.fit(x, pd.Series([1, 2, 3]))
+    model_no_transforms.coef_ = np.array([[0, 1, 0],
                                           [0, 1, 0],
                                           [0, 0, 1]])
     model_no_transforms.intercept_ = np.array([0])
-
     model_no_transforms_filename = os.path.join(test_root, "data",
                                                 "model_no_transforms.pkl")
     with open(model_no_transforms_filename, "wb") as f:
@@ -83,3 +82,21 @@ def regression_one_hot(test_root):
     with open(model_one_hot_filename, "wb") as f:
         pickle.dump(model_one_hot, f)
     return {"model": model_one_hot_filename, "transforms": one_hot_encoder, "x": x, "y": y}
+
+
+@pytest.fixture()
+def classification_no_transform_tree(test_root):
+    x = pd.DataFrame([[1, 1, 1],
+                      [2, 2.5, 3],
+                      [10, 11, 12],
+                      [11, 10.3, 10]], columns=["A", "B", "C"])
+    y = pd.DataFrame([0, 0, 1, 1])
+
+    model_test_tree = LogisticRegression()
+    model_test_tree.fit(x, y)
+
+    model_no_transform_tree = os.path.join(
+        test_root, "data", "model_no_transform_tree.pkl")
+    with open(model_no_transform_tree, "wb") as f:
+        pickle.dump(model_test_tree, f)
+    return {"model": model_no_transform_tree, "transforms": None, "x": x, "y": y}
