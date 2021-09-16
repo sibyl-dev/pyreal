@@ -162,11 +162,11 @@ def helper_permutation_produce_classification_no_transforms(explainer, model):
 
 def test_produce_with_renames(regression_one_hot):
     model = regression_one_hot
-    e_transforms = model["transforms"]
+    transforms = model["transforms"]
     feature_descriptions = {"A": "Feature A", "B": "Feature B"}
     gfi = GlobalFeatureImportance(model=model["model"],
                                   x_train_orig=model["x"], e_algorithm='shap',
-                                  fit_on_init=True, e_transforms=e_transforms,
+                                  fit_on_init=True, transforms=transforms,
                                   interpretable_features=True,
                                   feature_descriptions=feature_descriptions)
 
