@@ -130,7 +130,9 @@ def test(context):
     """
 
     test_unit(context)
-    test_readme(context)
+
+    # TODO: Replace the implementation
+    # test_readme(context)
 
     # TODO: Replace the implementation
     # test_tutorials(context)
