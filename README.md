@@ -35,14 +35,14 @@ in which **Pyreal** is run.
 
 These are the minimum commands needed to create a virtualenv using python3.6 for **Pyreal**:
 
-```bash
+```
 pip install virtualenv
 virtualenv -p $(which python3.6) pyreal-venv
 ```
 
 Afterwards, you have to execute this command to activate the virtualenv:
 
-```bash
+```
 source pyreal-venv/bin/activate
 ```
 
@@ -54,7 +54,7 @@ Remember to execute it every time you start a new console to work on **Pyreal**!
 After creating the virtualenv and activating it, we recommend using
 [pip](https://pip.pypa.io/en/stable/) in order to install **Pyreal**:
 
-```bash
+```
 pip install pyreal
 ```
 
@@ -66,7 +66,7 @@ This will pull and install the latest stable release from [PyPI](https://pypi.or
 With your virtualenv activated, you can clone the repository and install it from
 source by running `make install` on the `stable` branch:
 
-```bash
+```
 git clone git@github.com:DAI-Lab/pyreal.git
 cd pyreal
 git checkout stable
@@ -91,51 +91,49 @@ passenger on the Titanic would have survived.
 `examples.titanic.titanic_lfc.ipynb`
 
 #### Load in demo dataset, pre-fit model, and transformers
-```python3
-import pyreal.applications.titanic as titanic
-from pyreal.utils.transformer import ColumnDropTransformer, MultiTypeImputer
+```
+>>> import pyreal.applications.titanic as titanic
+>>> from pyreal.utils.transformer import ColumnDropTransformer, MultiTypeImputer
 
 # Load in data
-x_train_orig, y = titanic.load_titanic_data()
+>>> x_train_orig, y = titanic.load_titanic_data()
 
 # Load in feature descriptions -> dict(feature_name: feature_description, ...)
-feature_descriptions = titanic.load_feature_descriptions()
+>>> feature_descriptions = titanic.load_feature_descriptions()
 
 # Load in model
-model = titanic.load_titanic_model()
+>>> model = titanic.load_titanic_model()
 
 # Load in list of transformers
-transformers = titanic.load_titanic_transformers()
+>>> transformers = titanic.load_titanic_transformers()
+
+# Create and fit LocalFeatureContribution Explainer object
+>>> from pyreal.explainers import LocalFeatureContribution
+>>> lfc = LocalFeatureContribution(model=model, x_train_orig=x_train_orig, m_transforms=transformers, e_transforms=transformers, feature_descriptions=feature_descriptions, fit_on_init=True)
+>>> lfc.fit()
+
+# Make predictions on an input
+>>> input_to_explain = x_train_orig.iloc[0]
+>>> prediction = lfc.model_predict(input_to_explain) # Prediction: [0]
+
+# Explain an input
+>>> contributions = lfc.produce(input_to_explain)
+
+# Visualize the explanation
+>>> from pyreal.utils import visualize
+>>> x_interpret = lfc.convert_data_to_interpretable(input_to_explain)
+
 ```
 
-#### Create and fit LocalFeatureContribution Explainer object
-```python3
-from pyreal.explainers import LocalFeatureContribution
-lfc = LocalFeatureContribution(model=model, x_train_orig=x_train_orig,
-                               m_transforms=transformers, e_transforms=transformers,
-                               feature_descriptions=feature_descriptions, fit_on_init=True)
-lfc.fit()
+<!--## Install for Development
+
+TODO: Running tests should not bring up a window. Refactor into the above docstring, not actually spawning the subsequent window-->
+
+##### Plot a bar plot of top contributing features, by absolute value
 ```
-
-#### Make predictions on an input
-```python3
-input_to_explain = x_train_orig.iloc[0]
-prediction = lfc.model_predict(input_to_explain) # Prediction: [0]
-```
-
-#### Explain an input
-```python3
-contributions = lfc.produce(input_to_explain)
-```
-
-#### Visualize the explanation
-```python3
-from pyreal.utils import visualize
-x_interpret = lfc.convert_data_to_interpretable(input_to_explain)
-
-# Plot a bar plot of top contributing features, by asbolute value
 visualize.plot_top_contributors(contributions, select_by="absolute", values=x_interpret)
 ```
+
 
 The output will be a bar plot showing the most contributing features, by absolute value.
 

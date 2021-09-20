@@ -132,7 +132,7 @@ def test(context):
     test_unit(context)
 
     # TODO: Replace the implementation
-    # test_readme(context)
+    test_readme(context)
 
     # TODO: Replace the implementation
     # test_tutorials(context)
@@ -144,15 +144,8 @@ def test_readme(context):
     Runs all scripts in the README and checks for exceptions
     """
 
-    test_path = Path('tests/readme_test')
-    shutil.rmtree(test_path, ignore_errors=True)
-
-    test_path.mkdir(parents=True, exist_ok=True)
-    shutil.copy('README.md', test_path / 'README.md')
-
-    subprocess.run(["rundoc", "run", "--single-session", "python3",
-                   "-t", "python3", "README.md"], cwd=test_path, check=True)
-    shutil.rmtree(test_path)
+    # 'shell' needed to resolve python venv on Windows
+    subprocess.run(["python", "-m", "doctest", "-v", "README.md"], shell=True)
 
 
 @task

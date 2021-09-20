@@ -56,7 +56,6 @@ coverage = "^5.5"
 pytest = "^6.2.5"
 pytest-cov = "^2.12.1"
 jupyter = "^1.0.0"
-rundoc = "^0.4.5"
 invoke = "^1.6.0"
 
 # Style Dependencies
