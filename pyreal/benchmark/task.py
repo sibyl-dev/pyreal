@@ -6,7 +6,6 @@ from sklearn.preprocessing import LabelEncoder
 from pyreal.utils.transformer import (
     MultiTypeImputer, OneHotEncoderWrapper, fit_transformers, run_transformers,)
 
-
 BASE_DIR = os.path.dirname(__file__)
 
 
