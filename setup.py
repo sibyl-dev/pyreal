@@ -30,7 +30,7 @@ tests_require = [
     'jupyter>=1.0.0,<2',
     'rundoc>=0.4.3,<0.5',
     'invoke',
-    'nbmake==0.7.',
+    'nbmake=0.7',
 ]
 
 development_requires = [

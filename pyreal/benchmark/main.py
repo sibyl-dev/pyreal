@@ -7,10 +7,14 @@ import warnings
 import pandas as pd
 
 from pyreal.benchmark import dataset
-from pyreal.benchmark.challenges.local_feature_contribution_challenge import (
+from pyreal.benchmark.challenges.lfc.local_feature_contribution_challenge import (
     LocalFeatureContributionChallenge,)
-from pyreal.benchmark.challenges.shap_feature_contribution_challenge import (
+from pyreal.benchmark.challenges.lfc.shap_feature_contribution_challenge import (
     ShapFeatureContributionChallenge,)
+from pyreal.benchmark.challenges.gfi.global_feature_importance_challenge import (
+    GlobalFeatureImportanceChallenge,)
+from pyreal.benchmark.challenges.gfi.shap_feature_importance_challenge import (
+    ShapFeatureImportanceChallenge,)
 from pyreal.benchmark.models import logistic_regression
 from pyreal.benchmark.task import create_task
 
@@ -58,7 +62,11 @@ def get_tasks(n):
 
 
 def get_challenges():
-    return [LocalFeatureContributionChallenge, ShapFeatureContributionChallenge]
+    return [LocalFeatureContributionChallenge,
+            ShapFeatureContributionChallenge,
+            GlobalFeatureImportanceChallenge,
+            ShapFeatureImportanceChallenge
+            ]
 
 
 def format_results(record_dict, results, name):
@@ -109,6 +117,7 @@ def main():
     directory = set_up_record_dir()
     set_up_logging(directory)
     for challenge in get_challenges():
+        print("Starting challenge:", challenge.__name__)
         run_one_challenge(challenge, directory)
 
 

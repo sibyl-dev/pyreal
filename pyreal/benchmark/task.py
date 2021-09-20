@@ -7,6 +7,9 @@ from pyreal.utils.transformer import (
     MultiTypeImputer, OneHotEncoderWrapper, fit_transformers, run_transformers,)
 
 
+BASE_DIR = os.path.dirname(__file__)
+
+
 class Task:
     def __init__(self, X, y, model, transforms, name):
         self.X = X
@@ -30,7 +33,7 @@ def create_task(df, dataset_name, model_func):
 
     task_name = dataset_name + "_" + model_func.__name__
 
-    filename = os.path.join("models", task_name + ".pkl")
+    filename = os.path.join(BASE_DIR, "models", task_name + ".pkl")
     if os.path.exists(filename):
         with open(filename, "rb") as f:
             model = pickle.load(f)
