@@ -29,8 +29,8 @@ tests_require = [
     'pytest-cov>=2.6.0',
     'jupyter>=1.0.0,<2',
     'rundoc>=0.4.3,<0.5',
-    'invoke',
-    'nbmake=0.7',
+    'invoke==1.6.0',
+    'nbmake==0.7',
 ]
 
 development_requires = [
@@ -72,9 +72,9 @@ examples_require = [
 ]
 
 benchmark_require = [
-    "openml",
-    "keras",
-    "tensorflow"
+    "openml==0.12.2",
+    "keras==2.6.0",
+    "tensorflow==2.6.0"
 ]
 
 setup(
