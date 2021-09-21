@@ -4,8 +4,8 @@ import pandas as pd
 from sklearn.base import is_classifier
 from sklearn.metrics import get_scorer
 
-from pyreal.utils import model_utils
 from pyreal.transformers import run_transformers
+from pyreal.utils import model_utils
 
 
 def _check_transforms(transforms):

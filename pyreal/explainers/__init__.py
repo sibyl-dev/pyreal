@@ -10,7 +10,7 @@ from pyreal.explainers.dte.base import DecisionTreeExplainerBase
 from pyreal.explainers.dte.surrogate_decision_tree import SurrogateDecisionTree
 from pyreal.explainers.dte.decision_tree_explainer import DecisionTreeExplainer, dte
 
-__all__ = ['Explainer', 
+__all__ = ['Explainer',
            'LocalFeatureContributionsBase', 'ShapFeatureContribution', 'LocalFeatureContribution',
            'lfc',
            'GlobalFeatureImportanceBase', 'ShapFeatureImportance', 'GlobalFeatureImportance',
