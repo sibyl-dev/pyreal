@@ -56,11 +56,15 @@ def run_transformers(transformers, x_orig):
 
 class BaseTransformer(ABC):
     @abstractmethod
-    def transform(self, data):
+    def transform(self, x):
         pass
 
-    def fit(self, *args, **kwargs):
+    def fit(self, x, **params):
         pass
+
+    def fit_transform(self, x, **fit_params):
+        self.fit(x, **fit_params)
+        return self.transform(x)
 
     def transform_explanation(self, explanation, algorithm):
         if algorithm == ExplanationAlgorithm.SHAP:
