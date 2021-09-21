@@ -5,7 +5,7 @@ from sklearn.base import is_classifier
 from sklearn.metrics import get_scorer
 
 from pyreal.utils import model_utils
-from pyreal.utils.transformer import run_transformers
+from pyreal.transformers import run_transformers
 
 
 def _check_transforms(transforms):

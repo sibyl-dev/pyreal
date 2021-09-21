@@ -5,8 +5,8 @@ from urllib.parse import urljoin
 import pandas as pd
 from sklearn.linear_model import LogisticRegression
 
-from pyreal.utils.transformer import (
-    ColumnDropTransformer, MultiTypeImputer, OneHotEncoderWrapper, fit_transformers,
+from pyreal.transformers import (
+    ColumnDropTransformer, MultiTypeImputer, OneHotEncoder, fit_transformers,
     run_transformers,)
 
 DATA_DIR = os.path.join(os.path.dirname(__file__), "data")
@@ -68,7 +68,7 @@ def load_titanic_transformers():
         x_orig, y = load_titanic_data()
         column_drop = ColumnDropTransformer(["PassengerId", "Name", "Ticket", "Cabin"])
         imputer = MultiTypeImputer()
-        one_hot_encoder = OneHotEncoderWrapper(["Sex", "Embarked"])
+        one_hot_encoder = OneHotEncoder(["Sex", "Embarked"])
 
         transformers = [column_drop, imputer, one_hot_encoder]
         fit_transformers(transformers, x_orig)

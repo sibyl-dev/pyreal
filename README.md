@@ -93,7 +93,7 @@ passenger on the Titanic would have survived.
 #### Load in demo dataset, pre-fit model, and transformers
 ```python3
 import pyreal.applications.titanic as titanic
-from pyreal.utils.transformer import ColumnDropTransformer, MultiTypeImputer
+from pyreal.transformers import ColumnDropTransformer, MultiTypeImputer
 
 # Load in data
 x_train_orig, y = titanic.load_titanic_data()
