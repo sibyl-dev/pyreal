@@ -8,6 +8,9 @@ jobs:
 
   docs:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
     steps:
       - uses: actions/checkout@v2
       - name: Set up Python 3.9
@@ -16,26 +19,9 @@ jobs:
           python-version: 3.9
 
       - name: Install Poetry
-        shell: bash
-        run: |
-          curl -sL https://raw.githubusercontent.com/python-poetry/poetry/master/install-poetry.py \
-            | python -
-
-      - name: Update PATH
-        if: ${{ matrix.os != 'Windows' }}
-        shell: bash
-        run: echo "$HOME/.local/bin" >> $GITHUB_PATH
-
-      - name: Update Path for Windows
-        if: ${{ matrix.os == 'Windows' }}
-        shell: bash
-        run: echo "$APPDATA\Python\Scripts" >> $GITHUB_PATH
-
-      - name: Configure Poetry
-        shell: bash
-        run: | # The parallel installer can easily break as of 1.1.8
-          poetry config virtualenvs.in-project true \
-             poetry config  installer.parallel false 
+        uses: snok/install-poetry@v1
+        with:
+          virtualenvs-in-project: true
 
       - name: Cache Virtual Environment
         uses: actions/cache@v2
@@ -45,11 +31,9 @@ jobs:
 
       - name: Install Package
         if: steps.cache-primes.outputs.cache-hit != 'true' # Only run if the cache is old
-        shell: bash
         run: poetry install --no-interaction
         
       - name: Build Documentation
-        shell: bash
         run: poetry run invoke docs
 
       - name: Deploy
