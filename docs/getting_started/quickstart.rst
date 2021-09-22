@@ -15,7 +15,7 @@ To get a feature contribution explanation of a pre-trained model, we can use the
     :okwarning:
 
     import pyreal.applications.titanic as titanic
-    from pyreal.utils.transformer import ColumnDropTransformer, MultiTypeImputer
+    from pyreal.transformers import ColumnDropTransformer, MultiTypeImputer
 
     # Load in data
     x_orig, y = titanic.load_titanic_data()
