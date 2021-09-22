@@ -292,7 +292,7 @@ passenger on the Titanic would have survived.</p>
 <div class="section" id="load-in-demo-dataset-pre-fit-model-and-transformers">
 <h3>Load in demo dataset, pre-fit model, and transformers<a class="headerlink" href="#load-in-demo-dataset-pre-fit-model-and-transformers" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pyreal.applications.titanic</span> <span class="k">as</span> <span class="nn">titanic</span>
-<span class="kn">from</span> <span class="nn">pyreal.utils.transformer</span> <span class="kn">import</span> <span class="n">ColumnDropTransformer</span><span class="p">,</span> <span class="n">MultiTypeImputer</span>
+<span class="kn">from</span> <span class="nn">pyreal.transformers</span> <span class="kn">import</span> <span class="n">ColumnDropTransformer</span><span class="p">,</span> <span class="n">MultiTypeImputer</span>
 
 <span class="c1"># Load in data</span>
 <span class="n">x_train_orig</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">titanic</span><span class="o">.</span><span class="n">load_titanic_data</span><span class="p">()</span>
