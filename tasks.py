@@ -159,8 +159,7 @@ def test_tutorials(context):
         if not checkpoints.is_file():
             subprocess.run(["jupyter", "nbconvert", "--execute",
                             "--ExecutePreprocessor.timeout=60",
-                            "--to=html", "--stdout", f"{ipynb_file}"], stdout=subprocess.DEVNULL,
-                           check=True)
+                            "--to=html", "--stdout", f"{ipynb_file}"], stdout=subprocess.DEVNULL)
 
 
 @task
@@ -168,7 +167,7 @@ def test_unit(context):
     """
     Runs all unit tests and outputs results and coverage
     """
-    subprocess.run(["pytest", "--cov=pyreal"], check=True)
+    subprocess.run(["pytest", "--cov=pyreal"])
 
 
 @task
