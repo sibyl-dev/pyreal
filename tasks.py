@@ -4,6 +4,7 @@ import shutil
 
 from pathlib import Path
 from invoke import task
+from sys import executable
 
 
 def _rm_recursive(path: Path, pattern: str):
@@ -144,8 +145,8 @@ def test_readme(context):
     Runs all scripts in the README and checks for exceptions
     """
 
-    # 'shell' needed to resolve python venv on Windows
-    subprocess.run(["python", "-m", "doctest", "-v", "README.md"], shell=True)
+    # Resolve the executable with what's running the program. It could be a venv
+    subprocess.run([executable, "-m", "doctest", "-v", "README.md"])
 
 
 @task
