@@ -17,7 +17,6 @@ class MultiTypeImputer(BaseTransformer):
         self.categorical_imputer = SimpleImputer(missing_values=np.nan, strategy="most_frequent")
 
     def fit(self, x):
-        self.numeric_imputer.fit(x[self.numeric_cols])
         self.numeric_cols = x.dropna(axis="columns", how="all") \
             .select_dtypes(include="number").columns
         self.categorical_cols = x.dropna(axis="columns", how="all") \
