@@ -7,8 +7,7 @@ from pyreal.explainers import ShapFeatureContribution
 class ShapFeatureContributionChallenge(ExplainerChallenge):
     def create_explainer(self):
         return ShapFeatureContribution(model=self.dataset.model, x_train_orig=self.dataset.X,
-                                       transforms=self.dataset.transforms, fit_on_init=True,
-                                       shap_type="linear")
+                                       transforms=self.dataset.transforms, fit_on_init=True)
 
     def evaluate_consistency(self, results):
         # TODO: consider alternative evaluation approaches

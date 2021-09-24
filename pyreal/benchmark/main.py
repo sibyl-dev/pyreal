@@ -3,6 +3,7 @@ import logging
 import os
 import time
 import warnings
+import sys
 
 import pandas as pd
 
@@ -41,7 +42,11 @@ def set_up_logging(directory):
     logging.basicConfig(filename=os.path.join(directory, "log.log"), filemode='w')
 
 
-def get_tasks(n):
+def get_tasks(n, download):
+    if download:
+        print("Downloading datasets locally and generating tasks")
+    else:
+        print("Reading datasets and generating tasks")
     datasets = dataset.DEFAULT_DATASET_NAMES
     tasks = []
     if not os.path.isdir(os.path.join(ROOT, "datasets")):
@@ -55,9 +60,13 @@ def get_tasks(n):
         else:
             url = dataset.get_dataset_url(dataset_name)
             df = pd.read_csv(url)
+            if download:
+                df.to_csv(filename, index=False)
         tasks.append(create_task(df, dataset_name, logistic_regression))
         if i == (n - 1):
             break
+        if i % 10 == 0:
+            print("Finished loading %i/%i tasks" % (i, n))
     return tasks
 
 
@@ -82,11 +91,11 @@ def format_results(record_dict, results, name):
     return record_dict
 
 
-def run_one_challenge(base_challenge, results_directory):
+def run_one_challenge(base_challenge, results_directory, download):
     crash_count = 0
     total_count = 0
     n = 50
-    datasets = get_tasks(n)
+    datasets = get_tasks(n, download)
     record_dict = {}
     for (i, dataset_obj) in enumerate(datasets):
         total_count += 1
@@ -113,12 +122,17 @@ def run_one_challenge(base_challenge, results_directory):
 
 def main():
     warnings.filterwarnings("ignore")
+    download = False
+
+    if len(sys.argv) > 1:
+        if sys.argv[1] == "download":
+            download = True
 
     directory = set_up_record_dir()
     set_up_logging(directory)
     for challenge in get_challenges():
         print("Starting challenge:", challenge.__name__)
-        run_one_challenge(challenge, directory)
+        run_one_challenge(challenge, directory, download)
 
 
 if __name__ == '__main__':
