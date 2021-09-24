@@ -29,7 +29,7 @@ tests_require = [
     'pytest-cov>=2.6.0',
     'jupyter>=1.0.0,<2',
     'rundoc>=0.4.3,<0.5',
-    'invoke',
+    'invoke==1.6.0',
     'nbmake==0.7.0',
 ]
 
@@ -71,6 +71,12 @@ examples_require = [
     "tensorflow==2.2.1",
 ]
 
+benchmark_require = [
+    "openml==0.12.2",
+    "keras==2.6.0",
+    "tensorflow==2.6.0"
+]
+
 setup(
     author='MIT Data To AI Lab',
     author_email='dailabmit@gmail.com',
@@ -87,6 +93,7 @@ setup(
         'test': tests_require,
         'dev': development_requires + tests_require,
         'examples': examples_require,
+        'benchmark': benchmark_require,
     },
     install_package_data=True,
     install_requires=install_requires,

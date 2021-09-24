@@ -60,7 +60,7 @@ lint: ## check style with flake8 and isort
 
 .PHONY: install-develop
 install-develop: clean-build clean-pyc ## install the package in editable mode and dependencies for development
-	pip install -e .[dev,examples]
+	pip install -e .[dev,examples,benchmark]
 
 .PHONY: test-all
 test-all: ## run tests on every Python version with tox
