@@ -3,8 +3,7 @@ import pickle
 
 from sklearn.preprocessing import LabelEncoder
 
-from pyreal.transformers import (
-    MultiTypeImputer, OneHotEncoder, fit_transformers, run_transformers,)
+from pyreal.transformers import MultiTypeImputer, OneHotEncoder, fit_transformers, run_transformers
 
 BASE_DIR = os.path.dirname(__file__)
 
