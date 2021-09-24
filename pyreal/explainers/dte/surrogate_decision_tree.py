@@ -2,7 +2,7 @@ import pandas as pd
 from sklearn import tree
 
 from pyreal.explainers import DecisionTreeExplainerBase
-from pyreal.utils.transformer import ExplanationAlgorithm
+from pyreal.utils.explanation_algorithm import ExplanationAlgorithm
 
 
 class SurrogateDecisionTree(DecisionTreeExplainerBase):

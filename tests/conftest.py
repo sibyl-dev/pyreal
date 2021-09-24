@@ -6,7 +6,7 @@ import pandas as pd
 import pytest
 from sklearn.linear_model import LinearRegression, LogisticRegression
 
-from pyreal.utils.transformer import OneHotEncoderWrapper
+from pyreal.transformers.one_hot_encode import OneHotEncoder
 
 
 @pytest.fixture(scope="session", autouse=True)
@@ -70,7 +70,7 @@ def regression_one_hot(test_root):
     x = pd.DataFrame([[2, 1, 3],
                       [4, 3, 4],
                       [6, 7, 2]], columns=["A", "B", "C"])
-    one_hot_encoder = OneHotEncoderWrapper(feature_list=["A"])
+    one_hot_encoder = OneHotEncoder(feature_list=["A"])
     one_hot_encoder.fit(x)
     x_trans = one_hot_encoder.transform(x)
     y = pd.DataFrame([1, 2, 3])
