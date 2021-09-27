@@ -63,18 +63,17 @@ class ShapFeatureImportance(GlobalFeatureImportanceBase):
             raise AttributeError("Instance has no explainer. Must call "
                                  "fit() before "
                                  "produce()")
-        x = self.transform_to_x_explain(self.x_train_orig)
-        columns = x.columns
-        x = np.asanyarray(x)
-        shap_values = np.array(self.explainer.shap_values(x))
+        x_explain = self.transform_to_x_explain(self.x_train_orig)
+        x_explain_np = np.asanyarray(x_explain)
+        shap_values = np.array(self.explainer.shap_values(x_explain_np))
 
         if shap_values.ndim < 2:
             raise RuntimeError("Something went wrong with SHAP - expected at least 2 dimensions")
         if shap_values.ndim > 2:
-            predictions = self.model_predict(x)
+            predictions = self.model_predict(self.x_train_orig)
             if self.classes is not None:
                 predictions = [np.where(self.classes == i)[0][0] for i in predictions]
             shap_values = shap_values[predictions, np.arange(shap_values.shape[1]), :]
 
         importances = np.mean(np.absolute(shap_values), axis=0).reshape(1, -1)
-        return pd.DataFrame(importances, columns=columns)
+        return pd.DataFrame(importances, columns=x_explain.columns)
