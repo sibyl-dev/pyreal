@@ -132,11 +132,9 @@ def test(context):
 
     test_unit(context)
 
-    # TODO: Replace the implementation
     test_readme(context)
 
-    # TODO: Replace the implementation
-    # test_tutorials(context)
+    test_tutorials(context)
 
 
 @task
@@ -155,15 +153,10 @@ def test_tutorials(context):
     Runs all scripts in the tutorials directory and checks for exceptions
     """
 
-    for ipynb_file in Path("tutorials").glob('**/*.ipynb'):
-        checkpoints = ipynb_file.parents[0] / '.ipynb_checkpoints'
-        if not checkpoints.is_file():
-            subprocess.run(["jupyter", "nbconvert", "--execute",
-                            "--ExecutePreprocessor.timeout=60",
-                            "--to=html", "--stdout", f"{ipynb_file}"], stdout=subprocess.DEVNULL)
+    subprocess.run(["pytest", "--nbmake", "./tutorials", "-n=auto"])
 
 
-@task
+@ task
 def test_unit(context):
     """
     Runs all unit tests and outputs results and coverage
@@ -171,7 +164,7 @@ def test_unit(context):
     subprocess.run(["pytest", "--cov=pyreal"])
 
 
-@task
+@ task
 def view_docs(context):
     """
     Opens the docs in a browser window
@@ -179,5 +172,5 @@ def view_docs(context):
 
     docs(context)
 
-    url = Path("docs/_build/html/index.html").absolute()
+    url= Path("docs/_build/html/index.html").absolute()
     webbrowser.open(url)
