@@ -3,6 +3,8 @@ import pandas as pd
 from sklearn.preprocessing import OneHotEncoder as SklearnOneHotEncoder
 
 from pyreal.transformers import BaseTransformer
+from pyreal.types.explanations.dataframe_explanations import (
+    AdditiveFeatureContributionExplanationType, FeatureImportanceExplanationType,)
 
 
 def generate_one_hot_to_categorical(categorical_to_one_hot):
@@ -105,12 +107,21 @@ class OneHotEncoder(BaseTransformer):
         return pd.concat([x_orig.drop(self.feature_list, axis="columns"), x_cat_ohe], axis=1)
 
     def transform_explanation_shap(self, explanation):
-        return self.helper_summed_values(explanation)
+        """
+
+        Args:
+            explanation: an AdditiveFeatureContributionExplanationType object
+
+        Returns:
+
+        """
+        return AdditiveFeatureContributionExplanationType(
+            self.helper_summed_values(explanation.get()))
 
     # TODO: replace this with a more theoretically grounded approach to combining feature
     #  importance
     def transform_explanation_permutation_importance(self, explanation):
-        return self.helper_summed_values(explanation)
+        return FeatureImportanceExplanationType(self.helper_summed_values(explanation.get()))
 
     def helper_summed_values(self, explanation):
         """

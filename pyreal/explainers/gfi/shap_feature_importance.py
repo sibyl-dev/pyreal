@@ -4,6 +4,8 @@ from shap import Explainer as ShapExplainer
 from shap import KernelExplainer, LinearExplainer
 
 from pyreal.explainers import GlobalFeatureImportanceBase
+from pyreal.types.explanations.dataframe_explanations import (
+    AdditiveFeatureImportanceExplanationType,)
 from pyreal.utils.explanation_algorithm import ExplanationAlgorithm
 
 
@@ -76,4 +78,5 @@ class ShapFeatureImportance(GlobalFeatureImportanceBase):
             shap_values = shap_values[predictions, np.arange(shap_values.shape[1]), :]
 
         importances = np.mean(np.absolute(shap_values), axis=0).reshape(1, -1)
-        return pd.DataFrame(importances, columns=x_explain.columns)
+        return AdditiveFeatureImportanceExplanationType(
+            pd.DataFrame(importances, columns=x_explain.columns))

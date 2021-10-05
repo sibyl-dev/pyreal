@@ -1,5 +1,8 @@
 from abc import ABC, abstractmethod
 
+from pyreal.types.explanations.dataframe_explanations import (
+    AdditiveFeatureContributionExplanationType, AdditiveFeatureImportanceExplanationType,
+    FeatureImportanceExplanationType,)
 from pyreal.utils.explanation_algorithm import ExplanationAlgorithm
 
 
@@ -57,14 +60,19 @@ class BaseTransformer(ABC):
         return self.transform(x)
 
     def transform_explanation(self, explanation, algorithm):
-        if algorithm == ExplanationAlgorithm.SHAP:
+        if isinstance(explanation, AdditiveFeatureContributionExplanationType) \
+                or isinstance(explanation, AdditiveFeatureImportanceExplanationType):
+            return self.transform_explanation_shap(explanation)
+        if isinstance(explanation, FeatureImportanceExplanationType):
+            return self.transform_explanation_permutation_importance(explanation)
+        '''if algorithm == ExplanationAlgorithm.SHAP:
             return self.transform_explanation_shap(explanation)
         if algorithm == ExplanationAlgorithm.PERMUTATION_IMPORTANCE:
-            return self.transform_explanation_permutation_importance(explanation)
+            return self.transform_explanation_permutation_importance(explanation)'''
         if algorithm == ExplanationAlgorithm.SURROGATE_DECISION_TREE:
             raise NotImplementedError("Explanation transformers do not yet support "
                                       "DecisionTreeExplainer")
-        raise ValueError("Invalid algorithm %s" % algorithm)
+        raise ValueError("Invalid explanation types %s" % explanation.__class__)
 
     # noinspection PyMethodMayBeStatic
     def transform_explanation_shap(self, explanation):

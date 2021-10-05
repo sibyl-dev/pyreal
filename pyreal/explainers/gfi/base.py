@@ -54,7 +54,7 @@ class GlobalFeatureImportanceBase(Explainer, ABC):
         if self.importance is not None:
             return self.importance
         importance = self.get_importance()
-        importance = self.transform_explanation(importance)
+        importance = self.transform_explanation(importance).get()
         if self.interpretable_features:
             return self.convert_columns_to_interpretable(importance)
         self.importance = importance

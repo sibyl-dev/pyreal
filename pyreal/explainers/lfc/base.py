@@ -53,7 +53,7 @@ class LocalFeatureContributionsBase(Explainer, ABC):
         if x_orig.ndim == 1:
             x_orig = x_orig.to_frame().T
         contributions = self.get_contributions(x_orig)
-        contributions = self.transform_explanation(contributions)
+        contributions = self.transform_explanation(contributions).get()
         if self.interpretable_features:
             return self.convert_columns_to_interpretable(contributions)
         return contributions
