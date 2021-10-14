@@ -32,7 +32,7 @@ jobs:
       - name: Install Package
         if: steps.cache-primes.outputs.cache-hit != 'true' # Only run if the cache is old
         run: poetry install --no-interaction
-        
+
       - name: Build Documentation
         run: poetry run invoke docs
 
@@ -40,4 +40,4 @@ jobs:
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{secrets.GITHUB_TOKEN}}
-          publish_dir: docs/_build/html
+          publish_dir: docs/_build
