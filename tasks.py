@@ -5,6 +5,7 @@ import shutil
 from pathlib import Path
 from invoke import task
 from sys import executable
+import os
 
 
 def _rm_recursive(path: Path, pattern: str):
@@ -51,7 +52,7 @@ def clean_docs(context):
     for path in Path("docs/api").glob("*.rst"):
         path.unlink(missing_ok=True)
 
-    subprocess.run(["make", "clean"], cwd=Path("docs"), shell=True)
+    subprocess.run(["sphinx-build", "-M", "clean", ".", "_build"], cwd=Path("docs"))
 
 
 @task
@@ -85,7 +86,7 @@ def coverage(context):
     subprocess.run(["coverage", "report", "-m"])
     subprocess.run(["coverage", "html"])
 
-    url = Path("htmlcov/index.html").absolute()
+    url = os.path.join("htmlcov", "index.html")
     webbrowser.open(url)
 
 
@@ -97,7 +98,7 @@ def docs(context):
 
     clean_docs(context)
 
-    subprocess.run(["make", "html"], cwd=Path("docs"), shell=True)
+    subprocess.run(["sphinx-build", "-b", "html", ".", "_build"], cwd=Path("docs"))
 
 
 @task
@@ -172,5 +173,5 @@ def view_docs(context):
 
     docs(context)
 
-    url= Path("docs/_build/html/index.html").absolute()
+    url = os.path.join("docs", "_build", "index.html")
     webbrowser.open(url)
