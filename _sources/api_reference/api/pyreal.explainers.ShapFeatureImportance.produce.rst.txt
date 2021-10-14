@@ -1,6 +1,0 @@
-﻿pyreal.explainers.ShapFeatureImportance.produce
-===============================================
-
-.. currentmodule:: pyreal.explainers
-
-.. automethod:: ShapFeatureImportance.produce
