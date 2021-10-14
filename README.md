@@ -28,27 +28,8 @@ data form.
 ## Requirements
 
 **Pyreal** has been developed and tested on [Python 3.7 and 3.8](https://www.python.org/downloads/)
+The library uses Poetry for package management.
 
-Also, although it is not strictly required, the usage of a [virtualenv](https://virtualenv.pypa.io/en/latest/)
-is highly recommended in order to avoid interfering with other software installed in the system
-in which **Pyreal** is run.
-
-These are the minimum commands needed to create a virtualenv using python3.6 for **Pyreal**:
-
-```
-pip install virtualenv
-virtualenv -p $(which python3.6) pyreal-venv
-```
-
-Afterwards, you have to execute this command to activate the virtualenv:
-
-```
-source pyreal-venv/bin/activate
-```
-
-Remember to execute it every time you start a new console to work on **Pyreal**!
-
-<!-- Uncomment this section after releasing the package to PyPI for installation instructions
 ## Install from PyPI
 
 After creating the virtualenv and activating it, we recommend using
@@ -59,27 +40,26 @@ pip install pyreal
 ```
 
 This will pull and install the latest stable release from [PyPI](https://pypi.org/).
--->
 
 ## Install from source
 
-With your virtualenv activated, you can clone the repository and install it from
-source by running `make install` on the `stable` branch:
+You can clone the repository and install it from
+source by running `poetry install` on the `stable` branch:
 
 ```
 git clone git@github.com:DAI-Lab/pyreal.git
 cd pyreal
 git checkout stable
-make install
+poetry install
 ```
 
-<!--## Install for Development
+## Install for Development
 
 If you want to contribute to the project, a few more steps are required to make the project ready
 for development.
 
 Please head to the [Contributing Guide](https://DAI-Lab.github.io/pyreal/contributing.html#get-started)
-for more details about this process.-->
+for more details about this process.
 
 # Quickstart
 
@@ -138,7 +118,7 @@ visualize.plot_top_contributors(contributions, select_by="absolute", values=x_in
 The output will be a bar plot showing the most contributing features, by absolute value.
 
 ![Quickstart](docs/images/quickstart.png)
-
+     
 We can see here that the input passenger's predicted chance of survival was greatly reduced
 because of their sex (male) and ticket class (3rd class).
 
