@@ -1,8 +1,7 @@
-.. highlight:: shell
+.. _contributing:
 
-============
-Contributing
-============
+Contributing to Pyreal
+======================
 
 Contributions are welcome, and they are greatly appreciated! Every little bit
 helps, and credit will always be given.
@@ -38,8 +37,8 @@ and "help wanted" is open to whoever wants to implement it.
 Write Documentation
 ~~~~~~~~~~~~~~~~~~~
 
-Explanation Toolkit could always use more documentation, whether as part of the
-official Explanation Toolkit docs, in docstrings, or even on the web in blog posts,
+Pyreal could always use more documentation, whether as part of the
+official Pyreal docs, in docstrings, or even on the web in blog posts,
 articles, and such.
 
 Submit Feedback
@@ -57,21 +56,21 @@ If you are proposing a feature:
 Get Started!
 ------------
 
-Ready to contribute? Here's how to set up `pyreal` for local development.
+Ready to contribute? Here's how to set up ``pyreal`` for local development.
 
-1. Fork the `pyreal` repo on GitHub.
-2. Clone your fork locally::
+1. Fork the ``pyreal`` repo on GitHub.
+2. Clone your fork locally and cd into the new directory::
 
     $ git clone git@github.com:your_name_here/pyreal.git
+    $ cd pyreal
 
-3. Install your local copy into a virtualenv. Assuming you have virtualenvwrapper installed,
-   this is how you set up your fork for local development::
+3. Install the project dependencies using Poetry.
+   Set up your fork for local development using the following commands::
 
-    $ mkvirtualenv explanation-toolkit
-    $ cd explanation-toolkit/
-    $ make install-develop
+    $ poetry install
 
-4. Create a branch for local development::
+4. Create a branch for local development. You should always be branching off of
+   the ``dev`` branch when contributing::
 
     $ git checkout -b name-of-your-bugfix-or-feature
 
@@ -86,29 +85,32 @@ Ready to contribute? Here's how to set up `pyreal` for local development.
    unit tests, and that none of the old tests fail as a consequence of your changes.
    For this, make sure to run the tests suite and check the code coverage::
 
-    $ make lint       # Check code styling
-    $ make test       # Run the tests
-    $ make coverage   # Get the coverage report
+    $ poetry run invoke lint       # Check code styling
+    $ poetry run invoke test       # Run the tests
+    $ poetry run invoke coverage   # Get the coverage report
 
-6. When you're done making changes, check that your changes pass all the styling checks and
-   tests, including other Python supported versions, using::
+   All of these commands can be shortened by running within the Poetry shell
 
-    $ make test-all
+    $ poetry shell      # activate the poetry shell
+    $ invoke lint       # Check code styling
+    $ invoke test       # Run the tests
+    $ invoke coverage   # Get the coverage report
 
-7. Make also sure to include the necessary documentation in the code as docstrings following
+6. Make also sure to include the necessary documentation in the code as docstrings following
    the `Google docstrings style`_.
-   If you want to view how your documentation will look like when it is published, you can
-   generate and view the docs with this command::
+   Test docs are working by running::
 
-    $ make view-docs
+    $ poetry run invoke view-docs
 
-8. Commit your changes and push your branch to GitHub::
+7. After running all four commands listed in steps 5 and 6 and
+   confirming they work correctly, commit your changes and push your branch to GitHub::
 
     $ git add .
     $ git commit -m "Your detailed description of your changes."
     $ git push origin name-of-your-bugfix-or-feature
 
-9. Submit a pull request through the GitHub website.
+8. Submit a pull request through the GitHub website, merging back into ``dev``.
+10. Branches should be deleted on merge.
 
 Pull Request Guidelines
 -----------------------
@@ -119,12 +121,12 @@ Before you submit a pull request, check that it meets these guidelines:
    the comment. If there is no associated issue, feel free to create one.
 2. Whenever possible, it resolves only **one** issue. If your PR resolves more than
    one issue, try to split it in more than one pull request.
-3. The pull request should include unit tests that cover all the changed code
+3. The pull request should include unit tests that cover all the changed code.
 4. If the pull request adds functionality, the docs should be updated. Put
    your new functionality into a function with a docstring, and add the
    feature to the documentation in an appropriate place.
-5. The pull request should work for all the supported Python versions. Check the `Travis Build
-   Status page`_ and make sure that all the checks pass.
+5. The pull request should work for all the supported Python versions. Confirm that
+   all github actions pass.
 
 Unit Testing Guidelines
 -----------------------
@@ -168,70 +170,35 @@ To run a subset of tests::
     $ python -m pytest tests.test_global_explanation.py
     $ python -m pytest -k 'foo'
 
+Style guide
+-----------------------
+Pyreal uses the `PEP 8`_ style guide for all python code:
+
+A few important notes:
+
+1. Indents should be 4 spaces, no tabs
+
+2. Lines should be no more than 99 characters long
+
+3. All functions, classes, and methods should have block comment descriptions using the Google docstring format
+
+
 Release Workflow
 ----------------
 
-The process of releasing a new version involves several steps combining both ``git`` and
-``bumpversion`` which, briefly:
+The process of releasing a new version involves several steps::
 
-1. Merge what is in ``master`` branch into ``stable`` branch.
+1. Create a new branch off of ``dev`` branch called ``release-v.*.*.*``.
 2. Update the version in ``setup.cfg``, ``pyreal/__init__.py`` and
    ``HISTORY.md`` files.
-3. Create a new git tag pointing at the corresponding commit in ``stable`` branch.
-4. Merge the new commit from ``stable`` into ``master``.
-5. Update the version in ``setup.cfg`` and ``pyreal/__init__.py``
-   to open the next development iteration.
+3. Make any final small changes needed directly on ``release-v.*.*.*``
+4. Make a PR to merge ``release-v.*.*.*`` into ``master``
+5. Once merged, tag the merge commit in master, and push the tag.
+   This will automatically deploy the release to pypi.
+6. Merge ``release-v.*.*.*`` back into ``dev`` with a pull request
+7. Make a release on github.com, filling in the release notes with
+   a list of pull requests made since the last release.
 
-.. note:: Before starting the process, make sure that ``HISTORY.md`` has been updated with a new
-          entry that explains the changes that will be included in the new version.
-          Normally this is just a list of the Pull Requests that have been merged to master
-          since the last release.
-
-Once this is done, run of the following commands:
-
-1. If you are releasing a patch version::
-
-    make release
-
-2. If you are releasing a minor version::
-
-    make release-minor
-
-3. If you are releasing a major version::
-
-    make release-major
-
-Release Candidates
-~~~~~~~~~~~~~~~~~~
-
-Sometimes it is necessary or convenient to upload a release candidate to PyPi as a pre-release,
-in order to make some of the new features available for testing on other projects before they
-are included in an actual full-blown release.
-
-In order to perform such an action, you can execute::
-
-    make release-candidate
-
-This will perform the following actions:
-
-1. Build and upload the current version to PyPi as a pre-release, with the format ``X.Y.Z.devN``
-
-2. Bump the current version to the next release candidate, ``X.Y.Z.dev(N+1)``
-
-After this is done, the new pre-release can be installed by including the ``dev`` section in the
-dependency specification, either in ``setup.py``::
-
-    install_requires = [
-        ...
-        'explanation-toolkit>=X.Y.Z.dev',
-        ...
-    ]
-
-or in command line::
-
-    pip install 'explanation-toolkit>=X.Y.Z.dev'
-
-
-.. _GitHub issues page: https://github.com/DAI-Lab/explanation-toolkit/issues
-.. _Travis Build Status page: https://travis-ci.org/DAI-Lab/explanation-toolkit/pull_requests
+.. _GitHub issues page: https://github.com/sibyl-dev/pyreal/issues
 .. _Google docstrings style: https://google.github.io/styleguide/pyguide.html?showone=Comments#Comments
+.. _PEP 8: https://www.python.org/dev/peps/pep-0008/
