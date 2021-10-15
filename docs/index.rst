@@ -21,12 +21,13 @@ Overview
 handle all the transforming logic, in order to provide a human-interpretable explanation from any original
 data form.
 
-Current functionality and features:
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+..
+    Current functionality and features:
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+..
+    - functionality
 
-- functionality
-
-Explore SDV
+Explore Pyreal
 -----------
 
 * `Getting Started <getting_started/index.html>`_
