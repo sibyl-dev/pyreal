@@ -32,19 +32,18 @@ The source code of **Pyreal** can be downloaded from the `Github repository`_
 
 You can clone the repository and install with the following command in your terminal:
 
-You can clone the repository and install it from source by running ``poetry install`` on the
-``dev`` branch:
+You can clone the repository and install the latest stable version from source by running ``poetry install`` on the
+``master`` branch:
 
 .. code-block:: console
 
     git clone git://github.com/dai-lab/pyreal
     cd pyreal
-    git checkout dev
     poetry install
 
-.. note:: The ``master`` branch of the Pyreal repository contains the latest development version.
-          If you want to install the latest stable version, make sure not to omit the
-          ``git checkout dev`` indicated above.
+.. note:: The ``master`` branch of the Pyreal repository contains the latest stable version.
+          If you want to install the latest development version, add
+          ``git checkout dev`` after the ``cd`` command above.
 
 If you are installing **Pyreal** in order to modify its code, the installation must be done
 from its sources, in the editable mode, and also including some additional dependencies in

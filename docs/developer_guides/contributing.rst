@@ -63,6 +63,7 @@ Ready to contribute? Here's how to set up ``pyreal`` for local development.
 
     $ git clone git@github.com:your_name_here/pyreal.git
     $ cd pyreal
+    $ git checkout dev
 
 3. Install the project dependencies using Poetry.
    Set up your fork for local development using the following commands::
