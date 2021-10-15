@@ -58,7 +58,7 @@ poetry install
 If you want to contribute to the project, a few more steps are required to make the project ready
 for development.
 
-Please head to the [Contributing Guide](https://DAI-Lab.github.io/pyreal/contributing.html#get-started)
+Please head to the [Contributing Guide](https://sibyl-dev.github.io/pyreal/developer_guides/contributing.html)
 for more details about this process.
 
 # Quickstart
@@ -118,7 +118,7 @@ visualize.plot_top_contributors(contributions, select_by="absolute", values=x_in
 The output will be a bar plot showing the most contributing features, by absolute value.
 
 ![Quickstart](docs/images/quickstart.png)
-     
+
 We can see here that the input passenger's predicted chance of survival was greatly reduced
 because of their sex (male) and ticket class (3rd class).
 
@@ -126,4 +126,4 @@ because of their sex (male) and ticket class (3rd class).
 
 For more details about **Pyreal** and all its possibilities
 and features, please check the [documentation site](
-https://DAI-Lab.github.io/pyreal/).
+https://sibyl-dev.github.io/pyreal/).

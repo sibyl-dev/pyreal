@@ -89,7 +89,7 @@ Ready to contribute? Here's how to set up ``pyreal`` for local development.
     $ poetry run invoke test       # Run the tests
     $ poetry run invoke coverage   # Get the coverage report
 
-   All of these commands can be shortened by running within the Poetry shell
+   All of these commands can be shortened by running within the Poetry shell::
 
     $ poetry shell      # activate the poetry shell
     $ invoke lint       # Check code styling

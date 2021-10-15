@@ -27,7 +27,7 @@ classifiers = [
   'Natural Language :: English',
 ]
 
-include = ["AUTHORS.rst", "CONTRIBUTING.rst", "HISTORY.md"]
+include = ["AUTHORS.rst", "HISTORY.md"]
 exclude = []
 
 
