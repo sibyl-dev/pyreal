@@ -290,6 +290,7 @@ are welcome :)</p></li>
 <li><p>Clone your fork locally and cd into the new directory:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ git clone git@github.com:your_name_here/pyreal.git
 $ cd pyreal
+$ git checkout dev
 </pre></div>
 </div>
 </li>
@@ -318,13 +319,13 @@ $ poetry run invoke test       # Run the tests
 $ poetry run invoke coverage   # Get the coverage report
 </pre></div>
 </div>
-<p>All of these commands can be shortened by running within the Poetry shell</p>
-<blockquote>
-<div><p>$ poetry shell      # activate the poetry shell
+<p>All of these commands can be shortened by running within the Poetry shell:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ poetry shell      # activate the poetry shell
 $ invoke lint       # Check code styling
 $ invoke test       # Run the tests
-$ invoke coverage   # Get the coverage report</p>
-</div></blockquote>
+$ invoke coverage   # Get the coverage report
+</pre></div>
+</div>
 </li>
 <li><p>Make also sure to include the necessary documentation in the code as docstrings following
 the <a class="reference external" href="https://google.github.io/styleguide/pyguide.html?showone=Comments#Comments">Google docstrings style</a>.

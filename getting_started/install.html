@@ -211,21 +211,20 @@ you through the process.</p>
 </div>
 <div class="section" id="from-source">
 <h2>From source<a class="headerlink" href="#from-source" title="Permalink to this headline">¶</a></h2>
-<p>The source code of <strong>Pyreal</strong> can be downloaded from the <a class="reference external" href="https://github.com/dai-lab/pyreal">Github repository</a></p>
+<p>The source code of <strong>Pyreal</strong> can be downloaded from the <a class="reference external" href="https://github.com/sibyl-dev/pyreal">Github repository</a></p>
 <p>You can clone the repository and install with the following command in your terminal:</p>
-<p>You can clone the repository and install it from source by running <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">install</span></code> on the
-<code class="docutils literal notranslate"><span class="pre">stable</span></code> branch:</p>
+<p>You can clone the repository and install the latest stable version from source by running <code class="docutils literal notranslate"><span class="pre">poetry</span> <span class="pre">install</span></code> on the
+<code class="docutils literal notranslate"><span class="pre">master</span></code> branch:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">git clone git://github.com/dai-lab/pyreal</span>
 <span class="go">cd pyreal</span>
-<span class="go">git checkout stable</span>
-<span class="go">make install</span>
+<span class="go">poetry install</span>
 </pre></div>
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>The <code class="docutils literal notranslate"><span class="pre">master</span></code> branch of the SDV repository contains the latest development version.
-If you want to install the latest stable version, make sure not to omit the
-<code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">checkout</span> <span class="pre">stable</span></code> indicated above.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">master</span></code> branch of the Pyreal repository contains the latest stable version.
+If you want to install the latest development version, add
+<code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">checkout</span> <span class="pre">dev</span></code> after the <code class="docutils literal notranslate"><span class="pre">cd</span></code> command above.</p>
 </div>
 <p>If you are installing <strong>Pyreal</strong> in order to modify its code, the installation must be done
 from its sources, in the editable mode, and also including some additional dependencies in
