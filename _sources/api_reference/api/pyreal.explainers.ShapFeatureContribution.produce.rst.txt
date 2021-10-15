@@ -1,0 +1,6 @@
+﻿pyreal.explainers.ShapFeatureContribution.produce
+=================================================
+
+.. currentmodule:: pyreal.explainers
+
+.. automethod:: ShapFeatureContribution.produce

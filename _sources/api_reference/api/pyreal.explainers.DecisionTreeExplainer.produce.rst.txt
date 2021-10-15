@@ -1,0 +1,6 @@
+﻿pyreal.explainers.DecisionTreeExplainer.produce
+===============================================
+
+.. currentmodule:: pyreal.explainers
+
+.. automethod:: DecisionTreeExplainer.produce

@@ -1,0 +1,6 @@
+﻿pyreal.explainers.SurrogateDecisionTree.produce
+===============================================
+
+.. currentmodule:: pyreal.explainers
+
+.. automethod:: SurrogateDecisionTree.produce

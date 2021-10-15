@@ -1,0 +1,296 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quickstart &#8212; Pyreal 0.1.0 documentation</title>
+    
+  <link href="../_static/css/theme.css" rel="stylesheet" />
+  <link href="../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.1c5a1a01449ed65a7b51.js">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <link rel="shortcut icon" href="../_static/dai-logo-white.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="User Guides" href="../user_guides/index.html" />
+    <link rel="prev" title="Installation" href="install.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+    <nav class="navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="container-xl">
+
+  <div id="navbar-start">
+    
+    
+
+<a class="navbar-brand" href="../index.html">
+  <img src="../_static/dai-logo-white-200.png" class="logo" alt="logo">
+</a>
+
+
+    
+  </div>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  
+  <div id="navbar-collapsible" class="col-lg-9 collapse navbar-collapse">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <ul id="navbar-main-elements" class="navbar-nav">
+    <li class="toctree-l1 current active nav-item">
+ <a class="reference internal nav-link" href="index.html">
+  Getting Started
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../user_guides/index.html">
+  User Guides
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../api_reference/index.html">
+  API Reference
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../developer_guides/index.html">
+  Developer Guides
+ </a>
+</li>
+
+    
+</ul>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+        <li class="nav-item">
+          <a class="nav-link" href="https://github.com/dai-lab/pyreal" rel="noopener" target="_blank" title="GitHub">
+            <span><i class="fab fa-github-square"></i></span>
+            <label class="sr-only">GitHub</label>
+          </a>
+        </li>
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+</div>
+    </nav>
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+            
+            <!-- Only show if we have sidebars configured, else just a small margin  -->
+            <div class="col-12 col-md-3 bd-sidebar"><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <div class="bd-toc-item active">
+    <ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="install.html">
+   Installation
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Quickstart
+  </a>
+ </li>
+</ul>
+
+  </div>
+</nav>
+            </div>
+            
+          
+
+          
+          <div class="d-none d-xl-block col-xl-2 bd-toc">
+            
+              
+              <div class="toc-item">
+                
+<div class="tocsection onthispage pt-5 pb-3">
+    <i class="fas fa-list"></i> On this page
+</div>
+
+<nav id="bd-toc-nav">
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#get-a-feature-contribution-explanation">
+   Get a Feature Contribution Explanation
+  </a>
+ </li>
+</ul>
+
+</nav>
+              </div>
+              
+              <div class="toc-item">
+                
+              </div>
+              
+            
+          </div>
+          
+
+          
+          
+            
+          
+          <main class="col-12 col-md-9 col-xl-7 py-md-5 pl-md-5 pr-md-4 bd-content" role="main">
+              
+              <div>
+                
+  <div class="section" id="quickstart">
+<span id="id1"></span><h1>Quickstart<a class="headerlink" href="#quickstart" title="Permalink to this headline">¶</a></h1>
+<p>In this short tutorial we will guide you through a series of steps that will help you
+getting started with <strong>Pyreal</strong>.</p>
+<div class="section" id="get-a-feature-contribution-explanation">
+<h2>Get a Feature Contribution Explanation<a class="headerlink" href="#get-a-feature-contribution-explanation" title="Permalink to this headline">¶</a></h2>
+<p>To get a feature contribution explanation of a pre-trained model, we can use the
+<code class="docutils literal notranslate"><span class="pre">LocalFeatureContribution</span></code> class. We begin by loading in the model and transformers.</p>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [1]: </span><span class="kn">import</span> <span class="nn">pyreal.applications.titanic</span> <span class="k">as</span> <span class="nn">titanic</span>
+
+<span class="gp">In [2]: </span><span class="kn">from</span> <span class="nn">pyreal.transformers</span> <span class="kn">import</span> <span class="n">ColumnDropTransformer</span><span class="p">,</span> <span class="n">MultiTypeImputer</span>
+
+<span class="go"># Load in data</span>
+<span class="gp">In [3]: </span><span class="n">x_orig</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">titanic</span><span class="o">.</span><span class="n">load_titanic_data</span><span class="p">()</span>
+
+<span class="go"># Load in feature descriptions -&gt; dict(feature_name: feature_description, ...)</span>
+<span class="gp">In [4]: </span><span class="n">feature_descriptions</span> <span class="o">=</span> <span class="n">titanic</span><span class="o">.</span><span class="n">load_feature_descriptions</span><span class="p">()</span>
+
+<span class="go"># Load in model</span>
+<span class="gp">In [5]: </span><span class="n">model</span> <span class="o">=</span> <span class="n">titanic</span><span class="o">.</span><span class="n">load_titanic_model</span><span class="p">()</span>
+
+<span class="go"># Load in list of transformers</span>
+<span class="gp">In [6]: </span><span class="n">transformers</span> <span class="o">=</span> <span class="n">titanic</span><span class="o">.</span><span class="n">load_titanic_transformers</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">transformers</span></code> object is a list that includes three types of transformers, specific for this
+application:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">ColumnDropTransformer</span></code>: removes features that should not be used in prediction</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">MultiTypeImputer</span></code>: replaces missing data from all columns with a reasonable replacement</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">OneHotEncoderWrapper</span></code>: one-hot encodes categorical features. We use the built-in wrapper type,
+which includes a <code class="docutils literal notranslate"><span class="pre">transform_explanation</span></code> function.</p></li>
+</ul>
+<p>These transformers transform the data from it’s <cite>original</cite> state (<code class="docutils literal notranslate"><span class="pre">x_orig</span></code>) to its
+<cite>explanation ready</cite> state (<code class="docutils literal notranslate"><span class="pre">x_explain</span></code>). In this case, the explanation algorithm used expects
+data in the <cite>model ready</cite> state (<code class="docutils literal notranslate"><span class="pre">x_model</span></code>), so <code class="docutils literal notranslate"><span class="pre">x_explain</span> <span class="pre">==</span> <span class="pre">x_model</span></code>.</p>
+<p>Next, we can create the <code class="docutils literal notranslate"><span class="pre">Explainer</span></code> object, and fit it.</p>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [7]: </span><span class="kn">from</span> <span class="nn">pyreal.explainers</span> <span class="kn">import</span> <span class="n">LocalFeatureContribution</span>
+
+<span class="gp">In [8]: </span><span class="n">lfc</span> <span class="o">=</span> <span class="n">LocalFeatureContribution</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span> <span class="n">x_train_orig</span><span class="o">=</span><span class="n">x_orig</span><span class="p">,</span>
+<span class="gp">   ...: </span>                               <span class="n">m_transforms</span><span class="o">=</span><span class="n">transformers</span><span class="p">,</span> <span class="n">e_transforms</span><span class="o">=</span><span class="n">transformers</span><span class="p">,</span>
+<span class="gp">   ...: </span>                               <span class="n">feature_descriptions</span><span class="o">=</span><span class="n">feature_descriptions</span><span class="p">,</span> <span class="n">fit_on_init</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">   ...: </span>
+
+<span class="gp">In [9]: </span><span class="n">lfc</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Finally, we can get the explanation using the <code class="docutils literal notranslate"><span class="pre">.produce()</span></code> function. We will also visualize
+the most contributing features using the <cite>visualize</cite> model.</p>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [10]: </span><span class="n">input_to_explain</span> <span class="o">=</span> <span class="n">x_orig</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="gp">In [11]: </span><span class="n">prediction</span> <span class="o">=</span> <span class="n">lfc</span><span class="o">.</span><span class="n">model_predict</span><span class="p">(</span><span class="n">input_to_explain</span><span class="p">)</span> <span class="c1"># Prediction: [0]</span>
+
+<span class="gp">In [12]: </span><span class="n">contributions</span> <span class="o">=</span> <span class="n">lfc</span><span class="o">.</span><span class="n">produce</span><span class="p">(</span><span class="n">input_to_explain</span><span class="p">)</span>
+
+<span class="gp">In [13]: </span><span class="kn">from</span> <span class="nn">pyreal.utils</span> <span class="kn">import</span> <span class="n">visualize</span>
+
+<span class="gp">In [14]: </span><span class="n">x_interpret</span> <span class="o">=</span> <span class="n">lfc</span><span class="o">.</span><span class="n">convert_data_to_interpretable</span><span class="p">(</span><span class="n">input_to_explain</span><span class="p">)</span>
+
+<span class="go"># Plot a bar plot of top contributing features, by asbolute value</span>
+<span class="gp">In [15]: </span><span class="n">visualize</span><span class="o">.</span><span class="n">plot_top_contributors</span><span class="p">(</span><span class="n">contributions</span><span class="p">,</span> <span class="n">select_by</span><span class="o">=</span><span class="s2">&quot;absolute&quot;</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="n">x_interpret</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The output will be a bar plot showing the most contributing features, by absolute value.</p>
+<img alt="../_images/quickstart.png" src="../_images/quickstart.png" />
+<p>We can see here that the input passenger’s predicted chance of survival was greatly reduced
+because of their sex (male) and ticket class (3rd class).</p>
+</div>
+</div>
+
+
+              </div>
+              
+              
+              <div class='prev-next-bottom'>
+                
+    <a class='left-prev' id="prev-link" href="install.html" title="previous page">Installation</a>
+    <a class='right-next' id="next-link" href="../user_guides/index.html" title="next page">User Guides</a>
+
+              </div>
+              
+          </main>
+          
+
+      </div>
+    </div>
+  
+  <script src="../_static/js/index.1c5a1a01449ed65a7b51.js"></script>
+
+  <footer class="footer mt-5 mt-md-0">
+  <div class="container">
+    
+    <div class="footer-item">
+      <p class="copyright">
+    &copy; Copyright 2020, MIT Data To AI Lab.<br/>
+</p>
+    </div>
+    
+    <div class="footer-item">
+      <p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0.<br/>
+</p>
+    </div>
+    
+  </div>
+</footer>
+  </body>
+</html>
