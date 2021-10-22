@@ -10,11 +10,9 @@ class DataFrameExplanationType(ExplanationType):
 
 
 class FeatureImportanceExplanationType(DataFrameExplanationType):
-    @staticmethod
-    def validate(explanation):
-        super(FeatureImportanceExplanationType, FeatureImportanceExplanationType).validate(
-            explanation)
-        if explanation.shape[0] > 1:
+    def validate(self):
+        super(FeatureImportanceExplanationType, FeatureImportanceExplanationType).validate()
+        if self.explanation.shape[0] > 1:
             raise AssertionError("Global Feature Importance Explanations can have only one row")
 
 
