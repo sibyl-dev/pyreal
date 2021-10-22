@@ -1,9 +1,10 @@
 import pandas as pd
 import pytest
 
-from pyreal.types.explanations.dataframe import DataFrameExplanationType, \
-    FeatureImportanceExplanationType, AdditiveFeatureImportanceExplanationType, \
-    FeatureContributionExplanationType, AdditiveFeatureContributionExplanationType
+from pyreal.types.explanations.dataframe import (
+    AdditiveFeatureContributionExplanationType, AdditiveFeatureImportanceExplanationType,
+    DataFrameExplanationType, FeatureContributionExplanationType,
+    FeatureImportanceExplanationType,)
 
 
 def helper_test_dataframe_explanations(cls, valid_explanation, invalid_explanation):

@@ -71,6 +71,7 @@ class FeatureContributionExplanationType(DataFrameExplanationType):
     per feature, representing that feature's contribution to the model's prediction
     for this instance.
     """
+
     def validate(self):
         """
         Validate that `self.explanation` is a valid `DataFrame`
@@ -92,6 +93,7 @@ class AdditiveFeatureContributionExplanationType(FeatureContributionExplanationT
     (ie.,  `contribution of feature A + contribution of feature B =
     combined contribution of feature A and B`)
     """
+
     def validate(self):
         """
         Validate that `self.explanation` is a valid `DataFrame`

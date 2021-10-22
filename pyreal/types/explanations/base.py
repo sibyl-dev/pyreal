@@ -3,6 +3,7 @@ class ExplanationType:
     A type wrapper for outputs from explanation algorithms. Validates that an object is a
     valid explanation output.
     """
+
     def __init__(self, explanation):
         """
         Set the wrapped explanation to `explanation` and validate
@@ -32,4 +33,3 @@ class ExplanationType:
             AssertionException
                 if `self.explanation` is invalid
         """
-        pass
