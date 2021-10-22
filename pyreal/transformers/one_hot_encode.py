@@ -106,7 +106,7 @@ class OneHotEncoder(BaseTransformer):
         x_cat_ohe = pd.DataFrame(x_cat_ohe, columns=columns, index=index)
         return pd.concat([x_orig.drop(self.feature_list, axis="columns"), x_cat_ohe], axis=1)
 
-    def transform_explanation_shap(self, explanation):
+    def transform_explanation_additive_contributions(self, explanation):
         """
 
         Args:
@@ -120,7 +120,7 @@ class OneHotEncoder(BaseTransformer):
 
     # TODO: replace this with a more theoretically grounded approach to combining feature
     #  importance
-    def transform_explanation_permutation_importance(self, explanation):
+    def transform_explanation_feature_importance(self, explanation):
         return FeatureImportanceExplanationType(self.helper_summed_values(explanation.get()))
 
     def helper_summed_values(self, explanation):

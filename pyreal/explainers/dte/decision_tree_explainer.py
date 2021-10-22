@@ -120,8 +120,7 @@ class DecisionTreeExplainer(DecisionTreeExplainerBase):
         if self.base_decision_tree is None:
             raise ValueError("Invalid algorithm type %s" % e_algorithm)
 
-        super(DecisionTreeExplainer, self).__init__(self.base_decision_tree.algorithm,
-                                                    model, x_train_orig, **kwargs)
+        super(DecisionTreeExplainer, self).__init__(model, x_train_orig, **kwargs)
 
     def fit(self):
         """

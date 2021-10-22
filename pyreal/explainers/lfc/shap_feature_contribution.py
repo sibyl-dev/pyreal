@@ -5,7 +5,6 @@ from shap import KernelExplainer, LinearExplainer
 
 from pyreal.explainers import LocalFeatureContributionsBase
 from pyreal.types.explanations.dataframe import AdditiveFeatureContributionExplanationType
-from pyreal.utils.explanation_algorithm import ExplanationAlgorithm
 
 
 class ShapFeatureContribution(LocalFeatureContributionsBase):
@@ -34,10 +33,8 @@ class ShapFeatureContribution(LocalFeatureContributionsBase):
             self.shap_type = shap_type
 
         self.explainer = None
-        self.algorithm = ExplanationAlgorithm.SHAP
         self.explainer_input_size = None
-        super(ShapFeatureContribution, self).__init__(
-            self.algorithm, model, x_train_orig, **kwargs)
+        super(ShapFeatureContribution, self).__init__(model, x_train_orig, **kwargs)
 
     def fit(self):
         """

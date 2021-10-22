@@ -12,8 +12,6 @@ class LocalFeatureContributionsBase(Explainer, ABC):
     by taking an instance and returning one number per feature, per instance.
 
     Args:
-        algorithm (ExplanationAlgorithm or None):
-            Name of the algorithm this Explainer uses
         model (string filepath or model object):
            Filepath to the pickled model to explain, or model object with .predict() function
         x_train_orig (dataframe of shape (n_instances, x_orig_feature_count)):
@@ -27,10 +25,9 @@ class LocalFeatureContributionsBase(Explainer, ABC):
         **kwargs: see base Explainer args
     """
 
-    def __init__(self, algorithm, model, x_train_orig, interpretable_features=True, **kwargs):
+    def __init__(self, model, x_train_orig, interpretable_features=True, **kwargs):
         self.interpretable_features = interpretable_features
-        super(LocalFeatureContributionsBase, self).__init__(
-            algorithm, model, x_train_orig, **kwargs)
+        super(LocalFeatureContributionsBase, self).__init__(model, x_train_orig, **kwargs)
 
     @abstractmethod
     def fit(self):

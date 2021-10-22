@@ -3,7 +3,6 @@ from abc import ABC, abstractmethod
 from pyreal.types.explanations.dataframe import (
     AdditiveFeatureContributionExplanationType, AdditiveFeatureImportanceExplanationType,
     FeatureImportanceExplanationType,)
-from pyreal.utils.explanation_algorithm import ExplanationAlgorithm
 
 
 def fit_transformers(transformers, x_orig):
@@ -59,25 +58,18 @@ class BaseTransformer(ABC):
         self.fit(x, **fit_params)
         return self.transform(x)
 
-    def transform_explanation(self, explanation, algorithm):
+    def transform_explanation(self, explanation):
         if isinstance(explanation, AdditiveFeatureContributionExplanationType) \
                 or isinstance(explanation, AdditiveFeatureImportanceExplanationType):
-            return self.transform_explanation_shap(explanation)
+            return self.transform_explanation_additive_contributions(explanation)
         if isinstance(explanation, FeatureImportanceExplanationType):
-            return self.transform_explanation_permutation_importance(explanation)
-        '''if algorithm == ExplanationAlgorithm.SHAP:
-            return self.transform_explanation_shap(explanation)
-        if algorithm == ExplanationAlgorithm.PERMUTATION_IMPORTANCE:
-            return self.transform_explanation_permutation_importance(explanation)'''
-        if algorithm == ExplanationAlgorithm.SURROGATE_DECISION_TREE:
-            raise NotImplementedError("Explanation transformers do not yet support "
-                                      "DecisionTreeExplainer")
+            return self.transform_explanation_feature_importance(explanation)
         raise ValueError("Invalid explanation types %s" % explanation.__class__)
 
     # noinspection PyMethodMayBeStatic
-    def transform_explanation_shap(self, explanation):
+    def transform_explanation_additive_contributions(self, explanation):
         return explanation
 
     # noinspection PyMethodMayBeStatic
-    def transform_explanation_permutation_importance(self, explanation):
+    def transform_explanation_feature_importance(self, explanation):
         return explanation

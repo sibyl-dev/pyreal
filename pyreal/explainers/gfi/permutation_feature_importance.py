@@ -4,7 +4,6 @@ from sklearn.inspection import permutation_importance
 
 from pyreal.explainers import GlobalFeatureImportanceBase
 from pyreal.types.explanations.dataframe import FeatureImportanceExplanationType
-from pyreal.utils.explanation_algorithm import ExplanationAlgorithm
 
 
 class PermutationFeatureImportance(GlobalFeatureImportanceBase):
@@ -24,10 +23,8 @@ class PermutationFeatureImportance(GlobalFeatureImportanceBase):
 
     def __init__(self, model, x_train_orig, **kwargs):
         self.explainer = None
-        self.algorithm = ExplanationAlgorithm.PERMUTATION_IMPORTANCE
         self.explainer_input_size = None
-        super(PermutationFeatureImportance, self).__init__(
-            self.algorithm, model, x_train_orig, **kwargs)
+        super(PermutationFeatureImportance, self).__init__(model, x_train_orig, **kwargs)
 
     def fit(self):
         """

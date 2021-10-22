@@ -5,7 +5,6 @@ from shap import KernelExplainer, LinearExplainer
 
 from pyreal.explainers import GlobalFeatureImportanceBase
 from pyreal.types.explanations.dataframe import AdditiveFeatureImportanceExplanationType
-from pyreal.utils.explanation_algorithm import ExplanationAlgorithm
 
 
 class ShapFeatureImportance(GlobalFeatureImportanceBase):
@@ -34,9 +33,8 @@ class ShapFeatureImportance(GlobalFeatureImportanceBase):
             self.shap_type = shap_type
 
         self.explainer = None
-        self.algorithm = ExplanationAlgorithm.SHAP
         self.explainer_input_size = None
-        super(ShapFeatureImportance, self).__init__(self.algorithm, model, x_train_orig, **kwargs)
+        super(ShapFeatureImportance, self).__init__(model, x_train_orig, **kwargs)
 
     def fit(self):
         """

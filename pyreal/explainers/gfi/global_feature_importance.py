@@ -116,8 +116,7 @@ class GlobalFeatureImportance(GlobalFeatureImportanceBase):
         if self.base_global_feature_importance is None:
             raise ValueError("Invalid algorithm type %s" % e_algorithm)
 
-        super(GlobalFeatureImportance, self).__init__(
-            self.base_global_feature_importance.algorithm, model, x_train_orig, **kwargs)
+        super(GlobalFeatureImportance, self).__init__(model, x_train_orig, **kwargs)
 
     def fit(self):
         """

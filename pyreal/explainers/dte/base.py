@@ -28,7 +28,7 @@ class DecisionTreeExplainerBase(Explainer, ABC):
 
     def __init__(self, algorithm, model, x_train_orig, interpretable_features=True, **kwargs):
         self.interpretable_features = interpretable_features
-        super(DecisionTreeExplainerBase, self).__init__(algorithm, model, x_train_orig, **kwargs)
+        super(DecisionTreeExplainerBase, self).__init__(model, x_train_orig, **kwargs)
 
     @abstractmethod
     def fit(self):
