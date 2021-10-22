@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 
-from pyreal.types.explanations.dataframe_explanations import (
+from pyreal.types.explanations.dataframe_explanation import (
     AdditiveFeatureContributionExplanationType, AdditiveFeatureImportanceExplanationType,
     FeatureImportanceExplanationType,)
 from pyreal.utils.explanation_algorithm import ExplanationAlgorithm

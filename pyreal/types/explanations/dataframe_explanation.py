@@ -1,12 +1,11 @@
 import pandas as pd
 
-from pyreal.types.explanations.base import ExplanationType
+from pyreal.types.explanations.base_explanation import ExplanationType
 
 
 class DataFrameExplanationType(ExplanationType):
-    @staticmethod
-    def validate(explanation):
-        if not isinstance(explanation, pd.DataFrame):
+    def validate(self):
+        if not isinstance(self.explanation, pd.DataFrame):
             raise AssertionError("DataFrame explanations must be of type DataFrame")
 
 
@@ -20,21 +19,17 @@ class FeatureImportanceExplanationType(DataFrameExplanationType):
 
 
 class AdditiveFeatureImportanceExplanationType(FeatureImportanceExplanationType):
-    @staticmethod
-    def validate(explanation):
+    def validate(self):
         super(AdditiveFeatureImportanceExplanationType,
-              AdditiveFeatureImportanceExplanationType).validate(explanation)
+              AdditiveFeatureImportanceExplanationType).validate()
 
 
 class FeatureContributionExplanationType(DataFrameExplanationType):
-    @staticmethod
-    def validate(explanation):
-        super(FeatureContributionExplanationType, FeatureContributionExplanationType).validate(
-            explanation)
+    def validate(self):
+        super(FeatureContributionExplanationType, FeatureContributionExplanationType).validate()
 
 
 class AdditiveFeatureContributionExplanationType(FeatureContributionExplanationType):
-    @staticmethod
-    def validate(explanation):
+    def validate(self):
         super(AdditiveFeatureContributionExplanationType,
-              AdditiveFeatureContributionExplanationType).validate(explanation)
+              AdditiveFeatureContributionExplanationType).validate()

@@ -1,4 +1,4 @@
-from pyreal.types.explanations.base import ExplanationType
+from pyreal.types.explanations.base_explanation import ExplanationType
 
 from sklearn.tree import BaseDecisionTree
 
