@@ -4,7 +4,7 @@ from shap import Explainer as ShapExplainer
 from shap import KernelExplainer, LinearExplainer
 
 from pyreal.explainers import LocalFeatureContributionsBase
-from pyreal.types.explanations.dataframe_explanation import (
+from pyreal.types.explanations.dataframe import (
     AdditiveFeatureContributionExplanationType,)
 from pyreal.utils.explanation_algorithm import ExplanationAlgorithm
 

@@ -1,4 +1,4 @@
-from pyreal.types.explanations.base_explanation import ExplanationType
+from pyreal.types.explanations.base import ExplanationType
 
 
 class BaseExplanation:

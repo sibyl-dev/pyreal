@@ -6,7 +6,7 @@ def choose_algorithm():
     Choose an algorithm based on the model type.
     Currently, shap is the only supported algorithm
 
-    Return:
+    Returns:
         string (one of ["shap"])
             Explanation algorithm to use
     """

@@ -1,4 +1,4 @@
-from pyreal.types.explanations.decision_tree_explanation import DecisionTreeExplanationType
+from pyreal.types.explanations.decision_tree import DecisionTreeExplanationType
 from sklearn.tree import DecisionTreeClassifier
 import pytest
 

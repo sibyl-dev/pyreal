@@ -1,5 +1,5 @@
 from pyreal.transformers import BaseTransformer
-from pyreal.types.explanations.dataframe_explanation import (
+from pyreal.types.explanations.dataframe import (
     AdditiveFeatureContributionExplanationType,)
 
 

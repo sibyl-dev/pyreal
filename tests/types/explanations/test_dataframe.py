@@ -1,7 +1,7 @@
 import pandas as pd
 import pytest
 
-from pyreal.types.explanations.dataframe_explanation import DataFrameExplanationType, \
+from pyreal.types.explanations.dataframe import DataFrameExplanationType, \
     FeatureImportanceExplanationType, AdditiveFeatureImportanceExplanationType, \
     FeatureContributionExplanationType, AdditiveFeatureContributionExplanationType
 
