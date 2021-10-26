@@ -22,7 +22,7 @@ def create_task(df, dataset_name, model_func):
     X = df.drop("target", axis="columns")
 
     transforms = [MultiTypeImputer(), OneHotEncoder(
-        feature_list=X.select_dtypes(include=["object", "category"]).columns)]
+        columns=X.select_dtypes(include=["object", "category"]).columns)]
 
     fit_transformers(transforms, X)
     Xt = run_transformers(transforms, X)

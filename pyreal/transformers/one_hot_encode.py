@@ -83,26 +83,26 @@ class Mappings:
 
 
 class OneHotEncoder(BaseTransformer):
-    def __init__(self, feature_list=None):
+    def __init__(self, columns=None):
         self.ohe = SklearnOneHotEncoder(sparse=False)
-        self.feature_list = feature_list
+        self.columns = columns
         self.is_fit = False
 
     def fit(self, x_orig):
-        if self.feature_list is None:
-            self.feature_list = x_orig.columns
-        self.ohe.fit(x_orig[self.feature_list])
+        if self.columns is None:
+            self.columns = x_orig.columns
+        self.ohe.fit(x_orig[self.columns])
         self.is_fit = True
 
     def transform(self, x_orig):
         if not self.is_fit:
             raise RuntimeError("Must fit one hot encoder before transforming")
-        x_to_encode = x_orig[self.feature_list]
+        x_to_encode = x_orig[self.columns]
         columns = self.ohe.get_feature_names(x_to_encode.columns)
         index = x_to_encode.index
         x_cat_ohe = self.ohe.transform(x_to_encode)
         x_cat_ohe = pd.DataFrame(x_cat_ohe, columns=columns, index=index)
-        return pd.concat([x_orig.drop(self.feature_list, axis="columns"), x_cat_ohe], axis=1)
+        return pd.concat([x_orig.drop(self.columns, axis="columns"), x_cat_ohe], axis=1)
 
     def transform_explanation_shap(self, explanation):
         return self.helper_summed_values(explanation)
@@ -124,8 +124,8 @@ class OneHotEncoder(BaseTransformer):
         explanation = pd.DataFrame(explanation)
         if explanation.ndim == 1:
             explanation = explanation.reshape(1, -1)
-        encoded_columns = self.ohe.get_feature_names(self.feature_list)
-        for original_feature in self.feature_list:
+        encoded_columns = self.ohe.get_feature_names(self.columns)
+        for original_feature in self.columns:
             encoded_features = [item for item in encoded_columns if
                                 item.startswith(original_feature + "_")]
             summed_contribution = explanation[encoded_features].sum(axis=1)
