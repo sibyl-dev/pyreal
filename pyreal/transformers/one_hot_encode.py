@@ -60,7 +60,7 @@ class Mappings:
                           dataframe=None):
         """
         Generate a new Mappings object using one of the input formats
-        One one keyword should be None
+        All but one keyword should be None
 
         :param categorical_to_one_hot: dictionary
                {categorical_feature_name : {OHE_feature_name : value, ...}, ... }

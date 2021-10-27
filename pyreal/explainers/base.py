@@ -56,9 +56,8 @@ class Explainer(ABC):
            Transformer(s) that need to be used on x_orig for the explanation algorithm:
            x_orig -> x_explain
         m_transforms (transformer object or list of transformer objects):
-           Transformer(s) needed on x_orig to make predictions on the dataset with model,
-           if different than e_transforms
-           x_orig -> x_model
+           Transformer(s) needed on x_explain to make predictions on the dataset with model
+           x_explain -> x_model
         i_transforms (transformer object or list of transformer objects):
            Transformer(s) needed to make x_orig interpretable
            x_orig -> x_interpret
@@ -167,7 +166,7 @@ class Explainer(ABC):
 
     def transform_to_x_model(self, x_orig):
         """
-        Transform x_orig to x_model, using the m_transforms
+        Transform x_orig to x_model, using the e_transforms and m_transforms
 
         Args:
             x_orig (DataFrame of shape (n_instances, x_orig_feature_count)):
@@ -177,9 +176,29 @@ class Explainer(ABC):
              DataFrame of shape (n_instances, x_model_feature_count)
                 x_orig converted to model-ready form
         """
-        if self.m_transforms is None:
+        if self.m_transforms is None and self.e_transforms is None:
             return x_orig
-        return run_transformers(self.m_transforms, x_orig)
+        if self.e_transforms is None:
+            return run_transformers(self.m_transforms, x_orig)
+        if self.m_transforms is None:
+            return run_transformers(self.e_transforms, x_orig)
+        return run_transformers(self.m_transforms, run_transformers(self.e_transforms, x_orig))
+
+    def transform_x_from_explain_to_model(self, x_explain):
+        """
+        Transform x_explain to x_model, using the m_transforms
+
+        Args:
+            x_explain (DataFrame of shape (n_instances, x_orig_feature_count)):
+                Input in explain space
+
+        Returns:
+             DataFrame of shape (n_instances, x_model_feature_count)
+                x_explain converted to model-ready form
+        """
+        if self.m_transforms is None:
+            return x_explain
+        return run_transformers(self.m_transforms, x_explain)
 
     def transform_to_x_interpret(self, x_orig):
         """
@@ -238,6 +257,23 @@ class Explainer(ABC):
         if x_orig.ndim == 1:
             x_orig = x_orig.to_frame().T
         x_model = self.transform_to_x_model(x_orig)
+        return self.model.predict(x_model)
+
+    def model_predict_on_explain(self, x_explain):
+        """
+        Predict on x_explain using the model and return the result
+
+        Args:
+            x_explain (DataFrame of shape (n_instances, x_orig_feature_count)):
+                Data to predict on
+
+        Returns:
+            DataFrame of shape (n_instances,)
+                Model prediction on x_orig
+        """
+        if x_explain.ndim == 1:
+            x_orig = x_explain.to_frame().T
+        x_model = self.transform_x_from_explain_to_model(x_explain)
         return self.model.predict(x_model)
 
     def feature_description(self, feature_name):
