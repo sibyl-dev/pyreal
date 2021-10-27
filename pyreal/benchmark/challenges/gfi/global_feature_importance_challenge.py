@@ -9,6 +9,6 @@ class GlobalFeatureImportanceChallenge(ExplainerChallenge):
         return GlobalFeatureImportance(model=self.dataset.model, x_train_orig=self.dataset.X,
                                        transforms=self.dataset.transforms, fit_on_init=True)
 
-    def evaluate_consistency(self, results):
+    def evaluate_variation(self, results):
         # TODO: consider alternative evaluation approaches
         return np.max(np.var(results, axis=0))

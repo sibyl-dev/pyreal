@@ -10,23 +10,22 @@ class ExplainerChallenge:
         self.explainer = self.create_explainer()
         if evaluations is None:
             self.evaluations = ["fit_time", "produce_time", "produce_result",
-                                "series_time", "series_result", "pre_fit_consistency",
-                                "post_fit_consistency"]
+                                "series_time", "series_result", "pre_fit_variation",
+                                "post_fit_variation"]
         else:
             self.evaluations = evaluations
 
         self.n_rows = n_rows
-        if n_iterations < 2 and self.to_evaluate("consistency"):
-            raise ValueError("Cannot evaluate consistency with fewer than 2 iterations")
+        if n_iterations < 2 and self.to_evaluate("variation"):
+            raise ValueError("Cannot evaluate variation with fewer than 2 iterations")
         self.n_iterations = n_iterations
 
     @abstractmethod
     def create_explainer(self):
         pass
 
-    @abstractmethod
-    def evaluate_consistency(self, results):
-        pass
+    def evaluate_variation(self, results):
+        return self.explainer.evaluate_variation(explanations=results)
 
     def run_fit(self):
         fit_start_time = time.time()
@@ -58,31 +57,31 @@ class ExplainerChallenge:
 
         # TEST ON N_ROWS ITEMS
         if self.to_evaluate("produce_time") or self.to_evaluate("produce_result") \
-                or self.to_evaluate("pre_fit_consistency") \
-                or self.to_evaluate("post_fit_consistency"):
+                or self.to_evaluate("pre_fit_variation") \
+                or self.to_evaluate("post_fit_variation"):
             explanation, produce_time = self.run_challenge_once(self.dataset.X.iloc[0:self.n_rows])
             if self.to_evaluate("produce_time"):
                 returns["produce_time"] = produce_time
             if self.to_evaluate("produce_result"):
                 returns["produce_result"] = explanation
 
-            # TEST EXPLANATION CONSISTENCY
-            if self.to_evaluate("post_fit_consistency"):
+            # TEST EXPLANATION VARIATION
+            if self.to_evaluate("post_fit_variation"):
                 results = [explanation.to_numpy()]
                 for i in range(self.n_iterations - 1):
                     results.append(
                         self.run_challenge_once(self.dataset.X.iloc[0:self.n_rows])[0].to_numpy())
-                consistency_score = self.evaluate_consistency(np.array(results))
-                returns["post_fit_consistency"] = consistency_score
+                variation_score = self.evaluate_variation(np.array(results))
+                returns["post_fit_variation"] = variation_score
 
-            if self.to_evaluate("pre_fit_consistency"):
+            if self.to_evaluate("pre_fit_variation"):
                 results = [explanation.to_numpy()]
                 for i in range(self.n_iterations - 1):
                     self.run_fit()
                     results.append(
                         self.run_challenge_once(self.dataset.X.iloc[0:self.n_rows])[0].to_numpy())
-                consistency_score = self.evaluate_consistency(np.array(results))
-                returns["pre_fit_consistency"] = consistency_score
+                variation_score = self.evaluate_variation(np.array(results))
+                returns["pre_fit_variation"] = variation_score
 
         return returns
 
