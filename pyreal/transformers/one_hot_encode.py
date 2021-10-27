@@ -134,58 +134,6 @@ class OneHotEncoder(BaseTransformer):
         return explanation
 
 
-class OneHotDecoder(BaseTransformer):
-    def __init__(self, columns=None):
-        self.ohe = SklearnOneHotEncoder(sparse=False)
-        self.columns = columns
-        self.is_fit = False
-
-    def fit(self, x_orig):
-        if self.columns is None:
-            self.columns = x_orig.columns
-        self.ohe.fit(x_orig[self.columns])
-        self.is_fit = True
-
-    def transform(self, x_orig):
-        if not self.is_fit:
-            raise RuntimeError("Must fit one hot encoder before transforming")
-        x_to_encode = x_orig[self.columns]
-        columns = self.ohe.get_feature_names(x_to_encode.columns)
-        index = x_to_encode.index
-        x_cat_ohe = self.ohe.transform(x_to_encode)
-        x_cat_ohe = pd.DataFrame(x_cat_ohe, columns=columns, index=index)
-        return pd.concat([x_orig.drop(self.columns, axis="columns"), x_cat_ohe], axis=1)
-
-    def transform_explanation_shap(self, explanation):
-        return self.helper_summed_values(explanation)
-
-    # TODO: replace this with a more theoretically grounded approach to combining feature
-    #  importance
-    def transform_explanation_permutation_importance(self, explanation):
-        return self.helper_summed_values(explanation)
-
-    def helper_summed_values(self, explanation):
-        """
-        Sum together the items in the explanation.
-        Args:
-            explanation: a list of values, one per feature
-
-        Returns:
-            the values summed together for all features involved in the one-hot encoding
-        """
-        explanation = pd.DataFrame(explanation)
-        if explanation.ndim == 1:
-            explanation = explanation.reshape(1, -1)
-        encoded_columns = self.ohe.get_feature_names(self.columns)
-        for original_feature in self.columns:
-            encoded_features = [item for item in encoded_columns if
-                                item.startswith(original_feature + "_")]
-            summed_contribution = explanation[encoded_features].sum(axis=1)
-            explanation = explanation.drop(encoded_features, axis="columns")
-            explanation[original_feature] = summed_contribution
-        return explanation
-
-
 class MappingsOneHotEncoder(BaseTransformer):
     """
     Converts data from categorical form to one-hot-encoded, with feature names based on a

@@ -107,8 +107,6 @@ class Explainer(ABC):
         if transforms is not None and m_transforms is not None:
             # TODO: replace with proper warning
             print("Warning: transforms and m_transform provided. Defaulting to using m_transforms")
-        elif transforms is not None:
-            m_transforms = transforms
 
         self.e_transforms = _check_transforms(e_transforms)
         self.m_transforms = _check_transforms(m_transforms)
