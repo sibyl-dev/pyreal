@@ -49,7 +49,7 @@ def dte(return_explainer=True, return_importances=False, explainer=None,
            x_orig -> x_explain
         m_transforms (transformer object or list of transformer objects):
            Transformer(s) needed on x_orig to make predictions on the dataset with model,
-           if different than e_transforms
+           if different than e_transformers
            x_orig -> x_model
         i_transforms (transformer object or list of transformer objects):
            Transformer(s) needed to make x_orig interpretable

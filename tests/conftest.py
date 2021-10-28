@@ -42,7 +42,7 @@ def regression_no_transforms(test_root):
     with open(model_no_transforms_filename, "wb") as f:
         pickle.dump(model_no_transforms, f)
 
-    return {"model": model_no_transforms_filename, "transforms": None, "x": x, "y": y}
+    return {"model": model_no_transforms_filename, "transformers": None, "x": x, "y": y}
 
 
 @pytest.fixture()
@@ -62,7 +62,7 @@ def classification_no_transforms(test_root):
     with open(model_no_transforms_filename, "wb") as f:
         pickle.dump(model_no_transforms, f)
 
-    return {"model": model_no_transforms_filename, "transforms": None, "x": x, "y": y}
+    return {"model": model_no_transforms_filename, "transformers": None, "x": x, "y": y}
 
 
 @pytest.fixture()
@@ -81,7 +81,7 @@ def regression_one_hot(test_root):
     model_one_hot_filename = os.path.join(test_root, "data", "model_one_hot.pkl")
     with open(model_one_hot_filename, "wb") as f:
         pickle.dump(model_one_hot, f)
-    return {"model": model_one_hot_filename, "transforms": one_hot_encoder, "x": x, "y": y}
+    return {"model": model_one_hot_filename, "transformers": one_hot_encoder, "x": x, "y": y}
 
 
 @pytest.fixture()
@@ -99,4 +99,4 @@ def classification_no_transform_tree(test_root):
         test_root, "data", "model_no_transform_tree.pkl")
     with open(model_no_transform_tree, "wb") as f:
         pickle.dump(model_test_tree, f)
-    return {"model": model_no_transform_tree, "transforms": None, "x": x, "y": y}
+    return {"model": model_no_transform_tree, "transformers": None, "x": x, "y": y}
