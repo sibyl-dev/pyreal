@@ -102,7 +102,7 @@ def run_one_challenge(base_challenge, results_directory, download):
         try:
             challenge = base_challenge(dataset_obj,
                                        evaluations=["produce_time", "fit_time",
-                                                    "pre_fit_consistency", "post_fit_consistency"])
+                                                    "pre_fit_variation", "post_fit_variation"])
             results = challenge.run()
             record_dict = format_results(record_dict, results, dataset_obj.name)
             print("%s: Task %s. Success" % (i, dataset_obj.name))

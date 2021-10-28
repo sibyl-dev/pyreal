@@ -24,9 +24,6 @@ class ExplainerChallenge:
     def create_explainer(self):
         pass
 
-    def evaluate_variation(self, results):
-        return self.explainer.evaluate_variation(explanations=results)
-
     def run_fit(self):
         fit_start_time = time.time()
         self.explainer.fit()
@@ -56,32 +53,23 @@ class ExplainerChallenge:
                 returns["series_result"] = explanation_series
 
         # TEST ON N_ROWS ITEMS
-        if self.to_evaluate("produce_time") or self.to_evaluate("produce_result") \
-                or self.to_evaluate("pre_fit_variation") \
-                or self.to_evaluate("post_fit_variation"):
+        if self.to_evaluate("produce_time") or self.to_evaluate("produce_result"):
             explanation, produce_time = self.run_challenge_once(self.dataset.X.iloc[0:self.n_rows])
             if self.to_evaluate("produce_time"):
                 returns["produce_time"] = produce_time
             if self.to_evaluate("produce_result"):
                 returns["produce_result"] = explanation
 
-            # TEST EXPLANATION VARIATION
-            if self.to_evaluate("post_fit_variation"):
-                results = [explanation.to_numpy()]
-                for i in range(self.n_iterations - 1):
-                    results.append(
-                        self.run_challenge_once(self.dataset.X.iloc[0:self.n_rows])[0].to_numpy())
-                variation_score = self.evaluate_variation(np.array(results))
-                returns["post_fit_variation"] = variation_score
+        # TEST EXPLANATION VARIATION
+        if self.to_evaluate("post_fit_variation"):
+            variation_score = self.explainer.evaluate_variation(
+                with_fit=False, n_iterations=self.n_iterations, n_rows=self.n_rows)
+            returns["post_fit_variation"] = variation_score
 
-            if self.to_evaluate("pre_fit_variation"):
-                results = [explanation.to_numpy()]
-                for i in range(self.n_iterations - 1):
-                    self.run_fit()
-                    results.append(
-                        self.run_challenge_once(self.dataset.X.iloc[0:self.n_rows])[0].to_numpy())
-                variation_score = self.evaluate_variation(np.array(results))
-                returns["pre_fit_variation"] = variation_score
+        if self.to_evaluate("pre_fit_variation"):
+            variation_score = self.explainer.evaluate_variation(
+                with_fit=True, n_iterations=self.n_iterations, n_rows=self.n_rows)
+            returns["pre_fit_variation"] = variation_score
 
         return returns
 
