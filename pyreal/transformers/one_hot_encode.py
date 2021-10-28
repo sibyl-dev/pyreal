@@ -7,7 +7,7 @@ from pyreal.types.explanations.dataframe import (
     AdditiveFeatureContributionExplanationType, FeatureImportanceExplanationType,)
 
 
-def generate_one_hot_to_categorical(categorical_to_one_hot):
+def _generate_one_hot_to_categorical(categorical_to_one_hot):
     one_hot_to_categorical = {}
     for cf in categorical_to_one_hot:
         for ohf in categorical_to_one_hot[cf]:
@@ -16,7 +16,7 @@ def generate_one_hot_to_categorical(categorical_to_one_hot):
     return one_hot_to_categorical
 
 
-def generate_categorical_to_one_hot(one_hot_to_categorical):
+def _generate_categorical_to_one_hot(one_hot_to_categorical):
     categorical_to_one_hot = {}
     for ohf in one_hot_to_categorical:
         cf = one_hot_to_categorical[ohf][0]
@@ -28,7 +28,7 @@ def generate_categorical_to_one_hot(one_hot_to_categorical):
     return categorical_to_one_hot
 
 
-def generate_from_df(df):
+def _generate_from_df(df):
     # TODO: rename columns to be more natural
     categorical_to_one_hot = {}
     for i in range(df.shape[0]):
@@ -48,11 +48,13 @@ class Mappings:
         Initialize a new mappings object
         For common use, use Mappings.generate_mapping()
 
-        :param categorical_to_one_hot: dictionary
-               {categorical_feature_name : {OHE_feature_name : value, ...}, ... }
-        :param one_hot_to_categorical: dictionary
-               {OHE_feature_name : (categorical_feature_name, value), ...}
+        Args:
+            categorical_to_one_hot (dictionary):
+                {categorical_feature_name : {OHE_feature_name : value, ...}, ... }
+            one_hot_to_categorical (dictionary):
+                {OHE_feature_name : (categorical_feature_name, value), ...}
         """
+
         self.categorical_to_one_hot = categorical_to_one_hot
         self.one_hot_to_categorical = one_hot_to_categorical
 
@@ -62,49 +64,85 @@ class Mappings:
                           dataframe=None):
         """
         Generate a new Mappings object using one of the input formats
-        One one keyword should be None
+        All but one keyword should be None
 
-        :param categorical_to_one_hot: dictionary
-               {categorical_feature_name : {OHE_feature_name : value, ...}, ... }
-        :param one_hot_to_categorical:
-               {OHE_feature_name : (categorical_feature_name, value), ...}
-        :param dataframe:
-               DataFrame # TODO: specify type
-        :return:
+        Args:
+            categorical_to_one_hot:
+                {categorical_feature_name : {OHE_feature_name : value, ...}, ... }
+            one_hot_to_categorical:
+                {OHE_feature_name : (categorical_feature_name, value), ...}
+            dataframe:
+                DataFrame # TODO: specify type
+        Returns:
+            Mappings
+                A Mappings objects representing the column relationships
         """
+
         if categorical_to_one_hot is not None:
             return Mappings(categorical_to_one_hot,
-                            generate_one_hot_to_categorical(categorical_to_one_hot))
+                            _generate_one_hot_to_categorical(categorical_to_one_hot))
         if one_hot_to_categorical is not None:
-            return Mappings(generate_categorical_to_one_hot(one_hot_to_categorical),
+            return Mappings(_generate_categorical_to_one_hot(one_hot_to_categorical),
                             one_hot_to_categorical)
         if dataframe is not None:
-            categorical_to_one_hot = generate_from_df(dataframe)
+            categorical_to_one_hot = _generate_from_df(dataframe)
             return Mappings(categorical_to_one_hot,
-                            generate_one_hot_to_categorical(categorical_to_one_hot))
+                            _generate_one_hot_to_categorical(categorical_to_one_hot))
 
 
 class OneHotEncoder(Transformer):
+    """
+    One-hot encodes categorical feature values
+    """
     def __init__(self, columns=None):
+        """
+        Initializes the base one-hot encoder
+
+        Args:
+            columns (array-like):
+                List of columns to encode
+        """
         self.ohe = SklearnOneHotEncoder(sparse=False)
-        self.feature_list = feature_list
+        self.columns = columns
         self.is_fit = False
 
-    def fit(self, x_orig):
-        if self.feature_list is None:
-            self.feature_list = x_orig.columns
-        self.ohe.fit(x_orig[self.feature_list])
+    def fit(self, x):
+        """
+        Fit this transformer to data
+
+        Args:
+            x (DataFrame of shape (n_instances, n_features)):
+                The dataset to fit to
+
+        Returns:
+            None
+        """
+
+        if self.columns is None:
+            self.columns = x.columns
+        self.ohe.fit(x[self.columns])
         self.is_fit = True
 
-    def transform(self, x_orig):
+    def transform(self, x):
+        """
+        Transform `x` from to a new feature space.
+        Args:
+            x (DataFrame of shape (n_instances, n_features)):
+                The dataset to transform
+
+        Returns:
+            DataFrame of shape (n_instances, n_transformed_features):
+                The transformed dataset
+        """
+
         if not self.is_fit:
             raise RuntimeError("Must fit one hot encoder before transforming")
-        x_to_encode = x_orig[self.feature_list]
+        x_to_encode = x[self.columns]
         columns = self.ohe.get_feature_names(x_to_encode.columns)
         index = x_to_encode.index
         x_cat_ohe = self.ohe.transform(x_to_encode)
         x_cat_ohe = pd.DataFrame(x_cat_ohe, columns=columns, index=index)
-        return pd.concat([x_orig.drop(self.feature_list, axis="columns"), x_cat_ohe], axis=1)
+        return pd.concat([x_orig.drop(self.columns, axis="columns"), x_cat_ohe], axis=1)
 
     def transform_explanation_additive_contributions(self, explanation):
         """
@@ -135,8 +173,8 @@ class OneHotEncoder(Transformer):
         explanation = pd.DataFrame(explanation)
         if explanation.ndim == 1:
             explanation = explanation.reshape(1, -1)
-        encoded_columns = self.ohe.get_feature_names(self.feature_list)
-        for original_feature in self.feature_list:
+        encoded_columns = self.ohe.get_feature_names(self.columns)
+        for original_feature in self.columns:
             encoded_features = [item for item in encoded_columns if
                                 item.startswith(original_feature + "_")]
             summed_contribution = explanation[encoded_features].sum(axis=1)
