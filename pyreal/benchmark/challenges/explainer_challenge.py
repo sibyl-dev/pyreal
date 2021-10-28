@@ -1,8 +1,6 @@
 import time
 from abc import abstractmethod
 
-import numpy as np
-
 
 class ExplainerChallenge:
     def __init__(self, dataset, evaluations=None, n_rows=10, n_iterations=10):
