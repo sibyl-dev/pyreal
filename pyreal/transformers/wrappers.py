@@ -1,9 +1,9 @@
 import pandas as pd
 
-from pyreal.transformers import BaseTransformer
+from pyreal.transformers import Transformer
 
 
-class DataFrameWrapper(BaseTransformer):
+class DataFrameWrapper(Transformer):
     """
     Allows use of standard sklearn transformers while maintaining DataFrame type.
     """
