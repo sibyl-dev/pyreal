@@ -8,8 +8,8 @@ class DataFrameWrapper(BaseTransformer):
     Allows use of standard sklearn transformers while maintaining DataFrame type.
     """
 
-    def __init__(self, base_transformer):
-        self.base_transformer = base_transformer
+    def __init__(self, wrapped_transformer):
+        self.base_transformer = wrapped_transformer
 
     def fit(self, x):
         self.base_transformer.fit(x)
