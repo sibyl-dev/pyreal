@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 from sklearn.preprocessing import OneHotEncoder as SklearnOneHotEncoder
 
-from pyreal.transformers import BaseTransformer
+from pyreal.transformers import Transformer
 from pyreal.types.explanations.dataframe import (
     AdditiveFeatureContributionExplanationType, FeatureImportanceExplanationType,)
 
@@ -84,8 +84,8 @@ class Mappings:
                             generate_one_hot_to_categorical(categorical_to_one_hot))
 
 
-class OneHotEncoder(BaseTransformer):
-    def __init__(self, feature_list=None):
+class OneHotEncoder(Transformer):
+    def __init__(self, columns=None):
         self.ohe = SklearnOneHotEncoder(sparse=False)
         self.feature_list = feature_list
         self.is_fit = False
@@ -145,7 +145,7 @@ class OneHotEncoder(BaseTransformer):
         return explanation
 
 
-class MappingsOneHotEncoder(BaseTransformer):
+class MappingsOneHotEncoder(Transformer):
     """
     Converts data from categorical form to one-hot-encoded, with feature names based on a
     mappings object which includes two dictionaries
@@ -167,7 +167,7 @@ class MappingsOneHotEncoder(BaseTransformer):
         return pd.DataFrame(ohe_data)
 
 
-class MappingsOneHotDecoder(BaseTransformer):
+class MappingsOneHotDecoder(Transformer):
     """
     Converts data from one-hot encoded form to categorical, with feature names based on a
     mappings object which includes two dictionaries

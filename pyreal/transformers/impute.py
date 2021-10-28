@@ -2,10 +2,10 @@ import numpy as np
 import pandas as pd
 from sklearn.impute import SimpleImputer
 
-from pyreal.transformers import BaseTransformer
+from pyreal.transformers import Transformer
 
 
-class MultiTypeImputer(BaseTransformer):
+class MultiTypeImputer(Transformer):
     """
     Imputes, choosing a strategy based on column type.
     """

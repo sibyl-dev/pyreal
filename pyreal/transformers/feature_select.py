@@ -1,16 +1,15 @@
-from pyreal.transformers import BaseTransformer
-from pyreal.types.explanations.dataframe import AdditiveFeatureContributionExplanationType
+from pyreal.transformers import Transformer
 
 
-class FeatureSelectTransformer(BaseTransformer):
-    def __init__(self, feature_names):
-        self.feature_names = feature_names
+class FeatureSelectTransformer(Transformer):
+    def __init__(self, columns):
+        self.columns = columns
 
     def transform(self, data):
         return data[self.feature_names]
 
 
-class ColumnDropTransformer(BaseTransformer):
+class ColumnDropTransformer(Transformer):
     """
     Removes columns that should not be predictive
     """

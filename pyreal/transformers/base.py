@@ -46,19 +46,71 @@ def run_transformers(transformers, x_orig):
     return x_transform
 
 
-class BaseTransformer(ABC):
+class Transformer(ABC):
+    """
+    An abstract base class for Transformers. Transformers transform data from a first feature space
+    to a second, and explanations from the second back to the first.
+    """
+
     @abstractmethod
-    def transform(self, x):
+    def fit(self, x, **params):
+        """
+        Fit this transformer to data
+
+        Args:
+            x (DataFrame of shape (n_instances, n_features)):
+                The dataset to fit to
+            **params:
+                Additional transformer parameters
+
+        Returns:
+            None
+        """
         pass
 
-    def fit(self, x, **params):
+    @abstractmethod
+    def transform(self, x):
+        """
+        Transform `x` from to a new feature space.
+        Args:
+            x (DataFrame of shape (n_instances, n_features)):
+                The dataset to transform
+
+        Returns:
+            DataFrame of shape (n_instances, n_features):
+                The transformed dataset
+        """
         pass
 
     def fit_transform(self, x, **fit_params):
+        """
+        Fits this transformer to data and then transforms the same data
+
+        Args:
+            x (DataFrame of shape (n_instances, n_features)):
+                The dataset to fit and transform
+            **fit_params:
+                Parameters for the fit function
+
+        Returns:
+            The transformed dataset
+        """
         self.fit(x, **fit_params)
         return self.transform(x)
 
     def transform_explanation(self, explanation):
+        """
+        Transforms the explanation from the second feature space handled by this transformer
+        to the first.
+
+        Args:
+            explanation:
+
+            algorithm:
+
+        Returns:
+
+        """
         if isinstance(explanation, AdditiveFeatureContributionExplanationType) \
                 or isinstance(explanation, AdditiveFeatureImportanceExplanationType):
             return self.transform_explanation_additive_contributions(explanation)
