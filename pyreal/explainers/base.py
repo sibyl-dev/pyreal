@@ -66,8 +66,8 @@ class Explainer(ABC):
            If True, fit the explainer on initiation.
            If False, self.fit() must be manually called before produce() is called
         skip_e_transform_explanation (Boolean):
-           If True, do not run the transform_explanation methods from e_transformers or i_transformers
-           on the explanation after producing.
+           If True, do not run the transform_explanation methods from e_transformers or
+           i_transformers on the explanation after producing.
         skip_i_transform_explanation (Boolean):
            If True, do not run the transform_explanation methods from i_transformers
            on the explanation after producing.
@@ -95,7 +95,7 @@ class Explainer(ABC):
         self.y_orig = y_orig
 
         if not isinstance(x_train_orig, pd.DataFrame) or (y_orig is not None and not (
-            isinstance(y_orig, pd.DataFrame) or isinstance(y_orig, pd.Series))):
+                isinstance(y_orig, pd.DataFrame) or isinstance(y_orig, pd.Series))):
             raise TypeError("x_orig and y_orig must be of type DataFrame")
 
         self.x_orig_feature_count = x_train_orig.shape[1]
