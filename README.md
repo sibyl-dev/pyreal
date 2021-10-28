@@ -32,7 +32,7 @@ The library uses Poetry for package management.
 
 ## Install from PyPI
 
-After creating the virtualenv and activating it, we recommend using
+We recommend using
 [pip](https://pip.pypa.io/en/stable/) in order to install **Pyreal**:
 
 ```
@@ -44,12 +44,11 @@ This will pull and install the latest stable release from [PyPI](https://pypi.or
 ## Install from source
 
 You can clone the repository and install it from
-source by running `poetry install` on the `stable` branch:
+source by running `poetry install`:
 
 ```
 git clone git@github.com:DAI-Lab/pyreal.git
 cd pyreal
-git checkout stable
 poetry install
 ```
 

@@ -5,20 +5,20 @@ from pyreal.types.explanations.dataframe import (
     FeatureImportanceExplanationType,)
 
 
-def fit_transformers(transformers, x_orig):
+def fit_transformers(transformers, x):
     """
     Fit a set of transformers in-place, transforming the data after each fit. Checks if each
     transformer has a fit function and if so, calls it.
     Args:
         transformers (list of Transformers):
             List of transformers to fit, in order
-        x_orig (DataFrame of shape (n_instances, n_features)):
+        x (DataFrame of shape (n_instances, n_features)):
             Dataset to fit on.
 
     Returns:
         None
     """
-    x_transform = x_orig.copy()
+    x_transform = x.copy()
     for transformer in transformers:
         fit_func = getattr(transformer, "fit", None)
         if callable(fit_func):
@@ -26,21 +26,21 @@ def fit_transformers(transformers, x_orig):
         x_transform = transformer.transform(x_transform)
 
 
-def run_transformers(transformers, x_orig):
+def run_transformers(transformers, x):
     """
     Run a series of transformers on x_orig
 
     Args:
         transformers (list of Transformers):
             List of transformers to fit, in order
-        x_orig (DataFrame of shape (n_instances, n_features)):
+        x (DataFrame of shape (n_instances, n_features)):
             Dataset to transform
 
     Returns:
         DataFrame of shape (n_instances, n_features)
             Transformed data
     """
-    x_transform = x_orig.copy()
+    x_transform = x.copy()
     for transform in transformers:
         x_transform = transform.transform(x_transform)
     return x_transform

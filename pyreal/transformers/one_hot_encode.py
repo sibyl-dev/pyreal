@@ -87,24 +87,24 @@ class Mappings:
 class OneHotEncoder(Transformer):
     def __init__(self, columns=None):
         self.ohe = SklearnOneHotEncoder(sparse=False)
-        self.feature_list = feature_list
+        self.columns = columns
         self.is_fit = False
 
-    def fit(self, x_orig):
-        if self.feature_list is None:
-            self.feature_list = x_orig.columns
-        self.ohe.fit(x_orig[self.feature_list])
+    def fit(self, x):
+        if self.columns is None:
+            self.columns = x.columns
+        self.ohe.fit(x[self.columns])
         self.is_fit = True
 
-    def transform(self, x_orig):
+    def transform(self, x):
         if not self.is_fit:
             raise RuntimeError("Must fit one hot encoder before transforming")
-        x_to_encode = x_orig[self.feature_list]
+        x_to_encode = x[self.columns]
         columns = self.ohe.get_feature_names(x_to_encode.columns)
         index = x_to_encode.index
         x_cat_ohe = self.ohe.transform(x_to_encode)
         x_cat_ohe = pd.DataFrame(x_cat_ohe, columns=columns, index=index)
-        return pd.concat([x_orig.drop(self.feature_list, axis="columns"), x_cat_ohe], axis=1)
+        return pd.concat([x.drop(self.columns, axis="columns"), x_cat_ohe], axis=1)
 
     def transform_explanation_additive_contributions(self, explanation):
         """
@@ -135,8 +135,8 @@ class OneHotEncoder(Transformer):
         explanation = pd.DataFrame(explanation)
         if explanation.ndim == 1:
             explanation = explanation.reshape(1, -1)
-        encoded_columns = self.ohe.get_feature_names(self.feature_list)
-        for original_feature in self.feature_list:
+        encoded_columns = self.ohe.get_feature_names(self.columns)
+        for original_feature in self.columns:
             encoded_features = [item for item in encoded_columns if
                                 item.startswith(original_feature + "_")]
             summed_contribution = explanation[encoded_features].sum(axis=1)
@@ -154,12 +154,12 @@ class MappingsOneHotEncoder(Transformer):
     def __init__(self, mappings):
         self.mappings = mappings
 
-    def transform(self, data):
-        cols = data.columns
-        num_rows = data.shape[0]
+    def transform(self, x):
+        cols = x.columns
+        num_rows = x.shape[0]
         ohe_data = {}
         for col in cols:
-            values = data[col]
+            values = x[col]
             for item in self.mappings.categorical_to_one_hot[col]:
                 new_col_name = item[0]
                 ohe_data[new_col_name] = np.zeros(num_rows)
@@ -176,19 +176,19 @@ class MappingsOneHotDecoder(Transformer):
     def __init__(self, mappings):
         self.mappings = mappings
 
-    def transform(self, data):
+    def transform(self, x):
         cat_data = {}
-        cols = data.columns
-        num_rows = data.shape[0]
+        cols = x.columns
+        num_rows = x.shape[0]
 
         for col in cols:
             if col not in self.mappings.one_hot_to_categorical:
-                cat_data[col] = data[col]
+                cat_data[col] = x[col]
             else:
                 new_name = self.mappings.one_hot_to_categorical[col][0]
                 if new_name not in cat_data:
                     cat_data[new_name] = np.empty(num_rows, dtype="object")
                 # TODO: add functionality to handle defaults
-                cat_data[new_name][np.where(data[col] == 1)] = \
+                cat_data[new_name][np.where(x[col] == 1)] = \
                     self.mappings.one_hot_to_categorical[col][1]
         return pd.DataFrame(cat_data)

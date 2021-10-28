@@ -6,7 +6,7 @@ class FeatureSelectTransformer(Transformer):
         self.columns = columns
 
     def transform(self, data):
-        return data[self.feature_names]
+        return data[self.columns]
 
 
 class ColumnDropTransformer(Transformer):
@@ -14,11 +14,11 @@ class ColumnDropTransformer(Transformer):
     Removes columns that should not be predictive
     """
 
-    def __init__(self, columns_to_drop):
-        self.columns_to_drop = columns_to_drop
+    def __init__(self, columns):
+        self.columns = columns
 
     def transform(self, x):
-        return x.drop(self.columns_to_drop, axis="columns")
+        return x.drop(self.columns, axis="columns")
 
     def transform_explanation_additive_contributions(self, explanation):
         explanation_df = explanation.get()
