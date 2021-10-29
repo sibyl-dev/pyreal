@@ -108,7 +108,7 @@ class Transformer(ABC):
             explanation (ExplanationType):
                 The explanation to transform
         Returns:
-            (ExplanationType):
+            ExplanationType:
                 The transformed explanation
         Raises:
             ValueError

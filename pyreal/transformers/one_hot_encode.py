@@ -125,14 +125,14 @@ class OneHotEncoder(Transformer):
 
     def transform(self, x):
         """
-        Transform `x` from to a new feature space.
+        One-hot encode `x`.
         Args:
             x (DataFrame of shape (n_instances, n_features)):
                 The dataset to transform
 
         Returns:
             DataFrame of shape (n_instances, n_transformed_features):
-                The transformed dataset
+                The one-hot encoded dataset
         """
 
         if not self.is_fit:
@@ -146,12 +146,16 @@ class OneHotEncoder(Transformer):
 
     def transform_explanation_additive_contributions(self, explanation):
         """
+        Combine the contributions of one-hot-encoded features through adding to get the
+        contributions of the original categorical feature.
 
         Args:
-            explanation: an AdditiveFeatureContributionExplanationType object
+            explanation (AdditiveFeatureContributionExplanationType):
+                The explanation to transform
 
         Returns:
-
+            ExplanationType:
+                The transformed explanation
         """
         return AdditiveFeatureContributionExplanationType(
             self.helper_summed_values(explanation.get()))
@@ -159,6 +163,18 @@ class OneHotEncoder(Transformer):
     # TODO: replace this with a more theoretically grounded approach to combining feature
     #  importance
     def transform_explanation_feature_importance(self, explanation):
+        """
+        Combine the contributions of one-hot-encoded features to get the
+        contributions of the original categorical feature.
+
+        Args:
+            explanation (AdditiveFeatureContributionExplanationType):
+                The explanation to transform
+
+        Returns:
+            ExplanationType:
+                The transformed explanation
+        """
         return FeatureImportanceExplanationType(self.helper_summed_values(explanation.get()))
 
     def helper_summed_values(self, explanation):
@@ -190,9 +206,26 @@ class MappingsOneHotEncoder(Transformer):
     """
 
     def __init__(self, mappings):
+        """
+        Initialize the transformer
+
+        Args:
+            mappings (Mappings):
+                Mappings from categorical column names to one-hot-encoded
+        """
         self.mappings = mappings
 
     def transform(self, x):
+        """
+        One-hot encode `x`.
+        Args:
+            x (DataFrame of shape (n_instances, n_features)):
+                The dataset to transform
+
+        Returns:
+            DataFrame of shape (n_instances, n_transformed_features):
+                The one-hot encoded dataset
+        """
         cols = x.columns
         num_rows = x.shape[0]
         ohe_data = {}
@@ -212,9 +245,26 @@ class MappingsOneHotDecoder(Transformer):
     """
 
     def __init__(self, mappings):
+        """
+        Initialize the transformer
+
+        Args:
+            mappings (Mappings):
+                Mappings from categorical column names to one-hot-encoded
+        """
         self.mappings = mappings
 
     def transform(self, x):
+        """
+        One-hot decode `x`.
+        Args:
+            x (DataFrame of shape (n_instances, n_features)):
+                The dataset to transform
+
+        Returns:
+            DataFrame of shape (n_instances, n_transformed_features):
+                The one-hot decoded dataset
+        """
         cat_data = {}
         cols = x.columns
         num_rows = x.shape[0]
