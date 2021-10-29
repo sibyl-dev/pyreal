@@ -9,11 +9,39 @@ class DataFrameWrapper(Transformer):
     """
 
     def __init__(self, wrapped_transformer):
-        self.base_transformer = wrapped_transformer
+        """
+        Initialize the wrapped transformer
+
+        Args:
+            wrapped_transformer:
+        """
+        self.wrapped_transformer = wrapped_transformer
 
     def fit(self, x):
-        self.base_transformer.fit(x)
+        """
+        Fit the wrapped transformer
+
+        Args:
+            x (DataFrame of shape (n_instances, n_features)):
+                The dataset to fit to
+            **params:
+                Additional transformer parameters
+
+        Returns:
+            None
+        """
+        self.wrapped_transformer.fit(x)
 
     def transform(self, x):
-        transformed_np = self.base_transformer.transform(x)
+        """
+        Transform `x` using the wrapped transformer
+        Args:
+            x (DataFrame of shape (n_instances, n_features)):
+                The dataset to transform
+
+        Returns:
+            DataFrame of shape (n_instances, n_transformed_features):
+                The transformed dataset
+        """
+        transformed_np = self.wrapped_transformer.transform(x)
         return pd.DataFrame(transformed_np, columns=x.columns, index=x.index)
