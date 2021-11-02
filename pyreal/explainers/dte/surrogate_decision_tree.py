@@ -2,7 +2,6 @@ import pandas as pd
 from sklearn import tree
 
 from pyreal.explainers import DecisionTreeExplainerBase
-from pyreal.utils.explanation_algorithm import ExplanationAlgorithm
 
 
 class SurrogateDecisionTree(DecisionTreeExplainerBase):
@@ -26,11 +25,10 @@ class SurrogateDecisionTree(DecisionTreeExplainerBase):
 
     def __init__(self, model, x_train_orig, is_classifier=True, max_depth=None, **kwargs):
         self.explainer = None
-        self.algorithm = ExplanationAlgorithm.SURROGATE_DECISION_TREE
         self.explainer_input_size = None
         self.is_classifer = is_classifier
         self.max_depth = max_depth
-        super(SurrogateDecisionTree, self).__init__(self.algorithm, model, x_train_orig, **kwargs)
+        super(SurrogateDecisionTree, self).__init__(model, x_train_orig, **kwargs)
 
     def fit(self):
         """

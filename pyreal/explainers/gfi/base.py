@@ -14,8 +14,6 @@ class GlobalFeatureImportanceBase(Explainer, ABC):
     by returning one number per feature, for the model in general.
 
     Args:
-        algorithm (ExplanationAlgorithm or None):
-            Name of the algorithm this Explainer uses
         model (string filepath or model object):
            Filepath to the pickled model to explain, or model object with .predict() function
         x_train_orig (dataframe of shape (n_instances, x_orig_feature_count)):
@@ -29,10 +27,10 @@ class GlobalFeatureImportanceBase(Explainer, ABC):
         **kwargs: see base Explainer args
     """
 
-    def __init__(self, algorithm, model, x_train_orig, interpretable_features=True, **kwargs):
+    def __init__(self, model, x_train_orig, interpretable_features=True, **kwargs):
         self.interpretable_features = interpretable_features
         self.importance = None
-        super(GlobalFeatureImportanceBase, self).__init__(algorithm, model, x_train_orig, **kwargs)
+        super(GlobalFeatureImportanceBase, self).__init__(model, x_train_orig, **kwargs)
 
     @abstractmethod
     def fit(self):
@@ -56,7 +54,7 @@ class GlobalFeatureImportanceBase(Explainer, ABC):
         if self.importance is not None:
             return self.importance
         importance = self.get_importance()
-        importance = self.transform_explanation(importance)
+        importance = self.transform_explanation(importance).get()
         if self.interpretable_features:
             return self.convert_columns_to_interpretable(importance)
         self.importance = importance
