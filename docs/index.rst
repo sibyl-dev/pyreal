@@ -28,7 +28,7 @@ data form.
     - functionality
 
 Explore Pyreal
------------
+---------------
 
 * `Getting Started <getting_started/index.html>`_
 * `User Guides <user_guides/index.html>`_

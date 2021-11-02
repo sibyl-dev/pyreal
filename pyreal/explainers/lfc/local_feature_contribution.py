@@ -6,7 +6,7 @@ def choose_algorithm():
     Choose an algorithm based on the model type.
     Currently, shap is the only supported algorithm
 
-    Return:
+    Returns:
         string (one of ["shap"])
             Explanation algorithm to use
     """
@@ -115,8 +115,7 @@ class LocalFeatureContribution(LocalFeatureContributionsBase):
         if self.base_local_feature_contribution is None:
             raise ValueError("Invalid algorithm type %s" % e_algorithm)
 
-        super(LocalFeatureContribution, self).__init__(
-            self.base_local_feature_contribution.algorithm, model, x_train_orig, **kwargs)
+        super(LocalFeatureContribution, self).__init__(model, x_train_orig, **kwargs)
 
     def fit(self):
         """

@@ -2,7 +2,9 @@ import numpy as np
 import pandas as pd
 from sklearn.preprocessing import OneHotEncoder as SklearnOneHotEncoder
 
-from pyreal.transformers import BaseTransformer
+from pyreal.transformers import Transformer
+from pyreal.types.explanations.dataframe import (
+    AdditiveFeatureContributionExplanation, FeatureImportanceExplanation,)
 
 
 def generate_one_hot_to_categorical(categorical_to_one_hot):
@@ -82,7 +84,7 @@ class Mappings:
                             generate_one_hot_to_categorical(categorical_to_one_hot))
 
 
-class OneHotEncoder(BaseTransformer):
+class OneHotEncoder(Transformer):
     def __init__(self, columns=None):
         self.ohe = SklearnOneHotEncoder(sparse=False)
         self.columns = columns
@@ -104,13 +106,22 @@ class OneHotEncoder(BaseTransformer):
         x_cat_ohe = pd.DataFrame(x_cat_ohe, columns=columns, index=index)
         return pd.concat([x.drop(self.columns, axis="columns"), x_cat_ohe], axis=1)
 
-    def transform_explanation_shap(self, explanation):
-        return self.helper_summed_values(explanation)
+    def transform_explanation_additive_contributions(self, explanation):
+        """
+
+        Args:
+            explanation: an AdditiveFeatureContributionExplanation object
+
+        Returns:
+
+        """
+        return AdditiveFeatureContributionExplanation(
+            self.helper_summed_values(explanation.get()))
 
     # TODO: replace this with a more theoretically grounded approach to combining feature
     #  importance
-    def transform_explanation_permutation_importance(self, explanation):
-        return self.helper_summed_values(explanation)
+    def transform_explanation_feature_importance(self, explanation):
+        return FeatureImportanceExplanation(self.helper_summed_values(explanation.get()))
 
     def helper_summed_values(self, explanation):
         """
@@ -134,7 +145,7 @@ class OneHotEncoder(BaseTransformer):
         return explanation
 
 
-class MappingsOneHotEncoder(BaseTransformer):
+class MappingsOneHotEncoder(Transformer):
     """
     Converts data from categorical form to one-hot-encoded, with feature names based on a
     mappings object which includes two dictionaries
@@ -156,7 +167,7 @@ class MappingsOneHotEncoder(BaseTransformer):
         return pd.DataFrame(ohe_data)
 
 
-class MappingsOneHotDecoder(BaseTransformer):
+class MappingsOneHotDecoder(Transformer):
     """
     Converts data from one-hot encoded form to categorical, with feature names based on a
     mappings object which includes two dictionaries

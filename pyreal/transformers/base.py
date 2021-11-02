@@ -1,6 +1,8 @@
 from abc import ABC, abstractmethod
 
-from pyreal.utils.explanation_algorithm import ExplanationAlgorithm
+from pyreal.types.explanations.dataframe import (
+    AdditiveFeatureContributionExplanation, AdditiveFeatureImportanceExplanation,
+    FeatureImportanceExplanation,)
 
 
 def fit_transformers(transformers, x):
@@ -44,32 +46,80 @@ def run_transformers(transformers, x):
     return x_transform
 
 
-class BaseTransformer(ABC):
-    @abstractmethod
-    def transform(self, x):
-        pass
+class Transformer(ABC):
+    """
+    An abstract base class for Transformers. Transformers transform data from a first feature space
+    to a second, and explanations from the second back to the first.
+    """
 
     def fit(self, x, **params):
+        """
+        Fit this transformer to data
+
+        Args:
+            x (DataFrame of shape (n_instances, n_features)):
+                The dataset to fit to
+            **params:
+                Additional transformer parameters
+
+        Returns:
+            None
+        """
+        pass
+
+    @abstractmethod
+    def transform(self, x):
+        """
+        Transform `x` from to a new feature space.
+        Args:
+            x (DataFrame of shape (n_instances, n_features)):
+                The dataset to transform
+
+        Returns:
+            DataFrame of shape (n_instances, n_features):
+                The transformed dataset
+        """
         pass
 
     def fit_transform(self, x, **fit_params):
+        """
+        Fits this transformer to data and then transforms the same data
+
+        Args:
+            x (DataFrame of shape (n_instances, n_features)):
+                The dataset to fit and transform
+            **fit_params:
+                Parameters for the fit function
+
+        Returns:
+            The transformed dataset
+        """
         self.fit(x, **fit_params)
         return self.transform(x)
 
-    def transform_explanation(self, explanation, algorithm):
-        if algorithm == ExplanationAlgorithm.SHAP:
-            return self.transform_explanation_shap(explanation)
-        if algorithm == ExplanationAlgorithm.PERMUTATION_IMPORTANCE:
-            return self.transform_explanation_permutation_importance(explanation)
-        if algorithm == ExplanationAlgorithm.SURROGATE_DECISION_TREE:
-            raise NotImplementedError("Explanation transformers do not yet support "
-                                      "DecisionTreeExplainer")
-        raise ValueError("Invalid algorithm %s" % algorithm)
+    def transform_explanation(self, explanation):
+        """
+        Transforms the explanation from the second feature space handled by this transformer
+        to the first.
+
+        Args:
+            explanation (Explanation):
+                The explanation to transform
+
+        Returns:
+            The transformed explanation
+        """
+        if isinstance(explanation, AdditiveFeatureContributionExplanation) \
+                or isinstance(explanation, AdditiveFeatureImportanceExplanation):
+            return self.transform_explanation_additive_contributions(explanation)
+        if isinstance(explanation, FeatureImportanceExplanation):
+            return self.transform_explanation_feature_importance(explanation)
+        raise ValueError("Invalid explanation types %s" % explanation.__class__)
 
     # noinspection PyMethodMayBeStatic
-    def transform_explanation_shap(self, explanation):
+    def transform_explanation_additive_contributions(self, explanation):
         return explanation
 
     # noinspection PyMethodMayBeStatic
-    def transform_explanation_permutation_importance(self, explanation):
+    def transform_explanation_feature_importance(self, explanation):
         return explanation

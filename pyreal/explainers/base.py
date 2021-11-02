@@ -27,8 +27,6 @@ class Explainer(ABC):
     Generic Explainer object
 
     Args:
-        algorithm (ExplanationAlgorithm or None):
-            Name of the algorithm this Explainer uses
         model (string filepath or model object):
            Filepath to the pickled model to explain, or model object with .predict() function
            model.predict() should return a single value prediction for each input
@@ -73,7 +71,7 @@ class Explainer(ABC):
            on the explanation after producing.
     """
 
-    def __init__(self, algorithm, model,
+    def __init__(self, model,
                  x_train_orig, y_orig=None,
                  feature_descriptions=None,
                  classes=None,
@@ -89,7 +87,6 @@ class Explainer(ABC):
             if not callable(predict_method):
                 raise TypeError("Given model that does not have a .predict function")
             self.model = model
-        self.algorithm = algorithm
 
         self.x_train_orig = x_train_orig
         self.y_orig = y_orig
@@ -216,13 +213,13 @@ class Explainer(ABC):
                 for transform in self.e_transformers[::-1]:
                     transform_func = getattr(transform, "transform_explanation", None)
                     if callable(transform_func):
-                        explanation = transform_func(explanation, algorithm=self.algorithm)
+                        explanation = transform_func(explanation)
             if not self.skip_i_transform_explanation:
                 if self.i_transformers is not None:
                     for transform in self.i_transformers[::-1]:
                         transform_func = getattr(transform, "transform_explanation", None)
                         if callable(transform_func):
-                            explanation = transform_func(explanation, algorithm=self.algorithm)
+                            explanation = transform_func(explanation)
         return explanation
 
     def model_predict(self, x_orig):
