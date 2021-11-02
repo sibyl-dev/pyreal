@@ -47,5 +47,11 @@ jobs:
       - name: Lint
         run: poetry run invoke lint
 
-      - name: Test
-        run: poetry run invoke test
+      - name: Test Unit
+        run: poetry run invoke test_unit
+
+      - name: Test README
+        run: poetry run invoke test_readme
+
+      - name: Test Tutorials
+        run: poetry run invoke test_tutorials
