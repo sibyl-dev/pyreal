@@ -142,7 +142,7 @@ class OneHotEncoder(Transformer):
         index = x_to_encode.index
         x_cat_ohe = self.ohe.transform(x_to_encode)
         x_cat_ohe = pd.DataFrame(x_cat_ohe, columns=columns, index=index)
-        return pd.concat([x_orig.drop(self.columns, axis="columns"), x_cat_ohe], axis=1)
+        return pd.concat([x.drop(self.columns, axis="columns"), x_cat_ohe], axis=1)
 
     def transform_explanation_additive_contributions(self, explanation):
         """

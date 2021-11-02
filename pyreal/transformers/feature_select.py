@@ -41,7 +41,7 @@ class FeatureSelectTransformer(Transformer):
             DataFrame of shape (n_instances, len(columns)):
                 The data with features selected and reordered
         """
-        return x[self.feature_names]
+        return x[self.columns]
 
     def transform_explanation_additive_contributions(self, explanation):
         """
@@ -57,7 +57,7 @@ class FeatureSelectTransformer(Transformer):
 
         """
         explanation_df = explanation.get()
-        for col in self.columns:
+        for col in self.dropped_columns:
             explanation_df[col] = 0
         return AdditiveFeatureContributionExplanation(explanation_df)
 
@@ -74,6 +74,69 @@ class FeatureSelectTransformer(Transformer):
 
         """
         explanation_df = explanation.get()
-        for col in self.columns:
+        for col in self.dropped_columns:
+            explanation_df[col] = 0
+        return FeatureImportanceExplanation(explanation_df)
+
+
+class ColumnDropTransformer(Transformer):
+    """
+    A transformer that drops a set of columns from the data
+    """
+    def __init__(self, columns):
+        """
+        Initializes the transformer
+
+        Args:
+            columns (array-like or Index):
+                An ordered list of columns to drop
+        """
+        self.dropped_columns = columns
+
+    def transform(self, x):
+        """
+        Reorders and selects the features in x
+
+        Args:
+            x (DataFrame of shape (n_instances, n_features)):
+                The data to transform
+        Returns:
+            DataFrame of shape (n_instances, len(columns)):
+                The data with features selected and reordered
+        """
+        return x.drop(self.dropped_columns, axis=1)
+
+    def transform_explanation_additive_contributions(self, explanation):
+        """
+        Sets the contribution of dropped features to 0
+        Args:
+            explanation (AdditiveFeatureContributionExplanationType):
+                The explanation to be transformed
+
+        Returns:
+            Returns:
+                AdditiveFeatureContributionExplanationType:
+                    The transformed explanation
+
+        """
+        explanation_df = explanation.get()
+        for col in self.dropped_columns:
+            explanation_df[col] = 0
+        return AdditiveFeatureContributionExplanation(explanation_df)
+
+    def transform_explanation_feature_importance(self, explanation):
+        """
+        Sets the importance of dropped features to 0
+
+        Args:
+            explanation (FeatureImportanceExplanation):
+                The explanation to be transformed
+        Returns:
+            FeatureImportanceExplanation:
+                The transformed explanation
+
+        """
+        explanation_df = explanation.get()
+        for col in self.dropped_columns:
             explanation_df[col] = 0
         return FeatureImportanceExplanation(explanation_df)
