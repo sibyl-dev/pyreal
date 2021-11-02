@@ -1,0 +1,28 @@
+﻿pyreal.transformers.FeatureSelectTransformer
+============================================
+
+.. currentmodule:: pyreal.transformers
+
+.. autoclass:: FeatureSelectTransformer
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~FeatureSelectTransformer.__init__
+      ~FeatureSelectTransformer.fit
+      ~FeatureSelectTransformer.fit_transform
+      ~FeatureSelectTransformer.transform
+      ~FeatureSelectTransformer.transform_explanation
+      ~FeatureSelectTransformer.transform_explanation_additive_contributions
+      ~FeatureSelectTransformer.transform_explanation_feature_importance
+   
+   
+
+   
+   
+   

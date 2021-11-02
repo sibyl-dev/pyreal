@@ -1,0 +1,28 @@
+﻿pyreal.transformers.MappingsOneHotEncoder
+=========================================
+
+.. currentmodule:: pyreal.transformers
+
+.. autoclass:: MappingsOneHotEncoder
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~MappingsOneHotEncoder.__init__
+      ~MappingsOneHotEncoder.fit
+      ~MappingsOneHotEncoder.fit_transform
+      ~MappingsOneHotEncoder.transform
+      ~MappingsOneHotEncoder.transform_explanation
+      ~MappingsOneHotEncoder.transform_explanation_additive_contributions
+      ~MappingsOneHotEncoder.transform_explanation_feature_importance
+   
+   
+
+   
+   
+   

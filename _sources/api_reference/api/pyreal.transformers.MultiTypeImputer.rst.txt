@@ -1,0 +1,28 @@
+﻿pyreal.transformers.MultiTypeImputer
+====================================
+
+.. currentmodule:: pyreal.transformers
+
+.. autoclass:: MultiTypeImputer
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~MultiTypeImputer.__init__
+      ~MultiTypeImputer.fit
+      ~MultiTypeImputer.fit_transform
+      ~MultiTypeImputer.transform
+      ~MultiTypeImputer.transform_explanation
+      ~MultiTypeImputer.transform_explanation_additive_contributions
+      ~MultiTypeImputer.transform_explanation_feature_importance
+   
+   
+
+   
+   
+   

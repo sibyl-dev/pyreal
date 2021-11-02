@@ -1,0 +1,23 @@
+﻿pyreal.transformers.Mappings
+============================
+
+.. currentmodule:: pyreal.transformers
+
+.. autoclass:: Mappings
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~Mappings.__init__
+      ~Mappings.generate_mappings
+   
+   
+
+   
+   
+   
