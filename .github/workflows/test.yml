@@ -48,10 +48,10 @@ jobs:
         run: poetry run invoke lint
 
       - name: Test Unit
-        run: poetry run invoke test_unit
+        run: poetry run invoke test-unit
 
       - name: Test README
-        run: poetry run invoke test_readme
+        run: poetry run invoke test-readme
 
       - name: Test Tutorials
-        run: poetry run invoke test_tutorials
+        run: poetry run invoke test-tutorials
