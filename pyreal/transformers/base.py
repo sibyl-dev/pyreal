@@ -104,12 +104,11 @@ class Transformer(ABC):
         to the first.
 
         Args:
-            explanation:
-
-            algorithm:
+            explanation (ExplanationType):
+                The explanation to transform
 
         Returns:
-
+            The transformed explanation
         """
         if isinstance(explanation, AdditiveFeatureContributionExplanationType) \
                 or isinstance(explanation, AdditiveFeatureImportanceExplanationType):
