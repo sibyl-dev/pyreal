@@ -17,6 +17,7 @@
       ~DecisionTreeExplainer.convert_columns_to_interpretable
       ~DecisionTreeExplainer.convert_data_to_interpretable
       ~DecisionTreeExplainer.evaluate_model
+      ~DecisionTreeExplainer.evaluate_variation
       ~DecisionTreeExplainer.feature_description
       ~DecisionTreeExplainer.fit
       ~DecisionTreeExplainer.model_predict

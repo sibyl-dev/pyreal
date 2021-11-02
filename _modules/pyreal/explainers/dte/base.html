@@ -215,7 +215,32 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="n">features</span> <span class="o">=</span> <span class="n">x_explain</span><span class="o">.</span><span class="n">columns</span>
 
-        <span class="k">return</span> <span class="n">features</span></div></div>
+        <span class="k">return</span> <span class="n">features</span></div>
+
+    <span class="k">def</span> <span class="nf">evaluate_variation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">with_fit</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">explanations</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">n_iterations</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">n_rows</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Not currently implemented for decision tree explainers</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            with_fit (Boolean):</span>
+<span class="sd">                If True, evaluate the variation in explanations including the fit (fit each time</span>
+<span class="sd">                before running). If False, evaluate the variation in explanations of a pre-fit</span>
+<span class="sd">                Explainer.</span>
+<span class="sd">            explanations (None or List of Explanation Objects):</span>
+<span class="sd">                If provided, run the variation check on the precomputed list of explanations</span>
+<span class="sd">                instead of generating</span>
+<span class="sd">            n_iterations (int):</span>
+<span class="sd">                Number of explanations to generate to evaluation variation</span>
+<span class="sd">            n_rows (int):</span>
+<span class="sd">                Number of rows of dataset to generate explanations on</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            None</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            NotImplementedError</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 </pre></div>
 
               </div>

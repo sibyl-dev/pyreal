@@ -17,6 +17,7 @@
       ~GlobalFeatureImportanceBase.convert_columns_to_interpretable
       ~GlobalFeatureImportanceBase.convert_data_to_interpretable
       ~GlobalFeatureImportanceBase.evaluate_model
+      ~GlobalFeatureImportanceBase.evaluate_variation
       ~GlobalFeatureImportanceBase.feature_description
       ~GlobalFeatureImportanceBase.fit
       ~GlobalFeatureImportanceBase.get_importance

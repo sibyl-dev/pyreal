@@ -17,6 +17,7 @@
       ~LocalFeatureContributionsBase.convert_columns_to_interpretable
       ~LocalFeatureContributionsBase.convert_data_to_interpretable
       ~LocalFeatureContributionsBase.evaluate_model
+      ~LocalFeatureContributionsBase.evaluate_variation
       ~LocalFeatureContributionsBase.feature_description
       ~LocalFeatureContributionsBase.fit
       ~LocalFeatureContributionsBase.get_contributions
