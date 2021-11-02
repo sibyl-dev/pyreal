@@ -181,7 +181,7 @@ def test_evaluate_variation(classification_no_transforms):
     model = classification_no_transforms
     lfc = GlobalFeatureImportance(model=model["model"],
                                   x_train_orig=model["x"], e_algorithm='shap',
-                                  transforms=model["transforms"],
+                                  transformers=model["transformers"],
                                   fit_on_init=True,
                                   classes=np.arange(1, 4))
 

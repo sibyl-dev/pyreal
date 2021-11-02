@@ -65,7 +65,6 @@ class Transformer(ABC):
         Returns:
             None
         """
-        pass
 
     @abstractmethod
     def transform(self, x):
@@ -79,7 +78,6 @@ class Transformer(ABC):
             DataFrame of shape (n_instances, n_features):
                 The transformed dataset
         """
-        pass
 
     def fit_transform(self, x, **fit_params):
         """

@@ -129,7 +129,6 @@ class Explainer(ABC):
         if fit_on_init:
             self.fit()
 
-    @abstractmethod
     def fit(self):
         """
         Fit this explainer object. Abstract method
