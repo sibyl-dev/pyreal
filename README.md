@@ -91,7 +91,7 @@ passenger on the Titanic would have survived.
 >>> lfc = LocalFeatureContribution(model=model, x_train_orig=x_train_orig,
 ...                                m_transformers=transformers, e_transformers=transformers,
 ...                                feature_descriptions=feature_descriptions,
-...                                fit_on_init=True)
+                                   fit_on_init=True)
 >>> lfc.fit()
 
 # Make predictions on an input
