@@ -75,7 +75,7 @@ class Transformer(ABC):
                 The dataset to transform
 
         Returns:
-            DataFrame of shape (n_instances, n_features):
+            DataFrame of shape (n_instances, n_transformed_features):
                 The transformed dataset
         """
 
@@ -90,7 +90,8 @@ class Transformer(ABC):
                 Parameters for the fit function
 
         Returns:
-            The transformed dataset
+            (DataFrame of shape (n_instances, n_transformed_features):
+                The transformed dataset
         """
         self.fit(x, **fit_params)
         return self.transform(x)
@@ -103,9 +104,13 @@ class Transformer(ABC):
         Args:
             explanation (Explanation):
                 The explanation to transform
-
         Returns:
-            The transformed explanation
+            Explanation:
+                The transformed explanation
+        Raises:
+            ValueError
+                If `explantion` is not of a supported ExplanationType
+
         """
         if isinstance(explanation, AdditiveFeatureContributionExplanation) \
                 or isinstance(explanation, AdditiveFeatureImportanceExplanation):
@@ -116,8 +121,30 @@ class Transformer(ABC):
 
     # noinspection PyMethodMayBeStatic
     def transform_explanation_additive_contributions(self, explanation):
+        """
+        Transforms additive contribution explanations
+
+        Args:
+            explanation (AdditiveFeatureContributionExplanationType):
+                The explanation to be transformed
+
+        Returns:
+            AdditiveFeatureContributionExplanationType:
+                The transformed explanation
+        """
         return explanation
 
     # noinspection PyMethodMayBeStatic
     def transform_explanation_feature_importance(self, explanation):
+        """
+        Transforms feature importance explanations
+
+        Args:
+            explanation (FeatureImportanceExplanationType):
+                The explanation to be transformed
+        Returns:
+            FeatureImportanceExplanationType:
+                The transformed explanation
+
+        """
         return explanation

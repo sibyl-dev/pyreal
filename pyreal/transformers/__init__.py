@@ -6,7 +6,7 @@ from pyreal.transformers.one_hot_encode import Mappings, OneHotEncoder, \
 from pyreal.transformers.wrappers import DataFrameWrapper
 
 __all__ = ['Transformer', 'fit_transformers', 'run_transformers',
-           'ColumnDropTransformer', 'FeatureSelectTransformer',
+           'FeatureSelectTransformer', 'ColumnDropTransformer',
            'MultiTypeImputer',
            'Mappings', 'OneHotEncoder', 'MappingsOneHotDecoder', 'MappingsOneHotEncoder',
            'DataFrameWrapper']
