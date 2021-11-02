@@ -1,0 +1,6 @@
+﻿pyreal.types.explanations.dataframe.FeatureImportanceExplanation.get
+====================================================================
+
+.. currentmodule:: pyreal.types.explanations.dataframe
+
+.. automethod:: FeatureImportanceExplanation.get

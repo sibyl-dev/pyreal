@@ -157,7 +157,7 @@
 <span class="sd">    Choose an algorithm based on the model type.</span>
 <span class="sd">    Currently, shap is the only supported algorithm</span>
 
-<span class="sd">    Return:</span>
+<span class="sd">    Returns:</span>
 <span class="sd">        string (one of [&quot;shap&quot;])</span>
 <span class="sd">            Explanation algorithm to use</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -266,8 +266,7 @@
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_local_feature_contribution</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Invalid algorithm type </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">e_algorithm</span><span class="p">)</span>
 
-        <span class="nb">super</span><span class="p">(</span><span class="n">LocalFeatureContribution</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">base_local_feature_contribution</span><span class="o">.</span><span class="n">algorithm</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">x_train_orig</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+        <span class="nb">super</span><span class="p">(</span><span class="n">LocalFeatureContribution</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">x_train_orig</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="LocalFeatureContribution.fit"><a class="viewcode-back" href="../../../../api_reference/api/pyreal.explainers.LocalFeatureContribution.fit.html#pyreal.explainers.LocalFeatureContribution.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>

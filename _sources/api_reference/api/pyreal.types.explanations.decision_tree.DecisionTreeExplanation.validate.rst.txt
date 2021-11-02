@@ -1,0 +1,6 @@
+﻿pyreal.types.explanations.decision\_tree.DecisionTreeExplanation.validate
+=========================================================================
+
+.. currentmodule:: pyreal.types.explanations.decision_tree
+
+.. automethod:: DecisionTreeExplanation.validate

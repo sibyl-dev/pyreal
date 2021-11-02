@@ -154,7 +154,7 @@
 <span class="kn">from</span> <span class="nn">sklearn.inspection</span> <span class="kn">import</span> <span class="n">permutation_importance</span>
 
 <span class="kn">from</span> <span class="nn">pyreal.explainers</span> <span class="kn">import</span> <span class="n">GlobalFeatureImportanceBase</span>
-<span class="kn">from</span> <span class="nn">pyreal.utils.explanation_algorithm</span> <span class="kn">import</span> <span class="n">ExplanationAlgorithm</span>
+<span class="kn">from</span> <span class="nn">pyreal.types.explanations.dataframe</span> <span class="kn">import</span> <span class="n">FeatureImportanceExplanation</span>
 
 
 <div class="viewcode-block" id="PermutationFeatureImportance"><a class="viewcode-back" href="../../../../api_reference/api/pyreal.explainers.PermutationFeatureImportance.html#pyreal.explainers.PermutationFeatureImportance">[docs]</a><span class="k">class</span> <span class="nc">PermutationFeatureImportance</span><span class="p">(</span><span class="n">GlobalFeatureImportanceBase</span><span class="p">):</span>
@@ -174,10 +174,8 @@
 
 <div class="viewcode-block" id="PermutationFeatureImportance.__init__"><a class="viewcode-back" href="../../../../api_reference/api/pyreal.explainers.PermutationFeatureImportance.html#pyreal.explainers.PermutationFeatureImportance.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">x_train_orig</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">explainer</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">algorithm</span> <span class="o">=</span> <span class="n">ExplanationAlgorithm</span><span class="o">.</span><span class="n">PERMUTATION_IMPORTANCE</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">explainer_input_size</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">PermutationFeatureImportance</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">algorithm</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">x_train_orig</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+        <span class="nb">super</span><span class="p">(</span><span class="n">PermutationFeatureImportance</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">x_train_orig</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="PermutationFeatureImportance.fit"><a class="viewcode-back" href="../../../../api_reference/api/pyreal.explainers.PermutationFeatureImportance.fit.html#pyreal.explainers.PermutationFeatureImportance.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -200,7 +198,8 @@
         <span class="n">importance_result</span> <span class="o">=</span> <span class="n">permutation_importance</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y_orig</span><span class="p">,</span> <span class="n">n_repeats</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
         <span class="n">importances</span> <span class="o">=</span> <span class="n">importance_result</span><span class="o">.</span><span class="n">importances_mean</span>
-        <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">importances</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="n">columns</span><span class="o">=</span><span class="n">columns</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="n">FeatureImportanceExplanation</span><span class="p">(</span>
+            <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">importances</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="n">columns</span><span class="o">=</span><span class="n">columns</span><span class="p">))</span></div></div>
 </pre></div>
 
               </div>

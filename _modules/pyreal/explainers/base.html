@@ -178,8 +178,6 @@
 <span class="sd">    Generic Explainer object</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        algorithm (ExplanationAlgorithm or None):</span>
-<span class="sd">            Name of the algorithm this Explainer uses</span>
 <span class="sd">        model (string filepath or model object):</span>
 <span class="sd">           Filepath to the pickled model to explain, or model object with .predict() function</span>
 <span class="sd">           model.predict() should return a single value prediction for each input</span>
@@ -224,7 +222,7 @@
 <span class="sd">           on the explanation after producing.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="Explainer.__init__"><a class="viewcode-back" href="../../../api_reference/api/pyreal.explainers.Explainer.html#pyreal.explainers.Explainer.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">algorithm</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span>
+<div class="viewcode-block" id="Explainer.__init__"><a class="viewcode-back" href="../../../api_reference/api/pyreal.explainers.Explainer.html#pyreal.explainers.Explainer.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span>
                  <span class="n">x_train_orig</span><span class="p">,</span> <span class="n">y_orig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">feature_descriptions</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">classes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -240,7 +238,6 @@
             <span class="k">if</span> <span class="ow">not</span> <span class="n">callable</span><span class="p">(</span><span class="n">predict_method</span><span class="p">):</span>
                 <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Given model that does not have a .predict function&quot;</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">model</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">algorithm</span> <span class="o">=</span> <span class="n">algorithm</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">x_train_orig</span> <span class="o">=</span> <span class="n">x_train_orig</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">y_orig</span> <span class="o">=</span> <span class="n">y_orig</span>
@@ -367,13 +364,13 @@
                 <span class="k">for</span> <span class="n">transform</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">e_transformers</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
                     <span class="n">transform_func</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">transform</span><span class="p">,</span> <span class="s2">&quot;transform_explanation&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
                     <span class="k">if</span> <span class="n">callable</span><span class="p">(</span><span class="n">transform_func</span><span class="p">):</span>
-                        <span class="n">explanation</span> <span class="o">=</span> <span class="n">transform_func</span><span class="p">(</span><span class="n">explanation</span><span class="p">,</span> <span class="n">algorithm</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">algorithm</span><span class="p">)</span>
+                        <span class="n">explanation</span> <span class="o">=</span> <span class="n">transform_func</span><span class="p">(</span><span class="n">explanation</span><span class="p">)</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">skip_i_transform_explanation</span><span class="p">:</span>
                 <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">i_transformers</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                     <span class="k">for</span> <span class="n">transform</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">i_transformers</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
                         <span class="n">transform_func</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">transform</span><span class="p">,</span> <span class="s2">&quot;transform_explanation&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
                         <span class="k">if</span> <span class="n">callable</span><span class="p">(</span><span class="n">transform_func</span><span class="p">):</span>
-                            <span class="n">explanation</span> <span class="o">=</span> <span class="n">transform_func</span><span class="p">(</span><span class="n">explanation</span><span class="p">,</span> <span class="n">algorithm</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">algorithm</span><span class="p">)</span>
+                            <span class="n">explanation</span> <span class="o">=</span> <span class="n">transform_func</span><span class="p">(</span><span class="n">explanation</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">explanation</span>
 
 <div class="viewcode-block" id="Explainer.model_predict"><a class="viewcode-back" href="../../../api_reference/api/pyreal.explainers.Explainer.model_predict.html#pyreal.explainers.Explainer.model_predict">[docs]</a>    <span class="k">def</span> <span class="nf">model_predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_orig</span><span class="p">):</span>

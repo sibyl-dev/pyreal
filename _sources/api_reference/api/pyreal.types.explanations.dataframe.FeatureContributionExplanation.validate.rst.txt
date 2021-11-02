@@ -1,0 +1,6 @@
+﻿pyreal.types.explanations.dataframe.FeatureContributionExplanation.validate
+===========================================================================
+
+.. currentmodule:: pyreal.types.explanations.dataframe
+
+.. automethod:: FeatureContributionExplanation.validate

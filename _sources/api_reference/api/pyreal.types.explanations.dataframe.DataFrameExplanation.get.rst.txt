@@ -1,0 +1,6 @@
+﻿pyreal.types.explanations.dataframe.DataFrameExplanation.get
+============================================================
+
+.. currentmodule:: pyreal.types.explanations.dataframe
+
+.. automethod:: DataFrameExplanation.get

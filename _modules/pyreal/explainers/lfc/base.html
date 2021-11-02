@@ -163,8 +163,6 @@
 <span class="sd">    by taking an instance and returning one number per feature, per instance.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        algorithm (ExplanationAlgorithm or None):</span>
-<span class="sd">            Name of the algorithm this Explainer uses</span>
 <span class="sd">        model (string filepath or model object):</span>
 <span class="sd">           Filepath to the pickled model to explain, or model object with .predict() function</span>
 <span class="sd">        x_train_orig (dataframe of shape (n_instances, x_orig_feature_count)):</span>
@@ -178,10 +176,9 @@
 <span class="sd">        **kwargs: see base Explainer args</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="LocalFeatureContributionsBase.__init__"><a class="viewcode-back" href="../../../../api_reference/api/pyreal.explainers.LocalFeatureContributionsBase.html#pyreal.explainers.LocalFeatureContributionsBase.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">algorithm</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">x_train_orig</span><span class="p">,</span> <span class="n">interpretable_features</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="LocalFeatureContributionsBase.__init__"><a class="viewcode-back" href="../../../../api_reference/api/pyreal.explainers.LocalFeatureContributionsBase.html#pyreal.explainers.LocalFeatureContributionsBase.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">x_train_orig</span><span class="p">,</span> <span class="n">interpretable_features</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">interpretable_features</span> <span class="o">=</span> <span class="n">interpretable_features</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">LocalFeatureContributionsBase</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
-            <span class="n">algorithm</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">x_train_orig</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+        <span class="nb">super</span><span class="p">(</span><span class="n">LocalFeatureContributionsBase</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">x_train_orig</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="LocalFeatureContributionsBase.fit"><a class="viewcode-back" href="../../../../api_reference/api/pyreal.explainers.LocalFeatureContributionsBase.fit.html#pyreal.explainers.LocalFeatureContributionsBase.fit">[docs]</a>    <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -204,7 +201,7 @@
         <span class="k">if</span> <span class="n">x_orig</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
             <span class="n">x_orig</span> <span class="o">=</span> <span class="n">x_orig</span><span class="o">.</span><span class="n">to_frame</span><span class="p">()</span><span class="o">.</span><span class="n">T</span>
         <span class="n">contributions</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_contributions</span><span class="p">(</span><span class="n">x_orig</span><span class="p">)</span>
-        <span class="n">contributions</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform_explanation</span><span class="p">(</span><span class="n">contributions</span><span class="p">)</span>
+        <span class="n">contributions</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform_explanation</span><span class="p">(</span><span class="n">contributions</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">interpretable_features</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">convert_columns_to_interpretable</span><span class="p">(</span><span class="n">contributions</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">contributions</span></div>
