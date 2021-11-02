@@ -1,11 +1,13 @@
 from pyreal.transformers import Transformer
-from pyreal.types.explanations.dataframe import AdditiveFeatureContributionExplanation, FeatureImportanceExplanation
+from pyreal.types.explanations.dataframe import (
+    AdditiveFeatureContributionExplanation, FeatureImportanceExplanation,)
 
 
 class FeatureSelectTransformer(Transformer):
     """
     A transformer that selects and re-orders features to match the model's inputs
     """
+
     def __init__(self, columns):
         """
         Initializes the transformer
@@ -83,6 +85,7 @@ class ColumnDropTransformer(Transformer):
     """
     A transformer that drops a set of columns from the data
     """
+
     def __init__(self, columns):
         """
         Initializes the transformer

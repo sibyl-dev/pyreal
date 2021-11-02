@@ -94,6 +94,7 @@ class OneHotEncoder(Transformer):
     """
     One-hot encodes categorical feature values
     """
+
     def __init__(self, columns=None):
         """
         Initializes the base one-hot encoder
@@ -158,7 +159,7 @@ class OneHotEncoder(Transformer):
                 The transformed explanation
         """
         return AdditiveFeatureContributionExplanation(
-            self.helper_summed_values(explanation.get()))
+            self._helper_summed_values(explanation.get()))
 
     # TODO: replace this with a more theoretically grounded approach to combining feature
     #  importance
@@ -175,9 +176,9 @@ class OneHotEncoder(Transformer):
             Explanation:
                 The transformed explanation
         """
-        return FeatureImportanceExplanation(self.helper_summed_values(explanation.get()))
+        return FeatureImportanceExplanation(self._helper_summed_values(explanation.get()))
 
-    def helper_summed_values(self, explanation):
+    def _helper_summed_values(self, explanation):
         """
         Sum together the items in the explanation.
         Args:
