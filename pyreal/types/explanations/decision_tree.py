@@ -2,10 +2,10 @@ from sklearn.exceptions import NotFittedError
 from sklearn.tree import BaseDecisionTree
 from sklearn.utils.validation import check_is_fitted
 
-from pyreal.types.explanations.base import ExplanationType
+from pyreal.types.explanations.base import Explanation
 
 
-class DecisionTreeExplanationType(ExplanationType):
+class DecisionTreeExplanation(Explanation):
     """
     A type wrapper for decision-tree based type outputs from explanation algorithms.
     """

@@ -1,9 +1,9 @@
 import pandas as pd
 
-from pyreal.types.explanations.base import ExplanationType
+from pyreal.types.explanations.base import Explanation
 
 
-class DataFrameExplanationType(ExplanationType):
+class DataFrameExplanation(Explanation):
     """
     A type wrapper for feature-based DataFrame type outputs from explanation algorithms.
     """
@@ -22,7 +22,7 @@ class DataFrameExplanationType(ExplanationType):
             raise AssertionError("DataFrame explanations must be of type DataFrame")
 
 
-class FeatureImportanceExplanationType(DataFrameExplanationType):
+class FeatureImportanceExplanation(DataFrameExplanation):
     """
     A type wrapper for global feature importance DataFrame type outputs from explanation
     algorithms. Global feature importance explanations give one numeric value per feature,
@@ -43,7 +43,7 @@ class FeatureImportanceExplanationType(DataFrameExplanationType):
             raise AssertionError("Global Feature Importance Explanations can have only one row")
 
 
-class AdditiveFeatureImportanceExplanationType(FeatureImportanceExplanationType):
+class AdditiveFeatureImportanceExplanation(FeatureImportanceExplanation):
     """
     A type wrapper for additive global feature importance DataFrame type outputs from explanation
     algorithms. Additive global feature importance give one numeric value per feature,
@@ -64,7 +64,7 @@ class AdditiveFeatureImportanceExplanationType(FeatureImportanceExplanationType)
         super().validate()
 
 
-class FeatureContributionExplanationType(DataFrameExplanationType):
+class FeatureContributionExplanation(DataFrameExplanation):
     """
     A type wrapper for local feature contribution DataFrame type outputs from explanation
     algorithms. Local feature contribution explanations give one numeric value per instance
@@ -84,7 +84,7 @@ class FeatureContributionExplanationType(DataFrameExplanationType):
         super().validate()
 
 
-class AdditiveFeatureContributionExplanationType(FeatureContributionExplanationType):
+class AdditiveFeatureContributionExplanation(FeatureContributionExplanation):
     """
     A type wrapper for local feature contribution DataFrame type outputs from explanation
     algorithms. Local feature contribution explanations give one numeric value per instance

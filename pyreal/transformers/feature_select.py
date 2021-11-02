@@ -1,4 +1,5 @@
 from pyreal.transformers import Transformer
+from pyreal.types.explanations.dataframe import AdditiveFeatureContributionExplanation
 
 
 class FeatureSelectTransformer(Transformer):
@@ -22,11 +23,11 @@ class ColumnDropTransformer(Transformer):
 
     def transform_explanation_additive_contributions(self, explanation):
         explanation_df = explanation.get()
-        for col in self.columns_to_drop:
+        for col in self.columns:
             explanation_df[col] = 0
-        return AdditiveFeatureContributionExplanationType(explanation_df)
+        return AdditiveFeatureContributionExplanation(explanation_df)
 
     def transform_explanation_feature_importance(self, explanation):
-        for col in self.columns_to_drop:
+        for col in self.columns:
             explanation[col] = 0
         return explanation

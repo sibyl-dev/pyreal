@@ -3,7 +3,7 @@ import pandas as pd
 from sklearn.inspection import permutation_importance
 
 from pyreal.explainers import GlobalFeatureImportanceBase
-from pyreal.types.explanations.dataframe import FeatureImportanceExplanationType
+from pyreal.types.explanations.dataframe import FeatureImportanceExplanation
 
 
 class PermutationFeatureImportance(GlobalFeatureImportanceBase):
@@ -47,5 +47,5 @@ class PermutationFeatureImportance(GlobalFeatureImportanceBase):
         importance_result = permutation_importance(
             self.model, x, self.y_orig, n_repeats=100)
         importances = importance_result.importances_mean
-        return FeatureImportanceExplanationType(
+        return FeatureImportanceExplanation(
             pd.DataFrame(importances.reshape(1, -1), columns=columns))

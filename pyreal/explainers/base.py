@@ -71,7 +71,7 @@ class Explainer(ABC):
            on the explanation after producing.
     """
 
-    def __init__(self, algorithm, model,
+    def __init__(self, model,
                  x_train_orig, y_orig=None,
                  feature_descriptions=None,
                  classes=None,
@@ -213,13 +213,13 @@ class Explainer(ABC):
                 for transform in self.e_transformers[::-1]:
                     transform_func = getattr(transform, "transform_explanation", None)
                     if callable(transform_func):
-                        explanation = transform_func(explanation, algorithm=self.algorithm)
+                        explanation = transform_func(explanation)
             if not self.skip_i_transform_explanation:
                 if self.i_transformers is not None:
                     for transform in self.i_transformers[::-1]:
                         transform_func = getattr(transform, "transform_explanation", None)
                         if callable(transform_func):
-                            explanation = transform_func(explanation, algorithm=self.algorithm)
+                            explanation = transform_func(explanation)
         return explanation
 
     def model_predict(self, x_orig):

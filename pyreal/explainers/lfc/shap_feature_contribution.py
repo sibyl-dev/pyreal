@@ -4,7 +4,7 @@ from shap import Explainer as ShapExplainer
 from shap import KernelExplainer, LinearExplainer
 
 from pyreal.explainers import LocalFeatureContributionsBase
-from pyreal.types.explanations.dataframe import AdditiveFeatureContributionExplanationType
+from pyreal.types.explanations.dataframe import AdditiveFeatureContributionExplanation
 
 
 class ShapFeatureContribution(LocalFeatureContributionsBase):
@@ -77,12 +77,12 @@ class ShapFeatureContribution(LocalFeatureContributionsBase):
         if shap_values.ndim < 2:
             raise RuntimeError("Something went wrong with SHAP - expected at least 2 dimensions")
         if shap_values.ndim == 2:
-            return AdditiveFeatureContributionExplanationType(
+            return AdditiveFeatureContributionExplanation(
                 pd.DataFrame(shap_values, columns=columns))
         if shap_values.ndim > 2:
             predictions = self.model_predict(x_orig)
             if self.classes is not None:
                 predictions = [np.where(self.classes == i)[0][0] for i in predictions]
             shap_values = shap_values[predictions, np.arange(shap_values.shape[1]), :]
-            return AdditiveFeatureContributionExplanationType(
+            return AdditiveFeatureContributionExplanation(
                 pd.DataFrame(shap_values, columns=columns))
