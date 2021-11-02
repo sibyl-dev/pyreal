@@ -8,6 +8,14 @@ from sys import executable
 import os
 
 
+def print_red(s):
+    print("\033[91m {}\033[00m" .format(s), end="")
+
+
+def print_green(s):
+    print("\033[92m {}\033[00m" .format(s), end="")
+
+
 def _rm_recursive(path: Path, pattern: str):
     """
     Glob the given relative pattern in the directory represented by this path,
@@ -131,11 +139,29 @@ def test(context):
     Runs all test commands.
     """
 
-    test_unit(context)
+    failures_in = []
 
-    test_readme(context)
+    try:
+        test_unit(context)
+    except subprocess.CalledProcessError:
+        failures_in.append("Unit tests")
 
-    test_tutorials(context)
+    try:
+        test_readme(context)
+    except subprocess.CalledProcessError:
+        failures_in.append("README")
+
+    try:
+        test_tutorials(context)
+    except subprocess.CalledProcessError:
+        failures_in.append("Tutorials")
+
+    if len(failures_in) == 0:
+        print_green("\nAll tests successful")
+    else:
+        print_red("\nFailures in: ")
+        for i in failures_in:
+            print_red(i + ", ")
 
 
 @task
