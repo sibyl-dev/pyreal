@@ -1,8 +1,8 @@
 from abc import ABC, abstractmethod
 
 from pyreal.types.explanations.dataframe import (
-    AdditiveFeatureContributionExplanationType, AdditiveFeatureImportanceExplanationType,
-    FeatureImportanceExplanationType,)
+    AdditiveFeatureContributionExplanation, AdditiveFeatureImportanceExplanation,
+    FeatureImportanceExplanation,)
 
 
 def fit_transformers(transformers, x):
@@ -52,7 +52,6 @@ class Transformer(ABC):
     to a second, and explanations from the second back to the first.
     """
 
-    @abstractmethod
     def fit(self, x, **params):
         """
         Fit this transformer to data
@@ -66,7 +65,6 @@ class Transformer(ABC):
         Returns:
             None
         """
-        pass
 
     @abstractmethod
     def transform(self, x):
@@ -80,7 +78,6 @@ class Transformer(ABC):
             DataFrame of shape (n_instances, n_transformed_features):
                 The transformed dataset
         """
-        pass
 
     def fit_transform(self, x, **fit_params):
         """
@@ -105,20 +102,20 @@ class Transformer(ABC):
         to the first.
 
         Args:
-            explanation (ExplanationType):
+            explanation (Explanation):
                 The explanation to transform
         Returns:
-            ExplanationType:
+            Explanation:
                 The transformed explanation
         Raises:
             ValueError
                 If `explantion` is not of a supported ExplanationType
 
         """
-        if isinstance(explanation, AdditiveFeatureContributionExplanationType) \
-                or isinstance(explanation, AdditiveFeatureImportanceExplanationType):
+        if isinstance(explanation, AdditiveFeatureContributionExplanation) \
+                or isinstance(explanation, AdditiveFeatureImportanceExplanation):
             return self.transform_explanation_additive_contributions(explanation)
-        if isinstance(explanation, FeatureImportanceExplanationType):
+        if isinstance(explanation, FeatureImportanceExplanation):
             return self.transform_explanation_feature_importance(explanation)
         raise ValueError("Invalid explanation types %s" % explanation.__class__)
 

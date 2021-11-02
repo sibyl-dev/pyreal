@@ -1,4 +1,4 @@
-class ExplanationType:
+class Explanation:
     """
     A type wrapper for outputs from explanation algorithms. Validates that an object is a
     valid explanation output.
@@ -26,7 +26,7 @@ class ExplanationType:
 
     def validate(self):
         """
-        Validate that `self.explanation` is a valid object of type `ExplanationType`
+        Validate that `self.explanation` is a valid object of type `Explanation`
         Returns:
             None
         Raises:

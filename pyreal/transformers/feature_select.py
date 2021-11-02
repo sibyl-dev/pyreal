@@ -1,5 +1,5 @@
 from pyreal.transformers import Transformer
-from pyreal.types.explanations.dataframe import AdditiveFeatureContributionExplanationType, FeatureImportanceExplanationType
+from pyreal.types.explanations.dataframe import AdditiveFeatureContributionExplanation, FeatureImportanceExplanation
 
 
 class FeatureSelectTransformer(Transformer):
@@ -57,23 +57,23 @@ class FeatureSelectTransformer(Transformer):
 
         """
         explanation_df = explanation.get()
-        for col in self.dropped_columns:
+        for col in self.columns:
             explanation_df[col] = 0
-        return AdditiveFeatureContributionExplanationType(explanation_df)
+        return AdditiveFeatureContributionExplanation(explanation_df)
 
     def transform_explanation_feature_importance(self, explanation):
         """
         Sets the importance of dropped features to 0
 
         Args:
-            explanation (FeatureImportanceExplanationType):
+            explanation (FeatureImportanceExplanation):
                 The explanation to be transformed
         Returns:
-            FeatureImportanceExplanationType:
+            FeatureImportanceExplanation:
                 The transformed explanation
 
         """
         explanation_df = explanation.get()
-        for col in self.dropped_columns:
+        for col in self.columns:
             explanation_df[col] = 0
-        return FeatureImportanceExplanationType(explanation_df)
+        return FeatureImportanceExplanation(explanation_df)

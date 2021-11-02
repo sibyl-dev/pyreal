@@ -89,9 +89,9 @@ passenger on the Titanic would have survived.
 # Create and fit LocalFeatureContribution Explainer object
 >>> from pyreal.explainers import LocalFeatureContribution
 >>> lfc = LocalFeatureContribution(model=model, x_train_orig=x_train_orig,
-                                   m_transformers=transformers, e_transformers=transformers,
-                                   feature_descriptions=feature_descriptions,
-                                   fit_on_init=True)
+...                                m_transformers=transformers, e_transformers=transformers,
+...                                feature_descriptions=feature_descriptions,
+...                                fit_on_init=True)
 >>> lfc.fit()
 
 # Make predictions on an input

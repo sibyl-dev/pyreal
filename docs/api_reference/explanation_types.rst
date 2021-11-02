@@ -9,60 +9,60 @@ Explanation Type
 .. autosummary::
     :toctree: api/
 
-    base.ExplanationType
-    base.ExplanationType.get
-    base.ExplanationType.validate
+    base.Explanation
+    base.Explanation.get
+    base.Explanation.validate
 
 DataFrame Explanation Type
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .. autosummary::
     :toctree: api/
 
-    dataframe.DataFrameExplanationType
-    dataframe.DataFrameExplanationType.get
-    dataframe.DataFrameExplanationType.validate
+    dataframe.DataFrameExplanation
+    dataframe.DataFrameExplanation.get
+    dataframe.DataFrameExplanation.validate
 
 Feature Importance Explanation Type
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .. autosummary::
     :toctree: api/
 
-    dataframe.FeatureImportanceExplanationType
-    dataframe.FeatureImportanceExplanationType.get
-    dataframe.FeatureImportanceExplanationType.validate
+    dataframe.FeatureImportanceExplanation
+    dataframe.FeatureImportanceExplanation.get
+    dataframe.FeatureImportanceExplanation.validate
 
 Additive Feature Importance Explanation Type
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .. autosummary::
     :toctree: api/
 
-    dataframe.AdditiveFeatureImportanceExplanationType
-    dataframe.AdditiveFeatureImportanceExplanationType.get
-    dataframe.AdditiveFeatureImportanceExplanationType.validate
+    dataframe.AdditiveFeatureImportanceExplanation
+    dataframe.AdditiveFeatureImportanceExplanation.get
+    dataframe.AdditiveFeatureImportanceExplanation.validate
 
 Feature Contribution Explanation Type
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .. autosummary::
     :toctree: api/
 
-    dataframe.FeatureContributionExplanationType
-    dataframe.FeatureContributionExplanationType.get
-    dataframe.FeatureContributionExplanationType.validate
+    dataframe.FeatureContributionExplanation
+    dataframe.FeatureContributionExplanation.get
+    dataframe.FeatureContributionExplanation.validate
 
 Additive Feature Contribution Explanation Type
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .. autosummary::
     :toctree: api/
 
-    dataframe.AdditiveFeatureContributionExplanationType
-    dataframe.AdditiveFeatureContributionExplanationType.get
-    dataframe.AdditiveFeatureContributionExplanationType.validate
+    dataframe.AdditiveFeatureContributionExplanation
+    dataframe.AdditiveFeatureContributionExplanation.get
+    dataframe.AdditiveFeatureContributionExplanation.validate
 
 Decision Tree Explanation Type
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .. autosummary::
     :toctree: api/
 
-    decision_tree.DecisionTreeExplanationType
-    decision_tree.DecisionTreeExplanationType.get
-    decision_tree.DecisionTreeExplanationType.validate
+    decision_tree.DecisionTreeExplanation
+    decision_tree.DecisionTreeExplanation.get
+    decision_tree.DecisionTreeExplanation.validate

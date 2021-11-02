@@ -4,7 +4,7 @@ from sklearn.preprocessing import OneHotEncoder as SklearnOneHotEncoder
 
 from pyreal.transformers import Transformer
 from pyreal.types.explanations.dataframe import (
-    AdditiveFeatureContributionExplanationType, FeatureImportanceExplanationType,)
+    AdditiveFeatureContributionExplanation, FeatureImportanceExplanation,)
 
 
 def _generate_one_hot_to_categorical(categorical_to_one_hot):
@@ -150,14 +150,14 @@ class OneHotEncoder(Transformer):
         contributions of the original categorical feature.
 
         Args:
-            explanation (AdditiveFeatureContributionExplanationType):
+            explanation (AdditiveFeatureContributionExplanation):
                 The explanation to transform
 
         Returns:
             ExplanationType:
                 The transformed explanation
         """
-        return AdditiveFeatureContributionExplanationType(
+        return AdditiveFeatureContributionExplanation(
             self.helper_summed_values(explanation.get()))
 
     # TODO: replace this with a more theoretically grounded approach to combining feature
@@ -168,14 +168,14 @@ class OneHotEncoder(Transformer):
         contributions of the original categorical feature.
 
         Args:
-            explanation (AdditiveFeatureContributionExplanationType):
+            explanation (AdditiveFeatureContributionExplanation):
                 The explanation to transform
 
         Returns:
-            ExplanationType:
+            Explanation:
                 The transformed explanation
         """
-        return FeatureImportanceExplanationType(self.helper_summed_values(explanation.get()))
+        return FeatureImportanceExplanation(self.helper_summed_values(explanation.get()))
 
     def helper_summed_values(self, explanation):
         """
