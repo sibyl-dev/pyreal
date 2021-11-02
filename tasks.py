@@ -8,6 +8,14 @@ from sys import executable
 import os
 
 
+def print_red(s):
+    print("\033[91m {}\033[00m" .format(s), end="")
+
+
+def print_green(s):
+    print("\033[92m {}\033[00m" .format(s), end="")
+
+
 def _rm_recursive(path: Path, pattern: str):
     """
     Glob the given relative pattern in the directory represented by this path,
@@ -121,8 +129,8 @@ def lint(context):
     Runs the linting and import sort process on all library files and tests and prints errors.
         Skips init.py files for import sorts
     """
-    subprocess.run(["flake8", "pyreal", "tests"])
-    subprocess.run(["isort", "-c", "pyreal", "tests", "--skip", "__init__.py"])
+    subprocess.run(["flake8", "pyreal", "tests"], check=True)
+    subprocess.run(["isort", "-c", "pyreal", "tests", "--skip", "__init__.py"], check=True)
 
 
 @task
@@ -131,11 +139,29 @@ def test(context):
     Runs all test commands.
     """
 
-    test_unit(context)
+    failures_in = []
 
-    test_readme(context)
+    try:
+        test_unit(context)
+    except subprocess.CalledProcessError:
+        failures_in.append("Unit tests")
 
-    test_tutorials(context)
+    try:
+        test_readme(context)
+    except subprocess.CalledProcessError:
+        failures_in.append("README")
+
+    try:
+        test_tutorials(context)
+    except subprocess.CalledProcessError:
+        failures_in.append("Tutorials")
+
+    if len(failures_in) == 0:
+        print_green("\nAll tests successful")
+    else:
+        print_red("\nFailures in: ")
+        for i in failures_in:
+            print_red(i + ", ")
 
 
 @task
@@ -145,7 +171,7 @@ def test_readme(context):
     """
 
     # Resolve the executable with what's running the program. It could be a venv
-    subprocess.run([executable, "-m", "doctest", "-v", "README.md"])
+    subprocess.run([executable, "-m", "doctest", "-v", "README.md"], check=True)
 
 
 @task
@@ -154,7 +180,7 @@ def test_tutorials(context):
     Runs all scripts in the tutorials directory and checks for exceptions
     """
 
-    subprocess.run(["pytest", "--nbmake", "./tutorials", "-n=auto"])
+    subprocess.run(["pytest", "--nbmake", "./tutorials", "-n=auto"], check=True)
 
 
 @ task
@@ -162,7 +188,7 @@ def test_unit(context):
     """
     Runs all unit tests and outputs results and coverage
     """
-    subprocess.run(["pytest", "--cov=pyreal"])
+    subprocess.run(["pytest", "--cov=pyreal"], check=True)
 
 
 @ task
