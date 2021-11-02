@@ -121,8 +121,8 @@ def lint(context):
     Runs the linting and import sort process on all library files and tests and prints errors.
         Skips init.py files for import sorts
     """
-    subprocess.run(["flake8", "pyreal", "tests"])
-    subprocess.run(["isort", "-c", "pyreal", "tests", "--skip", "__init__.py"])
+    subprocess.run(["flake8", "pyreal", "tests"], check=True)
+    subprocess.run(["isort", "-c", "pyreal", "tests", "--skip", "__init__.py"], check=True)
 
 
 @task
@@ -145,7 +145,7 @@ def test_readme(context):
     """
 
     # Resolve the executable with what's running the program. It could be a venv
-    subprocess.run([executable, "-m", "doctest", "-v", "README.md"])
+    subprocess.run([executable, "-m", "doctest", "-v", "README.md"], check=True)
 
 
 @task
@@ -154,7 +154,7 @@ def test_tutorials(context):
     Runs all scripts in the tutorials directory and checks for exceptions
     """
 
-    subprocess.run(["pytest", "--nbmake", "./tutorials", "-n=auto"])
+    subprocess.run(["pytest", "--nbmake", "./tutorials", "-n=auto"], check=True)
 
 
 @ task
@@ -162,7 +162,7 @@ def test_unit(context):
     """
     Runs all unit tests and outputs results and coverage
     """
-    subprocess.run(["pytest", "--cov=pyreal"])
+    subprocess.run(["pytest", "--cov=pyreal"], check=True)
 
 
 @ task
