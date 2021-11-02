@@ -65,3 +65,28 @@ class DecisionTreeExplainerBase(Explainer, ABC):
             features = x_explain.columns
 
         return features
+
+    def evaluate_variation(self, with_fit=False, explanations=None, n_iterations=20, n_rows=10):
+        """
+        Not currently implemented for decision tree explainers
+
+        Args:
+            with_fit (Boolean):
+                If True, evaluate the variation in explanations including the fit (fit each time
+                before running). If False, evaluate the variation in explanations of a pre-fit
+                Explainer.
+            explanations (None or List of Explanation Objects):
+                If provided, run the variation check on the precomputed list of explanations
+                instead of generating
+            n_iterations (int):
+                Number of explanations to generate to evaluation variation
+            n_rows (int):
+                Number of rows of dataset to generate explanations on
+
+        Returns:
+            None
+
+        Raises:
+            NotImplementedError
+        """
+        raise NotImplementedError
