@@ -4,6 +4,7 @@ import os
 import sys
 import time
 import warnings
+import shutil
 
 import pandas as pd
 
@@ -63,10 +64,10 @@ def get_tasks(n, download):
             if download:
                 df.to_csv(filename, index=False)
         tasks.append(create_task(df, dataset_name, logistic_regression))
+        if (i+1) % 10 == 0:
+            print("Finished loading %i/%i tasks" % (i+1, n))
         if i == (n - 1):
             break
-        if i % 10 == 0:
-            print("Finished loading %i/%i tasks" % (i, n))
     return tasks
 
 
@@ -120,19 +121,32 @@ def run_one_challenge(base_challenge, results_directory, download):
     record_file.close()
 
 
-def main():
+def run_benchmarking(download, clear_results):
     warnings.filterwarnings("ignore")
-    download = False
-
-    if len(sys.argv) > 1:
-        if sys.argv[1] == "download":
-            download = True
 
     directory = set_up_record_dir()
     set_up_logging(directory)
     for challenge in get_challenges():
         print("Starting challenge:", challenge.__name__)
         run_one_challenge(challenge, directory, download)
+        break
+    for handler in logging.getLogger().handlers:
+        handler.close()
+        logging.getLogger().removeHandler(handler)
+    if clear_results:
+        shutil.rmtree(directory)
+
+
+def main():
+    download = False
+    clear_log = False
+    if len(sys.argv) > 1:
+        if "download" in sys.argv:
+            download = True
+        if "clear-log" in sys.argv:
+            clear_log = True
+
+    run_benchmarking(download, clear_log)
 
 
 if __name__ == '__main__':
