@@ -1,10 +1,10 @@
 import json
 import logging
 import os
+import shutil
 import sys
 import time
 import warnings
-import shutil
 
 import pandas as pd
 
@@ -64,8 +64,8 @@ def get_tasks(n, download):
             if download:
                 df.to_csv(filename, index=False)
         tasks.append(create_task(df, dataset_name, logistic_regression))
-        if (i+1) % 10 == 0:
-            print("Finished loading %i/%i tasks" % (i+1, n))
+        if (i + 1) % 10 == 0:
+            print("Finished loading %i/%i tasks" % (i + 1, n))
         if i == (n - 1):
             break
     return tasks
