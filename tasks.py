@@ -7,6 +7,8 @@ from invoke import task
 from sys import executable
 import os
 
+from pyreal.benchmark import main as benchmark_script
+
 
 def print_red(s):
     print("\033[91m {}\033[00m" .format(s), end="")
@@ -201,3 +203,27 @@ def view_docs(context):
 
     url = os.path.join("docs", "_build", "index.html")
     webbrowser.open(url)
+
+
+@ task
+def benchmark(context):
+    """
+    Runs the benchmarking process and saves the results to `pyreal/benchmark/results
+    """
+    benchmark_script.run_benchmarking(download=False, clear_results=False)
+
+
+@ task
+def benchmark_no_log(context):
+    """
+    Runs the benchmarking process, and then deletes the results and logs
+    """
+    benchmark_script.run_benchmarking(download=False, clear_results=True)
+
+
+@ task
+def benchmark_download(context):
+    """
+    Runs the benchmarking process, downloading the datasets used to `pyreal/benchmark/datasets`
+    """
+    benchmark_script.run_benchmarking(download=True, clear_results=False)
