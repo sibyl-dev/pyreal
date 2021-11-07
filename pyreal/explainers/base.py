@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 
-import pandas as pd
 import numpy as np
+import pandas as pd
 from sklearn.base import is_classifier
 from sklearn.metrics import get_scorer
 
@@ -142,8 +142,8 @@ class Explainer(ABC):
         else:
             if self.classes is not None and self.training_size < len(self.classes):
                 raise ValueError("training_size must be larger than the number of classes")
-            self.data_sample_indices = pd.Index(np.random.choice(self.x_train_orig.index, 
-            self.training_size))
+            self.data_sample_indices = pd.Index(np.random.choice(self.x_train_orig.index,
+                                                                 self.training_size))
 
         if fit_on_init:
             self.fit()
