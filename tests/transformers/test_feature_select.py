@@ -7,7 +7,8 @@ from pyreal.transformers import ColumnDropTransformer, FeatureSelectTransformer
 def test_fit_feature_select_transformer(transformer_test_data):
     fs_transformer = FeatureSelectTransformer(columns=transformer_test_data["columns"])
     fs_transformer.fit(transformer_test_data["x"])
-    assert fs_transformer.dropped_columns == ["D", "B"]
+    assert (fs_transformer.dropped_columns == ["D", "B"]) or \
+           (fs_transformer.dropped_columns == ["B", "D"])
 
 
 def test_transform_feature_select_transformer(transformer_test_data):
