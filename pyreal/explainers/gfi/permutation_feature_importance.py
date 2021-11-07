@@ -3,7 +3,7 @@ import pandas as pd
 from sklearn.inspection import permutation_importance
 
 from pyreal.explainers import GlobalFeatureImportanceBase
-from pyreal.utils.transformer import ExplanationAlgorithm
+from pyreal.types.explanations.dataframe import FeatureImportanceExplanation
 
 
 class PermutationFeatureImportance(GlobalFeatureImportanceBase):
@@ -23,10 +23,8 @@ class PermutationFeatureImportance(GlobalFeatureImportanceBase):
 
     def __init__(self, model, x_train_orig, **kwargs):
         self.explainer = None
-        self.algorithm = ExplanationAlgorithm.PERMUTATION_IMPORTANCE
         self.explainer_input_size = None
-        super(PermutationFeatureImportance, self).__init__(
-            self.algorithm, model, x_train_orig, **kwargs)
+        super(PermutationFeatureImportance, self).__init__(model, x_train_orig, **kwargs)
 
     def fit(self):
         """
@@ -49,4 +47,5 @@ class PermutationFeatureImportance(GlobalFeatureImportanceBase):
         importance_result = permutation_importance(
             self.model, x, self.y_orig, n_repeats=100)
         importances = importance_result.importances_mean
-        return pd.DataFrame(importances.reshape(1, -1), columns=columns)
+        return FeatureImportanceExplanation(
+            pd.DataFrame(importances.reshape(1, -1), columns=columns))

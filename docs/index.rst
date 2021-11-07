@@ -11,8 +11,8 @@ Pyreal - Applied Explainability
 -  License:
 -  Development Status:
 
--  Documentation: https://dai-lab.github.io/pyreal/
--  Homepage: https://github.com/DAI-Lab/pyreal
+-  Documentation: https://sibyl-dev.github.io/pyreal/
+-  Homepage: https://github.com/sibyl-dev/pyreal
 
 Overview
 --------
@@ -21,13 +21,14 @@ Overview
 handle all the transforming logic, in order to provide a human-interpretable explanation from any original
 data form.
 
-Current functionality and features:
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+..
+    Current functionality and features:
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+..
+    - functionality
 
-- functionality
-
-Explore SDV
------------
+Explore Pyreal
+---------------
 
 * `Getting Started <getting_started/index.html>`_
 * `User Guides <user_guides/index.html>`_

@@ -4,7 +4,7 @@ from shap import Explainer as ShapExplainer
 from shap import KernelExplainer, LinearExplainer
 
 from pyreal.explainers import GlobalFeatureImportanceBase
-from pyreal.utils.transformer import ExplanationAlgorithm
+from pyreal.types.explanations.dataframe import AdditiveFeatureImportanceExplanation
 
 
 class ShapFeatureImportance(GlobalFeatureImportanceBase):
@@ -33,9 +33,8 @@ class ShapFeatureImportance(GlobalFeatureImportanceBase):
             self.shap_type = shap_type
 
         self.explainer = None
-        self.algorithm = ExplanationAlgorithm.SHAP
         self.explainer_input_size = None
-        super(ShapFeatureImportance, self).__init__(self.algorithm, model, x_train_orig, **kwargs)
+        super(ShapFeatureImportance, self).__init__(model, x_train_orig, **kwargs)
 
     def fit(self):
         """
@@ -64,18 +63,18 @@ class ShapFeatureImportance(GlobalFeatureImportanceBase):
             raise AttributeError("Instance has no explainer. Must call "
                                  "fit() before "
                                  "produce()")
-        x = self.transform_to_x_explain(self.x_train_orig)
-        columns = x.columns
-        x = np.asanyarray(x)
-        shap_values = np.array(self.explainer.shap_values(x))
+        x_explain = self.transform_to_x_explain(self.x_train_orig)
+        x_explain_np = np.asanyarray(x_explain)
+        shap_values = np.array(self.explainer.shap_values(x_explain_np))
 
         if shap_values.ndim < 2:
             raise RuntimeError("Something went wrong with SHAP - expected at least 2 dimensions")
         if shap_values.ndim > 2:
-            predictions = self.model_predict(x)
+            predictions = self.model_predict(self.x_train_orig)
             if self.classes is not None:
                 predictions = [np.where(self.classes == i)[0][0] for i in predictions]
             shap_values = shap_values[predictions, np.arange(shap_values.shape[1]), :]
 
         importances = np.mean(np.absolute(shap_values), axis=0).reshape(1, -1)
-        return pd.DataFrame(importances, columns=columns)
+        return AdditiveFeatureImportanceExplanation(
+            pd.DataFrame(importances, columns=x_explain.columns))

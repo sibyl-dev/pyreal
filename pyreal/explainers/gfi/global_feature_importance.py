@@ -45,7 +45,7 @@ def gfi(return_importances=True, return_explainer=False, explainer=None,
            x_orig -> x_explain
         m_transforms (transformer object or list of transformer objects):
            Transformer(s) needed on x_orig to make predictions on the dataset with model,
-           if different than e_transforms
+           if different than e_transformers
            x_orig -> x_model
         i_transforms (transformer object or list of transformer objects):
            Transformer(s) needed to make x_orig interpretable
@@ -64,6 +64,7 @@ def gfi(return_importances=True, return_explainer=False, explainer=None,
         # TODO: replace with formal warning system
         print("gfi is non-functional with return_importances and return_explainer set to false")
         return
+
     if explainer is None and (model is None or x_train_orig is None):
         raise ValueError("gfi requires either explainer OR model and x_train to be passed")
 
@@ -115,8 +116,7 @@ class GlobalFeatureImportance(GlobalFeatureImportanceBase):
         if self.base_global_feature_importance is None:
             raise ValueError("Invalid algorithm type %s" % e_algorithm)
 
-        super(GlobalFeatureImportance, self).__init__(
-            self.base_global_feature_importance.algorithm, model, x_train_orig, **kwargs)
+        super(GlobalFeatureImportance, self).__init__(model, x_train_orig, **kwargs)
 
     def fit(self):
         """
