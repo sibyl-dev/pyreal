@@ -23,6 +23,15 @@ def test_root():
 
 
 @pytest.fixture()
+def transformer_test_data():
+    x = pd.DataFrame([[2, 1, 3, 9],
+                      [4, 3, 4, 0],
+                      [6, 7, 2, 2]], columns=["A", "B", "C", "D"])
+    columns = ["C", "A"]
+    return {"x": x, "columns": columns}
+
+
+@pytest.fixture()
 def all_models(regression_no_transforms, regression_one_hot, classification_no_transforms):
     return [regression_no_transforms, regression_one_hot, classification_no_transforms]
 
