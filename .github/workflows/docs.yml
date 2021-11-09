@@ -31,7 +31,7 @@ jobs:
 
       - name: Install Package
         if: steps.cache-primes.outputs.cache-hit != 'true' # Only run if the cache is old
-        run: poetry install --no-interaction
+        run: poetry install --no-interaction -E examples -E benchmark
 
       - name: Build Documentation
         run: poetry run invoke docs
