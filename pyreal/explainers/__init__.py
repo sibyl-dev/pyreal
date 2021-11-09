@@ -5,7 +5,8 @@ from pyreal.explainers.gfi.permutation_feature_importance import PermutationFeat
 from pyreal.explainers.gfi.global_feature_importance import GlobalFeatureImportance, gfi
 from pyreal.explainers.lfc.base import LocalFeatureContributionsBase
 from pyreal.explainers.lfc.shap_feature_contribution import ShapFeatureContribution
-from pyreal.explainers.lfc.simple_counterfactual_contribution import SimpleCounterfactualContribution
+from pyreal.explainers.lfc.simple_counterfactual_contribution import \
+    SimpleCounterfactualContribution
 from pyreal.explainers.lfc.local_feature_contribution import LocalFeatureContribution, lfc
 from pyreal.explainers.dte.base import DecisionTreeExplainerBase
 from pyreal.explainers.dte.surrogate_decision_tree import SurrogateDecisionTree

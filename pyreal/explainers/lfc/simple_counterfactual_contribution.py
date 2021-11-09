@@ -17,7 +17,8 @@ class SimpleCounterfactualContribution(LocalFeatureContributionsBase):
 
     Args:
         model (string filepath or model object):
-           Filepath to the pickled regression model to explain, or model object with .predict() function
+           Filepath to the pickled regression model to explain, or model object with .predict()
+           function
         x_train_orig (DataFrame of size (n_instances, n_features)):
             Training set in original form.
         n_iterations (int):
