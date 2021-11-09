@@ -5,6 +5,7 @@ from pandas.testing import assert_frame_equal
 from pyreal.transformers import MultiTypeImputer
 
 
+# TODO: Issue  # 100. Replace an np.nan with None
 def test_fit_transform_multitype_imputer():
     imputer = MultiTypeImputer()
     x = pd.DataFrame([[3, 1, np.nan, 'a', '+'],

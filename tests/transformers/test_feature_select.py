@@ -13,6 +13,7 @@ def test_fit_feature_select_transformer(transformer_test_data):
 
 def test_transform_feature_select_transformer(transformer_test_data):
     fs_transformer = FeatureSelectTransformer(columns=transformer_test_data["columns"])
+    fs_transformer.fit(transformer_test_data["x"])
     transformed_x = fs_transformer.transform(transformer_test_data["x"])
     expected_transformed_x = pd.DataFrame([[3, 2],
                                            [4, 4],
