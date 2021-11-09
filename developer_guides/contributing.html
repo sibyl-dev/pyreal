@@ -202,6 +202,11 @@
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#benchmarking-guidelines">
+   Benchmarking Guidelines
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#tips">
    Tips
   </a>
@@ -334,6 +339,9 @@ Test docs are working by running:</p>
 </pre></div>
 </div>
 </li>
+<li><p>Any PR that includes a new <cite>Explainer</cite> class, significant changes to an existing <cite>Explainer</cite>
+class, or significant changes to the explanation workflow as a whole should also include
+the results of a benchmarking run. See <a class="reference internal" href="#benchmarking-guidelines"><span class="std std-ref">Benchmarking Guidelines</span></a> for more info.</p></li>
 <li><p>After running all four commands listed in steps 5 and 6 and
 confirming they work correctly, commit your changes and push your branch to GitHub:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ git add .
@@ -342,9 +350,9 @@ $ git push origin name-of-your-bugfix-or-feature
 </pre></div>
 </div>
 </li>
+<li><p>Submit a pull request through the GitHub website, merging back into <code class="docutils literal notranslate"><span class="pre">dev</span></code>.</p></li>
+<li><p>Branches should be deleted on merge.</p></li>
 </ol>
-<p>8. Submit a pull request through the GitHub website, merging back into <code class="docutils literal notranslate"><span class="pre">dev</span></code>.
-10. Branches should be deleted on merge.</p>
 </div>
 <div class="section" id="pull-request-guidelines">
 <h2>Pull Request Guidelines<a class="headerlink" href="#pull-request-guidelines" title="Permalink to this headline">¶</a></h2>
@@ -388,6 +396,54 @@ the only thing that will be tested is that our code passes the right values to t
 <li><p>Unit tests should not use anything from outside the test and the code being tested. This
 includes not reading or writing to any file system or database, which will be properly
 mocked.</p></li>
+</ol>
+</div>
+<div class="section" id="benchmarking-guidelines">
+<span id="benchmarking"></span><h2>Benchmarking Guidelines<a class="headerlink" href="#benchmarking-guidelines" title="Permalink to this headline">¶</a></h2>
+<p><strong>When to run benchmarking:</strong></p>
+<p>PR’s should include results and logs from a new benchmarking run whenever:</p>
+<ol class="arabic simple">
+<li><p>A PR includes a new <code class="docutils literal notranslate"><span class="pre">Explainer</span></code> class. In this case, a new benchmark <code class="docutils literal notranslate"><span class="pre">Challenge</span></code> class
+must also be added (see below).</p></li>
+<li><p>A PR includes <em>significant</em> changes to an existing <code class="docutils literal notranslate"><span class="pre">Explainer</span></code> class
+(when in doubt, ask reviewers).</p></li>
+<li><p>A PR includes <em>significant</em> changes to the general fit-produce explanation workflow.</p></li>
+</ol>
+<p>It’s a good idea to run the benchmarking procedure for all PRs, as it can catch subtle
+bugs that may be missed by other tests (if this happens, it should be reported in a Github
+issue, so more tests can be added). However, unless a PR falls under one of the categories
+listed above, results and logs should <strong>not</strong> be pushed to the repo.</p>
+<p><strong>How to run benchmarking</strong></p>
+<p>The benchmarking process can be run using:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ poetry run invoke benchmark
+</pre></div>
+</div>
+<p>This will run the process, and save the results to <code class="docutils literal notranslate"><span class="pre">pyreal/benchmark/results</span></code>.</p>
+<p>To run the benchmarking process without leaving a results directory (ie, for testing):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ poetry run invoke benchmark-no-log
+</pre></div>
+</div>
+<p>This will run the process, and delete the results directory at the end.</p>
+<p>To run the benchmarking process while downloading the benchmark datasets locally
+(this will speed up future runs):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ poetry run invoke benchmark-download
+</pre></div>
+</div>
+<p><strong>Adding challenges</strong></p>
+<p>If your PR adds a new <code class="docutils literal notranslate"><span class="pre">Explainer</span></code> class, you must add a corresponding <code class="docutils literal notranslate"><span class="pre">Challenge</span></code> class in the
+same PR. To do so, follow these steps:</p>
+<ol class="arabic">
+<li><p>Add a file called <code class="docutils literal notranslate"><span class="pre">[$explainer_name]_challenge.py</span></code> to the corresponding place in
+<code class="docutils literal notranslate"><span class="pre">pyreal/benchmark/challenges</span></code>.</p></li>
+<li><p>Fill this file out using this template, following the example of the others:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ class [$ExplainerName]Challenge(ExplainerChallenge):
+$    def create_explainer(self):
+$        return [$ExplainerName](model=self.dataset.model, x_train_orig=self.dataset.X,
+                                 transformers=self.dataset.transforms, fit_on_init=True)
+</pre></div>
+</div>
+</li>
+<li><p>Add the new challenge to <code class="docutils literal notranslate"><span class="pre">pyreal/benchmark/main.get_challenges()</span></code></p></li>
 </ol>
 </div>
 <div class="section" id="tips">
