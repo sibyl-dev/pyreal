@@ -42,8 +42,15 @@ pip install pyreal
 This will pull and install the latest stable release from [PyPI](https://pypi.org/).
 
 ## Install from source
+If you do not have **poetry** installed, please head to [poetry installation guide](https://python-poetry.org/docs/#installation)
+and install poetry according to the instructions.\
+Run the following command to make sure poetry is activated.(You may need to close and reopen the terminal or source your profile.)
 
-You can clone the repository and install it from
+```
+poetry --version
+```
+
+Finally, you can clone this repository and install it from
 source by running `poetry install`:
 
 ```
@@ -88,7 +95,10 @@ passenger on the Titanic would have survived.
 
 # Create and fit LocalFeatureContribution Explainer object
 >>> from pyreal.explainers import LocalFeatureContribution
->>> lfc = LocalFeatureContribution(model=model, x_train_orig=x_train_orig, m_transforms=transformers, e_transforms=transformers, feature_descriptions=feature_descriptions, fit_on_init=True)
+>>> lfc = LocalFeatureContribution(model=model, x_train_orig=x_train_orig,
+...                                m_transformers=transformers, e_transformers=transformers,
+...                                feature_descriptions=feature_descriptions,
+...                                fit_on_init=True)
 >>> lfc.fit()
 
 # Make predictions on an input

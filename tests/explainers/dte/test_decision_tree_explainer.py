@@ -10,11 +10,11 @@ def test_produce_decision_tree_regression_no_transforms(regression_no_transforms
                                 e_algorithm='surrogate_tree',
                                 is_classifier=False,
                                 max_depth=5,
-                                transforms=model["transforms"],
+                                transformers=model["transformers"],
                                 fit_on_init=True)
     SUdte = SurrogateDecisionTree(
         model=model["model"], x_train_orig=model["x"], is_classifier=False,
-        max_depth=5, transforms=model["transforms"], fit_on_init=True)
+        max_depth=5, transformers=model["transformers"], fit_on_init=True)
 
     helper_produce_decision_tree_regression_no_transforms(dte, model)
     helper_produce_decision_tree_regression_no_transforms(SUdte, model)
@@ -32,10 +32,10 @@ def test_produce_decision_tree_regression_transforms(regression_one_hot):
                                 x_train_orig=model["x"],
                                 e_algorithm='surrogate_tree',
                                 is_classifier=False,
-                                transforms=model["transforms"],
+                                transformers=model["transformers"],
                                 fit_on_init=True)
     SUdte = SurrogateDecisionTree(
-        model=model["model"], x_train_orig=model["x"], transforms=model["transforms"],
+        model=model["model"], x_train_orig=model["x"], transformers=model["transformers"],
         fit_on_init=True)
 
     helper_produce_decision_tree_regression_one_hot(dte, model)
@@ -54,11 +54,11 @@ def test_produce_decision_tree_classification_no_transforms(classification_no_tr
                                 x_train_orig=model["x"],
                                 e_algorithm='surrogate_tree',
                                 is_classifier=True,
-                                transforms=model["transforms"],
+                                transformers=model["transformers"],
                                 fit_on_init=True,
                                 classes=np.arange(2))
     SUdte = SurrogateDecisionTree(
-        model=model["model"], x_train_orig=model["x"], transforms=model["transforms"],
+        model=model["model"], x_train_orig=model["x"], transformers=model["transformers"],
         fit_on_init=True, classes=np.arange(2))
 
     helper_produce_decision_tree_classification_no_transforms(
@@ -76,13 +76,13 @@ def helper_produce_decision_tree_classification_no_transforms(explainer, model):
 
 def test_produce_with_renames(classification_no_transform_tree):
     model = classification_no_transform_tree
-    transforms = model["transforms"]
+    transforms = model["transformers"]
     feature_descriptions = {"A": "Feature A", "B": "Feature B"}
     dte = DecisionTreeExplainer(model=model["model"],
                                 x_train_orig=model["x"],
                                 is_classifier=True,
                                 e_algorithm='surrogate_tree',
-                                fit_on_init=True, transforms=transforms,
+                                fit_on_init=True, transformers=transforms,
                                 interpretable_features=True,
                                 feature_descriptions=feature_descriptions)
 

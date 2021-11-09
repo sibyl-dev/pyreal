@@ -48,7 +48,7 @@ Next, we can create the ``Explainer`` object, and fit it.
 
     from pyreal.explainers import LocalFeatureContribution
     lfc = LocalFeatureContribution(model=model, x_train_orig=x_orig,
-                                   m_transforms=transformers, e_transforms=transformers,
+                                   m_transformers=transformers, e_transformers=transformers,
                                    feature_descriptions=feature_descriptions, fit_on_init=True)
     lfc.fit()
 

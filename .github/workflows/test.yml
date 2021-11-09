@@ -9,9 +9,9 @@ on:
 jobs:
   test:
     strategy:
-      fail-fast: false
+      fail-fast: true
       matrix:
-        os: [macos-latest, ubuntu-latest, windows-latest]
+        os: [ubuntu-latest, windows-latest]
         python-version: [3.7, 3.8, 3.9]
     defaults:
       run:
@@ -47,5 +47,11 @@ jobs:
       - name: Lint
         run: poetry run invoke lint
 
-      - name: Test
-        run: poetry run invoke test
+      - name: Test Unit
+        run: poetry run invoke test-unit
+
+      - name: Test README
+        run: poetry run invoke test-readme
+
+      - name: Test Tutorials
+        run: poetry run invoke test-tutorials

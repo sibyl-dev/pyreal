@@ -2,21 +2,35 @@ import numpy as np
 import pandas as pd
 from sklearn.impute import SimpleImputer
 
-from pyreal.transformers import BaseTransformer
+from pyreal.transformers import Transformer
 
 
-class MultiTypeImputer(BaseTransformer):
+class MultiTypeImputer(Transformer):
     """
-    Imputes, choosing a strategy based on column type.
+    Imputes a data set, handling columns of different types. Imputes numeric columns with the mean,
+    and categorical columns with the mode value.
     """
 
     def __init__(self):
+        """
+        Initialize the base imputers
+        """
         self.numeric_cols = None
         self.categorical_cols = None
         self.numeric_imputer = SimpleImputer(missing_values=np.nan, strategy="mean")
         self.categorical_imputer = SimpleImputer(missing_values=np.nan, strategy="most_frequent")
 
     def fit(self, x):
+        """
+        Fit the imputer
+
+        Args:
+            x (DataFrame of shape (n_instances, n_features)):
+                The dataset to fit to
+
+        Returns:
+            None
+        """
         self.numeric_cols = x.dropna(axis="columns", how="all") \
             .select_dtypes(include="number").columns
         self.categorical_cols = x.dropna(axis="columns", how="all") \
@@ -29,6 +43,17 @@ class MultiTypeImputer(BaseTransformer):
             self.categorical_imputer.fit(x[self.categorical_cols])
 
     def transform(self, x):
+        """
+        Imputes `x`. Numeric columns get imputed with the column mean. Categorical columns get
+        imputed with the column mode.
+        Args:
+            x (DataFrame of shape (n_instances, n_features)):
+                The dataset to impute
+
+        Returns:
+            DataFrame of shape (n_instances, n_transformed_features):
+                The imputed dataset
+        """
         if len(self.categorical_cols) == 0:
             new_numeric_cols = self.numeric_imputer.transform(x[self.numeric_cols])
             return pd.DataFrame(new_numeric_cols, columns=self.numeric_cols, index=x.index)

@@ -9,12 +9,12 @@ def test_fit_shap(all_models):
     for model in all_models:
         lfc_object = LocalFeatureContribution(
             model=model["model"],
-            x_train_orig=model["x"], transforms=model["transforms"],
+            x_train_orig=model["x"], transformers=model["transformers"],
             e_algorithm='shap')
         lfc_object.fit()
         shap = ShapFeatureContribution(
             model=model["model"],
-            x_train_orig=model["x"], transforms=model["transforms"])
+            x_train_orig=model["x"], transformers=model["transformers"])
         shap.fit()
         assert shap.explainer is not None
         assert isinstance(shap.explainer, LinearExplainer)
@@ -24,10 +24,10 @@ def test_produce_shap_regression_no_transforms(regression_no_transforms):
     model = regression_no_transforms
     lfc = LocalFeatureContribution(model=model["model"],
                                    x_train_orig=model["x"], e_algorithm='shap',
-                                   transforms=model["transforms"],
+                                   transformers=model["transformers"],
                                    fit_on_init=True)
     shap = ShapFeatureContribution(
-        model=model["model"], x_train_orig=model["x"], transforms=model["transforms"],
+        model=model["model"], x_train_orig=model["x"], transformers=model["transformers"],
         fit_on_init=True)
 
     helper_produce_shap_regression_no_transforms(lfc, model)
@@ -57,10 +57,10 @@ def test_produce_shap_regression_transforms(regression_one_hot):
     model = regression_one_hot
     lfc = LocalFeatureContribution(model=model["model"],
                                    x_train_orig=model["x"], e_algorithm='shap',
-                                   transforms=model["transforms"],
+                                   transformers=model["transformers"],
                                    fit_on_init=True)
     shap = ShapFeatureContribution(
-        model=model["model"], x_train_orig=model["x"], transforms=model["transforms"],
+        model=model["model"], x_train_orig=model["x"], transformers=model["transformers"],
         fit_on_init=True)
 
     helper_produce_shap_regression_one_hot(lfc)
@@ -90,11 +90,11 @@ def test_produce_shap_classification_no_transforms(classification_no_transforms)
     model = classification_no_transforms
     lfc = LocalFeatureContribution(model=model["model"],
                                    x_train_orig=model["x"], e_algorithm='shap',
-                                   transforms=model["transforms"],
+                                   transformers=model["transformers"],
                                    fit_on_init=True,
                                    classes=np.arange(1, 4))
     shap = ShapFeatureContribution(
-        model=model["model"], x_train_orig=model["x"], transforms=model["transforms"],
+        model=model["model"], x_train_orig=model["x"], transformers=model["transformers"],
         fit_on_init=True, classes=np.arange(1, 4))
 
     helper_produce_shap_classification_no_transforms(lfc)
@@ -121,11 +121,11 @@ def helper_produce_shap_classification_no_transforms(explainer):
 
 def test_produce_with_renames(regression_one_hot):
     model = regression_one_hot
-    transforms = model["transforms"]
+    transforms = model["transformers"]
     feature_descriptions = {"A": "Feature A", "B": "Feature B"}
     lfc = LocalFeatureContribution(model=model["model"],
                                    x_train_orig=model["x"], e_algorithm='shap',
-                                   fit_on_init=True, transforms=transforms,
+                                   fit_on_init=True, transformers=transforms,
                                    interpretable_features=True,
                                    feature_descriptions=feature_descriptions)
     x_one_dim = pd.DataFrame([[2, 10, 10]], columns=["A", "B", "C"])
@@ -135,3 +135,16 @@ def test_produce_with_renames(regression_one_hot):
     assert abs(contributions["Feature A"][0] + 1) < 0.0001
     assert abs(contributions["Feature B"][0]) < 0.0001
     assert abs(contributions["C"][0]) < 0.0001
+
+
+def test_evaluate_variation(classification_no_transforms):
+    model = classification_no_transforms
+    lfc = LocalFeatureContribution(model=model["model"],
+                                   x_train_orig=model["x"], e_algorithm='shap',
+                                   transformers=model["transformers"],
+                                   fit_on_init=True,
+                                   classes=np.arange(1, 4))
+
+    # Assert no crash. Values analyzed through benchmarking
+    lfc.evaluate_variation(with_fit=False, n_iterations=5)
+    lfc.evaluate_variation(with_fit=True, n_iterations=5)
