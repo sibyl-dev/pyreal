@@ -2,8 +2,8 @@ import numpy as np
 import pandas as pd
 from shap import LinearExplainer
 
-from pyreal.explainers import LocalFeatureContribution, ShapFeatureContribution, \
-    SimpleCounterfactualContribution
+from pyreal.explainers import (
+    LocalFeatureContribution, ShapFeatureContribution, SimpleCounterfactualContribution,)
 
 
 def test_fit_shap(all_models):
