@@ -23,6 +23,15 @@ def test_root():
 
 
 @pytest.fixture()
+def transformer_test_data():
+    x = pd.DataFrame([[2, 1, 3, 9],
+                      [4, 3, 4, 0],
+                      [6, 7, 2, 2]], columns=["A", "B", "C", "D"])
+    columns = ["C", "A"]
+    return {"x": x, "columns": columns}
+
+
+@pytest.fixture()
 def all_models(regression_no_transforms, regression_one_hot, classification_no_transforms):
     return [regression_no_transforms, regression_one_hot, classification_no_transforms]
 
@@ -42,7 +51,7 @@ def regression_no_transforms(test_root):
     with open(model_no_transforms_filename, "wb") as f:
         pickle.dump(model_no_transforms, f)
 
-    return {"model": model_no_transforms_filename, "transforms": None, "x": x, "y": y}
+    return {"model": model_no_transforms_filename, "transformers": None, "x": x, "y": y}
 
 
 @pytest.fixture()
@@ -62,7 +71,7 @@ def classification_no_transforms(test_root):
     with open(model_no_transforms_filename, "wb") as f:
         pickle.dump(model_no_transforms, f)
 
-    return {"model": model_no_transforms_filename, "transforms": None, "x": x, "y": y}
+    return {"model": model_no_transforms_filename, "transformers": None, "x": x, "y": y}
 
 
 @pytest.fixture()
@@ -81,7 +90,7 @@ def regression_one_hot(test_root):
     model_one_hot_filename = os.path.join(test_root, "data", "model_one_hot.pkl")
     with open(model_one_hot_filename, "wb") as f:
         pickle.dump(model_one_hot, f)
-    return {"model": model_one_hot_filename, "transforms": one_hot_encoder, "x": x, "y": y}
+    return {"model": model_one_hot_filename, "transformers": one_hot_encoder, "x": x, "y": y}
 
 
 @pytest.fixture()
@@ -99,4 +108,4 @@ def classification_no_transform_tree(test_root):
         test_root, "data", "model_no_transform_tree.pkl")
     with open(model_no_transform_tree, "wb") as f:
         pickle.dump(model_test_tree, f)
-    return {"model": model_no_transform_tree, "transforms": None, "x": x, "y": y}
+    return {"model": model_no_transform_tree, "transformers": None, "x": x, "y": y}

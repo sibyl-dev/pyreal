@@ -103,14 +103,17 @@ Ready to contribute? Here's how to set up ``pyreal`` for local development.
 
     $ poetry run invoke view-docs
 
-7. After running all four commands listed in steps 5 and 6 and
+7. Any PR that includes a new `Explainer` class, significant changes to an existing `Explainer`
+   class, or significant changes to the explanation workflow as a whole should also include
+   the results of a benchmarking run. See :ref:`Benchmarking Guidelines` for more info.
+8. After running all four commands listed in steps 5 and 6 and
    confirming they work correctly, commit your changes and push your branch to GitHub::
 
     $ git add .
     $ git commit -m "Your detailed description of your changes."
     $ git push origin name-of-your-bugfix-or-feature
 
-8. Submit a pull request through the GitHub website, merging back into ``dev``.
+9. Submit a pull request through the GitHub website, merging back into ``dev``.
 10. Branches should be deleted on merge.
 
 Pull Request Guidelines
@@ -162,6 +165,64 @@ All the Unit Tests should comply with the following requirements:
 7. Unit tests should not use anything from outside the test and the code being tested. This
    includes not reading or writing to any file system or database, which will be properly
    mocked.
+
+.. _benchmarking:
+
+Benchmarking Guidelines
+------------------------
+
+**When to run benchmarking:**
+
+PR's should include results and logs from a new benchmarking run whenever:
+
+#. A PR includes a new ``Explainer`` class. In this case, a new benchmark ``Challenge`` class
+   must also be added (see below).
+
+#. A PR includes *significant* changes to an existing ``Explainer`` class
+   (when in doubt, ask reviewers).
+
+#. A PR includes *significant* changes to the general fit-produce explanation workflow.
+
+It's a good idea to run the benchmarking procedure for all PRs, as it can catch subtle
+bugs that may be missed by other tests (if this happens, it should be reported in a Github
+issue, so more tests can be added). However, unless a PR falls under one of the categories
+listed above, results and logs should **not** be pushed to the repo.
+
+**How to run benchmarking**
+
+The benchmarking process can be run using::
+
+    $ poetry run invoke benchmark
+
+This will run the process, and save the results to ``pyreal/benchmark/results``.
+
+To run the benchmarking process without leaving a results directory (ie, for testing)::
+
+    $ poetry run invoke benchmark-no-log
+
+This will run the process, and delete the results directory at the end.
+
+To run the benchmarking process while downloading the benchmark datasets locally
+(this will speed up future runs)::
+
+    $ poetry run invoke benchmark-download
+
+**Adding challenges**
+
+If your PR adds a new ``Explainer`` class, you must add a corresponding ``Challenge`` class in the
+same PR. To do so, follow these steps:
+
+#. Add a file called ``[$explainer_name]_challenge.py`` to the corresponding place in
+   ``pyreal/benchmark/challenges``.
+
+#. Fill this file out using this template, following the example of the others::
+
+    $ class [$ExplainerName]Challenge(ExplainerChallenge):
+    $    def create_explainer(self):
+    $        return [$ExplainerName](model=self.dataset.model, x_train_orig=self.dataset.X,
+                                     transformers=self.dataset.transforms, fit_on_init=True)
+
+#. Add the new challenge to ``pyreal/benchmark/main.get_challenges()``
 
 Tips
 ----

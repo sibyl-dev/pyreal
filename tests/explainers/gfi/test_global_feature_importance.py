@@ -9,12 +9,12 @@ def test_fit_shap(all_models):
     for model in all_models:
         gfi_object = GlobalFeatureImportance(
             model=model["model"],
-            x_train_orig=model["x"], transforms=model["transforms"],
+            x_train_orig=model["x"], transformers=model["transformers"],
             e_algorithm='shap')
         gfi_object.fit()
         shap = ShapFeatureImportance(
             model=model["model"],
-            x_train_orig=model["x"], transforms=model["transforms"])
+            x_train_orig=model["x"], transformers=model["transformers"])
         shap.fit()
         assert shap.explainer is not None
         assert isinstance(shap.explainer, LinearExplainer)
@@ -24,10 +24,10 @@ def test_produce_shap_regression_no_transforms(regression_no_transforms):
     model = regression_no_transforms
     gfi = GlobalFeatureImportance(model=model["model"],
                                   x_train_orig=model["x"], e_algorithm='shap',
-                                  transforms=model["transforms"],
+                                  transformers=model["transformers"],
                                   fit_on_init=True)
     shap = ShapFeatureImportance(
-        model=model["model"], x_train_orig=model["x"], transforms=model["transforms"],
+        model=model["model"], x_train_orig=model["x"], transformers=model["transformers"],
         fit_on_init=True)
 
     helper_produce_shap_regression_no_transforms(gfi, model)
@@ -47,11 +47,11 @@ def test_produce_permutation_regression_no_transforms(regression_no_transforms):
     gfi = GlobalFeatureImportance(model=model["model"],
                                   x_train_orig=model["x"], y_orig=model["y"],
                                   e_algorithm='permutation',
-                                  transforms=model["transforms"],
+                                  transformers=model["transformers"],
                                   fit_on_init=True)
     shap = PermutationFeatureImportance(
         model=model["model"], x_train_orig=model["x"], y_orig=model["y"],
-        transforms=model["transforms"],
+        transformers=model["transformers"],
         fit_on_init=True)
 
     helper_produce_permutation_regression_no_transforms(gfi, model)
@@ -70,10 +70,10 @@ def test_produce_shap_regression_transforms(regression_one_hot):
     model = regression_one_hot
     gfi = GlobalFeatureImportance(model=model["model"],
                                   x_train_orig=model["x"], e_algorithm='shap',
-                                  transforms=model["transforms"],
+                                  transformers=model["transformers"],
                                   fit_on_init=True)
     shap = ShapFeatureImportance(
-        model=model["model"], x_train_orig=model["x"], transforms=model["transforms"],
+        model=model["model"], x_train_orig=model["x"], transformers=model["transformers"],
         fit_on_init=True)
 
     helper_produce_shap_regression_one_hot(gfi, regression_one_hot)
@@ -93,11 +93,11 @@ def test_produce_permutation_regression_transforms(regression_one_hot):
     gfi = GlobalFeatureImportance(model=model["model"],
                                   x_train_orig=model["x"], y_orig=model["y"],
                                   e_algorithm='permutation',
-                                  transforms=model["transforms"],
+                                  transformers=model["transformers"],
                                   fit_on_init=True)
     shap = PermutationFeatureImportance(
         model=model["model"], x_train_orig=model["x"], y_orig=model["y"],
-        transforms=model["transforms"],
+        transformers=model["transformers"],
         fit_on_init=True)
 
     helper_produce_permutation_regression_one_hot(gfi, regression_one_hot)
@@ -116,11 +116,11 @@ def test_shap_produce_classification_no_transforms(classification_no_transforms)
     model = classification_no_transforms
     gfi = GlobalFeatureImportance(model=model["model"],
                                   x_train_orig=model["x"], e_algorithm='shap',
-                                  transforms=model["transforms"],
+                                  transformers=model["transformers"],
                                   fit_on_init=True,
                                   classes=np.arange(1, 4))
     shap = ShapFeatureImportance(
-        model=model["model"], x_train_orig=model["x"], transforms=model["transforms"],
+        model=model["model"], x_train_orig=model["x"], transformers=model["transformers"],
         fit_on_init=True, classes=np.arange(1, 4))
 
     helper_shap_produce_classification_no_transforms(gfi, classification_no_transforms)
@@ -140,12 +140,12 @@ def test_permutation_produce_classification_no_transforms(classification_no_tran
     gfi = GlobalFeatureImportance(model=model["model"],
                                   x_train_orig=model["x"], y_orig=model["y"],
                                   e_algorithm='permutation',
-                                  transforms=model["transforms"],
+                                  transformers=model["transformers"],
                                   fit_on_init=True,
                                   classes=np.arange(1, 4))
     permutation = PermutationFeatureImportance(
         model=model["model"], x_train_orig=model["x"], y_orig=model["y"],
-        transforms=model["transforms"], fit_on_init=True, classes=np.arange(1, 4))
+        transformers=model["transformers"], fit_on_init=True, classes=np.arange(1, 4))
 
     helper_permutation_produce_classification_no_transforms(gfi, classification_no_transforms)
     helper_permutation_produce_classification_no_transforms(permutation,
@@ -162,11 +162,11 @@ def helper_permutation_produce_classification_no_transforms(explainer, model):
 
 def test_produce_with_renames(regression_one_hot):
     model = regression_one_hot
-    transforms = model["transforms"]
+    transforms = model["transformers"]
     feature_descriptions = {"A": "Feature A", "B": "Feature B"}
     gfi = GlobalFeatureImportance(model=model["model"],
                                   x_train_orig=model["x"], e_algorithm='shap',
-                                  fit_on_init=True, transforms=transforms,
+                                  fit_on_init=True, transformers=transforms,
                                   interpretable_features=True,
                                   feature_descriptions=feature_descriptions)
 
@@ -175,3 +175,16 @@ def test_produce_with_renames(regression_one_hot):
     assert abs(importances["Feature A"][0] - (8 / 3)) < 0.0001
     assert abs(importances["Feature B"][0]) < 0.0001
     assert abs(importances["C"][0]) < 0.0001
+
+
+def test_evaluate_variation(classification_no_transforms):
+    model = classification_no_transforms
+    lfc = GlobalFeatureImportance(model=model["model"],
+                                  x_train_orig=model["x"], e_algorithm='shap',
+                                  transformers=model["transformers"],
+                                  fit_on_init=True,
+                                  classes=np.arange(1, 4))
+
+    # Assert no crash. Values analyzed through benchmarking
+    lfc.evaluate_variation(with_fit=False, n_iterations=5)
+    lfc.evaluate_variation(with_fit=True, n_iterations=5)

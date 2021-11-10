@@ -8,18 +8,18 @@ from pyreal.transformers import run_transformers
 from pyreal.utils import model_utils
 
 
-def _check_transforms(transforms):
-    if transforms is None:
+def _check_transformers(transformers):
+    if transformers is None:
         return None
-    if not isinstance(transforms, list):
-        transforms = [transforms]
+    if not isinstance(transformers, list):
+        transformers = [transformers]
     else:
-        transforms = transforms
-    for transformer in transforms:
+        transformers = transformers
+    for transformer in transformers:
         transform_method = getattr(transformer, "transform", None)
         if not callable(transform_method):
             raise TypeError("Given transformer that does not have a .transform function")
-    return transforms
+    return transformers
 
 
 class Explainer(ABC):
@@ -27,8 +27,6 @@ class Explainer(ABC):
     Generic Explainer object
 
     Args:
-        algorithm (ExplanationAlgorithm or None):
-            Name of the algorithm this Explainer uses
         model (string filepath or model object):
            Filepath to the pickled model to explain, or model object with .predict() function
            model.predict() should return a single value prediction for each input
@@ -48,37 +46,38 @@ class Explainer(ABC):
         class_descriptions (dict):
             Interpretable descriptions of each class
             None if model is not a classifier
-        transforms (transformer object or lis of transformer objects):
+        transformers (transformer object or lis of transformer objects):
             Transformer(s) that need to be used on x_orig for the explanation algorithm and model
             prediction. If different transformations are needed for the explanation and model,
-            these should be defined separately using e_transforms and m_transforms.
-        e_transforms (transformer object or list of transformer objects):
+            these should be defined separately using e_transformers and m_transformers.
+        e_transformers (transformer object or list of transformer objects):
            Transformer(s) that need to be used on x_orig for the explanation algorithm:
            x_orig -> x_explain
-        m_transforms (transformer object or list of transformer objects):
-           Transformer(s) needed on x_explain to make predictions on the dataset with model
-           x_explain -> x_model
-        i_transforms (transformer object or list of transformer objects):
+        m_transformers (transformer object or list of transformer objects):
+           Transformer(s) needed on x_orig to make predictions on the dataset with model,
+           if different than e_transformers
+           x_orig -> x_model
+        i_transformers (transformer object or list of transformer objects):
            Transformer(s) needed to make x_orig interpretable
            x_orig -> x_interpret
         fit_on_init (Boolean):
            If True, fit the explainer on initiation.
            If False, self.fit() must be manually called before produce() is called
         skip_e_transform_explanation (Boolean):
-           If True, do not run the transform_explanation methods from e_transforms or i_transforms
-           on the explanation after producing.
+           If True, do not run the transform_explanation methods from e_transformers or
+           i_transformers on the explanation after producing.
         skip_i_transform_explanation (Boolean):
-           If True, do not run the transform_explanation methods from i_transforms
+           If True, do not run the transform_explanation methods from i_transformers
            on the explanation after producing.
     """
 
-    def __init__(self, algorithm, model,
+    def __init__(self, model,
                  x_train_orig, y_orig=None,
                  feature_descriptions=None,
                  classes=None,
                  class_descriptions=None,
-                 transforms=None,
-                 e_transforms=None, m_transforms=None, i_transforms=None,
+                 transformers=None,
+                 e_transformers=None, m_transformers=None, i_transformers=None,
                  fit_on_init=False,
                  skip_e_transform_explanation=False, skip_i_transform_explanation=False):
         if isinstance(model, str):
@@ -88,7 +87,6 @@ class Explainer(ABC):
             if not callable(predict_method):
                 raise TypeError("Given model that does not have a .predict function")
             self.model = model
-        self.algorithm = algorithm
 
         self.x_train_orig = x_train_orig
         self.y_orig = y_orig
@@ -99,18 +97,19 @@ class Explainer(ABC):
 
         self.x_orig_feature_count = x_train_orig.shape[1]
 
-        if transforms is not None and e_transforms is not None:
+        if transformers is not None and e_transformers is not None:
             # TODO: replace with proper warning
-            print("Warning: transforms and e_transform provided. Defaulting to using e_transforms")
-        elif transforms is not None:
-            e_transforms = transforms
-        if transforms is not None and m_transforms is not None:
+            print("Warning: transformers and e_transformers provided. "
+                  "Defaulting to using e_transformers")
+        elif transformers is not None:
+            e_transformers = transformers
+        if transformers is not None and m_transformers is not None:
             # TODO: replace with proper warning
             print("Warning: transforms and m_transform provided. Defaulting to using m_transforms")
 
-        self.e_transforms = _check_transforms(e_transforms)
-        self.m_transforms = _check_transforms(m_transforms)
-        self.i_transforms = _check_transforms(i_transforms)
+        self.e_transformers = _check_transformers(e_transformers)
+        self.m_transformers = _check_transformers(m_transformers)
+        self.i_transformers = _check_transformers(i_transformers)
 
         self.feature_descriptions = feature_descriptions
 
@@ -127,7 +126,6 @@ class Explainer(ABC):
         if fit_on_init:
             self.fit()
 
-    @abstractmethod
     def fit(self):
         """
         Fit this explainer object. Abstract method
@@ -149,7 +147,7 @@ class Explainer(ABC):
 
     def transform_to_x_explain(self, x_orig):
         """
-        Transform x_orig to x_explain, using the e_transforms
+        Transform x_orig to x_explain, using the e_transformers
 
         Args:
             x_orig (DataFrame of shape (n_instances, x_orig_feature_count)):
@@ -158,9 +156,9 @@ class Explainer(ABC):
              DataFrame of shape (n_instances, x_explain_feature_count)
                 x_orig converted to explainable form
         """
-        if self.e_transforms is None:
+        if self.e_transformers is None:
             return x_orig
-        return run_transformers(self.e_transforms, x_orig)
+        return run_transformers(self.e_transformers, x_orig)
 
     def transform_to_x_model(self, x_orig):
         """
@@ -200,7 +198,7 @@ class Explainer(ABC):
 
     def transform_to_x_interpret(self, x_orig):
         """
-        Transform x_orig to x_interpret, using the i_transforms
+        Transform x_orig to x_interpret, using the i_transformers
         Args:
             x_orig (DataFrame of shape (n_instances, x_orig_feature_count)):
                 Original input
@@ -209,9 +207,9 @@ class Explainer(ABC):
              DataFrame of shape (n_instances, x_interpret_feature_count)
                 x_orig converted to interpretable form
         """
-        if self.i_transforms is None:
+        if self.i_transformers is None:
             return x_orig
-        return run_transformers(self.i_transforms, x_orig)
+        return run_transformers(self.i_transformers, x_orig)
 
     def transform_explanation(self, explanation):
         """
@@ -227,17 +225,17 @@ class Explainer(ABC):
                 The interpretable form of the explanation
         """
         if not self.skip_e_transform_explanation:
-            if self.e_transforms is not None:
-                for transform in self.e_transforms[::-1]:
+            if self.e_transformers is not None:
+                for transform in self.e_transformers[::-1]:
                     transform_func = getattr(transform, "transform_explanation", None)
                     if callable(transform_func):
-                        explanation = transform_func(explanation, algorithm=self.algorithm)
+                        explanation = transform_func(explanation)
             if not self.skip_i_transform_explanation:
-                if self.i_transforms is not None:
-                    for transform in self.i_transforms[::-1]:
+                if self.i_transformers is not None:
+                    for transform in self.i_transformers[::-1]:
                         transform_func = getattr(transform, "transform_explanation", None)
                         if callable(transform_func):
-                            explanation = transform_func(explanation, algorithm=self.algorithm)
+                            explanation = transform_func(explanation)
         return explanation
 
     def model_predict(self, x_orig):
@@ -316,7 +314,8 @@ class Explainer(ABC):
                 https://scikit-learn.org/stable/modules/model_evaluation.html#scoring-parameter
 
         Returns:
-            A score for the model
+            float
+                A score for the model
 
         """
         if self.y_orig is None:
@@ -325,3 +324,29 @@ class Explainer(ABC):
         x = self.transform_to_x_model(self.x_train_orig)
         score = scorer(self.model, x, self.y_orig)
         return score
+
+    @abstractmethod
+    def evaluate_variation(self, with_fit=False, explanations=None, n_iterations=20, n_rows=10):
+        """
+        Evaluate the variation of the explanations generated by this Explainer.
+        A variation of 0 means this explainer is expected to generate the exact same explanation
+        given the same model and input. Variation is always non-negative, and can be arbitrarily
+        high.
+
+        Args:
+            with_fit (Boolean):
+                If True, evaluate the variation in explanations including the fit (fit each time
+                before running). If False, evaluate the variation in explanations of a pre-fit
+                Explainer.
+            explanations (None or List of Explanation Objects):
+                If provided, run the variation check on the precomputed list of explanations
+                instead of generating
+            n_iterations (int):
+                Number of explanations to generate to evaluation variation
+            n_rows (int):
+                Number of rows of dataset to generate explanations on
+
+        Returns:
+            float
+                The variation of this Explainer's explanations
+        """

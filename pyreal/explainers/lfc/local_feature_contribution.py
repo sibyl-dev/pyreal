@@ -1,4 +1,5 @@
-from pyreal.explainers import LocalFeatureContributionsBase, ShapFeatureContribution
+from pyreal.explainers import (
+    LocalFeatureContributionsBase, ShapFeatureContribution, SimpleCounterfactualContribution,)
 
 
 def choose_algorithm():
@@ -6,7 +7,7 @@ def choose_algorithm():
     Choose an algorithm based on the model type.
     Currently, shap is the only supported algorithm
 
-    Return:
+    Returns:
         string (one of ["shap"])
             Explanation algorithm to use
     """
@@ -46,7 +47,7 @@ def lfc(return_contributions=True, return_explainer=False, explainer=None,
            x_orig -> x_explain
         m_transforms (transformer object or list of transformer objects):
            Transformer(s) needed on x_orig to make predictions on the dataset with model,
-           if different than e_transforms
+           if different than e_transformers
            x_orig -> x_model
         i_transforms (transformer object or list of transformer objects):
            Transformer(s) needed to make x_orig interpretable
@@ -112,11 +113,13 @@ class LocalFeatureContribution(LocalFeatureContributionsBase):
         if e_algorithm == "shap":
             self.base_local_feature_contribution = ShapFeatureContribution(
                 model, x_train_orig, **kwargs)
+        elif e_algorithm == "simple":
+            self.base_local_feature_contribution = SimpleCounterfactualContribution(
+                model, x_train_orig, **kwargs)
         if self.base_local_feature_contribution is None:
             raise ValueError("Invalid algorithm type %s" % e_algorithm)
 
-        super(LocalFeatureContribution, self).__init__(
-            self.base_local_feature_contribution.algorithm, model, x_train_orig, **kwargs)
+        super(LocalFeatureContribution, self).__init__(model, x_train_orig, **kwargs)
 
     def fit(self):
         """

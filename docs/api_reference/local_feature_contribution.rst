@@ -32,3 +32,13 @@ SHAP Feature Contribution Explainer
     ShapFeatureContribution.fit
     ShapFeatureContribution.produce
     ShapFeatureContribution.get_contributions
+
+Simple Counterfactual Contribution Explainer
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.. autosummary::
+    :toctree: api/
+
+    SimpleCounterfactualContribution
+    SimpleCounterfactualContribution.fit
+    SimpleCounterfactualContribution.produce
+    SimpleCounterfactualContribution.get_contributions
