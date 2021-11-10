@@ -149,7 +149,8 @@
               <div>
                 
   <h1>Source code for pyreal.explainers.lfc.local_feature_contribution</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">pyreal.explainers</span> <span class="kn">import</span> <span class="n">LocalFeatureContributionsBase</span><span class="p">,</span> <span class="n">ShapFeatureContribution</span>
+<span></span><span class="kn">from</span> <span class="nn">pyreal.explainers</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">LocalFeatureContributionsBase</span><span class="p">,</span> <span class="n">ShapFeatureContribution</span><span class="p">,</span> <span class="n">SimpleCounterfactualContribution</span><span class="p">,)</span>
 
 
 <span class="k">def</span> <span class="nf">choose_algorithm</span><span class="p">():</span>
@@ -262,6 +263,9 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">base_local_feature_contribution</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">if</span> <span class="n">e_algorithm</span> <span class="o">==</span> <span class="s2">&quot;shap&quot;</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">base_local_feature_contribution</span> <span class="o">=</span> <span class="n">ShapFeatureContribution</span><span class="p">(</span>
+                <span class="n">model</span><span class="p">,</span> <span class="n">x_train_orig</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">e_algorithm</span> <span class="o">==</span> <span class="s2">&quot;simple&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">base_local_feature_contribution</span> <span class="o">=</span> <span class="n">SimpleCounterfactualContribution</span><span class="p">(</span>
                 <span class="n">model</span><span class="p">,</span> <span class="n">x_train_orig</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_local_feature_contribution</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Invalid algorithm type </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">e_algorithm</span><span class="p">)</span>

@@ -1,0 +1,6 @@
+﻿pyreal.explainers.SimpleCounterfactualContribution.produce
+==========================================================
+
+.. currentmodule:: pyreal.explainers
+
+.. automethod:: SimpleCounterfactualContribution.produce
