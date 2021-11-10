@@ -2,7 +2,8 @@ import numpy as np
 import pandas as pd
 from shap import LinearExplainer
 
-from pyreal.explainers import LocalFeatureContribution, ShapFeatureContribution
+from pyreal.explainers import (
+    LocalFeatureContribution, ShapFeatureContribution, SimpleCounterfactualContribution,)
 
 
 def test_fit_shap(all_models):
@@ -18,6 +19,15 @@ def test_fit_shap(all_models):
         shap.fit()
         assert shap.explainer is not None
         assert isinstance(shap.explainer, LinearExplainer)
+
+
+def test_fit_simple(all_models):
+    for model in all_models:
+        simple = SimpleCounterfactualContribution(
+            model=model["model"],
+            x_train_orig=model["x"], transformers=model["transformers"])
+        # Assert no error
+        simple.fit()
 
 
 def test_produce_shap_regression_no_transforms(regression_no_transforms):
@@ -53,6 +63,32 @@ def helper_produce_shap_regression_no_transforms(explainer, model):
     assert (contributions.iloc[:, 2] == 0).all()
 
 
+def test_produce_simple_regression_no_transforms(regression_no_transforms):
+    model = regression_no_transforms
+    explainer = SimpleCounterfactualContribution(model=model["model"],
+                                                 x_train_orig=model["x"],
+                                                 transformers=model["transformers"],
+                                                 fit_on_init=True)
+    x_one_dim = pd.DataFrame([[2, 10, 10]], columns=["A", "B", "C"])
+    x_multi_dim = pd.DataFrame([[2, 1, 1],
+                                [4, 2, 3]], columns=["A", "B", "C"])
+    contributions = explainer.produce(x_one_dim)
+    assert x_one_dim.shape == contributions.shape
+    assert contributions.iloc[0, 0] <= 4
+    assert contributions.iloc[0, 0] >= .5  # with very high probability
+    assert contributions.iloc[0, 1] == 0
+    assert contributions.iloc[0, 2] == 0
+
+    contributions = explainer.produce(x_multi_dim)
+    assert x_multi_dim.shape == contributions.shape
+    assert contributions.iloc[0, 0] <= 4
+    assert contributions.iloc[0, 0] >= .5  # with very high probability
+    assert contributions.iloc[1, 0] <= 2
+    assert contributions.iloc[1, 0] > .5
+    assert (contributions.iloc[:, 1] == 0).all()
+    assert (contributions.iloc[:, 2] == 0).all()
+
+
 def test_produce_shap_regression_transforms(regression_one_hot):
     model = regression_one_hot
     lfc = LocalFeatureContribution(model=model["model"],
@@ -80,8 +116,35 @@ def helper_produce_shap_regression_one_hot(explainer):
     contributions = explainer.produce(x_multi_dim)
     assert x_multi_dim.shape == contributions.shape
     assert abs(contributions["A"][0]) < .0001
-    assert abs(contributions["A"][0]) < .0001
     assert abs(contributions["A"][1] - 1 < .0001)
+    assert (contributions["B"] == 0).all()
+    assert (contributions["C"] == 0).all()
+
+
+def test_produce_simple_regression_transforms(regression_one_hot):
+    model = regression_one_hot
+    explainer = SimpleCounterfactualContribution(model=model["model"],
+                                                 x_train_orig=model["x"],
+                                                 m_transformers=model["transformers"],
+                                                 fit_on_init=True)
+    x_one_dim = pd.DataFrame([[2, 10, 10]], columns=["A", "B", "C"])
+    x_multi_dim = pd.DataFrame([[4, 1, 1],
+                                [6, 2, 3]], columns=["A", "B", "C"])
+    contributions = explainer.produce(x_one_dim)
+    print(contributions)
+    assert x_one_dim.shape == contributions.shape
+    assert contributions["A"][0] <= 2
+    assert contributions["A"][0] >= .5
+    assert contributions["B"][0] == 0
+    assert contributions["C"][0] == 0
+
+    contributions = explainer.produce(x_multi_dim)
+    print(contributions)
+    assert x_multi_dim.shape == contributions.shape
+    assert contributions["A"][0] <= 2
+    assert contributions["A"][0] >= .5  # with high probability
+    assert contributions["A"][1] <= 2
+    assert contributions["A"][1] >= .5  # with high probability
     assert (contributions["B"] == 0).all()
     assert (contributions["C"] == 0).all()
 
