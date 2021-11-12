@@ -13,6 +13,8 @@ class ShapFeatureContribution(LocalFeatureContributionsBase):
 
     A ShapFeatureContribution object gets feature explanation using the SHAP algorithm.
 
+    ShapFeatureContribution explainers expect data in the **model-ready feature space**
+
     Args:
         model (string filepath or model object):
            Filepath to the pickled model to explain, or model object with .predict() function

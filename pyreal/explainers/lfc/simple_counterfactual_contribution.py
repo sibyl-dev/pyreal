@@ -15,6 +15,8 @@ class SimpleCounterfactualContribution(LocalFeatureContributionsBase):
 
     Does not support classification models
 
+    Expects categorical features rather than one-hot-encodings. Otherwise, can take any state.
+
     Args:
         model (string filepath or model object):
            Filepath to the pickled regression model to explain, or model object with .predict()

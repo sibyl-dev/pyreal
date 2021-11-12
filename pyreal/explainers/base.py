@@ -53,6 +53,8 @@ class Explainer(ABC):
         e_transformers (transformer object or list of transformer objects):
            Transformer(s) that need to be used on x_orig for the explanation algorithm:
            x_orig -> x_explain
+           See the specific implementation you are using for more information on the exact
+           requirements.
         m_transformers (transformer object or list of transformer objects):
            Transformer(s) needed on x_orig to make predictions on the dataset with model,
            if different than e_transformers
