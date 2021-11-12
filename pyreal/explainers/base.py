@@ -105,7 +105,8 @@ class Explainer(ABC):
             e_transformers = transformers
         if transformers is not None and m_transformers is not None:
             # TODO: replace with proper warning
-            print("Warning: transforms and m_transform provided. Defaulting to using m_transforms")
+            print("Warning: transforms and m_transformer provided. "
+                  "Defaulting to using m_transformers")
 
         self.e_transformers = _check_transformers(e_transformers)
         self.m_transformers = _check_transformers(m_transformers)
@@ -162,7 +163,7 @@ class Explainer(ABC):
 
     def transform_to_x_model(self, x_orig):
         """
-        Transform x_orig to x_model, using the e_transforms and m_transforms
+        Transform x_orig to x_model, using the e_transformers and m_transformers
 
         Args:
             x_orig (DataFrame of shape (n_instances, x_orig_feature_count)):
@@ -172,17 +173,17 @@ class Explainer(ABC):
              DataFrame of shape (n_instances, x_model_feature_count)
                 x_orig converted to model-ready form
         """
-        if self.m_transforms is None and self.e_transforms is None:
+        if self.m_transformers is None and self.e_transformers is None:
             return x_orig
-        if self.e_transforms is None:
-            return run_transformers(self.m_transforms, x_orig)
-        if self.m_transforms is None:
-            return run_transformers(self.e_transforms, x_orig)
-        return run_transformers(self.m_transforms, run_transformers(self.e_transforms, x_orig))
+        if self.e_transformers is None:
+            return run_transformers(self.m_transformers, x_orig)
+        if self.m_transformers is None:
+            return run_transformers(self.e_transformers, x_orig)
+        return run_transformers(self.m_transformers, run_transformers(self.e_transformers, x_orig))
 
     def transform_x_from_explain_to_model(self, x_explain):
         """
-        Transform x_explain to x_model, using the m_transforms
+        Transform x_explain to x_model, using the m_transformers
 
         Args:
             x_explain (DataFrame of shape (n_instances, x_orig_feature_count)):
@@ -192,9 +193,9 @@ class Explainer(ABC):
              DataFrame of shape (n_instances, x_model_feature_count)
                 x_explain converted to model-ready form
         """
-        if self.m_transforms is None:
+        if self.m_transformers is None:
             return x_explain
-        return run_transformers(self.m_transforms, x_explain)
+        return run_transformers(self.m_transformers, x_explain)
 
     def transform_to_x_interpret(self, x_orig):
         """
@@ -229,13 +230,24 @@ class Explainer(ABC):
                 for transform in self.e_transformers[::-1]:
                     transform_func = getattr(transform, "transform_explanation", None)
                     if callable(transform_func):
-                        explanation = transform_func(explanation)
+                        try:
+                            explanation = transform_func(explanation)
+                        except NotImplementedError:
+                            print("Transformer class %s does not have the required explanation "
+                                  "transform: stopping process"
+                                  % type(transform).__name__)
+                            return explanation
             if not self.skip_i_transform_explanation:
                 if self.i_transformers is not None:
                     for transform in self.i_transformers[::-1]:
                         transform_func = getattr(transform, "transform_explanation", None)
-                        if callable(transform_func):
+                        try:
                             explanation = transform_func(explanation)
+                        except NotImplementedError:
+                            print("Transformer class %s does not have the required explanation "
+                                  "transform: stopping process"
+                                  % type(transform).__name__)
+                            return explanation
         return explanation
 
     def model_predict(self, x_orig):

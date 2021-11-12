@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 
 from pyreal.types.explanations.dataframe import (
     AdditiveFeatureContributionExplanation, AdditiveFeatureImportanceExplanation,
-    FeatureImportanceExplanation,)
+    FeatureImportanceExplanation, FeatureContributionExplanation)
 
 
 def fit_transformers(transformers, x):
@@ -115,6 +115,9 @@ class Transformer(ABC):
         if isinstance(explanation, AdditiveFeatureContributionExplanation) \
                 or isinstance(explanation, AdditiveFeatureImportanceExplanation):
             return self.transform_explanation_additive_contributions(explanation)
+        # for now, use the additive version for non-additive explanations
+        if isinstance(explanation, FeatureContributionExplanation):
+            return self.transform_explanation_additive_contributions(explanation)
         if isinstance(explanation, FeatureImportanceExplanation):
             return self.transform_explanation_feature_importance(explanation)
         raise ValueError("Invalid explanation types %s" % explanation.__class__)
@@ -131,8 +134,12 @@ class Transformer(ABC):
         Returns:
             AdditiveFeatureContributionExplanationType:
                 The transformed explanation
+
+        Raises:
+            NotImplementedError:
+                If this transformer does not support this kind of explanation transform
         """
-        return explanation
+        raise NotImplementedError
 
     # noinspection PyMethodMayBeStatic
     def transform_explanation_feature_importance(self, explanation):
@@ -146,5 +153,8 @@ class Transformer(ABC):
             FeatureImportanceExplanationType:
                 The transformed explanation
 
+        Raises:
+            NotImplementedError:
+                If this transformer does not support this kind of explanation transform
         """
-        return explanation
+        raise NotImplementedError
