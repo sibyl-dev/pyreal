@@ -3,10 +3,11 @@ Includes basic visualization methods, mostly used to testing purposes.
 """
 import matplotlib.pyplot as plt
 import numpy as np
+import pandas as pd
 
 
 def plot_top_contributors(contributions, select_by="absolute", n=5, values=None,
-                          flip_colors=False):
+                          flip_colors=False, precision=2):
     """
     Plot the most contributing features
 
@@ -22,6 +23,8 @@ def plot_top_contributors(contributions, select_by="absolute", n=5, values=None,
         flip_colors (Boolean):
             If True, make the positive explanation red and negative explanation blue.
             Useful if the target variable has a negative connotation
+        precision (int):
+            Number of decimal places to print for numeric float values
 
     Returns:
         pyplot figure
@@ -29,7 +32,10 @@ def plot_top_contributors(contributions, select_by="absolute", n=5, values=None,
     """
     features = contributions.columns.to_numpy()
     if values is not None:
-        features = np.array(["%s (%s)" % (feature, values[feature]) for feature in features])
+        features = np.array(["%s (%.*f)" % (feature, precision, values[feature])
+                             if isinstance(values[feature], float)
+                             else "%s (%s)" % (feature, values[feature])
+                             for feature in features])
 
     if contributions.ndim == 2:
         contributions = contributions.iloc[0]
