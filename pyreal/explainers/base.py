@@ -282,7 +282,7 @@ class Explainer(ABC):
                 Model prediction on x_orig
         """
         if x_explain.ndim == 1:
-            x_orig = x_explain.to_frame().T
+            x_explain.to_frame().T
         x_model = self.transform_x_from_explain_to_model(x_explain)
         return self.model.predict(x_model)
 

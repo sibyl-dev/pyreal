@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 
 from pyreal.types.explanations.dataframe import (
     AdditiveFeatureContributionExplanation, AdditiveFeatureImportanceExplanation,
-    FeatureImportanceExplanation, FeatureContributionExplanation)
+    FeatureContributionExplanation, FeatureImportanceExplanation,)
 
 
 def fit_transformers(transformers, x):

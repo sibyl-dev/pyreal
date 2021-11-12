@@ -3,7 +3,6 @@ Includes basic visualization methods, mostly used to testing purposes.
 """
 import matplotlib.pyplot as plt
 import numpy as np
-import pandas as pd
 
 
 def plot_top_contributors(contributions, select_by="absolute", n=5, values=None,
