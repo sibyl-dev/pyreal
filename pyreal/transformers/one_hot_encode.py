@@ -292,3 +292,26 @@ class MappingsOneHotDecoder(Transformer):
                 cat_data[new_name][np.where(x[col] == 1)] = \
                     self.mappings.one_hot_to_categorical[col][1]
         return pd.DataFrame(cat_data)
+
+    # noinspection PyMethodMayBeStatic
+    def inverse_transform_explanation_additive_contributions(self, explanation):
+        """
+        Transforms additive contribution explanations
+
+        Args:
+            explanation (AdditiveFeatureContributionExplanationType):
+                The explanation to be transformed
+
+        Returns:
+            AdditiveFeatureContributionExplanationType:
+                The transformed explanation
+        """
+        explanation = pd.DataFrame(explanation)
+        if explanation.ndim == 1:
+            explanation = explanation.reshape(1, -1)
+        for original_feature in self.mappings.categorical_to_one_hot.keys():
+            encoded_features = self.mappings.categorical_to_one_hot[original_feature]
+            summed_contribution = explanation[encoded_features].sum(axis=1)
+            explanation = explanation.drop(encoded_features, axis="columns")
+            explanation[original_feature] = summed_contribution
+        return explanation

@@ -242,7 +242,7 @@ class Explainer(ABC):
             if not self.skip_i_transform_explanation:
                 if self.i_transformers is not None:
                     for transform in self.i_transformers[::-1]:
-                        transform_func = getattr(transform, "transform_explanation", None)
+                        transform_func = getattr(transform, "inverse_transform_explanation", None)
                         try:
                             explanation = transform_func(explanation)
                         except NotImplementedError:
