@@ -65,7 +65,6 @@ class Transformer(ABC):
         Returns:
             None
         """
-        pass
 
     @abstractmethod
     def transform(self, x):
@@ -140,7 +139,7 @@ class Transformer(ABC):
 
         """
         if isinstance(explanation, AdditiveFeatureContributionExplanation) \
-            or isinstance(explanation, AdditiveFeatureImportanceExplanation):
+                or isinstance(explanation, AdditiveFeatureImportanceExplanation):
             return self.inverse_transform_explanation_additive_contributions(explanation)
         # for now, use the additive version for non-additive explanations
         if isinstance(explanation, FeatureContributionExplanation):
