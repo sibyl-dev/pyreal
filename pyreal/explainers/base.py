@@ -71,6 +71,10 @@ class Explainer(ABC):
         skip_i_transform_explanation (Boolean):
            If True, do not run the transform_explanation methods from i_transformers
            on the explanation after producing.
+        stop_on_missing_transform (Boolean):
+            If True, stop transforming explanations when a missing `transform_explanation` method
+            is encountered. Should only be False if missing `transform_explanation` methods will
+            not result in other transformers failing (ie, operate on separate feature spaces).
     """
 
     def __init__(self, model,
@@ -81,7 +85,8 @@ class Explainer(ABC):
                  transformers=None,
                  e_transformers=None, m_transformers=None, i_transformers=None,
                  fit_on_init=False,
-                 skip_e_transform_explanation=False, skip_i_transform_explanation=False):
+                 skip_e_transform_explanation=False, skip_i_transform_explanation=False,
+                 stop_on_missing_transform=True):
         if isinstance(model, str):
             self.model = model_utils.load_model_from_pickle(model)
         else:
@@ -125,6 +130,7 @@ class Explainer(ABC):
 
         self.skip_e_transform_explanation = skip_e_transform_explanation
         self.skip_i_transform_explanation = skip_i_transform_explanation
+        self.stop_on_missing_transform = stop_on_missing_transform
 
         if fit_on_init:
             self.fit()
@@ -236,20 +242,24 @@ class Explainer(ABC):
                             explanation = transform_func(explanation)
                         except NotImplementedError:
                             print("Transformer class %s does not have the required explanation "
-                                  "transform: stopping process"
+                                  "transform"
                                   % type(transform).__name__)
-                            return explanation
+                            if self.stop_on_missing_transform:
+                                print("Stopping explanation transform process")
+                                return explanation
             if not self.skip_i_transform_explanation:
                 if self.i_transformers is not None:
-                    for transform in self.i_transformers[::-1]:
+                    for transform in self.i_transformers:
                         transform_func = getattr(transform, "inverse_transform_explanation", None)
                         try:
                             explanation = transform_func(explanation)
                         except NotImplementedError:
-                            print("Transformer class %s does not have the required explanation "
-                                  "transform: stopping process"
+                            print("Transformer class %s does not have the required inverse "
+                                  "explanation transform"
                                   % type(transform).__name__)
-                            return explanation
+                            if self.stop_on_missing_transform:
+                                print("Stopping explanation transform process")
+                                return explanation
         return explanation
 
     def model_predict(self, x_orig):
@@ -282,7 +292,7 @@ class Explainer(ABC):
                 Model prediction on x_orig
         """
         if x_explain.ndim == 1:
-            x_explain.to_frame().T
+            x_explain = x_explain.to_frame().T
         x_model = self.transform_x_from_explain_to_model(x_explain)
         return self.model.predict(x_model)
 

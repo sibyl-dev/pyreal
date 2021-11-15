@@ -239,7 +239,7 @@ class MappingsOneHotEncoder(Transformer):
         return pd.DataFrame(ohe_data)
 
     def transform_explanation_additive_contributions(self, explanation):
-        explanation = pd.DataFrame(explanation)
+        explanation = pd.DataFrame(explanation.get())
         if explanation.ndim == 1:
             explanation = explanation.reshape(1, -1)
         for original_feature in self.mappings.categorical_to_one_hot.keys():
@@ -247,7 +247,7 @@ class MappingsOneHotEncoder(Transformer):
             summed_contribution = explanation[encoded_features].sum(axis=1)
             explanation = explanation.drop(encoded_features, axis="columns")
             explanation[original_feature] = summed_contribution
-        return explanation
+        return AdditiveFeatureContributionExplanation(explanation)
 
 
 class MappingsOneHotDecoder(Transformer):
@@ -306,7 +306,7 @@ class MappingsOneHotDecoder(Transformer):
             AdditiveFeatureContributionExplanationType:
                 The transformed explanation
         """
-        explanation = pd.DataFrame(explanation)
+        explanation = pd.DataFrame(explanation.get())
         if explanation.ndim == 1:
             explanation = explanation.reshape(1, -1)
         for original_feature in self.mappings.categorical_to_one_hot.keys():
@@ -314,4 +314,4 @@ class MappingsOneHotDecoder(Transformer):
             summed_contribution = explanation[encoded_features].sum(axis=1)
             explanation = explanation.drop(encoded_features, axis="columns")
             explanation[original_feature] = summed_contribution
-        return explanation
+        return AdditiveFeatureContributionExplanation(explanation)
