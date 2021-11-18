@@ -151,8 +151,7 @@ some of these in the quick start tutorial above.
 | `m_transformers` | Transformers that transform data between the explanation-ready and model-ready feature spaces |
 | `i_transformers` | Transformers that transform data and explanations from the original feature space to the interpretable feature space |
 
-
-|
+For more details about how these feature spaces and terms interact, please check the user guides.
 
 # What's next?
 
