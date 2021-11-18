@@ -46,5 +46,8 @@ class DataFrameWrapper(Transformer):
         transformed_np = self.wrapped_transformer.transform(x)
         return pd.DataFrame(transformed_np, columns=x.columns, index=x.index)
 
+    def inverse_transform_explanation(self, explanation):
+        return explanation
+
     def transform_explanation(self, explanation):
         return explanation
