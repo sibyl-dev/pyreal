@@ -147,9 +147,16 @@
 <nav id="bd-toc-nav">
     <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#what-s-next">
-   What’s next?
+  <a class="reference internal nav-link" href="#terminology">
+   Terminology
   </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#what-s-next">
+     What’s next?
+    </a>
+   </li>
+  </ul>
  </li>
 </ul>
 
@@ -297,10 +304,66 @@ TODO: Running tests should not bring up a window. Refactor into the above docstr
 <a class="reference external image-reference" href="docs/images/quickstart.png"><img alt="Quickstart" src="docs/images/quickstart.png" /></a>
 <p>We can see here that the input passenger’s predicted chance of survival was greatly reduced
 because of their sex (male) and ticket class (3rd class).</p>
+<div class="section" id="terminology">
+<h2>Terminology<a class="headerlink" href="#terminology" title="Permalink to this headline">¶</a></h2>
+<p>Pyreal introduces specific terms and naming schemes to refer to different feature spaces and
+transformations. Here, we offer a short summary of these terms. You can see examples of
+some of these in the quick start tutorial above.</p>
+<table class="table">
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Term</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">model</span></code></p></td>
+<td><p>A machine learning predictor, defined as an object with a <code class="docutils literal notranslate"><span class="pre">.predict()</span></code> funtion</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">x</span></code>, <code class="docutils literal notranslate"><span class="pre">x_train</span></code></p></td>
+<td><p>Data, in the form of a pandas DataFrame</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">explanation</span></code></p></td>
+<td><p>An explanation of a model or model prediction</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">Explainer</span></code></p></td>
+<td><p>Pyreal objects that take in data and a model and return an explanation</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">Transformer</span></code></p></td>
+<td><p>Pyreal objects that transform data and explanations from one feature space to another</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">x_orig</span></code>, <code class="docutils literal notranslate"><span class="pre">explanation_orig</span></code></p></td>
+<td><p>Data or an explanation using the original feature space (whatever feature space the data starts in)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">x_explain</span></code>, <code class="docutils literal notranslate"><span class="pre">explanation_explain</span></code></p></td>
+<td><p>Data or an explanation using the feature space expected by the explanation algorithm (explanation-ready feature space)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">x_model</span></code>, <code class="docutils literal notranslate"><span class="pre">explanation_model</span></code></p></td>
+<td><p>Data or an explanation using the feature space the model expects</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">x_interpret</span></code>, <code class="docutils literal notranslate"><span class="pre">explanation_interpret</span></code></p></td>
+<td><p>Data or an explanation using the most human-readable feature space available</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">e_transformers</span></code></p></td>
+<td><p>Transformers that transform data from the original to the explanation-ready, and explanations from the explanation-ready to the original feature space</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">m_transformers</span></code></p></td>
+<td><p>Transformers that transform data between the explanation-ready and model-ready feature spaces</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">i_transformers</span></code></p></td>
+<td><p>Transformers that transform data and explanations from the original feature space to the interpretable feature space</p></td>
+</tr>
+</tbody>
+</table>
+<p>For more details about how these feature spaces and terms interact, please check the user guides.</p>
 <div class="section" id="what-s-next">
-<h2>What’s next?<a class="headerlink" href="#what-s-next" title="Permalink to this headline">¶</a></h2>
+<h3>What’s next?<a class="headerlink" href="#what-s-next" title="Permalink to this headline">¶</a></h3>
 <p>For more details about <strong>Pyreal</strong> and all its possibilities
 and features, please check the <a class="reference external" href="https://sibyl-dev.github.io/pyreal/">documentation site</a>.</p>
+</div>
 </div>
 </div>
 
