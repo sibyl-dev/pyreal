@@ -2,10 +2,10 @@ from abc import ABC, abstractmethod
 
 import numpy as np
 
-from pyreal.explainers import Explainer
+from pyreal.explainers import BaseExplainer
 
 
-class LocalFeatureContributionsBase(Explainer, ABC):
+class LocalFeatureContributionsBase(BaseExplainer, ABC):
     """
     Base class for LocalFeatureContributions explainer objects. Abstract class
 

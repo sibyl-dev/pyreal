@@ -22,9 +22,9 @@ def _check_transformers(transformers):
     return transformers
 
 
-class Explainer(ABC):
+class BaseExplainer(ABC):
     """
-    Generic Explainer object
+    Generic BaseExplainer object
 
     Args:
         model (string filepath or model object):

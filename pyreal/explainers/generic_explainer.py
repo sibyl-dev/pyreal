@@ -1,16 +1,13 @@
-import numpy as np
-
-from pyreal.explainers import Explainer, ShapFeatureImportance
+from pyreal.explainers import BaseExplainer, ShapFeatureImportance
 
 
-# TODO: modify the following function
-def default_explainer(return_contributions=True, return_explainer=False, explainer=None,
-                      model=None, x_orig=None, x_train_orig=None,
-                      e_algorithm=None, feature_descriptions=None,
-                      e_transforms=None, m_transforms=None, i_transforms=None,
-                      interpretable_features=True):
+def explainer(return_explanation=True, return_explainer=True, explainer=None,
+              model=None, x_orig=None, x_train_orig=None,
+              e_algorithm=None, feature_descriptions=None,
+              e_transforms=None, m_transforms=None, i_transforms=None,
+              interpretable_features=True):
     """
-    Get a local feature contribution for x_input
+    Get an explanation of the model for x_orig (default explainer produces global explanations)
 
     Args:
         return_contributions (Boolean):
@@ -52,32 +49,28 @@ def default_explainer(return_contributions=True, return_explainer=False, explain
         DataFrame of shape (n_instances, n_features):
             The contribution of each feature. Only returned if return_contributions is True
     """
-    if not return_contributions and not return_explainer:
-        # TODO: replace with formal warning system
-        print("lfc is non-functional with return_contribution and return_explainer set to false")
-        return
+    if not return_explanation and not return_explainer:
+        raise ValueError("return_explanation and return_explainer cannot both be false")
     if explainer is None and (model is None or x_train_orig is None):
-        raise ValueError("lfc requires either explainer OR model and x_train to be passed")
-    if return_contributions is True and x_orig is None:
-        raise ValueError("return_contributions tag require x_input to be passed")
+        raise ValueError("You must provide either explainer OR model and corresponding x_train")
 
     if explainer is None:
-        explainer = GenericExplainer(model, x_train_orig,
-                                             e_algorithm=e_algorithm,
-                                             feature_descriptions=feature_descriptions,
-                                             e_transforms=e_transforms, m_transforms=m_transforms,
-                                             i_transforms=i_transforms,
-                                             interpretable_features=interpretable_features,
-                                             fit_on_init=True)
-    if return_explainer and return_contributions:
+        explainer = Explainer(model, x_train_orig,
+                              e_algorithm=e_algorithm,
+                              feature_descriptions=feature_descriptions,
+                              e_transforms=e_transforms, m_transforms=m_transforms,
+                              i_transforms=i_transforms,
+                              interpretable_features=interpretable_features,
+                              fit_on_init=True)
+    if return_explainer and return_explanation:
         return explainer, explainer.produce(x_orig)
     if return_explainer:
         return explainer
-    if return_contributions:
+    if return_explanation:
         return explainer.produce(x_orig)
 
 
-class GenericExplainer(Explainer):
+class Explainer(BaseExplainer):
     """
     Unspecified Explainer wrapper.
 
@@ -106,17 +99,15 @@ class GenericExplainer(Explainer):
             # TODO: implement default explainer for local
             raise NotImplementedError()
         else:
-            raise TypeError("Explainers at this point must be either global or local")
-        
-        super(GenericExplainer, self).__init__(model, x_train_orig, **kwargs)
+            raise TypeError("Explainers must be either global or local")
 
+        super(Explainer, self).__init__(model, x_train_orig, **kwargs)
 
     def fit(self):
         """
         Fit this explainer object
-        """   
+        """
         self.base_explainer.fit()
-        
 
     def produce(self, x_orig):
         """

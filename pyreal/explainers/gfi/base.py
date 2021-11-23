@@ -2,10 +2,10 @@ from abc import ABC, abstractmethod
 
 import numpy as np
 
-from pyreal.explainers import Explainer
+from pyreal.explainers import BaseExplainer
 
 
-class GlobalFeatureImportanceBase(Explainer, ABC):
+class GlobalFeatureImportanceBase(BaseExplainer, ABC):
     """
     Base class for GlobalFeatureImportance explainer objects. Abstract class
 

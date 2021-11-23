@@ -1,9 +1,9 @@
 from abc import ABC, abstractmethod
 
-from pyreal.explainers import Explainer
+from pyreal.explainers import BaseExplainer
 
 
-class DecisionTreeExplainerBase(Explainer, ABC):
+class DecisionTreeExplainerBase(BaseExplainer, ABC):
     """
     Base class for DecisionTree explainer objects. Abstract class
 
