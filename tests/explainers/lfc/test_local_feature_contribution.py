@@ -75,14 +75,14 @@ def test_produce_simple_regression_no_transforms(regression_no_transforms):
     contributions = explainer.produce(x_one_dim)
     assert x_one_dim.shape == contributions.shape
     assert contributions.iloc[0, 0] <= 4
-    assert contributions.iloc[0, 0] >= .5  # with very high probability
+    assert contributions.iloc[0, 0] >= .01  # with very high probability
     assert contributions.iloc[0, 1] == 0
     assert contributions.iloc[0, 2] == 0
 
     contributions = explainer.produce(x_multi_dim)
     assert x_multi_dim.shape == contributions.shape
     assert contributions.iloc[0, 0] <= 4
-    assert contributions.iloc[0, 0] >= .5  # with very high probability
+    assert contributions.iloc[0, 0] >= .01  # with very high probability
     assert contributions.iloc[1, 0] <= 2
     assert contributions.iloc[1, 0] > .5
     assert (contributions.iloc[:, 1] == 0).all()
@@ -142,9 +142,9 @@ def test_produce_simple_regression_transforms(regression_one_hot):
     print(contributions)
     assert x_multi_dim.shape == contributions.shape
     assert contributions["A"][0] <= 2
-    assert contributions["A"][0] >= .5  # with high probability
+    assert contributions["A"][0] >= .01  # with high probability
     assert contributions["A"][1] <= 2
-    assert contributions["A"][1] >= .5  # with high probability
+    assert contributions["A"][1] >= .01  # with high probability
     assert (contributions["B"] == 0).all()
     assert (contributions["C"] == 0).all()
 
