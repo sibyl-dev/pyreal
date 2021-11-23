@@ -112,7 +112,7 @@ class Explainer(ABC):
             e_transformers = transformers
         if transformers is not None and m_transformers is not None:
             # TODO: replace with proper warning
-            print("Warning: transforms and m_transformer provided. "
+            print("Warning: transformers and m_transformers provided. "
                   "Defaulting to using m_transformers")
 
         self.e_transformers = _check_transformers(e_transformers)

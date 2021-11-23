@@ -115,7 +115,8 @@ class Transformer(ABC):
         if isinstance(explanation, AdditiveFeatureContributionExplanation) \
                 or isinstance(explanation, AdditiveFeatureImportanceExplanation):
             return self.transform_explanation_additive_contributions(explanation)
-        # for now, use the additive version for non-additive explanations
+        # TODO: here we are temporarily using the additive version for non-additive explanations
+        #       Addressed in GH issue 114.
         if isinstance(explanation, FeatureContributionExplanation):
             return self.transform_explanation_additive_contributions(explanation)
         if isinstance(explanation, FeatureImportanceExplanation):
