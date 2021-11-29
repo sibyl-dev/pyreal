@@ -125,7 +125,7 @@ class Transformer(ABC):
                 The transformed explanation
         Raises:
             ValueError
-                If `explantion` is not of a supported ExplanationType
+                If `explanation` is not of a supported ExplanationType
 
         """
         if isinstance(explanation, AdditiveFeatureContributionExplanation) \
