@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 
 from pyreal.types.explanations.dataframe import (
     AdditiveFeatureContributionExplanation, AdditiveFeatureImportanceExplanation,
-    FeatureImportanceExplanation,)
+    FeatureContributionExplanation, FeatureImportanceExplanation,)
 
 
 def fit_transformers(transformers, x):
@@ -115,8 +115,38 @@ class Transformer(ABC):
         if isinstance(explanation, AdditiveFeatureContributionExplanation) \
                 or isinstance(explanation, AdditiveFeatureImportanceExplanation):
             return self.transform_explanation_additive_contributions(explanation)
+        # TODO: here we are temporarily using the additive version for non-additive explanations
+        #       Addressed in GH issue 114.
+        if isinstance(explanation, FeatureContributionExplanation):
+            return self.transform_explanation_additive_contributions(explanation)
         if isinstance(explanation, FeatureImportanceExplanation):
             return self.transform_explanation_feature_importance(explanation)
+        raise ValueError("Invalid explanation types %s" % explanation.__class__)
+
+    def inverse_transform_explanation(self, explanation):
+        """
+        Transforms the explanation from the first feature space handled by this transformer
+        to the second.
+
+        Args:
+            explanation (Explanation):
+                The explanation to transform
+        Returns:
+            Explanation:
+                The transformed explanation
+        Raises:
+            ValueError
+                If `explantion` is not of a supported ExplanationType
+
+        """
+        if isinstance(explanation, AdditiveFeatureContributionExplanation) \
+                or isinstance(explanation, AdditiveFeatureImportanceExplanation):
+            return self.inverse_transform_explanation_additive_contributions(explanation)
+        # for now, use the additive version for non-additive explanations
+        if isinstance(explanation, FeatureContributionExplanation):
+            return self.inverse_transform_explanation_additive_contributions(explanation)
+        if isinstance(explanation, FeatureImportanceExplanation):
+            return self.inverse_transform_explanation_feature_importance(explanation)
         raise ValueError("Invalid explanation types %s" % explanation.__class__)
 
     # noinspection PyMethodMayBeStatic
@@ -131,8 +161,12 @@ class Transformer(ABC):
         Returns:
             AdditiveFeatureContributionExplanationType:
                 The transformed explanation
+
+        Raises:
+            NotImplementedError:
+                If this transformer does not support this kind of explanation transform
         """
-        return explanation
+        raise NotImplementedError
 
     # noinspection PyMethodMayBeStatic
     def transform_explanation_feature_importance(self, explanation):
@@ -146,5 +180,45 @@ class Transformer(ABC):
             FeatureImportanceExplanationType:
                 The transformed explanation
 
+        Raises:
+            NotImplementedError:
+                If this transformer does not support this kind of explanation transform
         """
-        return explanation
+        raise NotImplementedError
+
+    # noinspection PyMethodMayBeStatic
+    def inverse_transform_explanation_additive_contributions(self, explanation):
+        """
+        Transforms additive contribution explanations
+
+        Args:
+            explanation (AdditiveFeatureContributionExplanationType):
+                The explanation to be transformed
+
+        Returns:
+            AdditiveFeatureContributionExplanationType:
+                The transformed explanation
+
+        Raises:
+            NotImplementedError:
+                If this transformer does not support this kind of explanation transform
+        """
+        raise NotImplementedError
+
+    # noinspection PyMethodMayBeStatic
+    def inverse_transform_explanation_feature_importance(self, explanation):
+        """
+        Transforms feature importance explanations
+
+        Args:
+            explanation (FeatureImportanceExplanationType):
+                The explanation to be transformed
+        Returns:
+            FeatureImportanceExplanationType:
+                The transformed explanation
+
+        Raises:
+            NotImplementedError:
+                If this transformer does not support this kind of explanation transform
+        """
+        raise NotImplementedError
