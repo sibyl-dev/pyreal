@@ -112,7 +112,7 @@ class Transformer(ABC):
         self.fit(x, **fit_params)
         return self.data_transform(x)
 
-    def transform_explanation(self, explanation):
+    def inverse_transform_explanation(self, explanation):
         """
         Transforms the explanation from the second feature space handled by this transformer
         to the first.
@@ -139,7 +139,7 @@ class Transformer(ABC):
             return self.transform_explanation_feature_importance(explanation)
         raise ValueError("Invalid explanation types %s" % explanation.__class__)
 
-    def inverse_transform_explanation(self, explanation):
+    def transform_explanation(self, explanation):
         """
         Transforms the explanation from the first feature space handled by this transformer
         to the second.
@@ -166,43 +166,6 @@ class Transformer(ABC):
         raise ValueError("Invalid explanation types %s" % explanation.__class__)
 
     # noinspection PyMethodMayBeStatic
-    def transform_explanation_additive_contributions(self, explanation):
-        """
-        Transforms additive contribution explanations
-
-        Args:
-            explanation (AdditiveFeatureContributionExplanationType):
-                The explanation to be transformed
-
-        Returns:
-            AdditiveFeatureContributionExplanationType:
-                The transformed explanation
-
-        Raises:
-            NotImplementedError:
-                If this transformer does not support this kind of explanation transform
-        """
-        raise NotImplementedError
-
-    # noinspection PyMethodMayBeStatic
-    def transform_explanation_feature_importance(self, explanation):
-        """
-        Transforms feature importance explanations
-
-        Args:
-            explanation (FeatureImportanceExplanationType):
-                The explanation to be transformed
-        Returns:
-            FeatureImportanceExplanationType:
-                The transformed explanation
-
-        Raises:
-            NotImplementedError:
-                If this transformer does not support this kind of explanation transform
-        """
-        raise NotImplementedError
-
-    # noinspection PyMethodMayBeStatic
     def inverse_transform_explanation_additive_contributions(self, explanation):
         """
         Transforms additive contribution explanations
@@ -223,6 +186,43 @@ class Transformer(ABC):
 
     # noinspection PyMethodMayBeStatic
     def inverse_transform_explanation_feature_importance(self, explanation):
+        """
+        Transforms feature importance explanations
+
+        Args:
+            explanation (FeatureImportanceExplanationType):
+                The explanation to be transformed
+        Returns:
+            FeatureImportanceExplanationType:
+                The transformed explanation
+
+        Raises:
+            NotImplementedError:
+                If this transformer does not support this kind of explanation transform
+        """
+        raise NotImplementedError
+
+    # noinspection PyMethodMayBeStatic
+    def transform_explanation_additive_contributions(self, explanation):
+        """
+        Transforms additive contribution explanations
+
+        Args:
+            explanation (AdditiveFeatureContributionExplanationType):
+                The explanation to be transformed
+
+        Returns:
+            AdditiveFeatureContributionExplanationType:
+                The transformed explanation
+
+        Raises:
+            NotImplementedError:
+                If this transformer does not support this kind of explanation transform
+        """
+        raise NotImplementedError
+
+    # noinspection PyMethodMayBeStatic
+    def transform_explanation_feature_importance(self, explanation):
         """
         Transforms feature importance explanations
 

@@ -66,15 +66,16 @@ class Explainer(ABC):
            If True, fit the explainer on initiation.
            If False, self.fit() must be manually called before produce() is called
         skip_e_transform_explanation (Boolean):
-           If True, do not run the transform_explanation methods from e_transformers or
+           If True, do not run the inverse_transform_explanation methods from e_transformers or
            i_transformers on the explanation after producing.
         skip_i_transform_explanation (Boolean):
            If True, do not run the transform_explanation methods from i_transformers
            on the explanation after producing.
         stop_on_missing_transform (Boolean):
-            If True, stop transforming explanations when a missing `transform_explanation` method
-            is encountered. Should only be False if missing `transform_explanation` methods will
-            not result in other transformers failing (ie, operate on separate feature spaces).
+            If True, stop transforming explanations when a missing `inverse_transform_explanation`
+            method is encountered. Should only be False if missing `inverse_transform_explanation`
+            methods will not result in other transformers failing
+            (ie, operate on separate feature spaces).
     """
 
     def __init__(self, model,
@@ -222,8 +223,8 @@ class Explainer(ABC):
 
     def transform_explanation(self, explanation):
         """
-        Transform the explanation into its interpretable form, by running the e_transform and
-        i_transform's "transform_explanation" functions in reverse.
+        Transform the explanation into its interpretable form, by running the e_transformer's
+        "inverse_transform_explanation" and i_transformers "transform_explanation" functions.
 
         Args:
             explanation (type varies by subclass):
@@ -236,7 +237,7 @@ class Explainer(ABC):
         if not self.skip_e_transform_explanation:
             if self.e_transformers is not None:
                 for transform in self.e_transformers[::-1]:
-                    transform_func = getattr(transform, "transform_explanation", None)
+                    transform_func = getattr(transform, "inverse_transform_explanation", None)
                     if callable(transform_func):
                         try:
                             explanation = transform_func(explanation)
@@ -250,7 +251,7 @@ class Explainer(ABC):
             if not self.skip_i_transform_explanation:
                 if self.i_transformers is not None:
                     for transform in self.i_transformers:
-                        transform_func = getattr(transform, "inverse_transform_explanation", None)
+                        transform_func = getattr(transform, "transform_explanation", None)
                         try:
                             explanation = transform_func(explanation)
                         except NotImplementedError:
