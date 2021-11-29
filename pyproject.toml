@@ -1,0 +1,92 @@
+# Project Metadata
+[tool.poetry]
+authors = [
+  "Alexandra Zytek <zyteka@mit.edu>",
+]
+
+maintainers = [
+  "MIT Data To AI Lab <dailabmit@gmail.com>",
+]
+
+description = "Library for evaluating and deploying human readable machine learning explanations."
+name = "pyreal"
+version = "0.2.0"
+
+license = ""
+
+readme = "README.md"
+
+documentation = "https://sibyl-dev.github.io/pyreal"
+homepage = "https://sibyl-ml.dev/"
+repository = "https://github.com/DAI-Lab/pyreal"
+
+keywords = ["pyreal", "Pyreal"]
+
+classifiers = [
+  'Intended Audience :: Developers',
+  'Natural Language :: English',
+]
+
+include = ["AUTHORS.rst", "HISTORY.md"]
+exclude = []
+
+
+# Library Requirements
+[tool.poetry.dependencies]
+
+# Main Python Requirements
+python = ">=3.7.1, <3.10"
+
+#Library Dependencies
+eli5 = "^0.11.0"
+matplotlib = "^3.4.3"
+numpy = "^1.19.5"
+pandas = "^1.3.3"
+scikit-learn = "^0.24.2"
+shap = "^0.39.0"
+
+# Example Dependencies
+tensorflow = {version = "^2.6.0", optional = true}
+
+# Development Requirements
+[tool.poetry.dev-dependencies]
+
+# Testing Dependencies
+coverage = "^5.5"
+pytest = "^6.2.5"
+pytest-cov = "^2.12.1"
+pytest-xdist = "^2.4.0"
+jupyter = "^1.0.0"
+invoke = "^1.6.0"
+nbmake = "^0.8"
+
+# Style Dependencies
+flake8 = "^3.9.2"
+isort = "^5.9.3"
+autoflake = "^1.4"
+autopep8 = "^1.5.7"
+
+# Documentation Dependencies
+PyYaml = "^5.4.1"
+Sphinx = "^4.2.0"
+argh = "^0.26.2"
+autodocsumm = "^0.2.7"
+ipython = "^7.27.0"
+m2r2 = "^0.3.1"
+nbsphinx = "^0.8.7"
+pydata-sphinx-theme = "^0.7.2"
+
+# Extra Dependency Bundles
+[tool.poetry.extras]
+examples = ["tensorflow", "nbmake"]
+
+[tool.isort]
+include_trailing_comma = true
+line_length = 99
+lines_between_types = 0
+multi_line_output = 4
+use_parentheses = true
+
+[build-system]
+build-backend = "poetry.core.masonry.api"
+requires = ["poetry-core>=1.1.11"]

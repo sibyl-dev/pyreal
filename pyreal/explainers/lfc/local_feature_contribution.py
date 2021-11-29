@@ -1,4 +1,5 @@
-from pyreal.explainers import LocalFeatureContributionsBase, ShapFeatureContribution
+from pyreal.explainers import (
+    LocalFeatureContributionsBase, ShapFeatureContribution, SimpleCounterfactualContribution,)
 
 
 def choose_algorithm():
@@ -6,7 +7,7 @@ def choose_algorithm():
     Choose an algorithm based on the model type.
     Currently, shap is the only supported algorithm
 
-    Return:
+    Returns:
         string (one of ["shap"])
             Explanation algorithm to use
     """
@@ -14,7 +15,7 @@ def choose_algorithm():
 
 
 def lfc(return_contributions=True, return_explainer=False, explainer=None,
-        model=None, x_input=None, x_train=None,
+        model=None, x_orig=None, x_train_orig=None,
         e_algorithm=None, feature_descriptions=None,
         e_transforms=None, m_transforms=None, i_transforms=None,
         interpretable_features=True):
@@ -32,9 +33,9 @@ def lfc(return_contributions=True, return_explainer=False, explainer=None,
             Fitted explainer object.
         model (string filepath or model object):
            Filepath to the pickled model to explain, or model object with .predict() function
-        x_input (dataframe of shape (n_instances, x_orig_feature_count)):
+        x_orig (dataframe of shape (n_instances, x_orig_feature_count)):
            The input to explain
-        x_train (dataframe of shape (n_instances, x_orig_feature_count)):
+        x_train_orig (dataframe of shape (n_instances, x_orig_feature_count)):
            The training set for the explainer
         e_algorithm (string, one of ["shap"]):
            Explanation algorithm to use. If none, one will be chosen automatically based on model
@@ -46,7 +47,7 @@ def lfc(return_contributions=True, return_explainer=False, explainer=None,
            x_orig -> x_explain
         m_transforms (transformer object or list of transformer objects):
            Transformer(s) needed on x_orig to make predictions on the dataset with model,
-           if different than e_transforms
+           if different than e_transformers
            x_orig -> x_model
         i_transforms (transformer object or list of transformer objects):
            Transformer(s) needed to make x_orig interpretable
@@ -65,13 +66,13 @@ def lfc(return_contributions=True, return_explainer=False, explainer=None,
         # TODO: replace with formal warning system
         print("lfc is non-functional with return_contribution and return_explainer set to false")
         return
-    if explainer is None and (model is None or x_train is None):
+    if explainer is None and (model is None or x_train_orig is None):
         raise ValueError("lfc requires either explainer OR model and x_train to be passed")
-    if return_contributions is True and x_input is None:
+    if return_contributions is True and x_orig is None:
         raise ValueError("return_contributions tag require x_input to be passed")
 
     if explainer is None:
-        explainer = LocalFeatureContribution(model, x_train,
+        explainer = LocalFeatureContribution(model, x_train_orig,
                                              e_algorithm=e_algorithm,
                                              feature_descriptions=feature_descriptions,
                                              e_transforms=e_transforms, m_transforms=m_transforms,
@@ -79,11 +80,11 @@ def lfc(return_contributions=True, return_explainer=False, explainer=None,
                                              interpretable_features=interpretable_features,
                                              fit_on_init=True)
     if return_explainer and return_contributions:
-        return explainer, explainer.produce(x_input)
+        return explainer, explainer.produce(x_orig)
     if return_explainer:
         return explainer
     if return_contributions:
-        return explainer.produce(x_input)
+        return explainer.produce(x_orig)
 
 
 class LocalFeatureContribution(LocalFeatureContributionsBase):
@@ -97,7 +98,7 @@ class LocalFeatureContribution(LocalFeatureContributionsBase):
     Args:
         model (string filepath or model object):
            Filepath to the pickled model to explain, or model object with .predict() function
-        x_orig (dataframe of shape (n_instances, x_orig_feature_count)):
+        x_train_orig (dataframe of shape (n_instances, x_orig_feature_count)):
            The training set for the explainer
         e_algorithm (string, one of ["shap"]):
            Explanation algorithm to use. If none, one will be chosen automatically based on model
@@ -105,17 +106,20 @@ class LocalFeatureContribution(LocalFeatureContributionsBase):
         **kwargs: see LocalFeatureContributionsBase args
     """
 
-    def __init__(self, model, x_orig, e_algorithm=None, **kwargs):
+    def __init__(self, model, x_train_orig, e_algorithm=None, **kwargs):
         if e_algorithm is None:
             e_algorithm = choose_algorithm()
         self.base_local_feature_contribution = None
         if e_algorithm == "shap":
-            self.base_local_feature_contribution = ShapFeatureContribution(model, x_orig, **kwargs)
+            self.base_local_feature_contribution = ShapFeatureContribution(
+                model, x_train_orig, **kwargs)
+        elif e_algorithm == "simple":
+            self.base_local_feature_contribution = SimpleCounterfactualContribution(
+                model, x_train_orig, **kwargs)
         if self.base_local_feature_contribution is None:
             raise ValueError("Invalid algorithm type %s" % e_algorithm)
 
-        super(LocalFeatureContribution, self).__init__(
-            self.base_local_feature_contribution.algorithm, model, x_orig, **kwargs)
+        super(LocalFeatureContribution, self).__init__(model, x_train_orig, **kwargs)
 
     def fit(self):
         """
