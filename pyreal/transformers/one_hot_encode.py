@@ -124,7 +124,7 @@ class OneHotEncoder(Transformer):
         self.ohe.fit(x[self.columns])
         self.is_fit = True
 
-    def transform(self, x):
+    def data_transform(self, x):
         """
         One-hot encode `x`.
         Args:
@@ -216,7 +216,7 @@ class MappingsOneHotEncoder(Transformer):
         """
         self.mappings = mappings
 
-    def transform(self, x):
+    def data_transform(self, x):
         """
         One-hot encode `x`.
         Args:
@@ -266,7 +266,7 @@ class MappingsOneHotDecoder(Transformer):
         """
         self.mappings = mappings
 
-    def transform(self, x):
+    def data_transform(self, x):
         """
         One-hot decode `x`.
         Args:

@@ -32,7 +32,7 @@ class DataFrameWrapper(Transformer):
         """
         self.wrapped_transformer.fit(x)
 
-    def transform(self, x):
+    def data_transform(self, x):
         """
         Transform `x` using the wrapped transformer
         Args:
