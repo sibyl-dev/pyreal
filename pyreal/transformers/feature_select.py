@@ -32,7 +32,7 @@ class FeatureSelectTransformer(Transformer):
         """
         self.dropped_columns = list(set(x.columns) - set(self.columns))
 
-    def transform(self, x):
+    def data_transform(self, x):
         """
         Reorders and selects the features in x
 
@@ -96,7 +96,7 @@ class ColumnDropTransformer(Transformer):
         """
         self.dropped_columns = columns
 
-    def transform(self, x):
+    def data_transform(self, x):
         """
         Reorders and selects the features in x
 

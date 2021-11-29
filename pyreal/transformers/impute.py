@@ -42,7 +42,7 @@ class MultiTypeImputer(Transformer):
         if len(self.categorical_cols) > 0:
             self.categorical_imputer.fit(x[self.categorical_cols])
 
-    def transform(self, x):
+    def data_transform(self, x):
         """
         Imputes `x`. Numeric columns get imputed with the column mean. Categorical columns get
         imputed with the column mode.

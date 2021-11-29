@@ -67,9 +67,9 @@ class Transformer(ABC):
         """
 
     @abstractmethod
-    def transform(self, x):
+    def data_transform(self, x):
         """
-        Transform `x` from to a new feature space.
+        Transforms data `x` to a new feature space.
         Args:
             x (DataFrame of shape (n_instances, n_features)):
                 The dataset to transform
@@ -78,6 +78,22 @@ class Transformer(ABC):
             DataFrame of shape (n_instances, n_transformed_features):
                 The transformed dataset
         """
+
+    def transform(self, x):
+        """
+        Wrapper for data_transform.
+        Transforms data `x` to a new feature space.
+
+        Included for compatibility with existing ML libraries.
+        Args:
+            x (DataFrame of shape (n_instances, n_features)):
+                The dataset to transform
+
+        Returns:
+            DataFrame of shape (n_instances, n_transformed_features):
+                The transformed dataset
+        """
+        return self.data_transform(x)
 
     def fit_transform(self, x, **fit_params):
         """
@@ -94,7 +110,7 @@ class Transformer(ABC):
                 The transformed dataset
         """
         self.fit(x, **fit_params)
-        return self.transform(x)
+        return self.data_transform(x)
 
     def inverse_transform_explanation(self, explanation):
         """
