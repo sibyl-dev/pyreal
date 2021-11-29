@@ -22,11 +22,13 @@
       ~ShapFeatureImportance.fit
       ~ShapFeatureImportance.get_importance
       ~ShapFeatureImportance.model_predict
+      ~ShapFeatureImportance.model_predict_on_explain
       ~ShapFeatureImportance.produce
       ~ShapFeatureImportance.transform_explanation
       ~ShapFeatureImportance.transform_to_x_explain
       ~ShapFeatureImportance.transform_to_x_interpret
       ~ShapFeatureImportance.transform_to_x_model
+      ~ShapFeatureImportance.transform_x_from_explain_to_model
    
    
 

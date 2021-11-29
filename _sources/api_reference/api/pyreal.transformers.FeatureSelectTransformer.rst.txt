@@ -16,6 +16,9 @@
       ~FeatureSelectTransformer.__init__
       ~FeatureSelectTransformer.fit
       ~FeatureSelectTransformer.fit_transform
+      ~FeatureSelectTransformer.inverse_transform_explanation
+      ~FeatureSelectTransformer.inverse_transform_explanation_additive_contributions
+      ~FeatureSelectTransformer.inverse_transform_explanation_feature_importance
       ~FeatureSelectTransformer.transform
       ~FeatureSelectTransformer.transform_explanation
       ~FeatureSelectTransformer.transform_explanation_additive_contributions

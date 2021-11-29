@@ -7,8 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>pyreal.explainers.Explainer &#8212; Pyreal 0.1.0 documentation</title>
     
-  <link href="../../_static/css/theme.css" rel="stylesheet" />
-  <link href="../../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
+  <link href="../../_static/css/theme.css" rel="stylesheet">
+  <link href="../../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
 
     
   <link rel="stylesheet"
@@ -23,9 +23,9 @@
 
     
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/basic.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/blank.css" />
     
-  <link rel="preload" as="script" href="../../_static/js/index.1c5a1a01449ed65a7b51.js">
+  <link rel="preload" as="script" href="../../_static/js/index.be7d3bbb2ef33a8344ce.js">
 
     <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
     <script src="../../_static/jquery.js"></script>
@@ -38,7 +38,10 @@
     <link rel="next" title="pyreal.explainers.Explainer.fit" href="pyreal.explainers.Explainer.fit.html" />
     <link rel="prev" title="Explainer" href="../explainer.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="docsearch:language" content="en" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
     
   </head>
   <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
@@ -826,7 +829,7 @@
 <h1>pyreal.explainers.Explainer<a class="headerlink" href="#pyreal-explainers-explainer" title="Permalink to this headline">¶</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="pyreal.explainers.Explainer">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">pyreal.explainers.</span></span><span class="sig-name descname"><span class="pre">Explainer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_train_orig</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_orig</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_descriptions</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">classes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">class_descriptions</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transformers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">e_transformers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m_transformers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">i_transformers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fit_on_init</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">skip_e_transform_explanation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">skip_i_transform_explanation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyreal/explainers/base.html#Explainer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyreal.explainers.Explainer" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyreal.explainers.</span></span><span class="sig-name descname"><span class="pre">Explainer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_train_orig</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_orig</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_descriptions</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">classes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">class_descriptions</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transformers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">e_transformers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m_transformers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">i_transformers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fit_on_init</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">skip_e_transform_explanation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">skip_i_transform_explanation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stop_on_missing_transform</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyreal/explainers/base.html#Explainer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyreal.explainers.Explainer" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generic Explainer object</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -848,7 +851,9 @@ None if model is not a classifier</p></li>
 prediction. If different transformations are needed for the explanation and model,
 these should be defined separately using e_transformers and m_transformers.</p></li>
 <li><p><strong>e_transformers</strong> (<em>transformer object</em><em> or </em><em>list of transformer objects</em>) – Transformer(s) that need to be used on x_orig for the explanation algorithm:
-x_orig -&gt; x_explain</p></li>
+x_orig -&gt; x_explain
+See the specific implementation you are using for more information on the exact
+requirements.</p></li>
 <li><p><strong>m_transformers</strong> (<em>transformer object</em><em> or </em><em>list of transformer objects</em>) – Transformer(s) needed on x_orig to make predictions on the dataset with model,
 if different than e_transformers
 x_orig -&gt; x_model</p></li>
@@ -860,12 +865,15 @@ If False, self.fit() must be manually called before produce() is called</p></li>
 i_transformers on the explanation after producing.</p></li>
 <li><p><strong>skip_i_transform_explanation</strong> (<em>Boolean</em>) – If True, do not run the transform_explanation methods from i_transformers
 on the explanation after producing.</p></li>
+<li><p><strong>stop_on_missing_transform</strong> (<em>Boolean</em>) – If True, stop transforming explanations when a missing <cite>transform_explanation</cite> method
+is encountered. Should only be False if missing <cite>transform_explanation</cite> methods will
+not result in other transformers failing (ie, operate on separate feature spaces).</p></li>
 </ul>
 </dd>
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="pyreal.explainers.Explainer.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_train_orig</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_orig</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_descriptions</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">classes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">class_descriptions</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transformers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">e_transformers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m_transformers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">i_transformers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fit_on_init</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">skip_e_transform_explanation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">skip_i_transform_explanation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyreal/explainers/base.html#Explainer.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyreal.explainers.Explainer.__init__" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_train_orig</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_orig</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_descriptions</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">classes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">class_descriptions</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transformers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">e_transformers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m_transformers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">i_transformers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fit_on_init</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">skip_e_transform_explanation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">skip_i_transform_explanation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stop_on_missing_transform</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyreal/explainers/base.html#Explainer.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyreal.explainers.Explainer.__init__" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <p class="rubric">Methods</p>
@@ -899,20 +907,26 @@ on the explanation after producing.</p></li>
 <tr class="row-even"><td><p><a class="reference internal" href="pyreal.explainers.Explainer.model_predict.html#pyreal.explainers.Explainer.model_predict" title="pyreal.explainers.Explainer.model_predict"><code class="xref py py-obj docutils literal notranslate"><span class="pre">model_predict</span></code></a>(x_orig)</p></td>
 <td><p>Predict on x_orig using the model and return the result</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="pyreal.explainers.Explainer.produce.html#pyreal.explainers.Explainer.produce" title="pyreal.explainers.Explainer.produce"><code class="xref py py-obj docutils literal notranslate"><span class="pre">produce</span></code></a>(x_orig)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">model_predict_on_explain</span></code>(x_explain)</p></td>
+<td><p>Predict on x_explain using the model and return the result</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="pyreal.explainers.Explainer.produce.html#pyreal.explainers.Explainer.produce" title="pyreal.explainers.Explainer.produce"><code class="xref py py-obj docutils literal notranslate"><span class="pre">produce</span></code></a>(x_orig)</p></td>
 <td><p>Return the explanation, in the desired form.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_explanation</span></code>(explanation)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_explanation</span></code>(explanation)</p></td>
 <td><p>Transform the explanation into its interpretable form, by running the e_transform and i_transform's &quot;transform_explanation&quot; functions in reverse.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="pyreal.explainers.Explainer.transform_to_x_explain.html#pyreal.explainers.Explainer.transform_to_x_explain" title="pyreal.explainers.Explainer.transform_to_x_explain"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_to_x_explain</span></code></a>(x_orig)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="pyreal.explainers.Explainer.transform_to_x_explain.html#pyreal.explainers.Explainer.transform_to_x_explain" title="pyreal.explainers.Explainer.transform_to_x_explain"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_to_x_explain</span></code></a>(x_orig)</p></td>
 <td><p>Transform x_orig to x_explain, using the e_transformers</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="pyreal.explainers.Explainer.transform_to_x_interpret.html#pyreal.explainers.Explainer.transform_to_x_interpret" title="pyreal.explainers.Explainer.transform_to_x_interpret"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_to_x_interpret</span></code></a>(x_orig)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="pyreal.explainers.Explainer.transform_to_x_interpret.html#pyreal.explainers.Explainer.transform_to_x_interpret" title="pyreal.explainers.Explainer.transform_to_x_interpret"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_to_x_interpret</span></code></a>(x_orig)</p></td>
 <td><p>Transform x_orig to x_interpret, using the i_transformers :param x_orig: Original input :type x_orig: DataFrame of shape (n_instances, x_orig_feature_count)</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="pyreal.explainers.Explainer.transform_to_x_model.html#pyreal.explainers.Explainer.transform_to_x_model" title="pyreal.explainers.Explainer.transform_to_x_model"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_to_x_model</span></code></a>(x_orig)</p></td>
-<td><p>Transform x_orig to x_model, using the m_transformers</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="pyreal.explainers.Explainer.transform_to_x_model.html#pyreal.explainers.Explainer.transform_to_x_model" title="pyreal.explainers.Explainer.transform_to_x_model"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_to_x_model</span></code></a>(x_orig)</p></td>
+<td><p>Transform x_orig to x_model, using the e_transformers and m_transformers</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_x_from_explain_to_model</span></code>(x_explain)</p></td>
+<td><p>Transform x_explain to x_model, using the m_transformers</p></td>
 </tr>
 </tbody>
 </table>
@@ -924,12 +938,23 @@ on the explanation after producing.</p></li>
               </div>
               
               
-              <div class='prev-next-bottom'>
-                
-    <a class='left-prev' id="prev-link" href="../explainer.html" title="previous page">Explainer</a>
-    <a class='right-next' id="next-link" href="pyreal.explainers.Explainer.fit.html" title="next page">pyreal.explainers.Explainer.fit</a>
-
-              </div>
+              <!-- Previous / next buttons -->
+<div class='prev-next-area'> 
+    <a class='left-prev' id="prev-link" href="../explainer.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Explainer</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="pyreal.explainers.Explainer.fit.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">pyreal.explainers.Explainer.fit</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
               
           </main>
           
@@ -937,20 +962,19 @@ on the explanation after producing.</p></li>
       </div>
     </div>
   
-  <script src="../../_static/js/index.1c5a1a01449ed65a7b51.js"></script>
-
-  <footer class="footer mt-5 mt-md-0">
+  <script src="../../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+<footer class="footer mt-5 mt-md-0">
   <div class="container">
     
     <div class="footer-item">
       <p class="copyright">
-    &copy; Copyright 2020, MIT Data To AI Lab.<br/>
+    &copy; Copyright 2020, MIT Data To AI Lab.<br>
 </p>
     </div>
     
     <div class="footer-item">
       <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0.<br/>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.3.1.<br>
 </p>
     </div>
     

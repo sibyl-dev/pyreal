@@ -22,11 +22,13 @@
       ~LocalFeatureContributionsBase.fit
       ~LocalFeatureContributionsBase.get_contributions
       ~LocalFeatureContributionsBase.model_predict
+      ~LocalFeatureContributionsBase.model_predict_on_explain
       ~LocalFeatureContributionsBase.produce
       ~LocalFeatureContributionsBase.transform_explanation
       ~LocalFeatureContributionsBase.transform_to_x_explain
       ~LocalFeatureContributionsBase.transform_to_x_interpret
       ~LocalFeatureContributionsBase.transform_to_x_model
+      ~LocalFeatureContributionsBase.transform_x_from_explain_to_model
    
    
 

@@ -21,11 +21,13 @@
       ~Explainer.feature_description
       ~Explainer.fit
       ~Explainer.model_predict
+      ~Explainer.model_predict_on_explain
       ~Explainer.produce
       ~Explainer.transform_explanation
       ~Explainer.transform_to_x_explain
       ~Explainer.transform_to_x_interpret
       ~Explainer.transform_to_x_model
+      ~Explainer.transform_x_from_explain_to_model
    
    
 

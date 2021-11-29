@@ -21,6 +21,7 @@
       ~DecisionTreeExplainer.feature_description
       ~DecisionTreeExplainer.fit
       ~DecisionTreeExplainer.model_predict
+      ~DecisionTreeExplainer.model_predict_on_explain
       ~DecisionTreeExplainer.produce
       ~DecisionTreeExplainer.produce_importances
       ~DecisionTreeExplainer.return_features
@@ -28,6 +29,7 @@
       ~DecisionTreeExplainer.transform_to_x_explain
       ~DecisionTreeExplainer.transform_to_x_interpret
       ~DecisionTreeExplainer.transform_to_x_model
+      ~DecisionTreeExplainer.transform_x_from_explain_to_model
    
    
 

@@ -22,11 +22,13 @@
       ~SimpleCounterfactualContribution.fit
       ~SimpleCounterfactualContribution.get_contributions
       ~SimpleCounterfactualContribution.model_predict
+      ~SimpleCounterfactualContribution.model_predict_on_explain
       ~SimpleCounterfactualContribution.produce
       ~SimpleCounterfactualContribution.transform_explanation
       ~SimpleCounterfactualContribution.transform_to_x_explain
       ~SimpleCounterfactualContribution.transform_to_x_interpret
       ~SimpleCounterfactualContribution.transform_to_x_model
+      ~SimpleCounterfactualContribution.transform_x_from_explain_to_model
    
    
 

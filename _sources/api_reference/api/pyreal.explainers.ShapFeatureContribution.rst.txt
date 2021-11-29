@@ -22,11 +22,13 @@
       ~ShapFeatureContribution.fit
       ~ShapFeatureContribution.get_contributions
       ~ShapFeatureContribution.model_predict
+      ~ShapFeatureContribution.model_predict_on_explain
       ~ShapFeatureContribution.produce
       ~ShapFeatureContribution.transform_explanation
       ~ShapFeatureContribution.transform_to_x_explain
       ~ShapFeatureContribution.transform_to_x_interpret
       ~ShapFeatureContribution.transform_to_x_model
+      ~ShapFeatureContribution.transform_x_from_explain_to_model
    
    
 

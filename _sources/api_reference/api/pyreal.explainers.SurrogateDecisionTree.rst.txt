@@ -21,6 +21,7 @@
       ~SurrogateDecisionTree.feature_description
       ~SurrogateDecisionTree.fit
       ~SurrogateDecisionTree.model_predict
+      ~SurrogateDecisionTree.model_predict_on_explain
       ~SurrogateDecisionTree.produce
       ~SurrogateDecisionTree.produce_importances
       ~SurrogateDecisionTree.return_features
@@ -28,6 +29,7 @@
       ~SurrogateDecisionTree.transform_to_x_explain
       ~SurrogateDecisionTree.transform_to_x_interpret
       ~SurrogateDecisionTree.transform_to_x_model
+      ~SurrogateDecisionTree.transform_x_from_explain_to_model
    
    
 

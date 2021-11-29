@@ -16,6 +16,9 @@
       ~MappingsOneHotDecoder.__init__
       ~MappingsOneHotDecoder.fit
       ~MappingsOneHotDecoder.fit_transform
+      ~MappingsOneHotDecoder.inverse_transform_explanation
+      ~MappingsOneHotDecoder.inverse_transform_explanation_additive_contributions
+      ~MappingsOneHotDecoder.inverse_transform_explanation_feature_importance
       ~MappingsOneHotDecoder.transform
       ~MappingsOneHotDecoder.transform_explanation
       ~MappingsOneHotDecoder.transform_explanation_additive_contributions
