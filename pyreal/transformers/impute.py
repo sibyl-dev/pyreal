@@ -87,11 +87,11 @@ class MultiTypeImputer(Transformer):
         Transforms feature importance explanations. No transformation required.
 
         Args:
-            explanation (AdditiveFeatureContributionExplanationType):
+            explanation (FeatureImportanceExplanation):
                 The explanation to be transformed
 
         Returns:
-            AdditiveFeatureContributionExplanationType:
+            FeatureImportanceExplanation:
                 The transformed explanation
         """
         return explanation
