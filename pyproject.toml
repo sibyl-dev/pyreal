@@ -74,7 +74,7 @@ autodocsumm = "^0.2.7"
 ipython = "^7.27.0"
 m2r2 = "^0.3.1"
 nbsphinx = "^0.8.7"
-pydata-sphinx-theme = "^0.6.3"
+pydata-sphinx-theme = "^0.7.2"
 
 # Extra Dependency Bundles
 [tool.poetry.extras]
