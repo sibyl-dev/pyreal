@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Contributing to Pyreal &#8212; Pyreal 0.1.0 documentation</title>
+    <title>Contributing to Pyreal &#8212; Pyreal 0.2.0 documentation</title>
     
   <link href="../_static/css/theme.css" rel="stylesheet">
   <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
@@ -472,9 +472,10 @@ $ python -m pytest -k &#39;foo&#39;
 <p>The process of releasing a new version involves several steps:</p>
 <ol class="arabic simple">
 <li><p>Create a new branch off of <code class="docutils literal notranslate"><span class="pre">dev</span></code> branch called <code class="docutils literal notranslate"><span class="pre">release-v.*.*.*</span></code>.</p></li>
-<li><p>Update the version in <code class="docutils literal notranslate"><span class="pre">setup.cfg</span></code>, <code class="docutils literal notranslate"><span class="pre">pyreal/__init__.py</span></code> and
-<code class="docutils literal notranslate"><span class="pre">HISTORY.md</span></code> files.</p></li>
-<li><p>Make any final small changes needed directly on <code class="docutils literal notranslate"><span class="pre">release-v.*.*.*</span></code></p></li>
+<li><p>Update the version in <code class="docutils literal notranslate"><span class="pre">pyreal/__init__.py</span></code> and
+<code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code> files.</p></li>
+<li><p>Make any final small changes needed, either directly on <code class="docutils literal notranslate"><span class="pre">release-v.*.*.*</span></code> or on a
+feature branch that can then be merged into <code class="docutils literal notranslate"><span class="pre">release-v.*.*.*</span></code> with a PR.</p></li>
 <li><p>Make a PR to merge <code class="docutils literal notranslate"><span class="pre">release-v.*.*.*</span></code> into <code class="docutils literal notranslate"><span class="pre">master</span></code></p></li>
 <li><p>Once merged, tag the merge commit in master, and push the tag.
 This will automatically deploy the release to pypi.</p></li>
