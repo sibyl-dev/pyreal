@@ -8,16 +8,16 @@ maintainers = [
   "MIT Data To AI Lab <dailabmit@gmail.com>",
 ]
 
-description = "Library for evaluating and deploying machine learning explanations."
+description = "Library for evaluating and deploying human readable machine learning explanations."
 name = "pyreal"
-version = "0.1.0"
+version = "0.2.0"
 
 license = ""
 
 readme = "README.md"
 
-documentation = "TODO"
-homepage = "TODO"
+documentation = "https://sibyl-dev.github.io/pyreal"
+homepage = "https://sibyl-ml.dev/"
 repository = "https://github.com/DAI-Lab/pyreal"
 
 keywords = ["pyreal", "Pyreal"]
