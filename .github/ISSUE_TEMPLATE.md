@@ -1,4 +1,4 @@
-* Explanation Toolkit version:
+* Pyreal version:
 * Python version:
 * Operating System:
 
