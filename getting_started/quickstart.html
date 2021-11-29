@@ -220,7 +220,7 @@ application:</p>
 <li><p><code class="docutils literal notranslate"><span class="pre">ColumnDropTransformer</span></code>: removes features that should not be used in prediction</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">MultiTypeImputer</span></code>: replaces missing data from all columns with a reasonable replacement</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">OneHotEncoderWrapper</span></code>: one-hot encodes categorical features. We use the built-in wrapper type,
-which includes a <code class="docutils literal notranslate"><span class="pre">transform_explanation</span></code> function.</p></li>
+which includes a <code class="docutils literal notranslate"><span class="pre">inverse_transform_explanation</span></code> function.</p></li>
 </ul>
 <p>These transformers transform the data from it’s <cite>original</cite> state (<code class="docutils literal notranslate"><span class="pre">x_orig</span></code>) to its
 <cite>explanation ready</cite> state (<code class="docutils literal notranslate"><span class="pre">x_explain</span></code>). In this case, the explanation algorithm used expects

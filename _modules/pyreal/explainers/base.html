@@ -220,15 +220,16 @@
 <span class="sd">           If True, fit the explainer on initiation.</span>
 <span class="sd">           If False, self.fit() must be manually called before produce() is called</span>
 <span class="sd">        skip_e_transform_explanation (Boolean):</span>
-<span class="sd">           If True, do not run the transform_explanation methods from e_transformers or</span>
+<span class="sd">           If True, do not run the inverse_transform_explanation methods from e_transformers or</span>
 <span class="sd">           i_transformers on the explanation after producing.</span>
 <span class="sd">        skip_i_transform_explanation (Boolean):</span>
 <span class="sd">           If True, do not run the transform_explanation methods from i_transformers</span>
 <span class="sd">           on the explanation after producing.</span>
 <span class="sd">        stop_on_missing_transform (Boolean):</span>
-<span class="sd">            If True, stop transforming explanations when a missing `transform_explanation` method</span>
-<span class="sd">            is encountered. Should only be False if missing `transform_explanation` methods will</span>
-<span class="sd">            not result in other transformers failing (ie, operate on separate feature spaces).</span>
+<span class="sd">            If True, stop transforming explanations when a missing `inverse_transform_explanation`</span>
+<span class="sd">            method is encountered. Should only be False if missing `inverse_transform_explanation`</span>
+<span class="sd">            methods will not result in other transformers failing</span>
+<span class="sd">            (ie, operate on separate feature spaces).</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="Explainer.__init__"><a class="viewcode-back" href="../../../api_reference/api/pyreal.explainers.Explainer.html#pyreal.explainers.Explainer.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span>
@@ -376,8 +377,8 @@
 
     <span class="k">def</span> <span class="nf">transform_explanation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">explanation</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Transform the explanation into its interpretable form, by running the e_transform and</span>
-<span class="sd">        i_transform&#39;s &quot;transform_explanation&quot; functions in reverse.</span>
+<span class="sd">        Transform the explanation into its interpretable form, by running the e_transformer&#39;s</span>
+<span class="sd">        &quot;inverse_transform_explanation&quot; and i_transformers &quot;transform_explanation&quot; functions.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            explanation (type varies by subclass):</span>
@@ -390,7 +391,7 @@
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">skip_e_transform_explanation</span><span class="p">:</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">e_transformers</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="k">for</span> <span class="n">transform</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">e_transformers</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
-                    <span class="n">transform_func</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">transform</span><span class="p">,</span> <span class="s2">&quot;transform_explanation&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+                    <span class="n">transform_func</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">transform</span><span class="p">,</span> <span class="s2">&quot;inverse_transform_explanation&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
                     <span class="k">if</span> <span class="n">callable</span><span class="p">(</span><span class="n">transform_func</span><span class="p">):</span>
                         <span class="k">try</span><span class="p">:</span>
                             <span class="n">explanation</span> <span class="o">=</span> <span class="n">transform_func</span><span class="p">(</span><span class="n">explanation</span><span class="p">)</span>
@@ -404,7 +405,7 @@
             <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">skip_i_transform_explanation</span><span class="p">:</span>
                 <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">i_transformers</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                     <span class="k">for</span> <span class="n">transform</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">i_transformers</span><span class="p">:</span>
-                        <span class="n">transform_func</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">transform</span><span class="p">,</span> <span class="s2">&quot;inverse_transform_explanation&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+                        <span class="n">transform_func</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">transform</span><span class="p">,</span> <span class="s2">&quot;transform_explanation&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
                         <span class="k">try</span><span class="p">:</span>
                             <span class="n">explanation</span> <span class="o">=</span> <span class="n">transform_func</span><span class="p">(</span><span class="n">explanation</span><span class="p">)</span>
                         <span class="k">except</span> <span class="ne">NotImplementedError</span><span class="p">:</span>
