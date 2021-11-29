@@ -50,4 +50,16 @@ class DataFrameWrapper(Transformer):
         return explanation
 
     def transform_explanation(self, explanation):
+        """
+        For now, always return the explanation, assuming no modifications needed.
+        TODO: This will be updated to an AssertionError in GH issue #112.
+
+        Args:
+            explanation:
+                The explanation to transform
+
+        Returns:
+                The unmodified explanation
+
+        """
         return explanation
