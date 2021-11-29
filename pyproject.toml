@@ -16,8 +16,8 @@ license = ""
 
 readme = "README.md"
 
-documentation = "TODO"
-homepage = "TODO"
+documentation = "https://sibyl-dev.github.io/pyreal"
+homepage = "https://sibyl-ml.dev/"
 repository = "https://github.com/DAI-Lab/pyreal"
 
 keywords = ["pyreal", "Pyreal"]
