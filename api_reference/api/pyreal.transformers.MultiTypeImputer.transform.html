@@ -36,7 +36,7 @@
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="pyreal.transformers.MultiTypeImputer.fit_transform" href="pyreal.transformers.MultiTypeImputer.fit_transform.html" />
-    <link rel="prev" title="pyreal.transformers.MultiTypeImputer.fit" href="pyreal.transformers.MultiTypeImputer.fit.html" />
+    <link rel="prev" title="pyreal.transformers.MultiTypeImputer.data_transform" href="pyreal.transformers.MultiTypeImputer.data_transform.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -457,6 +457,11 @@
     </a>
    </li>
    <li class="toctree-l2">
+    <a class="reference internal" href="pyreal.transformers.Transformer.data_transform.html">
+     pyreal.transformers.Transformer.data_transform
+    </a>
+   </li>
+   <li class="toctree-l2">
     <a class="reference internal" href="pyreal.transformers.Transformer.transform.html">
      pyreal.transformers.Transformer.transform
     </a>
@@ -482,6 +487,11 @@
     </a>
    </li>
    <li class="toctree-l2">
+    <a class="reference internal" href="pyreal.transformers.FeatureSelectTransformer.data_transform.html">
+     pyreal.transformers.FeatureSelectTransformer.data_transform
+    </a>
+   </li>
+   <li class="toctree-l2">
     <a class="reference internal" href="pyreal.transformers.FeatureSelectTransformer.transform.html">
      pyreal.transformers.FeatureSelectTransformer.transform
     </a>
@@ -504,6 +514,11 @@
    <li class="toctree-l2">
     <a class="reference internal" href="pyreal.transformers.MultiTypeImputer.fit.html">
      pyreal.transformers.MultiTypeImputer.fit
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pyreal.transformers.MultiTypeImputer.data_transform.html">
+     pyreal.transformers.MultiTypeImputer.data_transform
     </a>
    </li>
    <li class="toctree-l2 current active">
@@ -532,6 +547,11 @@
     </a>
    </li>
    <li class="toctree-l2">
+    <a class="reference internal" href="pyreal.transformers.OneHotEncoder.data_transform.html">
+     pyreal.transformers.OneHotEncoder.data_transform
+    </a>
+   </li>
+   <li class="toctree-l2">
     <a class="reference internal" href="pyreal.transformers.OneHotEncoder.transform.html">
      pyreal.transformers.OneHotEncoder.transform
     </a>
@@ -557,6 +577,11 @@
     </a>
    </li>
    <li class="toctree-l2">
+    <a class="reference internal" href="pyreal.transformers.MappingsOneHotEncoder.data_transform.html">
+     pyreal.transformers.MappingsOneHotEncoder.data_transform
+    </a>
+   </li>
+   <li class="toctree-l2">
     <a class="reference internal" href="pyreal.transformers.MappingsOneHotEncoder.transform.html">
      pyreal.transformers.MappingsOneHotEncoder.transform
     </a>
@@ -579,6 +604,11 @@
    <li class="toctree-l2">
     <a class="reference internal" href="pyreal.transformers.MappingsOneHotDecoder.fit.html">
      pyreal.transformers.MappingsOneHotDecoder.fit
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pyreal.transformers.MappingsOneHotDecoder.data_transform.html">
+     pyreal.transformers.MappingsOneHotDecoder.data_transform
     </a>
    </li>
    <li class="toctree-l2">
@@ -614,6 +644,11 @@
    <li class="toctree-l2">
     <a class="reference internal" href="pyreal.transformers.DataFrameWrapper.fit.html">
      pyreal.transformers.DataFrameWrapper.fit
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pyreal.transformers.DataFrameWrapper.data_transform.html">
+     pyreal.transformers.DataFrameWrapper.data_transform
     </a>
    </li>
    <li class="toctree-l2">
@@ -829,14 +864,15 @@
 <h1>pyreal.transformers.MultiTypeImputer.transform<a class="headerlink" href="#pyreal-transformers-multitypeimputer-transform" title="Permalink to this headline">¶</a></h1>
 <dl class="py method">
 <dt class="sig sig-object py" id="pyreal.transformers.MultiTypeImputer.transform">
-<span class="sig-prename descclassname"><span class="pre">MultiTypeImputer.</span></span><span class="sig-name descname"><span class="pre">transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyreal/transformers/impute.html#MultiTypeImputer.transform"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyreal.transformers.MultiTypeImputer.transform" title="Permalink to this definition">¶</a></dt>
-<dd><p>Imputes <cite>x</cite>. Numeric columns get imputed with the column mean. Categorical columns get
-imputed with the column mode.
-:param x: The dataset to impute
+<span class="sig-prename descclassname"><span class="pre">MultiTypeImputer.</span></span><span class="sig-name descname"><span class="pre">transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyreal.transformers.MultiTypeImputer.transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Wrapper for data_transform.
+Transforms data <cite>x</cite> to a new feature space.</p>
+<p>Included for compatibility with existing ML libraries.
+:param x: The dataset to transform
 :type x: DataFrame of shape (n_instances, n_features)</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>The imputed dataset</p>
+<dd class="field-odd"><p>The transformed dataset</p>
 </dd>
 <dt class="field-even">Return type</dt>
 <dd class="field-even"><p>DataFrame of shape (n_instances, n_transformed_features)</p>
@@ -852,11 +888,11 @@ imputed with the column mode.
               
               <!-- Previous / next buttons -->
 <div class='prev-next-area'> 
-    <a class='left-prev' id="prev-link" href="pyreal.transformers.MultiTypeImputer.fit.html" title="previous page">
+    <a class='left-prev' id="prev-link" href="pyreal.transformers.MultiTypeImputer.data_transform.html" title="previous page">
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
             <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">pyreal.transformers.MultiTypeImputer.fit</p>
+            <p class="prev-next-title">pyreal.transformers.MultiTypeImputer.data_transform</p>
         </div>
     </a>
     <a class='right-next' id="next-link" href="pyreal.transformers.MultiTypeImputer.fit_transform.html" title="next page">

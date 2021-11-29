@@ -278,7 +278,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">ohe</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">])</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">is_fit</span> <span class="o">=</span> <span class="kc">True</span></div>
 
-<div class="viewcode-block" id="OneHotEncoder.transform"><a class="viewcode-back" href="../../../api_reference/api/pyreal.transformers.OneHotEncoder.transform.html#pyreal.transformers.OneHotEncoder.transform">[docs]</a>    <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+<div class="viewcode-block" id="OneHotEncoder.data_transform"><a class="viewcode-back" href="../../../api_reference/api/pyreal.transformers.OneHotEncoder.data_transform.html#pyreal.transformers.OneHotEncoder.data_transform">[docs]</a>    <span class="k">def</span> <span class="nf">data_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        One-hot encode `x`.</span>
 <span class="sd">        Args:</span>
@@ -370,7 +370,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">mappings</span> <span class="o">=</span> <span class="n">mappings</span></div>
 
-<div class="viewcode-block" id="MappingsOneHotEncoder.transform"><a class="viewcode-back" href="../../../api_reference/api/pyreal.transformers.MappingsOneHotEncoder.transform.html#pyreal.transformers.MappingsOneHotEncoder.transform">[docs]</a>    <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+<div class="viewcode-block" id="MappingsOneHotEncoder.data_transform"><a class="viewcode-back" href="../../../api_reference/api/pyreal.transformers.MappingsOneHotEncoder.data_transform.html#pyreal.transformers.MappingsOneHotEncoder.data_transform">[docs]</a>    <span class="k">def</span> <span class="nf">data_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        One-hot encode `x`.</span>
 <span class="sd">        Args:</span>
@@ -420,7 +420,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">mappings</span> <span class="o">=</span> <span class="n">mappings</span></div>
 
-<div class="viewcode-block" id="MappingsOneHotDecoder.transform"><a class="viewcode-back" href="../../../api_reference/api/pyreal.transformers.MappingsOneHotDecoder.transform.html#pyreal.transformers.MappingsOneHotDecoder.transform">[docs]</a>    <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+<div class="viewcode-block" id="MappingsOneHotDecoder.data_transform"><a class="viewcode-back" href="../../../api_reference/api/pyreal.transformers.MappingsOneHotDecoder.data_transform.html#pyreal.transformers.MappingsOneHotDecoder.data_transform">[docs]</a>    <span class="k">def</span> <span class="nf">data_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        One-hot decode `x`.</span>
 <span class="sd">        Args:</span>

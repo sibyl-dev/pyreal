@@ -196,7 +196,7 @@
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">categorical_cols</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">categorical_imputer</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">categorical_cols</span><span class="p">])</span></div>
 
-<div class="viewcode-block" id="MultiTypeImputer.transform"><a class="viewcode-back" href="../../../api_reference/api/pyreal.transformers.MultiTypeImputer.transform.html#pyreal.transformers.MultiTypeImputer.transform">[docs]</a>    <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+<div class="viewcode-block" id="MultiTypeImputer.data_transform"><a class="viewcode-back" href="../../../api_reference/api/pyreal.transformers.MultiTypeImputer.data_transform.html#pyreal.transformers.MultiTypeImputer.data_transform">[docs]</a>    <span class="k">def</span> <span class="nf">data_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Imputes `x`. Numeric columns get imputed with the column mean. Categorical columns get</span>
 <span class="sd">        imputed with the column mode.</span>

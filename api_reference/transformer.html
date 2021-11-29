@@ -457,6 +457,11 @@
     </a>
    </li>
    <li class="toctree-l2">
+    <a class="reference internal" href="api/pyreal.transformers.Transformer.data_transform.html">
+     pyreal.transformers.Transformer.data_transform
+    </a>
+   </li>
+   <li class="toctree-l2">
     <a class="reference internal" href="api/pyreal.transformers.Transformer.transform.html">
      pyreal.transformers.Transformer.transform
     </a>
@@ -479,6 +484,11 @@
    <li class="toctree-l2">
     <a class="reference internal" href="api/pyreal.transformers.FeatureSelectTransformer.fit.html">
      pyreal.transformers.FeatureSelectTransformer.fit
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="api/pyreal.transformers.FeatureSelectTransformer.data_transform.html">
+     pyreal.transformers.FeatureSelectTransformer.data_transform
     </a>
    </li>
    <li class="toctree-l2">
@@ -507,6 +517,11 @@
     </a>
    </li>
    <li class="toctree-l2">
+    <a class="reference internal" href="api/pyreal.transformers.MultiTypeImputer.data_transform.html">
+     pyreal.transformers.MultiTypeImputer.data_transform
+    </a>
+   </li>
+   <li class="toctree-l2">
     <a class="reference internal" href="api/pyreal.transformers.MultiTypeImputer.transform.html">
      pyreal.transformers.MultiTypeImputer.transform
     </a>
@@ -529,6 +544,11 @@
    <li class="toctree-l2">
     <a class="reference internal" href="api/pyreal.transformers.OneHotEncoder.fit.html">
      pyreal.transformers.OneHotEncoder.fit
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="api/pyreal.transformers.OneHotEncoder.data_transform.html">
+     pyreal.transformers.OneHotEncoder.data_transform
     </a>
    </li>
    <li class="toctree-l2">
@@ -557,6 +577,11 @@
     </a>
    </li>
    <li class="toctree-l2">
+    <a class="reference internal" href="api/pyreal.transformers.MappingsOneHotEncoder.data_transform.html">
+     pyreal.transformers.MappingsOneHotEncoder.data_transform
+    </a>
+   </li>
+   <li class="toctree-l2">
     <a class="reference internal" href="api/pyreal.transformers.MappingsOneHotEncoder.transform.html">
      pyreal.transformers.MappingsOneHotEncoder.transform
     </a>
@@ -579,6 +604,11 @@
    <li class="toctree-l2">
     <a class="reference internal" href="api/pyreal.transformers.MappingsOneHotDecoder.fit.html">
      pyreal.transformers.MappingsOneHotDecoder.fit
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="api/pyreal.transformers.MappingsOneHotDecoder.data_transform.html">
+     pyreal.transformers.MappingsOneHotDecoder.data_transform
     </a>
    </li>
    <li class="toctree-l2">
@@ -614,6 +644,11 @@
    <li class="toctree-l2">
     <a class="reference internal" href="api/pyreal.transformers.DataFrameWrapper.fit.html">
      pyreal.transformers.DataFrameWrapper.fit
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="api/pyreal.transformers.DataFrameWrapper.data_transform.html">
+     pyreal.transformers.DataFrameWrapper.data_transform
     </a>
    </li>
    <li class="toctree-l2">
@@ -871,13 +906,16 @@
 <tr class="row-even"><td><p><a class="reference internal" href="api/pyreal.transformers.Transformer.fit.html#pyreal.transformers.Transformer.fit" title="pyreal.transformers.Transformer.fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Transformer.fit</span></code></a>(x, **params)</p></td>
 <td><p>Fit this transformer to data</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/pyreal.transformers.Transformer.transform.html#pyreal.transformers.Transformer.transform" title="pyreal.transformers.Transformer.transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Transformer.transform</span></code></a>(x)</p></td>
-<td><p>Transform <cite>x</cite> from to a new feature space.</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/pyreal.transformers.Transformer.data_transform.html#pyreal.transformers.Transformer.data_transform" title="pyreal.transformers.Transformer.data_transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Transformer.data_transform</span></code></a>(x)</p></td>
+<td><p>Transforms data <cite>x</cite> to a new feature space.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/pyreal.transformers.Transformer.fit_transform.html#pyreal.transformers.Transformer.fit_transform" title="pyreal.transformers.Transformer.fit_transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Transformer.fit_transform</span></code></a>(x, **fit_params)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/pyreal.transformers.Transformer.transform.html#pyreal.transformers.Transformer.transform" title="pyreal.transformers.Transformer.transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Transformer.transform</span></code></a>(x)</p></td>
+<td><p>Wrapper for data_transform.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/pyreal.transformers.Transformer.fit_transform.html#pyreal.transformers.Transformer.fit_transform" title="pyreal.transformers.Transformer.fit_transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Transformer.fit_transform</span></code></a>(x, **fit_params)</p></td>
 <td><p>Fits this transformer to data and then transforms the same data</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/pyreal.transformers.Transformer.transform_explanation.html#pyreal.transformers.Transformer.transform_explanation" title="pyreal.transformers.Transformer.transform_explanation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Transformer.transform_explanation</span></code></a>(explanation)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/pyreal.transformers.Transformer.transform_explanation.html#pyreal.transformers.Transformer.transform_explanation" title="pyreal.transformers.Transformer.transform_explanation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Transformer.transform_explanation</span></code></a>(explanation)</p></td>
 <td><p>Transforms the explanation from the first feature space handled by this transformer to the second.</p></td>
 </tr>
 </tbody>
@@ -897,13 +935,16 @@
 <tr class="row-even"><td><p><a class="reference internal" href="api/pyreal.transformers.FeatureSelectTransformer.fit.html#pyreal.transformers.FeatureSelectTransformer.fit" title="pyreal.transformers.FeatureSelectTransformer.fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FeatureSelectTransformer.fit</span></code></a>(x)</p></td>
 <td><p>Saves the columns being dropped</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/pyreal.transformers.FeatureSelectTransformer.transform.html#pyreal.transformers.FeatureSelectTransformer.transform" title="pyreal.transformers.FeatureSelectTransformer.transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FeatureSelectTransformer.transform</span></code></a>(x)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/pyreal.transformers.FeatureSelectTransformer.data_transform.html#pyreal.transformers.FeatureSelectTransformer.data_transform" title="pyreal.transformers.FeatureSelectTransformer.data_transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FeatureSelectTransformer.data_transform</span></code></a>(x)</p></td>
 <td><p>Reorders and selects the features in x</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/pyreal.transformers.FeatureSelectTransformer.fit_transform.html#pyreal.transformers.FeatureSelectTransformer.fit_transform" title="pyreal.transformers.FeatureSelectTransformer.fit_transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FeatureSelectTransformer.fit_transform</span></code></a>(x, ...)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/pyreal.transformers.FeatureSelectTransformer.transform.html#pyreal.transformers.FeatureSelectTransformer.transform" title="pyreal.transformers.FeatureSelectTransformer.transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FeatureSelectTransformer.transform</span></code></a>(x)</p></td>
+<td><p>Wrapper for data_transform.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/pyreal.transformers.FeatureSelectTransformer.fit_transform.html#pyreal.transformers.FeatureSelectTransformer.fit_transform" title="pyreal.transformers.FeatureSelectTransformer.fit_transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FeatureSelectTransformer.fit_transform</span></code></a>(x, ...)</p></td>
 <td><p>Fits this transformer to data and then transforms the same data</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/pyreal.transformers.FeatureSelectTransformer.transform_explanation.html#pyreal.transformers.FeatureSelectTransformer.transform_explanation" title="pyreal.transformers.FeatureSelectTransformer.transform_explanation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FeatureSelectTransformer.transform_explanation</span></code></a>(...)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/pyreal.transformers.FeatureSelectTransformer.transform_explanation.html#pyreal.transformers.FeatureSelectTransformer.transform_explanation" title="pyreal.transformers.FeatureSelectTransformer.transform_explanation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FeatureSelectTransformer.transform_explanation</span></code></a>(...)</p></td>
 <td><p>Transforms the explanation from the first feature space handled by this transformer to the second.</p></td>
 </tr>
 </tbody>
@@ -923,13 +964,16 @@
 <tr class="row-even"><td><p><a class="reference internal" href="api/pyreal.transformers.MultiTypeImputer.fit.html#pyreal.transformers.MultiTypeImputer.fit" title="pyreal.transformers.MultiTypeImputer.fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MultiTypeImputer.fit</span></code></a>(x)</p></td>
 <td><p>Fit the imputer</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/pyreal.transformers.MultiTypeImputer.transform.html#pyreal.transformers.MultiTypeImputer.transform" title="pyreal.transformers.MultiTypeImputer.transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MultiTypeImputer.transform</span></code></a>(x)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/pyreal.transformers.MultiTypeImputer.data_transform.html#pyreal.transformers.MultiTypeImputer.data_transform" title="pyreal.transformers.MultiTypeImputer.data_transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MultiTypeImputer.data_transform</span></code></a>(x)</p></td>
 <td><p>Imputes <cite>x</cite>.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/pyreal.transformers.MultiTypeImputer.fit_transform.html#pyreal.transformers.MultiTypeImputer.fit_transform" title="pyreal.transformers.MultiTypeImputer.fit_transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MultiTypeImputer.fit_transform</span></code></a>(x, **fit_params)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/pyreal.transformers.MultiTypeImputer.transform.html#pyreal.transformers.MultiTypeImputer.transform" title="pyreal.transformers.MultiTypeImputer.transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MultiTypeImputer.transform</span></code></a>(x)</p></td>
+<td><p>Wrapper for data_transform.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/pyreal.transformers.MultiTypeImputer.fit_transform.html#pyreal.transformers.MultiTypeImputer.fit_transform" title="pyreal.transformers.MultiTypeImputer.fit_transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MultiTypeImputer.fit_transform</span></code></a>(x, **fit_params)</p></td>
 <td><p>Fits this transformer to data and then transforms the same data</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/pyreal.transformers.MultiTypeImputer.transform_explanation.html#pyreal.transformers.MultiTypeImputer.transform_explanation" title="pyreal.transformers.MultiTypeImputer.transform_explanation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MultiTypeImputer.transform_explanation</span></code></a>(...)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/pyreal.transformers.MultiTypeImputer.transform_explanation.html#pyreal.transformers.MultiTypeImputer.transform_explanation" title="pyreal.transformers.MultiTypeImputer.transform_explanation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MultiTypeImputer.transform_explanation</span></code></a>(...)</p></td>
 <td><p>Transforms the explanation from the first feature space handled by this transformer to the second.</p></td>
 </tr>
 </tbody>
@@ -949,23 +993,29 @@
 <tr class="row-even"><td><p><a class="reference internal" href="api/pyreal.transformers.OneHotEncoder.fit.html#pyreal.transformers.OneHotEncoder.fit" title="pyreal.transformers.OneHotEncoder.fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">OneHotEncoder.fit</span></code></a>(x)</p></td>
 <td><p>Fit this transformer to data</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/pyreal.transformers.OneHotEncoder.transform.html#pyreal.transformers.OneHotEncoder.transform" title="pyreal.transformers.OneHotEncoder.transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">OneHotEncoder.transform</span></code></a>(x)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/pyreal.transformers.OneHotEncoder.data_transform.html#pyreal.transformers.OneHotEncoder.data_transform" title="pyreal.transformers.OneHotEncoder.data_transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">OneHotEncoder.data_transform</span></code></a>(x)</p></td>
 <td><p>One-hot encode <cite>x</cite>.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/pyreal.transformers.OneHotEncoder.fit_transform.html#pyreal.transformers.OneHotEncoder.fit_transform" title="pyreal.transformers.OneHotEncoder.fit_transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">OneHotEncoder.fit_transform</span></code></a>(x, **fit_params)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/pyreal.transformers.OneHotEncoder.transform.html#pyreal.transformers.OneHotEncoder.transform" title="pyreal.transformers.OneHotEncoder.transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">OneHotEncoder.transform</span></code></a>(x)</p></td>
+<td><p>Wrapper for data_transform.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/pyreal.transformers.OneHotEncoder.fit_transform.html#pyreal.transformers.OneHotEncoder.fit_transform" title="pyreal.transformers.OneHotEncoder.fit_transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">OneHotEncoder.fit_transform</span></code></a>(x, **fit_params)</p></td>
 <td><p>Fits this transformer to data and then transforms the same data</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/pyreal.transformers.OneHotEncoder.transform_explanation.html#pyreal.transformers.OneHotEncoder.transform_explanation" title="pyreal.transformers.OneHotEncoder.transform_explanation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">OneHotEncoder.transform_explanation</span></code></a>(explanation)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/pyreal.transformers.OneHotEncoder.transform_explanation.html#pyreal.transformers.OneHotEncoder.transform_explanation" title="pyreal.transformers.OneHotEncoder.transform_explanation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">OneHotEncoder.transform_explanation</span></code></a>(explanation)</p></td>
 <td><p>Transforms the explanation from the first feature space handled by this transformer to the second.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/pyreal.transformers.MappingsOneHotEncoder.html#pyreal.transformers.MappingsOneHotEncoder" title="pyreal.transformers.MappingsOneHotEncoder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MappingsOneHotEncoder</span></code></a>(mappings)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/pyreal.transformers.MappingsOneHotEncoder.html#pyreal.transformers.MappingsOneHotEncoder" title="pyreal.transformers.MappingsOneHotEncoder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MappingsOneHotEncoder</span></code></a>(mappings)</p></td>
 <td><p>Converts data from categorical form to one-hot-encoded, with feature names based on a mappings object which includes two dictionaries</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/pyreal.transformers.MappingsOneHotEncoder.fit.html#pyreal.transformers.MappingsOneHotEncoder.fit" title="pyreal.transformers.MappingsOneHotEncoder.fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MappingsOneHotEncoder.fit</span></code></a>(x, **params)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/pyreal.transformers.MappingsOneHotEncoder.fit.html#pyreal.transformers.MappingsOneHotEncoder.fit" title="pyreal.transformers.MappingsOneHotEncoder.fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MappingsOneHotEncoder.fit</span></code></a>(x, **params)</p></td>
 <td><p>Fit this transformer to data</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/pyreal.transformers.MappingsOneHotEncoder.transform.html#pyreal.transformers.MappingsOneHotEncoder.transform" title="pyreal.transformers.MappingsOneHotEncoder.transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MappingsOneHotEncoder.transform</span></code></a>(x)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/pyreal.transformers.MappingsOneHotEncoder.data_transform.html#pyreal.transformers.MappingsOneHotEncoder.data_transform" title="pyreal.transformers.MappingsOneHotEncoder.data_transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MappingsOneHotEncoder.data_transform</span></code></a>(x)</p></td>
 <td><p>One-hot encode <cite>x</cite>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/pyreal.transformers.MappingsOneHotEncoder.transform.html#pyreal.transformers.MappingsOneHotEncoder.transform" title="pyreal.transformers.MappingsOneHotEncoder.transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MappingsOneHotEncoder.transform</span></code></a>(x)</p></td>
+<td><p>Wrapper for data_transform.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="api/pyreal.transformers.MappingsOneHotEncoder.fit_transform.html#pyreal.transformers.MappingsOneHotEncoder.fit_transform" title="pyreal.transformers.MappingsOneHotEncoder.fit_transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MappingsOneHotEncoder.fit_transform</span></code></a>(x, ...)</p></td>
 <td><p>Fits this transformer to data and then transforms the same data</p></td>
@@ -979,19 +1029,22 @@
 <tr class="row-even"><td><p><a class="reference internal" href="api/pyreal.transformers.MappingsOneHotDecoder.fit.html#pyreal.transformers.MappingsOneHotDecoder.fit" title="pyreal.transformers.MappingsOneHotDecoder.fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MappingsOneHotDecoder.fit</span></code></a>(x, **params)</p></td>
 <td><p>Fit this transformer to data</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/pyreal.transformers.MappingsOneHotDecoder.transform.html#pyreal.transformers.MappingsOneHotDecoder.transform" title="pyreal.transformers.MappingsOneHotDecoder.transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MappingsOneHotDecoder.transform</span></code></a>(x)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/pyreal.transformers.MappingsOneHotDecoder.data_transform.html#pyreal.transformers.MappingsOneHotDecoder.data_transform" title="pyreal.transformers.MappingsOneHotDecoder.data_transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MappingsOneHotDecoder.data_transform</span></code></a>(x)</p></td>
 <td><p>One-hot decode <cite>x</cite>.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/pyreal.transformers.MappingsOneHotDecoder.fit_transform.html#pyreal.transformers.MappingsOneHotDecoder.fit_transform" title="pyreal.transformers.MappingsOneHotDecoder.fit_transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MappingsOneHotDecoder.fit_transform</span></code></a>(x, ...)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/pyreal.transformers.MappingsOneHotDecoder.transform.html#pyreal.transformers.MappingsOneHotDecoder.transform" title="pyreal.transformers.MappingsOneHotDecoder.transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MappingsOneHotDecoder.transform</span></code></a>(x)</p></td>
+<td><p>Wrapper for data_transform.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/pyreal.transformers.MappingsOneHotDecoder.fit_transform.html#pyreal.transformers.MappingsOneHotDecoder.fit_transform" title="pyreal.transformers.MappingsOneHotDecoder.fit_transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MappingsOneHotDecoder.fit_transform</span></code></a>(x, ...)</p></td>
 <td><p>Fits this transformer to data and then transforms the same data</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/pyreal.transformers.MappingsOneHotDecoder.transform_explanation.html#pyreal.transformers.MappingsOneHotDecoder.transform_explanation" title="pyreal.transformers.MappingsOneHotDecoder.transform_explanation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MappingsOneHotDecoder.transform_explanation</span></code></a>(...)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/pyreal.transformers.MappingsOneHotDecoder.transform_explanation.html#pyreal.transformers.MappingsOneHotDecoder.transform_explanation" title="pyreal.transformers.MappingsOneHotDecoder.transform_explanation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MappingsOneHotDecoder.transform_explanation</span></code></a>(...)</p></td>
 <td><p>Transforms the explanation from the first feature space handled by this transformer to the second.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/pyreal.transformers.Mappings.html#pyreal.transformers.Mappings" title="pyreal.transformers.Mappings"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Mappings</span></code></a>(categorical_to_one_hot, ...)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/pyreal.transformers.Mappings.html#pyreal.transformers.Mappings" title="pyreal.transformers.Mappings"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Mappings</span></code></a>(categorical_to_one_hot, ...)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/pyreal.transformers.Mappings.generate_mappings.html#pyreal.transformers.Mappings.generate_mappings" title="pyreal.transformers.Mappings.generate_mappings"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Mappings.generate_mappings</span></code></a>([...])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/pyreal.transformers.Mappings.generate_mappings.html#pyreal.transformers.Mappings.generate_mappings" title="pyreal.transformers.Mappings.generate_mappings"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Mappings.generate_mappings</span></code></a>([...])</p></td>
 <td><p>Generate a new Mappings object using one of the input formats All but one keyword should be None</p></td>
 </tr>
 </tbody>
@@ -1011,13 +1064,16 @@
 <tr class="row-even"><td><p><a class="reference internal" href="api/pyreal.transformers.DataFrameWrapper.fit.html#pyreal.transformers.DataFrameWrapper.fit" title="pyreal.transformers.DataFrameWrapper.fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrameWrapper.fit</span></code></a>(x)</p></td>
 <td><p>Fit the wrapped transformer</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/pyreal.transformers.DataFrameWrapper.transform.html#pyreal.transformers.DataFrameWrapper.transform" title="pyreal.transformers.DataFrameWrapper.transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrameWrapper.transform</span></code></a>(x)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/pyreal.transformers.DataFrameWrapper.data_transform.html#pyreal.transformers.DataFrameWrapper.data_transform" title="pyreal.transformers.DataFrameWrapper.data_transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrameWrapper.data_transform</span></code></a>(x)</p></td>
 <td><p>Transform <cite>x</cite> using the wrapped transformer :param x: The dataset to transform :type x: DataFrame of shape (n_instances, n_features)</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/pyreal.transformers.DataFrameWrapper.fit_transform.html#pyreal.transformers.DataFrameWrapper.fit_transform" title="pyreal.transformers.DataFrameWrapper.fit_transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrameWrapper.fit_transform</span></code></a>(x, **fit_params)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/pyreal.transformers.DataFrameWrapper.transform.html#pyreal.transformers.DataFrameWrapper.transform" title="pyreal.transformers.DataFrameWrapper.transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrameWrapper.transform</span></code></a>(x)</p></td>
+<td><p>Wrapper for data_transform.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/pyreal.transformers.DataFrameWrapper.fit_transform.html#pyreal.transformers.DataFrameWrapper.fit_transform" title="pyreal.transformers.DataFrameWrapper.fit_transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrameWrapper.fit_transform</span></code></a>(x, **fit_params)</p></td>
 <td><p>Fits this transformer to data and then transforms the same data</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/pyreal.transformers.DataFrameWrapper.transform_explanation.html#pyreal.transformers.DataFrameWrapper.transform_explanation" title="pyreal.transformers.DataFrameWrapper.transform_explanation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrameWrapper.transform_explanation</span></code></a>(...)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/pyreal.transformers.DataFrameWrapper.transform_explanation.html#pyreal.transformers.DataFrameWrapper.transform_explanation" title="pyreal.transformers.DataFrameWrapper.transform_explanation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrameWrapper.transform_explanation</span></code></a>(...)</p></td>
 <td><p>For now, always return the explanation, assuming no modifications needed.</p></td>
 </tr>
 </tbody>

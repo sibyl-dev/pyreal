@@ -14,6 +14,7 @@
    .. autosummary::
    
       ~OneHotEncoder.__init__
+      ~OneHotEncoder.data_transform
       ~OneHotEncoder.fit
       ~OneHotEncoder.fit_transform
       ~OneHotEncoder.inverse_transform_explanation

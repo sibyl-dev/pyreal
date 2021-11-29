@@ -36,7 +36,7 @@
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="pyreal.transformers.FeatureSelectTransformer.fit_transform" href="pyreal.transformers.FeatureSelectTransformer.fit_transform.html" />
-    <link rel="prev" title="pyreal.transformers.FeatureSelectTransformer.fit" href="pyreal.transformers.FeatureSelectTransformer.fit.html" />
+    <link rel="prev" title="pyreal.transformers.FeatureSelectTransformer.data_transform" href="pyreal.transformers.FeatureSelectTransformer.data_transform.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -457,6 +457,11 @@
     </a>
    </li>
    <li class="toctree-l2">
+    <a class="reference internal" href="pyreal.transformers.Transformer.data_transform.html">
+     pyreal.transformers.Transformer.data_transform
+    </a>
+   </li>
+   <li class="toctree-l2">
     <a class="reference internal" href="pyreal.transformers.Transformer.transform.html">
      pyreal.transformers.Transformer.transform
     </a>
@@ -479,6 +484,11 @@
    <li class="toctree-l2">
     <a class="reference internal" href="pyreal.transformers.FeatureSelectTransformer.fit.html">
      pyreal.transformers.FeatureSelectTransformer.fit
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pyreal.transformers.FeatureSelectTransformer.data_transform.html">
+     pyreal.transformers.FeatureSelectTransformer.data_transform
     </a>
    </li>
    <li class="toctree-l2 current active">
@@ -507,6 +517,11 @@
     </a>
    </li>
    <li class="toctree-l2">
+    <a class="reference internal" href="pyreal.transformers.MultiTypeImputer.data_transform.html">
+     pyreal.transformers.MultiTypeImputer.data_transform
+    </a>
+   </li>
+   <li class="toctree-l2">
     <a class="reference internal" href="pyreal.transformers.MultiTypeImputer.transform.html">
      pyreal.transformers.MultiTypeImputer.transform
     </a>
@@ -529,6 +544,11 @@
    <li class="toctree-l2">
     <a class="reference internal" href="pyreal.transformers.OneHotEncoder.fit.html">
      pyreal.transformers.OneHotEncoder.fit
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pyreal.transformers.OneHotEncoder.data_transform.html">
+     pyreal.transformers.OneHotEncoder.data_transform
     </a>
    </li>
    <li class="toctree-l2">
@@ -557,6 +577,11 @@
     </a>
    </li>
    <li class="toctree-l2">
+    <a class="reference internal" href="pyreal.transformers.MappingsOneHotEncoder.data_transform.html">
+     pyreal.transformers.MappingsOneHotEncoder.data_transform
+    </a>
+   </li>
+   <li class="toctree-l2">
     <a class="reference internal" href="pyreal.transformers.MappingsOneHotEncoder.transform.html">
      pyreal.transformers.MappingsOneHotEncoder.transform
     </a>
@@ -579,6 +604,11 @@
    <li class="toctree-l2">
     <a class="reference internal" href="pyreal.transformers.MappingsOneHotDecoder.fit.html">
      pyreal.transformers.MappingsOneHotDecoder.fit
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pyreal.transformers.MappingsOneHotDecoder.data_transform.html">
+     pyreal.transformers.MappingsOneHotDecoder.data_transform
     </a>
    </li>
    <li class="toctree-l2">
@@ -614,6 +644,11 @@
    <li class="toctree-l2">
     <a class="reference internal" href="pyreal.transformers.DataFrameWrapper.fit.html">
      pyreal.transformers.DataFrameWrapper.fit
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pyreal.transformers.DataFrameWrapper.data_transform.html">
+     pyreal.transformers.DataFrameWrapper.data_transform
     </a>
    </li>
    <li class="toctree-l2">
@@ -829,17 +864,18 @@
 <h1>pyreal.transformers.FeatureSelectTransformer.transform<a class="headerlink" href="#pyreal-transformers-featureselecttransformer-transform" title="Permalink to this headline">¶</a></h1>
 <dl class="py method">
 <dt class="sig sig-object py" id="pyreal.transformers.FeatureSelectTransformer.transform">
-<span class="sig-prename descclassname"><span class="pre">FeatureSelectTransformer.</span></span><span class="sig-name descname"><span class="pre">transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyreal/transformers/feature_select.html#FeatureSelectTransformer.transform"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyreal.transformers.FeatureSelectTransformer.transform" title="Permalink to this definition">¶</a></dt>
-<dd><p>Reorders and selects the features in x</p>
+<span class="sig-prename descclassname"><span class="pre">FeatureSelectTransformer.</span></span><span class="sig-name descname"><span class="pre">transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyreal.transformers.FeatureSelectTransformer.transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Wrapper for data_transform.
+Transforms data <cite>x</cite> to a new feature space.</p>
+<p>Included for compatibility with existing ML libraries.
+:param x: The dataset to transform
+:type x: DataFrame of shape (n_instances, n_features)</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>x</strong> (<em>DataFrame of shape</em><em> (</em><em>n_instances</em><em>, </em><em>n_features</em><em>)</em>) – The data to transform</p>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The transformed dataset</p>
 </dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>The data with features selected and reordered</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>DataFrame of shape (n_instances, len(columns))</p>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>DataFrame of shape (n_instances, n_transformed_features)</p>
 </dd>
 </dl>
 </dd></dl>
@@ -852,11 +888,11 @@
               
               <!-- Previous / next buttons -->
 <div class='prev-next-area'> 
-    <a class='left-prev' id="prev-link" href="pyreal.transformers.FeatureSelectTransformer.fit.html" title="previous page">
+    <a class='left-prev' id="prev-link" href="pyreal.transformers.FeatureSelectTransformer.data_transform.html" title="previous page">
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
             <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">pyreal.transformers.FeatureSelectTransformer.fit</p>
+            <p class="prev-next-title">pyreal.transformers.FeatureSelectTransformer.data_transform</p>
         </div>
     </a>
     <a class='right-next' id="next-link" href="pyreal.transformers.FeatureSelectTransformer.fit_transform.html" title="next page">

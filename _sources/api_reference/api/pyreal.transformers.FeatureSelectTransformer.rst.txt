@@ -14,6 +14,7 @@
    .. autosummary::
    
       ~FeatureSelectTransformer.__init__
+      ~FeatureSelectTransformer.data_transform
       ~FeatureSelectTransformer.fit
       ~FeatureSelectTransformer.fit_transform
       ~FeatureSelectTransformer.inverse_transform_explanation

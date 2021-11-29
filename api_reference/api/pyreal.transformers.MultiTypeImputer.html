@@ -457,6 +457,11 @@
     </a>
    </li>
    <li class="toctree-l2">
+    <a class="reference internal" href="pyreal.transformers.Transformer.data_transform.html">
+     pyreal.transformers.Transformer.data_transform
+    </a>
+   </li>
+   <li class="toctree-l2">
     <a class="reference internal" href="pyreal.transformers.Transformer.transform.html">
      pyreal.transformers.Transformer.transform
     </a>
@@ -479,6 +484,11 @@
    <li class="toctree-l2">
     <a class="reference internal" href="pyreal.transformers.FeatureSelectTransformer.fit.html">
      pyreal.transformers.FeatureSelectTransformer.fit
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pyreal.transformers.FeatureSelectTransformer.data_transform.html">
+     pyreal.transformers.FeatureSelectTransformer.data_transform
     </a>
    </li>
    <li class="toctree-l2">
@@ -507,6 +517,11 @@
     </a>
    </li>
    <li class="toctree-l2">
+    <a class="reference internal" href="pyreal.transformers.MultiTypeImputer.data_transform.html">
+     pyreal.transformers.MultiTypeImputer.data_transform
+    </a>
+   </li>
+   <li class="toctree-l2">
     <a class="reference internal" href="pyreal.transformers.MultiTypeImputer.transform.html">
      pyreal.transformers.MultiTypeImputer.transform
     </a>
@@ -529,6 +544,11 @@
    <li class="toctree-l2">
     <a class="reference internal" href="pyreal.transformers.OneHotEncoder.fit.html">
      pyreal.transformers.OneHotEncoder.fit
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pyreal.transformers.OneHotEncoder.data_transform.html">
+     pyreal.transformers.OneHotEncoder.data_transform
     </a>
    </li>
    <li class="toctree-l2">
@@ -557,6 +577,11 @@
     </a>
    </li>
    <li class="toctree-l2">
+    <a class="reference internal" href="pyreal.transformers.MappingsOneHotEncoder.data_transform.html">
+     pyreal.transformers.MappingsOneHotEncoder.data_transform
+    </a>
+   </li>
+   <li class="toctree-l2">
     <a class="reference internal" href="pyreal.transformers.MappingsOneHotEncoder.transform.html">
      pyreal.transformers.MappingsOneHotEncoder.transform
     </a>
@@ -579,6 +604,11 @@
    <li class="toctree-l2">
     <a class="reference internal" href="pyreal.transformers.MappingsOneHotDecoder.fit.html">
      pyreal.transformers.MappingsOneHotDecoder.fit
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pyreal.transformers.MappingsOneHotDecoder.data_transform.html">
+     pyreal.transformers.MappingsOneHotDecoder.data_transform
     </a>
    </li>
    <li class="toctree-l2">
@@ -614,6 +644,11 @@
    <li class="toctree-l2">
     <a class="reference internal" href="pyreal.transformers.DataFrameWrapper.fit.html">
      pyreal.transformers.DataFrameWrapper.fit
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pyreal.transformers.DataFrameWrapper.data_transform.html">
+     pyreal.transformers.DataFrameWrapper.data_transform
     </a>
    </li>
    <li class="toctree-l2">
@@ -848,31 +883,34 @@ and categorical columns with the mode value.</p>
 <tr class="row-odd"><td><p><a class="reference internal" href="#pyreal.transformers.MultiTypeImputer.__init__" title="pyreal.transformers.MultiTypeImputer.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>()</p></td>
 <td><p>Initialize the base imputers</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="pyreal.transformers.MultiTypeImputer.fit.html#pyreal.transformers.MultiTypeImputer.fit" title="pyreal.transformers.MultiTypeImputer.fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit</span></code></a>(x)</p></td>
-<td><p>Fit the imputer</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="pyreal.transformers.MultiTypeImputer.fit_transform.html#pyreal.transformers.MultiTypeImputer.fit_transform" title="pyreal.transformers.MultiTypeImputer.fit_transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit_transform</span></code></a>(x, **fit_params)</p></td>
-<td><p>Fits this transformer to data and then transforms the same data</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">inverse_transform_explanation</span></code>(explanation)</p></td>
-<td><p>Transforms the explanation from the second feature space handled by this transformer to the first.</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">inverse_transform_explanation_additive_contributions</span></code>(...)</p></td>
-<td><p>Transforms additive contribution explanations</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">inverse_transform_explanation_feature_importance</span></code>(...)</p></td>
-<td><p>Transforms feature importance explanations</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="pyreal.transformers.MultiTypeImputer.transform.html#pyreal.transformers.MultiTypeImputer.transform" title="pyreal.transformers.MultiTypeImputer.transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform</span></code></a>(x)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="pyreal.transformers.MultiTypeImputer.data_transform.html#pyreal.transformers.MultiTypeImputer.data_transform" title="pyreal.transformers.MultiTypeImputer.data_transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">data_transform</span></code></a>(x)</p></td>
 <td><p>Imputes <cite>x</cite>.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="pyreal.transformers.MultiTypeImputer.transform_explanation.html#pyreal.transformers.MultiTypeImputer.transform_explanation" title="pyreal.transformers.MultiTypeImputer.transform_explanation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_explanation</span></code></a>(explanation)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="pyreal.transformers.MultiTypeImputer.fit.html#pyreal.transformers.MultiTypeImputer.fit" title="pyreal.transformers.MultiTypeImputer.fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit</span></code></a>(x)</p></td>
+<td><p>Fit the imputer</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="pyreal.transformers.MultiTypeImputer.fit_transform.html#pyreal.transformers.MultiTypeImputer.fit_transform" title="pyreal.transformers.MultiTypeImputer.fit_transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit_transform</span></code></a>(x, **fit_params)</p></td>
+<td><p>Fits this transformer to data and then transforms the same data</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">inverse_transform_explanation</span></code>(explanation)</p></td>
+<td><p>Transforms the explanation from the second feature space handled by this transformer to the first.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">inverse_transform_explanation_additive_contributions</span></code>(...)</p></td>
+<td><p>Transforms additive contribution explanations</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">inverse_transform_explanation_feature_importance</span></code>(...)</p></td>
+<td><p>Transforms feature importance explanations</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="pyreal.transformers.MultiTypeImputer.transform.html#pyreal.transformers.MultiTypeImputer.transform" title="pyreal.transformers.MultiTypeImputer.transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform</span></code></a>(x)</p></td>
+<td><p>Wrapper for data_transform.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="pyreal.transformers.MultiTypeImputer.transform_explanation.html#pyreal.transformers.MultiTypeImputer.transform_explanation" title="pyreal.transformers.MultiTypeImputer.transform_explanation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_explanation</span></code></a>(explanation)</p></td>
 <td><p>Transforms the explanation from the first feature space handled by this transformer to the second.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_explanation_additive_contributions</span></code>(...)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_explanation_additive_contributions</span></code>(...)</p></td>
 <td><p>Transforms additive contribution explanations.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_explanation_feature_importance</span></code>(...)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_explanation_feature_importance</span></code>(...)</p></td>
 <td><p>Transforms feature importance explanations.</p></td>
 </tr>
 </tbody>

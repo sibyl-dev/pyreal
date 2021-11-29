@@ -14,6 +14,7 @@
    .. autosummary::
    
       ~MappingsOneHotEncoder.__init__
+      ~MappingsOneHotEncoder.data_transform
       ~MappingsOneHotEncoder.fit
       ~MappingsOneHotEncoder.fit_transform
       ~MappingsOneHotEncoder.inverse_transform_explanation
