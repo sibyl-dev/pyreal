@@ -2,8 +2,7 @@ from pyreal.explainers import BaseExplainer, ShapFeatureImportance
 
 
 def explainer(return_explanation=True, return_explainer=True, explainer=None,
-              model=None, x_orig=None, x_train_orig=None,
-              e_algorithm=None, feature_descriptions=None,
+              model=None, x_orig=None, x_train_orig=None, feature_descriptions=None,
               e_transforms=None, m_transforms=None, i_transforms=None,
               interpretable_features=True):
     """
@@ -24,9 +23,6 @@ def explainer(return_explanation=True, return_explainer=True, explainer=None,
            The input to explain
         x_train_orig (dataframe of shape (n_instances, x_orig_feature_count)):
            The training set for the explainer
-        e_algorithm (string, one of ["shap"]):
-           Explanation algorithm to use. If none, one will be chosen automatically based on model
-           type
         feature_descriptions (dict):
            Interpretable descriptions of each feature
         e_transforms (transformer object or list of transformer objects):
@@ -56,7 +52,6 @@ def explainer(return_explanation=True, return_explainer=True, explainer=None,
 
     if explainer is None:
         explainer = Explainer(model, x_train_orig,
-                              e_algorithm=e_algorithm,
                               feature_descriptions=feature_descriptions,
                               e_transforms=e_transforms, m_transforms=m_transforms,
                               i_transforms=i_transforms,
