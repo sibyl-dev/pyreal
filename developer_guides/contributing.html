@@ -476,8 +476,8 @@ $ python -m pytest -k &#39;foo&#39;
 <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code> files.</p></li>
 <li><p>Make any final small changes needed, either directly on <code class="docutils literal notranslate"><span class="pre">release-v.*.*.*</span></code> or on a
 feature branch that can then be merged into <code class="docutils literal notranslate"><span class="pre">release-v.*.*.*</span></code> with a PR.</p></li>
-<li><p>Make a PR to merge <code class="docutils literal notranslate"><span class="pre">release-v.*.*.*</span></code> into <code class="docutils literal notranslate"><span class="pre">master</span></code></p></li>
-<li><p>Once merged, tag the merge commit in master, and push the tag.
+<li><p>Make a PR to merge <code class="docutils literal notranslate"><span class="pre">release-v.*.*.*</span></code> into <code class="docutils literal notranslate"><span class="pre">stable</span></code></p></li>
+<li><p>Once merged, tag the merge commit in stable, and push the tag.
 This will automatically deploy the release to pypi.</p></li>
 <li><p>Merge <code class="docutils literal notranslate"><span class="pre">release-v.*.*.*</span></code> back into <code class="docutils literal notranslate"><span class="pre">dev</span></code> with a pull request</p></li>
 <li><p>Make a release on github.com, filling in the release notes with
