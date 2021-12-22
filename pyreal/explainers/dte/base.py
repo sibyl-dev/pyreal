@@ -11,8 +11,6 @@ class DecisionTreeExplainerBase(Explainer, ABC):
     decision trees and 2) visualizing the decision rules associated with a prediction.
 
     Args:
-        algorithm (ExplanationAlgorithm or None):
-            Name of the algorithm this Explainer uses
         model (string filepath or model object):
            Filepath to the pickled model to explain, or model object with .predict() function
         x_train_orig (dataframe of shape (n_instances, x_orig_feature_count)):
