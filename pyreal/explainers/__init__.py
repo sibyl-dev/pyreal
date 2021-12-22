@@ -1,5 +1,4 @@
 from pyreal.explainers.base import BaseExplainer
-from pyreal.explainers.generic_explainer import Explainer, explainer
 from pyreal.explainers.gfi.base import GlobalFeatureImportanceBase
 from pyreal.explainers.gfi.shap_feature_importance import ShapFeatureImportance
 from pyreal.explainers.gfi.permutation_feature_importance import PermutationFeatureImportance
@@ -12,9 +11,10 @@ from pyreal.explainers.lfc.local_feature_contribution import LocalFeatureContrib
 from pyreal.explainers.dte.base import DecisionTreeExplainerBase
 from pyreal.explainers.dte.surrogate_decision_tree import SurrogateDecisionTree
 from pyreal.explainers.dte.decision_tree_explainer import DecisionTreeExplainer, dte
+from pyreal.explainers.generic_explainer import Explainer, explainer
+
 
 __all__ = ['BaseExplainer',
-           'Explainer', 'explainer',
            'LocalFeatureContributionsBase', 'ShapFeatureContribution',
            'SimpleCounterfactualContribution', 'LocalFeatureContribution',
            'lfc',
@@ -22,4 +22,5 @@ __all__ = ['BaseExplainer',
            'gfi',
            'PermutationFeatureImportance',
            'DecisionTreeExplainerBase', 'DecisionTreeExplainer', 'SurrogateDecisionTree',
-           'dte']
+           'dte',
+           'Explainer', 'explainer']
