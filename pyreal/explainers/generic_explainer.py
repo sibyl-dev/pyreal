@@ -9,7 +9,7 @@ def explainer(return_explanation=True, return_explainer=True, explainer=None,
     Get an explanation of the model for x_orig (default explainer produces global explanations)
 
     Args:
-        return_contributions (Boolean):
+        return_explanation (Boolean):
             If true, return explanation of features in x_input.
             If true, requires `x_input` and one of `explainer` or (`model and x_train`)
         return_explainer (Boolean):
@@ -67,7 +67,7 @@ def explainer(return_explanation=True, return_explainer=True, explainer=None,
 
 class Explainer(BaseExplainer):
     """
-    Unspecified Explainer wrapper.
+    A generic Explainer wrapper.
 
     A GenericExplainer object assigns a default ML explainer based on the type of x_orig.
 
@@ -92,7 +92,7 @@ class Explainer(BaseExplainer):
             self.base_explainer = ShapFeatureImportance(model, x_train_orig, **kwargs)
         elif scope == "local":
             # TODO: implement default explainer for local
-            raise NotImplementedError()
+            self.base_explainer = ShapFeatureImportance(model, x_train_orig, **kwargs)
         else:
             raise TypeError("Explainers must be either global or local")
 
@@ -104,7 +104,7 @@ class Explainer(BaseExplainer):
         """
         self.base_explainer.fit()
 
-    def produce(self, x_orig):
+    def produce(self, x_orig=None):
         """
         Produce the explanation
 
@@ -116,4 +116,11 @@ class Explainer(BaseExplainer):
             DataFrame of shape (n_instances, n_features)
                 Contribution of each feature for each instance
         """
+        if self.scope == "global" and x_orig is not None:
+            raise ValueError("Global explainer does not explain specific input data. \
+                              Call produce() without arguments or change scope to local.")
+        if self.scope == "local" and x_orig is None:
+            raise ValueError("Local explainers requires input data. \
+                              Call produce() with input or change scope to global.")
+
         return self.base_explainer.produce(x_orig)
