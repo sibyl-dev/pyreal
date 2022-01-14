@@ -1,10 +1,10 @@
 from pyreal.explainers import BaseExplainer, ShapFeatureContribution, ShapFeatureImportance
 
 
-def explainer(return_explanation=True, return_explainer=True, explainer=None,
-              model=None, x_orig=None, x_train_orig=None, feature_descriptions=None,
-              e_transforms=None, m_transforms=None, i_transforms=None,
-              interpretable_features=True):
+def explain(return_explanation=True, return_explainer=True, explainer=None,
+            model=None, x_orig=None, x_train_orig=None, feature_descriptions=None,
+            e_transforms=None, m_transforms=None, i_transforms=None,
+            interpretable_features=True):
     """
     Get an explanation of the model for x_orig (default explainer produces global explanations)
 
