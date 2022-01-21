@@ -11,7 +11,7 @@ from pyreal.explainers.lfc.local_feature_contribution import LocalFeatureContrib
 from pyreal.explainers.dte.base import DecisionTreeExplainerBase
 from pyreal.explainers.dte.surrogate_decision_tree import SurrogateDecisionTree
 from pyreal.explainers.dte.decision_tree_explainer import DecisionTreeExplainer, dte
-from pyreal.explainers.generic_explainer import Explainer, explainer
+from pyreal.explainers.generic_explainer import Explainer, explain
 
 
 __all__ = ['BaseExplainer',
@@ -23,4 +23,4 @@ __all__ = ['BaseExplainer',
            'PermutationFeatureImportance',
            'DecisionTreeExplainerBase', 'DecisionTreeExplainer', 'SurrogateDecisionTree',
            'dte',
-           'Explainer', 'explainer']
+           'Explainer', 'explain']
