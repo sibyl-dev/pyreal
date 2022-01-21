@@ -4,10 +4,10 @@
 </p>
 
 <!-- Uncomment these lines after releasing the package to PyPI for version and downloads badges -->
-<!--[![PyPI Shield](https://img.shields.io/pypi/v/pyreal.svg)](https://pypi.python.org/pypi/pyreal)-->
+[![PyPI Shield](https://img.shields.io/pypi/v/pyreal.svg)](https://pypi.python.org/pypi/pyreal)
 <!--[![Downloads](https://pepy.tech/badge/pyreal)](https://pepy.tech/project/pyreal)-->
-<!--[![Travis CI Shield](https://travis-ci.org/DAI-Lab/pyreal.svg?branch=master)](https://travis-ci.org/DAI-Lab/pyreal)-->
-[![Coverage Status](https://codecov.io/gh/DAI-Lab/pyreal/branch/master/graph/badge.svg)](https://codecov.io/gh/DAI-Lab/pyreal)
+<!--[![Travis CI Shield](https://travis-ci.org/DAI-Lab/pyreal.svg?branch=stable)](https://travis-ci.org/DAI-Lab/pyreal)-->
+<!--[![Coverage Status](https://codecov.io/gh/DAI-Lab/pyreal/branch/stable/graph/badge.svg)](https://codecov.io/gh/DAI-Lab/pyreal)-->
 [![Build Action Status](https://github.com/DAI-Lab/pyreal/workflows/Test%20CI/badge.svg)](https://github.com/DAI-Lab/pyreal/actions)
 # Pyreal
 
@@ -15,7 +15,7 @@ Library for evaluating and deploying machine learning explanations.
 
 - Free software: Not open source
 - Documentation: https://sibyl-dev.github.io/pyreal
-- Homepage: https://github.com/sibyl-dev/pyreal
+- Homepage: https://sibyl-ml.dev/
 
 # Overview
 
@@ -27,7 +27,7 @@ data form.
 
 ## Requirements
 
-**Pyreal** has been developed and tested on [Python 3.7 and 3.8](https://www.python.org/downloads/)
+**Pyreal** has been developed and tested on [Python 3.7, 3.8, and 3.9](https://www.python.org/downloads/)
 The library uses Poetry for package management.
 
 ## Install from PyPI
@@ -44,7 +44,7 @@ This will pull and install the latest stable release from [PyPI](https://pypi.or
 ## Install from source
 If you do not have **poetry** installed, please head to [poetry installation guide](https://python-poetry.org/docs/#installation)
 and install poetry according to the instructions.\
-Run the following command to make sure poetry is activated.(You may need to close and reopen the terminal or source your profile.)
+Run the following command to make sure poetry is activated. You may need to close and reopen the terminal.
 
 ```
 poetry --version
@@ -96,7 +96,7 @@ passenger on the Titanic would have survived.
 # Create and fit LocalFeatureContribution Explainer object
 >>> from pyreal.explainers import LocalFeatureContribution
 >>> lfc = LocalFeatureContribution(model=model, x_train_orig=x_train_orig,
-...                                m_transformers=transformers, e_transformers=transformers,
+...                                transformers=transformers,
 ...                                feature_descriptions=feature_descriptions,
 ...                                fit_on_init=True)
 >>> lfc.fit()

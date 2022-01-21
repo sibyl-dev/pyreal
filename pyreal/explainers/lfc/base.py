@@ -18,9 +18,6 @@ class LocalFeatureContributionsBase(BaseExplainer, ABC):
            Filepath to the pickled model to explain, or model object with .predict() function
         x_train_orig (dataframe of shape (n_instances, x_orig_feature_count)):
            The training set for the explainer
-        e_algorithm (string, one of ["shap"]):
-           Explanation algorithm to use. If none, one will be chosen automatically based on model
-           type
         interpretable_features (Boolean):
             If True, return explanations using the interpretable feature descriptions instead of
             default names

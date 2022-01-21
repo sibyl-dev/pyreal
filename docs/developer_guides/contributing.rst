@@ -251,11 +251,12 @@ Release Workflow
 The process of releasing a new version involves several steps::
 
 1. Create a new branch off of ``dev`` branch called ``release-v.*.*.*``.
-2. Update the version in ``setup.cfg``, ``pyreal/__init__.py`` and
-   ``HISTORY.md`` files.
-3. Make any final small changes needed directly on ``release-v.*.*.*``
-4. Make a PR to merge ``release-v.*.*.*`` into ``master``
-5. Once merged, tag the merge commit in master, and push the tag.
+2. Update the version in ``pyreal/__init__.py`` and
+   ``pyproject.toml`` files.
+3. Make any final small changes needed, either directly on ``release-v.*.*.*`` or on a
+   feature branch that can then be merged into ``release-v.*.*.*`` with a PR.
+4. Make a PR to merge ``release-v.*.*.*`` into ``stable``
+5. Once merged, tag the merge commit in stable, and push the tag.
    This will automatically deploy the release to pypi.
 6. Merge ``release-v.*.*.*`` back into ``dev`` with a pull request
 7. Make a release on github.com, filling in the release notes with
