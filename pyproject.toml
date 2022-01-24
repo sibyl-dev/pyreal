@@ -59,6 +59,7 @@ pytest-xdist = "^2.4.0"
 jupyter = "^1.0.0"
 invoke = "^1.6.0"
 nbmake = "^0.8"
+lightgbm = "^3.3.2"
 
 # Style Dependencies
 flake8 = "^3.9.2"
