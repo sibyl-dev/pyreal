@@ -222,30 +222,30 @@
                           <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">new_categorical_cols</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">categorical_cols</span><span class="p">,</span>
                                        <span class="n">index</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">index</span><span class="p">)],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span></div>
 
-    <span class="k">def</span> <span class="nf">transform_explanation_additive_contributions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">explanation</span><span class="p">):</span>
+<div class="viewcode-block" id="MultiTypeImputer.transform_explanation"><a class="viewcode-back" href="../../../api_reference/api/pyreal.transformers.MultiTypeImputer.transform_explanation.html#pyreal.transformers.MultiTypeImputer.transform_explanation">[docs]</a>    <span class="k">def</span> <span class="nf">transform_explanation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">explanation</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Transforms additive contribution explanations. No transformation required.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            explanation (AdditiveFeatureContributionExplanationType):</span>
+<span class="sd">            explanation (ExplanationType):</span>
 <span class="sd">                The explanation to be transformed</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            AdditiveFeatureContributionExplanationType:</span>
+<span class="sd">            ExplanationType:</span>
 <span class="sd">                The transformed explanation</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">explanation</span>
+        <span class="k">return</span> <span class="n">explanation</span></div>
 
-    <span class="k">def</span> <span class="nf">transform_explanation_feature_importance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">explanation</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">inverse_transform_explanation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">explanation</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Transforms feature importance explanations. No transformation required.</span>
+<span class="sd">        Transforms additive contribution explanations. No transformation required.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            explanation (FeatureImportanceExplanation):</span>
+<span class="sd">            explanation (ExplanationType):</span>
 <span class="sd">                The explanation to be transformed</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            FeatureImportanceExplanation:</span>
+<span class="sd">            ExplanationType:</span>
 <span class="sd">                The transformed explanation</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">explanation</span></div>
@@ -276,7 +276,7 @@
     
     <div class="footer-item">
       <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.3.1.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.4.0.<br>
 </p>
     </div>
     

@@ -4,7 +4,8 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
     <title>pyreal.transformers.MultiTypeImputer.transform_explanation &#8212; Pyreal 0.2.0 documentation</title>
     
   <link href="../../_static/css/theme.css" rel="stylesheet">
@@ -860,30 +861,26 @@
               
               <div>
                 
-  <div class="section" id="pyreal-transformers-multitypeimputer-transform-explanation">
+  <section id="pyreal-transformers-multitypeimputer-transform-explanation">
 <h1>pyreal.transformers.MultiTypeImputer.transform_explanation<a class="headerlink" href="#pyreal-transformers-multitypeimputer-transform-explanation" title="Permalink to this headline">¶</a></h1>
 <dl class="py method">
 <dt class="sig sig-object py" id="pyreal.transformers.MultiTypeImputer.transform_explanation">
-<span class="sig-prename descclassname"><span class="pre">MultiTypeImputer.</span></span><span class="sig-name descname"><span class="pre">transform_explanation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">explanation</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyreal.transformers.MultiTypeImputer.transform_explanation" title="Permalink to this definition">¶</a></dt>
-<dd><p>Transforms the explanation from the first feature space handled by this transformer
-to the second.</p>
+<span class="sig-prename descclassname"><span class="pre">MultiTypeImputer.</span></span><span class="sig-name descname"><span class="pre">transform_explanation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">explanation</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyreal/transformers/impute.html#MultiTypeImputer.transform_explanation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyreal.transformers.MultiTypeImputer.transform_explanation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transforms additive contribution explanations. No transformation required.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>explanation</strong> (<a class="reference internal" href="pyreal.types.explanations.base.Explanation.html#pyreal.types.explanations.base.Explanation" title="pyreal.types.explanations.base.Explanation"><em>Explanation</em></a>) – The explanation to transform</p>
+<dd class="field-odd"><p><strong>explanation</strong> (<em>ExplanationType</em>) – The explanation to be transformed</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>The transformed explanation</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="pyreal.types.explanations.base.Explanation.html#pyreal.types.explanations.base.Explanation" title="pyreal.types.explanations.base.Explanation">Explanation</a></p>
-</dd>
-<dt class="field-even">Raises</dt>
-<dd class="field-even"><p><strong>ValueError</strong> – If <cite>explantion</cite> is not of a supported ExplanationType</p>
+<dd class="field-odd"><p>ExplanationType</p>
 </dd>
 </dl>
 </dd></dl>
 
-</div>
+</section>
 
 
               </div>
@@ -925,7 +922,7 @@ to the second.</p>
     
     <div class="footer-item">
       <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.3.1.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.4.0.<br>
 </p>
     </div>
     

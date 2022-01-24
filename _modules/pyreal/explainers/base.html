@@ -396,8 +396,8 @@
                         <span class="k">try</span><span class="p">:</span>
                             <span class="n">explanation</span> <span class="o">=</span> <span class="n">transform_func</span><span class="p">(</span><span class="n">explanation</span><span class="p">)</span>
                         <span class="k">except</span> <span class="ne">NotImplementedError</span><span class="p">:</span>
-                            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Transformer class </span><span class="si">%s</span><span class="s2"> does not have the required explanation &quot;</span>
-                                  <span class="s2">&quot;transform&quot;</span>
+                            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Transformer class </span><span class="si">%s</span><span class="s2"> does not have the required inverse&quot;</span>
+                                  <span class="s2">&quot; explanation transform&quot;</span>
                                   <span class="o">%</span> <span class="nb">type</span><span class="p">(</span><span class="n">transform</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
                             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">stop_on_missing_transform</span><span class="p">:</span>
                                 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Stopping explanation transform process&quot;</span><span class="p">)</span>
@@ -409,7 +409,7 @@
                         <span class="k">try</span><span class="p">:</span>
                             <span class="n">explanation</span> <span class="o">=</span> <span class="n">transform_func</span><span class="p">(</span><span class="n">explanation</span><span class="p">)</span>
                         <span class="k">except</span> <span class="ne">NotImplementedError</span><span class="p">:</span>
-                            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Transformer class </span><span class="si">%s</span><span class="s2"> does not have the required inverse &quot;</span>
+                            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Transformer class </span><span class="si">%s</span><span class="s2"> does not have the required &quot;</span>
                                   <span class="s2">&quot;explanation transform&quot;</span>
                                   <span class="o">%</span> <span class="nb">type</span><span class="p">(</span><span class="n">transform</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
                             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">stop_on_missing_transform</span><span class="p">:</span>
@@ -556,7 +556,7 @@
     
     <div class="footer-item">
       <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.3.1.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.4.0.<br>
 </p>
     </div>
     

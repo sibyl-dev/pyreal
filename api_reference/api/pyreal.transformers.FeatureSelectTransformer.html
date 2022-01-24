@@ -4,7 +4,8 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
     <title>pyreal.transformers.FeatureSelectTransformer &#8212; Pyreal 0.2.0 documentation</title>
     
   <link href="../../_static/css/theme.css" rel="stylesheet">
@@ -860,7 +861,7 @@
               
               <div>
                 
-  <div class="section" id="pyreal-transformers-featureselecttransformer">
+  <section id="pyreal-transformers-featureselecttransformer">
 <h1>pyreal.transformers.FeatureSelectTransformer<a class="headerlink" href="#pyreal-transformers-featureselecttransformer" title="Permalink to this headline">¶</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="pyreal.transformers.FeatureSelectTransformer">
@@ -900,10 +901,10 @@
 <td><p>Transforms the explanation from the second feature space handled by this transformer to the first.</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">inverse_transform_explanation_additive_contributions</span></code>(...)</p></td>
-<td><p>Transforms additive contribution explanations</p></td>
+<td><p>Sets the contribution of dropped features to 0 :param explanation: The explanation to be transformed :type explanation: AdditiveFeatureContributionExplanationType</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">inverse_transform_explanation_feature_importance</span></code>(...)</p></td>
-<td><p>Transforms feature importance explanations</p></td>
+<td><p>Sets the importance of dropped features to 0</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="pyreal.transformers.FeatureSelectTransformer.transform.html#pyreal.transformers.FeatureSelectTransformer.transform" title="pyreal.transformers.FeatureSelectTransformer.transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform</span></code></a>(x)</p></td>
 <td><p>Wrapper for data_transform.</p></td>
@@ -912,16 +913,16 @@
 <td><p>Transforms the explanation from the first feature space handled by this transformer to the second.</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_explanation_additive_contributions</span></code>(...)</p></td>
-<td><p>Sets the contribution of dropped features to 0 :param explanation: The explanation to be transformed :type explanation: AdditiveFeatureContributionExplanationType</p></td>
+<td><p>Transforms additive contribution explanations</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_explanation_feature_importance</span></code>(...)</p></td>
-<td><p>Sets the importance of dropped features to 0</p></td>
+<td><p>Transforms feature importance explanations</p></td>
 </tr>
 </tbody>
 </table>
 </dd></dl>
 
-</div>
+</section>
 
 
               </div>
@@ -963,7 +964,7 @@
     
     <div class="footer-item">
       <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.3.1.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.4.0.<br>
 </p>
     </div>
     

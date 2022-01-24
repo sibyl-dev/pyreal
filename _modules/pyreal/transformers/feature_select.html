@@ -199,7 +199,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">x</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">]</span></div>
 
-    <span class="k">def</span> <span class="nf">transform_explanation_additive_contributions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">explanation</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">inverse_transform_explanation_additive_contributions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">explanation</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Sets the contribution of dropped features to 0</span>
 <span class="sd">        Args:</span>
@@ -217,7 +217,7 @@
             <span class="n">explanation_df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="k">return</span> <span class="n">AdditiveFeatureContributionExplanation</span><span class="p">(</span><span class="n">explanation_df</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">transform_explanation_feature_importance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">explanation</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">inverse_transform_explanation_feature_importance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">explanation</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Sets the importance of dropped features to 0</span>
 
@@ -263,7 +263,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">x</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dropped_columns</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">transform_explanation_additive_contributions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">explanation</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">inverse_transform_explanation_additive_contributions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">explanation</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Sets the contribution of dropped features to 0</span>
 <span class="sd">        Args:</span>
@@ -281,7 +281,7 @@
             <span class="n">explanation_df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="k">return</span> <span class="n">AdditiveFeatureContributionExplanation</span><span class="p">(</span><span class="n">explanation_df</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">transform_explanation_feature_importance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">explanation</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">inverse_transform_explanation_feature_importance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">explanation</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Sets the importance of dropped features to 0</span>
 
@@ -324,7 +324,7 @@
     
     <div class="footer-item">
       <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.3.1.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.4.0.<br>
 </p>
     </div>
     
