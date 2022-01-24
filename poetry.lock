@@ -2046,7 +2046,7 @@ examples = ["tensorflow"]
 [metadata]
 lock-version = "1.1"
 python-versions = ">=3.7.1, <3.10"
-content-hash = "020a47968a13c1a7e4b92e143675f135b8ec20ee414c6b8f728b4dfa20dba4b4"
+content-hash = "dad2f9e97b3551eae303be189fca6856983fb08ad626adaa065c4b17cfe2b8d2"
 
 [metadata.files]
 absl-py = [

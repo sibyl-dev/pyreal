@@ -145,7 +145,7 @@ class OneHotEncoder(Transformer):
         x_cat_ohe = pd.DataFrame(x_cat_ohe, columns=columns, index=index)
         return pd.concat([x.drop(self.columns, axis="columns"), x_cat_ohe], axis=1)
 
-    def transform_explanation_additive_contributions(self, explanation):
+    def inverse_transform_explanation_additive_contributions(self, explanation):
         """
         Combine the contributions of one-hot-encoded features through adding to get the
         contributions of the original categorical feature.
@@ -163,7 +163,7 @@ class OneHotEncoder(Transformer):
 
     # TODO: replace this with a more theoretically grounded approach to combining feature
     #  importance
-    def transform_explanation_feature_importance(self, explanation):
+    def inverse_transform_explanation_feature_importance(self, explanation):
         """
         Combine the contributions of one-hot-encoded features to get the
         contributions of the original categorical feature.
@@ -238,7 +238,7 @@ class MappingsOneHotEncoder(Transformer):
                 ohe_data[new_col_name][np.where(values == item[1])] = 1
         return pd.DataFrame(ohe_data)
 
-    def transform_explanation_additive_contributions(self, explanation):
+    def inverse_transform_explanation_additive_contributions(self, explanation):
         explanation = pd.DataFrame(explanation.get())
         if explanation.ndim == 1:
             explanation = explanation.reshape(1, -1)
@@ -294,7 +294,7 @@ class MappingsOneHotDecoder(Transformer):
         return pd.DataFrame(cat_data)
 
     # noinspection PyMethodMayBeStatic
-    def inverse_transform_explanation_additive_contributions(self, explanation):
+    def transform_explanation_additive_contributions(self, explanation):
         """
         Transforms additive contribution explanations
 
