@@ -68,30 +68,30 @@ class MultiTypeImputer(Transformer):
                           pd.DataFrame(new_categorical_cols, columns=self.categorical_cols,
                                        index=x.index)], axis=1)
 
-    def transform_explanation_additive_contributions(self, explanation):
+    def transform_explanation(self, explanation):
         """
         Transforms additive contribution explanations. No transformation required.
 
         Args:
-            explanation (AdditiveFeatureContributionExplanationType):
+            explanation (ExplanationType):
                 The explanation to be transformed
 
         Returns:
-            AdditiveFeatureContributionExplanationType:
+            ExplanationType:
                 The transformed explanation
         """
         return explanation
 
-    def transform_explanation_feature_importance(self, explanation):
+    def inverse_transform_explanation(self, explanation):
         """
-        Transforms feature importance explanations. No transformation required.
+        Transforms additive contribution explanations. No transformation required.
 
         Args:
-            explanation (FeatureImportanceExplanation):
+            explanation (ExplanationType):
                 The explanation to be transformed
 
         Returns:
-            FeatureImportanceExplanation:
+            ExplanationType:
                 The transformed explanation
         """
         return explanation

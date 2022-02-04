@@ -45,7 +45,7 @@ class FeatureSelectTransformer(Transformer):
         """
         return x[self.columns]
 
-    def transform_explanation_additive_contributions(self, explanation):
+    def inverse_transform_explanation_additive_contributions(self, explanation):
         """
         Sets the contribution of dropped features to 0
         Args:
@@ -63,7 +63,7 @@ class FeatureSelectTransformer(Transformer):
             explanation_df[col] = 0
         return AdditiveFeatureContributionExplanation(explanation_df)
 
-    def transform_explanation_feature_importance(self, explanation):
+    def inverse_transform_explanation_feature_importance(self, explanation):
         """
         Sets the importance of dropped features to 0
 
@@ -109,7 +109,7 @@ class ColumnDropTransformer(Transformer):
         """
         return x.drop(self.dropped_columns, axis=1)
 
-    def transform_explanation_additive_contributions(self, explanation):
+    def inverse_transform_explanation_additive_contributions(self, explanation):
         """
         Sets the contribution of dropped features to 0
         Args:
@@ -127,7 +127,7 @@ class ColumnDropTransformer(Transformer):
             explanation_df[col] = 0
         return AdditiveFeatureContributionExplanation(explanation_df)
 
-    def transform_explanation_feature_importance(self, explanation):
+    def inverse_transform_explanation_feature_importance(self, explanation):
         """
         Sets the importance of dropped features to 0
 

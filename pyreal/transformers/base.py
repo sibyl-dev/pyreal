@@ -19,6 +19,8 @@ def fit_transformers(transformers, x):
         None
     """
     x_transform = x.copy()
+    if not isinstance(transformers, list):
+        transformers = [transformers]
     for transformer in transformers:
         fit_func = getattr(transformer, "fit", None)
         if callable(fit_func):
@@ -41,6 +43,8 @@ def run_transformers(transformers, x):
             Transformed data
     """
     x_transform = x.copy()
+    if not isinstance(transformers, list):
+        transformers = [transformers]
     for transform in transformers:
         x_transform = transform.transform(x_transform)
     return x_transform
@@ -130,13 +134,13 @@ class Transformer(ABC):
         """
         if isinstance(explanation, AdditiveFeatureContributionExplanation) \
                 or isinstance(explanation, AdditiveFeatureImportanceExplanation):
-            return self.transform_explanation_additive_contributions(explanation)
+            return self.inverse_transform_explanation_additive_contributions(explanation)
         # TODO: here we are temporarily using the additive version for non-additive explanations
         #       Addressed in GH issue 114.
         if isinstance(explanation, FeatureContributionExplanation):
-            return self.transform_explanation_additive_contributions(explanation)
+            return self.inverse_transform_explanation_additive_contributions(explanation)
         if isinstance(explanation, FeatureImportanceExplanation):
-            return self.transform_explanation_feature_importance(explanation)
+            return self.inverse_transform_explanation_feature_importance(explanation)
         raise ValueError("Invalid explanation types %s" % explanation.__class__)
 
     def transform_explanation(self, explanation):
@@ -157,12 +161,12 @@ class Transformer(ABC):
         """
         if isinstance(explanation, AdditiveFeatureContributionExplanation) \
                 or isinstance(explanation, AdditiveFeatureImportanceExplanation):
-            return self.inverse_transform_explanation_additive_contributions(explanation)
+            return self.transform_explanation_additive_contributions(explanation)
         # for now, use the additive version for non-additive explanations
         if isinstance(explanation, FeatureContributionExplanation):
-            return self.inverse_transform_explanation_additive_contributions(explanation)
+            return self.transform_explanation_additive_contributions(explanation)
         if isinstance(explanation, FeatureImportanceExplanation):
-            return self.inverse_transform_explanation_feature_importance(explanation)
+            return self.transform_explanation_feature_importance(explanation)
         raise ValueError("Invalid explanation types %s" % explanation.__class__)
 
     # noinspection PyMethodMayBeStatic

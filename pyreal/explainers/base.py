@@ -242,8 +242,8 @@ class BaseExplainer(ABC):
                         try:
                             explanation = transform_func(explanation)
                         except NotImplementedError:
-                            print("Transformer class %s does not have the required explanation "
-                                  "transform"
+                            print("Transformer class %s does not have the required inverse"
+                                  " explanation transform"
                                   % type(transform).__name__)
                             if self.stop_on_missing_transform:
                                 print("Stopping explanation transform process")
@@ -255,7 +255,7 @@ class BaseExplainer(ABC):
                         try:
                             explanation = transform_func(explanation)
                         except NotImplementedError:
-                            print("Transformer class %s does not have the required inverse "
+                            print("Transformer class %s does not have the required "
                                   "explanation transform"
                                   % type(transform).__name__)
                             if self.stop_on_missing_transform:
