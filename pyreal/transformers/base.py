@@ -19,6 +19,8 @@ def fit_transformers(transformers, x):
         None
     """
     x_transform = x.copy()
+    if not isinstance(transformers, list):
+        transformers = [transformers]
     for transformer in transformers:
         fit_func = getattr(transformer, "fit", None)
         if callable(fit_func):
@@ -41,6 +43,8 @@ def run_transformers(transformers, x):
             Transformed data
     """
     x_transform = x.copy()
+    if not isinstance(transformers, list):
+        transformers = [transformers]
     for transform in transformers:
         x_transform = transform.transform(x_transform)
     return x_transform
