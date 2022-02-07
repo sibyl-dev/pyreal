@@ -140,6 +140,7 @@ class Explainer(ABC):
         """
         Fit this explainer object. Abstract method
         """
+        return self
 
     @abstractmethod
     def produce(self, x_orig):

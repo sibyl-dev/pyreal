@@ -51,6 +51,7 @@ class ShapFeatureContribution(LocalFeatureContributionsBase):
             self.explainer = LinearExplainer(self.model, dataset)
         else:
             self.explainer = ShapExplainer(self.model, dataset)  # SHAP will pick an algorithm
+        return self
 
     def get_contributions(self, x_orig):
         """

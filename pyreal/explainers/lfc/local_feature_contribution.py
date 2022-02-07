@@ -126,6 +126,7 @@ class LocalFeatureContribution(LocalFeatureContributionsBase):
         Fit this explainer object
         """
         self.base_local_feature_contribution.fit()
+        return self
 
     def get_contributions(self, x_orig):
         """

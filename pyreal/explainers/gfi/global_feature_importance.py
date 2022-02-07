@@ -123,6 +123,7 @@ class GlobalFeatureImportance(GlobalFeatureImportanceBase):
         Fit this explainer object
         """
         self.base_global_feature_importance.fit()
+        return self
 
     def get_importance(self):
         """

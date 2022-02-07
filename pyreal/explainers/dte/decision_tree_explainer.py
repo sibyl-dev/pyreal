@@ -127,6 +127,7 @@ class DecisionTreeExplainer(DecisionTreeExplainerBase):
         Fit this explainer object
         """
         self.base_decision_tree.fit()
+        return self
 
     def produce(self, x_orig=None):
         """

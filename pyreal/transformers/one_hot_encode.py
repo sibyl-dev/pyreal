@@ -123,6 +123,7 @@ class OneHotEncoder(Transformer):
             self.columns = x.columns
         self.ohe.fit(x[self.columns])
         self.is_fit = True
+        return self
 
     def data_transform(self, x):
         """

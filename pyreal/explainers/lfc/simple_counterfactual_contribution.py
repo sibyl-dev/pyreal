@@ -39,6 +39,7 @@ class SimpleCounterfactualContribution(LocalFeatureContributionsBase):
         """
         dataset = self.transform_to_x_explain(self.x_train_orig)
         self.explainer_input_size = dataset.shape[1]
+        return self
 
     def get_contributions(self, x_orig):
         """
