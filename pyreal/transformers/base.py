@@ -69,6 +69,7 @@ class Transformer(ABC):
         Returns:
             None
         """
+        return self
 
     @abstractmethod
     def data_transform(self, x):

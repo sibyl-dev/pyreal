@@ -31,6 +31,7 @@ class DataFrameWrapper(Transformer):
             None
         """
         self.wrapped_transformer.fit(x)
+        return self
 
     def data_transform(self, x):
         """

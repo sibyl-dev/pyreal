@@ -41,6 +41,7 @@ class MultiTypeImputer(Transformer):
             self.numeric_imputer.fit(x[self.numeric_cols])
         if len(self.categorical_cols) > 0:
             self.categorical_imputer.fit(x[self.categorical_cols])
+        return self
 
     def data_transform(self, x):
         """

@@ -44,6 +44,7 @@ class SurrogateDecisionTree(DecisionTreeExplainerBase):
         else:
             self.explainer = tree.DecisionTreeRegressor(max_depth=self.max_depth)
             self.explainer.fit(e_dataset, self.model.predict(m_dataset))
+        return self
 
     def produce(self):
         """
