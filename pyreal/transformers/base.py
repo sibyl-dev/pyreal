@@ -8,15 +8,17 @@ from pyreal.types.explanations.dataframe import (
 def fit_transformers(transformers, x):
     """
     Fit a set of transformers in-place, transforming the data after each fit. Checks if each
-    transformer has a fit function and if so, calls it.
+    transformer has a fit function and if so, calls it. Returns the data after being transformed
+    by the final transformer.
     Args:
-        transformers (list of Transformers):
+        transformers (Transformer or list of Transformers):
             List of transformers to fit, in order
         x (DataFrame of shape (n_instances, n_features)):
             Dataset to fit on.
 
     Returns:
-        None
+        DataFrame of shape (n_instances, n_features)
+            `x` after being transformed by all transformers
     """
     x_transform = x.copy()
     if not isinstance(transformers, list):
@@ -26,6 +28,7 @@ def fit_transformers(transformers, x):
         if callable(fit_func):
             fit_func(x_transform)
         x_transform = transformer.transform(x_transform)
+    return x_transform
 
 
 def run_transformers(transformers, x):
@@ -33,7 +36,7 @@ def run_transformers(transformers, x):
     Run a series of transformers on x_orig
 
     Args:
-        transformers (list of Transformers):
+        transformers (Transformer or list of Transformers):
             List of transformers to fit, in order
         x (DataFrame of shape (n_instances, n_features)):
             Dataset to transform
