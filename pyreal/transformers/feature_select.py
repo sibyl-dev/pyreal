@@ -1,3 +1,8 @@
+import collections
+
+import numpy as np
+import pandas as pd
+
 from pyreal.transformers import Transformer
 from pyreal.types.explanations.dataframe import (
     AdditiveFeatureContributionExplanation, FeatureImportanceExplanation,)
@@ -13,9 +18,11 @@ class FeatureSelectTransformer(Transformer):
         Initializes the transformer
 
         Args:
-            columns (array-like or Index):
-                An ordered list of columns to select
+            columns (dataframe column label type or list of dataframe column label type):
+                Label of column to select, or an ordered list of column labels to select
         """
+        if columns is not None and not isinstance(columns, (list, tuple, np.ndarray, pd.Index)):
+            columns = [columns]
         self.columns = columns
         self.dropped_columns = []
 
@@ -91,9 +98,11 @@ class ColumnDropTransformer(Transformer):
         Initializes the transformer
 
         Args:
-            columns (array-like or Index):
-                An ordered list of columns to drop
+            columns (dataframe column label type or list of dataframe column label type):
+                Label of column to select, or an ordered list of column labels to select
         """
+        if columns is not None and not isinstance(columns, collections.Sequence):
+            columns = [columns]
         self.dropped_columns = columns
 
     def data_transform(self, x):
