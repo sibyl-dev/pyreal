@@ -152,7 +152,12 @@
               <div>
                 
   <h1>Source code for pyreal.transformers.feature_select</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">pyreal.transformers</span> <span class="kn">import</span> <span class="n">Transformer</span>
+<span></span><span class="kn">import</span> <span class="nn">collections</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="kn">from</span> <span class="nn">pyreal.transformers</span> <span class="kn">import</span> <span class="n">Transformer</span>
 <span class="kn">from</span> <span class="nn">pyreal.types.explanations.dataframe</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">AdditiveFeatureContributionExplanation</span><span class="p">,</span> <span class="n">FeatureImportanceExplanation</span><span class="p">,)</span>
 
@@ -167,9 +172,11 @@
 <span class="sd">        Initializes the transformer</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            columns (array-like or Index):</span>
-<span class="sd">                An ordered list of columns to select</span>
+<span class="sd">            columns (dataframe column label type or list of dataframe column label type):</span>
+<span class="sd">                Label of column to select, or an ordered list of column labels to select</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">columns</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">columns</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Index</span><span class="p">)):</span>
+            <span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="n">columns</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">columns</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">dropped_columns</span> <span class="o">=</span> <span class="p">[]</span></div>
 
@@ -246,9 +253,11 @@
 <span class="sd">        Initializes the transformer</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            columns (array-like or Index):</span>
-<span class="sd">                An ordered list of columns to drop</span>
+<span class="sd">            columns (dataframe column label type or list of dataframe column label type):</span>
+<span class="sd">                Label of column to select, or an ordered list of column labels to select</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">columns</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">columns</span><span class="p">,</span> <span class="n">collections</span><span class="o">.</span><span class="n">Sequence</span><span class="p">):</span>
+            <span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="n">columns</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">dropped_columns</span> <span class="o">=</span> <span class="n">columns</span>
 
     <span class="k">def</span> <span class="nf">data_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
