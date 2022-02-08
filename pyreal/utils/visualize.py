@@ -70,4 +70,3 @@ def plot_top_contributors(contributions, select_by="absolute", n=5, values=None,
     ax.spines["right"].set_visible(False)
     ax.spines["left"].set_visible(False)
     ax.axvline(x=0, color="black")
-    plt.show()
