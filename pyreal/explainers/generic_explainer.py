@@ -100,19 +100,18 @@ class Explainer(ExplainerBase):
         if scope == "global":
             if e_algorithm == "shap":
                 self.base_explainer = \
-                ShapFeatureImportance(model, x_train_orig,
-                                      interpretable_features=interpretable_features,
-                                      **kwargs)
+                    ShapFeatureImportance(model,
+                                          x_train_orig,
+                                          interpretable_features=interpretable_features,
+                                          **kwargs)
         elif scope == "local":
             if e_algorithm == "shap":
                 self.base_explainer = \
-                ShapFeatureContribution(model, x_train_orig,
-                                        interpretable_features=interpretable_features,
-                                        **kwargs)
+                    ShapFeatureContribution(model, x_train_orig,
+                                            interpretable_features=interpretable_features,
+                                            **kwargs)
         else:
             raise TypeError("Explainers must be either global or local")
-
-        
 
     def fit(self):
         """

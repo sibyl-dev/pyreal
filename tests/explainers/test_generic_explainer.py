@@ -1,10 +1,8 @@
 import numpy as np
 import pandas as pd
 import pytest
-from pandas.testing import assert_frame_equal
 
 from pyreal.explainers import Explainer
-from pyreal.transformers import FeatureSelectTransformer
 
 
 def test_init_invalid_transforms_global(regression_no_transforms):
