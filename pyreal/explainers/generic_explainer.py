@@ -1,4 +1,4 @@
-from pyreal.explainers import BaseExplainer, ShapFeatureContribution, ShapFeatureImportance
+from pyreal.explainers import ExplainerBase, ShapFeatureContribution, ShapFeatureImportance
 
 
 def explain(return_explanation=True, return_explainer=True, explainer=None,
@@ -65,7 +65,7 @@ def explain(return_explanation=True, return_explainer=True, explainer=None,
         return explainer.produce(x_orig)
 
 
-class Explainer(BaseExplainer):
+class Explainer(ExplainerBase):
     """
     A generic Explainer wrapper.
 
@@ -78,25 +78,41 @@ class Explainer(BaseExplainer):
            The training set for the explainer
         scope (string of either "global" or "local"):
             Whether the explainer is global or local
+        e_algorithm (string, one of ["shap"]):
+           Explanation algorithm to use. If none, one will be chosen automatically based on model
+           type
         interpretable_features (Boolean):
             If True, return explanations using the interpretable feature descriptions instead of
             default names
         **kwargs: see base Explainer args
     """
 
-    def __init__(self, model, x_train_orig, scope="global", interpretable_features=True, **kwargs):
+    def __init__(self, model, x_train_orig, scope="global", e_algorithm="shap",
+                 interpretable_features=True, **kwargs):
         self.scope = scope
         self.interpretable_features = interpretable_features
+        algorithm_list = ["shap"]
+
+        super(Explainer, self).__init__(model, x_train_orig, **kwargs)
         # TODO: implement smart choosing algorithm based on type of x
+        if e_algorithm not in algorithm_list:
+            raise ValueError("Invalid algorithm type %s" % e_algorithm)
         if scope == "global":
-            self.base_explainer = ShapFeatureImportance(model, x_train_orig, **kwargs)
+            if e_algorithm == "shap":
+                self.base_explainer = \
+                ShapFeatureImportance(model, x_train_orig,
+                                      interpretable_features=interpretable_features,
+                                      **kwargs)
         elif scope == "local":
-            # TODO: implement default explainer for local
-            self.base_explainer = ShapFeatureContribution(model, x_train_orig, **kwargs)
+            if e_algorithm == "shap":
+                self.base_explainer = \
+                ShapFeatureContribution(model, x_train_orig,
+                                        interpretable_features=interpretable_features,
+                                        **kwargs)
         else:
             raise TypeError("Explainers must be either global or local")
 
-        super(Explainer, self).__init__(model, x_train_orig, **kwargs)
+        
 
     def fit(self):
         """
