@@ -4,17 +4,17 @@ Explainer
 =========
 .. currentmodule:: pyreal.explainers
 
-Base Explainer
+Explainer Base
 ~~~~~~~~~~~~~~
 .. autosummary::
     :toctree: api/
 
-    Explainer
-    Explainer.fit
-    Explainer.produce
-    Explainer.transform_to_x_explain
-    Explainer.transform_to_x_model
-    Explainer.transform_to_x_interpret
-    Explainer.model_predict
-    Explainer.feature_description
-    Explainer.convert_data_to_interpretable
+    ExplainerBase
+    ExplainerBase.fit
+    ExplainerBase.produce
+    ExplainerBase.transform_to_x_explain
+    ExplainerBase.transform_to_x_model
+    ExplainerBase.transform_to_x_interpret
+    ExplainerBase.model_predict
+    ExplainerBase.feature_description
+    ExplainerBase.convert_data_to_interpretable
