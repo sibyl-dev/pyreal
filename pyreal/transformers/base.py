@@ -58,6 +58,39 @@ class Transformer(ABC):
     An abstract base class for Transformers. Transformers transform data from a first feature space
     to a second, and explanations from the second back to the first.
     """
+    def __init__(self, model=True, interpret=False, algorithm=True):
+        """
+        Set this Transformer's flags.
+
+        Args:
+            model (Boolean):
+                If True, this transformer is required by the model-ready feature space.
+            interpret (Boolean):
+                If True, this transformer makes the data more human-interpretable
+            algorithm (Boolean):
+                If True, this transformer is required for the explanation algorithm. If
+                algorithm is False, but model is True, this transformer will be applied only
+                when making model predictions during the explanation algorithm. Cannot be True if
+                model==True
+        """
+        self.model = model
+        self.interpret = interpret
+        if algorithm is None:
+            self.algorithm = model
+        else:
+            self.algorithm = algorithm
+        if self.model is False and self.algorithm is True:
+            raise ValueError("algorithm flag cannot be True if model flag is False")
+
+    def set_flags(self, model=None, interpret=None, algorithm=None):
+        if model is not None:
+            self.model = model
+        if interpret is not None:
+            self.interpret = interpret
+        if algorithm is not None:
+            self.algorithm = algorithm
+        if self.model is False and self.algorithm is True:
+            raise ValueError("algorithm flag cannot be True if model flag is False")
 
     def fit(self, x, **params):
         """
@@ -190,7 +223,7 @@ class Transformer(ABC):
             NotImplementedError:
                 If this transformer does not support this kind of explanation transform
         """
-        raise NotImplementedError
+        return explanation
 
     # noinspection PyMethodMayBeStatic
     def inverse_transform_explanation_feature_importance(self, explanation):
@@ -208,7 +241,7 @@ class Transformer(ABC):
             NotImplementedError:
                 If this transformer does not support this kind of explanation transform
         """
-        raise NotImplementedError
+        return explanation
 
     # noinspection PyMethodMayBeStatic
     def transform_explanation_additive_contributions(self, explanation):
@@ -227,7 +260,7 @@ class Transformer(ABC):
             NotImplementedError:
                 If this transformer does not support this kind of explanation transform
         """
-        raise NotImplementedError
+        return explanation
 
     # noinspection PyMethodMayBeStatic
     def transform_explanation_feature_importance(self, explanation):
@@ -245,4 +278,4 @@ class Transformer(ABC):
             NotImplementedError:
                 If this transformer does not support this kind of explanation transform
         """
-        raise NotImplementedError
+        return explanation

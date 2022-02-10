@@ -34,11 +34,11 @@ def test_run_transformers(regression_one_hot):
                              [3, 4, 0, 1, 0],
                              [7, 2, 0, 0, 1]], columns=["B", "C", "A_2", "A_4", "A_6"])
 
-    feature_select = FeatureSelectTransformer(columns=["B", "A_2"])
+    regression_one_hot["transformers"].set_flags(model=True, interpret=True)
+    feature_select = FeatureSelectTransformer(columns=["B", "A_2"], algorithm=False, model=True)
     explainer = LocalFeatureContribution(regression_one_hot["model"], x,
-                                         e_transformers=regression_one_hot["transformers"],
-                                         m_transformers=feature_select,
-                                         i_transformers=regression_one_hot["transformers"])
+                                         transformers=[regression_one_hot["transformers"],
+                                                       feature_select])
     result = explainer.transform_to_x_interpret(x)
     assert_frame_equal(result, expected, check_like=True, check_dtype=False)
     result = explainer.transform_to_x_model(x)

@@ -13,7 +13,7 @@ class FeatureSelectTransformer(Transformer):
     A transformer that selects and re-orders features to match the model's inputs
     """
 
-    def __init__(self, columns):
+    def __init__(self, columns, **kwargs):
         """
         Initializes the transformer
 
@@ -25,6 +25,7 @@ class FeatureSelectTransformer(Transformer):
             columns = [columns]
         self.columns = columns
         self.dropped_columns = []
+        super().__init__(**kwargs)
 
     def fit(self, x):
         """
@@ -94,7 +95,7 @@ class ColumnDropTransformer(Transformer):
     A transformer that drops a set of columns from the data
     """
 
-    def __init__(self, columns):
+    def __init__(self, columns, **kwargs):
         """
         Initializes the transformer
 
@@ -105,6 +106,7 @@ class ColumnDropTransformer(Transformer):
         if columns is not None and not isinstance(columns, collections.Sequence):
             columns = [columns]
         self.dropped_columns = columns
+        super().__init__(**kwargs)
 
     def data_transform(self, x):
         """
