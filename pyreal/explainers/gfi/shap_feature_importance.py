@@ -50,6 +50,7 @@ class ShapFeatureImportance(GlobalFeatureImportanceBase):
             self.explainer = LinearExplainer(self.model, dataset)
         else:
             self.explainer = ShapExplainer(self.model, dataset)  # SHAP will pick an algorithm
+        return self
 
     def get_importance(self):
         """
@@ -63,7 +64,7 @@ class ShapFeatureImportance(GlobalFeatureImportanceBase):
             raise AttributeError("Instance has no explainer. Must call "
                                  "fit() before "
                                  "produce()")
-        x_explain = self.transform_to_x_explain(self.x_train_orig)
+        x_explain = self.transform_to_x_model(self.x_train_orig)
         x_explain_np = np.asanyarray(x_explain)
         shap_values = np.array(self.explainer.shap_values(x_explain_np))
 

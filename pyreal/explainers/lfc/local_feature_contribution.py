@@ -1,4 +1,5 @@
-from pyreal.explainers import LocalFeatureContributionsBase, ShapFeatureContribution
+from pyreal.explainers import (
+    LocalFeatureContributionsBase, ShapFeatureContribution, SimpleCounterfactualContribution,)
 
 
 def choose_algorithm():
@@ -112,6 +113,9 @@ class LocalFeatureContribution(LocalFeatureContributionsBase):
         if e_algorithm == "shap":
             self.base_local_feature_contribution = ShapFeatureContribution(
                 model, x_train_orig, **kwargs)
+        elif e_algorithm == "simple":
+            self.base_local_feature_contribution = SimpleCounterfactualContribution(
+                model, x_train_orig, **kwargs)
         if self.base_local_feature_contribution is None:
             raise ValueError("Invalid algorithm type %s" % e_algorithm)
 
@@ -122,6 +126,7 @@ class LocalFeatureContribution(LocalFeatureContributionsBase):
         Fit this explainer object
         """
         self.base_local_feature_contribution.fit()
+        return self
 
     def get_contributions(self, x_orig):
         """

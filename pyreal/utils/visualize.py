@@ -6,7 +6,7 @@ import numpy as np
 
 
 def plot_top_contributors(contributions, select_by="absolute", n=5, values=None,
-                          flip_colors=False):
+                          flip_colors=False, precision=2, show=False, filename=None):
     """
     Plot the most contributing features
 
@@ -22,6 +22,12 @@ def plot_top_contributors(contributions, select_by="absolute", n=5, values=None,
         flip_colors (Boolean):
             If True, make the positive explanation red and negative explanation blue.
             Useful if the target variable has a negative connotation
+        precision (int):
+            Number of decimal places to print for numeric float values
+        show (Boolean):
+            Show the figure
+        filename (string or None):
+            If not None, save the figure as filename
 
     Returns:
         pyplot figure
@@ -29,7 +35,10 @@ def plot_top_contributors(contributions, select_by="absolute", n=5, values=None,
     """
     features = contributions.columns.to_numpy()
     if values is not None:
-        features = np.array(["%s (%s)" % (feature, values[feature]) for feature in features])
+        features = np.array(["%s (%.*f)" % (feature, precision, values[feature])
+                             if isinstance(values[feature], float)
+                             else "%s (%s)" % (feature, values[feature])
+                             for feature in features])
 
     if contributions.ndim == 2:
         contributions = contributions.iloc[0]
@@ -65,4 +74,8 @@ def plot_top_contributors(contributions, select_by="absolute", n=5, values=None,
     ax.spines["right"].set_visible(False)
     ax.spines["left"].set_visible(False)
     ax.axvline(x=0, color="black")
-    plt.show()
+
+    if filename is not None:
+        plt.savefig(filename, bbox_inches="tight")
+    if show:
+        plt.show()

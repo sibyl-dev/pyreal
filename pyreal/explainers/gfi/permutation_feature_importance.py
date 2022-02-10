@@ -31,6 +31,7 @@ class PermutationFeatureImportance(GlobalFeatureImportanceBase):
         Fit the feature importance explainer.
         No-op as permutation_importance does not require fitting
         """
+        return self
 
     def get_importance(self):
         """
@@ -41,7 +42,7 @@ class PermutationFeatureImportance(GlobalFeatureImportanceBase):
             DataFrame of shape (n_features, ):
                  The global importance of each feature
         """
-        x = self.transform_to_x_explain(self.x_train_orig)
+        x = self.transform_to_x_model(self.x_train_orig)
         columns = x.columns
         x = np.asanyarray(x)
         importance_result = permutation_importance(

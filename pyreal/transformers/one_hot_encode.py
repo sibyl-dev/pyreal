@@ -100,10 +100,12 @@ class OneHotEncoder(Transformer):
         Initializes the base one-hot encoder
 
         Args:
-            columns (array-like):
-                List of columns to encode
+            columns (dataframe column label type or list of dataframe column label type):
+                Label of column to select, or an ordered list of column labels to select
         """
         self.ohe = SklearnOneHotEncoder(sparse=False)
+        if columns is not None and not isinstance(columns, (list, tuple, np.ndarray, pd.Index)):
+            columns = [columns]
         self.columns = columns
         self.is_fit = False
 
@@ -123,8 +125,9 @@ class OneHotEncoder(Transformer):
             self.columns = x.columns
         self.ohe.fit(x[self.columns])
         self.is_fit = True
+        return self
 
-    def transform(self, x):
+    def data_transform(self, x):
         """
         One-hot encode `x`.
         Args:
@@ -145,7 +148,7 @@ class OneHotEncoder(Transformer):
         x_cat_ohe = pd.DataFrame(x_cat_ohe, columns=columns, index=index)
         return pd.concat([x.drop(self.columns, axis="columns"), x_cat_ohe], axis=1)
 
-    def transform_explanation_additive_contributions(self, explanation):
+    def inverse_transform_explanation_additive_contributions(self, explanation):
         """
         Combine the contributions of one-hot-encoded features through adding to get the
         contributions of the original categorical feature.
@@ -163,7 +166,7 @@ class OneHotEncoder(Transformer):
 
     # TODO: replace this with a more theoretically grounded approach to combining feature
     #  importance
-    def transform_explanation_feature_importance(self, explanation):
+    def inverse_transform_explanation_feature_importance(self, explanation):
         """
         Combine the contributions of one-hot-encoded features to get the
         contributions of the original categorical feature.
@@ -216,7 +219,7 @@ class MappingsOneHotEncoder(Transformer):
         """
         self.mappings = mappings
 
-    def transform(self, x):
+    def data_transform(self, x):
         """
         One-hot encode `x`.
         Args:
@@ -238,6 +241,17 @@ class MappingsOneHotEncoder(Transformer):
                 ohe_data[new_col_name][np.where(values == item[1])] = 1
         return pd.DataFrame(ohe_data)
 
+    def inverse_transform_explanation_additive_contributions(self, explanation):
+        explanation = pd.DataFrame(explanation.get())
+        if explanation.ndim == 1:
+            explanation = explanation.reshape(1, -1)
+        for original_feature in self.mappings.categorical_to_one_hot.keys():
+            encoded_features = self.mappings.categorical_to_one_hot[original_feature]
+            summed_contribution = explanation[encoded_features].sum(axis=1)
+            explanation = explanation.drop(encoded_features, axis="columns")
+            explanation[original_feature] = summed_contribution
+        return AdditiveFeatureContributionExplanation(explanation)
+
 
 class MappingsOneHotDecoder(Transformer):
     """
@@ -255,7 +269,7 @@ class MappingsOneHotDecoder(Transformer):
         """
         self.mappings = mappings
 
-    def transform(self, x):
+    def data_transform(self, x):
         """
         One-hot decode `x`.
         Args:
@@ -281,3 +295,26 @@ class MappingsOneHotDecoder(Transformer):
                 cat_data[new_name][np.where(x[col] == 1)] = \
                     self.mappings.one_hot_to_categorical[col][1]
         return pd.DataFrame(cat_data)
+
+    # noinspection PyMethodMayBeStatic
+    def transform_explanation_additive_contributions(self, explanation):
+        """
+        Transforms additive contribution explanations
+
+        Args:
+            explanation (AdditiveFeatureContributionExplanationType):
+                The explanation to be transformed
+
+        Returns:
+            AdditiveFeatureContributionExplanationType:
+                The transformed explanation
+        """
+        explanation = pd.DataFrame(explanation.get())
+        if explanation.ndim == 1:
+            explanation = explanation.reshape(1, -1)
+        for original_feature in self.mappings.categorical_to_one_hot.keys():
+            encoded_features = self.mappings.categorical_to_one_hot[original_feature]
+            summed_contribution = explanation[encoded_features].sum(axis=1)
+            explanation = explanation.drop(encoded_features, axis="columns")
+            explanation[original_feature] = summed_contribution
+        return AdditiveFeatureContributionExplanation(explanation)

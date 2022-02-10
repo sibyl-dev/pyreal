@@ -4,6 +4,7 @@ import pytest
 from pandas.testing import assert_frame_equal
 
 from pyreal.explainers import LocalFeatureContribution
+from pyreal.transformers import FeatureSelectTransformer
 
 
 def test_init_invalid_transforms(regression_no_transforms):
@@ -32,14 +33,16 @@ def test_run_transformers(regression_one_hot):
     expected = pd.DataFrame([[1, 3, 1, 0, 0],
                              [3, 4, 0, 1, 0],
                              [7, 2, 0, 0, 1]], columns=["B", "C", "A_2", "A_4", "A_6"])
+
+    feature_select = FeatureSelectTransformer(columns=["B", "A_2"])
     explainer = LocalFeatureContribution(regression_one_hot["model"], x,
                                          e_transformers=regression_one_hot["transformers"],
-                                         m_transformers=regression_one_hot["transformers"],
+                                         m_transformers=feature_select,
                                          i_transformers=regression_one_hot["transformers"])
     result = explainer.transform_to_x_interpret(x)
     assert_frame_equal(result, expected, check_like=True, check_dtype=False)
     result = explainer.transform_to_x_model(x)
-    assert_frame_equal(result, expected, check_like=True, check_dtype=False)
+    assert_frame_equal(result, expected[["B", "A_2"]], check_like=True, check_dtype=False)
     result = explainer.transform_to_x_explain(x)
     assert_frame_equal(result, expected, check_like=True, check_dtype=False)
 

@@ -23,6 +23,15 @@ def test_root():
 
 
 @pytest.fixture()
+def transformer_test_data():
+    x = pd.DataFrame([[2, 1, 3, 9],
+                      [4, 3, 4, 0],
+                      [6, 7, 2, 2]], columns=["A", "B", "C", "D"])
+    columns = ["C", "A"]
+    return {"x": x, "columns": columns}
+
+
+@pytest.fixture()
 def all_models(regression_no_transforms, regression_one_hot, classification_no_transforms):
     return [regression_no_transforms, regression_one_hot, classification_no_transforms]
 
@@ -62,7 +71,7 @@ def classification_no_transforms(test_root):
     with open(model_no_transforms_filename, "wb") as f:
         pickle.dump(model_no_transforms, f)
 
-    return {"model": model_no_transforms_filename, "transforms": None, "x": x, "y": y,
+    return {"model": model_no_transforms_filename, "transformers": None, "x": x, "y": y,
             "classes": np.arange(1, 4)}
 
 

@@ -13,6 +13,8 @@ class ShapFeatureContribution(LocalFeatureContributionsBase):
 
     A ShapFeatureContribution object gets feature explanation using the SHAP algorithm.
 
+    ShapFeatureContribution explainers expect data in the **model-ready feature space**
+
     Args:
         model (string filepath or model object):
            Filepath to the pickled model to explain, or model object with .predict() function
@@ -50,6 +52,7 @@ class ShapFeatureContribution(LocalFeatureContributionsBase):
             self.explainer = LinearExplainer(self.model, dataset)
         else:
             self.explainer = ShapExplainer(self.model, dataset)  # SHAP will pick an algorithm
+        return self
 
     def get_contributions(self, x_orig):
         """
@@ -66,7 +69,7 @@ class ShapFeatureContribution(LocalFeatureContributionsBase):
             raise AttributeError("Instance has no explainer. Must call "
                                  "fit() before "
                                  "produce()")
-        x = self.transform_to_x_explain(x_orig)
+        x = self.transform_to_x_model(x_orig)
         if x.shape[1] != self.explainer_input_size:
             raise ValueError("Received input of wrong size."
                              "Expected ({},), received {}"

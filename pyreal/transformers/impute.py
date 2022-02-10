@@ -41,8 +41,9 @@ class MultiTypeImputer(Transformer):
             self.numeric_imputer.fit(x[self.numeric_cols])
         if len(self.categorical_cols) > 0:
             self.categorical_imputer.fit(x[self.categorical_cols])
+        return self
 
-    def transform(self, x):
+    def data_transform(self, x):
         """
         Imputes `x`. Numeric columns get imputed with the column mean. Categorical columns get
         imputed with the column mode.
@@ -67,3 +68,31 @@ class MultiTypeImputer(Transformer):
         return pd.concat([pd.DataFrame(new_numeric_cols, columns=self.numeric_cols, index=x.index),
                           pd.DataFrame(new_categorical_cols, columns=self.categorical_cols,
                                        index=x.index)], axis=1)
+
+    def transform_explanation(self, explanation):
+        """
+        Transforms additive contribution explanations. No transformation required.
+
+        Args:
+            explanation (ExplanationType):
+                The explanation to be transformed
+
+        Returns:
+            ExplanationType:
+                The transformed explanation
+        """
+        return explanation
+
+    def inverse_transform_explanation(self, explanation):
+        """
+        Transforms additive contribution explanations. No transformation required.
+
+        Args:
+            explanation (ExplanationType):
+                The explanation to be transformed
+
+        Returns:
+            ExplanationType:
+                The transformed explanation
+        """
+        return explanation

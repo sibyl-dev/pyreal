@@ -35,7 +35,7 @@ application:
 - ``ColumnDropTransformer``: removes features that should not be used in prediction
 - ``MultiTypeImputer``: replaces missing data from all columns with a reasonable replacement
 - ``OneHotEncoderWrapper``: one-hot encodes categorical features. We use the built-in wrapper type,
-  which includes a ``transform_explanation`` function.
+  which includes a ``inverse_transform_explanation`` function.
 
 These transformers transform the data from it's `original` state (``x_orig``) to its
 `explanation ready` state (``x_explain``). In this case, the explanation algorithm used expects
@@ -48,7 +48,7 @@ Next, we can create the ``Explainer`` object, and fit it.
 
     from pyreal.explainers import LocalFeatureContribution
     lfc = LocalFeatureContribution(model=model, x_train_orig=x_orig,
-                                   m_transformers=transformers, e_transformers=transformers,
+                                   e_transformers=transformers,
                                    feature_descriptions=feature_descriptions, fit_on_init=True)
     lfc.fit()
 

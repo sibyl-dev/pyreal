@@ -39,7 +39,7 @@ def dte(return_explainer=True, return_importances=False, explainer=None,
             If true, fit a decision tree classifier; otherwise fit a decision tree regressor.
         max_depth (Integer):
             If given, this sets the maximum depth of the decision tree produced by the explainer.
-        e_algorithm (string, one of ["shap"]):
+        e_algorithm (string, one of ["surrogate_tree"]):
            Explanation algorithm to use. If none, one will be chosen automatically based on model
            type
         feature_descriptions (dict):
@@ -127,6 +127,7 @@ class DecisionTreeExplainer(DecisionTreeExplainerBase):
         Fit this explainer object
         """
         self.base_decision_tree.fit()
+        return self
 
     def produce(self, x_orig=None):
         """

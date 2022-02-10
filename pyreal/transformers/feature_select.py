@@ -1,3 +1,8 @@
+import collections
+
+import numpy as np
+import pandas as pd
+
 from pyreal.transformers import Transformer
 from pyreal.types.explanations.dataframe import (
     AdditiveFeatureContributionExplanation, FeatureImportanceExplanation,)
@@ -13,9 +18,11 @@ class FeatureSelectTransformer(Transformer):
         Initializes the transformer
 
         Args:
-            columns (array-like or Index):
-                An ordered list of columns to select
+            columns (dataframe column label type or list of dataframe column label type):
+                Label of column to select, or an ordered list of column labels to select
         """
+        if columns is not None and not isinstance(columns, (list, tuple, np.ndarray, pd.Index)):
+            columns = [columns]
         self.columns = columns
         self.dropped_columns = []
 
@@ -31,8 +38,9 @@ class FeatureSelectTransformer(Transformer):
 
         """
         self.dropped_columns = list(set(x.columns) - set(self.columns))
+        return self
 
-    def transform(self, x):
+    def data_transform(self, x):
         """
         Reorders and selects the features in x
 
@@ -45,7 +53,7 @@ class FeatureSelectTransformer(Transformer):
         """
         return x[self.columns]
 
-    def transform_explanation_additive_contributions(self, explanation):
+    def inverse_transform_explanation_additive_contributions(self, explanation):
         """
         Sets the contribution of dropped features to 0
         Args:
@@ -63,7 +71,7 @@ class FeatureSelectTransformer(Transformer):
             explanation_df[col] = 0
         return AdditiveFeatureContributionExplanation(explanation_df)
 
-    def transform_explanation_feature_importance(self, explanation):
+    def inverse_transform_explanation_feature_importance(self, explanation):
         """
         Sets the importance of dropped features to 0
 
@@ -91,12 +99,14 @@ class ColumnDropTransformer(Transformer):
         Initializes the transformer
 
         Args:
-            columns (array-like or Index):
-                An ordered list of columns to drop
+            columns (dataframe column label type or list of dataframe column label type):
+                Label of column to select, or an ordered list of column labels to select
         """
+        if columns is not None and not isinstance(columns, collections.Sequence):
+            columns = [columns]
         self.dropped_columns = columns
 
-    def transform(self, x):
+    def data_transform(self, x):
         """
         Reorders and selects the features in x
 
@@ -109,7 +119,7 @@ class ColumnDropTransformer(Transformer):
         """
         return x.drop(self.dropped_columns, axis=1)
 
-    def transform_explanation_additive_contributions(self, explanation):
+    def inverse_transform_explanation_additive_contributions(self, explanation):
         """
         Sets the contribution of dropped features to 0
         Args:
@@ -127,7 +137,7 @@ class ColumnDropTransformer(Transformer):
             explanation_df[col] = 0
         return AdditiveFeatureContributionExplanation(explanation_df)
 
-    def transform_explanation_feature_importance(self, explanation):
+    def inverse_transform_explanation_feature_importance(self, explanation):
         """
         Sets the importance of dropped features to 0
 

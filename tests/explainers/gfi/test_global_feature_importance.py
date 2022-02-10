@@ -182,12 +182,12 @@ def test_shap_with_training_size(all_models):
     for model in all_models:
         gfi_object = GlobalFeatureImportance(
             model=model["model"],
-            x_train_orig=model["x"], transforms=model["transforms"],
+            x_train_orig=model["x"], transformers=model["transformers"],
             e_algorithm='shap', classes=model.get("classes", None))
         gfi_object.fit()
         shap = ShapFeatureImportance(
             model=model["model"],
-            x_train_orig=model["x"], transforms=model["transforms"],
+            x_train_orig=model["x"], transformers=model["transformers"],
             classes=model.get("classes", None))
         shap.fit()
         assert shap.explainer is not None
