@@ -50,14 +50,14 @@ def test_run_transformers(regression_one_hot):
 def test_predict_regression(regression_no_transforms, regression_one_hot):
     model = regression_no_transforms
     explainer = LocalFeatureContribution(model["model"], model["x"],
-                                         m_transformers=model["transformers"])
+                                         transformers=model["transformers"])
     expected = np.array(model["y"]).reshape(-1)
     result = explainer.model_predict(model["x"])
     assert np.array_equal(result, expected)
 
     model = regression_one_hot
     explainer = LocalFeatureContribution(model["model"], model["x"],
-                                         m_transformers=model["transformers"])
+                                         transformers=model["transformers"])
     expected = np.array(model["y"]).reshape(-1)
     result = explainer.model_predict(model["x"])
     assert np.array_equal(result, expected)
@@ -66,7 +66,7 @@ def test_predict_regression(regression_no_transforms, regression_one_hot):
 def test_predict_classification(classification_no_transforms):
     model = classification_no_transforms
     explainer = LocalFeatureContribution(model["model"], model["x"],
-                                         m_transformers=model["transformers"])
+                                         transformers=model["transformers"])
     expected = np.array(model["y"])
     result = explainer.model_predict(model["x"])
     assert np.array_equal(result, expected)
