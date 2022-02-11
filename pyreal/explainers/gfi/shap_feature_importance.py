@@ -40,7 +40,7 @@ class ShapFeatureImportance(GlobalFeatureImportanceBase):
         """
         Fit the feature importance explainer
         """
-        dataset = self.transform_to_x_explain(self.x_train_orig)
+        dataset = self.transform_to_x_algorithm(self.x_train_orig)
         self.explainer_input_size = dataset.shape[1]
         if self.shap_type == "kernel":
             self.explainer = KernelExplainer(self.model.predict, dataset)

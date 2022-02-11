@@ -43,7 +43,7 @@ def test_run_transformers(regression_one_hot):
     assert_frame_equal(result, expected, check_like=True, check_dtype=False)
     result = explainer.transform_to_x_model(x)
     assert_frame_equal(result, expected[["B", "A_2"]], check_like=True, check_dtype=False)
-    result = explainer.transform_to_x_explain(x)
+    result = explainer.transform_to_x_algorithm(x)
     assert_frame_equal(result, expected, check_like=True, check_dtype=False)
 
 

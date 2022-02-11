@@ -52,7 +52,7 @@ class DecisionTreeExplainerBase(Explainer, ABC):
             The features of the dataset. Interpret the features if
             `interpretable_features` is set to true.
         """
-        x_explain = self.transform_to_x_explain(self.x_train_orig)
+        x_explain = self.transform_to_x_algorithm(self.x_train_orig)
 
         if self.interpretable_features:
             features = self.convert_columns_to_interpretable(x_explain).columns
