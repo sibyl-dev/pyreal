@@ -68,7 +68,8 @@ class MultiTypeImputer(Transformer):
 
         elif len(self.numeric_cols) == 0:
             new_categorical_cols = self.categorical_imputer.transform(x[self.categorical_cols])
-            result = pd.DataFrame(new_categorical_cols, columns=self.categorical_cols, index=x.index)
+            result = pd.DataFrame(
+                new_categorical_cols, columns=self.categorical_cols, index=x.index)
 
         else:
             new_numeric_cols = self.numeric_imputer.transform(x[self.numeric_cols])
