@@ -58,14 +58,14 @@ class SimpleCounterfactualContribution(LocalFeatureContributionsBase):
                              "Expected ({},), received {}"
                              .format(self.explainer_input_size, x.shape))
         x_train_explain = self.transform_to_x_algorithm(self.x_train_orig)
-        pred_orig = self.model_predict_on_explain(x)
+        pred_orig = self.model_predict_on_algorithm(x)
         contributions = pd.DataFrame(np.zeros_like(x), columns=x.columns)
         for col in x:
             total_abs_change = 0
             for i in range(self.n_iterations):
                 x_copy = x.copy()
                 x_copy[col] = x_train_explain[col].sample().iloc[0]
-                pred_new = self.model_predict_on_explain(x_copy)
+                pred_new = self.model_predict_on_algorithm(x_copy)
                 total_abs_change += abs(pred_new - pred_orig)
             contributions[col] = total_abs_change / self.n_iterations
         return FeatureContributionExplanation(contributions)
