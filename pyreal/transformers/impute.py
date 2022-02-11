@@ -56,6 +56,9 @@ class MultiTypeImputer(Transformer):
             DataFrame of shape (n_instances, n_transformed_features):
                 The imputed dataset
         """
+        if isinstance(x, pd.Series):
+            x = x.to_frame().T
+
         if len(self.categorical_cols) == 0:
             new_numeric_cols = self.numeric_imputer.transform(x[self.numeric_cols])
             return pd.DataFrame(new_numeric_cols, columns=self.numeric_cols, index=x.index)
