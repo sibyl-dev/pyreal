@@ -18,3 +18,9 @@ def test_fit_transform_multitype_imputer():
                                     [3, 9, 6, 'b', '+']], columns=["A", "B", "C", "D", "E"])
     result = imputer.fit_transform(x)
     assert_frame_equal(expected_result, result, check_dtype=False)
+
+    row = pd.Series([3, 1, np.nan, 'a', '+'], index=["A", "B", "C", "D", "E"])
+    expected_row = pd.DataFrame([[3, 1, 4, 'a', '+']], columns=["A", "B", "C", "D", "E"])
+
+    row_result = imputer.transform(row)
+    assert_frame_equal(expected_row, row_result, check_dtype=False)
