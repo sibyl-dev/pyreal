@@ -25,32 +25,32 @@ some of these in the quick start tutorial above.
 +-----------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------+
 | ``x_orig``, ``explanation_orig``        | Data or an explanation using the original feature space (whatever feature space the data starts in)                                                     |
 +-----------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------+
-| ``x_explain``, ``explanation_explain``  | Data or an explanation using the feature space expected by the explanation algorithm (explanation-ready feature space)                                  |
+| ``x_algorithm``, ``explanation_algorithm``  | Data or an explanation using the feature space expected by the explanation algorithm (explanation-ready feature space)                                  |
 +-----------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------+
 | ``x_model``, ``explanation_model``      | Data or an explanation using the feature space the model expects                                                                                        |
 +-----------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------+
 | ``x_interpret``,                        |                                                                                                                                                         |
 | ``explanation_interpret``               | Data or an explanation using the most human-readable feature space available                                                                            |
 +-----------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------+
-| ``e_transformers``                      | Transformers that transform data from the original to the explanation-ready, and explanations from the explanation-ready to the original feature space  |
+| ``model transformers``                  | Transformers that transform data between the original feature space to the model-ready feature space. Transformers with ``model=True`` flag.            |
 +-----------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------+
-| ``m_transformers``                      | Transformers that transform data between the explanation-ready and model-ready feature spaces                                                           |
+| ``algorithm transformers``              | Transformers that transform data and explanations between the original feature space to the explanation-algorithm-ready feature spaces. Transformers with ``algorithm=True`` flag.    |
 +-----------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------+
-| ``i_transformers``                      | Transformers that transform data and explanations from the original feature space to the interpretable feature space                                    |
+| ``i_transformers``                      | Transformers that transform data and explanations between the original feature space to the interpretable feature space. Transformers with ``interpret=True`` flag. |
 +-----------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------+
 
 Workflow
 ----------
 To generate interpretable explanations, Pyreal follows the following series of transforms:
 
-- ``x_orig`` |rarr| **e\_transformers.transform()** |rarr| ``x_explain``
-- ``x_explain`` |rarr| **Explainer.produce()** |rarr| ``explanation_explain``
+- ``x_orig`` |rarr| **algorithm_transformers.transform()** |rarr| ``x_algorithm``
+- ``x_algorithm`` |rarr| **Explainer.produce()** |rarr| ``explanation_algorithm``
 
-  - ``x_explain`` |rarr| **m\_transformers.transform()** |rarr| ``x_model``
+  - ``x_algorithm`` |rarr| **model_transformers.transform()** |rarr| ``x_model``
 
-- ``explanation_explain`` |rarr| **e\_transformers.inverse_transform_explanation()** |rarr| ``explanation_orig``
-- ``explanation_orig`` |rarr| **i\_transformers.transform_explanation()** |rarr| ``explanation_interpret``
-- ``x_orig`` |rarr| **i\_transformers.transform()** |rarr| ``x_interpret``
+- ``explanation_algorithm`` |rarr| **algorithm_transformers.inverse_transform_explanation()** |rarr| ``explanation_orig``
+- ``explanation_orig`` |rarr| **interpret_transformers.transform_explanation()** |rarr| ``explanation_interpret``
+- ``x_orig`` |rarr| **interpret_transformers.transform()** |rarr| ``x_interpret``
 
 
 
