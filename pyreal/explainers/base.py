@@ -4,7 +4,7 @@ import pandas as pd
 from sklearn.base import is_classifier
 from sklearn.metrics import get_scorer
 
-from pyreal.transformers import run_transformers, BreakingTransformError
+from pyreal.transformers import BreakingTransformError, run_transformers
 from pyreal.utils import model_utils
 
 

@@ -4,7 +4,7 @@ import pytest
 from pandas.testing import assert_frame_equal
 
 from pyreal.explainers import LocalFeatureContribution
-from pyreal.transformers import FeatureSelectTransformer, fit_transformers, BreakingTransformError
+from pyreal.transformers import BreakingTransformError, FeatureSelectTransformer
 from pyreal.types.explanations.dataframe import AdditiveFeatureContributionExplanation
 
 

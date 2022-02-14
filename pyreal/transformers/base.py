@@ -7,11 +7,10 @@ from pyreal.types.explanations.dataframe import (
 
 class BreakingTransformError(Exception):
     """
-    Raised in a transform_explanation or inverse_transform_explanation function would be impossible,
+    Raised in a transform_explanation or inverse_transform_explanation function would be impossible
     and is expected to break further transforms. The explanation transformation process will stop
     upon encountering this error.
     """
-    pass
 
 
 def fit_transformers(transformers, x):
@@ -83,6 +82,7 @@ class Transformer(ABC):
     An abstract base class for Transformers. Transformers transform data from a first feature space
     to a second, and explanations from the second back to the first.
     """
+
     def __init__(self, model=True, interpret=False, algorithm=None):
         """
         Set this Transformer's flags.
