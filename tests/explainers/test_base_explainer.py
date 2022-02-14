@@ -4,7 +4,8 @@ import pytest
 from pandas.testing import assert_frame_equal
 
 from pyreal.explainers import LocalFeatureContribution
-from pyreal.transformers import FeatureSelectTransformer
+from pyreal.transformers import FeatureSelectTransformer, fit_transformers, BreakingTransformError
+from pyreal.types.explanations.dataframe import AdditiveFeatureContributionExplanation
 
 
 def test_init_invalid_transforms(regression_no_transforms):
@@ -89,3 +90,41 @@ def test_evaluate_model(regression_no_transforms):
                                          y_orig=new_y)
     score = explainer.evaluate_model("accuracy")
     assert abs(score - .6667) <= 0.0001
+
+
+def test_transform_explanation(regression_no_transforms):
+    feature_select1 = FeatureSelectTransformer(["A", "B"], model=True)
+    feature_select2 = FeatureSelectTransformer(["C"], model=False, interpret=True)
+    x = pd.DataFrame([[1, 1, 1, 1]], columns=["A", "B", "C", "D"])
+    feature_select1.fit(x)
+    feature_select2.fit(x)
+
+    explainer = LocalFeatureContribution(regression_no_transforms["model"],
+                                         regression_no_transforms["x"],
+                                         y_orig=regression_no_transforms["y"],
+                                         transformers=[feature_select1, feature_select2])
+
+    explanation = pd.DataFrame([
+        [1, 2, 3, 4],
+        [1, 2, 3, 4]
+    ], columns=["A", "B", "C", "D"])
+    explanation = AdditiveFeatureContributionExplanation(explanation)
+
+    transform_explanation = explainer.transform_explanation(explanation).get()
+    expected_explanation = pd.DataFrame([
+        [0],
+        [0]
+    ], columns=["C"])
+    assert_frame_equal(transform_explanation, expected_explanation)
+
+    def breakingTransform(explanation):
+        raise BreakingTransformError
+
+    feature_select1.inverse_transform_explanation_additive_contributions = breakingTransform
+
+    transform_explanation = explainer.transform_explanation(explanation).get()
+    expected_explanation = pd.DataFrame([
+        [1, 2, 0, 0],
+        [1, 2, 0, 0]
+    ], columns=["A", "B", "C", "D"])
+    assert_frame_equal(transform_explanation, expected_explanation)

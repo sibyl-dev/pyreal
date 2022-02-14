@@ -67,7 +67,7 @@ def display_missing_transform_info(transformer_name, function_name):
           "Defaulting to no change in explanation. If this causes a break,"
           "you may want to add a interpret=False flag to this transformer or redefine this "
           "function to throw a BreakingTransformError."
-          % transformer_name, function_name)
+          % (transformer_name, function_name))
 
 
 def display_missing_transform_info_inverse(transformer_name, function_name):
@@ -75,7 +75,7 @@ def display_missing_transform_info_inverse(transformer_name, function_name):
           "Defaulting to no change in explanation. If this causes a break,"
           "you may want to add an interpret=True flag to this transformer or redefine this "
           "function to throw a BreakingTransformError."
-          % transformer_name, function_name)
+          % (transformer_name, function_name))
 
 
 class Transformer(ABC):
