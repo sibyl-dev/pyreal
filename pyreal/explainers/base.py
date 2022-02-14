@@ -90,10 +90,6 @@ class Explainer(ABC):
         class_descriptions (dict):
             Interpretable descriptions of each class
             None if model is not a classifier
-        transformers (transformer object or lis of transformer objects):
-            Transformer(s) that need to be used on x_orig for the explanation algorithm and model
-            prediction. If different transformations are needed for the explanation and model,
-            these should be defined separately using e_transformers and m_transformers.
         transformers (transformer object or list of transformer objects):
            Transformer(s) used by the Explainer.
         fit_on_init (Boolean):
