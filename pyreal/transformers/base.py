@@ -244,10 +244,6 @@ class Transformer(ABC):
         Returns:
             AdditiveFeatureContributionExplanationType:
                 The transformed explanation
-
-        Raises:
-            NotImplementedError:
-                If this transformer does not support this kind of explanation transform
         """
         display_missing_transform_info_inverse(
             self.__class__, "inverse_transform_explanation_additive_contributions")
@@ -264,10 +260,6 @@ class Transformer(ABC):
         Returns:
             FeatureImportanceExplanationType:
                 The transformed explanation
-
-        Raises:
-            NotImplementedError:
-                If this transformer does not support this kind of explanation transform
         """
         display_missing_transform_info_inverse(
             self.__class__, "inverse_transform_explanation_feature_importance")
@@ -285,10 +277,6 @@ class Transformer(ABC):
         Returns:
             AdditiveFeatureContributionExplanationType:
                 The transformed explanation
-
-        Raises:
-            NotImplementedError:
-                If this transformer does not support this kind of explanation transform
         """
         display_missing_transform_info(
             self.__class__, "transform_explanation_additive_contributions")
@@ -305,10 +293,6 @@ class Transformer(ABC):
         Returns:
             FeatureImportanceExplanationType:
                 The transformed explanation
-
-        Raises:
-            NotImplementedError:
-                If this transformer does not support this kind of explanation transform
         """
         display_missing_transform_info(
             self.__class__, "transform_explanation_feature_importance")
