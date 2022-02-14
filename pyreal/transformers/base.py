@@ -62,7 +62,7 @@ def run_transformers(transformers, x):
     return x_transform
 
 
-def display_missing_transform_info(transformer_name, function_name):
+def _display_missing_transform_info(transformer_name, function_name):
     print("Transformer %s does not have an implemented %s function. "
           "Defaulting to no change in explanation. If this causes a break,"
           "you may want to add a interpret=False flag to this transformer or redefine this "
@@ -70,7 +70,7 @@ def display_missing_transform_info(transformer_name, function_name):
           % (transformer_name, function_name))
 
 
-def display_missing_transform_info_inverse(transformer_name, function_name):
+def _display_missing_transform_info_inverse(transformer_name, function_name):
     print("Transformer %s does not have an implemented %s function. "
           "Defaulting to no change in explanation. If this causes a break,"
           "you may want to add an interpret=True flag to this transformer or redefine this "
@@ -245,7 +245,7 @@ class Transformer(ABC):
             AdditiveFeatureContributionExplanationType:
                 The transformed explanation
         """
-        display_missing_transform_info_inverse(
+        _display_missing_transform_info_inverse(
             self.__class__, "inverse_transform_explanation_additive_contributions")
         return explanation
 
@@ -261,7 +261,7 @@ class Transformer(ABC):
             FeatureImportanceExplanationType:
                 The transformed explanation
         """
-        display_missing_transform_info_inverse(
+        _display_missing_transform_info_inverse(
             self.__class__, "inverse_transform_explanation_feature_importance")
         return explanation
 
@@ -278,7 +278,7 @@ class Transformer(ABC):
             AdditiveFeatureContributionExplanationType:
                 The transformed explanation
         """
-        display_missing_transform_info(
+        _display_missing_transform_info(
             self.__class__, "transform_explanation_additive_contributions")
         return explanation
 
@@ -294,6 +294,6 @@ class Transformer(ABC):
             FeatureImportanceExplanationType:
                 The transformed explanation
         """
-        display_missing_transform_info(
+        _display_missing_transform_info(
             self.__class__, "transform_explanation_feature_importance")
         return explanation
