@@ -9,6 +9,20 @@ from pyreal.utils import model_utils
 
 
 def _check_transformers(transformers):
+    """
+    Validate that all Transformers in `transformers` are legal. Converts single Transformer objects
+    into lists. Checks for the existence of a `.transform()` function for all Transformers.
+    Args:
+        transformers (Transformer or list of Transformers):
+            A list of Transformer objects to validate
+    Returns:
+        List of Transformers
+            The original input list, or a single Transformer converted to a list
+
+    Raises:
+        TypeError
+            If one or more objects in `transformers` does not have a `.transform()` function.
+    """
     if transformers is None:
         return []
     if not isinstance(transformers, list):
@@ -23,6 +37,26 @@ def _check_transformers(transformers):
 
 
 def _get_transformers(transformers, algorithm=None, model=None, interpret=None):
+    """
+    Return Transformers in `transformers` that have all the requested flags.
+
+    Args:
+        transformers (list of Transformers):
+            List from which to pick transformers
+        algorithm (Boolean or None):
+            If True or False, choose transformers with that value. If None, do not consider the
+            value of this flag.
+        model (Boolean or None):
+            If True or False, choose transformers with that value. If None, do not consider the
+            value of this flag.
+        interpret (Boolean or None):
+            If True or False, choose transformers with that value. If None, do not consider the
+            value of this flag.
+
+    Returns:
+        List of Transformers
+            A list of Transformers from `transformers` that have all requested flags.
+    """
     select_transformers = []
     for t in transformers:
         if (algorithm is None or t.algorithm == algorithm) \
@@ -163,8 +197,8 @@ class Explainer(ABC):
              DataFrame of shape (n_instances, x_model_feature_count)
                 x_orig converted to model-ready form
         """
-        am_transformers = _get_transformers(self.transformers, model=True)
-        return run_transformers(am_transformers, x_orig)
+        m_transformers = _get_transformers(self.transformers, model=True)
+        return run_transformers(m_transformers, x_orig)
 
     def transform_x_from_algorithm_to_model(self, x_algorithm):
         """
