@@ -11,7 +11,7 @@ class MultiTypeImputer(Transformer):
     and categorical columns with the mode value.
     """
 
-    def __init__(self):
+    def __init__(self, **kwargs):
         """
         Initialize the base imputers
         """
@@ -19,6 +19,7 @@ class MultiTypeImputer(Transformer):
         self.categorical_cols = None
         self.numeric_imputer = SimpleImputer(missing_values=np.nan, strategy="mean")
         self.categorical_imputer = SimpleImputer(missing_values=np.nan, strategy="most_frequent")
+        super().__init__(**kwargs)
 
     def fit(self, x):
         """

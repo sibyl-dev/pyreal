@@ -34,30 +34,30 @@ def test_run_transformers(regression_one_hot):
                              [3, 4, 0, 1, 0],
                              [7, 2, 0, 0, 1]], columns=["B", "C", "A_2", "A_4", "A_6"])
 
-    feature_select = FeatureSelectTransformer(columns=["B", "A_2"])
+    regression_one_hot["transformers"].set_flags(model=True, interpret=True)
+    feature_select = FeatureSelectTransformer(columns=["B", "A_2"], algorithm=False, model=True)
     explainer = LocalFeatureContribution(regression_one_hot["model"], x,
-                                         e_transformers=regression_one_hot["transformers"],
-                                         m_transformers=feature_select,
-                                         i_transformers=regression_one_hot["transformers"])
+                                         transformers=[regression_one_hot["transformers"],
+                                                       feature_select])
     result = explainer.transform_to_x_interpret(x)
     assert_frame_equal(result, expected, check_like=True, check_dtype=False)
     result = explainer.transform_to_x_model(x)
     assert_frame_equal(result, expected[["B", "A_2"]], check_like=True, check_dtype=False)
-    result = explainer.transform_to_x_explain(x)
+    result = explainer.transform_to_x_algorithm(x)
     assert_frame_equal(result, expected, check_like=True, check_dtype=False)
 
 
 def test_predict_regression(regression_no_transforms, regression_one_hot):
     model = regression_no_transforms
     explainer = LocalFeatureContribution(model["model"], model["x"],
-                                         m_transformers=model["transformers"])
+                                         transformers=model["transformers"])
     expected = np.array(model["y"]).reshape(-1)
     result = explainer.model_predict(model["x"])
     assert np.array_equal(result, expected)
 
     model = regression_one_hot
     explainer = LocalFeatureContribution(model["model"], model["x"],
-                                         m_transformers=model["transformers"])
+                                         transformers=model["transformers"])
     expected = np.array(model["y"]).reshape(-1)
     result = explainer.model_predict(model["x"])
     assert np.array_equal(result, expected)
@@ -66,7 +66,7 @@ def test_predict_regression(regression_no_transforms, regression_one_hot):
 def test_predict_classification(classification_no_transforms):
     model = classification_no_transforms
     explainer = LocalFeatureContribution(model["model"], model["x"],
-                                         m_transformers=model["transformers"])
+                                         transformers=model["transformers"])
     expected = np.array(model["y"])
     result = explainer.model_predict(model["x"])
     assert np.array_equal(result, expected)
