@@ -247,6 +247,10 @@ class Explainer(ABC):
                           " explanation transform and is set to break, stopping transform process"
                           % type(t).__name__)
                     return explanation
+                except BaseException as err:
+                    print("Error in %s.inverse_transform_explanation:\n" % t.__class__)
+                    raise err
+
         for t in te_transformers:
             transform_func = getattr(t, "transform_explanation", None)
             try:
@@ -256,6 +260,9 @@ class Explainer(ABC):
                       "explanation transform and is set to break, stopping transform process"
                       % type(t).__name__)
                 return explanation
+            except BaseException as err:
+                print("Error in %s.transform_explanation:\n" % t.__class__)
+                raise err
         return explanation
 
     def model_predict(self, x_orig):

@@ -128,3 +128,16 @@ def test_transform_explanation(regression_no_transforms):
         [1, 2, 0, 0]
     ], columns=["A", "B", "C", "D"])
     assert_frame_equal(transform_explanation, expected_explanation)
+
+
+def test_break(regression_no_transforms):
+    feature_select = FeatureSelectTransformer(["A"])
+    feature_select.fit(pd.DataFrame([[1, 2, 3]], columns=["A", "B", "C"]))
+
+    explanation = 10  # invalid explanation type
+
+    explainer = LocalFeatureContribution(regression_no_transforms["model"],
+                                         regression_no_transforms["x"],
+                                         transformers=feature_select)
+    with pytest.raises(ValueError):
+        explainer.transform_explanation(explanation)
