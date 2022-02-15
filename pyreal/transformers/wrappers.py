@@ -8,7 +8,7 @@ class DataFrameWrapper(Transformer):
     Allows use of standard sklearn transformers while maintaining DataFrame type.
     """
 
-    def __init__(self, wrapped_transformer):
+    def __init__(self, wrapped_transformer, **kwargs):
         """
         Initialize the wrapped transformer
 
@@ -16,6 +16,7 @@ class DataFrameWrapper(Transformer):
             wrapped_transformer:
         """
         self.wrapped_transformer = wrapped_transformer
+        super().__init__(**kwargs)
 
     def fit(self, x):
         """
@@ -31,6 +32,7 @@ class DataFrameWrapper(Transformer):
             None
         """
         self.wrapped_transformer.fit(x)
+        return self
 
     def data_transform(self, x):
         """

@@ -23,7 +23,7 @@ def test_produce_decision_tree_regression_no_transforms(regression_no_transforms
 def helper_produce_decision_tree_regression_no_transforms(explainer, model):
     tree_object = explainer.produce()
     assert tree_object.feature_importances_.shape == \
-        (explainer.transform_to_x_explain(model["x"]).shape[1],)
+        (explainer.transform_to_x_algorithm(model["x"]).shape[1],)
 
 
 def test_produce_decision_tree_regression_transforms(regression_one_hot):
@@ -45,7 +45,7 @@ def test_produce_decision_tree_regression_transforms(regression_one_hot):
 def helper_produce_decision_tree_regression_one_hot(explainer, model):
     tree_object = explainer.produce()
     assert tree_object.feature_importances_.shape == \
-        (explainer.transform_to_x_explain(model["x"]).shape[1],)
+        (explainer.transform_to_x_algorithm(model["x"]).shape[1],)
 
 
 def test_produce_decision_tree_classification_no_transforms(classification_no_transform_tree):
@@ -70,7 +70,7 @@ def test_produce_decision_tree_classification_no_transforms(classification_no_tr
 def helper_produce_decision_tree_classification_no_transforms(explainer, model):
     tree_object = explainer.produce()
     assert tree_object.feature_importances_.shape == \
-        (explainer.transform_to_x_explain(model["x"]).shape[1],)
+        (explainer.transform_to_x_algorithm(model["x"]).shape[1],)
     assert (tree_object.predict(model["x"].to_numpy()) == model["y"].to_numpy().ravel()).all()
 
 
@@ -88,5 +88,5 @@ def test_produce_with_renames(classification_no_transform_tree):
 
     tree_object = dte.produce()
     assert tree_object.feature_importances_.shape == \
-        (dte.transform_to_x_explain(model["x"]).shape[1],)
+        (dte.transform_to_x_algorithm(model["x"]).shape[1],)
     assert (tree_object.predict(model["x"].to_numpy()) == model["y"].to_numpy().ravel()).all()

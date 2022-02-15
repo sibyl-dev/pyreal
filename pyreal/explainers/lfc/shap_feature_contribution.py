@@ -42,7 +42,7 @@ class ShapFeatureContribution(LocalFeatureContributionsBase):
         """
         Fit the contribution explainer
         """
-        dataset = self.transform_to_x_explain(self.x_train_orig)
+        dataset = self.transform_to_x_algorithm(self.x_train_orig)
         self.explainer_input_size = dataset.shape[1]
         if self.shap_type == "kernel":
             self.explainer = KernelExplainer(self.model.predict, dataset)
@@ -51,6 +51,7 @@ class ShapFeatureContribution(LocalFeatureContributionsBase):
             self.explainer = LinearExplainer(self.model, dataset)
         else:
             self.explainer = ShapExplainer(self.model, dataset)  # SHAP will pick an algorithm
+        return self
 
     def get_contributions(self, x_orig):
         """

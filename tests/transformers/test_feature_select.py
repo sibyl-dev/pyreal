@@ -1,3 +1,4 @@
+import numpy as np
 import pandas as pd
 from pandas.testing import assert_frame_equal
 
@@ -28,3 +29,15 @@ def test_transform_column_drop_transformer(transformer_test_data):
                                            [3, 0],
                                            [7, 2]], columns=["B", "D"])
     assert_frame_equal(transformed_x, expected_transformed_x)
+
+
+def test_fit_transform_feature_select_transformer_other_formats(transformer_test_data):
+    for columns in ["A", np.array(["A"]), pd.Index(["A"])]:
+        fs_transformer = FeatureSelectTransformer(columns="A")
+        fs_transformer.fit(transformer_test_data["x"])
+        assert (set(fs_transformer.dropped_columns) == {"B", "C", "D"})
+        transformed_x = fs_transformer.transform(transformer_test_data["x"])
+        expected_transformed_x = pd.DataFrame([[2],
+                                               [4],
+                                               [6]], columns=["A"])
+        assert_frame_equal(transformed_x, expected_transformed_x)

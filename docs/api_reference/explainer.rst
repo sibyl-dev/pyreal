@@ -12,7 +12,7 @@ Explainer Base
     ExplainerBase
     ExplainerBase.fit
     ExplainerBase.produce
-    ExplainerBase.transform_to_x_explain
+    ExplainerBase.transform_to_x_algorithm
     ExplainerBase.transform_to_x_model
     ExplainerBase.transform_to_x_interpret
     ExplainerBase.model_predict

@@ -95,17 +95,20 @@ class OneHotEncoder(Transformer):
     One-hot encodes categorical feature values
     """
 
-    def __init__(self, columns=None):
+    def __init__(self, columns=None, **kwargs):
         """
         Initializes the base one-hot encoder
 
         Args:
-            columns (array-like):
-                List of columns to encode
+            columns (dataframe column label type or list of dataframe column label type):
+                Label of column to select, or an ordered list of column labels to select
         """
         self.ohe = SklearnOneHotEncoder(sparse=False)
+        if columns is not None and not isinstance(columns, (list, tuple, np.ndarray, pd.Index)):
+            columns = [columns]
         self.columns = columns
         self.is_fit = False
+        super().__init__(**kwargs)
 
     def fit(self, x):
         """
@@ -123,6 +126,7 @@ class OneHotEncoder(Transformer):
             self.columns = x.columns
         self.ohe.fit(x[self.columns])
         self.is_fit = True
+        return self
 
     def data_transform(self, x):
         """
@@ -206,7 +210,7 @@ class MappingsOneHotEncoder(Transformer):
     mappings object which includes two dictionaries
     """
 
-    def __init__(self, mappings):
+    def __init__(self, mappings, **kwargs):
         """
         Initialize the transformer
 
@@ -215,6 +219,7 @@ class MappingsOneHotEncoder(Transformer):
                 Mappings from categorical column names to one-hot-encoded
         """
         self.mappings = mappings
+        super().__init__(**kwargs)
 
     def data_transform(self, x):
         """
@@ -256,7 +261,7 @@ class MappingsOneHotDecoder(Transformer):
     mappings object which includes two dictionaries
     """
 
-    def __init__(self, mappings):
+    def __init__(self, mappings, **kwargs):
         """
         Initialize the transformer
 
@@ -265,6 +270,7 @@ class MappingsOneHotDecoder(Transformer):
                 Mappings from categorical column names to one-hot-encoded
         """
         self.mappings = mappings
+        super().__init__(**kwargs)
 
     def data_transform(self, x):
         """

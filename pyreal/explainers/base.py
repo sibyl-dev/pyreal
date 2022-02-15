@@ -4,13 +4,27 @@ import pandas as pd
 from sklearn.base import is_classifier
 from sklearn.metrics import get_scorer
 
-from pyreal.transformers import run_transformers
+from pyreal.transformers import BreakingTransformError, run_transformers
 from pyreal.utils import model_utils
 
 
 def _check_transformers(transformers):
+    """
+    Validate that all Transformers in `transformers` are legal. Converts single Transformer objects
+    into lists. Checks for the existence of a `.transform()` function for all Transformers.
+    Args:
+        transformers (Transformer or list of Transformers):
+            A list of Transformer objects to validate
+    Returns:
+        List of Transformers
+            The original input list, or a single Transformer converted to a list
+
+    Raises:
+        TypeError
+            If one or more objects in `transformers` does not have a `.transform()` function.
+    """
     if transformers is None:
-        return None
+        return []
     if not isinstance(transformers, list):
         transformers = [transformers]
     else:
@@ -20,6 +34,36 @@ def _check_transformers(transformers):
         if not callable(transform_method):
             raise TypeError("Given transformer that does not have a .transform function")
     return transformers
+
+
+def _get_transformers(transformers, algorithm=None, model=None, interpret=None):
+    """
+    Return Transformers in `transformers` that have all the requested flags.
+
+    Args:
+        transformers (list of Transformers):
+            List from which to pick transformers
+        algorithm (Boolean or None):
+            If True or False, choose transformers with that value. If None, do not consider the
+            value of this flag.
+        model (Boolean or None):
+            If True or False, choose transformers with that value. If None, do not consider the
+            value of this flag.
+        interpret (Boolean or None):
+            If True or False, choose transformers with that value. If None, do not consider the
+            value of this flag.
+
+    Returns:
+        List of Transformers
+            A list of Transformers from `transformers` that have all requested flags.
+    """
+    select_transformers = []
+    for t in transformers:
+        if (algorithm is None or t.algorithm == algorithm) \
+                and (model is None or t.model == model) \
+                and (interpret is None or t.interpret == interpret):
+            select_transformers.append(t)
+    return select_transformers
 
 
 class ExplainerBase(ABC):
@@ -46,36 +90,13 @@ class ExplainerBase(ABC):
         class_descriptions (dict):
             Interpretable descriptions of each class
             None if model is not a classifier
-        transformers (transformer object or lis of transformer objects):
-            Transformer(s) that need to be used on x_orig for the explanation algorithm and model
-            prediction. If different transformations are needed for the explanation and model,
-            these should be defined separately using e_transformers and m_transformers.
-        e_transformers (transformer object or list of transformer objects):
-           Transformer(s) that need to be used on x_orig for the explanation algorithm:
-           x_orig -> x_explain
-           See the specific implementation you are using for more information on the exact
-           requirements.
-        m_transformers (transformer object or list of transformer objects):
-           Transformer(s) needed on x_orig to make predictions on the dataset with model,
-           if different than e_transformers
-           x_orig -> x_model
-        i_transformers (transformer object or list of transformer objects):
-           Transformer(s) needed to make x_orig interpretable
-           x_orig -> x_interpret
+        transformers (transformer object or list of transformer objects):
+           Transformer(s) used by the Explainer.
         fit_on_init (Boolean):
            If True, fit the explainer on initiation.
            If False, self.fit() must be manually called before produce() is called
-        skip_e_transform_explanation (Boolean):
-           If True, do not run the inverse_transform_explanation methods from e_transformers or
-           i_transformers on the explanation after producing.
-        skip_i_transform_explanation (Boolean):
-           If True, do not run the transform_explanation methods from i_transformers
-           on the explanation after producing.
-        stop_on_missing_transform (Boolean):
-            If True, stop transforming explanations when a missing `inverse_transform_explanation`
-            method is encountered. Should only be False if missing `inverse_transform_explanation`
-            methods will not result in other transformers failing
-            (ie, operate on separate feature spaces).
+        return_original_explanation (Boolean):
+            If True, return the explanation originally generated without any transformations
     """
 
     def __init__(self, model,
@@ -84,10 +105,8 @@ class ExplainerBase(ABC):
                  classes=None,
                  class_descriptions=None,
                  transformers=None,
-                 e_transformers=None, m_transformers=None, i_transformers=None,
                  fit_on_init=False,
-                 skip_e_transform_explanation=False, skip_i_transform_explanation=False,
-                 stop_on_missing_transform=True):
+                 return_original_explanation=False):
         if isinstance(model, str):
             self.model = model_utils.load_model_from_pickle(model)
         else:
@@ -105,20 +124,7 @@ class ExplainerBase(ABC):
 
         self.x_orig_feature_count = x_train_orig.shape[1]
 
-        if transformers is not None and e_transformers is not None:
-            # TODO: replace with proper warning
-            print("Warning: transformers and e_transformers provided. "
-                  "Defaulting to using e_transformers")
-        elif transformers is not None:
-            e_transformers = transformers
-        if transformers is not None and m_transformers is not None:
-            # TODO: replace with proper warning
-            print("Warning: transformers and m_transformers provided. "
-                  "Defaulting to using m_transformers")
-
-        self.e_transformers = _check_transformers(e_transformers)
-        self.m_transformers = _check_transformers(m_transformers)
-        self.i_transformers = _check_transformers(i_transformers)
+        self.transformers = _check_transformers(transformers)
 
         self.feature_descriptions = feature_descriptions
 
@@ -129,9 +135,7 @@ class ExplainerBase(ABC):
 
         self.class_descriptions = class_descriptions
 
-        self.skip_e_transform_explanation = skip_e_transform_explanation
-        self.skip_i_transform_explanation = skip_i_transform_explanation
-        self.stop_on_missing_transform = stop_on_missing_transform
+        self.return_original_explanation = return_original_explanation
 
         if fit_on_init:
             self.fit()
@@ -140,6 +144,7 @@ class ExplainerBase(ABC):
         """
         Fit this explainer object. Abstract method
         """
+        return self
 
     @abstractmethod
     def produce(self, x_orig):
@@ -155,24 +160,23 @@ class ExplainerBase(ABC):
                 Explanation
         """
 
-    def transform_to_x_explain(self, x_orig):
+    def transform_to_x_algorithm(self, x_orig):
         """
-        Transform x_orig to x_explain, using the e_transformers
+        Transform x_orig to x_algorithm, using the algorithm transformers
 
         Args:
             x_orig (DataFrame of shape (n_instances, x_orig_feature_count)):
                 Original input
         Returns:
-             DataFrame of shape (n_instances, x_explain_feature_count)
+             DataFrame of shape (n_instances, x_algorithm_feature_count)
                 x_orig converted to explainable form
         """
-        if self.e_transformers is None:
-            return x_orig
-        return run_transformers(self.e_transformers, x_orig)
+        a_transformers = _get_transformers(self.transformers, algorithm=True)
+        return run_transformers(a_transformers, x_orig)
 
     def transform_to_x_model(self, x_orig):
         """
-        Transform x_orig to x_model, using the e_transformers and m_transformers
+        Transform x_orig to x_model, using the model transformers
 
         Args:
             x_orig (DataFrame of shape (n_instances, x_orig_feature_count)):
@@ -182,33 +186,27 @@ class ExplainerBase(ABC):
              DataFrame of shape (n_instances, x_model_feature_count)
                 x_orig converted to model-ready form
         """
-        if self.m_transformers is None and self.e_transformers is None:
-            return x_orig
-        if self.e_transformers is None:
-            return run_transformers(self.m_transformers, x_orig)
-        if self.m_transformers is None:
-            return run_transformers(self.e_transformers, x_orig)
-        return run_transformers(self.m_transformers, run_transformers(self.e_transformers, x_orig))
+        m_transformers = _get_transformers(self.transformers, model=True)
+        return run_transformers(m_transformers, x_orig)
 
-    def transform_x_from_explain_to_model(self, x_explain):
+    def transform_x_from_algorithm_to_model(self, x_algorithm):
         """
-        Transform x_explain to x_model, using the m_transformers
+        Transform x_algorithm to x_model, using the model transformers
 
         Args:
-            x_explain (DataFrame of shape (n_instances, x_orig_feature_count)):
+            x_algorithm (DataFrame of shape (n_instances, x_orig_feature_count)):
                 Input in explain space
 
         Returns:
              DataFrame of shape (n_instances, x_model_feature_count)
-                x_explain converted to model-ready form
+                x_algorithm converted to model-ready form
         """
-        if self.m_transformers is None:
-            return x_explain
-        return run_transformers(self.m_transformers, x_explain)
+        m_transformers = _get_transformers(self.transformers, algorithm=False, model=True)
+        return run_transformers(m_transformers, x_algorithm)
 
     def transform_to_x_interpret(self, x_orig):
         """
-        Transform x_orig to x_interpret, using the i_transformers
+        Transform x_orig to x_interpret, using the interpret transformers
         Args:
             x_orig (DataFrame of shape (n_instances, x_orig_feature_count)):
                 Original input
@@ -217,9 +215,8 @@ class ExplainerBase(ABC):
              DataFrame of shape (n_instances, x_interpret_feature_count)
                 x_orig converted to interpretable form
         """
-        if self.i_transformers is None:
-            return x_orig
-        return run_transformers(self.i_transformers, x_orig)
+        i_transformers = _get_transformers(self.transformers, interpret=True)
+        return run_transformers(i_transformers, x_orig)
 
     def transform_explanation(self, explanation):
         """
@@ -234,33 +231,31 @@ class ExplainerBase(ABC):
             type varies by subclass
                 The interpretable form of the explanation
         """
-        if not self.skip_e_transform_explanation:
-            if self.e_transformers is not None:
-                for transform in self.e_transformers[::-1]:
-                    transform_func = getattr(transform, "inverse_transform_explanation", None)
-                    if callable(transform_func):
-                        try:
-                            explanation = transform_func(explanation)
-                        except NotImplementedError:
-                            print("Transformer class %s does not have the required inverse"
-                                  " explanation transform"
-                                  % type(transform).__name__)
-                            if self.stop_on_missing_transform:
-                                print("Stopping explanation transform process")
-                                return explanation
-            if not self.skip_i_transform_explanation:
-                if self.i_transformers is not None:
-                    for transform in self.i_transformers:
-                        transform_func = getattr(transform, "transform_explanation", None)
-                        try:
-                            explanation = transform_func(explanation)
-                        except NotImplementedError:
-                            print("Transformer class %s does not have the required "
-                                  "explanation transform"
-                                  % type(transform).__name__)
-                            if self.stop_on_missing_transform:
-                                print("Stopping explanation transform process")
-                                return explanation
+        if self.return_original_explanation:
+            return explanation
+
+        ite_transformers = _get_transformers(self.transformers, algorithm=True, interpret=False)
+        te_transformers = _get_transformers(self.transformers, algorithm=False, interpret=True)
+
+        for t in ite_transformers[::-1]:
+            transform_func = getattr(t, "inverse_transform_explanation", None)
+            if callable(transform_func):
+                try:
+                    explanation = transform_func(explanation)
+                except BreakingTransformError:
+                    print("Transformer class %s does not have the required inverse"
+                          " explanation transform and is set to break, stopping transform process"
+                          % type(t).__name__)
+                    return explanation
+        for t in te_transformers:
+            transform_func = getattr(t, "transform_explanation", None)
+            try:
+                explanation = transform_func(explanation)
+            except BreakingTransformError:
+                print("Transformer class %s does not have the required "
+                      "explanation transform and is set to break, stopping transform process"
+                      % type(t).__name__)
+                return explanation
         return explanation
 
     def model_predict(self, x_orig):
@@ -280,21 +275,21 @@ class ExplainerBase(ABC):
         x_model = self.transform_to_x_model(x_orig)
         return self.model.predict(x_model)
 
-    def model_predict_on_explain(self, x_explain):
+    def model_predict_on_algorithm(self, x_algorithm):
         """
-        Predict on x_explain using the model and return the result
+        Predict on x_algorithm using the model and return the result
 
         Args:
-            x_explain (DataFrame of shape (n_instances, x_orig_feature_count)):
+            x_algorithm (DataFrame of shape (n_instances, x_orig_feature_count)):
                 Data to predict on
 
         Returns:
             DataFrame of shape (n_instances,)
                 Model prediction on x_orig
         """
-        if x_explain.ndim == 1:
-            x_explain = x_explain.to_frame().T
-        x_model = self.transform_x_from_explain_to_model(x_explain)
+        if x_algorithm.ndim == 1:
+            x_algorithm = x_algorithm.to_frame().T
+        x_model = self.transform_x_from_algorithm_to_model(x_algorithm)
         return self.model.predict(x_model)
 
     def feature_description(self, feature_name):
