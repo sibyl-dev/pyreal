@@ -4,7 +4,7 @@ import pandas as pd
 from sklearn.base import is_classifier
 from sklearn.metrics import get_scorer
 
-from pyreal.transformers import run_transformers
+from pyreal.transformers import BreakingTransformError, run_transformers
 from pyreal.utils import model_utils
 
 
@@ -95,11 +95,6 @@ class Explainer(ABC):
         fit_on_init (Boolean):
            If True, fit the explainer on initiation.
            If False, self.fit() must be manually called before produce() is called
-        stop_on_missing_transform (Boolean):
-            If True, stop transforming explanations when a missing `inverse_transform_explanation`
-            method is encountered. Should only be False if missing `inverse_transform_explanation`
-            methods will not result in other transformers failing
-            (ie, operate on separate feature spaces).
         return_original_explanation (Boolean):
             If True, return the explanation originally generated without any transformations
     """
@@ -111,7 +106,6 @@ class Explainer(ABC):
                  class_descriptions=None,
                  transformers=None,
                  fit_on_init=False,
-                 stop_on_missing_transform=True,
                  return_original_explanation=False):
         if isinstance(model, str):
             self.model = model_utils.load_model_from_pickle(model)
@@ -141,7 +135,6 @@ class Explainer(ABC):
 
         self.class_descriptions = class_descriptions
 
-        self.stop_on_missing_transform = stop_on_missing_transform
         self.return_original_explanation = return_original_explanation
 
         if fit_on_init:
@@ -249,13 +242,11 @@ class Explainer(ABC):
             if callable(transform_func):
                 try:
                     explanation = transform_func(explanation)
-                except NotImplementedError:
+                except BreakingTransformError:
                     print("Transformer class %s does not have the required inverse"
-                          " explanation transform"
+                          " explanation transform and is set to break, stopping transform process"
                           % type(t).__name__)
-                    if self.stop_on_missing_transform:
-                        print("Stopping explanation transform process")
-                        return explanation
+                    return explanation
                 except BaseException as err:
                     print("Error in %s.inverse_transform_explanation:\n" % t.__class__)
                     raise err
@@ -264,13 +255,11 @@ class Explainer(ABC):
             transform_func = getattr(t, "transform_explanation", None)
             try:
                 explanation = transform_func(explanation)
-            except NotImplementedError:
+            except BreakingTransformError:
                 print("Transformer class %s does not have the required "
-                      "explanation transform"
+                      "explanation transform and is set to break, stopping transform process"
                       % type(t).__name__)
-                if self.stop_on_missing_transform:
-                    print("Stopping explanation transform process")
-                    return explanation
+                return explanation
             except BaseException as err:
                 print("Error in %s.transform_explanation:\n" % t.__class__)
                 raise err
