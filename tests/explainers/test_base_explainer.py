@@ -91,6 +91,7 @@ def test_evaluate_model(regression_no_transforms):
     score = explainer.evaluate_model("accuracy")
     assert abs(score - .6667) <= 0.0001
 
+
 def test_transform_explanation(regression_no_transforms):
     feature_select1 = FeatureSelectTransformer(["A", "B"], model=True)
     feature_select2 = FeatureSelectTransformer(["C"], model=False, interpret=True)
