@@ -401,6 +401,10 @@
                           <span class="s2">&quot; explanation transform and is set to break, stopping transform process&quot;</span>
                           <span class="o">%</span> <span class="nb">type</span><span class="p">(</span><span class="n">t</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
                     <span class="k">return</span> <span class="n">explanation</span>
+                <span class="k">except</span> <span class="ne">BaseException</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error in </span><span class="si">%s</span><span class="s2">.inverse_transform_explanation:</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">t</span><span class="o">.</span><span class="vm">__class__</span><span class="p">)</span>
+                    <span class="k">raise</span> <span class="n">err</span>
+
         <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">te_transformers</span><span class="p">:</span>
             <span class="n">transform_func</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="s2">&quot;transform_explanation&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
             <span class="k">try</span><span class="p">:</span>
@@ -410,6 +414,9 @@
                       <span class="s2">&quot;explanation transform and is set to break, stopping transform process&quot;</span>
                       <span class="o">%</span> <span class="nb">type</span><span class="p">(</span><span class="n">t</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
                 <span class="k">return</span> <span class="n">explanation</span>
+            <span class="k">except</span> <span class="ne">BaseException</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error in </span><span class="si">%s</span><span class="s2">.transform_explanation:</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">t</span><span class="o">.</span><span class="vm">__class__</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="n">err</span>
         <span class="k">return</span> <span class="n">explanation</span>
 
 <div class="viewcode-block" id="Explainer.model_predict"><a class="viewcode-back" href="../../../api_reference/api/pyreal.explainers.Explainer.model_predict.html#pyreal.explainers.Explainer.model_predict">[docs]</a>    <span class="k">def</span> <span class="nf">model_predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_orig</span><span class="p">):</span>
