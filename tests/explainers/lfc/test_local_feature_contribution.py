@@ -299,11 +299,11 @@ def helper_produce_shap_classification_no_transforms_with_size(explainer):
 
 def test_produce_with_renames_with_size(regression_one_hot):
     model = regression_one_hot
-    e_transforms = model["transformers"]
+    transforms = model["transformers"]
     feature_descriptions = {"A": "Feature A", "B": "Feature B"}
     lfc = LocalFeatureContribution(model=model["model"],
                                    x_train_orig=model["x"], e_algorithm='shap',
-                                   fit_on_init=True, e_transforms=e_transforms,
+                                   fit_on_init=True, transformers=transforms,
                                    interpretable_features=True,
                                    feature_descriptions=feature_descriptions,
                                    training_size=2)

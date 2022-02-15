@@ -37,7 +37,7 @@ class SimpleCounterfactualContribution(LocalFeatureContributionsBase):
         """
         Fit the contribution explainer
         """
-        dataset = self.transform_to_x_explain(self.x_train_orig)
+        dataset = self.transform_to_x_explain(self._x_train_orig)
         self.explainer_input_size = dataset.shape[1]
         return self
 
@@ -57,7 +57,7 @@ class SimpleCounterfactualContribution(LocalFeatureContributionsBase):
             raise ValueError("Received input of wrong size."
                              "Expected ({},), received {}"
                              .format(self.explainer_input_size, x.shape))
-        x_train_explain = self.transform_to_x_explain(self.x_train_orig)
+        x_train_explain = self.transform_to_x_explain(self._x_train_orig)
         pred_orig = self.model_predict_on_explain(x)
         contributions = pd.DataFrame(np.zeros_like(x), columns=x.columns)
         for col in x:

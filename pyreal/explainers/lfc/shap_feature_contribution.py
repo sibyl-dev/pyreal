@@ -42,7 +42,7 @@ class ShapFeatureContribution(LocalFeatureContributionsBase):
         """
         Fit the contribution explainer
         """
-        dataset = self.transform_to_x_explain(self.x_train_orig.loc[self.data_sample_indices])
+        dataset = self.transform_to_x_explain(self._x_train_orig)
 
         self.explainer_input_size = dataset.shape[1]
         if self.shap_type == "kernel":

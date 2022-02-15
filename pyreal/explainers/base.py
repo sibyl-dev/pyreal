@@ -151,6 +151,9 @@ class Explainer(ABC):
                 raise ValueError("training_size must be larger than the number of classes")
             self.data_sample_indices = pd.Index(np.random.choice(self.x_train_orig.index,
                                                                  self.training_size))
+        
+        # use _x_train_orig for fitting explainer
+        self._x_train_orig = self.x_train_orig.loc[self.data_sample_indices]
 
         if fit_on_init:
             self.fit()
