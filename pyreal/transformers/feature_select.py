@@ -13,7 +13,7 @@ class FeatureSelectTransformer(Transformer):
     A transformer that selects and re-orders features to match the model's inputs
     """
 
-    def __init__(self, columns):
+    def __init__(self, columns, **kwargs):
         """
         Initializes the transformer
 
@@ -25,6 +25,7 @@ class FeatureSelectTransformer(Transformer):
             columns = [columns]
         self.columns = columns
         self.dropped_columns = []
+        super().__init__(**kwargs)
 
     def fit(self, x):
         """
@@ -88,13 +89,42 @@ class FeatureSelectTransformer(Transformer):
             explanation_df[col] = 0
         return FeatureImportanceExplanation(explanation_df)
 
+    def transform_explanation_additive_contributions(self, explanation):
+        """
+        Selects the desired columns
+        Args:
+            explanation (AdditiveFeatureContributionExplanationType):
+                The explanation to be transformed
+
+        Returns:
+            Returns:
+                AdditiveFeatureContributionExplanationType:
+                    The transformed explanation
+
+        """
+        return AdditiveFeatureContributionExplanation(explanation.get()[self.columns])
+
+    def transform_explanation_feature_importance(self, explanation):
+        """
+        Selects the desired columns
+
+        Args:
+            explanation (FeatureImportanceExplanation):
+                The explanation to be transformed
+        Returns:
+            FeatureImportanceExplanation:
+                The transformed explanation
+
+        """
+        return FeatureImportanceExplanation(explanation.get()[self.columns])
+
 
 class ColumnDropTransformer(Transformer):
     """
     A transformer that drops a set of columns from the data
     """
 
-    def __init__(self, columns):
+    def __init__(self, columns, **kwargs):
         """
         Initializes the transformer
 
@@ -105,6 +135,7 @@ class ColumnDropTransformer(Transformer):
         if columns is not None and not isinstance(columns, collections.Sequence):
             columns = [columns]
         self.dropped_columns = columns
+        super().__init__(**kwargs)
 
     def data_transform(self, x):
         """

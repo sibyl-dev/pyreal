@@ -132,25 +132,7 @@ because of their sex (male) and ticket class (3rd class).
 
 ### Terminology
 Pyreal introduces specific terms and naming schemes to refer to different feature spaces and
-transformations. Here, we offer a short summary of these terms. You can see examples of
-some of these in the quick start tutorial above.
-
-| Term            | Description             |
-|-----------------|-------------------------|
-| `model`         | A machine learning predictor, defined as an object with a `.predict()` funtion     |
-| `x`, `x_train`  | Data, in the form of a pandas DataFrame            |
-| `explanation`   | An explanation of a model or model prediction             |
-| `Explainer`     | Pyreal objects that take in data and a model and return an explanation |
-| `Transformer`   | Pyreal objects that transform data and explanations from one feature space to another |
-| `x_orig`, `explanation_orig` | Data or an explanation using the original feature space (whatever feature space the data starts in) |
-| `x_explain`, `explanation_explain` | Data or an explanation using the feature space expected by the explanation algorithm (explanation-ready feature space) |
-| `x_model`, `explanation_model` | Data or an explanation using the feature space the model expects
-| `x_interpret`, `explanation_interpret` | Data or an explanation using the most human-readable feature space available |
-| `e_transformers` | Transformers that transform data from the original to the explanation-ready, and explanations from the explanation-ready to the original feature space |
-| `m_transformers` | Transformers that transform data between the explanation-ready and model-ready feature spaces |
-| `i_transformers` | Transformers that transform data and explanations from the original feature space to the interpretable feature space |
-
-For more details about how these feature spaces and terms interact, please check the user guides.
+transformations. The [Terminology User Guide](https://sibyl-ml.dev/pyreal/user_guides/transformer_workflow.html#terminology) provides an introduction to these terms.
 
 # What's next?
 

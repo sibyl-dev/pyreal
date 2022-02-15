@@ -95,7 +95,7 @@ class OneHotEncoder(Transformer):
     One-hot encodes categorical feature values
     """
 
-    def __init__(self, columns=None):
+    def __init__(self, columns=None, **kwargs):
         """
         Initializes the base one-hot encoder
 
@@ -108,6 +108,7 @@ class OneHotEncoder(Transformer):
             columns = [columns]
         self.columns = columns
         self.is_fit = False
+        super().__init__(**kwargs)
 
     def fit(self, x):
         """
@@ -209,7 +210,7 @@ class MappingsOneHotEncoder(Transformer):
     mappings object which includes two dictionaries
     """
 
-    def __init__(self, mappings):
+    def __init__(self, mappings, **kwargs):
         """
         Initialize the transformer
 
@@ -218,6 +219,7 @@ class MappingsOneHotEncoder(Transformer):
                 Mappings from categorical column names to one-hot-encoded
         """
         self.mappings = mappings
+        super().__init__(**kwargs)
 
     def data_transform(self, x):
         """
@@ -259,7 +261,7 @@ class MappingsOneHotDecoder(Transformer):
     mappings object which includes two dictionaries
     """
 
-    def __init__(self, mappings):
+    def __init__(self, mappings, **kwargs):
         """
         Initialize the transformer
 
@@ -268,6 +270,7 @@ class MappingsOneHotDecoder(Transformer):
                 Mappings from categorical column names to one-hot-encoded
         """
         self.mappings = mappings
+        super().__init__(**kwargs)
 
     def data_transform(self, x):
         """

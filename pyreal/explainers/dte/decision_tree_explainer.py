@@ -46,7 +46,7 @@ def dte(return_explainer=True, return_importances=False, explainer=None,
            Interpretable descriptions of each feature
         e_transforms (transformer object or list of transformer objects):
            Transformer(s) that need to be used on x_orig for the explanation algorithm:
-           x_orig -> x_explain
+           x_orig -> x_algorithm
         m_transforms (transformer object or list of transformer objects):
            Transformer(s) needed on x_orig to make predictions on the dataset with model,
            if different than e_transformers
