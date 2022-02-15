@@ -256,6 +256,10 @@ class Explainer(ABC):
                     if self.stop_on_missing_transform:
                         print("Stopping explanation transform process")
                         return explanation
+                except BaseException as err:
+                    print("Error in %s.inverse_transform_explanation:\n" % t.__class__)
+                    raise err
+
         for t in te_transformers:
             transform_func = getattr(t, "transform_explanation", None)
             try:
@@ -267,6 +271,9 @@ class Explainer(ABC):
                 if self.stop_on_missing_transform:
                     print("Stopping explanation transform process")
                     return explanation
+            except BaseException as err:
+                print("Error in %s.transform_explanation:\n" % t.__class__)
+                raise err
         return explanation
 
     def model_predict(self, x_orig):

@@ -89,3 +89,16 @@ def test_evaluate_model(regression_no_transforms):
                                          y_orig=new_y)
     score = explainer.evaluate_model("accuracy")
     assert abs(score - .6667) <= 0.0001
+
+
+def test_break(regression_no_transforms):
+    feature_select = FeatureSelectTransformer(["A"])
+    feature_select.fit(pd.DataFrame([[1, 2, 3]], columns=["A", "B", "C"]))
+
+    explanation = 10  # invalid explanation type
+
+    explainer = LocalFeatureContribution(regression_no_transforms["model"],
+                                         regression_no_transforms["x"],
+                                         transformers=feature_select)
+    with pytest.raises(ValueError):
+        explainer.transform_explanation(explanation)
