@@ -158,7 +158,7 @@
 <span class="kn">from</span> <span class="nn">sklearn.base</span> <span class="kn">import</span> <span class="n">is_classifier</span>
 <span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">get_scorer</span>
 
-<span class="kn">from</span> <span class="nn">pyreal.transformers</span> <span class="kn">import</span> <span class="n">run_transformers</span>
+<span class="kn">from</span> <span class="nn">pyreal.transformers</span> <span class="kn">import</span> <span class="n">BreakingTransformError</span><span class="p">,</span> <span class="n">run_transformers</span>
 <span class="kn">from</span> <span class="nn">pyreal.utils</span> <span class="kn">import</span> <span class="n">model_utils</span>
 
 
@@ -249,11 +249,6 @@
 <span class="sd">        fit_on_init (Boolean):</span>
 <span class="sd">           If True, fit the explainer on initiation.</span>
 <span class="sd">           If False, self.fit() must be manually called before produce() is called</span>
-<span class="sd">        stop_on_missing_transform (Boolean):</span>
-<span class="sd">            If True, stop transforming explanations when a missing `inverse_transform_explanation`</span>
-<span class="sd">            method is encountered. Should only be False if missing `inverse_transform_explanation`</span>
-<span class="sd">            methods will not result in other transformers failing</span>
-<span class="sd">            (ie, operate on separate feature spaces).</span>
 <span class="sd">        return_original_explanation (Boolean):</span>
 <span class="sd">            If True, return the explanation originally generated without any transformations</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -265,7 +260,6 @@
                  <span class="n">class_descriptions</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">transformers</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">fit_on_init</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-                 <span class="n">stop_on_missing_transform</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                  <span class="n">return_original_explanation</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">model_utils</span><span class="o">.</span><span class="n">load_model_from_pickle</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
@@ -295,7 +289,6 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">class_descriptions</span> <span class="o">=</span> <span class="n">class_descriptions</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">stop_on_missing_transform</span> <span class="o">=</span> <span class="n">stop_on_missing_transform</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">return_original_explanation</span> <span class="o">=</span> <span class="n">return_original_explanation</span>
 
         <span class="k">if</span> <span class="n">fit_on_init</span><span class="p">:</span>
@@ -403,24 +396,20 @@
             <span class="k">if</span> <span class="n">callable</span><span class="p">(</span><span class="n">transform_func</span><span class="p">):</span>
                 <span class="k">try</span><span class="p">:</span>
                     <span class="n">explanation</span> <span class="o">=</span> <span class="n">transform_func</span><span class="p">(</span><span class="n">explanation</span><span class="p">)</span>
-                <span class="k">except</span> <span class="ne">NotImplementedError</span><span class="p">:</span>
+                <span class="k">except</span> <span class="n">BreakingTransformError</span><span class="p">:</span>
                     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Transformer class </span><span class="si">%s</span><span class="s2"> does not have the required inverse&quot;</span>
-                          <span class="s2">&quot; explanation transform&quot;</span>
+                          <span class="s2">&quot; explanation transform and is set to break, stopping transform process&quot;</span>
                           <span class="o">%</span> <span class="nb">type</span><span class="p">(</span><span class="n">t</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
-                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">stop_on_missing_transform</span><span class="p">:</span>
-                        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Stopping explanation transform process&quot;</span><span class="p">)</span>
-                        <span class="k">return</span> <span class="n">explanation</span>
+                    <span class="k">return</span> <span class="n">explanation</span>
         <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">te_transformers</span><span class="p">:</span>
             <span class="n">transform_func</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="s2">&quot;transform_explanation&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="n">explanation</span> <span class="o">=</span> <span class="n">transform_func</span><span class="p">(</span><span class="n">explanation</span><span class="p">)</span>
-            <span class="k">except</span> <span class="ne">NotImplementedError</span><span class="p">:</span>
+            <span class="k">except</span> <span class="n">BreakingTransformError</span><span class="p">:</span>
                 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Transformer class </span><span class="si">%s</span><span class="s2"> does not have the required &quot;</span>
-                      <span class="s2">&quot;explanation transform&quot;</span>
+                      <span class="s2">&quot;explanation transform and is set to break, stopping transform process&quot;</span>
                       <span class="o">%</span> <span class="nb">type</span><span class="p">(</span><span class="n">t</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
-                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">stop_on_missing_transform</span><span class="p">:</span>
-                    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Stopping explanation transform process&quot;</span><span class="p">)</span>
-                    <span class="k">return</span> <span class="n">explanation</span>
+                <span class="k">return</span> <span class="n">explanation</span>
         <span class="k">return</span> <span class="n">explanation</span>
 
 <div class="viewcode-block" id="Explainer.model_predict"><a class="viewcode-back" href="../../../api_reference/api/pyreal.explainers.Explainer.model_predict.html#pyreal.explainers.Explainer.model_predict">[docs]</a>    <span class="k">def</span> <span class="nf">model_predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_orig</span><span class="p">):</span>
