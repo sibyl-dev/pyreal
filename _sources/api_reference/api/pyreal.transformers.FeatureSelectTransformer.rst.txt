@@ -20,6 +20,7 @@
       ~FeatureSelectTransformer.inverse_transform_explanation
       ~FeatureSelectTransformer.inverse_transform_explanation_additive_contributions
       ~FeatureSelectTransformer.inverse_transform_explanation_feature_importance
+      ~FeatureSelectTransformer.set_flags
       ~FeatureSelectTransformer.transform
       ~FeatureSelectTransformer.transform_explanation
       ~FeatureSelectTransformer.transform_explanation_additive_contributions

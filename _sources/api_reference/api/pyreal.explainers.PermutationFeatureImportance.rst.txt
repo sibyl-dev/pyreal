@@ -22,13 +22,13 @@
       ~PermutationFeatureImportance.fit
       ~PermutationFeatureImportance.get_importance
       ~PermutationFeatureImportance.model_predict
-      ~PermutationFeatureImportance.model_predict_on_explain
+      ~PermutationFeatureImportance.model_predict_on_algorithm
       ~PermutationFeatureImportance.produce
       ~PermutationFeatureImportance.transform_explanation
-      ~PermutationFeatureImportance.transform_to_x_explain
+      ~PermutationFeatureImportance.transform_to_x_algorithm
       ~PermutationFeatureImportance.transform_to_x_interpret
       ~PermutationFeatureImportance.transform_to_x_model
-      ~PermutationFeatureImportance.transform_x_from_explain_to_model
+      ~PermutationFeatureImportance.transform_x_from_algorithm_to_model
    
    
 

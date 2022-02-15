@@ -20,6 +20,7 @@
       ~OneHotEncoder.inverse_transform_explanation
       ~OneHotEncoder.inverse_transform_explanation_additive_contributions
       ~OneHotEncoder.inverse_transform_explanation_feature_importance
+      ~OneHotEncoder.set_flags
       ~OneHotEncoder.transform
       ~OneHotEncoder.transform_explanation
       ~OneHotEncoder.transform_explanation_additive_contributions

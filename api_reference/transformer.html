@@ -160,8 +160,8 @@
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="api/pyreal.explainers.Explainer.transform_to_x_explain.html">
-     pyreal.explainers.Explainer.transform_to_x_explain
+    <a class="reference internal" href="api/pyreal.explainers.Explainer.transform_to_x_algorithm.html">
+     pyreal.explainers.Explainer.transform_to_x_algorithm
     </a>
    </li>
    <li class="toctree-l2">
@@ -901,7 +901,7 @@
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/pyreal.transformers.Transformer.html#pyreal.transformers.Transformer" title="pyreal.transformers.Transformer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Transformer</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/pyreal.transformers.Transformer.html#pyreal.transformers.Transformer" title="pyreal.transformers.Transformer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Transformer</span></code></a>([model, interpret, algorithm])</p></td>
 <td><p>An abstract base class for Transformers.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="api/pyreal.transformers.Transformer.fit.html#pyreal.transformers.Transformer.fit" title="pyreal.transformers.Transformer.fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Transformer.fit</span></code></a>(x, **params)</p></td>
@@ -930,7 +930,7 @@
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/pyreal.transformers.FeatureSelectTransformer.html#pyreal.transformers.FeatureSelectTransformer" title="pyreal.transformers.FeatureSelectTransformer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FeatureSelectTransformer</span></code></a>(columns)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/pyreal.transformers.FeatureSelectTransformer.html#pyreal.transformers.FeatureSelectTransformer" title="pyreal.transformers.FeatureSelectTransformer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FeatureSelectTransformer</span></code></a>(columns, **kwargs)</p></td>
 <td><p>A transformer that selects and re-orders features to match the model's inputs</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="api/pyreal.transformers.FeatureSelectTransformer.fit.html#pyreal.transformers.FeatureSelectTransformer.fit" title="pyreal.transformers.FeatureSelectTransformer.fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FeatureSelectTransformer.fit</span></code></a>(x)</p></td>
@@ -959,7 +959,7 @@
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/pyreal.transformers.MultiTypeImputer.html#pyreal.transformers.MultiTypeImputer" title="pyreal.transformers.MultiTypeImputer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MultiTypeImputer</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/pyreal.transformers.MultiTypeImputer.html#pyreal.transformers.MultiTypeImputer" title="pyreal.transformers.MultiTypeImputer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MultiTypeImputer</span></code></a>(**kwargs)</p></td>
 <td><p>Imputes a data set, handling columns of different types.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="api/pyreal.transformers.MultiTypeImputer.fit.html#pyreal.transformers.MultiTypeImputer.fit" title="pyreal.transformers.MultiTypeImputer.fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MultiTypeImputer.fit</span></code></a>(x)</p></td>
@@ -1006,7 +1006,7 @@
 <tr class="row-even"><td><p><a class="reference internal" href="api/pyreal.transformers.OneHotEncoder.transform_explanation.html#pyreal.transformers.OneHotEncoder.transform_explanation" title="pyreal.transformers.OneHotEncoder.transform_explanation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">OneHotEncoder.transform_explanation</span></code></a>(explanation)</p></td>
 <td><p>Transforms the explanation from the first feature space handled by this transformer to the second.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/pyreal.transformers.MappingsOneHotEncoder.html#pyreal.transformers.MappingsOneHotEncoder" title="pyreal.transformers.MappingsOneHotEncoder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MappingsOneHotEncoder</span></code></a>(mappings)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/pyreal.transformers.MappingsOneHotEncoder.html#pyreal.transformers.MappingsOneHotEncoder" title="pyreal.transformers.MappingsOneHotEncoder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MappingsOneHotEncoder</span></code></a>(mappings, **kwargs)</p></td>
 <td><p>Converts data from categorical form to one-hot-encoded, with feature names based on a mappings object which includes two dictionaries</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="api/pyreal.transformers.MappingsOneHotEncoder.fit.html#pyreal.transformers.MappingsOneHotEncoder.fit" title="pyreal.transformers.MappingsOneHotEncoder.fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MappingsOneHotEncoder.fit</span></code></a>(x, **params)</p></td>
@@ -1024,7 +1024,7 @@
 <tr class="row-even"><td><p><a class="reference internal" href="api/pyreal.transformers.MappingsOneHotEncoder.transform_explanation.html#pyreal.transformers.MappingsOneHotEncoder.transform_explanation" title="pyreal.transformers.MappingsOneHotEncoder.transform_explanation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MappingsOneHotEncoder.transform_explanation</span></code></a>(...)</p></td>
 <td><p>Transforms the explanation from the first feature space handled by this transformer to the second.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/pyreal.transformers.MappingsOneHotDecoder.html#pyreal.transformers.MappingsOneHotDecoder" title="pyreal.transformers.MappingsOneHotDecoder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MappingsOneHotDecoder</span></code></a>(mappings)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/pyreal.transformers.MappingsOneHotDecoder.html#pyreal.transformers.MappingsOneHotDecoder" title="pyreal.transformers.MappingsOneHotDecoder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MappingsOneHotDecoder</span></code></a>(mappings, **kwargs)</p></td>
 <td><p>Converts data from one-hot encoded form to categorical, with feature names based on a mappings object which includes two dictionaries</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="api/pyreal.transformers.MappingsOneHotDecoder.fit.html#pyreal.transformers.MappingsOneHotDecoder.fit" title="pyreal.transformers.MappingsOneHotDecoder.fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MappingsOneHotDecoder.fit</span></code></a>(x, **params)</p></td>
@@ -1059,7 +1059,7 @@
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/pyreal.transformers.DataFrameWrapper.html#pyreal.transformers.DataFrameWrapper" title="pyreal.transformers.DataFrameWrapper"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrameWrapper</span></code></a>(wrapped_transformer)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/pyreal.transformers.DataFrameWrapper.html#pyreal.transformers.DataFrameWrapper" title="pyreal.transformers.DataFrameWrapper"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrameWrapper</span></code></a>(wrapped_transformer, **kwargs)</p></td>
 <td><p>Allows use of standard sklearn transformers while maintaining DataFrame type.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="api/pyreal.transformers.DataFrameWrapper.fit.html#pyreal.transformers.DataFrameWrapper.fit" title="pyreal.transformers.DataFrameWrapper.fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrameWrapper.fit</span></code></a>(x)</p></td>

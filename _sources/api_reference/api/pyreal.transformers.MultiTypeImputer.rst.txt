@@ -20,6 +20,7 @@
       ~MultiTypeImputer.inverse_transform_explanation
       ~MultiTypeImputer.inverse_transform_explanation_additive_contributions
       ~MultiTypeImputer.inverse_transform_explanation_feature_importance
+      ~MultiTypeImputer.set_flags
       ~MultiTypeImputer.transform
       ~MultiTypeImputer.transform_explanation
       ~MultiTypeImputer.transform_explanation_additive_contributions

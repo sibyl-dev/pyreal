@@ -22,13 +22,13 @@
       ~GlobalFeatureImportance.fit
       ~GlobalFeatureImportance.get_importance
       ~GlobalFeatureImportance.model_predict
-      ~GlobalFeatureImportance.model_predict_on_explain
+      ~GlobalFeatureImportance.model_predict_on_algorithm
       ~GlobalFeatureImportance.produce
       ~GlobalFeatureImportance.transform_explanation
-      ~GlobalFeatureImportance.transform_to_x_explain
+      ~GlobalFeatureImportance.transform_to_x_algorithm
       ~GlobalFeatureImportance.transform_to_x_interpret
       ~GlobalFeatureImportance.transform_to_x_model
-      ~GlobalFeatureImportance.transform_x_from_explain_to_model
+      ~GlobalFeatureImportance.transform_x_from_algorithm_to_model
    
    
 

@@ -160,8 +160,8 @@
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="pyreal.explainers.Explainer.transform_to_x_explain.html">
-     pyreal.explainers.Explainer.transform_to_x_explain
+    <a class="reference internal" href="pyreal.explainers.Explainer.transform_to_x_algorithm.html">
+     pyreal.explainers.Explainer.transform_to_x_algorithm
     </a>
    </li>
    <li class="toctree-l2">
@@ -865,11 +865,11 @@
 <h1>pyreal.transformers.FeatureSelectTransformer<a class="headerlink" href="#pyreal-transformers-featureselecttransformer" title="Permalink to this headline">¶</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="pyreal.transformers.FeatureSelectTransformer">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyreal.transformers.</span></span><span class="sig-name descname"><span class="pre">FeatureSelectTransformer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">columns</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyreal/transformers/feature_select.html#FeatureSelectTransformer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyreal.transformers.FeatureSelectTransformer" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyreal.transformers.</span></span><span class="sig-name descname"><span class="pre">FeatureSelectTransformer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">columns</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyreal/transformers/feature_select.html#FeatureSelectTransformer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyreal.transformers.FeatureSelectTransformer" title="Permalink to this definition">¶</a></dt>
 <dd><p>A transformer that selects and re-orders features to match the model’s inputs</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="pyreal.transformers.FeatureSelectTransformer.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">columns</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyreal/transformers/feature_select.html#FeatureSelectTransformer.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyreal.transformers.FeatureSelectTransformer.__init__" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">columns</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyreal/transformers/feature_select.html#FeatureSelectTransformer.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyreal.transformers.FeatureSelectTransformer.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initializes the transformer</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -885,7 +885,7 @@
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#pyreal.transformers.FeatureSelectTransformer.__init__" title="pyreal.transformers.FeatureSelectTransformer.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(columns)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pyreal.transformers.FeatureSelectTransformer.__init__" title="pyreal.transformers.FeatureSelectTransformer.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(columns, **kwargs)</p></td>
 <td><p>Initializes the transformer</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="pyreal.transformers.FeatureSelectTransformer.data_transform.html#pyreal.transformers.FeatureSelectTransformer.data_transform" title="pyreal.transformers.FeatureSelectTransformer.data_transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">data_transform</span></code></a>(x)</p></td>
@@ -906,16 +906,19 @@
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">inverse_transform_explanation_feature_importance</span></code>(...)</p></td>
 <td><p>Sets the importance of dropped features to 0</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="pyreal.transformers.FeatureSelectTransformer.transform.html#pyreal.transformers.FeatureSelectTransformer.transform" title="pyreal.transformers.FeatureSelectTransformer.transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform</span></code></a>(x)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_flags</span></code>([model, interpret, algorithm])</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="pyreal.transformers.FeatureSelectTransformer.transform.html#pyreal.transformers.FeatureSelectTransformer.transform" title="pyreal.transformers.FeatureSelectTransformer.transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform</span></code></a>(x)</p></td>
 <td><p>Wrapper for data_transform.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="pyreal.transformers.FeatureSelectTransformer.transform_explanation.html#pyreal.transformers.FeatureSelectTransformer.transform_explanation" title="pyreal.transformers.FeatureSelectTransformer.transform_explanation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_explanation</span></code></a>(explanation)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="pyreal.transformers.FeatureSelectTransformer.transform_explanation.html#pyreal.transformers.FeatureSelectTransformer.transform_explanation" title="pyreal.transformers.FeatureSelectTransformer.transform_explanation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_explanation</span></code></a>(explanation)</p></td>
 <td><p>Transforms the explanation from the first feature space handled by this transformer to the second.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_explanation_additive_contributions</span></code>(...)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_explanation_additive_contributions</span></code>(...)</p></td>
 <td><p>Transforms additive contribution explanations</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_explanation_feature_importance</span></code>(...)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_explanation_feature_importance</span></code>(...)</p></td>
 <td><p>Transforms feature importance explanations</p></td>
 </tr>
 </tbody>

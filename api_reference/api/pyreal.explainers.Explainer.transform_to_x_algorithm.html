@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>pyreal.explainers.Explainer.transform_to_x_explain &#8212; Pyreal 0.2.0 documentation</title>
+    <title>pyreal.explainers.Explainer.transform_to_x_algorithm &#8212; Pyreal 0.2.0 documentation</title>
     
   <link href="../../_static/css/theme.css" rel="stylesheet">
   <link href="../../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
@@ -161,7 +161,7 @@
    </li>
    <li class="toctree-l2 current active">
     <a class="current reference internal" href="#">
-     pyreal.explainers.Explainer.transform_to_x_explain
+     pyreal.explainers.Explainer.transform_to_x_algorithm
     </a>
    </li>
    <li class="toctree-l2">
@@ -861,19 +861,19 @@
               
               <div>
                 
-  <section id="pyreal-explainers-explainer-transform-to-x-explain">
-<h1>pyreal.explainers.Explainer.transform_to_x_explain<a class="headerlink" href="#pyreal-explainers-explainer-transform-to-x-explain" title="Permalink to this headline">¶</a></h1>
+  <section id="pyreal-explainers-explainer-transform-to-x-algorithm">
+<h1>pyreal.explainers.Explainer.transform_to_x_algorithm<a class="headerlink" href="#pyreal-explainers-explainer-transform-to-x-algorithm" title="Permalink to this headline">¶</a></h1>
 <dl class="py method">
-<dt class="sig sig-object py" id="pyreal.explainers.Explainer.transform_to_x_explain">
-<span class="sig-prename descclassname"><span class="pre">Explainer.</span></span><span class="sig-name descname"><span class="pre">transform_to_x_explain</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_orig</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyreal/explainers/base.html#Explainer.transform_to_x_explain"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyreal.explainers.Explainer.transform_to_x_explain" title="Permalink to this definition">¶</a></dt>
-<dd><p>Transform x_orig to x_explain, using the e_transformers</p>
+<dt class="sig sig-object py" id="pyreal.explainers.Explainer.transform_to_x_algorithm">
+<span class="sig-prename descclassname"><span class="pre">Explainer.</span></span><span class="sig-name descname"><span class="pre">transform_to_x_algorithm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_orig</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyreal/explainers/base.html#Explainer.transform_to_x_algorithm"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyreal.explainers.Explainer.transform_to_x_algorithm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transform x_orig to x_algorithm, using the algorithm transformers</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>x_orig</strong> (<em>DataFrame of shape</em><em> (</em><em>n_instances</em><em>, </em><em>x_orig_feature_count</em><em>)</em>) – Original input</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p><dl class="simple">
-<dt>DataFrame of shape (n_instances, x_explain_feature_count)</dt><dd><p>x_orig converted to explainable form</p>
+<dt>DataFrame of shape (n_instances, x_algorithm_feature_count)</dt><dd><p>x_orig converted to explainable form</p>
 </dd>
 </dl>
 </p>

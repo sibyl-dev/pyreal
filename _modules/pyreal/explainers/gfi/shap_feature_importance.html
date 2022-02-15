@@ -194,7 +194,7 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Fit the feature importance explainer</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">dataset</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform_to_x_explain</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x_train_orig</span><span class="p">)</span>
+        <span class="n">dataset</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform_to_x_algorithm</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x_train_orig</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">explainer_input_size</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">shap_type</span> <span class="o">==</span> <span class="s2">&quot;kernel&quot;</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">explainer</span> <span class="o">=</span> <span class="n">KernelExplainer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">,</span> <span class="n">dataset</span><span class="p">)</span>
@@ -217,9 +217,9 @@
             <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s2">&quot;Instance has no explainer. Must call &quot;</span>
                                  <span class="s2">&quot;fit() before &quot;</span>
                                  <span class="s2">&quot;produce()&quot;</span><span class="p">)</span>
-        <span class="n">x_explain</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform_to_x_model</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x_train_orig</span><span class="p">)</span>
-        <span class="n">x_explain_np</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asanyarray</span><span class="p">(</span><span class="n">x_explain</span><span class="p">)</span>
-        <span class="n">shap_values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">explainer</span><span class="o">.</span><span class="n">shap_values</span><span class="p">(</span><span class="n">x_explain_np</span><span class="p">))</span>
+        <span class="n">x_model</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform_to_x_model</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x_train_orig</span><span class="p">)</span>
+        <span class="n">x_model_np</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asanyarray</span><span class="p">(</span><span class="n">x_model</span><span class="p">)</span>
+        <span class="n">shap_values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">explainer</span><span class="o">.</span><span class="n">shap_values</span><span class="p">(</span><span class="n">x_model_np</span><span class="p">))</span>
 
         <span class="k">if</span> <span class="n">shap_values</span><span class="o">.</span><span class="n">ndim</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;Something went wrong with SHAP - expected at least 2 dimensions&quot;</span><span class="p">)</span>
@@ -231,7 +231,7 @@
 
         <span class="n">importances</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">absolute</span><span class="p">(</span><span class="n">shap_values</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">AdditiveFeatureImportanceExplanation</span><span class="p">(</span>
-            <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">importances</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">x_explain</span><span class="o">.</span><span class="n">columns</span><span class="p">))</span></div></div>
+            <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">importances</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">x_model</span><span class="o">.</span><span class="n">columns</span><span class="p">))</span></div></div>
 </pre></div>
 
               </div>

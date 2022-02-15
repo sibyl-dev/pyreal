@@ -224,18 +224,18 @@ application:</p>
 which includes a <code class="docutils literal notranslate"><span class="pre">inverse_transform_explanation</span></code> function.</p></li>
 </ul>
 <p>These transformers transform the data from it’s <cite>original</cite> state (<code class="docutils literal notranslate"><span class="pre">x_orig</span></code>) to its
-<cite>explanation ready</cite> state (<code class="docutils literal notranslate"><span class="pre">x_explain</span></code>). In this case, the explanation algorithm used expects
-data in the <cite>model ready</cite> state (<code class="docutils literal notranslate"><span class="pre">x_model</span></code>), so <code class="docutils literal notranslate"><span class="pre">x_explain</span> <span class="pre">==</span> <span class="pre">x_model</span></code>.</p>
+<cite>explanation algorithm ready</cite> state (<code class="docutils literal notranslate"><span class="pre">x_algorithm</span></code>). In this case, the explanation algorithm used expects
+data in the <cite>model ready</cite> state (<code class="docutils literal notranslate"><span class="pre">x_model</span></code>), so <code class="docutils literal notranslate"><span class="pre">x_algorithm</span> <span class="pre">==</span> <span class="pre">x_model</span></code>.</p>
 <p>Next, we can create the <code class="docutils literal notranslate"><span class="pre">Explainer</span></code> object, and fit it.</p>
 <div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [7]: </span><span class="kn">from</span> <span class="nn">pyreal.explainers</span> <span class="kn">import</span> <span class="n">LocalFeatureContribution</span>
 
 <span class="gp">In [8]: </span><span class="n">lfc</span> <span class="o">=</span> <span class="n">LocalFeatureContribution</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span> <span class="n">x_train_orig</span><span class="o">=</span><span class="n">x_orig</span><span class="p">,</span>
-<span class="gp">   ...: </span>                               <span class="n">e_transformers</span><span class="o">=</span><span class="n">transformers</span><span class="p">,</span>
+<span class="gp">   ...: </span>                               <span class="n">transformers</span><span class="o">=</span><span class="n">transformers</span><span class="p">,</span>
 <span class="gp">   ...: </span>                               <span class="n">feature_descriptions</span><span class="o">=</span><span class="n">feature_descriptions</span><span class="p">,</span> <span class="n">fit_on_init</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="gp">   ...: </span>
 
 <span class="gp">In [9]: </span><span class="n">lfc</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
-<span class="gh">Out[9]: </span><span class="go">&lt;pyreal.explainers.lfc.local_feature_contribution.LocalFeatureContribution at 0x7f4e97d01250&gt;</span>
+<span class="gh">Out[9]: </span><span class="go">&lt;pyreal.explainers.lfc.local_feature_contribution.LocalFeatureContribution at 0x7efdc16e1580&gt;</span>
 </pre></div>
 </div>
 <p>Finally, we can get the explanation using the <code class="docutils literal notranslate"><span class="pre">.produce()</span></code> function. We will also visualize

@@ -20,6 +20,7 @@
       ~DataFrameWrapper.inverse_transform_explanation
       ~DataFrameWrapper.inverse_transform_explanation_additive_contributions
       ~DataFrameWrapper.inverse_transform_explanation_feature_importance
+      ~DataFrameWrapper.set_flags
       ~DataFrameWrapper.transform
       ~DataFrameWrapper.transform_explanation
       ~DataFrameWrapper.transform_explanation_additive_contributions

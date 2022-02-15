@@ -249,7 +249,7 @@
 <span class="sd">    One-hot encodes categorical feature values</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="OneHotEncoder.__init__"><a class="viewcode-back" href="../../../api_reference/api/pyreal.transformers.OneHotEncoder.html#pyreal.transformers.OneHotEncoder.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="OneHotEncoder.__init__"><a class="viewcode-back" href="../../../api_reference/api/pyreal.transformers.OneHotEncoder.html#pyreal.transformers.OneHotEncoder.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Initializes the base one-hot encoder</span>
 
@@ -261,7 +261,8 @@
         <span class="k">if</span> <span class="n">columns</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">columns</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Index</span><span class="p">)):</span>
             <span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="n">columns</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">columns</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">is_fit</span> <span class="o">=</span> <span class="kc">False</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">is_fit</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="OneHotEncoder.fit"><a class="viewcode-back" href="../../../api_reference/api/pyreal.transformers.OneHotEncoder.fit.html#pyreal.transformers.OneHotEncoder.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -363,7 +364,7 @@
 <span class="sd">    mappings object which includes two dictionaries</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="MappingsOneHotEncoder.__init__"><a class="viewcode-back" href="../../../api_reference/api/pyreal.transformers.MappingsOneHotEncoder.html#pyreal.transformers.MappingsOneHotEncoder.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mappings</span><span class="p">):</span>
+<div class="viewcode-block" id="MappingsOneHotEncoder.__init__"><a class="viewcode-back" href="../../../api_reference/api/pyreal.transformers.MappingsOneHotEncoder.html#pyreal.transformers.MappingsOneHotEncoder.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mappings</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Initialize the transformer</span>
 
@@ -371,7 +372,8 @@
 <span class="sd">            mappings (Mappings):</span>
 <span class="sd">                Mappings from categorical column names to one-hot-encoded</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">mappings</span> <span class="o">=</span> <span class="n">mappings</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mappings</span> <span class="o">=</span> <span class="n">mappings</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="MappingsOneHotEncoder.data_transform"><a class="viewcode-back" href="../../../api_reference/api/pyreal.transformers.MappingsOneHotEncoder.data_transform.html#pyreal.transformers.MappingsOneHotEncoder.data_transform">[docs]</a>    <span class="k">def</span> <span class="nf">data_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -413,7 +415,7 @@
 <span class="sd">    mappings object which includes two dictionaries</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="MappingsOneHotDecoder.__init__"><a class="viewcode-back" href="../../../api_reference/api/pyreal.transformers.MappingsOneHotDecoder.html#pyreal.transformers.MappingsOneHotDecoder.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mappings</span><span class="p">):</span>
+<div class="viewcode-block" id="MappingsOneHotDecoder.__init__"><a class="viewcode-back" href="../../../api_reference/api/pyreal.transformers.MappingsOneHotDecoder.html#pyreal.transformers.MappingsOneHotDecoder.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mappings</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Initialize the transformer</span>
 
@@ -421,7 +423,8 @@
 <span class="sd">            mappings (Mappings):</span>
 <span class="sd">                Mappings from categorical column names to one-hot-encoded</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">mappings</span> <span class="o">=</span> <span class="n">mappings</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mappings</span> <span class="o">=</span> <span class="n">mappings</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="MappingsOneHotDecoder.data_transform"><a class="viewcode-back" href="../../../api_reference/api/pyreal.transformers.MappingsOneHotDecoder.data_transform.html#pyreal.transformers.MappingsOneHotDecoder.data_transform">[docs]</a>    <span class="k">def</span> <span class="nf">data_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>

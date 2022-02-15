@@ -160,8 +160,8 @@
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="pyreal.explainers.Explainer.transform_to_x_explain.html">
-     pyreal.explainers.Explainer.transform_to_x_explain
+    <a class="reference internal" href="pyreal.explainers.Explainer.transform_to_x_algorithm.html">
+     pyreal.explainers.Explainer.transform_to_x_algorithm
     </a>
    </li>
    <li class="toctree-l2">
@@ -865,11 +865,11 @@
 <h1>pyreal.transformers.DataFrameWrapper<a class="headerlink" href="#pyreal-transformers-dataframewrapper" title="Permalink to this headline">¶</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="pyreal.transformers.DataFrameWrapper">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyreal.transformers.</span></span><span class="sig-name descname"><span class="pre">DataFrameWrapper</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">wrapped_transformer</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyreal/transformers/wrappers.html#DataFrameWrapper"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyreal.transformers.DataFrameWrapper" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyreal.transformers.</span></span><span class="sig-name descname"><span class="pre">DataFrameWrapper</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">wrapped_transformer</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyreal/transformers/wrappers.html#DataFrameWrapper"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyreal.transformers.DataFrameWrapper" title="Permalink to this definition">¶</a></dt>
 <dd><p>Allows use of standard sklearn transformers while maintaining DataFrame type.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="pyreal.transformers.DataFrameWrapper.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">wrapped_transformer</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyreal/transformers/wrappers.html#DataFrameWrapper.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyreal.transformers.DataFrameWrapper.__init__" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">wrapped_transformer</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyreal/transformers/wrappers.html#DataFrameWrapper.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyreal.transformers.DataFrameWrapper.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialize the wrapped transformer</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -885,7 +885,7 @@
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#pyreal.transformers.DataFrameWrapper.__init__" title="pyreal.transformers.DataFrameWrapper.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(wrapped_transformer)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pyreal.transformers.DataFrameWrapper.__init__" title="pyreal.transformers.DataFrameWrapper.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(wrapped_transformer, **kwargs)</p></td>
 <td><p>Initialize the wrapped transformer</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="pyreal.transformers.DataFrameWrapper.data_transform.html#pyreal.transformers.DataFrameWrapper.data_transform" title="pyreal.transformers.DataFrameWrapper.data_transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">data_transform</span></code></a>(x)</p></td>
@@ -906,16 +906,19 @@
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">inverse_transform_explanation_feature_importance</span></code>(...)</p></td>
 <td><p>Transforms feature importance explanations</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="pyreal.transformers.DataFrameWrapper.transform.html#pyreal.transformers.DataFrameWrapper.transform" title="pyreal.transformers.DataFrameWrapper.transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform</span></code></a>(x)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_flags</span></code>([model, interpret, algorithm])</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="pyreal.transformers.DataFrameWrapper.transform.html#pyreal.transformers.DataFrameWrapper.transform" title="pyreal.transformers.DataFrameWrapper.transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform</span></code></a>(x)</p></td>
 <td><p>Wrapper for data_transform.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="pyreal.transformers.DataFrameWrapper.transform_explanation.html#pyreal.transformers.DataFrameWrapper.transform_explanation" title="pyreal.transformers.DataFrameWrapper.transform_explanation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_explanation</span></code></a>(explanation)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="pyreal.transformers.DataFrameWrapper.transform_explanation.html#pyreal.transformers.DataFrameWrapper.transform_explanation" title="pyreal.transformers.DataFrameWrapper.transform_explanation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_explanation</span></code></a>(explanation)</p></td>
 <td><p>For now, always return the explanation, assuming no modifications needed.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_explanation_additive_contributions</span></code>(...)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_explanation_additive_contributions</span></code>(...)</p></td>
 <td><p>Transforms additive contribution explanations</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_explanation_feature_importance</span></code>(...)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_explanation_feature_importance</span></code>(...)</p></td>
 <td><p>Transforms feature importance explanations</p></td>
 </tr>
 </tbody>

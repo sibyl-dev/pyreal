@@ -21,14 +21,14 @@
       ~DecisionTreeExplainerBase.feature_description
       ~DecisionTreeExplainerBase.fit
       ~DecisionTreeExplainerBase.model_predict
-      ~DecisionTreeExplainerBase.model_predict_on_explain
+      ~DecisionTreeExplainerBase.model_predict_on_algorithm
       ~DecisionTreeExplainerBase.produce
       ~DecisionTreeExplainerBase.return_features
       ~DecisionTreeExplainerBase.transform_explanation
-      ~DecisionTreeExplainerBase.transform_to_x_explain
+      ~DecisionTreeExplainerBase.transform_to_x_algorithm
       ~DecisionTreeExplainerBase.transform_to_x_interpret
       ~DecisionTreeExplainerBase.transform_to_x_model
-      ~DecisionTreeExplainerBase.transform_x_from_explain_to_model
+      ~DecisionTreeExplainerBase.transform_x_from_algorithm_to_model
    
    
 

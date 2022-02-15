@@ -212,6 +212,40 @@
 <span class="sd">    An abstract base class for Transformers. Transformers transform data from a first feature space</span>
 <span class="sd">    to a second, and explanations from the second back to the first.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="Transformer.__init__"><a class="viewcode-back" href="../../../api_reference/api/pyreal.transformers.Transformer.html#pyreal.transformers.Transformer.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">interpret</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">algorithm</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set this Transformer&#39;s flags.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            model (Boolean):</span>
+<span class="sd">                If True, this transformer is required by the model-ready feature space. It will be</span>
+<span class="sd">                run any time a model prediction is needed</span>
+<span class="sd">            interpret (Boolean):</span>
+<span class="sd">                If True, this transformer makes the data more human-interpretable</span>
+<span class="sd">            algorithm (Boolean):</span>
+<span class="sd">                If True, this transformer is required for the explanation algorithm. If</span>
+<span class="sd">                algorithm is False, but model is True, this transformer will be applied only</span>
+<span class="sd">                when making model predictions during the explanation algorithm. Cannot be True if</span>
+<span class="sd">                if the model flag is False</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">model</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">interpret</span> <span class="o">=</span> <span class="n">interpret</span>
+        <span class="k">if</span> <span class="n">algorithm</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">algorithm</span> <span class="o">=</span> <span class="n">model</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">algorithm</span> <span class="o">=</span> <span class="n">algorithm</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="ow">is</span> <span class="kc">False</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">algorithm</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;algorithm flag cannot be True if model flag is False&quot;</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">set_flags</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">interpret</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">algorithm</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">model</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">model</span>
+        <span class="k">if</span> <span class="n">interpret</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">interpret</span> <span class="o">=</span> <span class="n">interpret</span>
+        <span class="k">if</span> <span class="n">algorithm</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">algorithm</span> <span class="o">=</span> <span class="n">algorithm</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="ow">is</span> <span class="kc">False</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">algorithm</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;algorithm flag cannot be True if model flag is False&quot;</span><span class="p">)</span>
 
 <div class="viewcode-block" id="Transformer.fit"><a class="viewcode-back" href="../../../api_reference/api/pyreal.transformers.Transformer.fit.html#pyreal.transformers.Transformer.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="o">**</span><span class="n">params</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>

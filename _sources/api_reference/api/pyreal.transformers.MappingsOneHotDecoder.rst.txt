@@ -20,6 +20,7 @@
       ~MappingsOneHotDecoder.inverse_transform_explanation
       ~MappingsOneHotDecoder.inverse_transform_explanation_additive_contributions
       ~MappingsOneHotDecoder.inverse_transform_explanation_feature_importance
+      ~MappingsOneHotDecoder.set_flags
       ~MappingsOneHotDecoder.transform
       ~MappingsOneHotDecoder.transform_explanation
       ~MappingsOneHotDecoder.transform_explanation_additive_contributions

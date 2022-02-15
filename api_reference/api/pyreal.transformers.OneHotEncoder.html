@@ -160,8 +160,8 @@
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="pyreal.explainers.Explainer.transform_to_x_explain.html">
-     pyreal.explainers.Explainer.transform_to_x_explain
+    <a class="reference internal" href="pyreal.explainers.Explainer.transform_to_x_algorithm.html">
+     pyreal.explainers.Explainer.transform_to_x_algorithm
     </a>
    </li>
    <li class="toctree-l2">
@@ -865,11 +865,11 @@
 <h1>pyreal.transformers.OneHotEncoder<a class="headerlink" href="#pyreal-transformers-onehotencoder" title="Permalink to this headline">¶</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="pyreal.transformers.OneHotEncoder">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyreal.transformers.</span></span><span class="sig-name descname"><span class="pre">OneHotEncoder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">columns</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyreal/transformers/one_hot_encode.html#OneHotEncoder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyreal.transformers.OneHotEncoder" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyreal.transformers.</span></span><span class="sig-name descname"><span class="pre">OneHotEncoder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">columns</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyreal/transformers/one_hot_encode.html#OneHotEncoder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyreal.transformers.OneHotEncoder" title="Permalink to this definition">¶</a></dt>
 <dd><p>One-hot encodes categorical feature values</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="pyreal.transformers.OneHotEncoder.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">columns</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyreal/transformers/one_hot_encode.html#OneHotEncoder.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyreal.transformers.OneHotEncoder.__init__" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">columns</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyreal/transformers/one_hot_encode.html#OneHotEncoder.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyreal.transformers.OneHotEncoder.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initializes the base one-hot encoder</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -906,16 +906,19 @@
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">inverse_transform_explanation_feature_importance</span></code>(...)</p></td>
 <td><p>Combine the contributions of one-hot-encoded features to get the contributions of the original categorical feature.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="pyreal.transformers.OneHotEncoder.transform.html#pyreal.transformers.OneHotEncoder.transform" title="pyreal.transformers.OneHotEncoder.transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform</span></code></a>(x)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_flags</span></code>([model, interpret, algorithm])</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="pyreal.transformers.OneHotEncoder.transform.html#pyreal.transformers.OneHotEncoder.transform" title="pyreal.transformers.OneHotEncoder.transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform</span></code></a>(x)</p></td>
 <td><p>Wrapper for data_transform.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="pyreal.transformers.OneHotEncoder.transform_explanation.html#pyreal.transformers.OneHotEncoder.transform_explanation" title="pyreal.transformers.OneHotEncoder.transform_explanation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_explanation</span></code></a>(explanation)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="pyreal.transformers.OneHotEncoder.transform_explanation.html#pyreal.transformers.OneHotEncoder.transform_explanation" title="pyreal.transformers.OneHotEncoder.transform_explanation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_explanation</span></code></a>(explanation)</p></td>
 <td><p>Transforms the explanation from the first feature space handled by this transformer to the second.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_explanation_additive_contributions</span></code>(...)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_explanation_additive_contributions</span></code>(...)</p></td>
 <td><p>Transforms additive contribution explanations</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_explanation_feature_importance</span></code>(...)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_explanation_feature_importance</span></code>(...)</p></td>
 <td><p>Transforms feature importance explanations</p></td>
 </tr>
 </tbody>
