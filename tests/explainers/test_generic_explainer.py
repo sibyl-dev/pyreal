@@ -7,7 +7,7 @@ def test_predict_regression_global_shap(regression_no_transforms, regression_one
     model = regression_no_transforms
     explainer = Explainer(model["model"], model["x"],
                           e_algorithm="shap",
-                          m_transformers=model["transformers"])
+                          transformers=model["transformers"])
     expected = np.array(model["y"]).reshape(-1)
     result = explainer.model_predict(model["x"])
     assert np.array_equal(result, expected)
@@ -15,7 +15,7 @@ def test_predict_regression_global_shap(regression_no_transforms, regression_one
     model = regression_one_hot
     explainer = Explainer(model["model"], model["x"],
                           e_algorithm="shap",
-                          m_transformers=model["transformers"])
+                          transformers=model["transformers"])
     expected = np.array(model["y"]).reshape(-1)
     result = explainer.model_predict(model["x"])
     assert np.array_equal(result, expected)
@@ -25,7 +25,7 @@ def test_predict_classification_global_shap(classification_no_transforms):
     model = classification_no_transforms
     explainer = Explainer(model["model"], model["x"],
                           e_algorithm="shap",
-                          m_transformers=model["transformers"])
+                          transformers=model["transformers"])
     expected = np.array(model["y"])
     result = explainer.model_predict(model["x"])
     assert np.array_equal(result, expected)
@@ -57,7 +57,7 @@ def test_predict_regression_local_shap(regression_no_transforms, regression_one_
     explainer = Explainer(model["model"], model["x"],
                           scope="local",
                           e_algorithm="shap",
-                          m_transformers=model["transformers"])
+                          transformers=model["transformers"])
     expected = np.array(model["y"]).reshape(-1)
     result = explainer.model_predict(model["x"])
     assert np.array_equal(result, expected)
@@ -66,7 +66,7 @@ def test_predict_regression_local_shap(regression_no_transforms, regression_one_
     explainer = Explainer(model["model"], model["x"],
                           scope="local",
                           e_algorithm="shap",
-                          m_transformers=model["transformers"])
+                          transformers=model["transformers"])
     expected = np.array(model["y"]).reshape(-1)
     result = explainer.model_predict(model["x"])
     assert np.array_equal(result, expected)
@@ -77,7 +77,7 @@ def test_predict_classification_local_shap(classification_no_transforms):
     explainer = Explainer(model["model"], model["x"],
                           scope="local",
                           e_algorithm="shap",
-                          m_transformers=model["transformers"])
+                          transformers=model["transformers"])
     expected = np.array(model["y"])
     result = explainer.model_predict(model["x"])
     assert np.array_equal(result, expected)
