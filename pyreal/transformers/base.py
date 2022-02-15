@@ -5,6 +5,14 @@ from pyreal.types.explanations.dataframe import (
     FeatureContributionExplanation, FeatureImportanceExplanation,)
 
 
+class BreakingTransformError(Exception):
+    """
+    Raised in a transform_explanation or inverse_transform_explanation function would be impossible
+    and is expected to break further transforms. The explanation transformation process will stop
+    upon encountering this error.
+    """
+
+
 def fit_transformers(transformers, x):
     """
     Fit a set of transformers in-place, transforming the data after each fit. Checks if each
@@ -53,11 +61,28 @@ def run_transformers(transformers, x):
     return x_transform
 
 
+def _display_missing_transform_info(transformer_name, function_name):
+    print("Transformer %s does not have an implemented %s function. "
+          "Defaulting to no change in explanation. If this causes a break,"
+          "you may want to add a interpret=False flag to this transformer or redefine this "
+          "function to throw a BreakingTransformError."
+          % (transformer_name, function_name))
+
+
+def _display_missing_transform_info_inverse(transformer_name, function_name):
+    print("Transformer %s does not have an implemented %s function. "
+          "Defaulting to no change in explanation. If this causes a break,"
+          "you may want to add an interpret=True flag to this transformer or redefine this "
+          "function to throw a BreakingTransformError."
+          % (transformer_name, function_name))
+
+
 class Transformer(ABC):
     """
     An abstract base class for Transformers. Transformers transform data from a first feature space
     to a second, and explanations from the second back to the first.
     """
+
     def __init__(self, model=True, interpret=False, algorithm=None):
         """
         Set this Transformer's flags.
@@ -194,7 +219,7 @@ class Transformer(ABC):
                 The transformed explanation
         Raises:
             ValueError
-                If `explantion` is not of a supported ExplanationType
+                If `explanation` is not of a supported ExplanationType
 
         """
         if isinstance(explanation, AdditiveFeatureContributionExplanation) \
@@ -219,12 +244,10 @@ class Transformer(ABC):
         Returns:
             AdditiveFeatureContributionExplanationType:
                 The transformed explanation
-
-        Raises:
-            NotImplementedError:
-                If this transformer does not support this kind of explanation transform
         """
-        raise NotImplementedError
+        _display_missing_transform_info_inverse(
+            self.__class__, "inverse_transform_explanation_additive_contributions")
+        return explanation
 
     # noinspection PyMethodMayBeStatic
     def inverse_transform_explanation_feature_importance(self, explanation):
@@ -237,12 +260,10 @@ class Transformer(ABC):
         Returns:
             FeatureImportanceExplanationType:
                 The transformed explanation
-
-        Raises:
-            NotImplementedError:
-                If this transformer does not support this kind of explanation transform
         """
-        raise NotImplementedError
+        _display_missing_transform_info_inverse(
+            self.__class__, "inverse_transform_explanation_feature_importance")
+        return explanation
 
     # noinspection PyMethodMayBeStatic
     def transform_explanation_additive_contributions(self, explanation):
@@ -256,12 +277,10 @@ class Transformer(ABC):
         Returns:
             AdditiveFeatureContributionExplanationType:
                 The transformed explanation
-
-        Raises:
-            NotImplementedError:
-                If this transformer does not support this kind of explanation transform
         """
-        raise NotImplementedError
+        _display_missing_transform_info(
+            self.__class__, "transform_explanation_additive_contributions")
+        return explanation
 
     # noinspection PyMethodMayBeStatic
     def transform_explanation_feature_importance(self, explanation):
@@ -274,9 +293,7 @@ class Transformer(ABC):
         Returns:
             FeatureImportanceExplanationType:
                 The transformed explanation
-
-        Raises:
-            NotImplementedError:
-                If this transformer does not support this kind of explanation transform
         """
-        raise NotImplementedError
+        _display_missing_transform_info(
+            self.__class__, "transform_explanation_feature_importance")
+        return explanation

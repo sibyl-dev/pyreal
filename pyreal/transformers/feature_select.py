@@ -89,6 +89,35 @@ class FeatureSelectTransformer(Transformer):
             explanation_df[col] = 0
         return FeatureImportanceExplanation(explanation_df)
 
+    def transform_explanation_additive_contributions(self, explanation):
+        """
+        Selects the desired columns
+        Args:
+            explanation (AdditiveFeatureContributionExplanationType):
+                The explanation to be transformed
+
+        Returns:
+            Returns:
+                AdditiveFeatureContributionExplanationType:
+                    The transformed explanation
+
+        """
+        return AdditiveFeatureContributionExplanation(explanation.get()[self.columns])
+
+    def transform_explanation_feature_importance(self, explanation):
+        """
+        Selects the desired columns
+
+        Args:
+            explanation (FeatureImportanceExplanation):
+                The explanation to be transformed
+        Returns:
+            FeatureImportanceExplanation:
+                The transformed explanation
+
+        """
+        return FeatureImportanceExplanation(explanation.get()[self.columns])
+
 
 class ColumnDropTransformer(Transformer):
     """
