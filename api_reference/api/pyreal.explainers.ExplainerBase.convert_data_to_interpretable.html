@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>pyreal.explainers.Explainer.transform_to_x_algorithm &#8212; Pyreal 0.2.0 documentation</title>
+    <title>pyreal.explainers.ExplainerBase.convert_data_to_interpretable &#8212; Pyreal 0.2.0 documentation</title>
     
   <link href="../../_static/css/theme.css" rel="stylesheet">
   <link href="../../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
@@ -36,8 +36,8 @@
     <link rel="shortcut icon" href="../../_static/dai-logo-white.ico"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="pyreal.explainers.Explainer.transform_to_x_model" href="pyreal.explainers.Explainer.transform_to_x_model.html" />
-    <link rel="prev" title="pyreal.explainers.Explainer.produce" href="pyreal.explainers.Explainer.produce.html" />
+    <link rel="next" title="Local Feature Contribution" href="../local_feature_contribution.html" />
+    <link rel="prev" title="pyreal.explainers.ExplainerBase.feature_description" href="pyreal.explainers.ExplainerBase.feature_description.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -145,48 +145,48 @@
   </label>
   <ul class="current">
    <li class="toctree-l2">
-    <a class="reference internal" href="pyreal.explainers.Explainer.html">
-     pyreal.explainers.Explainer
+    <a class="reference internal" href="pyreal.explainers.ExplainerBase.html">
+     pyreal.explainers.ExplainerBase
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="pyreal.explainers.Explainer.fit.html">
-     pyreal.explainers.Explainer.fit
+    <a class="reference internal" href="pyreal.explainers.ExplainerBase.fit.html">
+     pyreal.explainers.ExplainerBase.fit
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="pyreal.explainers.Explainer.produce.html">
-     pyreal.explainers.Explainer.produce
+    <a class="reference internal" href="pyreal.explainers.ExplainerBase.produce.html">
+     pyreal.explainers.ExplainerBase.produce
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pyreal.explainers.ExplainerBase.transform_to_x_algorithm.html">
+     pyreal.explainers.ExplainerBase.transform_to_x_algorithm
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pyreal.explainers.ExplainerBase.transform_to_x_model.html">
+     pyreal.explainers.ExplainerBase.transform_to_x_model
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pyreal.explainers.ExplainerBase.transform_to_x_interpret.html">
+     pyreal.explainers.ExplainerBase.transform_to_x_interpret
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pyreal.explainers.ExplainerBase.model_predict.html">
+     pyreal.explainers.ExplainerBase.model_predict
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pyreal.explainers.ExplainerBase.feature_description.html">
+     pyreal.explainers.ExplainerBase.feature_description
     </a>
    </li>
    <li class="toctree-l2 current active">
     <a class="current reference internal" href="#">
-     pyreal.explainers.Explainer.transform_to_x_algorithm
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="pyreal.explainers.Explainer.transform_to_x_model.html">
-     pyreal.explainers.Explainer.transform_to_x_model
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="pyreal.explainers.Explainer.transform_to_x_interpret.html">
-     pyreal.explainers.Explainer.transform_to_x_interpret
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="pyreal.explainers.Explainer.model_predict.html">
-     pyreal.explainers.Explainer.model_predict
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="pyreal.explainers.Explainer.feature_description.html">
-     pyreal.explainers.Explainer.feature_description
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="pyreal.explainers.Explainer.convert_data_to_interpretable.html">
-     pyreal.explainers.Explainer.convert_data_to_interpretable
+     pyreal.explainers.ExplainerBase.convert_data_to_interpretable
     </a>
    </li>
   </ul>
@@ -438,11 +438,38 @@
   </ul>
  </li>
  <li class="toctree-l1 has-children">
-  <a class="reference internal" href="../transformer.html">
-   Transformer
+  <a class="reference internal" href="../generic_explainer.html">
+   Default Explainer
   </a>
   <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
   <label for="toctree-checkbox-5">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pyreal.explainers.Explainer.html">
+     pyreal.explainers.Explainer
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pyreal.explainers.Explainer.fit.html">
+     pyreal.explainers.Explainer.fit
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pyreal.explainers.Explainer.produce.html">
+     pyreal.explainers.Explainer.produce
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../transformer.html">
+   Transformer
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/>
+  <label for="toctree-checkbox-6">
    <i class="fas fa-chevron-down">
    </i>
   </label>
@@ -673,8 +700,8 @@
   <a class="reference internal" href="../explanation_types.html">
    Explanation Type
   </a>
-  <input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/>
-  <label for="toctree-checkbox-6">
+  <input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/>
+  <label for="toctree-checkbox-7">
    <i class="fas fa-chevron-down">
    </i>
   </label>
@@ -790,8 +817,8 @@
   <a class="reference internal" href="../model_utils.html">
    Model Utils
   </a>
-  <input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/>
-  <label for="toctree-checkbox-7">
+  <input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/>
+  <label for="toctree-checkbox-8">
    <i class="fas fa-chevron-down">
    </i>
   </label>
@@ -812,8 +839,8 @@
   <a class="reference internal" href="../visualize.html">
    Visualization
   </a>
-  <input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/>
-  <label for="toctree-checkbox-8">
+  <input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/>
+  <label for="toctree-checkbox-9">
    <i class="fas fa-chevron-down">
    </i>
   </label>
@@ -861,19 +888,18 @@
               
               <div>
                 
-  <section id="pyreal-explainers-explainer-transform-to-x-algorithm">
-<h1>pyreal.explainers.Explainer.transform_to_x_algorithm<a class="headerlink" href="#pyreal-explainers-explainer-transform-to-x-algorithm" title="Permalink to this headline">¶</a></h1>
+  <section id="pyreal-explainers-explainerbase-convert-data-to-interpretable">
+<h1>pyreal.explainers.ExplainerBase.convert_data_to_interpretable<a class="headerlink" href="#pyreal-explainers-explainerbase-convert-data-to-interpretable" title="Permalink to this headline">¶</a></h1>
 <dl class="py method">
-<dt class="sig sig-object py" id="pyreal.explainers.Explainer.transform_to_x_algorithm">
-<span class="sig-prename descclassname"><span class="pre">Explainer.</span></span><span class="sig-name descname"><span class="pre">transform_to_x_algorithm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_orig</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyreal/explainers/base.html#Explainer.transform_to_x_algorithm"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyreal.explainers.Explainer.transform_to_x_algorithm" title="Permalink to this definition">¶</a></dt>
-<dd><p>Transform x_orig to x_algorithm, using the algorithm transformers</p>
+<dt class="sig sig-object py" id="pyreal.explainers.ExplainerBase.convert_data_to_interpretable">
+<span class="sig-prename descclassname"><span class="pre">ExplainerBase.</span></span><span class="sig-name descname"><span class="pre">convert_data_to_interpretable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_orig</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyreal/explainers/base.html#ExplainerBase.convert_data_to_interpretable"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyreal.explainers.ExplainerBase.convert_data_to_interpretable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert data in its original form to an interpretable form, with interpretable features
+:param x_orig: Input data to convert
+:type x_orig: DataFrame of shape (n_instances, n_features)</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>x_orig</strong> (<em>DataFrame of shape</em><em> (</em><em>n_instances</em><em>, </em><em>x_orig_feature_count</em><em>)</em>) – Original input</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><dl class="simple">
-<dt>DataFrame of shape (n_instances, x_algorithm_feature_count)</dt><dd><p>x_orig converted to explainable form</p>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><dl class="simple">
+<dt>DataFrame of shape (n_instances, x_interpret_feature_count)</dt><dd><p>Transformed, interpretable data</p>
 </dd>
 </dl>
 </p>
@@ -889,17 +915,17 @@
               
               <!-- Previous / next buttons -->
 <div class='prev-next-area'> 
-    <a class='left-prev' id="prev-link" href="pyreal.explainers.Explainer.produce.html" title="previous page">
+    <a class='left-prev' id="prev-link" href="pyreal.explainers.ExplainerBase.feature_description.html" title="previous page">
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
             <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">pyreal.explainers.Explainer.produce</p>
+            <p class="prev-next-title">pyreal.explainers.ExplainerBase.feature_description</p>
         </div>
     </a>
-    <a class='right-next' id="next-link" href="pyreal.explainers.Explainer.transform_to_x_model.html" title="next page">
+    <a class='right-next' id="next-link" href="../local_feature_contribution.html" title="next page">
     <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">pyreal.explainers.Explainer.transform_to_x_model</p>
+        <p class="prev-next-title">Local Feature Contribution</p>
     </div>
     <i class="fas fa-angle-right"></i>
     </a>

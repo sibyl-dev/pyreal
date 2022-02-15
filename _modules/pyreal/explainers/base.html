@@ -220,9 +220,9 @@
     <span class="k">return</span> <span class="n">select_transformers</span>
 
 
-<div class="viewcode-block" id="Explainer"><a class="viewcode-back" href="../../../api_reference/api/pyreal.explainers.Explainer.html#pyreal.explainers.Explainer">[docs]</a><span class="k">class</span> <span class="nc">Explainer</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
+<div class="viewcode-block" id="ExplainerBase"><a class="viewcode-back" href="../../../api_reference/api/pyreal.explainers.ExplainerBase.html#pyreal.explainers.ExplainerBase">[docs]</a><span class="k">class</span> <span class="nc">ExplainerBase</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Generic Explainer object</span>
+<span class="sd">    Generic ExplainerBase object</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        model (string filepath or model object):</span>
@@ -253,7 +253,7 @@
 <span class="sd">            If True, return the explanation originally generated without any transformations</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="Explainer.__init__"><a class="viewcode-back" href="../../../api_reference/api/pyreal.explainers.Explainer.html#pyreal.explainers.Explainer.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span>
+<div class="viewcode-block" id="ExplainerBase.__init__"><a class="viewcode-back" href="../../../api_reference/api/pyreal.explainers.ExplainerBase.html#pyreal.explainers.ExplainerBase.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span>
                  <span class="n">x_train_orig</span><span class="p">,</span> <span class="n">y_orig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">feature_descriptions</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">classes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -294,13 +294,13 @@
         <span class="k">if</span> <span class="n">fit_on_init</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="Explainer.fit"><a class="viewcode-back" href="../../../api_reference/api/pyreal.explainers.Explainer.fit.html#pyreal.explainers.Explainer.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="ExplainerBase.fit"><a class="viewcode-back" href="../../../api_reference/api/pyreal.explainers.ExplainerBase.fit.html#pyreal.explainers.ExplainerBase.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Fit this explainer object. Abstract method</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
-<div class="viewcode-block" id="Explainer.produce"><a class="viewcode-back" href="../../../api_reference/api/pyreal.explainers.Explainer.produce.html#pyreal.explainers.Explainer.produce">[docs]</a>    <span class="nd">@abstractmethod</span>
+<div class="viewcode-block" id="ExplainerBase.produce"><a class="viewcode-back" href="../../../api_reference/api/pyreal.explainers.ExplainerBase.produce.html#pyreal.explainers.ExplainerBase.produce">[docs]</a>    <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">produce</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_orig</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return the explanation, in the desired form.</span>
@@ -314,7 +314,7 @@
 <span class="sd">                Explanation</span>
 <span class="sd">        &quot;&quot;&quot;</span></div>
 
-<div class="viewcode-block" id="Explainer.transform_to_x_algorithm"><a class="viewcode-back" href="../../../api_reference/api/pyreal.explainers.Explainer.transform_to_x_algorithm.html#pyreal.explainers.Explainer.transform_to_x_algorithm">[docs]</a>    <span class="k">def</span> <span class="nf">transform_to_x_algorithm</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_orig</span><span class="p">):</span>
+<div class="viewcode-block" id="ExplainerBase.transform_to_x_algorithm"><a class="viewcode-back" href="../../../api_reference/api/pyreal.explainers.ExplainerBase.transform_to_x_algorithm.html#pyreal.explainers.ExplainerBase.transform_to_x_algorithm">[docs]</a>    <span class="k">def</span> <span class="nf">transform_to_x_algorithm</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_orig</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Transform x_orig to x_algorithm, using the algorithm transformers</span>
 
@@ -328,7 +328,7 @@
         <span class="n">a_transformers</span> <span class="o">=</span> <span class="n">_get_transformers</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">transformers</span><span class="p">,</span> <span class="n">algorithm</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">run_transformers</span><span class="p">(</span><span class="n">a_transformers</span><span class="p">,</span> <span class="n">x_orig</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Explainer.transform_to_x_model"><a class="viewcode-back" href="../../../api_reference/api/pyreal.explainers.Explainer.transform_to_x_model.html#pyreal.explainers.Explainer.transform_to_x_model">[docs]</a>    <span class="k">def</span> <span class="nf">transform_to_x_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_orig</span><span class="p">):</span>
+<div class="viewcode-block" id="ExplainerBase.transform_to_x_model"><a class="viewcode-back" href="../../../api_reference/api/pyreal.explainers.ExplainerBase.transform_to_x_model.html#pyreal.explainers.ExplainerBase.transform_to_x_model">[docs]</a>    <span class="k">def</span> <span class="nf">transform_to_x_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_orig</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Transform x_orig to x_model, using the model transformers</span>
 
@@ -358,7 +358,7 @@
         <span class="n">m_transformers</span> <span class="o">=</span> <span class="n">_get_transformers</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">transformers</span><span class="p">,</span> <span class="n">algorithm</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">run_transformers</span><span class="p">(</span><span class="n">m_transformers</span><span class="p">,</span> <span class="n">x_algorithm</span><span class="p">)</span>
 
-<div class="viewcode-block" id="Explainer.transform_to_x_interpret"><a class="viewcode-back" href="../../../api_reference/api/pyreal.explainers.Explainer.transform_to_x_interpret.html#pyreal.explainers.Explainer.transform_to_x_interpret">[docs]</a>    <span class="k">def</span> <span class="nf">transform_to_x_interpret</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_orig</span><span class="p">):</span>
+<div class="viewcode-block" id="ExplainerBase.transform_to_x_interpret"><a class="viewcode-back" href="../../../api_reference/api/pyreal.explainers.ExplainerBase.transform_to_x_interpret.html#pyreal.explainers.ExplainerBase.transform_to_x_interpret">[docs]</a>    <span class="k">def</span> <span class="nf">transform_to_x_interpret</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_orig</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Transform x_orig to x_interpret, using the interpret transformers</span>
 <span class="sd">        Args:</span>
@@ -419,7 +419,7 @@
                 <span class="k">raise</span> <span class="n">err</span>
         <span class="k">return</span> <span class="n">explanation</span>
 
-<div class="viewcode-block" id="Explainer.model_predict"><a class="viewcode-back" href="../../../api_reference/api/pyreal.explainers.Explainer.model_predict.html#pyreal.explainers.Explainer.model_predict">[docs]</a>    <span class="k">def</span> <span class="nf">model_predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_orig</span><span class="p">):</span>
+<div class="viewcode-block" id="ExplainerBase.model_predict"><a class="viewcode-back" href="../../../api_reference/api/pyreal.explainers.ExplainerBase.model_predict.html#pyreal.explainers.ExplainerBase.model_predict">[docs]</a>    <span class="k">def</span> <span class="nf">model_predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_orig</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Predict on x_orig using the model and return the result</span>
 
@@ -453,7 +453,7 @@
         <span class="n">x_model</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform_x_from_algorithm_to_model</span><span class="p">(</span><span class="n">x_algorithm</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">x_model</span><span class="p">)</span>
 
-<div class="viewcode-block" id="Explainer.feature_description"><a class="viewcode-back" href="../../../api_reference/api/pyreal.explainers.Explainer.feature_description.html#pyreal.explainers.Explainer.feature_description">[docs]</a>    <span class="k">def</span> <span class="nf">feature_description</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">feature_name</span><span class="p">):</span>
+<div class="viewcode-block" id="ExplainerBase.feature_description"><a class="viewcode-back" href="../../../api_reference/api/pyreal.explainers.ExplainerBase.feature_description.html#pyreal.explainers.ExplainerBase.feature_description">[docs]</a>    <span class="k">def</span> <span class="nf">feature_description</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">feature_name</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns the interpretable description associated with a feature</span>
 
@@ -472,7 +472,7 @@
             <span class="k">return</span> <span class="n">df</span>
         <span class="k">return</span> <span class="n">df</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">feature_descriptions</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="s2">&quot;columns&quot;</span><span class="p">)</span>
 
-<div class="viewcode-block" id="Explainer.convert_data_to_interpretable"><a class="viewcode-back" href="../../../api_reference/api/pyreal.explainers.Explainer.convert_data_to_interpretable.html#pyreal.explainers.Explainer.convert_data_to_interpretable">[docs]</a>    <span class="k">def</span> <span class="nf">convert_data_to_interpretable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_orig</span><span class="p">):</span>
+<div class="viewcode-block" id="ExplainerBase.convert_data_to_interpretable"><a class="viewcode-back" href="../../../api_reference/api/pyreal.explainers.ExplainerBase.convert_data_to_interpretable.html#pyreal.explainers.ExplainerBase.convert_data_to_interpretable">[docs]</a>    <span class="k">def</span> <span class="nf">convert_data_to_interpretable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_orig</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Convert data in its original form to an interpretable form, with interpretable features</span>
 <span class="sd">        Args:</span>
