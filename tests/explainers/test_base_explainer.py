@@ -4,8 +4,13 @@ import pytest
 from pandas.testing import assert_frame_equal
 
 from pyreal.explainers import LocalFeatureContribution
-from pyreal.transformers import BreakingTransformError, FeatureSelectTransformer
+from pyreal.transformers import \
+    BreakingTransformError, FeatureSelectTransformer, Transformer
 from pyreal.types.explanations.dataframe import AdditiveFeatureContributionExplanation
+
+
+def breaking_transform(explanation):
+    raise BreakingTransformError
 
 
 def test_init_invalid_transforms(regression_no_transforms):
@@ -117,10 +122,7 @@ def test_transform_explanation(regression_no_transforms):
     ], columns=["C"])
     assert_frame_equal(transform_explanation, expected_explanation)
 
-    def breakingTransform(explanation):
-        raise BreakingTransformError
-
-    feature_select1.inverse_transform_explanation_additive_contributions = breakingTransform
+    feature_select1.inverse_transform_explanation_additive_contributions = breaking_transform
 
     transform_explanation = explainer.transform_explanation(explanation).get()
     expected_explanation = pd.DataFrame([
@@ -128,3 +130,65 @@ def test_transform_explanation(regression_no_transforms):
         [1, 2, 0, 0]
     ], columns=["A", "B", "C", "D"])
     assert_frame_equal(transform_explanation, expected_explanation)
+
+
+def test_transform_x_with_produce(regression_no_transforms):
+    class SubtractTransformer(Transformer):
+        def __init__(self, n, **kwargs):
+            self.n = n
+            super().__init__(**kwargs)
+
+        def data_transform(self, x):
+            return x - self.n
+
+        def inverse_transform_explanation_additive_contributions(self, explanation):
+            return AdditiveFeatureContributionExplanation(explanation.get() + self.n)
+
+    explanation = pd.DataFrame([[1, 2, 3, 4],
+                                [1, 2, 3, 4]], columns=["A", "B", "C", "D"])
+    explanation = AdditiveFeatureContributionExplanation(explanation)
+    x = pd.DataFrame([[0, 1, 2, 3],
+                      [0, 1, 2, 3]], columns=["A", "B", "C", "D"])
+
+    feature_select1 = FeatureSelectTransformer(columns=["A", "B", "C"])
+    subtract_1 = SubtractTransformer(1)
+    subtract_2 = SubtractTransformer(2, model=False, interpret=True)
+    subtract_3 = SubtractTransformer(3, model=False, interpret=True)
+
+    explainer = LocalFeatureContribution(regression_no_transforms["model"],
+                                         regression_no_transforms["x"],
+                                         y_orig=regression_no_transforms["y"],
+                                         transformers=[feature_select1,
+                                                       subtract_1,
+                                                       subtract_2, subtract_3])
+    transform_explanation, transform_x = explainer.transform_explanation(explanation, x)
+    expected_x = pd.DataFrame([
+        [-5, -4, -3, -2],
+        [-5, -4, -3, -2]
+    ], columns=["A", "B", "C", "D"])
+    assert_frame_equal(transform_x, expected_x)
+
+    subtract_3.transform_explanation = breaking_transform
+    transform_explanation, transform_x = explainer.transform_explanation(explanation, x)
+    expected_x = pd.DataFrame([
+        [-2, -1, 0, 1],
+        [-2, -1, 0, 1]
+    ], columns=["A", "B", "C", "D"])
+    assert_frame_equal(transform_x, expected_x)
+
+    feature_select1.inverse_transform_explanation = breaking_transform
+    transform_explanation, transform_x = explainer.transform_explanation(explanation, x)
+    expected_x = pd.DataFrame([
+        [0, 1, 2],
+        [0, 1, 2]
+    ], columns=["A", "B", "C"])
+
+    assert_frame_equal(transform_x, expected_x)
+
+
+
+
+
+
+
+
