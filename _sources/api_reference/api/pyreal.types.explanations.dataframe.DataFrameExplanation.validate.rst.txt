@@ -1,6 +1,0 @@
-﻿pyreal.types.explanations.dataframe.DataFrameExplanation.validate
-=================================================================
-
-.. currentmodule:: pyreal.types.explanations.dataframe
-
-.. automethod:: DataFrameExplanation.validate

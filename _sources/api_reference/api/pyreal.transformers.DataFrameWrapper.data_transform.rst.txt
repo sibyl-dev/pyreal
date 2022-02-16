@@ -1,6 +1,0 @@
-﻿pyreal.transformers.DataFrameWrapper.data\_transform
-====================================================
-
-.. currentmodule:: pyreal.transformers
-
-.. automethod:: DataFrameWrapper.data_transform

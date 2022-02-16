@@ -1,6 +1,0 @@
-﻿pyreal.explainers.PermutationFeatureImportance.produce
-======================================================
-
-.. currentmodule:: pyreal.explainers
-
-.. automethod:: PermutationFeatureImportance.produce

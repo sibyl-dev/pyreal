@@ -1,6 +1,0 @@
-﻿pyreal.explainers.GlobalFeatureImportanceBase.get\_importance
-=============================================================
-
-.. currentmodule:: pyreal.explainers
-
-.. automethod:: GlobalFeatureImportanceBase.get_importance

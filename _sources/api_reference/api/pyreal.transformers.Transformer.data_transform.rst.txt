@@ -1,6 +1,0 @@
-﻿pyreal.transformers.Transformer.data\_transform
-===============================================
-
-.. currentmodule:: pyreal.transformers
-
-.. automethod:: Transformer.data_transform

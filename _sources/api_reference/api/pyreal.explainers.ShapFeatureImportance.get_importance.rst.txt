@@ -1,6 +1,0 @@
-﻿pyreal.explainers.ShapFeatureImportance.get\_importance
-=======================================================
-
-.. currentmodule:: pyreal.explainers
-
-.. automethod:: ShapFeatureImportance.get_importance

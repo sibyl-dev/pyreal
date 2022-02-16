@@ -1,6 +1,0 @@
-﻿pyreal.explainers.LocalFeatureContributionsBase.get\_contributions
-==================================================================
-
-.. currentmodule:: pyreal.explainers
-
-.. automethod:: LocalFeatureContributionsBase.get_contributions
