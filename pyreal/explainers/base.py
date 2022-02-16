@@ -66,9 +66,9 @@ def _get_transformers(transformers, algorithm=None, model=None, interpret=None):
     return select_transformers
 
 
-class Explainer(ABC):
+class ExplainerBase(ABC):
     """
-    Generic Explainer object
+    Generic ExplainerBase object
 
     Args:
         model (string filepath or model object):
