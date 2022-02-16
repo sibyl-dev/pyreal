@@ -79,7 +79,7 @@ def regression_one_hot(test_root):
     x = pd.DataFrame([[2, 1, 3],
                       [4, 3, 4],
                       [6, 7, 2]], columns=["A", "B", "C"])
-    one_hot_encoder = OneHotEncoder(columns=["A"])
+    one_hot_encoder = OneHotEncoder(columns=["A"], model=True, interpret=False)
     one_hot_encoder.fit(x)
     x_trans = one_hot_encoder.transform(x)
     y = pd.DataFrame([1, 2, 3])

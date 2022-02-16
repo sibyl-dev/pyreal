@@ -38,8 +38,8 @@ application:
   which includes a ``inverse_transform_explanation`` function.
 
 These transformers transform the data from it's `original` state (``x_orig``) to its
-`explanation ready` state (``x_explain``). In this case, the explanation algorithm used expects
-data in the `model ready` state (``x_model``), so ``x_explain == x_model``.
+`explanation algorithm ready` state (``x_algorithm``). In this case, the explanation algorithm used expects
+data in the `model ready` state (``x_model``), so ``x_algorithm == x_model``.
 
 Next, we can create the ``Explainer`` object, and fit it.
 
@@ -48,7 +48,7 @@ Next, we can create the ``Explainer`` object, and fit it.
 
     from pyreal.explainers import LocalFeatureContribution
     lfc = LocalFeatureContribution(model=model, x_train_orig=x_orig,
-                                   e_transformers=transformers,
+                                   transformers=transformers,
                                    feature_descriptions=feature_descriptions, fit_on_init=True)
     lfc.fit()
 

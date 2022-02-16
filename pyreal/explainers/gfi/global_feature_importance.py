@@ -42,7 +42,7 @@ def gfi(return_importances=True, return_explainer=False, explainer=None,
            Interpretable descriptions of each feature
         e_transforms (transformer object or list of transformer objects):
            Transformer(s) that need to be used on x_orig for the explanation algorithm:
-           x_orig -> x_explain
+           x_orig -> x_algorithm
         m_transforms (transformer object or list of transformer objects):
            Transformer(s) needed on x_orig to make predictions on the dataset with model,
            if different than e_transformers
@@ -123,6 +123,7 @@ class GlobalFeatureImportance(GlobalFeatureImportanceBase):
         Fit this explainer object
         """
         self.base_global_feature_importance.fit()
+        return self
 
     def get_importance(self):
         """
