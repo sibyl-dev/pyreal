@@ -4,8 +4,7 @@ import pytest
 from pandas.testing import assert_frame_equal
 
 from pyreal.explainers import LocalFeatureContribution
-from pyreal.transformers import \
-    BreakingTransformError, FeatureSelectTransformer, Transformer
+from pyreal.transformers import BreakingTransformError, FeatureSelectTransformer, Transformer
 from pyreal.types.explanations.dataframe import AdditiveFeatureContributionExplanation
 
 
@@ -184,11 +183,3 @@ def test_transform_x_with_produce(regression_no_transforms):
     ], columns=["A", "B", "C"])
 
     assert_frame_equal(transform_x, expected_x)
-
-
-
-
-
-
-
-

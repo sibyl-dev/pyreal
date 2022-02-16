@@ -53,7 +53,7 @@ class LocalFeatureContributionsBase(Explainer, ABC):
         contributions = contributions.get()
         if self.interpretable_features:
             return self.convert_columns_to_interpretable(contributions), \
-                   self.convert_columns_to_interpretable(x_interpret)
+                self.convert_columns_to_interpretable(x_interpret)
         return contributions, x_interpret
 
     @abstractmethod

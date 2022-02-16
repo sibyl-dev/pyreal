@@ -248,41 +248,38 @@ class Explainer(ABC):
         if convert_x:
             x = x_orig.copy()
 
-        ita_transformers = _get_transformers(self.transformers, algorithm=True, interpret=False)
-        ta_transformers = _get_transformers(self.transformers, algorithm=False, interpret=True)
+        a_transformers = _get_transformers(self.transformers, algorithm=True, interpret=False)
+        i_transformers = _get_transformers(self.transformers, interpret=True)
 
         # Iterate through algorithm transformers
-        for i, t in enumerate(ita_transformers[::-1]):
-            transform_func = getattr(t, "inverse_transform_explanation", None)
-            if callable(transform_func):
-                try:
-                    explanation = transform_func(explanation)
-                # If this is a breaking transformer, transform x to the current point and return
-                except BreakingTransformError:
-                    print("Transformer class %s does not have the required inverse"
-                          " explanation transform and is set to break, stopping transform process"
-                          % type(t).__name__)
-                    break_point = len(ita_transformers) - i
-                    if convert_x:
-                        x = run_transformers(ita_transformers[0:break_point], x)
-                        return explanation, x
-                    else:
-                        return explanation
-        # Iterate through interpret transformers
-        for t in ta_transformers:
-            transform_func = getattr(t, "transform_explanation", None)
+        for i, t in enumerate(a_transformers[::-1]):
             try:
-                explanation = transform_func(explanation)
+                explanation = t.inverse_transform_explanation(explanation)
+            # If this is a breaking transformer, transform x to the current point and return
             except BreakingTransformError:
-                print("Transformer class %s does not have the required "
-                      "explanation transform and is set to break, stopping transform process"
+                print("Transformer class %s does not have the required inverse"
+                      " explanation transform and is set to break, stopping transform process"
                       % type(t).__name__)
+                break_point = len(a_transformers) - i
                 if convert_x:
+                    x = run_transformers(a_transformers[0:break_point], x)
                     return explanation, x
-                return explanation
-            else:
-                if convert_x:
-                    x = t.transform(x)
+                else:
+                    return explanation
+        # Iterate through interpret transformers
+        for t in i_transformers:
+            if not t.algorithm:
+                try:
+                    explanation = t.transform_explanation(explanation)
+                except BreakingTransformError:
+                    print("Transformer class %s does not have the required "
+                          "explanation transform and is set to break, stopping transform process"
+                          % type(t).__name__)
+                    if convert_x:
+                        return explanation, x
+                    return explanation
+            if convert_x:
+                x = t.transform(x)
         if convert_x:
             return explanation, x
         return explanation
