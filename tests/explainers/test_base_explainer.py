@@ -183,6 +183,8 @@ def test_transform_x_with_produce(regression_no_transforms):
     ], columns=["A", "B", "C"])
 
     assert_frame_equal(transform_x, expected_x)
+
+
 def test_break(regression_no_transforms):
     feature_select = FeatureSelectTransformer(["A"])
     feature_select.fit(pd.DataFrame([[1, 2, 3]], columns=["A", "B", "C"]))
