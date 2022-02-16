@@ -49,13 +49,13 @@ def helper_produce_shap_regression_no_transforms(explainer, model):
     x_multi_dim = pd.DataFrame([[2, 1, 1],
                                 [4, 2, 3]], columns=["A", "B", "C"])
     expected = np.mean(model["y"])[0]
-    contributions = explainer.produce(x_one_dim)
+    contributions = explainer.produce(x_one_dim)[0]
     assert x_one_dim.shape == contributions.shape
     assert contributions.iloc[0, 0] == x_one_dim.iloc[0, 0] - expected
     assert contributions.iloc[0, 1] == 0
     assert contributions.iloc[0, 2] == 0
 
-    contributions = explainer.produce(x_multi_dim)
+    contributions = explainer.produce(x_multi_dim)[0]
     assert x_multi_dim.shape == contributions.shape
     assert contributions.iloc[0, 0] == x_multi_dim.iloc[0, 0] - expected
     assert contributions.iloc[1, 0] == x_multi_dim.iloc[1, 0] - expected
@@ -72,14 +72,14 @@ def test_produce_simple_regression_no_transforms(regression_no_transforms):
     x_one_dim = pd.DataFrame([[2, 10, 10]], columns=["A", "B", "C"])
     x_multi_dim = pd.DataFrame([[2, 1, 1],
                                 [4, 2, 3]], columns=["A", "B", "C"])
-    contributions = explainer.produce(x_one_dim)
+    contributions = explainer.produce(x_one_dim)[0]
     assert x_one_dim.shape == contributions.shape
     assert contributions.iloc[0, 0] <= 4
     assert contributions.iloc[0, 0] >= .01  # with very high probability
     assert contributions.iloc[0, 1] == 0
     assert contributions.iloc[0, 2] == 0
 
-    contributions = explainer.produce(x_multi_dim)
+    contributions = explainer.produce(x_multi_dim)[0]
     assert x_multi_dim.shape == contributions.shape
     assert contributions.iloc[0, 0] <= 4
     assert contributions.iloc[0, 0] >= .01  # with very high probability
@@ -107,13 +107,13 @@ def helper_produce_shap_regression_one_hot(explainer):
     x_one_dim = pd.DataFrame([[2, 10, 10]], columns=["A", "B", "C"])
     x_multi_dim = pd.DataFrame([[4, 1, 1],
                                 [6, 2, 3]], columns=["A", "B", "C"])
-    contributions = explainer.produce(x_one_dim)
+    contributions = explainer.produce(x_one_dim)[0]
     assert x_one_dim.shape == contributions.shape
     assert abs(contributions["A"][0] + 1) < .0001
     assert abs(contributions["B"][0]) < .0001
     assert abs(contributions["C"][0]) < .0001
 
-    contributions = explainer.produce(x_multi_dim)
+    contributions = explainer.produce(x_multi_dim)[0]
     assert x_multi_dim.shape == contributions.shape
     assert abs(contributions["A"][0]) < .0001
     assert abs(contributions["A"][1] - 1 < .0001)
@@ -131,15 +131,14 @@ def test_produce_simple_regression_transforms(regression_one_hot):
     x_one_dim = pd.DataFrame([[2, 10, 10]], columns=["A", "B", "C"])
     x_multi_dim = pd.DataFrame([[4, 1, 1],
                                 [6, 2, 3]], columns=["A", "B", "C"])
-    contributions = explainer.produce(x_one_dim)
-    print(contributions)
+    contributions = explainer.produce(x_one_dim)[0]
     assert x_one_dim.shape == contributions.shape
     assert contributions["A"][0] <= 2
     assert contributions["A"][0] >= .5
     assert contributions["B"][0] == 0
     assert contributions["C"][0] == 0
 
-    contributions = explainer.produce(x_multi_dim)
+    contributions = explainer.produce(x_multi_dim)[0]
     print(contributions)
     assert x_multi_dim.shape == contributions.shape
     assert contributions["A"][0] <= 2
@@ -169,13 +168,13 @@ def helper_produce_shap_classification_no_transforms(explainer):
     x_one_dim = pd.DataFrame([[1, 0, 0]], columns=["A", "B", "C"])
     x_multi_dim = pd.DataFrame([[1, 0, 0],
                                 [1, 1, 0]], columns=["A", "B", "C"])
-    contributions = explainer.produce(x_one_dim)
+    contributions = explainer.produce(x_one_dim)[0]
     assert x_one_dim.shape == contributions.shape
     assert abs(contributions["A"][0]) < .0001
     assert abs(contributions["B"][0] + 1) < .0001
     assert abs(contributions["C"][0]) < .0001
 
-    contributions = explainer.produce(x_multi_dim)
+    contributions = explainer.produce(x_multi_dim)[0]
     assert x_multi_dim.shape == contributions.shape
     assert (contributions["A"] == 0).all()
     assert abs(contributions["B"][0] + 1) < .0001
@@ -194,7 +193,7 @@ def test_produce_with_renames(regression_one_hot):
                                    feature_descriptions=feature_descriptions)
     x_one_dim = pd.DataFrame([[2, 10, 10]], columns=["A", "B", "C"])
 
-    contributions = lfc.produce(x_one_dim)
+    contributions = lfc.produce(x_one_dim)[0]
     assert x_one_dim.shape == contributions.shape
     assert abs(contributions["Feature A"][0] + 1) < 0.0001
     assert abs(contributions["Feature B"][0]) < 0.0001
