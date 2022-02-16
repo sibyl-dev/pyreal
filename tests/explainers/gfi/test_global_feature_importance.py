@@ -178,26 +178,6 @@ def test_produce_with_renames(regression_one_hot):
     assert abs(importances["C"][0]) < 0.0001
 
 
-def test_shap_with_training_size(all_models):
-    for model in all_models:
-        gfi_object = GlobalFeatureImportance(
-            model=model["model"],
-            x_train_orig=model["x"], transformers=model["transformers"],
-            e_algorithm='shap', classes=model.get("classes", None))
-        gfi_object.fit()
-        shap = ShapFeatureImportance(
-            model=model["model"],
-            x_train_orig=model["x"], transformers=model["transformers"],
-            classes=model.get("classes", None))
-        shap.fit()
-        assert shap.explainer is not None
-        assert isinstance(shap.explainer, LinearExplainer)
-
-        gfi_importances = gfi_object.produce()
-        shap_importances = shap.produce()
-        assert gfi_importances is not None
-        assert shap_importances is not None
-
 
 def test_evaluate_variation(classification_no_transforms):
     model = classification_no_transforms
@@ -210,3 +190,50 @@ def test_evaluate_variation(classification_no_transforms):
     # Assert no crash. Values analyzed through benchmarking
     lfc.evaluate_variation(with_fit=False, n_iterations=5)
     lfc.evaluate_variation(with_fit=True, n_iterations=5)
+
+
+def test_produce_shap_regression_transforms_size(regression_one_hot):
+    model = regression_one_hot
+    gfi = GlobalFeatureImportance(model=model["model"],
+                                  x_train_orig=model["x"], e_algorithm='shap',
+                                  transformers=model["transformers"],
+                                  training_size=2,
+                                  fit_on_init=True)
+    shap = ShapFeatureImportance(
+        model=model["model"], x_train_orig=model["x"], transformers=model["transformers"],
+        fit_on_init=True)
+
+    helper_produce_shap_regression_one_hot_size(gfi, regression_one_hot)
+    helper_produce_shap_regression_one_hot_size(shap, regression_one_hot)
+
+
+def helper_produce_shap_regression_one_hot_size(explainer, model):
+    importances = explainer.produce()
+    assert importances.shape == (1, model["x"].shape[1])
+    assert abs(importances["A"][0]) > .0001
+    assert abs(importances["B"][0]) < .0001
+    assert abs(importances["C"][0]) < .0001
+
+
+def test_shap_produce_classification_no_transforms_size(classification_no_transforms):
+    model = classification_no_transforms
+    gfi = GlobalFeatureImportance(model=model["model"],
+                                  x_train_orig=model["x"], e_algorithm='shap',
+                                  transformers=model["transformers"],
+                                  fit_on_init=True,
+                                  training_size=4,
+                                  classes=np.arange(1, 4))
+    shap = ShapFeatureImportance(
+        model=model["model"], x_train_orig=model["x"], transformers=model["transformers"],
+        fit_on_init=True, training_size=4, classes=np.arange(1, 4))
+
+    helper_shap_produce_classification_no_transforms_size(gfi, classification_no_transforms)
+    helper_shap_produce_classification_no_transforms_size(shap, classification_no_transforms)
+
+
+def helper_shap_produce_classification_no_transforms_size(explainer, model):
+    importances = explainer.produce()
+    assert importances.shape == (1, model["x"].shape[1])
+    assert abs(importances["A"][0]) < .0001
+    assert abs(importances["B"][0]) < .0001
+    assert abs(importances["C"][0]) > .0001

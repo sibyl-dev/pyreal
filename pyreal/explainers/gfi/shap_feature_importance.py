@@ -67,12 +67,15 @@ class ShapFeatureImportance(GlobalFeatureImportanceBase):
         x_model_np = np.asanyarray(x_model)
         shap_values = np.array(self.explainer.shap_values(x_model_np))
 
+        print(shap_values.shape)
         if shap_values.ndim < 2:
             raise RuntimeError("Something went wrong with SHAP - expected at least 2 dimensions")
         if shap_values.ndim > 2:
             predictions = self.model_predict(self._x_train_orig)
+
             if self.classes is not None:
                 predictions = [np.where(self.classes == i)[0][0] for i in predictions]
+            
             shap_values = shap_values[predictions, np.arange(shap_values.shape[1]), :]
 
         importances = np.mean(np.absolute(shap_values), axis=0).reshape(1, -1)

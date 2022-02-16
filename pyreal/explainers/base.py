@@ -153,6 +153,7 @@ class ExplainerBase(ABC):
         else:
             if self.classes is not None and self.training_size < len(self.classes):
                 raise ValueError("training_size must be larger than the number of classes")
+            # use seed for random ?
             self.data_sample_indices = pd.Index(np.random.choice(self.x_train_orig.index,
                                                                  self.training_size))
         
