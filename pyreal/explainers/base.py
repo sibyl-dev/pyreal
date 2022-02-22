@@ -371,7 +371,7 @@ class ExplainerBase(ABC):
                 A score for the model
 
         """
-        if self._y_orig is None:
+        if self.y_orig is None:
             raise ValueError("Explainer must have a y_orig parameter to score model")
         scorer = get_scorer(scorer)
         x = self.transform_to_x_model(self._x_train_orig)
