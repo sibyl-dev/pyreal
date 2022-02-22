@@ -49,10 +49,12 @@ class LocalFeatureContributionsBase(ExplainerBase, ABC):
         if x_orig.ndim == 1:
             x_orig = x_orig.to_frame().T
         contributions = self.get_contributions(x_orig)
-        contributions = self.transform_explanation(contributions).get()
+        contributions, x_interpret = self.transform_explanation(contributions, x_orig)
+        contributions = contributions.get()
         if self.interpretable_features:
-            return self.convert_columns_to_interpretable(contributions)
-        return contributions
+            return self.convert_columns_to_interpretable(contributions), \
+                self.convert_columns_to_interpretable(x_interpret)
+        return contributions, x_interpret
 
     @abstractmethod
     def get_contributions(self, x_orig):
@@ -97,5 +99,6 @@ class LocalFeatureContributionsBase(ExplainerBase, ABC):
                 if with_fit:
                     self.fit()
                 explanations.append(
-                    self.produce(self._x_train_orig.iloc[0:n_rows]).to_numpy())
+                    self.produce(self._x_train_orig.iloc[0:n_rows])[0].to_numpy())
+
         return np.max(np.var(explanations, axis=0))
