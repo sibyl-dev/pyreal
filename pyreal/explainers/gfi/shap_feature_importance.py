@@ -75,7 +75,7 @@ class ShapFeatureImportance(GlobalFeatureImportanceBase):
 
             if self.classes is not None:
                 predictions = [np.where(self.classes == i)[0][0] for i in predictions]
-            
+
             shap_values = shap_values[predictions, np.arange(shap_values.shape[1]), :]
 
         importances = np.mean(np.absolute(shap_values), axis=0).reshape(1, -1)

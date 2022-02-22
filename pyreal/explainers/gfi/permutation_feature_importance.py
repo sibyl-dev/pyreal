@@ -46,7 +46,7 @@ class PermutationFeatureImportance(GlobalFeatureImportanceBase):
         columns = x.columns
         x = np.asanyarray(x)
         importance_result = permutation_importance(
-            self.model, x, self.y_orig, n_repeats=100)
+            self.model, x, self._y_orig, n_repeats=100)
         importances = importance_result.importances_mean
         return FeatureImportanceExplanation(
             pd.DataFrame(importances.reshape(1, -1), columns=columns))

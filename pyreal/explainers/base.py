@@ -148,17 +148,20 @@ class ExplainerBase(ABC):
         self.data_sample_indices = self.x_train_orig.index
 
         if self.training_size is None:
-            print("Warning: training_size not provided. Defaulting to train with full dataset,\
-                running time might be slow.")
-        else:
+            pass
+            # print("Warning: training_size not provided. Defaulting to train with full dataset,\
+            #     running time might be slow.")
+        elif self.training_size < len(self.x_train_orig.index):
             if self.classes is not None and self.training_size < len(self.classes):
                 raise ValueError("training_size must be larger than the number of classes")
             # use seed for random ?
             self.data_sample_indices = pd.Index(np.random.choice(self.x_train_orig.index,
                                                                  self.training_size))
-        
+
         # use _x_train_orig for fitting explainer
         self._x_train_orig = self.x_train_orig.loc[self.data_sample_indices]
+        if y_orig is not None:
+            self._y_orig = self.y_orig.loc[self.data_sample_indices]
 
         if fit_on_init:
             self.fit()
@@ -368,11 +371,11 @@ class ExplainerBase(ABC):
                 A score for the model
 
         """
-        if self.y_orig is None:
+        if self._y_orig is None:
             raise ValueError("Explainer must have a y_orig parameter to score model")
         scorer = get_scorer(scorer)
-        x = self.transform_to_x_model(self.x_train_orig)
-        score = scorer(self.model, x, self.y_orig)
+        x = self.transform_to_x_model(self._x_train_orig)
+        score = scorer(self.model, x, self._y_orig)
         return score
 
     @abstractmethod
