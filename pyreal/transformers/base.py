@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+import pandas as pd
 
 from pyreal.types.explanations.dataframe import (
     AdditiveFeatureContributionExplanation, AdditiveFeatureImportanceExplanation,
@@ -54,10 +55,19 @@ def run_transformers(transformers, x):
             Transformed data
     """
     x_transform = x.copy()
+    series = False
+    name = None
+    if isinstance(x_transform, pd.Series):
+        name = x_transform.name
+        x_transform = x_transform.to_frame().T
+        series = True
     if not isinstance(transformers, list):
         transformers = [transformers]
     for transform in transformers:
         x_transform = transform.transform(x_transform)
+    if series:
+        x_transform = x_transform.squeeze()
+        x_transform.name = name
     return x_transform
 
 

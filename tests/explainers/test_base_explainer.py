@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 import pytest
-from pandas.testing import assert_frame_equal
+from pandas.testing import assert_frame_equal, assert_series_equal
 
 from pyreal.explainers import LocalFeatureContribution
 from pyreal.transformers import BreakingTransformError, FeatureSelectTransformer, Transformer
@@ -31,7 +31,7 @@ def test_init_invalid_model():
         LocalFeatureContribution(invalid_model, pd.DataFrame([0]))
 
 
-def test_run_transformers(regression_one_hot):
+def test_tranform_to_functions(regression_one_hot):
     x = pd.DataFrame([[2, 1, 3],
                       [4, 3, 4],
                       [6, 7, 2]], columns=["A", "B", "C"])
@@ -50,6 +50,44 @@ def test_run_transformers(regression_one_hot):
     assert_frame_equal(result, expected[["B", "A_2"]], check_like=True, check_dtype=False)
     result = explainer.transform_to_x_algorithm(x)
     assert_frame_equal(result, expected, check_like=True, check_dtype=False)
+
+
+def test_tranform_to_functions_series(regression_one_hot):
+    x = pd.Series([2, 1, 3], index=["A", "B", "C"])
+    expected = pd.Series([1, 3, 1, 0, 0], index=["B", "C", "A_2", "A_4", "A_6"])
+
+    regression_one_hot["transformers"].set_flags(model=True, interpret=True)
+    feature_select = FeatureSelectTransformer(columns=["B", "A_2"], algorithm=False, model=True)
+    explainer = LocalFeatureContribution(regression_one_hot["model"], regression_one_hot["x"],
+                                         transformers=[regression_one_hot["transformers"],
+                                                       feature_select])
+    result = explainer.transform_to_x_interpret(x)
+    assert_series_equal(result, expected, check_dtype=False)
+    result = explainer.transform_to_x_model(x)
+    assert_series_equal(result, expected[["B", "A_2"]], check_dtype=False)
+    result = explainer.transform_to_x_algorithm(x)
+    assert_series_equal(result, expected, check_dtype=False)
+
+
+
+def test_transform_x_from_algorithm_to_model(regression_one_hot):
+    x = pd.DataFrame([[2, 1, 3],
+                      [4, 3, 4]], columns=["A", "B", "C"])
+    expected = pd.DataFrame([[2, 1],
+                             [4, 3]], columns=["A", "B"])
+
+    x_series = pd.Series([2, 1, 3], index=["A", "B", "C"])
+    expected_series = pd.Series([2, 1], index=["A", "B"])
+
+    regression_one_hot["transformers"].set_flags(model=True, interpret=True)
+    feature_select = FeatureSelectTransformer(columns=["A", "B"], algorithm=False, model=True)
+    explainer = LocalFeatureContribution(regression_one_hot["model"], regression_one_hot["x"],
+                                         transformers=[regression_one_hot["transformers"],
+                                                       feature_select])
+    result = explainer.transform_x_from_algorithm_to_model(x)
+    assert_frame_equal(result, expected, check_like=True, check_dtype=False)
+    result_series = explainer.transform_x_from_algorithm_to_model(x_series)
+    assert_series_equal(result_series, expected_series, check_dtype=False)
 
 
 def test_predict_regression(regression_no_transforms, regression_one_hot):
