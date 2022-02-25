@@ -69,7 +69,6 @@ def test_tranform_to_functions_series(regression_one_hot):
     assert_series_equal(result, expected, check_dtype=False)
 
 
-
 def test_transform_x_from_algorithm_to_model(regression_one_hot):
     x = pd.DataFrame([[2, 1, 3],
                       [4, 3, 4]], columns=["A", "B", "C"])
