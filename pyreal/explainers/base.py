@@ -144,17 +144,21 @@ class ExplainerBase(ABC):
         self.return_original_explanation = return_original_explanation
 
         self.training_size = training_size
+        size_thresh = 0.1
         # this argument stores the indices of the rows of data we want to use
         self.data_sample_indices = self.x_train_orig.index
 
         if self.training_size is None:
             pass
+            # TODO: issue # 5 make this a log
             # print("Warning: training_size not provided. Defaulting to train with full dataset,\
             #     running time might be slow.")
         elif self.training_size < len(self.x_train_orig.index):
             if self.classes is not None and self.training_size < len(self.classes):
                 raise ValueError("training_size must be larger than the number of classes")
-            # use seed for random ?
+            if self.training_size < size_thresh
+
+
             self.data_sample_indices = pd.Index(np.random.choice(self.x_train_orig.index,
                                                                  self.training_size))
 
