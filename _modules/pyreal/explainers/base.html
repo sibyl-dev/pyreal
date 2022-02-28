@@ -389,8 +389,8 @@
 <span class="sd">            type varies by subclass</span>
 <span class="sd">                The interpretable form of the explanation</span>
 <span class="sd">            DataFrame of shape (n_instances, x_orig_feature_count)</span>
-<span class="sd">                If `x_orig` is not None, return `x_orig` transformed to whatever feature space</span>
-<span class="sd">                the final explanation reached.</span>
+<span class="sd">                If `x_orig` is not None, return `x_orig` transformed to the state of the final</span>
+<span class="sd">                explanation. Not returned if `x_orig` is None.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">convert_x</span> <span class="o">=</span> <span class="p">(</span><span class="n">x_orig</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">return_original_explanation</span><span class="p">:</span>
