@@ -235,8 +235,8 @@ class ExplainerBase(ABC):
             type varies by subclass
                 The interpretable form of the explanation
             DataFrame of shape (n_instances, x_orig_feature_count)
-                If `x_orig` is not None, return `x_orig` transformed to whatever feature space
-                the final explanation reached.
+                If `x_orig` is not None, return `x_orig` transformed to the state of the final
+                explanation. Not returned if `x_orig` is None.
         """
         convert_x = (x_orig is not None)
         if self.return_original_explanation:

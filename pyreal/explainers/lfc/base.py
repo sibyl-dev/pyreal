@@ -46,6 +46,8 @@ class LocalFeatureContributionsBase(ExplainerBase, ABC):
         Returns:
             DataFrame of shape (n_instances, n_features)
                 Contribution of each feature for each instance
+            DataFrame of shape (n_instances, x_orig_feature_count)
+                `x_orig` transformed to the state of the final explanation
         """
         series = False
         name = None
