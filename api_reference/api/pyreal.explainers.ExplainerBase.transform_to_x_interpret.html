@@ -895,11 +895,11 @@
 <span class="sig-prename descclassname"><span class="pre">ExplainerBase.</span></span><span class="sig-name descname"><span class="pre">transform_to_x_interpret</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_orig</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyreal/explainers/base.html#ExplainerBase.transform_to_x_interpret"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyreal.explainers.ExplainerBase.transform_to_x_interpret" title="Permalink to this definition">¶</a></dt>
 <dd><p>Transform x_orig to x_interpret, using the interpret transformers
 :param x_orig: Original input
-:type x_orig: DataFrame of shape (n_instances, x_orig_feature_count)</p>
+:type x_orig: DataFrame or Series of shape (n_instances, x_orig_feature_count)</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p><dl class="simple">
-<dt>DataFrame of shape (n_instances, x_interpret_feature_count)</dt><dd><p>x_orig converted to interpretable form</p>
+<dt>DataFrame or Series of shape (n_instances, x_interpret_feature_count)</dt><dd><p>x_orig converted to interpretable form</p>
 </dd>
 </dl>
 </p>

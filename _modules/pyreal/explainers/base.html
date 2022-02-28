@@ -319,10 +319,10 @@
 <span class="sd">        Transform x_orig to x_algorithm, using the algorithm transformers</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            x_orig (DataFrame of shape (n_instances, x_orig_feature_count)):</span>
+<span class="sd">            x_orig (DataFrame or Series of shape (n_instances, x_orig_feature_count)):</span>
 <span class="sd">                Original input</span>
 <span class="sd">        Returns:</span>
-<span class="sd">             DataFrame of shape (n_instances, x_algorithm_feature_count)</span>
+<span class="sd">             DataFrame or Series of shape (n_instances, x_algorithm_feature_count)</span>
 <span class="sd">                x_orig converted to explainable form</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">a_transformers</span> <span class="o">=</span> <span class="n">_get_transformers</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">transformers</span><span class="p">,</span> <span class="n">algorithm</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -333,11 +333,11 @@
 <span class="sd">        Transform x_orig to x_model, using the model transformers</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            x_orig (DataFrame of shape (n_instances, x_orig_feature_count)):</span>
+<span class="sd">            x_orig (DataFrame or Series of shape (n_instances, x_orig_feature_count)):</span>
 <span class="sd">                Original input</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">             DataFrame of shape (n_instances, x_model_feature_count)</span>
+<span class="sd">             DataFrame or Series of shape (n_instances, x_model_feature_count)</span>
 <span class="sd">                x_orig converted to model-ready form</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">m_transformers</span> <span class="o">=</span> <span class="n">_get_transformers</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">transformers</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -348,11 +348,11 @@
 <span class="sd">        Transform x_algorithm to x_model, using the model transformers</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            x_algorithm (DataFrame of shape (n_instances, x_orig_feature_count)):</span>
+<span class="sd">            x_algorithm (DataFrame or Series of shape (n_instances, x_orig_feature_count)):</span>
 <span class="sd">                Input in explain space</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">             DataFrame of shape (n_instances, x_model_feature_count)</span>
+<span class="sd">             DataFrame or Series of shape (n_instances, x_model_feature_count)</span>
 <span class="sd">                x_algorithm converted to model-ready form</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">m_transformers</span> <span class="o">=</span> <span class="n">_get_transformers</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">transformers</span><span class="p">,</span> <span class="n">algorithm</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -362,11 +362,11 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Transform x_orig to x_interpret, using the interpret transformers</span>
 <span class="sd">        Args:</span>
-<span class="sd">            x_orig (DataFrame of shape (n_instances, x_orig_feature_count)):</span>
+<span class="sd">            x_orig (DataFrame or Series of shape (n_instances, x_orig_feature_count)):</span>
 <span class="sd">                Original input</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">             DataFrame of shape (n_instances, x_interpret_feature_count)</span>
+<span class="sd">             DataFrame or Series of shape (n_instances, x_interpret_feature_count)</span>
 <span class="sd">                x_orig converted to interpretable form</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">i_transformers</span> <span class="o">=</span> <span class="n">_get_transformers</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">transformers</span><span class="p">,</span> <span class="n">interpret</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
