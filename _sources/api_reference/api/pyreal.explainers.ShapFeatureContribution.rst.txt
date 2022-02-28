@@ -1,0 +1,37 @@
+﻿pyreal.explainers.ShapFeatureContribution
+=========================================
+
+.. currentmodule:: pyreal.explainers
+
+.. autoclass:: ShapFeatureContribution
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~ShapFeatureContribution.__init__
+      ~ShapFeatureContribution.convert_columns_to_interpretable
+      ~ShapFeatureContribution.convert_data_to_interpretable
+      ~ShapFeatureContribution.evaluate_model
+      ~ShapFeatureContribution.evaluate_variation
+      ~ShapFeatureContribution.feature_description
+      ~ShapFeatureContribution.fit
+      ~ShapFeatureContribution.get_contributions
+      ~ShapFeatureContribution.model_predict
+      ~ShapFeatureContribution.model_predict_on_algorithm
+      ~ShapFeatureContribution.produce
+      ~ShapFeatureContribution.transform_explanation
+      ~ShapFeatureContribution.transform_to_x_algorithm
+      ~ShapFeatureContribution.transform_to_x_interpret
+      ~ShapFeatureContribution.transform_to_x_model
+      ~ShapFeatureContribution.transform_x_from_algorithm_to_model
+   
+   
+
+   
+   
+   

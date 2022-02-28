@@ -1,0 +1,6 @@
+﻿pyreal.types.explanations.dataframe.AdditiveFeatureContributionExplanation.get
+==============================================================================
+
+.. currentmodule:: pyreal.types.explanations.dataframe
+
+.. automethod:: AdditiveFeatureContributionExplanation.get

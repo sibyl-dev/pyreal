@@ -1,0 +1,33 @@
+﻿pyreal.transformers.DataFrameWrapper
+====================================
+
+.. currentmodule:: pyreal.transformers
+
+.. autoclass:: DataFrameWrapper
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~DataFrameWrapper.__init__
+      ~DataFrameWrapper.data_transform
+      ~DataFrameWrapper.fit
+      ~DataFrameWrapper.fit_transform
+      ~DataFrameWrapper.inverse_transform_explanation
+      ~DataFrameWrapper.inverse_transform_explanation_additive_contributions
+      ~DataFrameWrapper.inverse_transform_explanation_feature_importance
+      ~DataFrameWrapper.set_flags
+      ~DataFrameWrapper.transform
+      ~DataFrameWrapper.transform_explanation
+      ~DataFrameWrapper.transform_explanation_additive_contributions
+      ~DataFrameWrapper.transform_explanation_feature_importance
+   
+   
+
+   
+   
+   

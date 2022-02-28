@@ -1,0 +1,24 @@
+﻿pyreal.types.explanations.dataframe.AdditiveFeatureImportanceExplanation
+========================================================================
+
+.. currentmodule:: pyreal.types.explanations.dataframe
+
+.. autoclass:: AdditiveFeatureImportanceExplanation
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~AdditiveFeatureImportanceExplanation.__init__
+      ~AdditiveFeatureImportanceExplanation.get
+      ~AdditiveFeatureImportanceExplanation.validate
+   
+   
+
+   
+   
+   

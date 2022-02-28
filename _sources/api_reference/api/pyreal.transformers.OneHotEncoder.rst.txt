@@ -1,0 +1,33 @@
+﻿pyreal.transformers.OneHotEncoder
+=================================
+
+.. currentmodule:: pyreal.transformers
+
+.. autoclass:: OneHotEncoder
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~OneHotEncoder.__init__
+      ~OneHotEncoder.data_transform
+      ~OneHotEncoder.fit
+      ~OneHotEncoder.fit_transform
+      ~OneHotEncoder.inverse_transform_explanation
+      ~OneHotEncoder.inverse_transform_explanation_additive_contributions
+      ~OneHotEncoder.inverse_transform_explanation_feature_importance
+      ~OneHotEncoder.set_flags
+      ~OneHotEncoder.transform
+      ~OneHotEncoder.transform_explanation
+      ~OneHotEncoder.transform_explanation_additive_contributions
+      ~OneHotEncoder.transform_explanation_feature_importance
+   
+   
+
+   
+   
+   
