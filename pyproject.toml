@@ -58,7 +58,7 @@ pytest-cov = "^2.12.1"
 pytest-xdist = "^2.4.0"
 jupyter = "^1.0.0"
 invoke = "^1.6.0"
-nbmake = "^0.8"
+nbmake = "1.1"
 
 # Style Dependencies
 flake8 = "^3.9.2"

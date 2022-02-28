@@ -165,10 +165,10 @@ class ExplainerBase(ABC):
         Transform x_orig to x_algorithm, using the algorithm transformers
 
         Args:
-            x_orig (DataFrame of shape (n_instances, x_orig_feature_count)):
+            x_orig (DataFrame or Series of shape (n_instances, x_orig_feature_count)):
                 Original input
         Returns:
-             DataFrame of shape (n_instances, x_algorithm_feature_count)
+             DataFrame or Series of shape (n_instances, x_algorithm_feature_count)
                 x_orig converted to explainable form
         """
         a_transformers = _get_transformers(self.transformers, algorithm=True)
@@ -179,11 +179,11 @@ class ExplainerBase(ABC):
         Transform x_orig to x_model, using the model transformers
 
         Args:
-            x_orig (DataFrame of shape (n_instances, x_orig_feature_count)):
+            x_orig (DataFrame or Series of shape (n_instances, x_orig_feature_count)):
                 Original input
 
         Returns:
-             DataFrame of shape (n_instances, x_model_feature_count)
+             DataFrame or Series of shape (n_instances, x_model_feature_count)
                 x_orig converted to model-ready form
         """
         m_transformers = _get_transformers(self.transformers, model=True)
@@ -194,11 +194,11 @@ class ExplainerBase(ABC):
         Transform x_algorithm to x_model, using the model transformers
 
         Args:
-            x_algorithm (DataFrame of shape (n_instances, x_orig_feature_count)):
+            x_algorithm (DataFrame or Series of shape (n_instances, x_orig_feature_count)):
                 Input in explain space
 
         Returns:
-             DataFrame of shape (n_instances, x_model_feature_count)
+             DataFrame or Series of shape (n_instances, x_model_feature_count)
                 x_algorithm converted to model-ready form
         """
         m_transformers = _get_transformers(self.transformers, algorithm=False, model=True)
@@ -208,11 +208,11 @@ class ExplainerBase(ABC):
         """
         Transform x_orig to x_interpret, using the interpret transformers
         Args:
-            x_orig (DataFrame of shape (n_instances, x_orig_feature_count)):
+            x_orig (DataFrame or Series of shape (n_instances, x_orig_feature_count)):
                 Original input
 
         Returns:
-             DataFrame of shape (n_instances, x_interpret_feature_count)
+             DataFrame or Series of shape (n_instances, x_interpret_feature_count)
                 x_orig converted to interpretable form
         """
         i_transformers = _get_transformers(self.transformers, interpret=True)
@@ -235,8 +235,8 @@ class ExplainerBase(ABC):
             type varies by subclass
                 The interpretable form of the explanation
             DataFrame of shape (n_instances, x_orig_feature_count)
-                If `x_orig` is not None, return `x_orig` transformed to whatever feature space
-                the final explanation reached.
+                If `x_orig` is not None, return `x_orig` transformed to the state of the final
+                explanation. Not returned if `x_orig` is None.
         """
         convert_x = (x_orig is not None)
         if self.return_original_explanation:

@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 
 import numpy as np
+import pandas as pd
 
 from pyreal.explainers import ExplainerBase
 
@@ -45,11 +46,20 @@ class LocalFeatureContributionsBase(ExplainerBase, ABC):
         Returns:
             DataFrame of shape (n_instances, n_features)
                 Contribution of each feature for each instance
+            DataFrame of shape (n_instances, x_orig_feature_count)
+                `x_orig` transformed to the state of the final explanation
         """
-        if x_orig.ndim == 1:
+        series = False
+        name = None
+        if isinstance(x_orig, pd.Series):
+            name = x_orig.name
+            series = True
             x_orig = x_orig.to_frame().T
         contributions = self.get_contributions(x_orig)
         contributions, x_interpret = self.transform_explanation(contributions, x_orig)
+        if series:
+            x_interpret = x_interpret.squeeze()
+            x_interpret.name = name
         contributions = contributions.get()
         if self.interpretable_features:
             return self.convert_columns_to_interpretable(contributions), \
