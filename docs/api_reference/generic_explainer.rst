@@ -1,4 +1,4 @@
-.. _pyreal.explainer:
+.. _pyreal.generic_explainer:
 
 Default Explainer
 =========
