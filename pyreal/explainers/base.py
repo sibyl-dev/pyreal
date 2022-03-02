@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 
+import numpy as np
 import pandas as pd
 from sklearn.base import is_classifier
 from sklearn.metrics import get_scorer
@@ -95,6 +96,10 @@ class ExplainerBase(ABC):
         fit_on_init (Boolean):
            If True, fit the explainer on initiation.
            If False, self.fit() must be manually called before produce() is called
+        training_size (Integer):
+            If given this value, sample a training set with size of this value
+            from x_train_orig and use it to train the explainer instead of the
+            entire x_train_orig.
         return_original_explanation (Boolean):
             If True, return the explanation originally generated without any transformations
     """
@@ -106,6 +111,7 @@ class ExplainerBase(ABC):
                  class_descriptions=None,
                  transformers=None,
                  fit_on_init=False,
+                 training_size=None,
                  return_original_explanation=False):
         if isinstance(model, str):
             self.model = model_utils.load_model_from_pickle(model)
@@ -134,8 +140,28 @@ class ExplainerBase(ABC):
             self.classes = model.classes_
 
         self.class_descriptions = class_descriptions
-
         self.return_original_explanation = return_original_explanation
+        self.training_size = training_size
+
+        # this argument stores the indices of the rows of data we want to use
+        data_sample_indices = self.x_train_orig.index
+
+        if self.training_size is None:
+            pass
+            # TODO: issue # 5 make this a log
+            # print("Warning: training_size not provided. Defaulting to train with full dataset,\
+            #     running time might be slow.")
+        elif self.training_size < len(self.x_train_orig.index):
+            if self.classes is not None and self.training_size < len(self.classes):
+                raise ValueError("training_size must be larger than the number of classes")
+            else:
+                data_sample_indices = pd.Index(np.random.choice(self.x_train_orig.index,
+                                                                self.training_size, replace=False))
+
+        # use _x_train_orig for fitting explainer
+        self._x_train_orig = self.x_train_orig.loc[data_sample_indices]
+        if y_orig is not None:
+            self._y_orig = self.y_orig.loc[data_sample_indices]
 
         if fit_on_init:
             self.fit()
@@ -367,8 +393,8 @@ class ExplainerBase(ABC):
         if self.y_orig is None:
             raise ValueError("Explainer must have a y_orig parameter to score model")
         scorer = get_scorer(scorer)
-        x = self.transform_to_x_model(self.x_train_orig)
-        score = scorer(self.model, x, self.y_orig)
+        x = self.transform_to_x_model(self._x_train_orig)
+        score = scorer(self.model, x, self._y_orig)
         return score
 
     @abstractmethod

@@ -42,11 +42,11 @@ class PermutationFeatureImportance(GlobalFeatureImportanceBase):
             DataFrame of shape (n_features, ):
                  The global importance of each feature
         """
-        x = self.transform_to_x_model(self.x_train_orig)
+        x = self.transform_to_x_model(self._x_train_orig)
         columns = x.columns
         x = np.asanyarray(x)
         importance_result = permutation_importance(
-            self.model, x, self.y_orig, n_repeats=100)
+            self.model, x, self._y_orig, n_repeats=100)
         importances = importance_result.importances_mean
         return FeatureImportanceExplanation(
             pd.DataFrame(importances.reshape(1, -1), columns=columns))

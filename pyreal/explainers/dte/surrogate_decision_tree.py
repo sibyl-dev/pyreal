@@ -35,8 +35,8 @@ class SurrogateDecisionTree(DecisionTreeExplainerBase):
         Fit the decision tree.
         TODO: Perhaps use sklearn's GridSearchCV to find the "best" tree.
         """
-        a_dataset = self.transform_to_x_algorithm(self.x_train_orig)
-        m_dataset = self.transform_to_x_model(self.x_train_orig)
+        a_dataset = self.transform_to_x_algorithm(self._x_train_orig)
+        m_dataset = self.transform_to_x_model(self._x_train_orig)
         self.explainer_input_size = a_dataset.shape[1]
         if self.is_classifer:
             self.explainer = tree.DecisionTreeClassifier(max_depth=self.max_depth)
