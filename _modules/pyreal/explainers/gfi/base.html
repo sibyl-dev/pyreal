@@ -251,7 +251,7 @@
                 <span class="k">if</span> <span class="n">with_fit</span><span class="p">:</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
                 <span class="n">explanations</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">produce</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x_train_orig</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">n_rows</span><span class="p">])</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">())</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">produce</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_x_train_orig</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">n_rows</span><span class="p">])</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">())</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">explanations</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span></div>
 </pre></div>
 
