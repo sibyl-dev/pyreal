@@ -140,13 +140,11 @@ class ExplainerBase(ABC):
             self.classes = model.classes_
 
         self.class_descriptions = class_descriptions
-
         self.return_original_explanation = return_original_explanation
-
         self.training_size = training_size
-        size_thresh = 0.1
+
         # this argument stores the indices of the rows of data we want to use
-        self.data_sample_indices = self.x_train_orig.index
+        data_sample_indices = self.x_train_orig.index
 
         if self.training_size is None:
             pass
@@ -156,16 +154,14 @@ class ExplainerBase(ABC):
         elif self.training_size < len(self.x_train_orig.index):
             if self.classes is not None and self.training_size < len(self.classes):
                 raise ValueError("training_size must be larger than the number of classes")
-            if self.training_size < size_thresh
-
-
-            self.data_sample_indices = pd.Index(np.random.choice(self.x_train_orig.index,
-                                                                 self.training_size))
+            else:
+                data_sample_indices = pd.Index(np.random.choice(self.x_train_orig.index,
+                                                                self.training_size, replace=False))
 
         # use _x_train_orig for fitting explainer
-        self._x_train_orig = self.x_train_orig.loc[self.data_sample_indices]
+        self._x_train_orig = self.x_train_orig.loc[data_sample_indices]
         if y_orig is not None:
-            self._y_orig = self.y_orig.loc[self.data_sample_indices]
+            self._y_orig = self.y_orig.loc[data_sample_indices]
 
         if fit_on_init:
             self.fit()

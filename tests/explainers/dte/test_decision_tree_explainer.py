@@ -151,7 +151,6 @@ def helper_produce_decision_tree_classification_no_transforms_with_size(explaine
     tree_object = explainer.produce()
     assert tree_object.feature_importances_.shape == \
         (explainer.transform_to_x_algorithm(model["x"]).shape[1],)
-    # assert (tree_object.predict(model["x"].to_numpy()) == model["y"].to_numpy().ravel()).all()
 
 
 def test_produce_with_renames_with_size(classification_no_transform_tree):
@@ -170,4 +169,3 @@ def test_produce_with_renames_with_size(classification_no_transform_tree):
     tree_object = dte.produce()
     assert tree_object.feature_importances_.shape == \
         (dte.transform_to_x_algorithm(model["x"]).shape[1],)
-    # assert (tree_object.predict(model["x"].to_numpy()) == model["y"].to_numpy().ravel()).all()
