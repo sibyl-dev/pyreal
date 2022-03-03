@@ -8,6 +8,10 @@ from sklearn.metrics import get_scorer
 from pyreal.transformers import BreakingTransformError, run_transformers
 from pyreal.utils import model_utils
 
+import logging
+
+log = logging.getLogger(__name__)
+
 
 def _check_transformers(transformers):
     """
@@ -61,8 +65,8 @@ def _get_transformers(transformers, algorithm=None, model=None, interpret=None):
     select_transformers = []
     for t in transformers:
         if (algorithm is None or t.algorithm == algorithm) \
-                and (model is None or t.model == model) \
-                and (interpret is None or t.interpret == interpret):
+            and (model is None or t.model == model) \
+            and (interpret is None or t.interpret == interpret):
             select_transformers.append(t)
     return select_transformers
 
@@ -125,7 +129,7 @@ class ExplainerBase(ABC):
         self.y_orig = y_orig
 
         if not isinstance(x_train_orig, pd.DataFrame) or (y_orig is not None and not (
-                isinstance(y_orig, pd.DataFrame) or isinstance(y_orig, pd.Series))):
+            isinstance(y_orig, pd.DataFrame) or isinstance(y_orig, pd.Series))):
             raise TypeError("x_orig and y_orig must be of type DataFrame")
 
         self.x_orig_feature_count = x_train_orig.shape[1]
@@ -136,7 +140,7 @@ class ExplainerBase(ABC):
 
         self.classes = classes
         if classes is None and str(self.model.__module__.startswith("sklearn")) \
-                and is_classifier(model) and hasattr(model, "classes_"):
+            and is_classifier(model) and hasattr(model, "classes_"):
             self.classes = model.classes_
 
         self.class_descriptions = class_descriptions
@@ -147,10 +151,8 @@ class ExplainerBase(ABC):
         data_sample_indices = self.x_train_orig.index
 
         if self.training_size is None:
-            pass
-            # TODO: issue # 5 make this a log
-            # print("Warning: training_size not provided. Defaulting to train with full dataset,\
-            #     running time might be slow.")
+            log.warning("Warning: training_size not provided. Defaulting to train with full dataset,\
+                         running time might be slow.")
         elif self.training_size < len(self.x_train_orig.index):
             if self.classes is not None and self.training_size < len(self.classes):
                 raise ValueError("training_size must be larger than the number of classes")
@@ -283,9 +285,9 @@ class ExplainerBase(ABC):
                 explanation = t.inverse_transform_explanation(explanation)
             # If this is a breaking transformer, transform x to the current point and return
             except BreakingTransformError:
-                print("Transformer class %s does not have the required inverse"
-                      " explanation transform and is set to break, stopping transform process"
-                      % type(t).__name__)
+                log.warning("Transformer class %s does not have the required inverse explanation "
+                            "transform and is set to break, stopping transform process"
+                            % type(t).__name__)
                 break_point = len(a_transformers) - i
                 if convert_x:
                     x = run_transformers(a_transformers[0:break_point], x)
@@ -298,9 +300,9 @@ class ExplainerBase(ABC):
                 try:
                     explanation = t.transform_explanation(explanation)
                 except BreakingTransformError:
-                    print("Transformer class %s does not have the required "
-                          "explanation transform and is set to break, stopping transform process"
-                          % type(t).__name__)
+                    log.warning("Transformer class %s does not have the required explanation "
+                                "transform and is set to break, stopping transform process"
+                                % type(t).__name__)
                     if convert_x:
                         return explanation, x
                     return explanation

@@ -4,7 +4,11 @@ import pandas as pd
 
 from pyreal.types.explanations.dataframe import (
     AdditiveFeatureContributionExplanation, AdditiveFeatureImportanceExplanation,
-    FeatureContributionExplanation, FeatureImportanceExplanation,)
+    FeatureContributionExplanation, FeatureImportanceExplanation, )
+
+import logging
+
+log = logging.getLogger(__name__)
 
 
 class BreakingTransformError(Exception):
@@ -73,19 +77,19 @@ def run_transformers(transformers, x):
 
 
 def _display_missing_transform_info(transformer_name, function_name):
-    print("Transformer %s does not have an implemented %s function. "
-          "Defaulting to no change in explanation. If this causes a break,"
-          "you may want to add a interpret=False flag to this transformer or redefine this "
-          "function to throw a BreakingTransformError."
-          % (transformer_name, function_name))
+    log.info("Transformer %s does not have an implemented %s function. "
+             "Defaulting to no change in explanation. If this causes a break,"
+             "you may want to add a interpret=False flag to this transformer or redefine this "
+             "function to throw a BreakingTransformError."
+             % (transformer_name, function_name))
 
 
 def _display_missing_transform_info_inverse(transformer_name, function_name):
-    print("Transformer %s does not have an implemented %s function. "
-          "Defaulting to no change in explanation. If this causes a break,"
-          "you may want to add an interpret=True flag to this transformer or redefine this "
-          "function to throw a BreakingTransformError."
-          % (transformer_name, function_name))
+    log.info("Transformer %s does not have an implemented %s function. "
+             "Defaulting to no change in explanation. If this causes a break,"
+             "you may want to add an interpret=True flag to this transformer or redefine this "
+             "function to throw a BreakingTransformError."
+             % (transformer_name, function_name))
 
 
 class Transformer(ABC):
@@ -207,7 +211,7 @@ class Transformer(ABC):
 
         """
         if isinstance(explanation, AdditiveFeatureContributionExplanation) \
-                or isinstance(explanation, AdditiveFeatureImportanceExplanation):
+            or isinstance(explanation, AdditiveFeatureImportanceExplanation):
             return self.inverse_transform_explanation_additive_contributions(explanation)
         # TODO: here we are temporarily using the additive version for non-additive explanations
         #       Addressed in GH issue 114.
@@ -234,7 +238,7 @@ class Transformer(ABC):
 
         """
         if isinstance(explanation, AdditiveFeatureContributionExplanation) \
-                or isinstance(explanation, AdditiveFeatureImportanceExplanation):
+            or isinstance(explanation, AdditiveFeatureImportanceExplanation):
             return self.transform_explanation_additive_contributions(explanation)
         # for now, use the additive version for non-additive explanations
         if isinstance(explanation, FeatureContributionExplanation):
