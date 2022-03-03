@@ -1,12 +1,11 @@
+import logging
 from abc import ABC, abstractmethod
 
 import pandas as pd
 
 from pyreal.types.explanations.dataframe import (
     AdditiveFeatureContributionExplanation, AdditiveFeatureImportanceExplanation,
-    FeatureContributionExplanation, FeatureImportanceExplanation, )
-
-import logging
+    FeatureContributionExplanation, FeatureImportanceExplanation,)
 
 log = logging.getLogger(__name__)
 
@@ -211,7 +210,7 @@ class Transformer(ABC):
 
         """
         if isinstance(explanation, AdditiveFeatureContributionExplanation) \
-            or isinstance(explanation, AdditiveFeatureImportanceExplanation):
+                or isinstance(explanation, AdditiveFeatureImportanceExplanation):
             return self.inverse_transform_explanation_additive_contributions(explanation)
         # TODO: here we are temporarily using the additive version for non-additive explanations
         #       Addressed in GH issue 114.
@@ -238,7 +237,7 @@ class Transformer(ABC):
 
         """
         if isinstance(explanation, AdditiveFeatureContributionExplanation) \
-            or isinstance(explanation, AdditiveFeatureImportanceExplanation):
+                or isinstance(explanation, AdditiveFeatureImportanceExplanation):
             return self.transform_explanation_additive_contributions(explanation)
         # for now, use the additive version for non-additive explanations
         if isinstance(explanation, FeatureContributionExplanation):

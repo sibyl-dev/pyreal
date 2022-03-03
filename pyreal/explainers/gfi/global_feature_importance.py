@@ -1,7 +1,7 @@
+import logging
+
 from pyreal.explainers import (
     GlobalFeatureImportanceBase, PermutationFeatureImportance, ShapFeatureImportance,)
-
-import logging
 
 log = logging.getLogger(__name__)
 

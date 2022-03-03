@@ -1,7 +1,7 @@
+import logging
+
 from pyreal.explainers import (
     LocalFeatureContributionsBase, ShapFeatureContribution, SimpleCounterfactualContribution,)
-
-import logging
 
 log = logging.getLogger(__name__)
 
