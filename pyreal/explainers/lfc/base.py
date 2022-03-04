@@ -3,6 +3,7 @@ from abc import ABC, abstractmethod
 import numpy as np
 
 from pyreal.explainers import ExplainerBase
+import time
 
 
 class LocalFeatureContributionsBase(ExplainerBase, ABC):
@@ -48,12 +49,19 @@ class LocalFeatureContributionsBase(ExplainerBase, ABC):
         """
         if x_orig.ndim == 1:
             x_orig = x_orig.to_frame().T
+        start = time.time()
         contributions = self.get_contributions(x_orig)
+        t1 = time.time()
+        print("produce time: ", time.time() - start)
         contributions, x_interpret = self.transform_explanation(contributions, x_orig)
+        t2 = time.time()
+        print("transform explanation time: ", time.time() - t1)
         contributions = contributions.get()
         if self.interpretable_features:
-            return self.convert_columns_to_interpretable(contributions), \
+            return_ = self.convert_columns_to_interpretable(contributions), \
                 self.convert_columns_to_interpretable(x_interpret)
+            print("return time: ", time.time() - t2)
+            return return_
         return contributions, x_interpret
 
     @abstractmethod

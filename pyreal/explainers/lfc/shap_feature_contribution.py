@@ -2,6 +2,7 @@ import numpy as np
 import pandas as pd
 from shap import Explainer as ShapExplainer
 from shap import KernelExplainer, LinearExplainer
+import time
 
 from pyreal.explainers import LocalFeatureContributionsBase
 from pyreal.types.explanations.dataframe import AdditiveFeatureContributionExplanation
@@ -42,6 +43,7 @@ class ShapFeatureContribution(LocalFeatureContributionsBase):
         """
         Fit the contribution explainer
         """
+        start = time.time()
         dataset = self.transform_to_x_algorithm(self.x_train_orig)
         self.explainer_input_size = dataset.shape[1]
         if self.shap_type == "kernel":
@@ -51,6 +53,7 @@ class ShapFeatureContribution(LocalFeatureContributionsBase):
             self.explainer = LinearExplainer(self.model, dataset)
         else:
             self.explainer = ShapExplainer(self.model, dataset)  # SHAP will pick an algorithm
+        print("fit time: ", time.time() - start)
         return self
 
     def get_contributions(self, x_orig):
@@ -64,6 +67,7 @@ class ShapFeatureContribution(LocalFeatureContributionsBase):
             DataFrame of shape (n_instances, n_features):
                  The contribution of each feature
         """
+        start = time.time()
         if self.explainer is None:
             raise AttributeError("Instance has no explainer. Must call "
                                  "fit() before "
@@ -80,6 +84,7 @@ class ShapFeatureContribution(LocalFeatureContributionsBase):
         if shap_values.ndim < 2:
             raise RuntimeError("Something went wrong with SHAP - expected at least 2 dimensions")
         if shap_values.ndim == 2:
+            print("Produce time:", time.time() - start)
             return AdditiveFeatureContributionExplanation(
                 pd.DataFrame(shap_values, columns=columns))
         if shap_values.ndim > 2:
