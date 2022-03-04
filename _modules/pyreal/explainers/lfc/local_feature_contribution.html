@@ -152,8 +152,12 @@
               <div>
                 
   <h1>Source code for pyreal.explainers.lfc.local_feature_contribution</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">pyreal.explainers</span> <span class="kn">import</span> <span class="p">(</span>
+<span></span><span class="kn">import</span> <span class="nn">logging</span>
+
+<span class="kn">from</span> <span class="nn">pyreal.explainers</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">LocalFeatureContributionsBase</span><span class="p">,</span> <span class="n">ShapFeatureContribution</span><span class="p">,</span> <span class="n">SimpleCounterfactualContribution</span><span class="p">,)</span>
+
+<span class="n">log</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 
 <span class="k">def</span> <span class="nf">choose_algorithm</span><span class="p">():</span>
@@ -218,7 +222,8 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">return_contributions</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">return_explainer</span><span class="p">:</span>
         <span class="c1"># TODO: replace with formal warning system</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;lfc is non-functional with return_contribution and return_explainer set to false&quot;</span><span class="p">)</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;lfc is non-functional with &quot;</span>
+                    <span class="s2">&quot;return_contribution and return_explainer set to false&quot;</span><span class="p">)</span>
         <span class="k">return</span>
     <span class="k">if</span> <span class="n">explainer</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="p">(</span><span class="n">model</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">x_train_orig</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;lfc requires either explainer OR model and x_train to be passed&quot;</span><span class="p">)</span>
