@@ -1,3 +1,4 @@
+import logging
 from abc import ABC, abstractmethod
 
 import numpy as np
@@ -7,6 +8,8 @@ from sklearn.metrics import get_scorer
 
 from pyreal.transformers import BreakingTransformError, run_transformers
 from pyreal.utils import model_utils
+
+log = logging.getLogger(__name__)
 
 
 def _check_transformers(transformers):
@@ -147,10 +150,8 @@ class ExplainerBase(ABC):
         data_sample_indices = self.x_train_orig.index
 
         if self.training_size is None:
-            pass
-            # TODO: issue # 5 make this a log
-            # print("Warning: training_size not provided. Defaulting to train with full dataset,\
-            #     running time might be slow.")
+            log.warning("Warning: training_size not provided. Defaulting to train with full "
+                        "dataset, running time might be slow.")
         elif self.training_size < len(self.x_train_orig.index):
             if self.classes is not None and self.training_size < len(self.classes):
                 raise ValueError("training_size must be larger than the number of classes")
@@ -283,9 +284,9 @@ class ExplainerBase(ABC):
                 explanation = t.inverse_transform_explanation(explanation)
             # If this is a breaking transformer, transform x to the current point and return
             except BreakingTransformError:
-                print("Transformer class %s does not have the required inverse"
-                      " explanation transform and is set to break, stopping transform process"
-                      % type(t).__name__)
+                log.warning("Transformer class %s does not have the required inverse explanation "
+                            "transform and is set to break, stopping transform process"
+                            % type(t).__name__)
                 break_point = len(a_transformers) - i
                 if convert_x:
                     x = run_transformers(a_transformers[0:break_point], x)
@@ -298,9 +299,9 @@ class ExplainerBase(ABC):
                 try:
                     explanation = t.transform_explanation(explanation)
                 except BreakingTransformError:
-                    print("Transformer class %s does not have the required "
-                          "explanation transform and is set to break, stopping transform process"
-                          % type(t).__name__)
+                    log.warning("Transformer class %s does not have the required explanation "
+                                "transform and is set to break, stopping transform process"
+                                % type(t).__name__)
                     if convert_x:
                         return explanation, x
                     return explanation

@@ -1,5 +1,9 @@
+import logging
+
 from pyreal.explainers import (
     GlobalFeatureImportanceBase, PermutationFeatureImportance, ShapFeatureImportance,)
+
+log = logging.getLogger(__name__)
 
 
 def choose_algorithm():
@@ -62,7 +66,8 @@ def gfi(return_importances=True, return_explainer=False, explainer=None,
     """
     if not return_importances and not return_explainer:
         # TODO: replace with formal warning system
-        print("gfi is non-functional with return_importances and return_explainer set to false")
+        log.warning("gfi is non-functional with return_importances and return_explainer "
+                    "set to false")
         return
 
     if explainer is None and (model is None or x_train_orig is None):

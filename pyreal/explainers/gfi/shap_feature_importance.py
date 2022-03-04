@@ -67,7 +67,6 @@ class ShapFeatureImportance(GlobalFeatureImportanceBase):
         x_model_np = np.asanyarray(x_model)
         shap_values = np.array(self.explainer.shap_values(x_model_np))
 
-        print(shap_values.shape)
         if shap_values.ndim < 2:
             raise RuntimeError("Something went wrong with SHAP - expected at least 2 dimensions")
         if shap_values.ndim > 2:

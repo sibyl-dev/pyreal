@@ -1,5 +1,9 @@
+import logging
+
 from pyreal.explainers import (
     LocalFeatureContributionsBase, ShapFeatureContribution, SimpleCounterfactualContribution,)
+
+log = logging.getLogger(__name__)
 
 
 def choose_algorithm():
@@ -64,7 +68,8 @@ def lfc(return_contributions=True, return_explainer=False, explainer=None,
     """
     if not return_contributions and not return_explainer:
         # TODO: replace with formal warning system
-        print("lfc is non-functional with return_contribution and return_explainer set to false")
+        log.warning("lfc is non-functional with "
+                    "return_contribution and return_explainer set to false")
         return
     if explainer is None and (model is None or x_train_orig is None):
         raise ValueError("lfc requires either explainer OR model and x_train to be passed")
