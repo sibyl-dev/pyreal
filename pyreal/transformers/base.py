@@ -122,6 +122,8 @@ class Transformer(ABC):
         if self.model is False and self.algorithm is True:
             raise ValueError("algorithm flag cannot be True if model flag is False")
 
+        self.fitted = False
+
     def set_flags(self, model=None, interpret=None, algorithm=None):
         if model is not None:
             self.model = model
@@ -145,6 +147,7 @@ class Transformer(ABC):
         Returns:
             None
         """
+        self.fitted = True
         return self
 
     @abstractmethod

@@ -39,7 +39,7 @@ class FeatureSelectTransformer(Transformer):
 
         """
         self.dropped_columns = list(set(x.columns) - set(self.columns))
-        return self
+        super().fit(x)
 
     def data_transform(self, x):
         """

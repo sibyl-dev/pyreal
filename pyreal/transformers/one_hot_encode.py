@@ -107,7 +107,6 @@ class OneHotEncoder(Transformer):
         if columns is not None and not isinstance(columns, (list, tuple, np.ndarray, pd.Index)):
             columns = [columns]
         self.columns = columns
-        self.is_fit = False
         super().__init__(**kwargs)
 
     def fit(self, x):
@@ -125,8 +124,7 @@ class OneHotEncoder(Transformer):
         if self.columns is None:
             self.columns = x.columns
         self.ohe.fit(x[self.columns])
-        self.is_fit = True
-        return self
+        super().fit(x)
 
     def data_transform(self, x):
         """
@@ -140,7 +138,7 @@ class OneHotEncoder(Transformer):
                 The one-hot encoded dataset
         """
 
-        if not self.is_fit:
+        if not self.fitted:
             raise RuntimeError("Must fit one hot encoder before transforming")
         x_to_encode = x[self.columns]
         columns = self.ohe.get_feature_names(x_to_encode.columns)
