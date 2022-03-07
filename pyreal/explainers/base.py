@@ -6,7 +6,7 @@ import pandas as pd
 from sklearn.base import is_classifier
 from sklearn.metrics import get_scorer
 
-from pyreal.transformers import BreakingTransformError, run_transformers
+from pyreal.transformers import BreakingTransformError, run_transformers, fit_transformers
 from pyreal.utils import model_utils
 
 log = logging.getLogger(__name__)
@@ -115,7 +115,8 @@ class ExplainerBase(ABC):
                  transformers=None,
                  fit_on_init=False,
                  training_size=None,
-                 return_original_explanation=False):
+                 return_original_explanation=False,
+                 fit_transformers=True):
         if isinstance(model, str):
             self.model = model_utils.load_model_from_pickle(model)
         else:
@@ -163,6 +164,11 @@ class ExplainerBase(ABC):
         self._x_train_orig = self.x_train_orig.loc[data_sample_indices]
         if y_orig is not None:
             self._y_orig = self.y_orig.loc[data_sample_indices]
+
+        if fit_transformers:
+            self.fitted_transformers = False
+        else:
+            self.fitted_transformers = True
 
         if fit_on_init:
             self.fit()
@@ -214,6 +220,8 @@ class ExplainerBase(ABC):
                 x_orig converted to model-ready form
         """
         m_transformers = _get_transformers(self.transformers, model=True)
+        if not self.fitted_transformers:
+            result = fit_
         return run_transformers(m_transformers, x_orig)
 
     def transform_x_from_algorithm_to_model(self, x_algorithm):
