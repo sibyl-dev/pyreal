@@ -3,7 +3,7 @@ Includes basic visualization methods, mostly used to testing purposes.
 """
 import matplotlib.pyplot as plt
 import numpy as np
-
+from sklearn.tree import plot_tree
 
 def plot_top_contributors(contributions, select_by="absolute", n=5, values=None,
                           flip_colors=False, precision=2, show=False, filename=None):
@@ -79,3 +79,20 @@ def plot_top_contributors(contributions, select_by="absolute", n=5, values=None,
         plt.savefig(filename, bbox_inches="tight")
     if show:
         plt.show()
+
+
+def plot_tree_explanation(dte, figsize=(40,40)):
+    """
+    Plot the decision tree given the decision tree explainer
+
+    Args:
+        
+    """
+    decision_tree = dte.produce()
+    feature_names = dte.return_features()
+
+    fig, ax = plt.subplots(figsize=figsize)
+
+    plot_tree(decision_tree, feature_names=feature_names,
+              impurity=False, fontsize=10, ax=ax, filled=True)
+    plt.show()
