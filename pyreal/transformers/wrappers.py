@@ -18,7 +18,7 @@ class DataFrameWrapper(Transformer):
         self.wrapped_transformer = wrapped_transformer
         super().__init__(**kwargs)
 
-    def fit(self, x):
+    def fit(self, x, **params):
         """
         Fit the wrapped transformer
 
@@ -32,7 +32,7 @@ class DataFrameWrapper(Transformer):
             None
         """
         self.wrapped_transformer.fit(x)
-        return self
+        super().fit(x)
 
     def data_transform(self, x):
         """

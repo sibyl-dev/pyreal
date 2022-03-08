@@ -221,7 +221,9 @@ class ExplainerBase(ABC):
         """
         m_transformers = _get_transformers(self.transformers, model=True)
         if not self.fitted_transformers:
-            result = fit_
+            result = fit_transformers(m_transformers, x_orig)
+            self.fitted_transformers = True
+            return result
         return run_transformers(m_transformers, x_orig)
 
     def transform_x_from_algorithm_to_model(self, x_algorithm):

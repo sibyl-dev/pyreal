@@ -110,7 +110,7 @@ class OneHotEncoder(Transformer):
         self.is_fit = False
         super().__init__(**kwargs)
 
-    def fit(self, x):
+    def fit(self, x, **params):
         """
         Fit this transformer to data
 
@@ -126,7 +126,7 @@ class OneHotEncoder(Transformer):
             self.columns = x.columns
         self.ohe.fit(x[self.columns])
         self.is_fit = True
-        return self
+        super().fit(x)
 
     def data_transform(self, x):
         """

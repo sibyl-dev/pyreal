@@ -21,7 +21,7 @@ class MultiTypeImputer(Transformer):
         self.categorical_imputer = SimpleImputer(missing_values=np.nan, strategy="most_frequent")
         super().__init__(**kwargs)
 
-    def fit(self, x):
+    def fit(self, x, **params):
         """
         Fit the imputer
 
@@ -42,7 +42,7 @@ class MultiTypeImputer(Transformer):
             self.numeric_imputer.fit(x[self.numeric_cols])
         if len(self.categorical_cols) > 0:
             self.categorical_imputer.fit(x[self.categorical_cols])
-        return self
+        super().fit(x)
 
     def data_transform(self, x):
         """
