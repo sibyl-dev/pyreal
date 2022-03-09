@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from sklearn.tree import plot_tree
 
+
 def plot_top_contributors(contributions, select_by="absolute", n=5, values=None,
                           flip_colors=False, precision=2, show=False, filename=None):
     """
@@ -81,12 +82,12 @@ def plot_top_contributors(contributions, select_by="absolute", n=5, values=None,
         plt.show()
 
 
-def plot_tree_explanation(dte, figsize=(40,40)):
+def plot_tree_explanation(dte, figsize=(40, 40)):
     """
     Plot the decision tree given the decision tree explainer
 
     Args:
-        
+
     """
     decision_tree = dte.produce()
     feature_names = dte.return_features()
