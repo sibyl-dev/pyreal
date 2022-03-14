@@ -45,12 +45,13 @@ def _color_brew(n):
 def hex2rgb(colors):
     if isinstance(colors, str):
         hex_code = colors.strip('# ')
-        return [int(hex_code[:2]), int(hex_code[2:4]), int(hex_code[4:])]
+        return [int(hex_code[:2], 16), int(hex_code[2:4], 16), int(hex_code[4:], 16)]
     elif isinstance(colors, list):
         color_list = []
         for code in colors:
             hex_code = code.strip('# ')
-            color_list.append([int(hex_code[:2]), int(hex_code[2:4]), int(hex_code[4:])])
+            color_list.append([int(hex_code[:2], 16), 
+                               int(hex_code[2:4], 16), int(hex_code[4:], 16)])
         return color_list
 
 
@@ -115,6 +116,9 @@ class TreeExporter(_MPLTreeExporter):
             # If multi-output color node by impurity
             node_val = -tree.impurity[node_id]
         return self.get_color(node_val)
+
+    # TODO: edit the following functions to change the sizes of the elements 
+    # in the plot
 
     # def export(self, decision_tree, ax=None):
     #     import matplotlib.pyplot as plt

@@ -3,7 +3,7 @@ Includes basic visualization methods, mostly used to testing purposes.
 """
 import matplotlib.pyplot as plt
 import numpy as np
-from _plot_tree import TreeExporter
+from pyreal.utils._plot_tree import TreeExporter
 
 
 def plot_top_contributors(contributions, select_by="absolute", n=5, values=None,
@@ -121,8 +121,8 @@ def plot_tree_explanation(dte, transparent=False,
         precision=precision,
         fontsize=fontsize,
     )
-    return exporter.export(decision_tree, ax=ax)
+    exporter.export(decision_tree, ax=ax)
     # plot_tree(decision_tree, feature_names=feature_names,
     #           impurity=impurity, filled=filled, rounded=rounded,
     #           proportion=proportion, fontsize=fontsize, ax=ax)
-    # plt.show()
+    plt.show()
