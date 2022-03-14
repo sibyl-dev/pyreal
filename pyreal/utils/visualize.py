@@ -3,7 +3,7 @@ Includes basic visualization methods, mostly used to testing purposes.
 """
 import matplotlib.pyplot as plt
 import numpy as np
-from sklearn.tree import plot_tree
+from _plot_tree import TreeExporter
 
 
 def plot_top_contributors(contributions, select_by="absolute", n=5, values=None,
@@ -82,18 +82,47 @@ def plot_top_contributors(contributions, select_by="absolute", n=5, values=None,
         plt.show()
 
 
-def plot_tree_explanation(dte, figsize=(40, 40)):
+def plot_tree_explanation(dte, transparent=False,
+                          class_names=None, label='all',
+                          filled=True, rounded=True, impurity=False,
+                          proportion=False, precision=3, fontsize=10):
     """
     Plot the decision tree given the decision tree explainer
 
     Args:
-
+        dte:
+            Decision tree explainer
+        transparent (bool):
+            Determines if the output figure is transparent or not
     """
+
+    negative_color = "#ef8a62"
+    positive_color = "#67a9cf"
+
     decision_tree = dte.produce()
     feature_names = dte.return_features()
+    figsize = (dte.max_depth*4+10, dte.max_depth*2)
+    if transparent:
+        fig, ax = plt.subplots(figsize=figsize)
+    else:
+        fig, ax = plt.subplots(figsize=figsize, facecolor='w')
 
-    fig, ax = plt.subplots(figsize=figsize)
-
-    plot_tree(decision_tree, feature_names=feature_names,
-              impurity=False, fontsize=10, ax=ax, filled=True)
-    plt.show()
+    exporter = TreeExporter(
+        max_depth=dte.max_depth,
+        feature_names=feature_names,
+        class_names=class_names,
+        positive_color=positive_color,
+        negative_color=negative_color,
+        label=label,
+        filled=filled,
+        impurity=impurity,
+        proportion=proportion,
+        rounded=rounded,
+        precision=precision,
+        fontsize=fontsize,
+    )
+    return exporter.export(decision_tree, ax=ax)
+    # plot_tree(decision_tree, feature_names=feature_names,
+    #           impurity=impurity, filled=filled, rounded=rounded,
+    #           proportion=proportion, fontsize=fontsize, ax=ax)
+    # plt.show()
