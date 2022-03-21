@@ -6,7 +6,8 @@ import numpy as np
 
 
 def plot_top_contributors(contributions, select_by="absolute", n=5, values=None,
-                          flip_colors=False, precision=2, show=False, filename=None):
+                          transparent=False, flip_colors=False, precision=2,
+                          show=False, filename=None):
     """
     Plot the most contributing features
 
@@ -19,6 +20,8 @@ def plot_top_contributors(contributions, select_by="absolute", n=5, values=None,
             Number of features to plot
         values (Series or DataFrame of shape (1, n_features):
             If given, show the corresponding values alongside the feature names
+        transparent (Boolean):
+            If True, the background of the figure is set to transparent.
         flip_colors (Boolean):
             If True, make the positive explanation red and negative explanation blue.
             Useful if the target variable has a negative connotation
@@ -65,10 +68,15 @@ def plot_top_contributors(contributions, select_by="absolute", n=5, values=None,
     else:
         colors = \
             [positive_color if (c < 0) else negative_color for c in contributions[to_plot][::-1]]
+
+    if transparent:
+        fig, ax = plt.subplots()
+    else:
+        fig, ax = plt.subplots(facecolor='w')
     plt.barh(features[to_plot][::-1], contributions[to_plot][::-1], color=colors)
     plt.title("Contribution by feature")
     plt.tick_params(axis='x', which='both', bottom=False, top=False, labelbottom=False)
-    ax = plt.gca()
+
     ax.spines["top"].set_visible(False)
     ax.spines["bottom"].set_visible(False)
     ax.spines["right"].set_visible(False)
