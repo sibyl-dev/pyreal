@@ -6,8 +6,9 @@ import pandas as pd
 from sklearn.base import is_classifier
 from sklearn.metrics import get_scorer
 
-from pyreal.transformers import BreakingTransformError, run_transformers
+from pyreal.transformers import BreakingTransformError
 from pyreal.transformers import fit_transformers as fit_transformers_func
+from pyreal.transformers import run_transformers
 from pyreal.utils import model_utils
 
 log = logging.getLogger(__name__)
