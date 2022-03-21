@@ -18,7 +18,7 @@ class BreakingTransformError(Exception):
     """
 
 
-def fit_transformers(transformers, x):
+def fit_transformers(transformers, x, inplace=False):
     """
     Fit a set of transformers in-place, transforming the data after each fit. Checks if each
     transformer has a fit function and if so, calls it. Returns the data after being transformed
@@ -28,12 +28,18 @@ def fit_transformers(transformers, x):
             List of transformers to fit, in order
         x (DataFrame of shape (n_instances, n_features)):
             Dataset to fit on.
+        inplace (Boolean):
+            If True, modify x_orig directly. If False, return a new object with the
+            transformations applied.
 
     Returns:
         DataFrame of shape (n_instances, n_features)
             `x` after being transformed by all transformers
     """
-    x_transform = x.copy()
+    if inplace:
+        x_transform = x
+    else:
+        x_transform = x.copy()
     if not isinstance(transformers, list):
         transformers = [transformers]
     for transformer in transformers:
@@ -44,7 +50,7 @@ def fit_transformers(transformers, x):
     return x_transform
 
 
-def run_transformers(transformers, x):
+def run_transformers(transformers, x, inplace=False):
     """
     Run a series of transformers on x_orig
 
@@ -53,12 +59,18 @@ def run_transformers(transformers, x):
             List of transformers to fit, in order
         x (DataFrame of shape (n_instances, n_features)):
             Dataset to transform
+        inplace (Boolean):
+            If True, modify x_orig directly. If False, return a new object with the
+            transformations applied.
 
     Returns:
         DataFrame of shape (n_instances, n_features)
             Transformed data
     """
-    x_transform = x.copy()
+    if inplace:
+        x_transform = x
+    else:
+        x_transform = x.copy()
     series = False
     name = None
     if isinstance(x_transform, pd.Series):
@@ -121,7 +133,6 @@ class Transformer(ABC):
             self.algorithm = algorithm
         if self.model is False and self.algorithm is True:
             raise ValueError("algorithm flag cannot be True if model flag is False")
-
         self.fitted = False
 
     def set_flags(self, model=None, interpret=None, algorithm=None):
