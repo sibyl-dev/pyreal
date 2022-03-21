@@ -203,7 +203,7 @@ class ExplainerBase(ABC):
         Args:
             x_orig (DataFrame or Series of shape (n_instances, x_orig_feature_count)):
                 Original input
-                
+
         Returns:
              DataFrame or Series of shape (n_instances, x_algorithm_feature_count)
                 x_orig converted to explainable form
