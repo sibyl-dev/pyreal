@@ -27,7 +27,7 @@ class FeatureSelectTransformer(Transformer):
         self.dropped_columns = []
         super().__init__(**kwargs)
 
-    def fit(self, x):
+    def fit(self, x, **params):
         """
         Saves the columns being dropped
 
@@ -39,7 +39,7 @@ class FeatureSelectTransformer(Transformer):
 
         """
         self.dropped_columns = list(set(x.columns) - set(self.columns))
-        return self
+        super().fit(x)
 
     def data_transform(self, x):
         """

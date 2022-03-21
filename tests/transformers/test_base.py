@@ -5,7 +5,7 @@ from pyreal.transformers import (
     FeatureSelectTransformer, OneHotEncoder, base, fit_transformers, run_transformers,)
 
 
-def test_fit_feature_select_transformer():
+def test_fit_run_transformers():
     x_orig = pd.DataFrame([
         [1, 1, 1],
         [2, 2, 2],

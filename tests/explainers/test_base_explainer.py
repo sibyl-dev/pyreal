@@ -159,8 +159,7 @@ def test_transform_explanation(regression_no_transforms):
     feature_select1.fit(x)
     feature_select2.fit(x)
 
-    explainer = LocalFeatureContribution(regression_no_transforms["model"],
-                                         regression_no_transforms["x"],
+    explainer = LocalFeatureContribution(regression_no_transforms["model"], x,
                                          y_orig=regression_no_transforms["y"],
                                          transformers=[feature_select1, feature_select2])
 
@@ -252,3 +251,27 @@ def test_break(regression_no_transforms):
                                          transformers=feature_select)
     with pytest.raises(ValueError):
         explainer.transform_explanation(explanation)
+
+
+def test_fit_transformer_param(regression_no_transforms):
+    feature_select1 = FeatureSelectTransformer(["A", "B"], model=True)
+    feature_select2 = FeatureSelectTransformer(["C"], model=False, interpret=True)
+    x = pd.DataFrame([[1, 1, 1, 1]], columns=["A", "B", "C", "D"])
+
+    explainer = LocalFeatureContribution(regression_no_transforms["model"], x,
+                                         y_orig=regression_no_transforms["y"],
+                                         transformers=[feature_select1, feature_select2],
+                                         fit_transformers=True)
+
+    explanation = pd.DataFrame([
+        [1, 2, 3, 4],
+        [1, 2, 3, 4]
+    ], columns=["A", "B", "C", "D"])
+    explanation = AdditiveFeatureContributionExplanation(explanation)
+
+    transform_explanation = explainer.transform_explanation(explanation).get()
+    expected_explanation = pd.DataFrame([
+        [0],
+        [0]
+    ], columns=["C"])
+    assert_frame_equal(transform_explanation, expected_explanation)
