@@ -160,7 +160,9 @@
 <span class="kn">from</span> <span class="nn">sklearn.base</span> <span class="kn">import</span> <span class="n">is_classifier</span>
 <span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">get_scorer</span>
 
-<span class="kn">from</span> <span class="nn">pyreal.transformers</span> <span class="kn">import</span> <span class="n">BreakingTransformError</span><span class="p">,</span> <span class="n">run_transformers</span>
+<span class="kn">from</span> <span class="nn">pyreal.transformers</span> <span class="kn">import</span> <span class="n">BreakingTransformError</span>
+<span class="kn">from</span> <span class="nn">pyreal.transformers</span> <span class="kn">import</span> <span class="n">fit_transformers</span> <span class="k">as</span> <span class="n">fit_transformers_func</span>
+<span class="kn">from</span> <span class="nn">pyreal.transformers</span> <span class="kn">import</span> <span class="n">run_transformers</span>
 <span class="kn">from</span> <span class="nn">pyreal.utils</span> <span class="kn">import</span> <span class="n">model_utils</span>
 
 <span class="n">log</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
@@ -269,7 +271,8 @@
                  <span class="n">transformers</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">fit_on_init</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                  <span class="n">training_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">return_original_explanation</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+                 <span class="n">return_original_explanation</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                 <span class="n">fit_transformers</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">model_utils</span><span class="o">.</span><span class="n">load_model_from_pickle</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
@@ -318,6 +321,12 @@
         <span class="k">if</span> <span class="n">y_orig</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_y_orig</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">y_orig</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">data_sample_indices</span><span class="p">]</span>
 
+        <span class="k">if</span> <span class="n">fit_transformers</span><span class="p">:</span>
+            <span class="n">a_transformers</span> <span class="o">=</span> <span class="n">_get_transformers</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">transformers</span><span class="p">,</span> <span class="n">algorithm</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">i_transformers</span> <span class="o">=</span> <span class="n">_get_transformers</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">transformers</span><span class="p">,</span> <span class="n">interpret</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">fit_transformers_func</span><span class="p">(</span><span class="n">a_transformers</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">x_train_orig</span><span class="p">)</span>
+            <span class="n">fit_transformers_func</span><span class="p">(</span><span class="n">i_transformers</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">x_train_orig</span><span class="p">)</span>
+
         <span class="k">if</span> <span class="n">fit_on_init</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span></div>
 
@@ -348,6 +357,7 @@
 <span class="sd">        Args:</span>
 <span class="sd">            x_orig (DataFrame or Series of shape (n_instances, x_orig_feature_count)):</span>
 <span class="sd">                Original input</span>
+
 <span class="sd">        Returns:</span>
 <span class="sd">             DataFrame or Series of shape (n_instances, x_algorithm_feature_count)</span>
 <span class="sd">                x_orig converted to explainable form</span>
