@@ -196,75 +196,64 @@ class ExplainerBase(ABC):
                 Explanation
         """
 
-    def transform_to_x_algorithm(self, x_orig, inplace=False):
+    def transform_to_x_algorithm(self, x_orig):
         """
         Transform x_orig to x_algorithm, using the algorithm transformers
 
         Args:
             x_orig (DataFrame or Series of shape (n_instances, x_orig_feature_count)):
                 Original input
-            inplace (Boolean):
-                If True, modify x_orig directly. If False, return a new object with the
-                transformations applied.
+                
         Returns:
              DataFrame or Series of shape (n_instances, x_algorithm_feature_count)
                 x_orig converted to explainable form
         """
         a_transformers = _get_transformers(self.transformers, algorithm=True)
-        return run_transformers(a_transformers, x_orig, inplace=inplace)
+        return run_transformers(a_transformers, x_orig)
 
-    def transform_to_x_model(self, x_orig, inplace=False):
+    def transform_to_x_model(self, x_orig):
         """
         Transform x_orig to x_model, using the model transformers
 
         Args:
             x_orig (DataFrame or Series of shape (n_instances, x_orig_feature_count)):
                 Original input
-            inplace (Boolean):
-                If True, modify x_orig directly. If False, return a new object with the
-                transformations applied.
 
         Returns:
              DataFrame or Series of shape (n_instances, x_model_feature_count)
                 x_orig converted to model-ready form
         """
         m_transformers = _get_transformers(self.transformers, model=True)
-        return run_transformers(m_transformers, x_orig, inplace=inplace)
+        return run_transformers(m_transformers, x_orig)
 
-    def transform_x_from_algorithm_to_model(self, x_algorithm, inplace=False):
+    def transform_x_from_algorithm_to_model(self, x_algorithm):
         """
         Transform x_algorithm to x_model, using the model transformers
 
         Args:
             x_algorithm (DataFrame or Series of shape (n_instances, x_orig_feature_count)):
                 Input in explain space
-            inplace (Boolean):
-                If True, modify x_orig directly. If False, return a new object with the
-                transformations applied.
 
         Returns:
              DataFrame or Series of shape (n_instances, x_model_feature_count)
                 x_algorithm converted to model-ready form
         """
         m_transformers = _get_transformers(self.transformers, algorithm=False, model=True)
-        return run_transformers(m_transformers, x_algorithm, inplace=inplace)
+        return run_transformers(m_transformers, x_algorithm)
 
-    def transform_to_x_interpret(self, x_orig, inplace=False):
+    def transform_to_x_interpret(self, x_orig):
         """
         Transform x_orig to x_interpret, using the interpret transformers
         Args:
             x_orig (DataFrame or Series of shape (n_instances, x_orig_feature_count)):
                 Original input
-            inplace (Boolean):
-                If True, modify x_orig directly. If False, return a new object with the
-                transformations applied.
 
         Returns:
              DataFrame or Series of shape (n_instances, x_interpret_feature_count)
                 x_orig converted to interpretable form
         """
         i_transformers = _get_transformers(self.transformers, interpret=True)
-        return run_transformers(i_transformers, x_orig, inplace=inplace)
+        return run_transformers(i_transformers, x_orig)
 
     def transform_explanation(self, explanation, x_orig=None):
         """

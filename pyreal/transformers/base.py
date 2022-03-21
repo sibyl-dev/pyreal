@@ -18,7 +18,7 @@ class BreakingTransformError(Exception):
     """
 
 
-def fit_transformers(transformers, x, inplace=False):
+def fit_transformers(transformers, x):
     """
     Fit a set of transformers in-place, transforming the data after each fit. Checks if each
     transformer has a fit function and if so, calls it. Returns the data after being transformed
@@ -28,18 +28,12 @@ def fit_transformers(transformers, x, inplace=False):
             List of transformers to fit, in order
         x (DataFrame of shape (n_instances, n_features)):
             Dataset to fit on.
-        inplace (Boolean):
-            If True, modify x_orig directly. If False, return a new object with the
-            transformations applied.
 
     Returns:
         DataFrame of shape (n_instances, n_features)
             `x` after being transformed by all transformers
     """
-    if inplace:
-        x_transform = x
-    else:
-        x_transform = x.copy()
+    x_transform = x.copy()
     if not isinstance(transformers, list):
         transformers = [transformers]
     for transformer in transformers:
@@ -50,7 +44,7 @@ def fit_transformers(transformers, x, inplace=False):
     return x_transform
 
 
-def run_transformers(transformers, x, inplace=False):
+def run_transformers(transformers, x):
     """
     Run a series of transformers on x_orig
 
@@ -59,18 +53,12 @@ def run_transformers(transformers, x, inplace=False):
             List of transformers to fit, in order
         x (DataFrame of shape (n_instances, n_features)):
             Dataset to transform
-        inplace (Boolean):
-            If True, modify x_orig directly. If False, return a new object with the
-            transformations applied.
 
     Returns:
         DataFrame of shape (n_instances, n_features)
             Transformed data
     """
-    if inplace:
-        x_transform = x
-    else:
-        x_transform = x.copy()
+    x_transform = x.copy()
     series = False
     name = None
     if isinstance(x_transform, pd.Series):
