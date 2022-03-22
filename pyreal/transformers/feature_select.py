@@ -1,4 +1,4 @@
-import collections
+from collections.abc import Sequence
 
 import numpy as np
 import pandas as pd
@@ -7,7 +7,6 @@ from pyreal.transformers import Transformer
 from pyreal.types.explanations.dataframe import (
     AdditiveFeatureContributionExplanation, FeatureImportanceExplanation,)
 
-from collections.abc import Sequence
 
 class FeatureSelectTransformer(Transformer):
     """
