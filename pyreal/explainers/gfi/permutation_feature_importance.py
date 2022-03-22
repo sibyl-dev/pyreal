@@ -24,7 +24,9 @@ class PermutationFeatureImportance(GlobalFeatureImportanceBase):
     def __init__(self, model, x_train_orig, **kwargs):
         self.explainer = None
         self.explainer_input_size = None
-        super(PermutationFeatureImportance, self).__init__(model, x_train_orig, **kwargs)
+        super(PermutationFeatureImportance, self).__init__(
+            model, x_train_orig, **kwargs
+        )
 
     def fit(self):
         """
@@ -46,7 +48,9 @@ class PermutationFeatureImportance(GlobalFeatureImportanceBase):
         columns = x.columns
         x = np.asanyarray(x)
         importance_result = permutation_importance(
-            self.model, x, self._y_orig, n_repeats=100)
+            self.model, x, self._y_orig, n_repeats=100
+        )
         importances = importance_result.importances_mean
         return FeatureImportanceExplanation(
-            pd.DataFrame(importances.reshape(1, -1), columns=columns))
+            pd.DataFrame(importances.reshape(1, -1), columns=columns)
+        )

@@ -25,12 +25,13 @@ class ShapFeatureContribution(LocalFeatureContributionsBase):
         **kwargs: see base Explainer args
     """
 
-    def __init__(self, model, x_train_orig,
-                 shap_type=None, **kwargs):
+    def __init__(self, model, x_train_orig, shap_type=None, **kwargs):
         supported_types = ["kernel", "linear"]
         if shap_type is not None and shap_type not in supported_types:
-            raise ValueError("Shap type not supported, given %s, expected one of %s or None" %
-                             (shap_type, str(supported_types)))
+            raise ValueError(
+                "Shap type not supported, given %s, expected one of %s or None"
+                % (shap_type, str(supported_types))
+            )
         else:
             self.shap_type = shap_type
 
@@ -50,7 +51,9 @@ class ShapFeatureContribution(LocalFeatureContributionsBase):
         elif self.shap_type == "linear":
             self.explainer = LinearExplainer(self.model, dataset)
         else:
-            self.explainer = ShapExplainer(self.model, dataset)  # SHAP will pick an algorithm
+            self.explainer = ShapExplainer(
+                self.model, dataset
+            )  # SHAP will pick an algorithm
         return self
 
     def get_contributions(self, x_orig):
@@ -65,27 +68,32 @@ class ShapFeatureContribution(LocalFeatureContributionsBase):
                  The contribution of each feature
         """
         if self.explainer is None:
-            raise AttributeError("Instance has no explainer. Must call "
-                                 "fit() before "
-                                 "produce()")
+            raise AttributeError(
+                "Instance has no explainer. Must call " "fit() before " "produce()"
+            )
         x = self.transform_to_x_model(x_orig)
         if x.shape[1] != self.explainer_input_size:
-            raise ValueError("Received input of wrong size."
-                             "Expected ({},), received {}"
-                             .format(self.explainer_input_size, x.shape))
+            raise ValueError(
+                "Received input of wrong size."
+                "Expected ({},), received {}".format(self.explainer_input_size, x.shape)
+            )
         columns = x.columns
         x = np.asanyarray(x)
 
         shap_values = np.array(self.explainer.shap_values(x))
         if shap_values.ndim < 2:
-            raise RuntimeError("Something went wrong with SHAP - expected at least 2 dimensions")
+            raise RuntimeError(
+                "Something went wrong with SHAP - expected at least 2 dimensions"
+            )
         if shap_values.ndim == 2:
             return AdditiveFeatureContributionExplanation(
-                pd.DataFrame(shap_values, columns=columns))
+                pd.DataFrame(shap_values, columns=columns)
+            )
         if shap_values.ndim > 2:
             predictions = self.model_predict(x_orig)
             if self.classes is not None:
                 predictions = [np.where(self.classes == i)[0][0] for i in predictions]
             shap_values = shap_values[predictions, np.arange(shap_values.shape[1]), :]
             return AdditiveFeatureContributionExplanation(
-                pd.DataFrame(shap_values, columns=columns))
+                pd.DataFrame(shap_values, columns=columns)
+            )

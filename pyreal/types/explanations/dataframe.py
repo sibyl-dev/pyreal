@@ -40,7 +40,9 @@ class FeatureImportanceExplanation(DataFrameExplanation):
         """
         super().validate()
         if self.explanation.shape[0] > 1:
-            raise AssertionError("Global Feature Importance Explanations can have only one row")
+            raise AssertionError(
+                "Global Feature Importance Explanations can have only one row"
+            )
 
 
 class AdditiveFeatureImportanceExplanation(FeatureImportanceExplanation):

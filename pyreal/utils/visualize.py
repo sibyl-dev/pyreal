@@ -5,9 +5,17 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
-def plot_top_contributors(contributions, select_by="absolute", n=5, values=None,
-                          transparent=False, flip_colors=False, precision=2,
-                          show=False, filename=None):
+def plot_top_contributors(
+    contributions,
+    select_by="absolute",
+    n=5,
+    values=None,
+    transparent=False,
+    flip_colors=False,
+    precision=2,
+    show=False,
+    filename=None,
+):
     """
     Plot the most contributing features
 
@@ -38,10 +46,14 @@ def plot_top_contributors(contributions, select_by="absolute", n=5, values=None,
     """
     features = contributions.columns.to_numpy()
     if values is not None:
-        features = np.array(["%s (%.*f)" % (feature, precision, values[feature])
-                             if isinstance(values[feature], float)
-                             else "%s (%s)" % (feature, values[feature])
-                             for feature in features])
+        features = np.array(
+            [
+                "%s (%.*f)" % (feature, precision, values[feature])
+                if isinstance(values[feature], float)
+                else "%s (%s)" % (feature, values[feature])
+                for feature in features
+            ]
+        )
 
     if contributions.ndim == 2:
         contributions = contributions.iloc[0]
@@ -55,27 +67,33 @@ def plot_top_contributors(contributions, select_by="absolute", n=5, values=None,
         order = np.argsort(abs(contributions))[::-1]
 
     if order is None:
-        raise ValueError("Invalid select_by option %s, should be one of 'min', 'max', 'absolute'"
-                         % select_by)
+        raise ValueError(
+            "Invalid select_by option %s, should be one of 'min', 'max', 'absolute'"
+            % select_by
+        )
 
     to_plot = order[0:n]
 
     negative_color = "#ef8a62"
     positive_color = "#67a9cf"
     if not flip_colors:
-        colors = \
-            [negative_color if (c < 0) else positive_color for c in contributions[to_plot][::-1]]
+        colors = [
+            negative_color if (c < 0) else positive_color
+            for c in contributions[to_plot][::-1]
+        ]
     else:
-        colors = \
-            [positive_color if (c < 0) else negative_color for c in contributions[to_plot][::-1]]
+        colors = [
+            positive_color if (c < 0) else negative_color
+            for c in contributions[to_plot][::-1]
+        ]
 
     if transparent:
         fig, ax = plt.subplots()
     else:
-        fig, ax = plt.subplots(facecolor='w')
+        fig, ax = plt.subplots(facecolor="w")
     plt.barh(features[to_plot][::-1], contributions[to_plot][::-1], color=colors)
     plt.title("Contribution by feature")
-    plt.tick_params(axis='x', which='both', bottom=False, top=False, labelbottom=False)
+    plt.tick_params(axis="x", which="both", bottom=False, top=False, labelbottom=False)
 
     ax.spines["top"].set_visible(False)
     ax.spines["bottom"].set_visible(False)

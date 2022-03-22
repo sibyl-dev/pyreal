@@ -1,10 +1,19 @@
 from pyreal.explainers import ExplainerBase, ShapFeatureContribution, ShapFeatureImportance
 
 
-def explain(return_explanation=True, return_explainer=True, explainer=None,
-            model=None, x_orig=None, x_train_orig=None, feature_descriptions=None,
-            e_transforms=None, m_transforms=None, i_transforms=None,
-            interpretable_features=True):
+def explain(
+    return_explanation=True,
+    return_explainer=True,
+    explainer=None,
+    model=None,
+    x_orig=None,
+    x_train_orig=None,
+    feature_descriptions=None,
+    e_transforms=None,
+    m_transforms=None,
+    i_transforms=None,
+    interpretable_features=True,
+):
     """
     Get an explanation of the model for x_orig (default explainer produces global explanations)
 
@@ -48,15 +57,21 @@ def explain(return_explanation=True, return_explainer=True, explainer=None,
     if not return_explanation and not return_explainer:
         raise ValueError("return_explanation and return_explainer cannot both be false")
     if explainer is None and (model is None or x_train_orig is None):
-        raise ValueError("You must provide either explainer OR model and corresponding x_train")
+        raise ValueError(
+            "You must provide either explainer OR model and corresponding x_train"
+        )
 
     if explainer is None:
-        explainer = Explainer(model, x_train_orig,
-                              feature_descriptions=feature_descriptions,
-                              e_transforms=e_transforms, m_transforms=m_transforms,
-                              i_transforms=i_transforms,
-                              interpretable_features=interpretable_features,
-                              fit_on_init=True)
+        explainer = Explainer(
+            model,
+            x_train_orig,
+            feature_descriptions=feature_descriptions,
+            e_transforms=e_transforms,
+            m_transforms=m_transforms,
+            i_transforms=i_transforms,
+            interpretable_features=interpretable_features,
+            fit_on_init=True,
+        )
     if return_explainer and return_explanation:
         return explainer, explainer.produce(x_orig)
     if return_explainer:
@@ -87,8 +102,15 @@ class Explainer(ExplainerBase):
         **kwargs: see base Explainer args
     """
 
-    def __init__(self, model, x_train_orig, scope="global", e_algorithm="shap",
-                 interpretable_features=True, **kwargs):
+    def __init__(
+        self,
+        model,
+        x_train_orig,
+        scope="global",
+        e_algorithm="shap",
+        interpretable_features=True,
+        **kwargs
+    ):
         self.scope = scope
         self.interpretable_features = interpretable_features
         algorithm_list = ["shap"]
@@ -99,17 +121,20 @@ class Explainer(ExplainerBase):
             raise ValueError("Invalid algorithm type %s" % e_algorithm)
         if scope == "global":
             if e_algorithm == "shap":
-                self.base_explainer = \
-                    ShapFeatureImportance(model,
-                                          x_train_orig,
-                                          interpretable_features=interpretable_features,
-                                          **kwargs)
+                self.base_explainer = ShapFeatureImportance(
+                    model,
+                    x_train_orig,
+                    interpretable_features=interpretable_features,
+                    **kwargs
+                )
         elif scope == "local":
             if e_algorithm == "shap":
-                self.base_explainer = \
-                    ShapFeatureContribution(model, x_train_orig,
-                                            interpretable_features=interpretable_features,
-                                            **kwargs)
+                self.base_explainer = ShapFeatureContribution(
+                    model,
+                    x_train_orig,
+                    interpretable_features=interpretable_features,
+                    **kwargs
+                )
         else:
             raise TypeError("Explainers must be either global or local")
 
@@ -132,15 +157,21 @@ class Explainer(ExplainerBase):
                 Contribution of each feature for each instance
         """
         if self.scope == "global" and x_orig is not None:
-            raise ValueError("Global explainer does not explain specific input data. \
-                              Call produce() without arguments or change scope to local.")
+            raise ValueError(
+                "Global explainer does not explain specific input data. \
+                              Call produce() without arguments or change scope to local."
+            )
         if self.scope == "local" and x_orig is None:
-            raise ValueError("Local explainers requires input data. \
-                              Call produce() with input or change scope to global.")
+            raise ValueError(
+                "Local explainers requires input data. \
+                              Call produce() with input or change scope to global."
+            )
 
         return self.base_explainer.produce(x_orig)
 
-    def evaluate_variation(self, with_fit=False, explanations=None, n_iterations=20, n_rows=10):
+    def evaluate_variation(
+        self, with_fit=False, explanations=None, n_iterations=20, n_rows=10
+    ):
         """
         Evaluate the variation of the explanations generated by this Explainer.
         A variation of 0 means this explainer is expected to generate the exact same explanation
@@ -164,5 +195,9 @@ class Explainer(ExplainerBase):
             float
                 The variation of this Explainer's explanations
         """
-        return self.base_explainer.evaluate_variation(with_fit=with_fit, explanations=explanations,
-                                                      n_iterations=n_iterations, n_rows=n_rows)
+        return self.base_explainer.evaluate_variation(
+            with_fit=with_fit,
+            explanations=explanations,
+            n_iterations=n_iterations,
+            n_rows=n_rows,
+        )
