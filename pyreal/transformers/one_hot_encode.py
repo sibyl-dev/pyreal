@@ -151,7 +151,7 @@ class OneHotEncoder(Transformer):
         if not self.fitted:
             raise RuntimeError("Must fit one hot encoder before transforming")
         x_to_encode = x[self.columns]
-        columns = self.ohe.get_feature_names(x_to_encode.columns)
+        columns = self.ohe.get_feature_names_out(x_to_encode.columns)
         index = x_to_encode.index
         x_cat_ohe = self.ohe.transform(x_to_encode)
         x_cat_ohe = pd.DataFrame(x_cat_ohe, columns=columns, index=index)
@@ -205,7 +205,7 @@ class OneHotEncoder(Transformer):
         explanation = pd.DataFrame(explanation)
         if explanation.ndim == 1:
             explanation = explanation.reshape(1, -1)
-        encoded_columns = self.ohe.get_feature_names(self.columns)
+        encoded_columns = self.ohe.get_feature_names_out(self.columns)
         for original_feature in self.columns:
             encoded_features = [
                 item
