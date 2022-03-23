@@ -1,11 +1,10 @@
 import logging
 from abc import ABC, abstractmethod
-
 import pandas as pd
 
-from pyreal.types.explanations.dataframe import (
-    AdditiveFeatureContributionExplanation, AdditiveFeatureImportanceExplanation,
-    FeatureContributionExplanation, FeatureImportanceExplanation,)
+from pyreal.types.explanations.feature_based import FeatureBased, \
+    AdditiveFeatureContributionExplanation, AdditiveFeatureImportanceExplanation, \
+    FeatureContributionExplanation, FeatureImportanceExplanation
 
 log = logging.getLogger(__name__)
 
@@ -211,15 +210,16 @@ class Transformer(ABC):
                 If `explanation` is not of a supported ExplanationType
 
         """
-        if isinstance(explanation, AdditiveFeatureContributionExplanation) \
-                or isinstance(explanation, AdditiveFeatureImportanceExplanation):
-            return self.inverse_transform_explanation_additive_contributions(explanation)
-        # TODO: here we are temporarily using the additive version for non-additive explanations
-        #       Addressed in GH issue 114.
+        if isinstance(explanation, AdditiveFeatureContributionExplanation):
+            return self.inverse_transform_explanation_additive_feature_contribution(explanation)
+        if isinstance(explanation, AdditiveFeatureImportanceExplanation):
+            return self.inverse_transform_explanation_additive_feature_importance(explanation)
         if isinstance(explanation, FeatureContributionExplanation):
-            return self.inverse_transform_explanation_additive_contributions(explanation)
+            return self.inverse_transform_explanation_feature_contribution(explanation)
         if isinstance(explanation, FeatureImportanceExplanation):
             return self.inverse_transform_explanation_feature_importance(explanation)
+        if isinstance(explanation, FeatureBased):
+            return self.inverse_transform_explanation_feature_based(explanation)
         raise ValueError("Invalid explanation types %s" % explanation.__class__)
 
     def transform_explanation(self, explanation):
@@ -238,65 +238,146 @@ class Transformer(ABC):
                 If `explanation` is not of a supported ExplanationType
 
         """
-        if isinstance(explanation, AdditiveFeatureContributionExplanation) \
-                or isinstance(explanation, AdditiveFeatureImportanceExplanation):
-            return self.transform_explanation_additive_contributions(explanation)
-        # for now, use the additive version for non-additive explanations
+        if isinstance(explanation, AdditiveFeatureContributionExplanation):
+            return self.transform_explanation_additive_feature_contribution(explanation)
+        if isinstance(explanation, AdditiveFeatureImportanceExplanation):
+            return self.transform_explanation_additive_feature_importance(explanation)
         if isinstance(explanation, FeatureContributionExplanation):
-            return self.transform_explanation_additive_contributions(explanation)
+            return self.transform_explanation_feature_contribution(explanation)
         if isinstance(explanation, FeatureImportanceExplanation):
             return self.transform_explanation_feature_importance(explanation)
+        if isinstance(explanation, FeatureBased):
+            return self.transform_explanation_feature_based(explanation)
         raise ValueError("Invalid explanation types %s" % explanation.__class__)
 
+# ========================== INVERSE TRANSFORM EXPLANATION METHODS ===============================
+
     # noinspection PyMethodMayBeStatic
-    def inverse_transform_explanation_additive_contributions(self, explanation):
+    def inverse_transform_explanation_additive_feature_contribution(self, explanation):
         """
-        Transforms additive contribution explanations
+        Inverse transforms additive feature contribution explanations
 
         Args:
-            explanation (AdditiveFeatureContributionExplanationType):
+            explanation (AdditiveFeatureContributionExplanation):
                 The explanation to be transformed
 
         Returns:
-            AdditiveFeatureContributionExplanationType:
+            AdditiveFeatureContributionExplanation:
                 The transformed explanation
         """
-        _display_missing_transform_info_inverse(
-            self.__class__, "inverse_transform_explanation_additive_contributions")
-        return explanation
+        return AdditiveFeatureContributionExplanation(
+            self.inverse_transform_explanation_feature_contribution(explanation).get())
+
+    # noinspection PyMethodMayBeStatic
+    def inverse_transform_explanation_additive_feature_importance(self, explanation):
+        """
+        Inverse transforms additive feature importance explanations
+
+        Args:
+            explanation (AdditiveFeatureImportanceExplanation):
+                The explanation to be transformed
+
+        Returns:
+            AdditiveFeatureImportanceExplanation:
+                The transformed explanation
+        """
+        return AdditiveFeatureImportanceExplanation(
+            self.inverse_transform_explanation_feature_importance(explanation).get())
+
+    # noinspection PyMethodMayBeStatic
+    def inverse_transform_explanation_feature_contribution(self, explanation):
+        """
+        Inverse transforms feature contribution explanations
+
+        Args:
+            explanation (FeatureContributionExplanation):
+                The explanation to be transformed
+        Returns:
+            FeatureContributionExplanation:
+                The transformed explanation
+        """
+        return FeatureContributionExplanation(
+            self.inverse_transform_explanation_feature_based(explanation).get())
 
     # noinspection PyMethodMayBeStatic
     def inverse_transform_explanation_feature_importance(self, explanation):
         """
-        Transforms feature importance explanations
+        Inverse transforms feature importance explanations
 
         Args:
-            explanation (FeatureImportanceExplanationType):
+            explanation (FeatureImportanceExplanation):
                 The explanation to be transformed
         Returns:
-            FeatureImportanceExplanationType:
+            FeatureImportanceExplanation:
+                The transformed explanation
+        """
+        return FeatureImportanceExplanation(
+            self.inverse_transform_explanation_feature_based(explanation).get())
+
+    # noinspection PyMethodMayBeStatic
+    def inverse_transform_explanation_feature_based(self, explanation):
+        """
+        Inverse transforms feature-based explanations
+
+        Args:
+            explanation (FeatureBased):
+                The explanation to be transformed
+        Returns:
+            FeatureBased:
                 The transformed explanation
         """
         _display_missing_transform_info_inverse(
-            self.__class__, "inverse_transform_explanation_feature_importance")
+            self.__class__, "inverse_transform_explanation_feature_based")
         return explanation
 
+# ============================== TRANSFORM EXPLANATION METHODS ===================================
+
     # noinspection PyMethodMayBeStatic
-    def transform_explanation_additive_contributions(self, explanation):
+    def transform_explanation_additive_feature_contribution(self, explanation):
         """
-        Transforms additive contribution explanations
+        Transforms additive feature contribution explanations
 
         Args:
-            explanation (AdditiveFeatureContributionExplanationType):
+            explanation (AdditiveFeatureContributionExplanation):
                 The explanation to be transformed
 
         Returns:
-            AdditiveFeatureContributionExplanationType:
+            AdditiveFeatureContributionExplanation:
                 The transformed explanation
         """
-        _display_missing_transform_info(
-            self.__class__, "transform_explanation_additive_contributions")
-        return explanation
+        return AdditiveFeatureContributionExplanation(
+            self.transform_explanation_feature_contribution(explanation).get())
+
+    # noinspection PyMethodMayBeStatic
+    def transform_explanation_additive_feature_importance(self, explanation):
+        """
+        Transforms additive feature importance explanations
+
+        Args:
+            explanation (AdditiveFeatureImportanceExplanation):
+                The explanation to be transformed
+
+        Returns:
+            AdditiveFeatureImportanceExplanation:
+                The transformed explanation
+        """
+        return AdditiveFeatureImportanceExplanation(
+            self.transform_explanation_feature_importance(explanation).get())
+
+    # noinspection PyMethodMayBeStatic
+    def transform_explanation_feature_contribution(self, explanation):
+        """
+        Transforms feature contribution explanations
+
+        Args:
+            explanation (FeatureContributionExplanation):
+                The explanation to be transformed
+        Returns:
+            FeatureContributionExplanation:
+                The transformed explanation
+        """
+        return FeatureContributionExplanation(
+            self.transform_explanation_feature_based(explanation).get())
 
     # noinspection PyMethodMayBeStatic
     def transform_explanation_feature_importance(self, explanation):
@@ -304,12 +385,27 @@ class Transformer(ABC):
         Transforms feature importance explanations
 
         Args:
-            explanation (FeatureImportanceExplanationType):
+            explanation (FeatureImportanceExplanation):
                 The explanation to be transformed
         Returns:
-            FeatureImportanceExplanationType:
+            FeatureImportanceExplanation:
+                The transformed explanation
+        """
+        return FeatureImportanceExplanation(
+            self.transform_explanation_feature_based(explanation).get())
+
+    # noinspection PyMethodMayBeStatic
+    def transform_explanation_feature_based(self, explanation):
+        """
+        Transforms feature-based explanations
+
+        Args:
+            explanation (FeatureBased):
+                The explanation to be transformed
+        Returns:
+            FeatureBased:
                 The transformed explanation
         """
         _display_missing_transform_info(
-            self.__class__, "transform_explanation_feature_importance")
+            self.__class__, "transform_explanation_feature_based")
         return explanation

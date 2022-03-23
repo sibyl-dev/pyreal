@@ -1,9 +1,9 @@
 import pandas as pd
 import pytest
 
-from pyreal.types.explanations.dataframe import (
+from pyreal.types.explanations.feature_based import (
     AdditiveFeatureContributionExplanation, AdditiveFeatureImportanceExplanation,
-    DataFrameExplanation, FeatureContributionExplanation, FeatureImportanceExplanation,)
+    FeatureBased, FeatureContributionExplanation, FeatureImportanceExplanation,)
 
 
 def helper_test_dataframe_explanations(cls, valid_explanation, invalid_explanation):
@@ -23,7 +23,7 @@ def test_dataframe_explanation_type():
     valid_explanation = pd.DataFrame([[1, 1, 1]], columns=["A", "B", "C"])
     invalid_explanation = [[1, 1, 1]]
 
-    helper_test_dataframe_explanations(DataFrameExplanation, valid_explanation,
+    helper_test_dataframe_explanations(FeatureBased, valid_explanation,
                                        invalid_explanation)
 
 
