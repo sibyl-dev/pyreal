@@ -6,6 +6,7 @@ import pandas as pd
 from pyreal.types.explanations.feature_based import (
     AdditiveFeatureContributionExplanation, AdditiveFeatureImportanceExplanation, FeatureBased,
     FeatureContributionExplanation, FeatureImportanceExplanation,)
+from pyreal.types.explanations.decision_tree import DecisionTreeExplanation
 
 log = logging.getLogger(__name__)
 
@@ -221,6 +222,9 @@ class Transformer(ABC):
             return self.inverse_transform_explanation_feature_importance(explanation)
         if isinstance(explanation, FeatureBased):
             return self.inverse_transform_explanation_feature_based(explanation)
+
+        if isinstance(explanation, DecisionTreeExplanation):
+            return self.inverse_transform_explanation_decision_tree(explanation)
         raise ValueError("Invalid explanation types %s" % explanation.__class__)
 
     def transform_explanation(self, explanation):
@@ -331,6 +335,22 @@ class Transformer(ABC):
             self.__class__, "inverse_transform_explanation_feature_based")
         return explanation
 
+    # noinspection PyMethodMayBeStatic
+    def inverse_transform_explanation_decision_tree(self, explanation):
+        """
+        Inverse transforms feature-based explanations
+
+        Args:
+            explanation (DecisionTree):
+                The explanation to be transformed
+        Returns:
+            DecisionTree:
+                The transformed explanation
+        """
+        _display_missing_transform_info_inverse(
+            self.__class__, "inverse_transform_explanation_decision_tree")
+        return explanation
+
 # ============================== TRANSFORM EXPLANATION METHODS ===================================
 
     # noinspection PyMethodMayBeStatic
@@ -409,4 +429,20 @@ class Transformer(ABC):
         """
         _display_missing_transform_info(
             self.__class__, "transform_explanation_feature_based")
+        return explanation
+
+    # noinspection PyMethodMayBeStatic
+    def transform_explanation_decision_tree(self, explanation):
+        """
+        Inverse transforms feature-based explanations
+
+        Args:
+            explanation (DecisionTree):
+                The explanation to be transformed
+        Returns:
+            DecisionTree:
+                The transformed explanation
+        """
+        _display_missing_transform_info(
+            self.__class__, "transform_explanation_decision_tree")
         return explanation
