@@ -4,8 +4,11 @@ from abc import ABC, abstractmethod
 import pandas as pd
 
 from pyreal.types.explanations.dataframe import (
-    AdditiveFeatureContributionExplanation, AdditiveFeatureImportanceExplanation,
-    FeatureContributionExplanation, FeatureImportanceExplanation,)
+    AdditiveFeatureContributionExplanation,
+    AdditiveFeatureImportanceExplanation,
+    FeatureContributionExplanation,
+    FeatureImportanceExplanation,
+)
 
 log = logging.getLogger(__name__)
 

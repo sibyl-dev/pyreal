@@ -6,7 +6,12 @@ import pandas as pd
 from sklearn.linear_model import LogisticRegression
 
 from pyreal.transformers import (
-    ColumnDropTransformer, MultiTypeImputer, OneHotEncoder, fit_transformers, run_transformers,)
+    ColumnDropTransformer,
+    MultiTypeImputer,
+    OneHotEncoder,
+    fit_transformers,
+    run_transformers,
+)
 
 DATA_DIR = os.path.join(os.path.dirname(__file__), "data")
 DATA_FILE = os.path.join(DATA_DIR, "data.csv")

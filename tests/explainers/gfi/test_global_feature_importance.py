@@ -2,7 +2,10 @@ import numpy as np
 from shap import LinearExplainer
 
 from pyreal.explainers import (
-    GlobalFeatureImportance, PermutationFeatureImportance, ShapFeatureImportance,)
+    GlobalFeatureImportance,
+    PermutationFeatureImportance,
+    ShapFeatureImportance,
+)
 
 
 def test_fit_shap(all_models):

@@ -2,7 +2,12 @@ import pandas as pd
 from pandas.testing import assert_frame_equal
 
 from pyreal.transformers import (
-    FeatureSelectTransformer, OneHotEncoder, base, fit_transformers, run_transformers,)
+    FeatureSelectTransformer,
+    OneHotEncoder,
+    base,
+    fit_transformers,
+    run_transformers,
+)
 
 
 def test_fit_run_transformers():

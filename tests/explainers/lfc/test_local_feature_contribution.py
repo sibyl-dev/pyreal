@@ -3,7 +3,10 @@ import pandas as pd
 from shap import LinearExplainer
 
 from pyreal.explainers import (
-    LocalFeatureContribution, ShapFeatureContribution, SimpleCounterfactualContribution,)
+    LocalFeatureContribution,
+    ShapFeatureContribution,
+    SimpleCounterfactualContribution,
+)
 
 
 def test_fit_shap(all_models):

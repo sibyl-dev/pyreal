@@ -5,7 +5,9 @@ import pandas as pd
 
 from pyreal.transformers import Transformer
 from pyreal.types.explanations.dataframe import (
-    AdditiveFeatureContributionExplanation, FeatureImportanceExplanation,)
+    AdditiveFeatureContributionExplanation,
+    FeatureImportanceExplanation,
+)
 
 
 class FeatureSelectTransformer(Transformer):

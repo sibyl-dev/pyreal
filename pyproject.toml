@@ -79,6 +79,10 @@ pydata-sphinx-theme = "^0.7.2"
 [tool.poetry.extras]
 examples = ["tensorflow", "nbmake"]
 
+[tool.black]
+line-length = 99
+preview = true
+
 [tool.isort]
 profile = "black"
 line_length = 99

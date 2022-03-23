@@ -4,7 +4,9 @@ from sklearn.preprocessing import OneHotEncoder as SklearnOneHotEncoder
 
 from pyreal.transformers import Transformer
 from pyreal.types.explanations.dataframe import (
-    AdditiveFeatureContributionExplanation, FeatureImportanceExplanation,)
+    AdditiveFeatureContributionExplanation,
+    FeatureImportanceExplanation,
+)
 
 
 def _generate_one_hot_to_categorical(categorical_to_one_hot):

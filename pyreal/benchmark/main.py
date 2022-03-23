@@ -10,13 +10,17 @@ import pandas as pd
 
 from pyreal.benchmark import dataset
 from pyreal.benchmark.challenges.gfi.global_feature_importance_challenge import (
-    GlobalFeatureImportanceChallenge,)
+    GlobalFeatureImportanceChallenge,
+)
 from pyreal.benchmark.challenges.gfi.shap_feature_importance_challenge import (
-    ShapFeatureImportanceChallenge,)
+    ShapFeatureImportanceChallenge,
+)
 from pyreal.benchmark.challenges.lfc.local_feature_contribution_challenge import (
-    LocalFeatureContributionChallenge,)
+    LocalFeatureContributionChallenge,
+)
 from pyreal.benchmark.challenges.lfc.shap_feature_contribution_challenge import (
-    ShapFeatureContributionChallenge,)
+    ShapFeatureContributionChallenge,
+)
 from pyreal.benchmark.models import logistic_regression
 from pyreal.benchmark.task import create_task
 
