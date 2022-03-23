@@ -223,6 +223,35 @@ class OneHotEncoder(Transformer):
                  "the explanation if possible.")
         raise BreakingTransformError
 
+    def transform_explanation_decision_tree(self, explanation):
+        """
+        Features cannot be added to encoded in existing decision trees,
+        so raise a BreakingTransformError
+
+        Args:
+            explanation (DecisionTree):
+                The explanation to be transformed
+
+        Raises:
+            BreakingTransformError
+
+        """
+        raise BreakingTransformError
+
+    def inverse_transform_explanation_decision_tree(self, explanation):
+        """
+        Features cannot be decoded in existing decision trees, so raise a BreakingTransformError
+
+        Args:
+            explanation (DecisionTree):
+                The explanation to be transformed
+
+        Raises:
+            BreakingTransformError
+
+        """
+        raise BreakingTransformError
+
     def _helper_summed_values(self, explanation):
         """
         Sum together the items in the explanation.

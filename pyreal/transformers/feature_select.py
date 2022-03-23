@@ -3,7 +3,7 @@ import collections
 import numpy as np
 import pandas as pd
 
-from pyreal.transformers import Transformer
+from pyreal.transformers import Transformer, BreakingTransformError
 from pyreal.types.explanations.feature_based import FeatureBased
 
 
@@ -61,9 +61,8 @@ class FeatureSelectTransformer(Transformer):
                 The explanation to be transformed
 
         Returns:
-            Returns:
-                FeatureBased:
-                    The transformed explanation
+            FeatureBased:
+                The transformed explanation
 
         """
         explanation_df = explanation.get()
@@ -79,12 +78,25 @@ class FeatureSelectTransformer(Transformer):
                 The explanation to be transformed
 
         Returns:
-            Returns:
-                FeatureBased:
-                    The transformed explanation
+            FeatureBased:
+                The transformed explanation
 
         """
         return FeatureBased(explanation.get()[self.columns])
+
+    def transform_explanation_decision_tree(self, explanation):
+        """
+        Features cannot be removed from existing decision trees, so raise a BreakingTransformError
+
+        Args:
+            explanation (DecisionTree):
+                The explanation to be transformed
+
+        Raises:
+            BreakingTransformError
+
+        """
+        raise BreakingTransformError
 
 
 class ColumnDropTransformer(Transformer):
@@ -126,9 +138,8 @@ class ColumnDropTransformer(Transformer):
                 The explanation to be transformed
 
         Returns:
-            Returns:
-                FeatureBased:
-                    The transformed explanation
+            FeatureBased:
+                The transformed explanation
 
         """
         explanation_df = explanation.get()
@@ -144,9 +155,22 @@ class ColumnDropTransformer(Transformer):
                 The explanation to be transformed
 
         Returns:
-            Returns:
-                FeatureBased:
-                    The transformed explanation
+            FeatureBased:
+                The transformed explanation
 
         """
         return FeatureBased(explanation.get().drop(self.dropped_columns, axis=1))
+
+    def transform_explanation_decision_tree(self, explanation):
+        """
+        Features cannot be removed from existing decision trees, so raise a BreakingTransformError
+
+        Args:
+            explanation (DecisionTree):
+                The explanation to be transformed
+
+        Raises:
+            BreakingTransformError
+
+        """
+        raise BreakingTransformError
