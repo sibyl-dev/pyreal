@@ -1,10 +1,11 @@
 import logging
 from abc import ABC, abstractmethod
+
 import pandas as pd
 
-from pyreal.types.explanations.feature_based import FeatureBased, \
-    AdditiveFeatureContributionExplanation, AdditiveFeatureImportanceExplanation, \
-    FeatureContributionExplanation, FeatureImportanceExplanation
+from pyreal.types.explanations.feature_based import (
+    AdditiveFeatureContributionExplanation, AdditiveFeatureImportanceExplanation, FeatureBased,
+    FeatureContributionExplanation, FeatureImportanceExplanation,)
 
 log = logging.getLogger(__name__)
 

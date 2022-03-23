@@ -1,10 +1,12 @@
+import logging
+
 import numpy as np
 import pandas as pd
 from sklearn.preprocessing import OneHotEncoder as SklearnOneHotEncoder
 
-from pyreal.transformers import Transformer, BreakingTransformError
+from pyreal.transformers import BreakingTransformError, Transformer
 from pyreal.types.explanations.feature_based import (
-    AdditiveFeatureContributionExplanation, AdditiveFeatureImportanceExplanation, FeatureBased)
+    AdditiveFeatureContributionExplanation, AdditiveFeatureImportanceExplanation,)
 
 log = logging.getLogger(__name__)
 

@@ -84,4 +84,3 @@ class MultiTypeImputer(Transformer):
             result = result.squeeze()
             result.name = name
         return result
-
