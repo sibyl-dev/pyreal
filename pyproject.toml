@@ -63,8 +63,7 @@ nbmake = "1.1"
 # Style Dependencies
 flake8 = "^3.9.2"
 isort = "^5.9.3"
-autoflake = "^1.4"
-autopep8 = "^1.5.7"
+black = "^22.1.0"
 
 # Documentation Dependencies
 PyYaml = "^5.4.1"
@@ -81,11 +80,8 @@ pydata-sphinx-theme = "^0.7.2"
 examples = ["tensorflow", "nbmake"]
 
 [tool.isort]
-include_trailing_comma = true
+profile = "black"
 line_length = 99
-lines_between_types = 0
-multi_line_output = 4
-use_parentheses = true
 
 [build-system]
 build-backend = "poetry.core.masonry.api"
