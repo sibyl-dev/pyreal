@@ -6,6 +6,8 @@ from pyreal.transformers import Transformer, BreakingTransformError
 from pyreal.types.explanations.feature_based import (
     AdditiveFeatureContributionExplanation, AdditiveFeatureImportanceExplanation, FeatureBased)
 
+log = logging.getLogger(__name__)
+
 
 def _generate_one_hot_to_categorical(categorical_to_one_hot):
     one_hot_to_categorical = {}
@@ -194,6 +196,29 @@ class OneHotEncoder(Transformer):
         Raises:
             BreakingTransformError
         """
+        raise BreakingTransformError
+
+    def transform_explanation_feature_based(self, explanation):
+        """
+        For feature-based explanations, the contributions or importances of categorical features
+        cannot be split into per-category features. This will result in a different feature
+        space in the explanation than the pre-transformed data. Therefore, attempting to one-hot
+        encode an explanation will should the explanation transform process.
+
+        If you'd like to get your explanation one-hot encoded, this procedure should be applied
+        to the data before generating the explanation if possible.
+
+        Args:
+            explanation (FeatureBased):
+                The explanation to transform
+
+        Raises:
+            BreakingTransformError
+        """
+        log.info("Explanation cannot be one-hot encoded with the available information. "
+                 "If you'd like to get your explanation one-hot encoded, "
+                 "this procedure should be applied to the data before generating "
+                 "the explanation if possible.")
         raise BreakingTransformError
 
     def _helper_summed_values(self, explanation):
