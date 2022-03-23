@@ -5,9 +5,7 @@ import pandas as pd
 
 from pyreal.transformers import Transformer
 from pyreal.types.explanations.dataframe import (
-    AdditiveFeatureContributionExplanation,
-    FeatureImportanceExplanation,
-)
+    AdditiveFeatureContributionExplanation, FeatureImportanceExplanation,)
 
 
 class FeatureSelectTransformer(Transformer):
@@ -23,9 +21,7 @@ class FeatureSelectTransformer(Transformer):
             columns (dataframe column label type or list of dataframe column label type):
                 Label of column to select, or an ordered list of column labels to select
         """
-        if columns is not None and not isinstance(
-            columns, (list, tuple, np.ndarray, pd.Index)
-        ):
+        if columns is not None and not isinstance(columns, (list, tuple, np.ndarray, pd.Index)):
             columns = [columns]
         self.columns = columns
         self.dropped_columns = []

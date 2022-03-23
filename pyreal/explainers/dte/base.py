@@ -61,9 +61,7 @@ class DecisionTreeExplainerBase(ExplainerBase, ABC):
 
         return features
 
-    def evaluate_variation(
-        self, with_fit=False, explanations=None, n_iterations=20, n_rows=10
-    ):
+    def evaluate_variation(self, with_fit=False, explanations=None, n_iterations=20, n_rows=10):
         """
         Not currently implemented for decision tree explainers
 

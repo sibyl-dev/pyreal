@@ -13,21 +13,12 @@ def choose_algorithm():
     return "surrogate_tree"
 
 
-def dte(
-    return_explainer=True,
-    return_importances=False,
-    explainer=None,
-    model=None,
-    x_train_orig=None,
-    is_classifier=True,
-    max_depth=None,
-    e_algorithm=None,
-    feature_descriptions=None,
-    e_transforms=None,
-    m_transforms=None,
-    i_transforms=None,
-    interpretable_features=True,
-):
+def dte(return_explainer=True, return_importances=False, explainer=None,
+        model=None, x_train_orig=None,
+        is_classifier=True, max_depth=None,
+        e_algorithm=None, feature_descriptions=None,
+        e_transforms=None, m_transforms=None, i_transforms=None,
+        interpretable_features=True):
     """
     Get a decision tree explanation, recommended for classification models.
 
@@ -74,24 +65,19 @@ def dte(
             The importance of each feature. Only returned if return_importance is True
     """
     if explainer is None and (model is None or x_train_orig is None):
-        raise ValueError(
-            "gfi requires either explainer OR model and x_train to be passed"
-        )
+        raise ValueError("gfi requires either explainer OR model and x_train to be passed")
 
     if explainer is None:
-        explainer = DecisionTreeExplainer(
-            model,
-            x_train_orig,
-            is_classifier=is_classifier,
-            max_depth=max_depth,
-            e_algorithm=e_algorithm,
-            feature_descriptions=feature_descriptions,
-            e_transforms=e_transforms,
-            m_transforms=m_transforms,
-            i_transforms=i_transforms,
-            fit_on_init=True,
-            interpretable_features=interpretable_features,
-        )
+        explainer = DecisionTreeExplainer(model, x_train_orig,
+                                          is_classifier=is_classifier,
+                                          max_depth=max_depth,
+                                          e_algorithm=e_algorithm,
+                                          feature_descriptions=feature_descriptions,
+                                          e_transforms=e_transforms,
+                                          m_transforms=m_transforms,
+                                          i_transforms=i_transforms,
+                                          fit_on_init=True,
+                                          interpretable_features=interpretable_features)
     if return_explainer and return_importances:
         return explainer, explainer.produce_importances()
     if return_explainer:
@@ -123,22 +109,14 @@ class DecisionTreeExplainer(DecisionTreeExplainerBase):
         **kwargs: see DecisionTreeExplainerBase args
     """
 
-    def __init__(
-        self,
-        model,
-        x_train_orig,
-        e_algorithm=None,
-        is_classifier=True,
-        max_depth=None,
-        **kwargs
-    ):
+    def __init__(self, model, x_train_orig, e_algorithm=None, is_classifier=True, max_depth=None,
+                 **kwargs):
         self.is_classifier = is_classifier
         if e_algorithm is None:
             e_algorithm = choose_algorithm()
         if e_algorithm == "surrogate_tree":
-            self.base_decision_tree = SurrogateDecisionTree(
-                model, x_train_orig, is_classifier, max_depth, **kwargs
-            )
+            self.base_decision_tree = SurrogateDecisionTree(model, x_train_orig,
+                                                            is_classifier, max_depth, **kwargs)
         if self.base_decision_tree is None:
             raise ValueError("Invalid algorithm type %s" % e_algorithm)
 

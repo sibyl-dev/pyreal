@@ -4,9 +4,7 @@ from sklearn.preprocessing import OneHotEncoder as SklearnOneHotEncoder
 
 from pyreal.transformers import Transformer
 from pyreal.types.explanations.dataframe import (
-    AdditiveFeatureContributionExplanation,
-    FeatureImportanceExplanation,
-)
+    AdditiveFeatureContributionExplanation, FeatureImportanceExplanation,)
 
 
 def _generate_one_hot_to_categorical(categorical_to_one_hot):
@@ -61,9 +59,9 @@ class Mappings:
         self.one_hot_to_categorical = one_hot_to_categorical
 
     @staticmethod
-    def generate_mappings(
-        categorical_to_one_hot=None, one_hot_to_categorical=None, dataframe=None
-    ):
+    def generate_mappings(categorical_to_one_hot=None,
+                          one_hot_to_categorical=None,
+                          dataframe=None):
         """
         Generate a new Mappings object using one of the input formats
         All but one keyword should be None
@@ -81,21 +79,15 @@ class Mappings:
         """
 
         if categorical_to_one_hot is not None:
-            return Mappings(
-                categorical_to_one_hot,
-                _generate_one_hot_to_categorical(categorical_to_one_hot),
-            )
+            return Mappings(categorical_to_one_hot,
+                            _generate_one_hot_to_categorical(categorical_to_one_hot))
         if one_hot_to_categorical is not None:
-            return Mappings(
-                _generate_categorical_to_one_hot(one_hot_to_categorical),
-                one_hot_to_categorical,
-            )
+            return Mappings(_generate_categorical_to_one_hot(one_hot_to_categorical),
+                            one_hot_to_categorical)
         if dataframe is not None:
             categorical_to_one_hot = _generate_from_df(dataframe)
-            return Mappings(
-                categorical_to_one_hot,
-                _generate_one_hot_to_categorical(categorical_to_one_hot),
-            )
+            return Mappings(categorical_to_one_hot,
+                            _generate_one_hot_to_categorical(categorical_to_one_hot))
 
 
 class OneHotEncoder(Transformer):
@@ -112,9 +104,7 @@ class OneHotEncoder(Transformer):
                 Label of column to select, or an ordered list of column labels to select
         """
         self.ohe = SklearnOneHotEncoder(sparse=False)
-        if columns is not None and not isinstance(
-            columns, (list, tuple, np.ndarray, pd.Index)
-        ):
+        if columns is not None and not isinstance(columns, (list, tuple, np.ndarray, pd.Index)):
             columns = [columns]
         self.columns = columns
         super().__init__(**kwargs)
@@ -171,8 +161,7 @@ class OneHotEncoder(Transformer):
                 The transformed explanation
         """
         return AdditiveFeatureContributionExplanation(
-            self._helper_summed_values(explanation.get())
-        )
+            self._helper_summed_values(explanation.get()))
 
     # TODO: replace this with a more theoretically grounded approach to combining feature
     #  importance
@@ -189,9 +178,7 @@ class OneHotEncoder(Transformer):
             Explanation:
                 The transformed explanation
         """
-        return FeatureImportanceExplanation(
-            self._helper_summed_values(explanation.get())
-        )
+        return FeatureImportanceExplanation(self._helper_summed_values(explanation.get()))
 
     def _helper_summed_values(self, explanation):
         """
@@ -207,11 +194,8 @@ class OneHotEncoder(Transformer):
             explanation = explanation.reshape(1, -1)
         encoded_columns = self.ohe.get_feature_names_out(self.columns)
         for original_feature in self.columns:
-            encoded_features = [
-                item
-                for item in encoded_columns
-                if item.startswith(original_feature + "_")
-            ]
+            encoded_features = [item for item in encoded_columns if
+                                item.startswith(original_feature + "_")]
             summed_contribution = explanation[encoded_features].sum(axis=1)
             explanation = explanation.drop(encoded_features, axis="columns")
             explanation[original_feature] = summed_contribution
@@ -309,9 +293,8 @@ class MappingsOneHotDecoder(Transformer):
                 if new_name not in cat_data:
                     cat_data[new_name] = np.empty(num_rows, dtype="object")
                 # TODO: add functionality to handle defaults
-                cat_data[new_name][
-                    np.where(x[col] == 1)
-                ] = self.mappings.one_hot_to_categorical[col][1]
+                cat_data[new_name][np.where(x[col] == 1)] = \
+                    self.mappings.one_hot_to_categorical[col][1]
         return pd.DataFrame(cat_data)
 
     # noinspection PyMethodMayBeStatic
