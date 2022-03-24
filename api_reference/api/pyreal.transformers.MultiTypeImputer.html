@@ -722,81 +722,6 @@
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="pyreal.types.explanations.dataframe.DataFrameExplanation.html">
-     pyreal.types.explanations.dataframe.DataFrameExplanation
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="pyreal.types.explanations.dataframe.DataFrameExplanation.get.html">
-     pyreal.types.explanations.dataframe.DataFrameExplanation.get
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="pyreal.types.explanations.dataframe.DataFrameExplanation.validate.html">
-     pyreal.types.explanations.dataframe.DataFrameExplanation.validate
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="pyreal.types.explanations.dataframe.FeatureImportanceExplanation.html">
-     pyreal.types.explanations.dataframe.FeatureImportanceExplanation
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="pyreal.types.explanations.dataframe.FeatureImportanceExplanation.get.html">
-     pyreal.types.explanations.dataframe.FeatureImportanceExplanation.get
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="pyreal.types.explanations.dataframe.FeatureImportanceExplanation.validate.html">
-     pyreal.types.explanations.dataframe.FeatureImportanceExplanation.validate
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="pyreal.types.explanations.dataframe.AdditiveFeatureImportanceExplanation.html">
-     pyreal.types.explanations.dataframe.AdditiveFeatureImportanceExplanation
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="pyreal.types.explanations.dataframe.AdditiveFeatureImportanceExplanation.get.html">
-     pyreal.types.explanations.dataframe.AdditiveFeatureImportanceExplanation.get
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="pyreal.types.explanations.dataframe.AdditiveFeatureImportanceExplanation.validate.html">
-     pyreal.types.explanations.dataframe.AdditiveFeatureImportanceExplanation.validate
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="pyreal.types.explanations.dataframe.FeatureContributionExplanation.html">
-     pyreal.types.explanations.dataframe.FeatureContributionExplanation
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="pyreal.types.explanations.dataframe.FeatureContributionExplanation.get.html">
-     pyreal.types.explanations.dataframe.FeatureContributionExplanation.get
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="pyreal.types.explanations.dataframe.FeatureContributionExplanation.validate.html">
-     pyreal.types.explanations.dataframe.FeatureContributionExplanation.validate
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="pyreal.types.explanations.dataframe.AdditiveFeatureContributionExplanation.html">
-     pyreal.types.explanations.dataframe.AdditiveFeatureContributionExplanation
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="pyreal.types.explanations.dataframe.AdditiveFeatureContributionExplanation.get.html">
-     pyreal.types.explanations.dataframe.AdditiveFeatureContributionExplanation.get
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="pyreal.types.explanations.dataframe.AdditiveFeatureContributionExplanation.validate.html">
-     pyreal.types.explanations.dataframe.AdditiveFeatureContributionExplanation.validate
-    </a>
-   </li>
-   <li class="toctree-l2">
     <a class="reference internal" href="pyreal.types.explanations.decision_tree.DecisionTreeExplanation.html">
      pyreal.types.explanations.decision_tree.DecisionTreeExplanation
     </a>
@@ -921,13 +846,25 @@ and categorical columns with the mode value.</p>
 <td><p>Fits this transformer to data and then transforms the same data</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">inverse_transform_explanation</span></code>(explanation)</p></td>
-<td><p>Transforms additive contribution explanations.</p></td>
+<td><p>Transforms the explanation from the second feature space handled by this transformer to the first.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">inverse_transform_explanation_additive_contributions</span></code>(...)</p></td>
-<td><p>Transforms additive contribution explanations</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">inverse_transform_explanation_additive_feature_contribution</span></code>(...)</p></td>
+<td><p>Inverse transforms additive feature contribution explanations</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">inverse_transform_explanation_additive_feature_importance</span></code>(...)</p></td>
+<td><p>Inverse transforms additive feature importance explanations</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">inverse_transform_explanation_decision_tree</span></code>(...)</p></td>
+<td><p>Inverse transforms feature-based explanations</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">inverse_transform_explanation_feature_based</span></code>(...)</p></td>
+<td><p>Inverse transforms feature-based explanations</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">inverse_transform_explanation_feature_contribution</span></code>(...)</p></td>
+<td><p>Inverse transforms feature contribution explanations</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">inverse_transform_explanation_feature_importance</span></code>(...)</p></td>
-<td><p>Transforms feature importance explanations</p></td>
+<td><p>Inverse transforms feature importance explanations</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_flags</span></code>([model, interpret, algorithm])</p></td>
 <td><p></p></td>
@@ -936,10 +873,22 @@ and categorical columns with the mode value.</p>
 <td><p>Wrapper for data_transform.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="pyreal.transformers.MultiTypeImputer.transform_explanation.html#pyreal.transformers.MultiTypeImputer.transform_explanation" title="pyreal.transformers.MultiTypeImputer.transform_explanation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_explanation</span></code></a>(explanation)</p></td>
-<td><p>Transforms additive contribution explanations.</p></td>
+<td><p>Transforms the explanation from the first feature space handled by this transformer to the second.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_explanation_additive_contributions</span></code>(...)</p></td>
-<td><p>Transforms additive contribution explanations</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_explanation_additive_feature_contribution</span></code>(...)</p></td>
+<td><p>Transforms additive feature contribution explanations</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_explanation_additive_feature_importance</span></code>(...)</p></td>
+<td><p>Transforms additive feature importance explanations</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_explanation_decision_tree</span></code>(explanation)</p></td>
+<td><p>Inverse transforms feature-based explanations</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_explanation_feature_based</span></code>(explanation)</p></td>
+<td><p>Transforms feature-based explanations</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_explanation_feature_contribution</span></code>(...)</p></td>
+<td><p>Transforms feature contribution explanations</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_explanation_feature_importance</span></code>(...)</p></td>
 <td><p>Transforms feature importance explanations</p></td>

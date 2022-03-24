@@ -18,12 +18,20 @@
       ~FeatureSelectTransformer.fit
       ~FeatureSelectTransformer.fit_transform
       ~FeatureSelectTransformer.inverse_transform_explanation
-      ~FeatureSelectTransformer.inverse_transform_explanation_additive_contributions
+      ~FeatureSelectTransformer.inverse_transform_explanation_additive_feature_contribution
+      ~FeatureSelectTransformer.inverse_transform_explanation_additive_feature_importance
+      ~FeatureSelectTransformer.inverse_transform_explanation_decision_tree
+      ~FeatureSelectTransformer.inverse_transform_explanation_feature_based
+      ~FeatureSelectTransformer.inverse_transform_explanation_feature_contribution
       ~FeatureSelectTransformer.inverse_transform_explanation_feature_importance
       ~FeatureSelectTransformer.set_flags
       ~FeatureSelectTransformer.transform
       ~FeatureSelectTransformer.transform_explanation
-      ~FeatureSelectTransformer.transform_explanation_additive_contributions
+      ~FeatureSelectTransformer.transform_explanation_additive_feature_contribution
+      ~FeatureSelectTransformer.transform_explanation_additive_feature_importance
+      ~FeatureSelectTransformer.transform_explanation_decision_tree
+      ~FeatureSelectTransformer.transform_explanation_feature_based
+      ~FeatureSelectTransformer.transform_explanation_feature_contribution
       ~FeatureSelectTransformer.transform_explanation_feature_importance
    
    

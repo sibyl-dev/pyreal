@@ -157,9 +157,8 @@
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 
-<span class="kn">from</span> <span class="nn">pyreal.transformers</span> <span class="kn">import</span> <span class="n">Transformer</span>
-<span class="kn">from</span> <span class="nn">pyreal.types.explanations.dataframe</span> <span class="kn">import</span> <span class="p">(</span>
-    <span class="n">AdditiveFeatureContributionExplanation</span><span class="p">,</span> <span class="n">FeatureImportanceExplanation</span><span class="p">,)</span>
+<span class="kn">from</span> <span class="nn">pyreal.transformers</span> <span class="kn">import</span> <span class="n">BreakingTransformError</span><span class="p">,</span> <span class="n">Transformer</span>
+<span class="kn">from</span> <span class="nn">pyreal.types.explanations.feature_based</span> <span class="kn">import</span> <span class="n">FeatureBased</span>
 
 
 <div class="viewcode-block" id="FeatureSelectTransformer"><a class="viewcode-back" href="../../../api_reference/api/pyreal.transformers.FeatureSelectTransformer.html#pyreal.transformers.FeatureSelectTransformer">[docs]</a><span class="k">class</span> <span class="nc">FeatureSelectTransformer</span><span class="p">(</span><span class="n">Transformer</span><span class="p">):</span>
@@ -208,69 +207,50 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">x</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">]</span></div>
 
-    <span class="k">def</span> <span class="nf">inverse_transform_explanation_additive_contributions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">explanation</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">inverse_transform_explanation_feature_based</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">explanation</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Sets the contribution of dropped features to 0</span>
 <span class="sd">        Args:</span>
-<span class="sd">            explanation (AdditiveFeatureContributionExplanationType):</span>
+<span class="sd">            explanation (FeatureBased):</span>
 <span class="sd">                The explanation to be transformed</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            Returns:</span>
-<span class="sd">                AdditiveFeatureContributionExplanationType:</span>
-<span class="sd">                    The transformed explanation</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">explanation_df</span> <span class="o">=</span> <span class="n">explanation</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
-        <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">dropped_columns</span><span class="p">:</span>
-            <span class="n">explanation_df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="k">return</span> <span class="n">AdditiveFeatureContributionExplanation</span><span class="p">(</span><span class="n">explanation_df</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">inverse_transform_explanation_feature_importance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">explanation</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Sets the importance of dropped features to 0</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            explanation (FeatureImportanceExplanation):</span>
-<span class="sd">                The explanation to be transformed</span>
-<span class="sd">        Returns:</span>
-<span class="sd">            FeatureImportanceExplanation:</span>
+<span class="sd">            FeatureBased:</span>
 <span class="sd">                The transformed explanation</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">explanation_df</span> <span class="o">=</span> <span class="n">explanation</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
         <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">dropped_columns</span><span class="p">:</span>
             <span class="n">explanation_df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="k">return</span> <span class="n">FeatureImportanceExplanation</span><span class="p">(</span><span class="n">explanation_df</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">FeatureBased</span><span class="p">(</span><span class="n">explanation_df</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">transform_explanation_additive_contributions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">explanation</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">transform_explanation_feature_based</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">explanation</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Selects the desired columns</span>
 <span class="sd">        Args:</span>
-<span class="sd">            explanation (AdditiveFeatureContributionExplanationType):</span>
+<span class="sd">            explanation (FeatureBased):</span>
 <span class="sd">                The explanation to be transformed</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            Returns:</span>
-<span class="sd">                AdditiveFeatureContributionExplanationType:</span>
-<span class="sd">                    The transformed explanation</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">AdditiveFeatureContributionExplanation</span><span class="p">(</span><span class="n">explanation</span><span class="o">.</span><span class="n">get</span><span class="p">()[</span><span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">])</span>
-
-    <span class="k">def</span> <span class="nf">transform_explanation_feature_importance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">explanation</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Selects the desired columns</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            explanation (FeatureImportanceExplanation):</span>
-<span class="sd">                The explanation to be transformed</span>
-<span class="sd">        Returns:</span>
-<span class="sd">            FeatureImportanceExplanation:</span>
+<span class="sd">            FeatureBased:</span>
 <span class="sd">                The transformed explanation</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">FeatureImportanceExplanation</span><span class="p">(</span><span class="n">explanation</span><span class="o">.</span><span class="n">get</span><span class="p">()[</span><span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">])</span></div>
+        <span class="k">return</span> <span class="n">FeatureBased</span><span class="p">(</span><span class="n">explanation</span><span class="o">.</span><span class="n">get</span><span class="p">()[</span><span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">])</span>
+
+    <span class="k">def</span> <span class="nf">transform_explanation_decision_tree</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">explanation</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Features cannot be removed from existing decision trees, so raise a BreakingTransformError</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            explanation (DecisionTree):</span>
+<span class="sd">                The explanation to be transformed</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            BreakingTransformError</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="n">BreakingTransformError</span></div>
 
 
 <span class="k">class</span> <span class="nc">ColumnDropTransformer</span><span class="p">(</span><span class="n">Transformer</span><span class="p">):</span>
@@ -304,40 +284,50 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">x</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dropped_columns</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">inverse_transform_explanation_additive_contributions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">explanation</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">inverse_transform_explanation_feature_based</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">explanation</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Sets the contribution of dropped features to 0</span>
 <span class="sd">        Args:</span>
-<span class="sd">            explanation (AdditiveFeatureContributionExplanationType):</span>
+<span class="sd">            explanation (FeatureBased):</span>
 <span class="sd">                The explanation to be transformed</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            Returns:</span>
-<span class="sd">                AdditiveFeatureContributionExplanationType:</span>
-<span class="sd">                    The transformed explanation</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">explanation_df</span> <span class="o">=</span> <span class="n">explanation</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
-        <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">dropped_columns</span><span class="p">:</span>
-            <span class="n">explanation_df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="k">return</span> <span class="n">AdditiveFeatureContributionExplanation</span><span class="p">(</span><span class="n">explanation_df</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">inverse_transform_explanation_feature_importance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">explanation</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Sets the importance of dropped features to 0</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            explanation (FeatureImportanceExplanation):</span>
-<span class="sd">                The explanation to be transformed</span>
-<span class="sd">        Returns:</span>
-<span class="sd">            FeatureImportanceExplanation:</span>
+<span class="sd">            FeatureBased:</span>
 <span class="sd">                The transformed explanation</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">explanation_df</span> <span class="o">=</span> <span class="n">explanation</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
         <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">dropped_columns</span><span class="p">:</span>
             <span class="n">explanation_df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="k">return</span> <span class="n">FeatureImportanceExplanation</span><span class="p">(</span><span class="n">explanation_df</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">FeatureBased</span><span class="p">(</span><span class="n">explanation_df</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">transform_explanation_feature_based</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">explanation</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Drops columns from an explanation</span>
+<span class="sd">        Args:</span>
+<span class="sd">            explanation (FeatureBased):</span>
+<span class="sd">                The explanation to be transformed</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            FeatureBased:</span>
+<span class="sd">                The transformed explanation</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">FeatureBased</span><span class="p">(</span><span class="n">explanation</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dropped_columns</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">transform_explanation_decision_tree</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">explanation</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Features cannot be removed from existing decision trees, so raise a BreakingTransformError</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            explanation (DecisionTree):</span>
+<span class="sd">                The explanation to be transformed</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            BreakingTransformError</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="n">BreakingTransformError</span>
 </pre></div>
 
               </div>

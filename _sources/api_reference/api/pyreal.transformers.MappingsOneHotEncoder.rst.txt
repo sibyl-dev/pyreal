@@ -18,12 +18,20 @@
       ~MappingsOneHotEncoder.fit
       ~MappingsOneHotEncoder.fit_transform
       ~MappingsOneHotEncoder.inverse_transform_explanation
-      ~MappingsOneHotEncoder.inverse_transform_explanation_additive_contributions
+      ~MappingsOneHotEncoder.inverse_transform_explanation_additive_feature_contribution
+      ~MappingsOneHotEncoder.inverse_transform_explanation_additive_feature_importance
+      ~MappingsOneHotEncoder.inverse_transform_explanation_decision_tree
+      ~MappingsOneHotEncoder.inverse_transform_explanation_feature_based
+      ~MappingsOneHotEncoder.inverse_transform_explanation_feature_contribution
       ~MappingsOneHotEncoder.inverse_transform_explanation_feature_importance
       ~MappingsOneHotEncoder.set_flags
       ~MappingsOneHotEncoder.transform
       ~MappingsOneHotEncoder.transform_explanation
-      ~MappingsOneHotEncoder.transform_explanation_additive_contributions
+      ~MappingsOneHotEncoder.transform_explanation_additive_feature_contribution
+      ~MappingsOneHotEncoder.transform_explanation_additive_feature_importance
+      ~MappingsOneHotEncoder.transform_explanation_decision_tree
+      ~MappingsOneHotEncoder.transform_explanation_feature_based
+      ~MappingsOneHotEncoder.transform_explanation_feature_contribution
       ~MappingsOneHotEncoder.transform_explanation_feature_importance
    
    

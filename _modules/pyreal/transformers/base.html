@@ -157,8 +157,9 @@
 
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 
-<span class="kn">from</span> <span class="nn">pyreal.types.explanations.dataframe</span> <span class="kn">import</span> <span class="p">(</span>
-    <span class="n">AdditiveFeatureContributionExplanation</span><span class="p">,</span> <span class="n">AdditiveFeatureImportanceExplanation</span><span class="p">,</span>
+<span class="kn">from</span> <span class="nn">pyreal.types.explanations.decision_tree</span> <span class="kn">import</span> <span class="n">DecisionTreeExplanation</span>
+<span class="kn">from</span> <span class="nn">pyreal.types.explanations.feature_based</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">AdditiveFeatureContributionExplanation</span><span class="p">,</span> <span class="n">AdditiveFeatureImportanceExplanation</span><span class="p">,</span> <span class="n">FeatureBased</span><span class="p">,</span>
     <span class="n">FeatureContributionExplanation</span><span class="p">,</span> <span class="n">FeatureImportanceExplanation</span><span class="p">,)</span>
 
 <span class="n">log</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
@@ -365,15 +366,19 @@
 <span class="sd">                If `explanation` is not of a supported ExplanationType</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">explanation</span><span class="p">,</span> <span class="n">AdditiveFeatureContributionExplanation</span><span class="p">)</span> \
-                <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">explanation</span><span class="p">,</span> <span class="n">AdditiveFeatureImportanceExplanation</span><span class="p">):</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">inverse_transform_explanation_additive_contributions</span><span class="p">(</span><span class="n">explanation</span><span class="p">)</span>
-        <span class="c1"># TODO: here we are temporarily using the additive version for non-additive explanations</span>
-        <span class="c1">#       Addressed in GH issue 114.</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">explanation</span><span class="p">,</span> <span class="n">AdditiveFeatureContributionExplanation</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">inverse_transform_explanation_additive_feature_contribution</span><span class="p">(</span><span class="n">explanation</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">explanation</span><span class="p">,</span> <span class="n">AdditiveFeatureImportanceExplanation</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">inverse_transform_explanation_additive_feature_importance</span><span class="p">(</span><span class="n">explanation</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">explanation</span><span class="p">,</span> <span class="n">FeatureContributionExplanation</span><span class="p">):</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">inverse_transform_explanation_additive_contributions</span><span class="p">(</span><span class="n">explanation</span><span class="p">)</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">inverse_transform_explanation_feature_contribution</span><span class="p">(</span><span class="n">explanation</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">explanation</span><span class="p">,</span> <span class="n">FeatureImportanceExplanation</span><span class="p">):</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">inverse_transform_explanation_feature_importance</span><span class="p">(</span><span class="n">explanation</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">explanation</span><span class="p">,</span> <span class="n">FeatureBased</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">inverse_transform_explanation_feature_based</span><span class="p">(</span><span class="n">explanation</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">explanation</span><span class="p">,</span> <span class="n">DecisionTreeExplanation</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">inverse_transform_explanation_decision_tree</span><span class="p">(</span><span class="n">explanation</span><span class="p">)</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Invalid explanation types </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">explanation</span><span class="o">.</span><span class="vm">__class__</span><span class="p">)</span>
 
 <div class="viewcode-block" id="Transformer.transform_explanation"><a class="viewcode-back" href="../../../api_reference/api/pyreal.transformers.Transformer.transform_explanation.html#pyreal.transformers.Transformer.transform_explanation">[docs]</a>    <span class="k">def</span> <span class="nf">transform_explanation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">explanation</span><span class="p">):</span>
@@ -392,65 +397,162 @@
 <span class="sd">                If `explanation` is not of a supported ExplanationType</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">explanation</span><span class="p">,</span> <span class="n">AdditiveFeatureContributionExplanation</span><span class="p">)</span> \
-                <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">explanation</span><span class="p">,</span> <span class="n">AdditiveFeatureImportanceExplanation</span><span class="p">):</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform_explanation_additive_contributions</span><span class="p">(</span><span class="n">explanation</span><span class="p">)</span>
-        <span class="c1"># for now, use the additive version for non-additive explanations</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">explanation</span><span class="p">,</span> <span class="n">AdditiveFeatureContributionExplanation</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform_explanation_additive_feature_contribution</span><span class="p">(</span><span class="n">explanation</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">explanation</span><span class="p">,</span> <span class="n">AdditiveFeatureImportanceExplanation</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform_explanation_additive_feature_importance</span><span class="p">(</span><span class="n">explanation</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">explanation</span><span class="p">,</span> <span class="n">FeatureContributionExplanation</span><span class="p">):</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform_explanation_additive_contributions</span><span class="p">(</span><span class="n">explanation</span><span class="p">)</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform_explanation_feature_contribution</span><span class="p">(</span><span class="n">explanation</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">explanation</span><span class="p">,</span> <span class="n">FeatureImportanceExplanation</span><span class="p">):</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform_explanation_feature_importance</span><span class="p">(</span><span class="n">explanation</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">explanation</span><span class="p">,</span> <span class="n">FeatureBased</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform_explanation_feature_based</span><span class="p">(</span><span class="n">explanation</span><span class="p">)</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Invalid explanation types </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">explanation</span><span class="o">.</span><span class="vm">__class__</span><span class="p">)</span></div>
 
+<span class="c1"># ========================== INVERSE TRANSFORM EXPLANATION METHODS ===============================</span>
+
     <span class="c1"># noinspection PyMethodMayBeStatic</span>
-    <span class="k">def</span> <span class="nf">inverse_transform_explanation_additive_contributions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">explanation</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">inverse_transform_explanation_additive_feature_contribution</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">explanation</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Transforms additive contribution explanations</span>
+<span class="sd">        Inverse transforms additive feature contribution explanations</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            explanation (AdditiveFeatureContributionExplanationType):</span>
+<span class="sd">            explanation (AdditiveFeatureContributionExplanation):</span>
 <span class="sd">                The explanation to be transformed</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            AdditiveFeatureContributionExplanationType:</span>
+<span class="sd">            AdditiveFeatureContributionExplanation:</span>
 <span class="sd">                The transformed explanation</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">_display_missing_transform_info_inverse</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">,</span> <span class="s2">&quot;inverse_transform_explanation_additive_contributions&quot;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">explanation</span>
+        <span class="k">return</span> <span class="n">AdditiveFeatureContributionExplanation</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">inverse_transform_explanation_feature_contribution</span><span class="p">(</span><span class="n">explanation</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
+
+    <span class="c1"># noinspection PyMethodMayBeStatic</span>
+    <span class="k">def</span> <span class="nf">inverse_transform_explanation_additive_feature_importance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">explanation</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Inverse transforms additive feature importance explanations</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            explanation (AdditiveFeatureImportanceExplanation):</span>
+<span class="sd">                The explanation to be transformed</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            AdditiveFeatureImportanceExplanation:</span>
+<span class="sd">                The transformed explanation</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">AdditiveFeatureImportanceExplanation</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">inverse_transform_explanation_feature_importance</span><span class="p">(</span><span class="n">explanation</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
+
+    <span class="c1"># noinspection PyMethodMayBeStatic</span>
+    <span class="k">def</span> <span class="nf">inverse_transform_explanation_feature_contribution</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">explanation</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Inverse transforms feature contribution explanations</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            explanation (FeatureContributionExplanation):</span>
+<span class="sd">                The explanation to be transformed</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            FeatureContributionExplanation:</span>
+<span class="sd">                The transformed explanation</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">FeatureContributionExplanation</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">inverse_transform_explanation_feature_based</span><span class="p">(</span><span class="n">explanation</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
 
     <span class="c1"># noinspection PyMethodMayBeStatic</span>
     <span class="k">def</span> <span class="nf">inverse_transform_explanation_feature_importance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">explanation</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Transforms feature importance explanations</span>
+<span class="sd">        Inverse transforms feature importance explanations</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            explanation (FeatureImportanceExplanationType):</span>
+<span class="sd">            explanation (FeatureImportanceExplanation):</span>
 <span class="sd">                The explanation to be transformed</span>
 <span class="sd">        Returns:</span>
-<span class="sd">            FeatureImportanceExplanationType:</span>
+<span class="sd">            FeatureImportanceExplanation:</span>
+<span class="sd">                The transformed explanation</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">FeatureImportanceExplanation</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">inverse_transform_explanation_feature_based</span><span class="p">(</span><span class="n">explanation</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
+
+    <span class="c1"># noinspection PyMethodMayBeStatic</span>
+    <span class="k">def</span> <span class="nf">inverse_transform_explanation_feature_based</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">explanation</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Inverse transforms feature-based explanations</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            explanation (FeatureBased):</span>
+<span class="sd">                The explanation to be transformed</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            FeatureBased:</span>
 <span class="sd">                The transformed explanation</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">_display_missing_transform_info_inverse</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">,</span> <span class="s2">&quot;inverse_transform_explanation_feature_importance&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">,</span> <span class="s2">&quot;inverse_transform_explanation_feature_based&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">explanation</span>
 
     <span class="c1"># noinspection PyMethodMayBeStatic</span>
-    <span class="k">def</span> <span class="nf">transform_explanation_additive_contributions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">explanation</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">inverse_transform_explanation_decision_tree</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">explanation</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Transforms additive contribution explanations</span>
+<span class="sd">        Inverse transforms feature-based explanations</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            explanation (AdditiveFeatureContributionExplanationType):</span>
+<span class="sd">            explanation (DecisionTree):</span>
+<span class="sd">                The explanation to be transformed</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            DecisionTree:</span>
+<span class="sd">                The transformed explanation</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">_display_missing_transform_info_inverse</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">,</span> <span class="s2">&quot;inverse_transform_explanation_decision_tree&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">explanation</span>
+
+<span class="c1"># ============================== TRANSFORM EXPLANATION METHODS ===================================</span>
+
+    <span class="c1"># noinspection PyMethodMayBeStatic</span>
+    <span class="k">def</span> <span class="nf">transform_explanation_additive_feature_contribution</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">explanation</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Transforms additive feature contribution explanations</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            explanation (AdditiveFeatureContributionExplanation):</span>
 <span class="sd">                The explanation to be transformed</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            AdditiveFeatureContributionExplanationType:</span>
+<span class="sd">            AdditiveFeatureContributionExplanation:</span>
 <span class="sd">                The transformed explanation</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">_display_missing_transform_info</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">,</span> <span class="s2">&quot;transform_explanation_additive_contributions&quot;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">explanation</span>
+        <span class="k">return</span> <span class="n">AdditiveFeatureContributionExplanation</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">transform_explanation_feature_contribution</span><span class="p">(</span><span class="n">explanation</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
+
+    <span class="c1"># noinspection PyMethodMayBeStatic</span>
+    <span class="k">def</span> <span class="nf">transform_explanation_additive_feature_importance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">explanation</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Transforms additive feature importance explanations</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            explanation (AdditiveFeatureImportanceExplanation):</span>
+<span class="sd">                The explanation to be transformed</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            AdditiveFeatureImportanceExplanation:</span>
+<span class="sd">                The transformed explanation</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">AdditiveFeatureImportanceExplanation</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">transform_explanation_feature_importance</span><span class="p">(</span><span class="n">explanation</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
+
+    <span class="c1"># noinspection PyMethodMayBeStatic</span>
+    <span class="k">def</span> <span class="nf">transform_explanation_feature_contribution</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">explanation</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Transforms feature contribution explanations</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            explanation (FeatureContributionExplanation):</span>
+<span class="sd">                The explanation to be transformed</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            FeatureContributionExplanation:</span>
+<span class="sd">                The transformed explanation</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">FeatureContributionExplanation</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">transform_explanation_feature_based</span><span class="p">(</span><span class="n">explanation</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
 
     <span class="c1"># noinspection PyMethodMayBeStatic</span>
     <span class="k">def</span> <span class="nf">transform_explanation_feature_importance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">explanation</span><span class="p">):</span>
@@ -458,14 +560,45 @@
 <span class="sd">        Transforms feature importance explanations</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            explanation (FeatureImportanceExplanationType):</span>
+<span class="sd">            explanation (FeatureImportanceExplanation):</span>
 <span class="sd">                The explanation to be transformed</span>
 <span class="sd">        Returns:</span>
-<span class="sd">            FeatureImportanceExplanationType:</span>
+<span class="sd">            FeatureImportanceExplanation:</span>
+<span class="sd">                The transformed explanation</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">FeatureImportanceExplanation</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">transform_explanation_feature_based</span><span class="p">(</span><span class="n">explanation</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
+
+    <span class="c1"># noinspection PyMethodMayBeStatic</span>
+    <span class="k">def</span> <span class="nf">transform_explanation_feature_based</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">explanation</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Transforms feature-based explanations</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            explanation (FeatureBased):</span>
+<span class="sd">                The explanation to be transformed</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            FeatureBased:</span>
 <span class="sd">                The transformed explanation</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">_display_missing_transform_info</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">,</span> <span class="s2">&quot;transform_explanation_feature_importance&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">,</span> <span class="s2">&quot;transform_explanation_feature_based&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">explanation</span>
+
+    <span class="c1"># noinspection PyMethodMayBeStatic</span>
+    <span class="k">def</span> <span class="nf">transform_explanation_decision_tree</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">explanation</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Inverse transforms feature-based explanations</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            explanation (DecisionTree):</span>
+<span class="sd">                The explanation to be transformed</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            DecisionTree:</span>
+<span class="sd">                The transformed explanation</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">_display_missing_transform_info</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">,</span> <span class="s2">&quot;transform_explanation_decision_tree&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">explanation</span></div>
 </pre></div>
 

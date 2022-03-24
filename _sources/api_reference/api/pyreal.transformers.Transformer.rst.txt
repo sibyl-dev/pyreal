@@ -18,12 +18,20 @@
       ~Transformer.fit
       ~Transformer.fit_transform
       ~Transformer.inverse_transform_explanation
-      ~Transformer.inverse_transform_explanation_additive_contributions
+      ~Transformer.inverse_transform_explanation_additive_feature_contribution
+      ~Transformer.inverse_transform_explanation_additive_feature_importance
+      ~Transformer.inverse_transform_explanation_decision_tree
+      ~Transformer.inverse_transform_explanation_feature_based
+      ~Transformer.inverse_transform_explanation_feature_contribution
       ~Transformer.inverse_transform_explanation_feature_importance
       ~Transformer.set_flags
       ~Transformer.transform
       ~Transformer.transform_explanation
-      ~Transformer.transform_explanation_additive_contributions
+      ~Transformer.transform_explanation_additive_feature_contribution
+      ~Transformer.transform_explanation_additive_feature_importance
+      ~Transformer.transform_explanation_decision_tree
+      ~Transformer.transform_explanation_feature_based
+      ~Transformer.transform_explanation_feature_contribution
       ~Transformer.transform_explanation_feature_importance
    
    
