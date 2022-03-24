@@ -3,7 +3,7 @@ import pandas as pd
 from pyreal.types.explanations.base import Explanation
 
 
-class DataFrameExplanation(Explanation):
+class FeatureBased(Explanation):
     """
     A type wrapper for feature-based DataFrame type outputs from explanation algorithms.
     """
@@ -22,9 +22,9 @@ class DataFrameExplanation(Explanation):
             raise AssertionError("DataFrame explanations must be of type DataFrame")
 
 
-class FeatureImportanceExplanation(DataFrameExplanation):
+class FeatureImportanceExplanation(FeatureBased):
     """
-    A type wrapper for global feature importance DataFrame type outputs from explanation
+    A type wrapper for global feature importance FeatureBased type outputs from explanation
     algorithms. Global feature importance explanations give one numeric value per feature,
     representing that feature's overall importance to the model's prediction.
     """
@@ -64,7 +64,7 @@ class AdditiveFeatureImportanceExplanation(FeatureImportanceExplanation):
         super().validate()
 
 
-class FeatureContributionExplanation(DataFrameExplanation):
+class FeatureContributionExplanation(FeatureBased):
     """
     A type wrapper for local feature contribution DataFrame type outputs from explanation
     algorithms. Local feature contribution explanations give one numeric value per instance

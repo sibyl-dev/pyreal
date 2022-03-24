@@ -107,8 +107,10 @@ def test_produce_permutation_regression_transforms(regression_one_hot):
 
 def helper_produce_permutation_regression_one_hot(explainer, model):
     importances = explainer.produce()
-    assert importances.shape == (1, model["x"].shape[1])
-    assert importances["A"][0] > .0001
+    assert importances.shape == (1, 5)
+    assert importances["A_2"][0] > .0001
+    assert importances["A_4"][0] > .0001
+    assert importances["A_6"][0] > .0001
     assert abs(importances["B"][0]) < .0001
     assert abs(importances["C"][0]) < .0001
 
