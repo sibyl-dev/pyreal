@@ -369,8 +369,7 @@ class MappingsOneHotDecoder(Transformer):
                     self.mappings.one_hot_to_categorical[col][1]
         return pd.DataFrame(cat_data)
 
-    # noinspection PyMethodMayBeStatic
-    def transform_explanation_additive_contribution(self, explanation):
+    def transform_explanation_additive_feature_contribution(self, explanation):
         """
         Transforms additive contribution explanations
 

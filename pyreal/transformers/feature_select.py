@@ -3,7 +3,7 @@ import collections
 import numpy as np
 import pandas as pd
 
-from pyreal.transformers import Transformer, BreakingTransformError
+from pyreal.transformers import BreakingTransformError, Transformer
 from pyreal.types.explanations.feature_based import FeatureBased
 
 
