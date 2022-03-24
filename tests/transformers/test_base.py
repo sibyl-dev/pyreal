@@ -2,7 +2,8 @@ import pandas as pd
 from pandas.testing import assert_frame_equal
 
 from pyreal.transformers import (
-    FeatureSelectTransformer, OneHotEncoder, base, fit_transformers, run_transformers, Transformer)
+    FeatureSelectTransformer, OneHotEncoder, Transformer, base, fit_transformers,
+    run_transformers,)
 from pyreal.types.explanations.feature_based import FeatureImportanceExplanation
 
 
