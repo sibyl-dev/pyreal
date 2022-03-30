@@ -6,7 +6,9 @@ import pandas as pd
 from sklearn.base import is_classifier
 from sklearn.metrics import get_scorer
 
-from pyreal.transformers import BreakingTransformError, run_transformers
+from pyreal.transformers import BreakingTransformError
+from pyreal.transformers import fit_transformers as fit_transformers_func
+from pyreal.transformers import run_transformers
 from pyreal.utils import model_utils
 
 log = logging.getLogger(__name__)
@@ -115,7 +117,8 @@ class ExplainerBase(ABC):
                  transformers=None,
                  fit_on_init=False,
                  training_size=None,
-                 return_original_explanation=False):
+                 return_original_explanation=False,
+                 fit_transformers=False):
         if isinstance(model, str):
             self.model = model_utils.load_model_from_pickle(model)
         else:
@@ -164,6 +167,12 @@ class ExplainerBase(ABC):
         if y_orig is not None:
             self._y_orig = self.y_orig.loc[data_sample_indices]
 
+        if fit_transformers:
+            a_transformers = _get_transformers(self.transformers, algorithm=True)
+            i_transformers = _get_transformers(self.transformers, interpret=True)
+            fit_transformers_func(a_transformers, self.x_train_orig)
+            fit_transformers_func(i_transformers, self.x_train_orig)
+
         if fit_on_init:
             self.fit()
 
@@ -194,6 +203,7 @@ class ExplainerBase(ABC):
         Args:
             x_orig (DataFrame or Series of shape (n_instances, x_orig_feature_count)):
                 Original input
+
         Returns:
              DataFrame or Series of shape (n_instances, x_algorithm_feature_count)
                 x_orig converted to explainable form
