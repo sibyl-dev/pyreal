@@ -7,6 +7,11 @@ from pyreal.explainers import TimeSeriesBase
 from pyreal.types.explanations.dataframe import AdditiveFeatureContributionExplanation
 
 
+def time_to_feature(dataset, time_column):
+    dataset = dataset[time_column]
+    pd.DataFrame()
+    return dataset
+
 class IntervalImportance(TimeSeriesBase):
     """
     IntervalImportance object.
@@ -16,10 +21,12 @@ class IntervalImportance(TimeSeriesBase):
 
     IntervalImportance explainers expect data in the **model-ready feature space**
 
+    Currently, only classification models explanation is supported.
+
     Args:
         model (string filepath or model object):
            Filepath to the pickled model to explain, or model object with .predict() function
-        x_train_orig (DataFrame of size (n_instances, n_features)):
+        x_train_orig (DataFrame of size (n_instances, length of series)):
             Training set in original form.
         interval_size (int):
             The size of the interval.
@@ -29,7 +36,7 @@ class IntervalImportance(TimeSeriesBase):
     """
 
     def __init__(self, model, x_train_orig,
-                 window_size, shap_type=None, **kwargs):
+                 window_size=1, shap_type=None, **kwargs):
         supported_types = ["kernel", "linear"]
         if shap_type is not None and shap_type not in supported_types:
             raise ValueError("Shap type not supported, given %s, expected one of %s or None" %
@@ -77,16 +84,25 @@ class IntervalImportance(TimeSeriesBase):
             raise ValueError("Received input of wrong size."
                              "Expected ({},), received {}"
                              .format(self.explainer_input_size, x.shape))
-        # TODO: time-series data format
         columns = x.columns
         x = np.asanyarray(x)
 
-        shap_values = np.array(self.explainer.shap_values(x))
+        shap_values = np.array(self.explainer.shap_values(x))   
         if shap_values.ndim < 2:
             raise RuntimeError("Something went wrong with SHAP - expected at least 2 dimensions")
+
+        if x.shape[1] > 1:
+            num_windows = (x.shape[1]-1) // self.window_size
+            indices = [(i+1)*self.window_size for i in range(num_windows)]
+            indices.insert(0,0)
+            agg_shap_values = np.add.reduceat(shap_values, indices, axis=1)
+        else:
+            agg_shap_values = shap_values
+
+        # TODO: rename columns
         if shap_values.ndim == 2:
             return AdditiveFeatureContributionExplanation(
-                pd.DataFrame(shap_values, columns=columns))
+                pd.DataFrame(agg_shap_values, columns=columns))
         if shap_values.ndim > 2:
             predictions = self.model_predict(x_orig)
             if self.classes is not None:
@@ -94,3 +110,5 @@ class IntervalImportance(TimeSeriesBase):
             shap_values = shap_values[predictions, np.arange(shap_values.shape[1]), :]
             return AdditiveFeatureContributionExplanation(
                 pd.DataFrame(shap_values, columns=columns))
+
+# problem: data is susceptible to time-shift.
