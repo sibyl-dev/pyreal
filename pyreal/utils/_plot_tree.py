@@ -1,3 +1,5 @@
+# Code adapted from scikit-learn.
+# source: https://github.com/scikit-learn/scikit-learn/blob/582fa30a3/sklearn/tree/_export.py
 import numpy as np
 from sklearn.tree._export import _MPLTreeExporter
 
