@@ -40,7 +40,7 @@ class ShapFeatureImportance(GlobalFeatureImportanceBase):
         """
         Fit the feature importance explainer
         """
-        dataset = self.transform_to_x_algorithm(self._x_train_orig)
+        dataset = self.transform_to_x_model(self._x_train_orig)
         self.explainer_input_size = dataset.shape[1]
         if self.shap_type == "kernel":
             self.explainer = KernelExplainer(self.model.predict, dataset)
@@ -65,7 +65,7 @@ class ShapFeatureImportance(GlobalFeatureImportanceBase):
                                  "produce()")
         x_model = self.transform_to_x_model(self._x_train_orig)
         x_model_np = np.asanyarray(x_model)
-        shap_values = np.array(self.explainer.shap_values(x_model_np))
+        shap_values = np.array(self.explainer(x_model_np))
 
         if shap_values.ndim < 2:
             raise RuntimeError("Something went wrong with SHAP - expected at least 2 dimensions")
