@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>pyreal.explainers.GlobalFeatureImportanceBase.fit &#8212; Pyreal 0.2.0 documentation</title>
+    <title>pyreal.utils.visualize.plot_tree_explanation &#8212; Pyreal 0.2.0 documentation</title>
     
   <link href="../../_static/css/theme.css" rel="stylesheet">
   <link href="../../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
@@ -36,8 +36,8 @@
     <link rel="shortcut icon" href="../../_static/dai-logo-white.ico"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="pyreal.explainers.GlobalFeatureImportanceBase.produce" href="pyreal.explainers.GlobalFeatureImportanceBase.produce.html" />
-    <link rel="prev" title="pyreal.explainers.GlobalFeatureImportanceBase" href="pyreal.explainers.GlobalFeatureImportanceBase.html" />
+    <link rel="next" title="Developer Guides" href="../../developer_guides/index.html" />
+    <link rel="prev" title="pyreal.utils.visualize.plot_top_contributors" href="pyreal.utils.visualize.plot_top_contributors.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -278,23 +278,23 @@
    </li>
   </ul>
  </li>
- <li class="toctree-l1 current active has-children">
+ <li class="toctree-l1 has-children">
   <a class="reference internal" href="../global_feature_importance.html">
    Global Feature Importance
   </a>
-  <input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+  <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
   <label for="toctree-checkbox-3">
    <i class="fas fa-chevron-down">
    </i>
   </label>
-  <ul class="current">
+  <ul>
    <li class="toctree-l2">
     <a class="reference internal" href="pyreal.explainers.GlobalFeatureImportanceBase.html">
      pyreal.explainers.GlobalFeatureImportanceBase
     </a>
    </li>
-   <li class="toctree-l2 current active">
-    <a class="current reference internal" href="#">
+   <li class="toctree-l2">
+    <a class="reference internal" href="pyreal.explainers.GlobalFeatureImportanceBase.fit.html">
      pyreal.explainers.GlobalFeatureImportanceBase.fit
     </a>
    </li>
@@ -760,23 +760,23 @@
    </li>
   </ul>
  </li>
- <li class="toctree-l1 has-children">
+ <li class="toctree-l1 current active has-children">
   <a class="reference internal" href="../visualize.html">
    Visualization
   </a>
-  <input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/>
   <label for="toctree-checkbox-9">
    <i class="fas fa-chevron-down">
    </i>
   </label>
-  <ul>
+  <ul class="current">
    <li class="toctree-l2">
     <a class="reference internal" href="pyreal.utils.visualize.plot_top_contributors.html">
      pyreal.utils.visualize.plot_top_contributors
     </a>
    </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="pyreal.utils.visualize.plot_tree_explanation.html">
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
      pyreal.utils.visualize.plot_tree_explanation
     </a>
    </li>
@@ -818,12 +818,30 @@
               
               <div>
                 
-  <section id="pyreal-explainers-globalfeatureimportancebase-fit">
-<h1>pyreal.explainers.GlobalFeatureImportanceBase.fit<a class="headerlink" href="#pyreal-explainers-globalfeatureimportancebase-fit" title="Permalink to this headline">¶</a></h1>
-<dl class="py method">
-<dt class="sig sig-object py" id="pyreal.explainers.GlobalFeatureImportanceBase.fit">
-<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">GlobalFeatureImportanceBase.</span></span><span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyreal/explainers/gfi/base.html#GlobalFeatureImportanceBase.fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyreal.explainers.GlobalFeatureImportanceBase.fit" title="Permalink to this definition">¶</a></dt>
-<dd><p>Fit this explainer object</p>
+  <section id="pyreal-utils-visualize-plot-tree-explanation">
+<h1>pyreal.utils.visualize.plot_tree_explanation<a class="headerlink" href="#pyreal-utils-visualize-plot-tree-explanation" title="Permalink to this headline">¶</a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="pyreal.utils.visualize.plot_tree_explanation">
+<span class="sig-prename descclassname"><span class="pre">pyreal.utils.visualize.</span></span><span class="sig-name descname"><span class="pre">plot_tree_explanation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dte</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transparent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">class_names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'all'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filled</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rounded</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">impurity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">proportion</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">precision</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fontsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyreal/utils/visualize.html#plot_tree_explanation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyreal.utils.visualize.plot_tree_explanation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot the decision tree given the decision tree explainer</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dte</strong> – Decision tree explainer.</p></li>
+<li><p><strong>transparent</strong> (<em>Boolean</em>) – Determines if the output figure is transparent or not.</p></li>
+<li><p><strong>class_names</strong> (<em>list of str</em>) – Names of each of the target classes in ascending numerical order.</p></li>
+<li><p><strong>label</strong> (<em>'all'</em><em>, </em><em>'root'</em><em>, or </em><em>'none'</em>) – Options include ‘all’ to show at every node, ‘root’ to show only at
+the top root node, or ‘none’ to not show at any node.</p></li>
+<li><p><strong>filled</strong> (<em>Boolean</em>) – If set to True, paint the nodes based on the majority class of the node.</p></li>
+<li><p><strong>rounded</strong> (<em>Boolean</em>) – If set to True, the box representing each node will have rounded corners.</p></li>
+<li><p><strong>impurity</strong> (<em>Boolean</em>) – If set to True, show the impurity at each node.</p></li>
+<li><p><strong>proportion</strong> (<em>Boolean</em>) – If set to True, change the display of ‘values’ and/or ‘samples’ to be
+proportions and percentages respectively.</p></li>
+<li><p><strong>precision</strong> (<em>int</em>) – Number of digits of precision for floating point numbers.</p></li>
+<li><p><strong>filename</strong> (<em>string</em><em> or </em><em>None</em>) – If not None, save the figure as filename.</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 </section>
@@ -834,17 +852,17 @@
               
               <!-- Previous / next buttons -->
 <div class='prev-next-area'> 
-    <a class='left-prev' id="prev-link" href="pyreal.explainers.GlobalFeatureImportanceBase.html" title="previous page">
+    <a class='left-prev' id="prev-link" href="pyreal.utils.visualize.plot_top_contributors.html" title="previous page">
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
             <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">pyreal.explainers.GlobalFeatureImportanceBase</p>
+            <p class="prev-next-title">pyreal.utils.visualize.plot_top_contributors</p>
         </div>
     </a>
-    <a class='right-next' id="next-link" href="pyreal.explainers.GlobalFeatureImportanceBase.produce.html" title="next page">
+    <a class='right-next' id="next-link" href="../../developer_guides/index.html" title="next page">
     <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">pyreal.explainers.GlobalFeatureImportanceBase.produce</p>
+        <p class="prev-next-title">Developer Guides</p>
     </div>
     <i class="fas fa-angle-right"></i>
     </a>

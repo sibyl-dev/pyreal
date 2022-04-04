@@ -158,6 +158,8 @@
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
+<span class="kn">from</span> <span class="nn">pyreal.utils._plot_tree</span> <span class="kn">import</span> <span class="n">TreeExporter</span>
+
 
 <div class="viewcode-block" id="plot_top_contributors"><a class="viewcode-back" href="../../../api_reference/api/pyreal.utils.visualize.plot_top_contributors.html#pyreal.utils.visualize.plot_top_contributors">[docs]</a><span class="k">def</span> <span class="nf">plot_top_contributors</span><span class="p">(</span><span class="n">contributions</span><span class="p">,</span> <span class="n">select_by</span><span class="o">=</span><span class="s2">&quot;absolute&quot;</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                           <span class="n">transparent</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">flip_colors</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">precision</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
@@ -241,6 +243,74 @@
         <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="s2">&quot;tight&quot;</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">show</span><span class="p">:</span>
         <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="plot_tree_explanation"><a class="viewcode-back" href="../../../api_reference/api/pyreal.utils.visualize.plot_tree_explanation.html#pyreal.utils.visualize.plot_tree_explanation">[docs]</a><span class="k">def</span> <span class="nf">plot_tree_explanation</span><span class="p">(</span><span class="n">dte</span><span class="p">,</span> <span class="n">transparent</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                          <span class="n">class_names</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;all&#39;</span><span class="p">,</span>
+                          <span class="n">filled</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">rounded</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">impurity</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                          <span class="n">proportion</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">precision</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+                          <span class="n">filename</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Plot the decision tree given the decision tree explainer</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        dte:</span>
+<span class="sd">            Decision tree explainer.</span>
+<span class="sd">        transparent (Boolean):</span>
+<span class="sd">            Determines if the output figure is transparent or not.</span>
+<span class="sd">        class_names (list of str):</span>
+<span class="sd">            Names of each of the target classes in ascending numerical order.</span>
+<span class="sd">        label (&#39;all&#39;, &#39;root&#39;, or &#39;none&#39;):</span>
+<span class="sd">            Options include &#39;all&#39; to show at every node, &#39;root&#39; to show only at</span>
+<span class="sd">            the top root node, or &#39;none&#39; to not show at any node.</span>
+<span class="sd">        filled (Boolean):</span>
+<span class="sd">            If set to True, paint the nodes based on the majority class of the node.</span>
+<span class="sd">        rounded (Boolean):</span>
+<span class="sd">            If set to True, the box representing each node will have rounded corners.</span>
+<span class="sd">        impurity (Boolean):</span>
+<span class="sd">            If set to True, show the impurity at each node.</span>
+<span class="sd">        proportion (Boolean):</span>
+<span class="sd">            If set to True, change the display of &#39;values&#39; and/or &#39;samples&#39; to be</span>
+<span class="sd">            proportions and percentages respectively.</span>
+<span class="sd">        precision (int):</span>
+<span class="sd">            Number of digits of precision for floating point numbers.</span>
+<span class="sd">        filename (string or None):</span>
+<span class="sd">            If not None, save the figure as filename.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">negative_color</span> <span class="o">=</span> <span class="s2">&quot;#ef8a62&quot;</span>
+    <span class="n">positive_color</span> <span class="o">=</span> <span class="s2">&quot;#67a9cf&quot;</span>
+
+    <span class="n">decision_tree</span> <span class="o">=</span> <span class="n">dte</span><span class="o">.</span><span class="n">produce</span><span class="p">()</span>
+    <span class="n">feature_names</span> <span class="o">=</span> <span class="n">dte</span><span class="o">.</span><span class="n">return_features</span><span class="p">()</span>
+    <span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="n">dte</span><span class="o">.</span><span class="n">max_depth</span><span class="o">*</span><span class="mi">4</span><span class="o">+</span><span class="mi">10</span><span class="p">,</span> <span class="n">dte</span><span class="o">.</span><span class="n">max_depth</span><span class="o">*</span><span class="mi">2</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">transparent</span><span class="p">:</span>
+        <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="n">figsize</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="n">figsize</span><span class="p">,</span> <span class="n">facecolor</span><span class="o">=</span><span class="s1">&#39;w&#39;</span><span class="p">)</span>
+
+    <span class="n">exporter</span> <span class="o">=</span> <span class="n">TreeExporter</span><span class="p">(</span>
+        <span class="n">max_depth</span><span class="o">=</span><span class="n">dte</span><span class="o">.</span><span class="n">max_depth</span><span class="p">,</span>
+        <span class="n">feature_names</span><span class="o">=</span><span class="n">feature_names</span><span class="p">,</span>
+        <span class="n">class_names</span><span class="o">=</span><span class="n">class_names</span><span class="p">,</span>
+        <span class="n">positive_color</span><span class="o">=</span><span class="n">positive_color</span><span class="p">,</span>
+        <span class="n">negative_color</span><span class="o">=</span><span class="n">negative_color</span><span class="p">,</span>
+        <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span>
+        <span class="n">filled</span><span class="o">=</span><span class="n">filled</span><span class="p">,</span>
+        <span class="n">impurity</span><span class="o">=</span><span class="n">impurity</span><span class="p">,</span>
+        <span class="n">proportion</span><span class="o">=</span><span class="n">proportion</span><span class="p">,</span>
+        <span class="n">rounded</span><span class="o">=</span><span class="n">rounded</span><span class="p">,</span>
+        <span class="n">precision</span><span class="o">=</span><span class="n">precision</span><span class="p">,</span>
+        <span class="n">fontsize</span><span class="o">=</span><span class="n">fontsize</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">exporter</span><span class="o">.</span><span class="n">export</span><span class="p">(</span><span class="n">decision_tree</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+    <span class="c1"># plot_tree(decision_tree, feature_names=feature_names,</span>
+    <span class="c1">#           impurity=impurity, filled=filled, rounded=rounded,</span>
+    <span class="c1">#           proportion=proportion, fontsize=fontsize, ax=ax)</span>
+    <span class="k">if</span> <span class="n">filename</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="s2">&quot;tight&quot;</span><span class="p">)</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></div>
 </pre></div>
 
               </div>
