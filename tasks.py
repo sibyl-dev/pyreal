@@ -182,7 +182,7 @@ def test_tutorials(context):
     Runs all scripts in the tutorials directory and checks for exceptions
     """
 
-    subprocess.run(["pytest", "--nbmake", "./tutorials", "-n=auto"], check=True)
+    subprocess.run(["pytest", "--nbmake", "./tutorials"], check=True)
 
 
 @ task
