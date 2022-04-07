@@ -27,7 +27,7 @@ data form.
 
 ## Requirements
 
-**Pyreal** has been developed and tested on [Python 3.7, 3.8, and 3.9](https://www.python.org/downloads/)
+**Pyreal** has been developed and tested on [Python 3.8, 3.9, and 3.10](https://www.python.org/downloads/)
 The library uses Poetry for package management.
 
 ## Install from PyPI

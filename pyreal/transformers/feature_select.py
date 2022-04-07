@@ -1,4 +1,4 @@
-import collections
+from collections.abc import Sequence
 
 import numpy as np
 import pandas as pd
@@ -112,7 +112,7 @@ class ColumnDropTransformer(Transformer):
             columns (dataframe column label type or list of dataframe column label type):
                 Label of column to select, or an ordered list of column labels to select
         """
-        if columns is not None and not isinstance(columns, collections.Sequence):
+        if columns is not None and not isinstance(columns, Sequence):
             columns = [columns]
         self.dropped_columns = columns
         super().__init__(**kwargs)
