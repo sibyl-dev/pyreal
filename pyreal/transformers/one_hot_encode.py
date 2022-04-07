@@ -1,12 +1,14 @@
+import logging
+
 import numpy as np
 import pandas as pd
 from sklearn.preprocessing import OneHotEncoder as SklearnOneHotEncoder
 
-from pyreal.transformers import Transformer
-from pyreal.types.explanations.dataframe import (
-    AdditiveFeatureContributionExplanation,
-    FeatureImportanceExplanation,
-)
+from pyreal.transformers import BreakingTransformError, Transformer
+from pyreal.types.explanations.feature_based import (
+    AdditiveFeatureContributionExplanation, AdditiveFeatureImportanceExplanation,)
+
+log = logging.getLogger(__name__)
 
 
 def _generate_one_hot_to_categorical(categorical_to_one_hot):
@@ -149,7 +151,7 @@ class OneHotEncoder(Transformer):
         x_cat_ohe = pd.DataFrame(x_cat_ohe, columns=columns, index=index)
         return pd.concat([x.drop(self.columns, axis="columns"), x_cat_ohe], axis=1)
 
-    def inverse_transform_explanation_additive_contributions(self, explanation):
+    def inverse_transform_explanation_additive_feature_contribution(self, explanation):
         """
         Combine the contributions of one-hot-encoded features through adding to get the
         contributions of the original categorical feature.
@@ -159,28 +161,96 @@ class OneHotEncoder(Transformer):
                 The explanation to transform
 
         Returns:
-            ExplanationType:
+            AdditiveFeatureContributionExplanation:
                 The transformed explanation
         """
         return AdditiveFeatureContributionExplanation(
             self._helper_summed_values(explanation.get()))
 
-    # TODO: replace this with a more theoretically grounded approach to combining feature
-    #  importance
-    def inverse_transform_explanation_feature_importance(self, explanation):
+    def inverse_transform_explanation_additive_feature_importance(self, explanation):
         """
-        Combine the contributions of one-hot-encoded features to get the
+        Combine the importances of one-hot-encoded features through adding to get the
         contributions of the original categorical feature.
 
         Args:
-            explanation (AdditiveFeatureContributionExplanation):
+            explanation (AdditiveFeatureImportanceExplanation):
                 The explanation to transform
 
         Returns:
-            Explanation:
+            AdditiveFeatureImportanceExplanation:
                 The transformed explanation
         """
-        return FeatureImportanceExplanation(self._helper_summed_values(explanation.get()))
+        return AdditiveFeatureImportanceExplanation(
+            self._helper_summed_values(explanation.get()))
+
+    def inverse_transform_explanation_feature_based(self, explanation):
+        """
+        For non-additive feature-based explanations, the contributions or importances of
+        the one-hot encoded features cannot be combined. This will result in a different feature
+        space in the explanation than the pre-transformed data. Therefore, attempting to reverse
+        the transform on the explanation in this case should stop the explanation transform
+        process.
+
+        Args:
+            explanation (FeatureBased):
+                The explanation to transform
+
+        Raises:
+            BreakingTransformError
+        """
+        raise BreakingTransformError
+
+    def transform_explanation_feature_based(self, explanation):
+        """
+        For feature-based explanations, the contributions or importances of categorical features
+        cannot be split into per-category features. This will result in a different feature
+        space in the explanation than the pre-transformed data. Therefore, attempting to one-hot
+        encode an explanation will should the explanation transform process.
+
+        If you'd like to get your explanation one-hot encoded, this procedure should be applied
+        to the data before generating the explanation if possible.
+
+        Args:
+            explanation (FeatureBased):
+                The explanation to transform
+
+        Raises:
+            BreakingTransformError
+        """
+        log.info("Explanation cannot be one-hot encoded with the available information. "
+                 "If you'd like to get your explanation one-hot encoded, "
+                 "this procedure should be applied to the data before generating "
+                 "the explanation if possible.")
+        raise BreakingTransformError
+
+    def transform_explanation_decision_tree(self, explanation):
+        """
+        Features cannot be added to encoded in existing decision trees,
+        so raise a BreakingTransformError
+
+        Args:
+            explanation (DecisionTree):
+                The explanation to be transformed
+
+        Raises:
+            BreakingTransformError
+
+        """
+        raise BreakingTransformError
+
+    def inverse_transform_explanation_decision_tree(self, explanation):
+        """
+        Features cannot be decoded in existing decision trees, so raise a BreakingTransformError
+
+        Args:
+            explanation (DecisionTree):
+                The explanation to be transformed
+
+        Raises:
+            BreakingTransformError
+
+        """
+        raise BreakingTransformError
 
     def _helper_summed_values(self, explanation):
         """
@@ -243,7 +313,7 @@ class MappingsOneHotEncoder(Transformer):
                 ohe_data[new_col_name][np.where(values == item[1])] = 1
         return pd.DataFrame(ohe_data)
 
-    def inverse_transform_explanation_additive_contributions(self, explanation):
+    def inverse_transform_explanation_additive_feature_contribution(self, explanation):
         explanation = pd.DataFrame(explanation.get())
         if explanation.ndim == 1:
             explanation = explanation.reshape(1, -1)
@@ -299,8 +369,7 @@ class MappingsOneHotDecoder(Transformer):
                     self.mappings.one_hot_to_categorical[col][1]
         return pd.DataFrame(cat_data)
 
-    # noinspection PyMethodMayBeStatic
-    def transform_explanation_additive_contributions(self, explanation):
+    def transform_explanation_additive_feature_contribution(self, explanation):
         """
         Transforms additive contribution explanations
 

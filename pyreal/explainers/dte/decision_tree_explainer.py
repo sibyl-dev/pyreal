@@ -112,6 +112,7 @@ class DecisionTreeExplainer(DecisionTreeExplainerBase):
     def __init__(self, model, x_train_orig, e_algorithm=None, is_classifier=True, max_depth=None,
                  **kwargs):
         self.is_classifier = is_classifier
+        self.max_depth = max_depth
         if e_algorithm is None:
             e_algorithm = choose_algorithm()
         if e_algorithm == "surrogate_tree":
