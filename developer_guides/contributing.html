@@ -8,8 +8,9 @@
 
     <title>Contributing to Pyreal &#8212; Pyreal 0.2.0 documentation</title>
     
-  <link href="../_static/css/theme.css" rel="stylesheet">
-  <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
 
     
   <link rel="stylesheet"
@@ -19,14 +20,10 @@
   <link rel="preload" as="font" type="font/woff2" crossorigin
     href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
 
-    
-      
-
-    
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/css/blank.css" />
     
-  <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
 
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
@@ -44,7 +41,7 @@
     <!-- Google Analytics -->
     
   </head>
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
     
     <div class="container-fluid" id="banner"></div>
 
@@ -108,10 +105,8 @@
       <div class="navbar-end-item">
         <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
         <li class="nav-item">
-          <a class="nav-link" href="https://github.com/dai-lab/pyreal" rel="noopener" target="_blank" title="GitHub">
-            <span><i class="fab fa-github-square"></i></span>
-            <label class="sr-only">GitHub</label>
-          </a>
+          <a class="nav-link" href="https://github.com/dai-lab/pyreal" rel="noopener" target="_blank" title="GitHub"><span><i class="fab fa-github-square"></i></span>
+            <label class="sr-only">GitHub</label></a>
         </li>
       </ul>
       </div>
@@ -127,7 +122,8 @@
           
             
             <!-- Only show if we have sidebars configured, else just a small margin  -->
-            <div class="col-12 col-md-3 bd-sidebar"><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+            <div class="col-12 col-md-3 bd-sidebar">
+              <div class="sidebar-start-items"><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
   <i class="icon fas fa-search"></i>
   <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
 </form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
@@ -142,6 +138,9 @@
 
   </div>
 </nav>
+              </div>
+              <div class="sidebar-end-items">
+              </div>
             </div>
             
           
@@ -152,7 +151,7 @@
               
               <div class="toc-item">
                 
-<div class="tocsection onthispage pt-5 pb-3">
+<div class="tocsection onthispage mt-5 pt-1 pb-3">
     <i class="fas fa-list"></i> On this page
 </div>
 
@@ -247,14 +246,14 @@
               <div>
                 
   <section id="contributing-to-pyreal">
-<span id="contributing"></span><h1>Contributing to Pyreal<a class="headerlink" href="#contributing-to-pyreal" title="Permalink to this headline">¶</a></h1>
+<span id="contributing"></span><h1>Contributing to Pyreal<a class="headerlink" href="#contributing-to-pyreal" title="Permalink to this headline">#</a></h1>
 <p>Contributions are welcome, and they are greatly appreciated! Every little bit
 helps, and credit will always be given.</p>
 <p>You can contribute in many ways:</p>
 <section id="types-of-contributions">
-<h2>Types of Contributions<a class="headerlink" href="#types-of-contributions" title="Permalink to this headline">¶</a></h2>
+<h2>Types of Contributions<a class="headerlink" href="#types-of-contributions" title="Permalink to this headline">#</a></h2>
 <section id="report-bugs">
-<h3>Report Bugs<a class="headerlink" href="#report-bugs" title="Permalink to this headline">¶</a></h3>
+<h3>Report Bugs<a class="headerlink" href="#report-bugs" title="Permalink to this headline">#</a></h3>
 <p>Report bugs at the <a class="reference external" href="https://github.com/sibyl-dev/pyreal/issues">GitHub Issues page</a>.</p>
 <p>If you are reporting a bug, please include:</p>
 <ul class="simple">
@@ -264,23 +263,23 @@ helps, and credit will always be given.</p>
 </ul>
 </section>
 <section id="fix-bugs">
-<h3>Fix Bugs<a class="headerlink" href="#fix-bugs" title="Permalink to this headline">¶</a></h3>
+<h3>Fix Bugs<a class="headerlink" href="#fix-bugs" title="Permalink to this headline">#</a></h3>
 <p>Look through the GitHub issues for bugs. Anything tagged with “bug” and “help
 wanted” is open to whoever wants to implement it.</p>
 </section>
 <section id="implement-features">
-<h3>Implement Features<a class="headerlink" href="#implement-features" title="Permalink to this headline">¶</a></h3>
+<h3>Implement Features<a class="headerlink" href="#implement-features" title="Permalink to this headline">#</a></h3>
 <p>Look through the GitHub issues for features. Anything tagged with “enhancement”
 and “help wanted” is open to whoever wants to implement it.</p>
 </section>
 <section id="write-documentation">
-<h3>Write Documentation<a class="headerlink" href="#write-documentation" title="Permalink to this headline">¶</a></h3>
+<h3>Write Documentation<a class="headerlink" href="#write-documentation" title="Permalink to this headline">#</a></h3>
 <p>Pyreal could always use more documentation, whether as part of the
 official Pyreal docs, in docstrings, or even on the web in blog posts,
 articles, and such.</p>
 </section>
 <section id="submit-feedback">
-<h3>Submit Feedback<a class="headerlink" href="#submit-feedback" title="Permalink to this headline">¶</a></h3>
+<h3>Submit Feedback<a class="headerlink" href="#submit-feedback" title="Permalink to this headline">#</a></h3>
 <p>The best way to send feedback is to file an issue at the <a class="reference external" href="https://github.com/sibyl-dev/pyreal/issues">GitHub Issues page</a>.</p>
 <p>If you are proposing a feature:</p>
 <ul class="simple">
@@ -292,7 +291,7 @@ are welcome :)</p></li>
 </section>
 </section>
 <section id="get-started">
-<h2>Get Started!<a class="headerlink" href="#get-started" title="Permalink to this headline">¶</a></h2>
+<h2>Get Started!<a class="headerlink" href="#get-started" title="Permalink to this headline">#</a></h2>
 <p>Ready to contribute? Here’s how to set up <code class="docutils literal notranslate"><span class="pre">pyreal</span></code> for local development.</p>
 <ol class="arabic">
 <li><p>Fork the <code class="docutils literal notranslate"><span class="pre">pyreal</span></code> repo on GitHub.</p></li>
@@ -359,7 +358,7 @@ $ git push origin name-of-your-bugfix-or-feature
 </ol>
 </section>
 <section id="pull-request-guidelines">
-<h2>Pull Request Guidelines<a class="headerlink" href="#pull-request-guidelines" title="Permalink to this headline">¶</a></h2>
+<h2>Pull Request Guidelines<a class="headerlink" href="#pull-request-guidelines" title="Permalink to this headline">#</a></h2>
 <p>Before you submit a pull request, check that it meets these guidelines:</p>
 <ol class="arabic simple">
 <li><p>It resolves an open GitHub Issue and contains its reference in the title or
@@ -375,7 +374,7 @@ all github actions pass.</p></li>
 </ol>
 </section>
 <section id="unit-testing-guidelines">
-<h2>Unit Testing Guidelines<a class="headerlink" href="#unit-testing-guidelines" title="Permalink to this headline">¶</a></h2>
+<h2>Unit Testing Guidelines<a class="headerlink" href="#unit-testing-guidelines" title="Permalink to this headline">#</a></h2>
 <p>All the Unit Tests should comply with the following requirements:</p>
 <ol class="arabic simple">
 <li><p>Unit Tests should be based only in unittest and pytest modules.</p></li>
@@ -403,7 +402,7 @@ mocked.</p></li>
 </ol>
 </section>
 <section id="benchmarking-guidelines">
-<span id="benchmarking"></span><h2>Benchmarking Guidelines<a class="headerlink" href="#benchmarking-guidelines" title="Permalink to this headline">¶</a></h2>
+<span id="benchmarking"></span><h2>Benchmarking Guidelines<a class="headerlink" href="#benchmarking-guidelines" title="Permalink to this headline">#</a></h2>
 <p><strong>When to run benchmarking:</strong></p>
 <p>PR’s should include results and logs from a new benchmarking run whenever:</p>
 <ol class="arabic simple">
@@ -451,7 +450,7 @@ $        return [$ExplainerName](model=self.dataset.model, x_train_orig=self.dat
 </ol>
 </section>
 <section id="tips">
-<h2>Tips<a class="headerlink" href="#tips" title="Permalink to this headline">¶</a></h2>
+<h2>Tips<a class="headerlink" href="#tips" title="Permalink to this headline">#</a></h2>
 <p>To run a subset of tests:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ python -m pytest tests.test_global_explanation.py
 $ python -m pytest -k &#39;foo&#39;
@@ -459,7 +458,7 @@ $ python -m pytest -k &#39;foo&#39;
 </div>
 </section>
 <section id="style-guide">
-<h2>Style guide<a class="headerlink" href="#style-guide" title="Permalink to this headline">¶</a></h2>
+<h2>Style guide<a class="headerlink" href="#style-guide" title="Permalink to this headline">#</a></h2>
 <p>Pyreal uses the <a class="reference external" href="https://www.python.org/dev/peps/pep-0008/">PEP 8</a> style guide for all python code:</p>
 <p>A few important notes:</p>
 <ol class="arabic simple">
@@ -469,7 +468,7 @@ $ python -m pytest -k &#39;foo&#39;
 </ol>
 </section>
 <section id="release-workflow">
-<h2>Release Workflow<a class="headerlink" href="#release-workflow" title="Permalink to this headline">¶</a></h2>
+<h2>Release Workflow<a class="headerlink" href="#release-workflow" title="Permalink to this headline">#</a></h2>
 <p>The process of releasing a new version involves several steps:</p>
 <ol class="arabic simple">
 <li><p>Create a new branch off of <code class="docutils literal notranslate"><span class="pre">dev</span></code> branch called <code class="docutils literal notranslate"><span class="pre">release-v.*.*.*</span></code>.</p></li>
@@ -492,7 +491,7 @@ a list of pull requests made since the last release.</p></li>
               
               
               <!-- Previous / next buttons -->
-<div class='prev-next-area'> 
+<div class='prev-next-area'>
     <a class='left-prev' id="prev-link" href="index.html" title="previous page">
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
@@ -508,7 +507,8 @@ a list of pull requests made since the last release.</p></li>
       </div>
     </div>
   
-  <script src="../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
 <footer class="footer mt-5 mt-md-0">
   <div class="container">
     
@@ -520,7 +520,7 @@ a list of pull requests made since the last release.</p></li>
     
     <div class="footer-item">
       <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.4.0.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0.<br>
 </p>
     </div>
     

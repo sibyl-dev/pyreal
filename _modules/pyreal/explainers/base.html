@@ -7,8 +7,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>pyreal.explainers.base &#8212; Pyreal 0.2.0 documentation</title>
     
-  <link href="../../../_static/css/theme.css" rel="stylesheet">
-  <link href="../../../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
 
     
   <link rel="stylesheet"
@@ -18,14 +19,10 @@
   <link rel="preload" as="font" type="font/woff2" crossorigin
     href="../../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
 
-    
-      
-
-    
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/css/blank.css" />
     
-  <link rel="preload" as="script" href="../../../_static/js/index.be7d3bbb2ef33a8344ce.js">
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
 
     <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
     <script src="../../../_static/jquery.js"></script>
@@ -42,7 +39,7 @@
     <!-- Google Analytics -->
     
   </head>
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
     
     <div class="container-fluid" id="banner"></div>
 
@@ -106,10 +103,8 @@
       <div class="navbar-end-item">
         <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
         <li class="nav-item">
-          <a class="nav-link" href="https://github.com/dai-lab/pyreal" rel="noopener" target="_blank" title="GitHub">
-            <span><i class="fab fa-github-square"></i></span>
-            <label class="sr-only">GitHub</label>
-          </a>
+          <a class="nav-link" href="https://github.com/dai-lab/pyreal" rel="noopener" target="_blank" title="GitHub"><span><i class="fab fa-github-square"></i></span>
+            <label class="sr-only">GitHub</label></a>
         </li>
       </ul>
       </div>
@@ -125,7 +120,8 @@
           
             
             <!-- Only show if we have sidebars configured, else just a small margin  -->
-            <div class="col-12 col-md-3 bd-sidebar"><form class="bd-search d-flex align-items-center" action="../../../search.html" method="get">
+            <div class="col-12 col-md-3 bd-sidebar">
+              <div class="sidebar-start-items"><form class="bd-search d-flex align-items-center" action="../../../search.html" method="get">
   <i class="icon fas fa-search"></i>
   <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
 </form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
@@ -133,6 +129,9 @@
     
   </div>
 </nav>
+              </div>
+              <div class="sidebar-end-items">
+              </div>
             </div>
             
           
@@ -355,7 +354,7 @@
 <span class="sd">        Transform x_orig to x_algorithm, using the algorithm transformers</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            x_orig (DataFrame or Series of shape (n_instances, x_orig_feature_count)):</span>
+<span class="sd">            x_orig (DataFrame of shape (n_instances, x_orig_feature_count)  or Series):</span>
 <span class="sd">                Original input</span>
 
 <span class="sd">        Returns:</span>
@@ -370,7 +369,7 @@
 <span class="sd">        Transform x_orig to x_model, using the model transformers</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            x_orig (DataFrame or Series of shape (n_instances, x_orig_feature_count)):</span>
+<span class="sd">            x_orig (DataFrame of shape (n_instances, x_orig_feature_count) or Series):</span>
 <span class="sd">                Original input</span>
 
 <span class="sd">        Returns:</span>
@@ -385,7 +384,7 @@
 <span class="sd">        Transform x_algorithm to x_model, using the model transformers</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            x_algorithm (DataFrame or Series of shape (n_instances, x_orig_feature_count)):</span>
+<span class="sd">            x_algorithm (DataFrame of shape (n_instances, x_orig_feature_count) or Series):</span>
 <span class="sd">                Input in explain space</span>
 
 <span class="sd">        Returns:</span>
@@ -399,7 +398,7 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Transform x_orig to x_interpret, using the interpret transformers</span>
 <span class="sd">        Args:</span>
-<span class="sd">            x_orig (DataFrame or Series of shape (n_instances, x_orig_feature_count)):</span>
+<span class="sd">            x_orig (DataFrame of shape (n_instances, x_orig_feature_count) or Series):</span>
 <span class="sd">                Original input</span>
 
 <span class="sd">        Returns:</span>
@@ -523,16 +522,27 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">feature_descriptions</span><span class="p">[</span><span class="n">feature_name</span><span class="p">]</span></div>
 
     <span class="k">def</span> <span class="nf">convert_columns_to_interpretable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns df with columns (or index, for series) converted to the interpretable descriptions</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            df (DataFrame of shape (n_instances, x_orig_feature_count) or Series):</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            string</span>
+<span class="sd">                 Description of feature</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">feature_descriptions</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="c1"># TODO: log a warning</span>
             <span class="k">return</span> <span class="n">df</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">df</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">feature_descriptions</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">df</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">feature_descriptions</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="s2">&quot;columns&quot;</span><span class="p">)</span>
 
 <div class="viewcode-block" id="ExplainerBase.convert_data_to_interpretable"><a class="viewcode-back" href="../../../api_reference/api/pyreal.explainers.ExplainerBase.convert_data_to_interpretable.html#pyreal.explainers.ExplainerBase.convert_data_to_interpretable">[docs]</a>    <span class="k">def</span> <span class="nf">convert_data_to_interpretable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_orig</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Convert data in its original form to an interpretable form, with interpretable features</span>
 <span class="sd">        Args:</span>
-<span class="sd">            x_orig (DataFrame of shape (n_instances, n_features)):</span>
+<span class="sd">            x_orig (DataFrame of shape (n_instances, n_features) or Series):</span>
 <span class="sd">                Input data to convert</span>
 
 <span class="sd">        Returns:</span>
@@ -602,7 +612,8 @@
       </div>
     </div>
   
-  <script src="../../../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
 <footer class="footer mt-5 mt-md-0">
   <div class="container">
     
@@ -614,7 +625,7 @@
     
     <div class="footer-item">
       <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.4.0.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0.<br>
 </p>
     </div>
     
