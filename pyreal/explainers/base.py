@@ -201,7 +201,7 @@ class ExplainerBase(ABC):
         Transform x_orig to x_algorithm, using the algorithm transformers
 
         Args:
-            x_orig (DataFrame or Series of shape (n_instances, x_orig_feature_count)):
+            x_orig (DataFrame of shape (n_instances, x_orig_feature_count)  or Series):
                 Original input
 
         Returns:
@@ -216,7 +216,7 @@ class ExplainerBase(ABC):
         Transform x_orig to x_model, using the model transformers
 
         Args:
-            x_orig (DataFrame or Series of shape (n_instances, x_orig_feature_count)):
+            x_orig (DataFrame of shape (n_instances, x_orig_feature_count) or Series):
                 Original input
 
         Returns:
@@ -231,7 +231,7 @@ class ExplainerBase(ABC):
         Transform x_algorithm to x_model, using the model transformers
 
         Args:
-            x_algorithm (DataFrame or Series of shape (n_instances, x_orig_feature_count)):
+            x_algorithm (DataFrame of shape (n_instances, x_orig_feature_count) or Series):
                 Input in explain space
 
         Returns:
@@ -245,7 +245,7 @@ class ExplainerBase(ABC):
         """
         Transform x_orig to x_interpret, using the interpret transformers
         Args:
-            x_orig (DataFrame or Series of shape (n_instances, x_orig_feature_count)):
+            x_orig (DataFrame of shape (n_instances, x_orig_feature_count) or Series):
                 Original input
 
         Returns:
@@ -369,16 +369,27 @@ class ExplainerBase(ABC):
         return self.feature_descriptions[feature_name]
 
     def convert_columns_to_interpretable(self, df):
+        """
+        Returns df with columns (or index, for series) converted to the interpretable descriptions
+
+        Args:
+            df (DataFrame of shape (n_instances, x_orig_feature_count) or Series):
+
+        Returns:
+            string
+                 Description of feature
+        """
         if self.feature_descriptions is None:
-            # TODO: log a warning
             return df
+        if isinstance(df, pd.Series):
+            return df.rename(self.feature_descriptions)
         return df.rename(self.feature_descriptions, axis="columns")
 
     def convert_data_to_interpretable(self, x_orig):
         """
         Convert data in its original form to an interpretable form, with interpretable features
         Args:
-            x_orig (DataFrame of shape (n_instances, n_features)):
+            x_orig (DataFrame of shape (n_instances, n_features) or Series):
                 Input data to convert
 
         Returns:

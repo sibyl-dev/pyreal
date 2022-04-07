@@ -90,8 +90,8 @@ def test_transform_x_from_algorithm_to_model(regression_one_hot):
 
 
 def test_convert_data_to_interpretable(regression_one_hot):
-    x = pd.Series([2, 1, 3], index=["A", "B", "C"])
-    expected = pd.Series([1, 3, 1, 0, 0], index=["Feature B", "C", "A_2", "A_4", "A_6"])
+    x = pd.DataFrame([[2, 1, 3]], columns=["A", "B", "C"])
+    expected = pd.DataFrame([[1, 3, 1, 0, 0]], columns=["Feature B", "C", "A_2", "A_4", "A_6"])
 
     x_series = pd.Series([2, 1, 3], index=["A", "B", "C"])
     expected_series = pd.Series([1, 3, 1, 0, 0], index=["Feature B", "C", "A_2", "A_4", "A_6"])
@@ -103,7 +103,7 @@ def test_convert_data_to_interpretable(regression_one_hot):
                                                        feature_select],
                                          feature_descriptions={"B": "Feature B"})
     result = explainer.convert_data_to_interpretable(x)
-    assert_series_equal(result, expected, check_dtype=False)
+    assert_frame_equal(result, expected, check_dtype=False)
     result_series = explainer.convert_data_to_interpretable(x_series)
     assert_series_equal(result_series, expected_series, check_dtype=False)
 
