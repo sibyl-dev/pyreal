@@ -40,7 +40,7 @@ python = "^3.8, <3.11"
 eli5 = "^0.11.0"
 matplotlib = "^3.5.1"
 numpy = "~1.21.5" # Pinned because of shap->numba incompatibility
-pandas = "^1.4.1"
+pandas = "^1.4.2"
 scikit-learn = "^1.0.2"
 shap = "^0.40.0"
 
@@ -70,10 +70,10 @@ PyYaml = ">=6.0"
 Sphinx = ">=4.4.0"
 argh = ">=0.26.2"
 autodocsumm = ">=0.2.7"
-ipython = ">=8.1.1"
+ipython = ">=8.2.0"
 m2r2 = ">=0.3.2"
 nbsphinx = ">=0.8.8"
-pydata-sphinx-theme = ">=0.8.0"
+pydata-sphinx-theme = ">=0.8.1"
 
 # Extra Dependency Bundles
 [tool.poetry.extras]
