@@ -84,31 +84,3 @@ class MultiTypeImputer(Transformer):
             result = result.squeeze()
             result.name = name
         return result
-
-    def transform_explanation(self, explanation):
-        """
-        Transforms additive contribution explanations. No transformation required.
-
-        Args:
-            explanation (ExplanationType):
-                The explanation to be transformed
-
-        Returns:
-            ExplanationType:
-                The transformed explanation
-        """
-        return explanation
-
-    def inverse_transform_explanation(self, explanation):
-        """
-        Transforms additive contribution explanations. No transformation required.
-
-        Args:
-            explanation (ExplanationType):
-                The explanation to be transformed
-
-        Returns:
-            ExplanationType:
-                The transformed explanation
-        """
-        return explanation

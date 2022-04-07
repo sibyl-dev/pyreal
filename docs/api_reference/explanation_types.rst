@@ -18,9 +18,9 @@ DataFrame Explanation Type
 .. autosummary::
     :toctree: api/
 
-    dataframe.DataFrameExplanation
-    dataframe.DataFrameExplanation.get
-    dataframe.DataFrameExplanation.validate
+    dataframe.FeatureBased
+    dataframe.FeatureBased.get
+    dataframe.FeatureBased.validate
 
 Feature Importance Explanation Type
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
