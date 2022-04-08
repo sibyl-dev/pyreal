@@ -84,6 +84,7 @@ preview = true
 [tool.isort]
 profile = "black"
 line_length = 99
+skip = ["__init__.py"]
 
 [build-system]
 build-backend = "poetry.core.masonry.api"

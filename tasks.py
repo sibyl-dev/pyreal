@@ -119,7 +119,7 @@ def fix_lint(context):
 
     subprocess.run(["black", "pyreal"])
     subprocess.run(["black", "tests"])
-    subprocess.run(["isort", "--atomic", "pyreal", "tests", "--skip", "__init__.py"])
+    subprocess.run(["isort", "--atomic", "pyreal", "tests"])
 
 
 @task
@@ -129,7 +129,7 @@ def lint(context):
         Skips init.py files for import sorts
     """
     subprocess.run(["flake8", "pyreal", "tests"], check=True)
-    subprocess.run(["isort", "-c", "pyreal", "tests", "--skip", "__init__.py"], check=True)
+    subprocess.run(["isort", "-c", "pyreal", "tests"], check=True)
 
 
 @task
