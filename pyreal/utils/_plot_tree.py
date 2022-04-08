@@ -47,14 +47,15 @@ def _color_brew(n):
 
 def hex2rgb(colors):
     if isinstance(colors, str):
-        hex_code = colors.strip('# ')
+        hex_code = colors.strip("# ")
         return [int(hex_code[:2], 16), int(hex_code[2:4], 16), int(hex_code[4:], 16)]
     elif isinstance(colors, list):
         color_list = []
         for code in colors:
-            hex_code = code.strip('# ')
-            color_list.append([int(hex_code[:2], 16),
-                               int(hex_code[2:4], 16), int(hex_code[4:], 16)])
+            hex_code = code.strip("# ")
+            color_list.append(
+                [int(hex_code[:2], 16), int(hex_code[2:4], 16), int(hex_code[4:], 16)]
+            )
         return color_list
 
 
@@ -87,7 +88,7 @@ class TreeExporter(_MPLTreeExporter):
             proportion=proportion,
             rounded=rounded,
             precision=precision,
-            fontsize=fontsize
+            fontsize=fontsize,
         )
         self.positive_color = positive_color
         self.negative_color = negative_color

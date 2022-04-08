@@ -21,11 +21,20 @@ def choose_algorithm():
     return "shap"
 
 
-def lfc(return_contributions=True, return_explainer=False, explainer=None,
-        model=None, x_orig=None, x_train_orig=None,
-        e_algorithm=None, feature_descriptions=None,
-        e_transforms=None, m_transforms=None, i_transforms=None,
-        interpretable_features=True):
+def lfc(
+    return_contributions=True,
+    return_explainer=False,
+    explainer=None,
+    model=None,
+    x_orig=None,
+    x_train_orig=None,
+    e_algorithm=None,
+    feature_descriptions=None,
+    e_transforms=None,
+    m_transforms=None,
+    i_transforms=None,
+    interpretable_features=True,
+):
     """
     Get a local feature contribution for x_input
 
@@ -71,8 +80,9 @@ def lfc(return_contributions=True, return_explainer=False, explainer=None,
     """
     if not return_contributions and not return_explainer:
         # TODO: replace with formal warning system
-        log.warning("lfc is non-functional with "
-                    "return_contribution and return_explainer set to false")
+        log.warning(
+            "lfc is non-functional with return_contribution and return_explainer set to false"
+        )
         return
     if explainer is None and (model is None or x_train_orig is None):
         raise ValueError("lfc requires either explainer OR model and x_train to be passed")
@@ -80,13 +90,17 @@ def lfc(return_contributions=True, return_explainer=False, explainer=None,
         raise ValueError("return_contributions tag require x_input to be passed")
 
     if explainer is None:
-        explainer = LocalFeatureContribution(model, x_train_orig,
-                                             e_algorithm=e_algorithm,
-                                             feature_descriptions=feature_descriptions,
-                                             e_transforms=e_transforms, m_transforms=m_transforms,
-                                             i_transforms=i_transforms,
-                                             interpretable_features=interpretable_features,
-                                             fit_on_init=True)
+        explainer = LocalFeatureContribution(
+            model,
+            x_train_orig,
+            e_algorithm=e_algorithm,
+            feature_descriptions=feature_descriptions,
+            e_transforms=e_transforms,
+            m_transforms=m_transforms,
+            i_transforms=i_transforms,
+            interpretable_features=interpretable_features,
+            fit_on_init=True,
+        )
     if return_explainer and return_contributions:
         return explainer, explainer.produce(x_orig)
     if return_explainer:
@@ -120,10 +134,12 @@ class LocalFeatureContribution(LocalFeatureContributionsBase):
         self.base_local_feature_contribution = None
         if e_algorithm == "shap":
             self.base_local_feature_contribution = ShapFeatureContribution(
-                model, x_train_orig, **kwargs)
+                model, x_train_orig, **kwargs
+            )
         elif e_algorithm == "simple":
             self.base_local_feature_contribution = SimpleCounterfactualContribution(
-                model, x_train_orig, **kwargs)
+                model, x_train_orig, **kwargs
+            )
         if self.base_local_feature_contribution is None:
             raise ValueError("Invalid algorithm type %s" % e_algorithm)
 

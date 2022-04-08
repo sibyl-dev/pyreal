@@ -54,9 +54,11 @@ class SimpleCounterfactualContribution(LocalFeatureContributionsBase):
         """
         x = self.transform_to_x_algorithm(x_orig)
         if x.shape[1] != self.explainer_input_size:
-            raise ValueError("Received input of wrong size."
-                             "Expected ({},), received {}"
-                             .format(self.explainer_input_size, x.shape))
+            raise ValueError(
+                "Received input of wrong size.Expected ({},), received {}".format(
+                    self.explainer_input_size, x.shape
+                )
+            )
         x_train_explain = self.transform_to_x_algorithm(self._x_train_orig)
         pred_orig = self.model_predict_on_algorithm(x)
         contributions = pd.DataFrame(np.zeros_like(x), columns=x.columns)

@@ -62,8 +62,9 @@ class LocalFeatureContributionsBase(ExplainerBase, ABC):
             x_interpret.name = name
         contributions = contributions.get()
         if self.interpretable_features:
-            return self.convert_columns_to_interpretable(contributions), \
-                self.convert_columns_to_interpretable(x_interpret)
+            return self.convert_columns_to_interpretable(
+                contributions
+            ), self.convert_columns_to_interpretable(x_interpret)
         return contributions, x_interpret
 
     @abstractmethod
@@ -108,7 +109,6 @@ class LocalFeatureContributionsBase(ExplainerBase, ABC):
             for i in range(n_iterations - 1):
                 if with_fit:
                     self.fit()
-                explanations.append(
-                    self.produce(self._x_train_orig.iloc[0:n_rows])[0].to_numpy())
+                explanations.append(self.produce(self._x_train_orig.iloc[0:n_rows])[0].to_numpy())
 
         return np.max(np.var(explanations, axis=0))

@@ -14,8 +14,17 @@ from pyreal.transformers.one_hot_encode import (
 )
 from pyreal.transformers.wrappers import DataFrameWrapper
 
-__all__ = ['Transformer', 'fit_transformers', 'run_transformers', 'BreakingTransformError',
-           'FeatureSelectTransformer', 'ColumnDropTransformer',
-           'MultiTypeImputer',
-           'Mappings', 'OneHotEncoder', 'MappingsOneHotDecoder', 'MappingsOneHotEncoder',
-           'DataFrameWrapper']
+__all__ = [
+    "Transformer",
+    "fit_transformers",
+    "run_transformers",
+    "BreakingTransformError",
+    "FeatureSelectTransformer",
+    "ColumnDropTransformer",
+    "MultiTypeImputer",
+    "Mappings",
+    "OneHotEncoder",
+    "MappingsOneHotDecoder",
+    "MappingsOneHotEncoder",
+    "DataFrameWrapper",
+]
