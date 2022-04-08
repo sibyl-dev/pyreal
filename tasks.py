@@ -117,12 +117,9 @@ def fix_lint(context):
     Fixes all linting and import sort errors. Skips init.py files for import sorts
     """
 
-    subprocess.run(["autoflake", "--in-place", "--recursive",
-                   "--remove-all-unused-imports", "--remove-unused-variables", "pyreal"])
-    subprocess.run(["autoflake", "--in-place", "--recursive",
-                   "--remove-all-unused-imports", "--remove-unused-variables", "tests"])
-    subprocess.run(["autopep8", "--in-place", "--recursive", "--aggressive", "pyreal", "tests"])
-    subprocess.run(["isort", "--atomic", "pyreal", "tests", "--skip", "__init__.py"])
+    subprocess.run(["black", "pyreal"])
+    subprocess.run(["black", "tests"])
+    subprocess.run(["isort", "--atomic", "pyreal", "tests"])
 
 
 @task
@@ -132,7 +129,7 @@ def lint(context):
         Skips init.py files for import sorts
     """
     subprocess.run(["flake8", "pyreal", "tests"], check=True)
-    subprocess.run(["isort", "-c", "pyreal", "tests", "--skip", "__init__.py"], check=True)
+    subprocess.run(["isort", "-c", "pyreal", "tests"], check=True)
 
 
 @task

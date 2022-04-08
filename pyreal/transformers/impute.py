@@ -32,10 +32,12 @@ class MultiTypeImputer(Transformer):
         Returns:
             None
         """
-        self.numeric_cols = x.dropna(axis="columns", how="all") \
-            .select_dtypes(include="number").columns
-        self.categorical_cols = x.dropna(axis="columns", how="all") \
-            .select_dtypes(exclude="number").columns
+        self.numeric_cols = (
+            x.dropna(axis="columns", how="all").select_dtypes(include="number").columns
+        )
+        self.categorical_cols = (
+            x.dropna(axis="columns", how="all").select_dtypes(exclude="number").columns
+        )
         if len(self.numeric_cols) == 0 and len(self.categorical_cols) == 0:
             raise ValueError("No valid numeric or categorical cols")
         if len(self.numeric_cols) > 0:
@@ -70,15 +72,21 @@ class MultiTypeImputer(Transformer):
         elif len(self.numeric_cols) == 0:
             new_categorical_cols = self.categorical_imputer.transform(x[self.categorical_cols])
             result = pd.DataFrame(
-                new_categorical_cols, columns=self.categorical_cols, index=x.index)
+                new_categorical_cols, columns=self.categorical_cols, index=x.index
+            )
 
         else:
             new_numeric_cols = self.numeric_imputer.transform(x[self.numeric_cols])
             new_categorical_cols = self.categorical_imputer.transform(x[self.categorical_cols])
-            result = pd.concat([
-                pd.DataFrame(new_numeric_cols, columns=self.numeric_cols, index=x.index),
-                pd.DataFrame(new_categorical_cols, columns=self.categorical_cols, index=x.index)],
-                axis=1)
+            result = pd.concat(
+                [
+                    pd.DataFrame(new_numeric_cols, columns=self.numeric_cols, index=x.index),
+                    pd.DataFrame(
+                        new_categorical_cols, columns=self.categorical_cols, index=x.index
+                    ),
+                ],
+                axis=1,
+            )
 
         if series_flag:
             result = result.squeeze()

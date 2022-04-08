@@ -55,8 +55,10 @@ class SurrogateDecisionTree(DecisionTreeExplainerBase):
         """
 
         if self.explainer is None:
-            raise AttributeError("Instance has no explainer. Please fit the explainer \
-            before producing explanations.")
+            raise AttributeError(
+                "Instance has no explainer. Please fit the explainer             before producing"
+                " explanations."
+            )
 
         return self.explainer
 
@@ -68,8 +70,10 @@ class SurrogateDecisionTree(DecisionTreeExplainerBase):
             The feature importances of the decision tree explainer.
         """
         if self.explainer is None:
-            raise AttributeError("Instance has no explainer. Please fit the explainer \
-            before producing explanations.")
+            raise AttributeError(
+                "Instance has no explainer. Please fit the explainer             before producing"
+                " explanations."
+            )
 
         features = self.return_features()
         importances = pd.DataFrame(self.explainer.feature_importances_[None, :], columns=features)

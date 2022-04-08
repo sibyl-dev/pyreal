@@ -23,12 +23,13 @@ class ShapFeatureImportance(GlobalFeatureImportanceBase):
         **kwargs: see base Explainer args
     """
 
-    def __init__(self, model, x_train_orig,
-                 shap_type=None, **kwargs):
+    def __init__(self, model, x_train_orig, shap_type=None, **kwargs):
         supported_types = ["kernel", "linear"]
         if shap_type is not None and shap_type not in supported_types:
-            raise ValueError("Shap type not supported, given %s, expected one of %s or None" %
-                             (shap_type, str(supported_types)))
+            raise ValueError(
+                "Shap type not supported, given %s, expected one of %s or None"
+                % (shap_type, str(supported_types))
+            )
         else:
             self.shap_type = shap_type
 
@@ -60,9 +61,7 @@ class ShapFeatureImportance(GlobalFeatureImportanceBase):
                  The global importance of each feature
         """
         if self.explainer is None:
-            raise AttributeError("Instance has no explainer. Must call "
-                                 "fit() before "
-                                 "produce()")
+            raise AttributeError("Instance has no explainer. Must call fit() before produce()")
         x_model = self.transform_to_x_model(self._x_train_orig)
         x_model_np = np.asanyarray(x_model)
         shap_values = np.array(self.explainer.shap_values(x_model_np))
@@ -79,4 +78,5 @@ class ShapFeatureImportance(GlobalFeatureImportanceBase):
 
         importances = np.mean(np.absolute(shap_values), axis=0).reshape(1, -1)
         return AdditiveFeatureImportanceExplanation(
-            pd.DataFrame(importances, columns=x_model.columns))
+            pd.DataFrame(importances, columns=x_model.columns)
+        )

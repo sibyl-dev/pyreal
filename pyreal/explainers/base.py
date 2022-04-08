@@ -65,9 +65,11 @@ def _get_transformers(transformers, algorithm=None, model=None, interpret=None):
     """
     select_transformers = []
     for t in transformers:
-        if (algorithm is None or t.algorithm == algorithm) \
-                and (model is None or t.model == model) \
-                and (interpret is None or t.interpret == interpret):
+        if (
+            (algorithm is None or t.algorithm == algorithm)
+            and (model is None or t.model == model)
+            and (interpret is None or t.interpret == interpret)
+        ):
             select_transformers.append(t)
     return select_transformers
 
@@ -109,16 +111,20 @@ class ExplainerBase(ABC):
             If True, return the explanation originally generated without any transformations
     """
 
-    def __init__(self, model,
-                 x_train_orig, y_orig=None,
-                 feature_descriptions=None,
-                 classes=None,
-                 class_descriptions=None,
-                 transformers=None,
-                 fit_on_init=False,
-                 training_size=None,
-                 return_original_explanation=False,
-                 fit_transformers=False):
+    def __init__(
+        self,
+        model,
+        x_train_orig,
+        y_orig=None,
+        feature_descriptions=None,
+        classes=None,
+        class_descriptions=None,
+        transformers=None,
+        fit_on_init=False,
+        training_size=None,
+        return_original_explanation=False,
+        fit_transformers=False,
+    ):
         if isinstance(model, str):
             self.model = model_utils.load_model_from_pickle(model)
         else:
@@ -130,8 +136,10 @@ class ExplainerBase(ABC):
         self.x_train_orig = x_train_orig
         self.y_orig = y_orig
 
-        if not isinstance(x_train_orig, pd.DataFrame) or (y_orig is not None and not (
-                isinstance(y_orig, pd.DataFrame) or isinstance(y_orig, pd.Series))):
+        if not isinstance(x_train_orig, pd.DataFrame) or (
+            y_orig is not None
+            and not (isinstance(y_orig, pd.DataFrame) or isinstance(y_orig, pd.Series))
+        ):
             raise TypeError("x_orig and y_orig must be of type DataFrame")
 
         self.x_orig_feature_count = x_train_orig.shape[1]
@@ -141,8 +149,12 @@ class ExplainerBase(ABC):
         self.feature_descriptions = feature_descriptions
 
         self.classes = classes
-        if classes is None and str(self.model.__module__.startswith("sklearn")) \
-                and is_classifier(model) and hasattr(model, "classes_"):
+        if (
+            classes is None
+            and str(self.model.__module__.startswith("sklearn"))
+            and is_classifier(model)
+            and hasattr(model, "classes_")
+        ):
             self.classes = model.classes_
 
         self.class_descriptions = class_descriptions
@@ -153,14 +165,17 @@ class ExplainerBase(ABC):
         data_sample_indices = self.x_train_orig.index
 
         if self.training_size is None:
-            log.warning("Warning: training_size not provided. Defaulting to train with full "
-                        "dataset, running time might be slow.")
+            log.warning(
+                "Warning: training_size not provided. Defaulting to train with full "
+                "dataset, running time might be slow."
+            )
         elif self.training_size < len(self.x_train_orig.index):
             if self.classes is not None and self.training_size < len(self.classes):
                 raise ValueError("training_size must be larger than the number of classes")
             else:
-                data_sample_indices = pd.Index(np.random.choice(self.x_train_orig.index,
-                                                                self.training_size, replace=False))
+                data_sample_indices = pd.Index(
+                    np.random.choice(self.x_train_orig.index, self.training_size, replace=False)
+                )
 
         # use _x_train_orig for fitting explainer
         self._x_train_orig = self.x_train_orig.loc[data_sample_indices]
@@ -275,7 +290,7 @@ class ExplainerBase(ABC):
                 If `x_orig` is not None, return `x_orig` transformed to the state of the final
                 explanation. Not returned if `x_orig` is None.
         """
-        convert_x = (x_orig is not None)
+        convert_x = x_orig is not None
         if self.return_original_explanation:
             if convert_x:
                 return explanation, self.transform_to_x_algorithm(x_orig)
@@ -294,9 +309,11 @@ class ExplainerBase(ABC):
                 explanation = t.inverse_transform_explanation(explanation)
             # If this is a breaking transformer, transform x to the current point and return
             except BreakingTransformError:
-                log.warning("Transformer class %s does not have the required inverse explanation "
-                            "transform and is set to break, stopping transform process"
-                            % type(t).__name__)
+                log.warning(
+                    "Transformer class %s does not have the required inverse explanation "
+                    "transform and is set to break, stopping transform process"
+                    % type(t).__name__
+                )
                 break_point = len(a_transformers) - i
                 if convert_x:
                     x = run_transformers(a_transformers[0:break_point], x)
@@ -309,9 +326,11 @@ class ExplainerBase(ABC):
                 try:
                     explanation = t.transform_explanation(explanation)
                 except BreakingTransformError:
-                    log.warning("Transformer class %s does not have the required explanation "
-                                "transform and is set to break, stopping transform process"
-                                % type(t).__name__)
+                    log.warning(
+                        "Transformer class %s does not have the required explanation "
+                        "transform and is set to break, stopping transform process"
+                        % type(t).__name__
+                    )
                     if convert_x:
                         return explanation, x
                     return explanation
