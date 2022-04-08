@@ -159,7 +159,9 @@
 
 <span class="kn">from</span> <span class="nn">pyreal.transformers</span> <span class="kn">import</span> <span class="n">BreakingTransformError</span><span class="p">,</span> <span class="n">Transformer</span>
 <span class="kn">from</span> <span class="nn">pyreal.types.explanations.feature_based</span> <span class="kn">import</span> <span class="p">(</span>
-    <span class="n">AdditiveFeatureContributionExplanation</span><span class="p">,</span> <span class="n">AdditiveFeatureImportanceExplanation</span><span class="p">,)</span>
+    <span class="n">AdditiveFeatureContributionExplanation</span><span class="p">,</span>
+    <span class="n">AdditiveFeatureImportanceExplanation</span><span class="p">,</span>
+<span class="p">)</span>
 
 <span class="n">log</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
@@ -216,9 +218,9 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">one_hot_to_categorical</span> <span class="o">=</span> <span class="n">one_hot_to_categorical</span></div>
 
 <div class="viewcode-block" id="Mappings.generate_mappings"><a class="viewcode-back" href="../../../api_reference/api/pyreal.transformers.Mappings.generate_mappings.html#pyreal.transformers.Mappings.generate_mappings">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">generate_mappings</span><span class="p">(</span><span class="n">categorical_to_one_hot</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                          <span class="n">one_hot_to_categorical</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                          <span class="n">dataframe</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">generate_mappings</span><span class="p">(</span>
+        <span class="n">categorical_to_one_hot</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">one_hot_to_categorical</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dataframe</span><span class="o">=</span><span class="kc">None</span>
+    <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Generate a new Mappings object using one of the input formats</span>
 <span class="sd">        All but one keyword should be None</span>
@@ -236,15 +238,18 @@
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">if</span> <span class="n">categorical_to_one_hot</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">Mappings</span><span class="p">(</span><span class="n">categorical_to_one_hot</span><span class="p">,</span>
-                            <span class="n">_generate_one_hot_to_categorical</span><span class="p">(</span><span class="n">categorical_to_one_hot</span><span class="p">))</span>
+            <span class="k">return</span> <span class="n">Mappings</span><span class="p">(</span>
+                <span class="n">categorical_to_one_hot</span><span class="p">,</span> <span class="n">_generate_one_hot_to_categorical</span><span class="p">(</span><span class="n">categorical_to_one_hot</span><span class="p">)</span>
+            <span class="p">)</span>
         <span class="k">if</span> <span class="n">one_hot_to_categorical</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">Mappings</span><span class="p">(</span><span class="n">_generate_categorical_to_one_hot</span><span class="p">(</span><span class="n">one_hot_to_categorical</span><span class="p">),</span>
-                            <span class="n">one_hot_to_categorical</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">Mappings</span><span class="p">(</span>
+                <span class="n">_generate_categorical_to_one_hot</span><span class="p">(</span><span class="n">one_hot_to_categorical</span><span class="p">),</span> <span class="n">one_hot_to_categorical</span>
+            <span class="p">)</span>
         <span class="k">if</span> <span class="n">dataframe</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">categorical_to_one_hot</span> <span class="o">=</span> <span class="n">_generate_from_df</span><span class="p">(</span><span class="n">dataframe</span><span class="p">)</span>
-            <span class="k">return</span> <span class="n">Mappings</span><span class="p">(</span><span class="n">categorical_to_one_hot</span><span class="p">,</span>
-                            <span class="n">_generate_one_hot_to_categorical</span><span class="p">(</span><span class="n">categorical_to_one_hot</span><span class="p">))</span></div></div>
+            <span class="k">return</span> <span class="n">Mappings</span><span class="p">(</span>
+                <span class="n">categorical_to_one_hot</span><span class="p">,</span> <span class="n">_generate_one_hot_to_categorical</span><span class="p">(</span><span class="n">categorical_to_one_hot</span><span class="p">)</span>
+            <span class="p">)</span></div></div>
 
 
 <div class="viewcode-block" id="OneHotEncoder"><a class="viewcode-back" href="../../../api_reference/api/pyreal.transformers.OneHotEncoder.html#pyreal.transformers.OneHotEncoder">[docs]</a><span class="k">class</span> <span class="nc">OneHotEncoder</span><span class="p">(</span><span class="n">Transformer</span><span class="p">):</span>
@@ -318,7 +323,8 @@
 <span class="sd">                The transformed explanation</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">AdditiveFeatureContributionExplanation</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_helper_summed_values</span><span class="p">(</span><span class="n">explanation</span><span class="o">.</span><span class="n">get</span><span class="p">()))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_helper_summed_values</span><span class="p">(</span><span class="n">explanation</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
+        <span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">inverse_transform_explanation_additive_feature_importance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">explanation</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -333,8 +339,7 @@
 <span class="sd">            AdditiveFeatureImportanceExplanation:</span>
 <span class="sd">                The transformed explanation</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">AdditiveFeatureImportanceExplanation</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_helper_summed_values</span><span class="p">(</span><span class="n">explanation</span><span class="o">.</span><span class="n">get</span><span class="p">()))</span>
+        <span class="k">return</span> <span class="n">AdditiveFeatureImportanceExplanation</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_helper_summed_values</span><span class="p">(</span><span class="n">explanation</span><span class="o">.</span><span class="n">get</span><span class="p">()))</span>
 
     <span class="k">def</span> <span class="nf">inverse_transform_explanation_feature_based</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">explanation</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -370,10 +375,12 @@
 <span class="sd">        Raises:</span>
 <span class="sd">            BreakingTransformError</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Explanation cannot be one-hot encoded with the available information. &quot;</span>
-                 <span class="s2">&quot;If you&#39;d like to get your explanation one-hot encoded, &quot;</span>
-                 <span class="s2">&quot;this procedure should be applied to the data before generating &quot;</span>
-                 <span class="s2">&quot;the explanation if possible.&quot;</span><span class="p">)</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+            <span class="s2">&quot;Explanation cannot be one-hot encoded with the available information. &quot;</span>
+            <span class="s2">&quot;If you&#39;d like to get your explanation one-hot encoded, &quot;</span>
+            <span class="s2">&quot;this procedure should be applied to the data before generating &quot;</span>
+            <span class="s2">&quot;the explanation if possible.&quot;</span>
+        <span class="p">)</span>
         <span class="k">raise</span> <span class="n">BreakingTransformError</span>
 
     <span class="k">def</span> <span class="nf">transform_explanation_decision_tree</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">explanation</span><span class="p">):</span>
@@ -419,8 +426,9 @@
             <span class="n">explanation</span> <span class="o">=</span> <span class="n">explanation</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
         <span class="n">encoded_columns</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ohe</span><span class="o">.</span><span class="n">get_feature_names_out</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">original_feature</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
-            <span class="n">encoded_features</span> <span class="o">=</span> <span class="p">[</span><span class="n">item</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">encoded_columns</span> <span class="k">if</span>
-                                <span class="n">item</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">original_feature</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span><span class="p">)]</span>
+            <span class="n">encoded_features</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="n">item</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">encoded_columns</span> <span class="k">if</span> <span class="n">item</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">original_feature</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span><span class="p">)</span>
+            <span class="p">]</span>
             <span class="n">summed_contribution</span> <span class="o">=</span> <span class="n">explanation</span><span class="p">[</span><span class="n">encoded_features</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
             <span class="n">explanation</span> <span class="o">=</span> <span class="n">explanation</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">encoded_features</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="s2">&quot;columns&quot;</span><span class="p">)</span>
             <span class="n">explanation</span><span class="p">[</span><span class="n">original_feature</span><span class="p">]</span> <span class="o">=</span> <span class="n">summed_contribution</span>
@@ -518,8 +526,9 @@
                 <span class="k">if</span> <span class="n">new_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">cat_data</span><span class="p">:</span>
                     <span class="n">cat_data</span><span class="p">[</span><span class="n">new_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">num_rows</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;object&quot;</span><span class="p">)</span>
                 <span class="c1"># TODO: add functionality to handle defaults</span>
-                <span class="n">cat_data</span><span class="p">[</span><span class="n">new_name</span><span class="p">][</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)]</span> <span class="o">=</span> \
-                    <span class="bp">self</span><span class="o">.</span><span class="n">mappings</span><span class="o">.</span><span class="n">one_hot_to_categorical</span><span class="p">[</span><span class="n">col</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+                <span class="n">cat_data</span><span class="p">[</span><span class="n">new_name</span><span class="p">][</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mappings</span><span class="o">.</span><span class="n">one_hot_to_categorical</span><span class="p">[</span>
+                    <span class="n">col</span>
+                <span class="p">][</span><span class="mi">1</span><span class="p">]</span>
         <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">cat_data</span><span class="p">)</span></div>
 
     <span class="k">def</span> <span class="nf">transform_explanation_additive_feature_contribution</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">explanation</span><span class="p">):</span>

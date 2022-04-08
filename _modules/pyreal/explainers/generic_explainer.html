@@ -154,10 +154,19 @@
 <span></span><span class="kn">from</span> <span class="nn">pyreal.explainers</span> <span class="kn">import</span> <span class="n">ExplainerBase</span><span class="p">,</span> <span class="n">ShapFeatureContribution</span><span class="p">,</span> <span class="n">ShapFeatureImportance</span>
 
 
-<span class="k">def</span> <span class="nf">explain</span><span class="p">(</span><span class="n">return_explanation</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">return_explainer</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">explainer</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-            <span class="n">model</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">x_orig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">x_train_orig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">feature_descriptions</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-            <span class="n">e_transforms</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">m_transforms</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">i_transforms</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-            <span class="n">interpretable_features</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">explain</span><span class="p">(</span>
+    <span class="n">return_explanation</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">return_explainer</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">explainer</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">model</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">x_orig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">x_train_orig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">feature_descriptions</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">e_transforms</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">m_transforms</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">i_transforms</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">interpretable_features</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Get an explanation of the model for x_orig (default explainer produces global explanations)</span>
 
@@ -204,12 +213,16 @@
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;You must provide either explainer OR model and corresponding x_train&quot;</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">explainer</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">explainer</span> <span class="o">=</span> <span class="n">Explainer</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">x_train_orig</span><span class="p">,</span>
-                              <span class="n">feature_descriptions</span><span class="o">=</span><span class="n">feature_descriptions</span><span class="p">,</span>
-                              <span class="n">e_transforms</span><span class="o">=</span><span class="n">e_transforms</span><span class="p">,</span> <span class="n">m_transforms</span><span class="o">=</span><span class="n">m_transforms</span><span class="p">,</span>
-                              <span class="n">i_transforms</span><span class="o">=</span><span class="n">i_transforms</span><span class="p">,</span>
-                              <span class="n">interpretable_features</span><span class="o">=</span><span class="n">interpretable_features</span><span class="p">,</span>
-                              <span class="n">fit_on_init</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">explainer</span> <span class="o">=</span> <span class="n">Explainer</span><span class="p">(</span>
+            <span class="n">model</span><span class="p">,</span>
+            <span class="n">x_train_orig</span><span class="p">,</span>
+            <span class="n">feature_descriptions</span><span class="o">=</span><span class="n">feature_descriptions</span><span class="p">,</span>
+            <span class="n">e_transforms</span><span class="o">=</span><span class="n">e_transforms</span><span class="p">,</span>
+            <span class="n">m_transforms</span><span class="o">=</span><span class="n">m_transforms</span><span class="p">,</span>
+            <span class="n">i_transforms</span><span class="o">=</span><span class="n">i_transforms</span><span class="p">,</span>
+            <span class="n">interpretable_features</span><span class="o">=</span><span class="n">interpretable_features</span><span class="p">,</span>
+            <span class="n">fit_on_init</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="p">)</span>
     <span class="k">if</span> <span class="n">return_explainer</span> <span class="ow">and</span> <span class="n">return_explanation</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">explainer</span><span class="p">,</span> <span class="n">explainer</span><span class="o">.</span><span class="n">produce</span><span class="p">(</span><span class="n">x_orig</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">return_explainer</span><span class="p">:</span>
@@ -240,8 +253,15 @@
 <span class="sd">        **kwargs: see base Explainer args</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="Explainer.__init__"><a class="viewcode-back" href="../../../api_reference/api/pyreal.explainers.Explainer.html#pyreal.explainers.Explainer.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">x_train_orig</span><span class="p">,</span> <span class="n">scope</span><span class="o">=</span><span class="s2">&quot;global&quot;</span><span class="p">,</span> <span class="n">e_algorithm</span><span class="o">=</span><span class="s2">&quot;shap&quot;</span><span class="p">,</span>
-                 <span class="n">interpretable_features</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="Explainer.__init__"><a class="viewcode-back" href="../../../api_reference/api/pyreal.explainers.Explainer.html#pyreal.explainers.Explainer.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">model</span><span class="p">,</span>
+        <span class="n">x_train_orig</span><span class="p">,</span>
+        <span class="n">scope</span><span class="o">=</span><span class="s2">&quot;global&quot;</span><span class="p">,</span>
+        <span class="n">e_algorithm</span><span class="o">=</span><span class="s2">&quot;shap&quot;</span><span class="p">,</span>
+        <span class="n">interpretable_features</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span>
+    <span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">scope</span> <span class="o">=</span> <span class="n">scope</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">interpretable_features</span> <span class="o">=</span> <span class="n">interpretable_features</span>
         <span class="n">algorithm_list</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;shap&quot;</span><span class="p">]</span>
@@ -252,17 +272,14 @@
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Invalid algorithm type </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">e_algorithm</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">scope</span> <span class="o">==</span> <span class="s2">&quot;global&quot;</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">e_algorithm</span> <span class="o">==</span> <span class="s2">&quot;shap&quot;</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">base_explainer</span> <span class="o">=</span> \
-                    <span class="n">ShapFeatureImportance</span><span class="p">(</span><span class="n">model</span><span class="p">,</span>
-                                          <span class="n">x_train_orig</span><span class="p">,</span>
-                                          <span class="n">interpretable_features</span><span class="o">=</span><span class="n">interpretable_features</span><span class="p">,</span>
-                                          <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">base_explainer</span> <span class="o">=</span> <span class="n">ShapFeatureImportance</span><span class="p">(</span>
+                    <span class="n">model</span><span class="p">,</span> <span class="n">x_train_orig</span><span class="p">,</span> <span class="n">interpretable_features</span><span class="o">=</span><span class="n">interpretable_features</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+                <span class="p">)</span>
         <span class="k">elif</span> <span class="n">scope</span> <span class="o">==</span> <span class="s2">&quot;local&quot;</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">e_algorithm</span> <span class="o">==</span> <span class="s2">&quot;shap&quot;</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">base_explainer</span> <span class="o">=</span> \
-                    <span class="n">ShapFeatureContribution</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">x_train_orig</span><span class="p">,</span>
-                                            <span class="n">interpretable_features</span><span class="o">=</span><span class="n">interpretable_features</span><span class="p">,</span>
-                                            <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">base_explainer</span> <span class="o">=</span> <span class="n">ShapFeatureContribution</span><span class="p">(</span>
+                    <span class="n">model</span><span class="p">,</span> <span class="n">x_train_orig</span><span class="p">,</span> <span class="n">interpretable_features</span><span class="o">=</span><span class="n">interpretable_features</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+                <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Explainers must be either global or local&quot;</span><span class="p">)</span></div>
 
@@ -285,11 +302,15 @@
 <span class="sd">                Contribution of each feature for each instance</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">scope</span> <span class="o">==</span> <span class="s2">&quot;global&quot;</span> <span class="ow">and</span> <span class="n">x_orig</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Global explainer does not explain specific input data. </span><span class="se">\</span>
-<span class="s2">                              Call produce() without arguments or change scope to local.&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;Global explainer does not explain specific input data.                           &quot;</span>
+                <span class="s2">&quot;    Call produce() without arguments or change scope to local.&quot;</span>
+            <span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">scope</span> <span class="o">==</span> <span class="s2">&quot;local&quot;</span> <span class="ow">and</span> <span class="n">x_orig</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Local explainers requires input data. </span><span class="se">\</span>
-<span class="s2">                              Call produce() with input or change scope to global.&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;Local explainers requires input data.                               Call&quot;</span>
+                <span class="s2">&quot; produce() with input or change scope to global.&quot;</span>
+            <span class="p">)</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_explainer</span><span class="o">.</span><span class="n">produce</span><span class="p">(</span><span class="n">x_orig</span><span class="p">)</span></div>
 
@@ -317,8 +338,9 @@
 <span class="sd">            float</span>
 <span class="sd">                The variation of this Explainer&#39;s explanations</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_explainer</span><span class="o">.</span><span class="n">evaluate_variation</span><span class="p">(</span><span class="n">with_fit</span><span class="o">=</span><span class="n">with_fit</span><span class="p">,</span> <span class="n">explanations</span><span class="o">=</span><span class="n">explanations</span><span class="p">,</span>
-                                                      <span class="n">n_iterations</span><span class="o">=</span><span class="n">n_iterations</span><span class="p">,</span> <span class="n">n_rows</span><span class="o">=</span><span class="n">n_rows</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_explainer</span><span class="o">.</span><span class="n">evaluate_variation</span><span class="p">(</span>
+            <span class="n">with_fit</span><span class="o">=</span><span class="n">with_fit</span><span class="p">,</span> <span class="n">explanations</span><span class="o">=</span><span class="n">explanations</span><span class="p">,</span> <span class="n">n_iterations</span><span class="o">=</span><span class="n">n_iterations</span><span class="p">,</span> <span class="n">n_rows</span><span class="o">=</span><span class="n">n_rows</span>
+        <span class="p">)</span></div>
 </pre></div>
 
               </div>
