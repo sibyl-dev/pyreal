@@ -418,4 +418,3 @@ class MappingsOneHotDecoder(Transformer):
             explanation = explanation.drop(encoded_features, axis="columns")
             explanation[original_feature] = summed_contribution
         return explanation
-
