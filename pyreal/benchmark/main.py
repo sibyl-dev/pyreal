@@ -10,13 +10,17 @@ import pandas as pd
 
 from pyreal.benchmark import dataset
 from pyreal.benchmark.challenges.gfi.global_feature_importance_challenge import (
-    GlobalFeatureImportanceChallenge,)
+    GlobalFeatureImportanceChallenge,
+)
 from pyreal.benchmark.challenges.gfi.shap_feature_importance_challenge import (
-    ShapFeatureImportanceChallenge,)
+    ShapFeatureImportanceChallenge,
+)
 from pyreal.benchmark.challenges.lfc.local_feature_contribution_challenge import (
-    LocalFeatureContributionChallenge,)
+    LocalFeatureContributionChallenge,
+)
 from pyreal.benchmark.challenges.lfc.shap_feature_contribution_challenge import (
-    ShapFeatureContributionChallenge,)
+    ShapFeatureContributionChallenge,
+)
 from pyreal.benchmark.models import logistic_regression
 from pyreal.benchmark.task import create_task
 
@@ -40,7 +44,7 @@ def set_up_record_file(challenge, directory):
 
 
 def set_up_logging(directory):
-    logging.basicConfig(filename=os.path.join(directory, "log.log"), filemode='w')
+    logging.basicConfig(filename=os.path.join(directory, "log.log"), filemode="w")
 
 
 def get_tasks(n, download):
@@ -54,7 +58,7 @@ def get_tasks(n, download):
         os.mkdir(os.path.join(ROOT, "datasets"))
     if not os.path.isdir(os.path.join(ROOT, "models")):
         os.mkdir(os.path.join(ROOT, "models"))
-    for (i, dataset_name) in enumerate(datasets):
+    for i, dataset_name in enumerate(datasets):
         filename = os.path.join(ROOT, "datasets", dataset_name + ".csv")
         if os.path.exists(filename):
             df = pd.read_csv(filename)
@@ -72,11 +76,12 @@ def get_tasks(n, download):
 
 
 def get_challenges():
-    return [LocalFeatureContributionChallenge,
-            ShapFeatureContributionChallenge,
-            GlobalFeatureImportanceChallenge,
-            ShapFeatureImportanceChallenge
-            ]
+    return [
+        LocalFeatureContributionChallenge,
+        ShapFeatureContributionChallenge,
+        GlobalFeatureImportanceChallenge,
+        ShapFeatureImportanceChallenge,
+    ]
 
 
 def format_results(record_dict, results, name):
@@ -98,12 +103,18 @@ def run_one_challenge(base_challenge, results_directory, download):
     n = 50
     datasets = get_tasks(n, download)
     record_dict = {}
-    for (i, dataset_obj) in enumerate(datasets):
+    for i, dataset_obj in enumerate(datasets):
         total_count += 1
         try:
-            challenge = base_challenge(dataset_obj,
-                                       evaluations=["produce_time", "fit_time",
-                                                    "pre_fit_variation", "post_fit_variation"])
+            challenge = base_challenge(
+                dataset_obj,
+                evaluations=[
+                    "produce_time",
+                    "fit_time",
+                    "pre_fit_variation",
+                    "post_fit_variation",
+                ],
+            )
             results = challenge.run()
             record_dict = format_results(record_dict, results, dataset_obj.name)
             print("%s: Task %s. Success" % (i, dataset_obj.name))
@@ -149,5 +160,5 @@ def main():
     run_benchmarking(download, clear_log)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
