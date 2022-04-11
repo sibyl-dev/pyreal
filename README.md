@@ -13,7 +13,7 @@
 
 Library for evaluating and deploying machine learning explanations.
 
-- Free software: MIT
+- License: MIT
 - Documentation: https://sibyl-dev.github.io/pyreal
 - Homepage: https://sibyl-ml.dev/
 
