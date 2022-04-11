@@ -318,8 +318,8 @@
         <span class="n">data_sample_indices</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">x_train_orig</span><span class="o">.</span><span class="n">index</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">training_size</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">log</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
-                <span class="s2">&quot;Warning: training_size not provided. Defaulting to train with full &quot;</span>
+            <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                <span class="s2">&quot;Info: training_size not provided. Defaulting to train with full &quot;</span>
                 <span class="s2">&quot;dataset, running time might be slow.&quot;</span>
             <span class="p">)</span>
         <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">training_size</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x_train_orig</span><span class="o">.</span><span class="n">index</span><span class="p">):</span>

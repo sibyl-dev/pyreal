@@ -854,52 +854,55 @@ mappings object which includes two dictionaries</p>
 <tr class="row-even"><td><p><a class="reference internal" href="pyreal.transformers.MappingsOneHotDecoder.fit_transform.html#pyreal.transformers.MappingsOneHotDecoder.fit_transform" title="pyreal.transformers.MappingsOneHotDecoder.fit_transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit_transform</span></code></a>(x, **fit_params)</p></td>
 <td><p>Fits this transformer to data and then transforms the same data</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">inverse_transform_explanation</span></code>(explanation)</p></td>
-<td><p>Transforms the explanation from the second feature space handled by this transformer to the first.</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">inverse_transform_explanation_additive_feature_contribution</span></code>(...)</p></td>
-<td><p>Inverse transforms additive feature contribution explanations</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">inverse_transform_explanation_additive_feature_importance</span></code>(...)</p></td>
-<td><p>Inverse transforms additive feature importance explanations</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">inverse_transform_explanation_decision_tree</span></code>(...)</p></td>
-<td><p>Inverse transforms feature-based explanations</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">inverse_transform_explanation_feature_based</span></code>(...)</p></td>
-<td><p>Inverse transforms feature-based explanations</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">inverse_transform_explanation_feature_contribution</span></code>(...)</p></td>
-<td><p>Inverse transforms feature contribution explanations</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">inverse_transform_explanation_feature_importance</span></code>(...)</p></td>
-<td><p>Inverse transforms feature importance explanations</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_flags</span></code>([model, interpret, algorithm])</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">helper_transform_explanation_additive</span></code>(...)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="pyreal.transformers.MappingsOneHotDecoder.transform.html#pyreal.transformers.MappingsOneHotDecoder.transform" title="pyreal.transformers.MappingsOneHotDecoder.transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform</span></code></a>(x)</p></td>
-<td><p>Wrapper for data_transform.</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">inverse_transform_explanation</span></code>(explanation)</p></td>
+<td><p>Transforms the explanation from the second feature space handled by this transformer to the first.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="pyreal.transformers.MappingsOneHotDecoder.transform_explanation.html#pyreal.transformers.MappingsOneHotDecoder.transform_explanation" title="pyreal.transformers.MappingsOneHotDecoder.transform_explanation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_explanation</span></code></a>(explanation)</p></td>
-<td><p>Transforms the explanation from the first feature space handled by this transformer to the second.</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">inverse_transform_explanation_additive_feature_contribution</span></code>(...)</p></td>
+<td><p>Inverse transforms additive feature contribution explanations</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_explanation_additive_feature_contribution</span></code>(...)</p></td>
-<td><p>Transforms additive contribution explanations</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">inverse_transform_explanation_additive_feature_importance</span></code>(...)</p></td>
+<td><p>Inverse transforms additive feature importance explanations</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_explanation_additive_feature_importance</span></code>(...)</p></td>
-<td><p>Transforms additive feature importance explanations</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_explanation_decision_tree</span></code>(explanation)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">inverse_transform_explanation_decision_tree</span></code>(...)</p></td>
 <td><p>Inverse transforms feature-based explanations</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_explanation_feature_based</span></code>(explanation)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">inverse_transform_explanation_feature_based</span></code>(...)</p></td>
+<td><p>Inverse transforms feature-based explanations</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">inverse_transform_explanation_feature_contribution</span></code>(...)</p></td>
+<td><p>Inverse transforms feature contribution explanations</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">inverse_transform_explanation_feature_importance</span></code>(...)</p></td>
+<td><p>Inverse transforms feature importance explanations</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_flags</span></code>([model, interpret, algorithm])</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="pyreal.transformers.MappingsOneHotDecoder.transform.html#pyreal.transformers.MappingsOneHotDecoder.transform" title="pyreal.transformers.MappingsOneHotDecoder.transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform</span></code></a>(x)</p></td>
+<td><p>Wrapper for data_transform.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="pyreal.transformers.MappingsOneHotDecoder.transform_explanation.html#pyreal.transformers.MappingsOneHotDecoder.transform_explanation" title="pyreal.transformers.MappingsOneHotDecoder.transform_explanation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_explanation</span></code></a>(explanation)</p></td>
+<td><p>Transforms the explanation from the first feature space handled by this transformer to the second.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_explanation_additive_feature_contribution</span></code>(...)</p></td>
+<td><p>Transforms additive contribution explanations</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_explanation_additive_feature_importance</span></code>(...)</p></td>
+<td><p>Transforms additive importance explanations</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_explanation_decision_tree</span></code>(explanation)</p></td>
+<td><p>Inverse transforms feature-based explanations</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_explanation_feature_based</span></code>(explanation)</p></td>
 <td><p>Transforms feature-based explanations</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_explanation_feature_contribution</span></code>(...)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_explanation_feature_contribution</span></code>(...)</p></td>
 <td><p>Transforms feature contribution explanations</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_explanation_feature_importance</span></code>(...)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_explanation_feature_importance</span></code>(...)</p></td>
 <td><p>Transforms feature importance explanations</p></td>
 </tr>
 </tbody>
