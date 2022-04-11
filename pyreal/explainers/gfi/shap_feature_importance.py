@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 from shap import Explainer as ShapExplainer
-from shap import KernelExplainer, LinearExplainer
+from shap import KernelExplainer, LinearExplainer, TreeExplainer
 
 from pyreal.explainers import GlobalFeatureImportanceBase
 from pyreal.types.explanations.feature_based import AdditiveFeatureImportanceExplanation
@@ -65,7 +65,10 @@ class ShapFeatureImportance(GlobalFeatureImportanceBase):
                                  "produce()")
         x_model = self.transform_to_x_model(self._x_train_orig)
         x_model_np = np.asanyarray(x_model)
-        shap_values = np.array(self.explainer.shap_values(x_model_np, check_additivity=False))
+        if isinstance(self.explainer, TreeExplainer):
+            shap_values = np.array(self.explainer.shap_values(x_model_np, check_additivity=False))
+        else:
+            shap_values = np.array(self.explainer.shap_values(x_model_np))
 
         if shap_values.ndim < 2:
             raise RuntimeError("Something went wrong with SHAP - expected at least 2 dimensions")
