@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 from shap import Explainer as ShapExplainer
-from shap import KernelExplainer, LinearExplainer
+from shap import KernelExplainer, LinearExplainer, TreeExplainer
 
 from pyreal.explainers import LocalFeatureContributionsBase
 from pyreal.types.explanations.feature_based import AdditiveFeatureContributionExplanation
@@ -77,7 +77,10 @@ class ShapFeatureContribution(LocalFeatureContributionsBase):
         columns = x.columns
         x = np.asanyarray(x)
 
-        shap_values = np.array(self.explainer.shap_values(x))
+        if isinstance(self.explainer, TreeExplainer):
+            shap_values = np.array(self.explainer.shap_values(x, check_additivity=False))
+        else:
+            shap_values = np.array(self.explainer.shap_values(x))
         if shap_values.ndim < 2:
             raise RuntimeError("Something went wrong with SHAP - expected at least 2 dimensions")
         if shap_values.ndim == 2:
