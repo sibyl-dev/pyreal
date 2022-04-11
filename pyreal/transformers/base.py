@@ -249,6 +249,7 @@ class Transformer(ABC):
                 If `explanation` is not of a supported ExplanationType
 
         """
+        print(explanation)
         if isinstance(explanation, AdditiveFeatureContributionExplanation):
             return self.transform_explanation_additive_feature_contribution(explanation)
         if isinstance(explanation, AdditiveFeatureImportanceExplanation):

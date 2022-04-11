@@ -383,13 +383,32 @@ class MappingsOneHotDecoder(Transformer):
         Transforms additive contribution explanations
 
         Args:
-            explanation (AdditiveFeatureContributionExplanationType):
+            explanation (AdditiveFeatureContributionExplanation):
                 The explanation to be transformed
 
         Returns:
-            AdditiveFeatureContributionExplanationType:
+            AdditiveFeatureContributionExplanation:
                 The transformed explanation
         """
+        explanation = self.helper_transform_explanation_additive(explanation)
+        return AdditiveFeatureContributionExplanation(explanation)
+
+    def transform_explanation_additive_feature_importance(self, explanation):
+        """
+        Transforms additive importance explanations
+
+        Args:
+            explanation (AdditiveFeatureImportanceExplanation):
+                The explanation to be transformed
+
+        Returns:
+            AdditiveFeatureImportanceExplanation:
+                The transformed explanation
+        """
+        explanation = self.helper_transform_explanation_additive(explanation)
+        return AdditiveFeatureImportanceExplanation(explanation)
+
+    def helper_transform_explanation_additive(self, explanation):
         explanation = pd.DataFrame(explanation.get())
         if explanation.ndim == 1:
             explanation = explanation.reshape(1, -1)
@@ -398,4 +417,4 @@ class MappingsOneHotDecoder(Transformer):
             summed_contribution = explanation[encoded_features].sum(axis=1)
             explanation = explanation.drop(encoded_features, axis="columns")
             explanation[original_feature] = summed_contribution
-        return AdditiveFeatureContributionExplanation(explanation)
+        return explanation

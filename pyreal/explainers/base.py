@@ -165,8 +165,8 @@ class ExplainerBase(ABC):
         data_sample_indices = self.x_train_orig.index
 
         if self.training_size is None:
-            log.warning(
-                "Warning: training_size not provided. Defaulting to train with full "
+            log.info(
+                "Info: training_size not provided. Defaulting to train with full "
                 "dataset, running time might be slow."
             )
         elif self.training_size < len(self.x_train_orig.index):
