@@ -11,7 +11,9 @@ from pyreal.explainers.lfc.local_feature_contribution import LocalFeatureContrib
 from pyreal.explainers.dte.base import DecisionTreeExplainerBase
 from pyreal.explainers.dte.surrogate_decision_tree import SurrogateDecisionTree
 from pyreal.explainers.dte.decision_tree_explainer import DecisionTreeExplainer, dte
-from pyreal.explainers.time.base import TimeSeriesBase
+from pyreal.explainers.time.base import TimeSeriesImportanceBase
+from pyreal.explainers.time.shap_interval_importance import IntervalImportance
+from pyreal.explainers.time.time_series_importance import TimeSeriesImportance, tfi
 from pyreal.explainers.generic_explainer import Explainer, explain
 
 
@@ -24,5 +26,6 @@ __all__ = ['ExplainerBase',
            'PermutationFeatureImportance',
            'DecisionTreeExplainerBase', 'DecisionTreeExplainer', 'SurrogateDecisionTree',
            'dte',
-           'TimeSeriesBase',
+           'TimeSeriesImportanceBase', 'IntervalImportance', 'TimeSeriesImportance',
+           'tfi',
            'Explainer', 'explain']

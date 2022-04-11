@@ -3,7 +3,7 @@ import pandas as pd
 from shap import Explainer as ShapExplainer
 from shap import KernelExplainer, LinearExplainer
 
-from pyreal.explainers import TimeSeriesBase
+from pyreal.explainers import TimeSeriesImportanceBase
 from pyreal.types.explanations.dataframe import AdditiveFeatureContributionExplanation
 
 
@@ -12,7 +12,7 @@ def time_to_feature(dataset, time_column):
     pd.DataFrame()
     return dataset
 
-class IntervalImportance(TimeSeriesBase):
+class IntervalImportance(TimeSeriesImportanceBase):
     """
     IntervalImportance object.
 
@@ -84,22 +84,29 @@ class IntervalImportance(TimeSeriesBase):
             raise ValueError("Received input of wrong size."
                              "Expected ({},), received {}"
                              .format(self.explainer_input_size, x.shape))
-        columns = x.columns
+        old_columns = x.columns
         x = np.asanyarray(x)
 
         shap_values = np.array(self.explainer.shap_values(x))   
         if shap_values.ndim < 2:
             raise RuntimeError("Something went wrong with SHAP - expected at least 2 dimensions")
 
+        columns = []
         if x.shape[1] > 1:
             num_windows = (x.shape[1]-1) // self.window_size
             indices = [(i+1)*self.window_size for i in range(num_windows)]
             indices.insert(0,0)
+            # Rename columns of explanation
+            if self.window_size > 1:
+                columns = ['time '+id for id in old_columns]
+            columns = [f'time {indices[i]} to {indices[i+1]-1}' for i in range(len(indices)-1)]
+            if indices[-1] == len(indices)-1:
+                columns.append(f'time {indices[-1]}')
             agg_shap_values = np.add.reduceat(shap_values, indices, axis=1)
         else:
             agg_shap_values = shap_values
 
-        # TODO: rename columns
+
         if shap_values.ndim == 2:
             return AdditiveFeatureContributionExplanation(
                 pd.DataFrame(agg_shap_values, columns=columns))
@@ -109,6 +116,6 @@ class IntervalImportance(TimeSeriesBase):
                 predictions = [np.where(self.classes == i)[0][0] for i in predictions]
             shap_values = shap_values[predictions, np.arange(shap_values.shape[1]), :]
             return AdditiveFeatureContributionExplanation(
-                pd.DataFrame(shap_values, columns=columns))
+                pd.DataFrame(agg_shap_values, columns=columns))
 
 # problem: data is susceptible to time-shift.
