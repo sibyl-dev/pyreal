@@ -77,7 +77,11 @@ pydata-sphinx-theme = ">=0.8.1"
 
 # Extra Dependency Bundles
 [tool.poetry.extras]
+<<<<<<< HEAD
 examples = ["tensorflow", "lightgbm", "nbmake", "sktime"]
+=======
+examples = ["tensorflow", "lightgbm", "sktime"]
+>>>>>>> 218779bdc72ed88db6051a9eee89a59cb9d767fa
 
 [tool.black]
 line-length = 99
