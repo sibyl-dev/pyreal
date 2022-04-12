@@ -1,5 +1,12 @@
+import logging
+
 from pyreal.explainers import (
-    GlobalFeatureImportanceBase, PermutationFeatureImportance, ShapFeatureImportance,)
+    GlobalFeatureImportanceBase,
+    PermutationFeatureImportance,
+    ShapFeatureImportance,
+)
+
+log = logging.getLogger(__name__)
 
 
 def choose_algorithm():
@@ -14,11 +21,19 @@ def choose_algorithm():
     return "shap"
 
 
-def gfi(return_importances=True, return_explainer=False, explainer=None,
-        model=None, x_train_orig=None,
-        e_algorithm=None, feature_descriptions=None,
-        e_transforms=None, m_transforms=None, i_transforms=None,
-        interpretable_features=True):
+def gfi(
+    return_importances=True,
+    return_explainer=False,
+    explainer=None,
+    model=None,
+    x_train_orig=None,
+    e_algorithm=None,
+    feature_descriptions=None,
+    e_transforms=None,
+    m_transforms=None,
+    i_transforms=None,
+    interpretable_features=True,
+):
     """
     Get a global feature importance
 
@@ -42,7 +57,7 @@ def gfi(return_importances=True, return_explainer=False, explainer=None,
            Interpretable descriptions of each feature
         e_transforms (transformer object or list of transformer objects):
            Transformer(s) that need to be used on x_orig for the explanation algorithm:
-           x_orig -> x_explain
+           x_orig -> x_algorithm
         m_transforms (transformer object or list of transformer objects):
            Transformer(s) needed on x_orig to make predictions on the dataset with model,
            if different than e_transformers
@@ -62,20 +77,26 @@ def gfi(return_importances=True, return_explainer=False, explainer=None,
     """
     if not return_importances and not return_explainer:
         # TODO: replace with formal warning system
-        print("gfi is non-functional with return_importances and return_explainer set to false")
+        log.warning(
+            "gfi is non-functional with return_importances and return_explainer set to false"
+        )
         return
 
     if explainer is None and (model is None or x_train_orig is None):
         raise ValueError("gfi requires either explainer OR model and x_train to be passed")
 
     if explainer is None:
-        explainer = GlobalFeatureImportance(model, x_train_orig,
-                                            e_algorithm=e_algorithm,
-                                            feature_descriptions=feature_descriptions,
-                                            e_transforms=e_transforms, m_transforms=m_transforms,
-                                            i_transforms=i_transforms,
-                                            interpretable_features=interpretable_features,
-                                            fit_on_init=True)
+        explainer = GlobalFeatureImportance(
+            model,
+            x_train_orig,
+            e_algorithm=e_algorithm,
+            feature_descriptions=feature_descriptions,
+            e_transforms=e_transforms,
+            m_transforms=m_transforms,
+            i_transforms=i_transforms,
+            interpretable_features=interpretable_features,
+            fit_on_init=True,
+        )
     if return_explainer and return_importances:
         return explainer, explainer.produce()
     if return_explainer:
@@ -109,10 +130,12 @@ class GlobalFeatureImportance(GlobalFeatureImportanceBase):
         self.base_global_feature_importance = None
         if e_algorithm == "shap":
             self.base_global_feature_importance = ShapFeatureImportance(
-                model, x_train_orig, **kwargs)
+                model, x_train_orig, **kwargs
+            )
         if e_algorithm == "permutation":
             self.base_global_feature_importance = PermutationFeatureImportance(
-                model, x_train_orig, **kwargs)
+                model, x_train_orig, **kwargs
+            )
         if self.base_global_feature_importance is None:
             raise ValueError("Invalid algorithm type %s" % e_algorithm)
 
@@ -123,6 +146,7 @@ class GlobalFeatureImportance(GlobalFeatureImportanceBase):
         Fit this explainer object
         """
         self.base_global_feature_importance.fit()
+        return self
 
     def get_importance(self):
         """

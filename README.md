@@ -6,14 +6,14 @@
 <!-- Uncomment these lines after releasing the package to PyPI for version and downloads badges -->
 [![PyPI Shield](https://img.shields.io/pypi/v/pyreal.svg)](https://pypi.python.org/pypi/pyreal)
 <!--[![Downloads](https://pepy.tech/badge/pyreal)](https://pepy.tech/project/pyreal)-->
-<!--[![Travis CI Shield](https://travis-ci.org/DAI-Lab/pyreal.svg?branch=master)](https://travis-ci.org/DAI-Lab/pyreal)-->
-<!--[![Coverage Status](https://codecov.io/gh/DAI-Lab/pyreal/branch/master/graph/badge.svg)](https://codecov.io/gh/DAI-Lab/pyreal)-->
+<!--[![Travis CI Shield](https://travis-ci.org/DAI-Lab/pyreal.svg?branch=stable)](https://travis-ci.org/DAI-Lab/pyreal)-->
+<!--[![Coverage Status](https://codecov.io/gh/DAI-Lab/pyreal/branch/stable/graph/badge.svg)](https://codecov.io/gh/DAI-Lab/pyreal)-->
 [![Build Action Status](https://github.com/DAI-Lab/pyreal/workflows/Test%20CI/badge.svg)](https://github.com/DAI-Lab/pyreal/actions)
 # Pyreal
 
 Library for evaluating and deploying machine learning explanations.
 
-- Free software: Not open source
+- License: MIT
 - Documentation: https://sibyl-dev.github.io/pyreal
 - Homepage: https://sibyl-ml.dev/
 
@@ -27,7 +27,7 @@ data form.
 
 ## Requirements
 
-**Pyreal** has been developed and tested on [Python 3.7, 3.8, and 3.9](https://www.python.org/downloads/)
+**Pyreal** has been developed and tested on [Python 3.8, 3.9, and 3.10](https://www.python.org/downloads/)
 The library uses Poetry for package management.
 
 ## Install from PyPI
@@ -99,7 +99,6 @@ passenger on the Titanic would have survived.
 ...                                transformers=transformers,
 ...                                feature_descriptions=feature_descriptions,
 ...                                fit_on_init=True)
->>> lfc.fit()
 
 # Make predictions on an input
 >>> input_to_explain = x_train_orig.iloc[0]
@@ -133,25 +132,7 @@ because of their sex (male) and ticket class (3rd class).
 
 ### Terminology
 Pyreal introduces specific terms and naming schemes to refer to different feature spaces and
-transformations. Here, we offer a short summary of these terms. You can see examples of
-some of these in the quick start tutorial above.
-
-| Term            | Description             |
-|-----------------|-------------------------|
-| `model`         | A machine learning predictor, defined as an object with a `.predict()` funtion     |
-| `x`, `x_train`  | Data, in the form of a pandas DataFrame            |
-| `explanation`   | An explanation of a model or model prediction             |
-| `Explainer`     | Pyreal objects that take in data and a model and return an explanation |
-| `Transformer`   | Pyreal objects that transform data and explanations from one feature space to another |
-| `x_orig`, `explanation_orig` | Data or an explanation using the original feature space (whatever feature space the data starts in) |
-| `x_explain`, `explanation_explain` | Data or an explanation using the feature space expected by the explanation algorithm (explanation-ready feature space) |
-| `x_model`, `explanation_model` | Data or an explanation using the feature space the model expects
-| `x_interpret`, `explanation_interpret` | Data or an explanation using the most human-readable feature space available |
-| `e_transformers` | Transformers that transform data from the original to the explanation-ready, and explanations from the explanation-ready to the original feature space |
-| `m_transformers` | Transformers that transform data between the explanation-ready and model-ready feature spaces |
-| `i_transformers` | Transformers that transform data and explanations from the original feature space to the interpretable feature space |
-
-For more details about how these feature spaces and terms interact, please check the user guides.
+transformations. The [Terminology User Guide](https://sibyl-ml.dev/pyreal/user_guides/transformer_workflow.html#terminology) provides an introduction to these terms.
 
 # What's next?
 

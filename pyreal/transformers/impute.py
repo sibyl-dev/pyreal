@@ -11,7 +11,7 @@ class MultiTypeImputer(Transformer):
     and categorical columns with the mode value.
     """
 
-    def __init__(self):
+    def __init__(self, **kwargs):
         """
         Initialize the base imputers
         """
@@ -19,8 +19,9 @@ class MultiTypeImputer(Transformer):
         self.categorical_cols = None
         self.numeric_imputer = SimpleImputer(missing_values=np.nan, strategy="mean")
         self.categorical_imputer = SimpleImputer(missing_values=np.nan, strategy="most_frequent")
+        super().__init__(**kwargs)
 
-    def fit(self, x):
+    def fit(self, x, **params):
         """
         Fit the imputer
 
@@ -31,16 +32,19 @@ class MultiTypeImputer(Transformer):
         Returns:
             None
         """
-        self.numeric_cols = x.dropna(axis="columns", how="all") \
-            .select_dtypes(include="number").columns
-        self.categorical_cols = x.dropna(axis="columns", how="all") \
-            .select_dtypes(exclude="number").columns
+        self.numeric_cols = (
+            x.dropna(axis="columns", how="all").select_dtypes(include="number").columns
+        )
+        self.categorical_cols = (
+            x.dropna(axis="columns", how="all").select_dtypes(exclude="number").columns
+        )
         if len(self.numeric_cols) == 0 and len(self.categorical_cols) == 0:
             raise ValueError("No valid numeric or categorical cols")
         if len(self.numeric_cols) > 0:
             self.numeric_imputer.fit(x[self.numeric_cols])
         if len(self.categorical_cols) > 0:
             self.categorical_imputer.fit(x[self.categorical_cols])
+        super().fit(x)
 
     def data_transform(self, x):
         """
@@ -54,44 +58,37 @@ class MultiTypeImputer(Transformer):
             DataFrame of shape (n_instances, n_transformed_features):
                 The imputed dataset
         """
+        series_flag = False
+        name = None
+        if isinstance(x, pd.Series):
+            series_flag = True
+            name = x.name
+            x = x.to_frame().T
+
         if len(self.categorical_cols) == 0:
             new_numeric_cols = self.numeric_imputer.transform(x[self.numeric_cols])
-            return pd.DataFrame(new_numeric_cols, columns=self.numeric_cols, index=x.index)
+            result = pd.DataFrame(new_numeric_cols, columns=self.numeric_cols, index=x.index)
 
-        if len(self.numeric_cols) == 0:
+        elif len(self.numeric_cols) == 0:
             new_categorical_cols = self.categorical_imputer.transform(x[self.categorical_cols])
-            return pd.DataFrame(new_categorical_cols, columns=self.categorical_cols, index=x.index)
+            result = pd.DataFrame(
+                new_categorical_cols, columns=self.categorical_cols, index=x.index
+            )
 
-        new_numeric_cols = self.numeric_imputer.transform(x[self.numeric_cols])
-        new_categorical_cols = self.categorical_imputer.transform(x[self.categorical_cols])
-        return pd.concat([pd.DataFrame(new_numeric_cols, columns=self.numeric_cols, index=x.index),
-                          pd.DataFrame(new_categorical_cols, columns=self.categorical_cols,
-                                       index=x.index)], axis=1)
+        else:
+            new_numeric_cols = self.numeric_imputer.transform(x[self.numeric_cols])
+            new_categorical_cols = self.categorical_imputer.transform(x[self.categorical_cols])
+            result = pd.concat(
+                [
+                    pd.DataFrame(new_numeric_cols, columns=self.numeric_cols, index=x.index),
+                    pd.DataFrame(
+                        new_categorical_cols, columns=self.categorical_cols, index=x.index
+                    ),
+                ],
+                axis=1,
+            )
 
-    def transform_explanation_additive_contributions(self, explanation):
-        """
-        Transforms additive contribution explanations. No transformation required.
-
-        Args:
-            explanation (AdditiveFeatureContributionExplanationType):
-                The explanation to be transformed
-
-        Returns:
-            AdditiveFeatureContributionExplanationType:
-                The transformed explanation
-        """
-        return explanation
-
-    def transform_explanation_feature_importance(self, explanation):
-        """
-        Transforms feature importance explanations. No transformation required.
-
-        Args:
-            explanation (FeatureImportanceExplanation):
-                The explanation to be transformed
-
-        Returns:
-            FeatureImportanceExplanation:
-                The transformed explanation
-        """
-        return explanation
+        if series_flag:
+            result = result.squeeze()
+            result.name = name
+        return result

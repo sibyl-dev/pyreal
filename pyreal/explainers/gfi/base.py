@@ -2,10 +2,10 @@ from abc import ABC, abstractmethod
 
 import numpy as np
 
-from pyreal.explainers import Explainer
+from pyreal.explainers import ExplainerBase
 
 
-class GlobalFeatureImportanceBase(Explainer, ABC):
+class GlobalFeatureImportanceBase(ExplainerBase, ABC):
     """
     Base class for GlobalFeatureImportance explainer objects. Abstract class
 
@@ -18,9 +18,6 @@ class GlobalFeatureImportanceBase(Explainer, ABC):
            Filepath to the pickled model to explain, or model object with .predict() function
         x_train_orig (dataframe of shape (n_instances, x_orig_feature_count)):
            The training set for the explainer
-        e_algorithm (string, one of ["shap"]):
-           Explanation algorithm to use. If none, one will be chosen automatically based on model
-           type
         interpretable_features (Boolean):
             If True, return explanations using the interpretable feature descriptions instead of
             default names
@@ -99,6 +96,5 @@ class GlobalFeatureImportanceBase(Explainer, ABC):
             for i in range(n_iterations - 1):
                 if with_fit:
                     self.fit()
-                explanations.append(
-                    self.produce(self.x_train_orig.iloc[0:n_rows]).to_numpy())
+                explanations.append(self.produce(self._x_train_orig.iloc[0:n_rows]).to_numpy())
         return np.max(np.var(explanations, axis=0))

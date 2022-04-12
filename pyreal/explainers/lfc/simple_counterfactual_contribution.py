@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 
 from pyreal.explainers import LocalFeatureContributionsBase
-from pyreal.types.explanations.dataframe import FeatureContributionExplanation
+from pyreal.types.explanations.feature_based import FeatureContributionExplanation
 
 
 class SimpleCounterfactualContribution(LocalFeatureContributionsBase):
@@ -37,8 +37,9 @@ class SimpleCounterfactualContribution(LocalFeatureContributionsBase):
         """
         Fit the contribution explainer
         """
-        dataset = self.transform_to_x_explain(self.x_train_orig)
+        dataset = self.transform_to_x_algorithm(self._x_train_orig)
         self.explainer_input_size = dataset.shape[1]
+        return self
 
     def get_contributions(self, x_orig):
         """
@@ -51,20 +52,22 @@ class SimpleCounterfactualContribution(LocalFeatureContributionsBase):
             DataFrame of shape (n_instances, n_features):
                  The contribution of each feature
         """
-        x = self.transform_to_x_explain(x_orig)
+        x = self.transform_to_x_algorithm(x_orig)
         if x.shape[1] != self.explainer_input_size:
-            raise ValueError("Received input of wrong size."
-                             "Expected ({},), received {}"
-                             .format(self.explainer_input_size, x.shape))
-        x_train_explain = self.transform_to_x_explain(self.x_train_orig)
-        pred_orig = self.model_predict_on_explain(x)
+            raise ValueError(
+                "Received input of wrong size.Expected ({},), received {}".format(
+                    self.explainer_input_size, x.shape
+                )
+            )
+        x_train_explain = self.transform_to_x_algorithm(self._x_train_orig)
+        pred_orig = self.model_predict_on_algorithm(x)
         contributions = pd.DataFrame(np.zeros_like(x), columns=x.columns)
         for col in x:
             total_abs_change = 0
             for i in range(self.n_iterations):
                 x_copy = x.copy()
                 x_copy[col] = x_train_explain[col].sample().iloc[0]
-                pred_new = self.model_predict_on_explain(x_copy)
+                pred_new = self.model_predict_on_algorithm(x_copy)
                 total_abs_change += abs(pred_new - pred_orig)
             contributions[col] = total_abs_change / self.n_iterations
         return FeatureContributionExplanation(contributions)

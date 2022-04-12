@@ -1,9 +1,9 @@
 from abc import ABC, abstractmethod
 
-from pyreal.explainers import Explainer
+from pyreal.explainers import ExplainerBase
 
 
-class DecisionTreeExplainerBase(Explainer, ABC):
+class DecisionTreeExplainerBase(ExplainerBase, ABC):
     """
     Base class for DecisionTree explainer objects. Abstract class
 
@@ -11,15 +11,10 @@ class DecisionTreeExplainerBase(Explainer, ABC):
     decision trees and 2) visualizing the decision rules associated with a prediction.
 
     Args:
-        algorithm (ExplanationAlgorithm or None):
-            Name of the algorithm this Explainer uses
         model (string filepath or model object):
            Filepath to the pickled model to explain, or model object with .predict() function
         x_train_orig (dataframe of shape (n_instances, x_orig_feature_count)):
            The training set for the explainer
-        e_algorithm (string, one of ["surrogate_tree"]):
-           Explanation algorithm to use. If none, one will be chosen automatically based on model
-           type
         interpretable_features (Boolean):
             If True, return explanations using the interpretable feature descriptions instead of
             default names
@@ -57,12 +52,12 @@ class DecisionTreeExplainerBase(Explainer, ABC):
             The features of the dataset. Interpret the features if
             `interpretable_features` is set to true.
         """
-        x_explain = self.transform_to_x_explain(self.x_train_orig)
+        x_algorithm = self.transform_to_x_algorithm(self._x_train_orig)
 
         if self.interpretable_features:
-            features = self.convert_columns_to_interpretable(x_explain).columns
+            features = self.convert_columns_to_interpretable(x_algorithm).columns
         else:
-            features = x_explain.columns
+            features = x_algorithm.columns
 
         return features
 
