@@ -82,7 +82,7 @@ def numpy2d_to_df(X, timestamps=None):
     Args:
         X (DataFrame or ndarray of shape (n_instances, n_timepoints)):
             Input DataFrame or ndarray
-        timestamps (None or list-like with length of n_timepoints): 
+        timestamps (None or list-like with length of n_timepoints):
             Time series index of transformed DataFrame
 
     Returns:
