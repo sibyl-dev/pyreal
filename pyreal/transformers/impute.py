@@ -21,7 +21,7 @@ class MultiTypeImputer(Transformer):
         self.categorical_imputer = SimpleImputer(missing_values=np.nan, strategy="most_frequent")
         super().__init__(**kwargs)
 
-    def fit(self, x):
+    def fit(self, x, **params):
         """
         Fit the imputer
 
@@ -32,17 +32,19 @@ class MultiTypeImputer(Transformer):
         Returns:
             None
         """
-        self.numeric_cols = x.dropna(axis="columns", how="all") \
-            .select_dtypes(include="number").columns
-        self.categorical_cols = x.dropna(axis="columns", how="all") \
-            .select_dtypes(exclude="number").columns
+        self.numeric_cols = (
+            x.dropna(axis="columns", how="all").select_dtypes(include="number").columns
+        )
+        self.categorical_cols = (
+            x.dropna(axis="columns", how="all").select_dtypes(exclude="number").columns
+        )
         if len(self.numeric_cols) == 0 and len(self.categorical_cols) == 0:
             raise ValueError("No valid numeric or categorical cols")
         if len(self.numeric_cols) > 0:
             self.numeric_imputer.fit(x[self.numeric_cols])
         if len(self.categorical_cols) > 0:
             self.categorical_imputer.fit(x[self.categorical_cols])
-        return self
+        super().fit(x)
 
     def data_transform(self, x):
         """
@@ -70,45 +72,23 @@ class MultiTypeImputer(Transformer):
         elif len(self.numeric_cols) == 0:
             new_categorical_cols = self.categorical_imputer.transform(x[self.categorical_cols])
             result = pd.DataFrame(
-                new_categorical_cols, columns=self.categorical_cols, index=x.index)
+                new_categorical_cols, columns=self.categorical_cols, index=x.index
+            )
 
         else:
             new_numeric_cols = self.numeric_imputer.transform(x[self.numeric_cols])
             new_categorical_cols = self.categorical_imputer.transform(x[self.categorical_cols])
-            result = pd.concat([
-                pd.DataFrame(new_numeric_cols, columns=self.numeric_cols, index=x.index),
-                pd.DataFrame(new_categorical_cols, columns=self.categorical_cols, index=x.index)],
-                axis=1)
+            result = pd.concat(
+                [
+                    pd.DataFrame(new_numeric_cols, columns=self.numeric_cols, index=x.index),
+                    pd.DataFrame(
+                        new_categorical_cols, columns=self.categorical_cols, index=x.index
+                    ),
+                ],
+                axis=1,
+            )
 
         if series_flag:
             result = result.squeeze()
             result.name = name
         return result
-
-    def transform_explanation(self, explanation):
-        """
-        Transforms additive contribution explanations. No transformation required.
-
-        Args:
-            explanation (ExplanationType):
-                The explanation to be transformed
-
-        Returns:
-            ExplanationType:
-                The transformed explanation
-        """
-        return explanation
-
-    def inverse_transform_explanation(self, explanation):
-        """
-        Transforms additive contribution explanations. No transformation required.
-
-        Args:
-            explanation (ExplanationType):
-                The explanation to be transformed
-
-        Returns:
-            ExplanationType:
-                The transformed explanation
-        """
-        return explanation

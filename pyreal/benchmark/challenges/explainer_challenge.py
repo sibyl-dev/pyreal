@@ -7,9 +7,15 @@ class ExplainerChallenge:
         self.dataset = dataset
         self.explainer = self.create_explainer()
         if evaluations is None:
-            self.evaluations = ["fit_time", "produce_time", "produce_result",
-                                "series_time", "series_result", "pre_fit_variation",
-                                "post_fit_variation"]
+            self.evaluations = [
+                "fit_time",
+                "produce_time",
+                "produce_result",
+                "series_time",
+                "series_result",
+                "pre_fit_variation",
+                "post_fit_variation",
+            ]
         else:
             self.evaluations = evaluations
 
@@ -52,7 +58,9 @@ class ExplainerChallenge:
 
         # TEST ON N_ROWS ITEMS
         if self.to_evaluate("produce_time") or self.to_evaluate("produce_result"):
-            explanation, produce_time = self.run_challenge_once(self.dataset.X.iloc[0:self.n_rows])
+            explanation, produce_time = self.run_challenge_once(
+                self.dataset.X.iloc[0 : self.n_rows]
+            )
             if self.to_evaluate("produce_time"):
                 returns["produce_time"] = produce_time
             if self.to_evaluate("produce_result"):
@@ -61,12 +69,14 @@ class ExplainerChallenge:
         # TEST EXPLANATION VARIATION
         if self.to_evaluate("post_fit_variation"):
             variation_score = self.explainer.evaluate_variation(
-                with_fit=False, n_iterations=self.n_iterations, n_rows=self.n_rows)
+                with_fit=False, n_iterations=self.n_iterations, n_rows=self.n_rows
+            )
             returns["post_fit_variation"] = variation_score
 
         if self.to_evaluate("pre_fit_variation"):
             variation_score = self.explainer.evaluate_variation(
-                with_fit=True, n_iterations=self.n_iterations, n_rows=self.n_rows)
+                with_fit=True, n_iterations=self.n_iterations, n_rows=self.n_rows
+            )
             returns["pre_fit_variation"] = variation_score
 
         return returns
