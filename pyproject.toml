@@ -1,7 +1,7 @@
 # Project Metadata
 [tool.poetry]
 authors = [
-  "Alexandra Zytek <zyteka@mit.edu>",
+  "Alexandra Zytek <zyteka@mit.edu>"
 ]
 
 maintainers = [
@@ -10,7 +10,7 @@ maintainers = [
 
 description = "Library for evaluating and deploying human readable machine learning explanations."
 name = "pyreal"
-version = "0.2.0"
+version = "0.3.0"
 
 license = ""
 
