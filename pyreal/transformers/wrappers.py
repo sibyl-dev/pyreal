@@ -18,7 +18,7 @@ class DataFrameWrapper(Transformer):
         self.wrapped_transformer = wrapped_transformer
         super().__init__(**kwargs)
 
-    def fit(self, x):
+    def fit(self, x, **params):
         """
         Fit the wrapped transformer
 
@@ -32,7 +32,7 @@ class DataFrameWrapper(Transformer):
             None
         """
         self.wrapped_transformer.fit(x)
-        return self
+        super().fit(x)
 
     def data_transform(self, x):
         """
@@ -47,21 +47,3 @@ class DataFrameWrapper(Transformer):
         """
         transformed_np = self.wrapped_transformer.transform(x)
         return pd.DataFrame(transformed_np, columns=x.columns, index=x.index)
-
-    def inverse_transform_explanation(self, explanation):
-        return explanation
-
-    def transform_explanation(self, explanation):
-        """
-        For now, always return the explanation, assuming no modifications needed.
-        TODO: This will be updated to an AssertionError in GH issue #112.
-
-        Args:
-            explanation:
-                The explanation to transform
-
-        Returns:
-                The unmodified explanation
-
-        """
-        return explanation

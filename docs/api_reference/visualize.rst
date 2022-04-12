@@ -10,3 +10,4 @@ Feature Contribution Visualizations
     :toctree: api/
 
     pyreal.utils.visualize.plot_top_contributors
+    pyreal.utils.visualize.plot_tree_explanation

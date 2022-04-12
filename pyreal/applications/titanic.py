@@ -6,13 +6,18 @@ import pandas as pd
 from sklearn.linear_model import LogisticRegression
 
 from pyreal.transformers import (
-    ColumnDropTransformer, MultiTypeImputer, OneHotEncoder, fit_transformers, run_transformers,)
+    ColumnDropTransformer,
+    MultiTypeImputer,
+    OneHotEncoder,
+    fit_transformers,
+    run_transformers,
+)
 
 DATA_DIR = os.path.join(os.path.dirname(__file__), "data")
 DATA_FILE = os.path.join(DATA_DIR, "data.csv")
 MODEL_FILE = os.path.join(DATA_DIR, "model.pkl")
 TRANSFORMER_FILE = os.path.join(DATA_DIR, "transformers.pkl")
-AWS_BASE_URL = 'https://pyreal-data.s3.amazonaws.com/'
+AWS_BASE_URL = "https://pyreal-data.s3.amazonaws.com/"
 
 
 def load_titanic_data():

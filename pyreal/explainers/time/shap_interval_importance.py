@@ -3,7 +3,7 @@ import pandas as pd
 from shap import KernelExplainer, LinearExplainer
 
 from pyreal.explainers import TimeSeriesImportanceBase
-from pyreal.types.explanations.dataframe import AdditiveFeatureContributionExplanation
+from pyreal.types.explanations.feature_based import AdditiveFeatureContributionExplanation
 
 
 def transform(X):
