@@ -107,14 +107,14 @@ class IntervalImportance(TimeSeriesImportanceBase):
             indices.insert(0, 0)
             # Rename columns of explanation
             if self.window_size == 1:
-                columns = ['time '+str(id) for id in old_columns]
+                columns = [f"time_{str(id)}" for id in old_columns]
             else:
-                columns = [f'time {indices[i]} to {indices[i+1]-1}' for i in range(len(indices)-1)]
+                columns = [f"time {indices[i]} to {indices[i+1]-1}" for i in range(len(indices)-1)]
 
                 if x.shape[1] - indices[-1] == 1:
-                    columns.append(f'time {indices[-1]}')
+                    columns.append(f"time {indices[-1]}")
                 elif x.shape[1] - indices[-1] > 1:
-                    columns.append(f'time {indices[-1]} to {x.shape[1]-1}')
+                    columns.append(f"time {indices[-1]} to {x.shape[1]-1}")
             agg_shap_values = np.add.reduceat(shap_values, indices, axis=1)
         else:
             agg_shap_values = shap_values
