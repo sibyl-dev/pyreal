@@ -65,8 +65,8 @@ class IntervalImportance(TimeSeriesImportanceBase):
         elif self.shap_type == "linear":
             self.explainer = LinearExplainer(self.model, dataset)
         else:
-            # The default shap explainer breaks: `Exact` object has not attribute
-            # self.explainer = ShapExplainer(self.model.predict, datatset)
+            # The default shap explainer breaks: `Exact` object
+            # does not have attribute `shap_values`
             self.explainer = KernelExplainer(self.model.predict, dataset)  # for testing purpose
 
         return self

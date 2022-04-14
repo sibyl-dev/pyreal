@@ -101,3 +101,19 @@ def classification_no_transform_tree(test_root):
     with open(model_no_transform_tree, "wb") as f:
         pickle.dump(model_test_tree, f)
     return {"model": model_no_transform_tree, "transformers": None, "x": x, "y": y}
+
+
+@pytest.fixture()
+def time_series_data():
+    n_inst, n_var, n_time = 4, 3, 10
+    np3d = np.random.randn(n_inst, n_var, n_time)
+    np2d = np.random.randn(n_inst, n_time)
+    mi3d = pd.MultiIndex.from_product(
+        [[f"var_{i}" for i in range(n_var)], np.arange(n_time)]
+        )
+    df3d = pd.DataFrame(data=np3d.reshape((4, 30)), columns=mi3d)
+    mi2d = pd.MultiIndex.from_product(
+        [["var_0"], np.arange(n_time)]
+    )
+    df2d = pd.DataFrame(data=np2d, columns=mi2d)
+    return {"np3d": np3d, "np2d": np2d, "df3d": df3d, "df2d": df2d}

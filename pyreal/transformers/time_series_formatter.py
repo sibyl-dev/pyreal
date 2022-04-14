@@ -23,7 +23,7 @@ def check_input(X, univariate=False, to_np=False, to_pd=False):
     if to_np and to_pd:
         raise ValueError("`to_np` and `to_pd` cannot both be set to True")
     # check input type
-    if not isinstance(X, [pd.DataFrame, np.ndarray]):
+    if not isinstance(X, (pd.DataFrame, np.ndarray)):
         raise ValueError(
             f"X must be a pd.DataFrame or a np.ndarray, but found: {type(X)}"
         )
@@ -70,18 +70,20 @@ def is_valid_dataframe(X):
         return False
     elif not isinstance(X.columns, pd.MultiIndex):
         return False
-    elif X.columns.nlevels != 3:
+    elif X.columns.nlevels != 2:
         return False
     return True
 
 
-def numpy2d_to_df(X, timestamps=None):
+def numpy2d_to_df(X, var_name=None, timestamps=None):
     """
     Convert 2D DataFrame or NumPy array to MultiIndexed DataFrame.
 
     Args:
         X (DataFrame or ndarray of shape (n_instances, n_timepoints)):
             Input DataFrame or ndarray
+        column_name (None or String):
+            Optional name to use for the variable
         timestamps (None or list-like with length of n_timepoints):
             Time series index of transformed DataFrame
 
@@ -94,16 +96,18 @@ def numpy2d_to_df(X, timestamps=None):
         X = X.to_numpy()
 
     n_instances, n_timepoints = X.shape
-    instance_indices = np.arange(n_instances)
+
     if timestamps is None and columns is None:
         timestamps = np.arange(n_timepoints)
     elif timestamps is None:
         timestamps = columns
 
     # create indices for MultiIndex DataFrame
-    mi = pd.MultiIndex.from_product([instance_indices, [0], timestamps])
-    flatten_data = X.flatten()
-    df = pd.DataFrame(flatten_data, columns=mi)
+    if var_name is None:
+        mi = pd.MultiIndex.from_product([[0], timestamps])
+    else:
+        mi = pd.MultiIndex.from_product([[var_name], timestamps])
+    df = pd.DataFrame(X, columns=mi)
     return df
 
 
@@ -134,7 +138,6 @@ def numpy3d_to_df(X, column_names=None, timestamps=None):
         )
     n_instances, n_columns, n_timepoints = X.shape
 
-    instance_indices = np.arange(n_instances)
     if column_names is None:
         column_names = [f"var_{str(i)}" for i in range(n_columns)]
     else:
@@ -152,8 +155,8 @@ def numpy3d_to_df(X, column_names=None, timestamps=None):
                 f"but only {len(timestamps)} timestamps supplied."
             )
     # create indices for MultiIndex DataFrame
-    mi = pd.MultiIndex.from_product([instance_indices, column_names, timestamps])
-    flatten_data = X.flatten()
+    mi = pd.MultiIndex.from_product([column_names, timestamps])
+    flatten_data = X.reshape((n_instances, n_columns*n_timepoints))
     df = pd.DataFrame(flatten_data, columns=mi)
     return df
 
@@ -186,7 +189,8 @@ def df_to_numpy3d(X):
     if not is_valid_dataframe(X):
         raise ValueError("Input DataFrame is not a valid DataFrame")
 
-    n_instances, n_columns, n_timepoints = X.columns.levshape
+    n_instances = X.index.size
+    n_columns, n_timepoints = X.columns.levshape
     array = X.to_numpy().reshape((n_instances, n_columns, n_timepoints))
 
     return array
