@@ -1,5 +1,9 @@
 from pyreal.transformers.time_series_formatter import (
-    df_to_numpy2d, df_to_numpy3d, numpy2d_to_df, numpy3d_to_df, check_input
+    check_input,
+    df_to_numpy2d,
+    df_to_numpy3d,
+    numpy2d_to_df,
+    numpy3d_to_df,
 )
 
 
