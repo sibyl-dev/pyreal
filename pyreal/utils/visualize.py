@@ -180,3 +180,11 @@ def plot_tree_explanation(
         plt.savefig(filename, bbox_inches="tight")
 
     plt.show()
+
+
+def plot_timeseries_saliency(X, saliency, timesteps=None, show=True):
+    if timesteps is None:
+        timesteps = np.arange(X.shape[0])
+    plt.plot(timesteps, X, c=saliency)
+    if show:
+        plt.show()
