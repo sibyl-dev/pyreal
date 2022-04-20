@@ -5,6 +5,11 @@ from shap import KernelExplainer, LinearExplainer, DeepExplainer
 from pyreal.explainers import TimeSeriesImportanceBase
 from pyreal.types.explanations.feature_based import AdditiveFeatureContributionExplanation
 
+import keras.backend as K
+import tensorflow as tf
+
+from pyreal.types.explanations.time_series_saliency import TimeSeriesSaliency
+
 
 def transform(X):
     X_pyreal = np.empty((X.shape[0], X.iloc[0][0].shape[0]))
@@ -59,10 +64,9 @@ class MaskImportance(TimeSeriesImportanceBase):
         """
         return self
 
-
-    def get_contributions(self, x_orig):
+    def get_contributions(self, x_orig, max_iterations=10, k=0.01, l1_coeff=0.01, l2_coeff=0.001):
         """
-        Calculate the explanation of each feature in x using SHAP.
+
 
         Args:
             x_orig (DataFrame of shape (n_instances, n_features)):
@@ -71,23 +75,23 @@ class MaskImportance(TimeSeriesImportanceBase):
             DataFrame of shape (n_instances, n_features):
                  The contribution of each feature
         """
-        sig = sig.reshape(1, -1, 1)
-        sig = K.constant(sig)
+        predicted_class = self.model_predict_on_algorithm(x_orig)
+        sig = K.constant(x_orig)
 
-        mask_init = config.m_reshape(np.ones((sig.shape[1]), dtype=np.float32))#.reshape(1, -1, 1)
+        mask_init = np.ones(sig.shape, dtype=np.float32)
+
+        #mask_init = config.m_reshape(np.ones((sig.shape[1]), dtype=np.float32))#.reshape(1, -1, 1)
         mask = K.variable(mask_init)
 
         for j in range(max_iterations):
             print(str(j) + "/" + str(max_iterations))
 
-            t1 = time.time()
-
             perturbated_input = (sig * mask) + (k * (1 - mask))
-            outputs = self.model(perturbated_input)
+            outputs = self.model_predict_on_algorithm(perturbated_input.numpy())
 
             loss = l1_coeff * K.mean(K.abs(1 - mask)) + \
                    l2_coeff * K.sum(mask[1:] - mask[:-1]) + \
-                   outputs[:, true_class]
+                   outputs[:, predicted_class]
 
             grads = K.gradients(loss, mask)[0]
             grads /= (K.sqrt(K.mean(K.square(grads))) + 1e-5)
@@ -103,4 +107,4 @@ class MaskImportance(TimeSeriesImportanceBase):
         min = np.amin(importance)
         importance = (importance - min) / (max - min)
 
-        return importance
+        return TimeSeriesSaliency(importance)
