@@ -38,12 +38,12 @@ class TimeSeriesImportanceBase(ExplainerBase, ABC):
             series = True
             x_orig = x_orig.to_frame().T
         contributions = self.get_contributions(x_orig)
-        contributions, x_interpret = self.transform_explanation(contributions, x_orig)
-        if series:
-            x_interpret = x_interpret.squeeze()
-            x_interpret.name = name
-        contributions = contributions.get()
-        return contributions, x_interpret
+        #contributions, x_interpret = self.transform_explanation(contributions, x_orig)
+        #if series:
+        #    x_interpret = x_interpret.squeeze()
+        #    x_interpret.name = name
+        #contributions = contributions.get()
+        return contributions, #x_interpret
 
     @abstractmethod
     def get_contributions(self, x_orig):
