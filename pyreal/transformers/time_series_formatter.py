@@ -36,6 +36,18 @@ def _check_is_pd2d(x):
             f"Input data must have two dimensions, but found shape: {x.shape}"
         )
 
+def _check_is_sktime_nest(x):
+    if not isinstance(x, pd.DataFrame):
+        raise ValueError(
+            f"Input data must be a pd.DataFrame, but found: {type(x)}"
+        )
+    else:     
+        if not x.applymap(
+            lambda cell: isinstance(cell, pd.Series)
+            ).values.any():
+            raise ValueError(
+                f"Entries of input data must be pd.Series"
+            )
 
 def is_valid_dataframe(x):
     """
@@ -110,6 +122,10 @@ class np2d_to_df(Transformer):
     def data_transform(self, x):
         """
         Converts input data into a DataFrame with MultiIndex columns
+
+        Args:
+            x (ndarray of shape (n_instances, n_timepoints)):
+                Input ndarray
         """
         df = pd.DataFrame(x, columns=self.mi)
         return df
@@ -170,6 +186,10 @@ class pd2d_to_df(Transformer):
     def data_transform(self, x):
         """
         Converts input data into a DataFrame with MultiIndex columns
+ 
+        Args:
+            x (DataFrame of shape (n_instances, n_timepoints)):
+                Input DataFrame
         """
         df = pd.DataFrame(x, columns=self.mi)
         return df
@@ -229,6 +249,10 @@ class np3d_to_df(Transformer):
     def data_transform(self, x):
         """
         Converts input data into a DataFrame with MultiIndex columns
+
+        Args:
+            x (ndarray with shape (n_instances, n_columns, n_timepoints)):
+                Input 3D NumPy array
         """
         n_instances, n_columns, n_timepoints = x.shape
         flatten_data = x.reshape((n_instances, n_columns*n_timepoints))
@@ -267,6 +291,110 @@ class df_to_np2d(df_to_np3d):
         """
         array = super().data_transform(x)
         return array.squeeze(axis=1)
+
+
+class nested_to_df(Transformer):
+    """
+    Convert sktime nested DataFrame format into MultiIndex DataFrame.
+    """
+
+    def fit(self, x):
+        """
+        Check if the input data is a sktime nested DataFrame and create a
+        MultiIndex object.
+
+        Args:
+            x (pandas DataFrame):
+                Input sktime nested DataFrame
+        """
+        _check_is_sktime_nest(x)
+        # use the values of an instance of a single variable as inference
+        sample_series = x.iloc[0][0]
+
+        self.var_names = x.columns
+        self.timestamps = sample_series.index
+
+        self.mi = pd.MultiIndex.from_product([self.var_names, self.timestamps])
+        super().fit(x)
+
+    def data_transform(self, x):
+        """
+        Converts input data into a DataFrame with MultiIndex columns
+
+        Args:
+            x (pandas DataFrame):
+                Input sktime nested DataFrame
+
+        Returns:
+            MultiIndex DataFrame
+        """
+        # The following mask is for handling missing values in sktime
+        # reserved for reference.
+        # nested_col_mask = [*x.applymap(
+        #     lambda cell: isinstance(cell, (pd.Series, np.ndarray))
+        #     ).values]
+        n_instances, n_columns = x.shape
+        n_timepoints = x.iloc[0][0].size
+        data = []
+        for i in x.index:
+            # single variable data at time i
+            single_data_ti = x.loc[i, :].to_numpy()
+            multi_data_ti = [np.array(s) for s in single_data_ti]
+            data_ti = np.concatenate(multi_data_ti, axis=0)
+
+            data.append(data_ti)
+
+        full_data = np.concatenate(data, axis=0).reshape(
+            (n_instances, n_columns*n_timepoints))
+        df = pd.DataFrame(full_data, columns=self.mi)
+
+        return df
+
+
+class nested_to_np3d(Transformer):
+    """
+    Convert sktime nested pandas DataFrame format into NumPy ndarray
+    with shape (n_instances, n_variables, n_timepoints).
+    """
+
+    def data_transform(self, x):
+        """
+        Args:
+            x (pandas DataFrame):
+                Input sktime nested DataFrame
+
+        Returns:
+            NumPy ndarray, converted NumPy ndarray
+        """
+        return np.stack(
+            x.applymap(lambda cell: cell.to_numpy()).apply(
+                lambda row: np.stack(row), axis=1).to_numpy())
+
+
+class df_to_nested(Transformer):
+    """
+    Convert MultiIndex DataFrame into sktime nested DataFrame.
+    """
+
+    def data_transform(self, x):
+        """
+        Convert input DataFrame into sktime nested DataFrame.
+        """
+        if not is_valid_dataframe(x):
+            raise ValueError("Input DataFrame is not a valid DataFrame")
+        np_data = x.to_numpy()
+
+        columns = x.columns.get_level_values(0).unique()
+        timestamps = x.columns.get_level_values(1).unique()
+        instance_idxs = x.index
+        x_nested = pd.DataFrame(columns=columns)
+
+        x_3d = np_data.reshape((x.shape[0], columns.size, timestamps.size))
+        for vidx, var in enumerate(columns):
+            x_nested[var] = [pd.Series(x_3d[i, vidx, :], index=timestamps) 
+                             for i in range(instance_idxs)]
+
+        return x_nested
 
 
 # TODO: the following function is basically a wrapper of the above formatters
