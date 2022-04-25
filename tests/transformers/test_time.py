@@ -1,4 +1,3 @@
-# TODO: modify these tests for new Transformer
 from pyreal.transformers import (
     df_to_nested,
     df_to_np2d,
