@@ -11,3 +11,5 @@
 ## Important Links
 
 * [📚 API Documentation](https://sibyl-ml.dev/pyreal/api\_reference/index.html)
+* [🔧 Issues](https://github.com/sibyl-dev/pyreal/issues)
+* [⚖ License](https://github.com/sibyl-dev/pyreal/blob/dev/LICENSE)
