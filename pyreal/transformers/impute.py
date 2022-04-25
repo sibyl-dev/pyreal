@@ -64,7 +64,7 @@ class MultiTypeImputer(Transformer):
             series_flag = True
             name = x.name
             x = x.to_frame().T
-
+        x = x.fillna(value=np.nan)
         if len(self.categorical_cols) == 0:
             new_numeric_cols = self.numeric_imputer.transform(x[self.numeric_cols])
             result = pd.DataFrame(new_numeric_cols, columns=self.numeric_cols, index=x.index)
