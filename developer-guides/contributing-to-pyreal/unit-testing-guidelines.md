@@ -1,5 +1,7 @@
 # Unit Testing Guidelines
 
+### Guidelines
+
 In general, all functional code should be tested with unit tests. All unit tests should comply with the following requirements:
 
 1. Unit tests should use the [pytest ](https://docs.pytest.org/en/7.1.x/)module.
@@ -9,3 +11,4 @@ In general, all functional code should be tested with unit tests. All unit tests
 5. Each test should validate only what the code of the method being tested does, and not cover the behavior of any third party package or tool being used, which is assumed to work properly as far as it is being passed the right values.
 6. Any third party tool that may have any kind of random behavior, such as some Machine Learning models, databases or Web APIs, can be mocked using the `mock` library, and the only thing that will be tested is that our code passes the right values to them.
 7. Unit tests should not use anything from outside the test and the code being tested. This includes not reading or writing to any file system or database, which will be properly mocked.
+
