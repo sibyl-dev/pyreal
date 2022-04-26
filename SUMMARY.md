@@ -11,13 +11,13 @@
   * [Explainers](getting-started/pyreal-classes/explainers.md)
   * [Transformers](getting-started/pyreal-classes/transformers.md)
   * [Explanation Output Types](getting-started/pyreal-classes/explanation-output-types.md)
-* [🌊 Workflows](getting-started/workflows.md)
 
 ## Developer Guides
 
 * [☺ Contributing to Pyreal](developer-guides/contributing-to-pyreal/README.md)
   * [Types of Contributions](developer-guides/contributing-to-pyreal/types-of-contributions.md)
   * [Making Contributions](developer-guides/contributing-to-pyreal/making-contributions.md)
+  * [Benchmarking Guidelines](developer-guides/contributing-to-pyreal/benchmarking-guidelines.md)
   * [Release Workflow](developer-guides/contributing-to-pyreal/release-workflow.md)
 
 ## Important Links
