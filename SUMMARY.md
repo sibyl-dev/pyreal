@@ -17,6 +17,7 @@
 * [☺ Contributing to Pyreal](developer-guides/contributing-to-pyreal/README.md)
   * [Types of Contributions](developer-guides/contributing-to-pyreal/types-of-contributions.md)
   * [Making Contributions](developer-guides/contributing-to-pyreal/making-contributions.md)
+  * [Unit Testing Guidelines](developer-guides/contributing-to-pyreal/unit-testing-guidelines.md)
   * [Benchmarking Guidelines](developer-guides/contributing-to-pyreal/benchmarking-guidelines.md)
   * [Release Workflow](developer-guides/contributing-to-pyreal/release-workflow.md)
 

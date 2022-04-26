@@ -1,3 +1,2 @@
 # Explainers
 
-\[under construction]

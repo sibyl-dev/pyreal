@@ -1,5 +1,7 @@
 # Making Contributions
 
+## Contribution Process
+
 Ready to contribute? Here's how to setup Pyreal for local development, and make contributions
 
 * Fork the `pyreal` repo on GitHub.
@@ -23,7 +25,7 @@ poetry install -E examples
 git checkout -b name-of-your-bugfix-or-feature
 ```
 
-* Now you can make your changes locally. While making your changes, make sure to cover all your additions with the required unit tests, and that none of the old tests fail as a consequence of your changes. For this, make sure to run the tests suite and check the code coverage:
+* Now you can make your changes locally. While making your changes, make sure to cover all your additions with the [required unit tests](unit-testing-guidelines.md), and that none of the old tests fail as a consequence of your changes. For this, make sure to run the tests suite and check the code coverage:
 
 ```
 poetry run invoke lint       # Check code styling
@@ -57,3 +59,15 @@ git push origin name-of-your-bugfix-or-feature
 
 * Submit a pull request through the GitHub website, merging back into `dev`.
 * Once you have a minimum of two approvals, you can merge your branch in. Branches should be deleted on merge.
+
+## Pull Request Guidelines
+
+
+
+Before you submit a pull request, check that it meets these guidelines:
+
+1. It resolves an open GitHub Issue and contains its reference in the title or the comment. If there is no associated issue, feel free to create one.
+2. Whenever possible, it resolves only **one** issue. If your PR resolves more than one issue, try to split it in more than one pull request.
+3. The pull request should include unit tests that cover all the changed code.
+4. If the pull request adds functionality, the docs should be updated. Put your new functionality into a function with a docstring, and add the feature to the documentation in an appropriate place.
+5. The pull request should work for all the supported Python versions. Confirm that all github actions pass.
