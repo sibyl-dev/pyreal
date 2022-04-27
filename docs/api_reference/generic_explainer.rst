@@ -1,7 +1,7 @@
 .. _pyreal.generic_explainer:
 
-Default Explainer
-=========
+Generic Explainer
+=================
 .. currentmodule:: pyreal.explainers
 
 Generic Explainer
