@@ -1,196 +1,455 @@
 import numpy as np
 import pandas as pd
 
+from pyreal.transformers import Transformer
 
-def check_input(X, univariate=False, to_np=False, to_pd=False):
-    """
-    Validate input data.
 
-    Args:
-        X (DataFrame or ndarray):
-            Input data
-        univariate (bool):
-            Set this to True if X is univariate.
-        to_np (bool):
-            If True, return X as a 3-dimensional NumPy array.
-        to_pd (bool):
-            If True, return X as a pandas DataFrame with MultiIndex-ed column.
-
-    Returns:
-        X : pd.DataFrame or np.ndarray
-            Checked and possibly converted input data.
-    """
-    if to_np and to_pd:
-        raise ValueError("`to_np` and `to_pd` cannot both be set to True")
-    # check input type
-    if not isinstance(X, (pd.DataFrame, np.ndarray)):
+def _check_is_np2d(x):
+    if not isinstance(x, np.ndarray):
         raise ValueError(
-            f"X must be a pd.DataFrame or a np.ndarray, but found: {type(X)}"
+            f"Input data must be an np.ndarray, but found: {type(x)}"
         )
-    if isinstance(X, np.ndarray):
-        if X.ndim == 2:
-            X = X.reshape(X.shape[0], 1, X.shape[1])
-        elif X.ndim == 1 or X.ndim > 3:
-            raise ValueError(
-                f"If passed as a np.ndarray, X must be a 2 or 3-dimensional "
-                f"array, but found shape: {X.shape}"
-            )
-        if to_pd:
-            X = numpy3d_to_df(X)
-    # check univariate
-    n_columns = X.shape[1]
-    if univariate and n_columns > 1:
+    if x.ndim != 2:
         raise ValueError(
-            f"X must be univariate with X.shape[1] == 1, but found: "
-            f"X.shape[1] == {n_columns}."
+            f"Input data must have two dimensions, but found shape: {x.shape}"
         )
-    # check pd.DataFrame
-    if isinstance(X, pd.DataFrame):
-        if not is_valid_dataframe(X):
+
+
+def _check_is_np3d(x):
+    if not isinstance(x, np.ndarray):
+        raise ValueError(
+            f"Input data must be an np.ndarray, but found: {type(x)}"
+        )
+    if x.ndim != 3:
+        raise ValueError(
+            f"Input data must have three dimensions, but found shape: {x.shape}"
+        )
+
+
+def _check_is_pd2d(x):
+    if not isinstance(x, pd.DataFrame):
+        raise ValueError(
+            f"Input data must be a pd.DataFrame, but found: {type(x)}"
+        )
+    if x.ndim != 2:
+        raise ValueError(
+            f"Input data must have two dimensions, but found shape: {x.shape}"
+        )
+
+def _check_is_sktime_nest(x):
+    if not isinstance(x, pd.DataFrame):
+        raise ValueError(
+            f"Input data must be a pd.DataFrame, but found: {type(x)}"
+        )
+    else:     
+        if not x.applymap(
+            lambda cell: isinstance(cell, pd.Series)
+            ).values.any():
             raise ValueError(
-                "If passed as a pd.DataFrame, X must be a MultiIndex pd.DataFrame."
+                f"Entries of input data must be pd.Series"
             )
-        # convert pd.DataFrame
-        if to_np:
-            X = df_to_numpy3d(X)
 
-    return X
-
-
-def is_valid_dataframe(X):
+def is_valid_dataframe(x):
     """
     Check if the input is a valid DataFrame.
 
     Args:
-        X: Input data
+        x: Input data
     Returns:
         bool: Whether the input is a MultiIndex DataFrame
     """
-    if not isinstance(X, pd.DataFrame):
+    if not isinstance(x, pd.DataFrame):
         return False
-    elif not isinstance(X.columns, pd.MultiIndex):
+    elif not isinstance(x.columns, pd.MultiIndex):
         return False
-    elif X.columns.nlevels != 2:
+    elif x.columns.nlevels != 2:
         return False
     return True
 
 
-def numpy2d_to_df(X, var_name=None, timestamps=None):
+class np2d_to_df(Transformer):
     """
-    Convert 2D DataFrame or NumPy array to MultiIndexed DataFrame.
-
-    Args:
-        X (DataFrame or ndarray of shape (n_instances, n_timepoints)):
-            Input DataFrame or ndarray
-        column_name (None or String):
-            Optional name to use for the variable
-        timestamps (None or list-like with length of n_timepoints):
-            Time series index of transformed DataFrame
-
-    Returns:
-        DataFrame in MultiIndexed format
+    Convert 2D NumPy array to MultiIndex DataFrame.
+    **Don't use this for multivariate time series data**
     """
-    columns = None
-    if isinstance(X, pd.DataFrame):
-        columns = X.columns
-        X = X.to_numpy()
 
-    n_instances, n_timepoints = X.shape
+    def __init__(self, var_name=None, timestamps=None, **kwargs):
+        """
+        Initializes the converter.
 
-    if timestamps is None and columns is None:
-        timestamps = np.arange(n_timepoints)
-    elif timestamps is None:
-        timestamps = columns
+        Args:
+            var_name (None or String):
+                Optional name to use for the variable
+            timestamps (None or list-like with length of n_timepoints):
+                Optional time series index of returned DataFrame
+        """
+        self.var_name = var_name
+        self.timestamps = timestamps
+        super().__init__(**kwargs)
 
-    # create indices for MultiIndex DataFrame
-    if var_name is None:
-        mi = pd.MultiIndex.from_product([[0], timestamps])
-    else:
-        mi = pd.MultiIndex.from_product([[var_name], timestamps])
-    df = pd.DataFrame(X, columns=mi)
-    return df
+    def fit(self, x):
+        """
+        Check if the input data is a 2D NumPy array and create a MultiIndex
+        object.
+
+        Args:
+            x (ndarray of shape (n_instances, n_timepoints)):
+                Input ndarray
+        """
+        _check_is_np2d(x)
+
+        n_instances, n_timepoints = x.shape
+        if self.timestamps is None:
+            timestamps = np.arange(n_timepoints)
+        else:
+            if len(self.timestamps) != n_timepoints:
+                raise ValueError(
+                    f"Input data has {n_timepoints} timepoints, but only "
+                    f"{len(self.timestamps)} steps are supplied in timestamps."
+                )
+
+        # create indices for MultiIndex DataFrame
+        if self.var_name is None:
+            self.mi = pd.MultiIndex.from_product([["var_0"], timestamps])
+        else:
+            if not isinstance(self.var_name, str):
+                raise ValueError(
+                    f"var_name must be a String, received type: {type(self.var_name)}"
+                )
+            self.mi = pd.MultiIndex.from_product([[self.var_name], timestamps])
+        super().fit(x)
+
+    def data_transform(self, x):
+        """
+        Converts input data into a DataFrame with MultiIndex columns
+
+        Args:
+            x (ndarray of shape (n_instances, n_timepoints)):
+                Input ndarray
+        """
+        df = pd.DataFrame(x, columns=self.mi)
+        return df
 
 
-def numpy3d_to_df(X, column_names=None, timestamps=None):
+class pd2d_to_df(Transformer):
     """
-    Convert NumPy ndarray with shape (n_instances, n_columns, n_timepoints) into
-    DataFrame with MultiIndex)
-
-    Args:
-        X (ndarray with shape (n_instances, n_columns, n_timepoints)):
-            3-dimensional NumPy array to convert to MultiIndex-ed DataFrame format
-        column_names (None or list-like):
-            Optional list of names to use for variables
-        timestamps (None or list-like):
-            Optional list of names to use for naming column of time
-
-    Returns:
-        DataFrame with MultiIndex as columns
+    Convert 2D DataFrame to a MultiIndex DataFrame.
     """
-    # check input
-    if not isinstance(X, np.ndarray):
-        raise ValueError(
-            f"X must be a 3-dimensional NumPy array, but found: {type(X)}"
-        )
-    if X.ndim != 3:
-        raise ValueError(
-            f"X must be a 3-dimensional NumPy array, but found shape: {X.shape}"
-        )
-    n_instances, n_columns, n_timepoints = X.shape
 
-    if column_names is None:
-        column_names = [f"var_{str(i)}" for i in range(n_columns)]
-    else:
-        if len(column_names) != n_columns:
-            raise ValueError(
-                f"Input 3d NumPy array has {n_columns} columns, "
-                f"but only {len(column_names)} names supplied."
-            )
-    if timestamps is None:
-        timestamps = np.arange(n_timepoints)
-    else:
-        if len(timestamps) != n_timepoints:
-            raise ValueError(
-                f"Input 3d NumPy array has {n_timepoints} timepoints, "
-                f"but only {len(timestamps)} timestamps supplied."
-            )
-    # create indices for MultiIndex DataFrame
-    mi = pd.MultiIndex.from_product([column_names, timestamps])
-    flatten_data = X.reshape((n_instances, n_columns*n_timepoints))
-    df = pd.DataFrame(flatten_data, columns=mi)
-    return df
+    def __init__(self, var_name=None, timestamps=None, **kwargs):
+        """
+        Initializes the converter.
+
+        Args:
+            var_name (None or String):
+                Optional name to use for the variable
+            timestamps (None or list-like with length of n_timepoints):
+                Optional time series index of returned DataFrame
+        """
+        self.var_name = var_name
+        self.timestamps = timestamps
+        super().__init__(**kwargs)
+
+    def fit(self, x):
+        """
+        Check if the input data is a pandas DataFrame and create a MultiIndex
+        object.
+
+        Args:
+            x (DataFrame of shape (n_instances, n_timepoints)):
+                Input DataFrame
+        """
+        _check_is_pd2d(x)
+        columns = x.columns
+        x = x.to_numpy()
+
+        n_instances, n_timepoints = x.shape
+        if self.timestamps is not None:
+            if len(self.timestamps) != n_timepoints:
+                raise ValueError(
+                    f"Input data has {n_timepoints} timepoints, but only "
+                    f"{len(self.timestamps)} steps are supplied in timestamps."
+                )
+            columns = self.timestamps
+
+        # create indices for MultiIndex DataFrame
+        if self.var_name is None:
+            self.mi = pd.MultiIndex.from_product([["var_0"], columns])
+        else:
+            if not isinstance(self.var_name, str):
+                raise ValueError(
+                    f"var_name must be a String, received type: {type(self.var_name)}"
+                )
+            self.mi = pd.MultiIndex.from_product([[self.var_name], columns])
+        super().fit()
+
+    def data_transform(self, x):
+        """
+        Converts input data into a DataFrame with MultiIndex columns
+ 
+        Args:
+            x (DataFrame of shape (n_instances, n_timepoints)):
+                Input DataFrame
+        """
+        df = pd.DataFrame(x, columns=self.mi)
+        return df
 
 
-def df_to_numpy2d(X):
+class np3d_to_df(Transformer):
     """
-    **This function should only be used on univariate series.**
-    Convert MultiIndexed pandas DataFrame into NumPy ndarray with shape
-    (n_instances, n_timepoints).
-    Args:
-        X (pd.DataFrame):
-            Input data
-    Returns:
-        2-dimensional NumPy array
+    Convert 3D NumPy array to a MultiIndex DataFrame.
     """
-    array = df_to_numpy3d(X)
-    return array.squeeze(axis=1)
+
+    def __init__(self, var_names=None, timestamps=None, **kwargs):
+        """
+        Initializes the converter.
+
+        Args:
+            var_names (None or list-like with length of n_variables):
+                Optional list of names to use for the variables
+            timestamps (None or list-like with length of n_timepoints):
+                Optional time series index of returned DataFrame
+        """
+        self.var_names = var_names
+        self.timestamps = timestamps
+        super().__init__(**kwargs)
+
+    def fit(self, x):
+        """
+        Check if the input data is a 3D NumPy array and create a MultiIndex
+        object.
+
+        Args:
+            x (ndarray with shape (n_instances, n_columns, n_timepoints)):
+                Input 3D NumPy array
+        """
+        _check_is_np3d(x)
+
+        n_instances, n_columns, n_timepoints = x.shape
+        if self.var_names is None:
+            self.var_names = [f"var_{str(i)}" for i in range(n_columns)]
+        else:
+            if len(self.var_names) != n_columns:
+                raise ValueError(
+                    f"Input data has {n_columns} columns, but only "
+                    f"{len(self.var_names)} names supplied."
+                )
+        if self.timestamps is None:
+            self.timestamps = np.arange(n_timepoints)
+        else:
+            if len(self.timestamps) != n_timepoints:
+                raise ValueError(
+                    f"Input data has {n_timepoints} timepoints, but only "
+                    f"{len(self.timestamps)} steps are supplied in timestamps."
+                )
+
+        self.mi = pd.MultiIndex.from_product([self.var_names, self.timestamps])
+        super().fit(x)
+
+    def data_transform(self, x):
+        """
+        Converts input data into a DataFrame with MultiIndex columns
+
+        Args:
+            x (ndarray with shape (n_instances, n_columns, n_timepoints)):
+                Input 3D NumPy array
+        """
+        n_instances, n_columns, n_timepoints = x.shape
+        flatten_data = x.reshape((n_instances, n_columns*n_timepoints))
+        df = pd.DataFrame(flatten_data, columns=self.mi)
+        return df
 
 
-def df_to_numpy3d(X):
+class df_to_np3d(Transformer):
     """
-    Convert MultiIndexed pandas DataFrame into NumPy ndarray with shape
+    Convert MultiIndex pandas DataFrame into NumPy ndarray with shape
     (n_instances, n_columns, n_timepoints).
-    Args:
-        X (pd.DataFrame):
-            Input data
-    Returns:
-        3-dimensional NumPy array
     """
-    if not is_valid_dataframe(X):
-        raise ValueError("Input DataFrame is not a valid DataFrame")
 
-    n_instances = X.index.size
-    n_columns, n_timepoints = X.columns.levshape
-    array = X.to_numpy().reshape((n_instances, n_columns, n_timepoints))
+    def data_transform(self, x):
+        """
+        Convert input DataFrame into 3D NumPy array
+        """
+        if not is_valid_dataframe(x):
+            raise ValueError("Input DataFrame is not a valid DataFrame")
+        n_instances = x.index.size
+        n_columns, n_timepoints = x.columns.levshape
+        array = x.to_numpy().reshape((n_instances, n_columns, n_timepoints))
+        return array
 
-    return array
+
+class df_to_np2d(df_to_np3d):
+    """
+    **This should only be used on univariate series**
+    Convert MultiIndex pandas DataFrame into NumPy ndarray with shape
+    (n_instances, n_timepoints).
+    """
+
+    def data_transform(self, x):
+        """
+        Convert input DataFrame into 2D NumPy array
+        """
+        array = super().data_transform(x)
+        return array.squeeze(axis=1)
+
+
+class nested_to_df(Transformer):
+    """
+    Convert sktime nested DataFrame format into MultiIndex DataFrame.
+    """
+
+    def fit(self, x):
+        """
+        Check if the input data is a sktime nested DataFrame and create a
+        MultiIndex object.
+
+        Args:
+            x (pandas DataFrame):
+                Input sktime nested DataFrame
+        """
+        _check_is_sktime_nest(x)
+        # use the values of an instance of a single variable as inference
+        sample_series = x.iloc[0][0]
+
+        self.var_names = x.columns
+        self.timestamps = sample_series.index
+
+        self.mi = pd.MultiIndex.from_product([self.var_names, self.timestamps])
+        super().fit(x)
+
+    def data_transform(self, x):
+        """
+        Converts input data into a DataFrame with MultiIndex columns
+
+        Args:
+            x (pandas DataFrame):
+                Input sktime nested DataFrame
+
+        Returns:
+            MultiIndex DataFrame
+        """
+        # The following mask is for handling missing values in sktime
+        # reserved for reference.
+        # nested_col_mask = [*x.applymap(
+        #     lambda cell: isinstance(cell, (pd.Series, np.ndarray))
+        #     ).values]
+        n_instances, n_columns = x.shape
+        n_timepoints = x.iloc[0][0].size
+        data = []
+        for i in x.index:
+            # single variable data at time i
+            single_data_ti = x.loc[i, :].to_numpy()
+            multi_data_ti = [np.array(s) for s in single_data_ti]
+            data_ti = np.concatenate(multi_data_ti, axis=0)
+
+            data.append(data_ti)
+
+        full_data = np.concatenate(data, axis=0).reshape(
+            (n_instances, n_columns*n_timepoints))
+        df = pd.DataFrame(full_data, columns=self.mi)
+
+        return df
+
+
+class nested_to_np3d(Transformer):
+    """
+    Convert sktime nested pandas DataFrame format into NumPy ndarray
+    with shape (n_instances, n_variables, n_timepoints).
+    """
+
+    def data_transform(self, x):
+        """
+        Args:
+            x (pandas DataFrame):
+                Input sktime nested DataFrame
+
+        Returns:
+            NumPy ndarray, converted NumPy ndarray
+        """
+        return np.stack(
+            x.applymap(lambda cell: cell.to_numpy()).apply(
+                lambda row: np.stack(row), axis=1).to_numpy())
+
+
+class df_to_nested(Transformer):
+    """
+    Convert MultiIndex DataFrame into sktime nested DataFrame.
+    """
+
+    def data_transform(self, x):
+        """
+        Convert input DataFrame into sktime nested DataFrame.
+        """
+        if not is_valid_dataframe(x):
+            raise ValueError("Input DataFrame is not a valid DataFrame")
+        np_data = x.to_numpy()
+
+        columns = x.columns.get_level_values(0).unique()
+        timestamps = x.columns.get_level_values(1).unique()
+        instance_idxs = x.index
+        x_nested = pd.DataFrame(columns=columns)
+
+        x_3d = np_data.reshape((x.shape[0], columns.size, timestamps.size))
+        for vidx, var in enumerate(columns):
+            x_nested[var] = [pd.Series(x_3d[i, vidx, :], index=timestamps) 
+                             for i in range(instance_idxs)]
+
+        return x_nested
+
+
+# TODO: the following function is basically a wrapper of the above formatters
+# We could potentially turn the following into a Transformer if needed in the
+# future.
+# def check_input(x, univariate=False, to_np=False, to_pd=False):
+#     """
+#     Validate input data.
+
+#     Args:
+#         x (DataFrame or ndarray):
+#             Input data
+#         univariate (bool):
+#             Set this to True if x is univariate.
+#         to_np (bool):
+#             If True, return x as a 3-dimensional NumPy array.
+#         to_pd (bool):
+#             If True, return x as a pandas DataFrame with MultiIndex-ed column.
+
+#     Returns:
+#         x : pd.DataFrame or np.ndarray
+#             Checked and possibly converted input data.
+#     """
+#     if to_np and to_pd:
+#         raise ValueError("`to_np` and `to_pd` cannot both be set to True")
+#     # check input type
+#     if not isinstance(x, (pd.DataFrame, np.ndarray)):
+#         raise ValueError(
+#             f"x must be a pd.DataFrame or an np.ndarray, but found: {type(x)}"
+#         )
+#     if isinstance(x, np.ndarray):
+#         if x.ndim == 2:
+#             x = x.reshape(x.shape[0], 1, x.shape[1])
+#         elif x.ndim == 1 or x.ndim > 3:
+#             raise ValueError(
+#                 f"If passed as a np.ndarray, x must be a 2 or 3-dimensional "
+#                 f"array, but found shape: {x.shape}"
+#             )
+#         if to_pd:
+#             x = numpy3d_to_df(x)
+#     # check univariate
+#     n_columns = x.shape[1]
+#     if univariate and n_columns > 1:
+#         raise ValueError(
+#             f"x must be univariate with x.shape[1] == 1, but found: "
+#             f"x.shape[1] == {n_columns}."
+#         )
+#     # check pd.DataFrame
+#     if isinstance(x, pd.DataFrame):
+#         if not is_valid_dataframe(x):
+#             raise ValueError(
+#                 "If passed as a pd.DataFrame, x must be a MultiIndex pd.DataFrame."
+#             )
+#         # convert pd.DataFrame
+#         if to_np:
+#             x = df_to_numpy3d(x)
+
+#     return x

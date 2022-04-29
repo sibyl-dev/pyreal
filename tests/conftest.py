@@ -116,4 +116,8 @@ def time_series_data():
         [["var_0"], np.arange(n_time)]
     )
     df2d = pd.DataFrame(data=np2d, columns=mi2d)
-    return {"np3d": np3d, "np2d": np2d, "df3d": df3d, "df2d": df2d}
+
+    nested = pd.DataFrame(columns=[f"var_{i}" for i in range(n_var)])
+    for v in range(n_var):
+        nested[f"var_{v}"] = [pd.Series(np3d[i, v, :]) for i in range(n_inst)]
+    return {"np3d": np3d, "np2d": np2d, "df3d": df3d, "df2d": df2d, "nested": nested}
