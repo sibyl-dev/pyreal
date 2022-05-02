@@ -1,6 +1,6 @@
 import logging
 
-from pyreal.explainers import IntervalImportance, TimeSeriesImportanceBase
+from pyreal.explainers import IntervalImportance, ClassificationSaliencyBase
 
 log = logging.getLogger(__name__)
 
@@ -79,7 +79,7 @@ def tfi(return_contributions=True, return_explainer=False, explainer=None,
         return explainer.produce(x_orig)
 
 
-class TimeSeriesImportance(TimeSeriesImportanceBase):
+class TimeSeriesImportance(ClassificationSaliencyBase):
     """
     Class for time series contributions explainer objects.
 

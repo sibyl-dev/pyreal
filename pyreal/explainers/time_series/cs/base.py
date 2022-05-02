@@ -6,22 +6,24 @@ import pandas as pd
 from pyreal.explainers import ExplainerBase
 
 
-class TimeSeriesImportanceBase(ExplainerBase, ABC):
+class SaliencyBase(ExplainerBase, ABC):
     """
-    Base class for time series contributions explainer objects. Abstract class
+    Base class for time series saliency explainer objects. Abstract class
 
-    A TimeSeriesBase object explains a time-series machine learning classification.
+    A SaliencyBase object explains a time-series ML classification or regression model
 
     Args:
         model (string filepath or model object):
            Filepath to the pickled model to explain, or model object with .predict() function
+           .predict() should return probabilities of classes for classification,
+            or numeric outputs for regression
         x_train_orig (dataframe of shape (n_instances, length of series)):
            The training set for the explainer
         **kwargs: see base Explainer args
     """
 
     def __init__(self, model, x_train_orig, **kwargs):
-        super(TimeSeriesImportanceBase, self).__init__(model, x_train_orig, **kwargs)
+        super(SaliencyBase, self).__init__(model, x_train_orig, **kwargs)
 
     @abstractmethod
     def fit(self):
@@ -29,7 +31,7 @@ class TimeSeriesImportanceBase(ExplainerBase, ABC):
         Fit this explainer object
         """
 
-    def produce(self, x_orig):
+    def produce(self, x_orig, fast=True):
         # Importance for a given model stays constant, so can be saved and re-returned
         series = False
         name = None
@@ -37,6 +39,7 @@ class TimeSeriesImportanceBase(ExplainerBase, ABC):
             name = x_orig.name
             series = True
             x_orig = x_orig.to_frame().T
+
         contributions = self.get_contributions(x_orig)
         #contributions, x_interpret = self.transform_explanation(contributions, x_orig)
         #if series:

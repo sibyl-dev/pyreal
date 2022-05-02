@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 from shap import KernelExplainer, LinearExplainer, DeepExplainer
 
-from pyreal.explainers import TimeSeriesImportanceBase
+from pyreal.explainers import ClassificationSaliencyBase
 from pyreal.types.explanations.feature_based import AdditiveFeatureContributionExplanation
 
 
@@ -16,7 +16,7 @@ def transform(X):
     return X_pyreal
 
 
-class ShapImportance(TimeSeriesImportanceBase):
+class ShapImportance(ClassificationSaliencyBase):
     """
     IntervalImportance object.
 
