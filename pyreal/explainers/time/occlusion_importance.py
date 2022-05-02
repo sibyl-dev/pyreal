@@ -37,7 +37,7 @@ class OcclusionImportance(TimeSeriesImportanceBase):
         """
         return self
 
-    def get_contributions_slow(self, x_orig, width=5, k="avg"):
+    def get_contributions(self, x_orig, width=5, k="avg"):
         """
         Calculate the explanation of each feature in x using SHAP.
 
@@ -48,6 +48,7 @@ class OcclusionImportance(TimeSeriesImportanceBase):
             DataFrame of shape (n_instances, n_features):
                  The contribution of each feature
         """
+        print("running slow")
         data_length = x_orig.shape[1]
         v = np.zeros((x_orig.shape[1], len(self.classes)))
         sig = np.copy(x_orig)
@@ -96,7 +97,7 @@ class OcclusionImportance(TimeSeriesImportanceBase):
 
         return importance.reshape(-1)
 
-    def get_contributions(self, x_orig, width=5, k="avg"):
+    def get_contributions_fast(self, x_orig, width=5, k="avg"):
         """
         Calculate the explanation of each feature in x using SHAP.
 
@@ -107,6 +108,7 @@ class OcclusionImportance(TimeSeriesImportanceBase):
             DataFrame of shape (n_instances, n_features):
                  The contribution of each feature
         """
+        print("running fast")
         data_length = x_orig.shape[1]
         v = np.zeros((x_orig.shape[1], len(self.classes)))
         sig = np.copy(x_orig)
