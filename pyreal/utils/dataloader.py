@@ -2,6 +2,7 @@
 Utility functions for loading time-series data
 """
 import pandas as pd
+
 # from scipy.io import arff
 
 
@@ -10,7 +11,7 @@ def format_csv(df, timestamp_column=None, value_columns=None):
     value_column_names = df.columns[value_columns] if value_columns else df.columns[1:]
 
     data = dict()
-    data['timestamp'] = df[timestamp_column_name].astype('int64').values
+    data["timestamp"] = df[timestamp_column_name].astype("int64").values
     for column in value_column_names:
         data[column] = df[column].astype(float).values
 
@@ -18,7 +19,7 @@ def format_csv(df, timestamp_column=None, value_columns=None):
 
 
 def load_csv(path, timestamp_column=None, value_column=None):
-    header = None if timestamp_column is not None else 'infer'
+    header = None if timestamp_column is not None else "infer"
     data = pd.read_csv(path, header=header)
 
     if timestamp_column is None:

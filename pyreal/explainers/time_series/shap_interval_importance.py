@@ -39,12 +39,13 @@ class IntervalImportance(ClassificationSaliencyBase):
         **kwargs: see base Explainer args
     """
 
-    def __init__(self, model, x_train_orig,
-                 window_size=1, shap_type=None, **kwargs):
+    def __init__(self, model, x_train_orig, window_size=1, shap_type=None, **kwargs):
         supported_types = ["kernel", "linear"]
         if shap_type is not None and shap_type not in supported_types:
-            raise ValueError("Shap type not supported, given %s, expected one of %s or None" %
-                             (shap_type, str(supported_types)))
+            raise ValueError(
+                "Shap type not supported, given %s, expected one of %s or None"
+                % (shap_type, str(supported_types))
+            )
         else:
             self.shap_type = shap_type
 
@@ -83,15 +84,15 @@ class IntervalImportance(ClassificationSaliencyBase):
                  The contribution of each feature
         """
         if self.explainer is None:
-            raise AttributeError("Instance has no explainer. Must call "
-                                 "fit() before "
-                                 "produce()")
+            raise AttributeError("Instance has no explainer. Must call fit() before produce()")
         x = self.transform_to_x_model(x_orig)
         # TODO: change the following to conform with Pyreal time-series format
         if x.shape[1] != self.explainer_input_size:
-            raise ValueError("Received input of wrong size."
-                             "Expected ({},), received {}"
-                             .format(self.explainer_input_size, x.shape))
+            raise ValueError(
+                "Received input of wrong size.Expected ({},), received {}".format(
+                    self.explainer_input_size, x.shape
+                )
+            )
 
         old_columns = x.columns
         x = np.asanyarray(x)
@@ -102,14 +103,16 @@ class IntervalImportance(ClassificationSaliencyBase):
 
         columns = []
         if x.shape[1] > 1:
-            num_windows = (x.shape[1]-1) // self.window_size
-            indices = [(i+1)*self.window_size for i in range(num_windows)]
+            num_windows = (x.shape[1] - 1) // self.window_size
+            indices = [(i + 1) * self.window_size for i in range(num_windows)]
             indices.insert(0, 0)
             # Rename columns of explanation
             if self.window_size == 1:
                 columns = [f"time_{str(id)}" for id in old_columns]
             else:
-                columns = [f"time {indices[i]} to {indices[i+1]-1}" for i in range(len(indices)-1)]
+                columns = [
+                    f"time {indices[i]} to {indices[i+1]-1}" for i in range(len(indices) - 1)
+                ]
 
                 if x.shape[1] - indices[-1] == 1:
                     columns.append(f"time {indices[-1]}")
@@ -121,13 +124,16 @@ class IntervalImportance(ClassificationSaliencyBase):
 
         if shap_values.ndim == 2:
             return AdditiveFeatureContributionExplanation(
-                pd.DataFrame(agg_shap_values, columns=columns))
+                pd.DataFrame(agg_shap_values, columns=columns)
+            )
         if shap_values.ndim > 2:
             predictions = self.model_predict(x_orig)
             if self.classes is not None:
                 predictions = [np.where(self.classes == i)[0][0] for i in predictions]
             shap_values = shap_values[predictions, np.arange(shap_values.shape[1]), :]
             return AdditiveFeatureContributionExplanation(
-                pd.DataFrame(agg_shap_values, columns=columns))
+                pd.DataFrame(agg_shap_values, columns=columns)
+            )
+
 
 # problem: data is susceptible to time-shift.

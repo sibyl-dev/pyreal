@@ -1,8 +1,5 @@
-from pyreal.explainers.time_series.cs.base import SaliencyBase
-from pyreal.explainers.time_series.cs.occlusion_importance import OcclusionSaliency
+from pyreal.explainers.time_series.saliency.base import SaliencyBase
+from pyreal.explainers.time_series.saliency.occlusion_saliency import OcclusionSaliency
 
 
-__all__ = [
-    "SaliencyBase",
-    "OcclusionSaliency"
-]
+__all__ = ["SaliencyBase", "OcclusionSaliency"]

@@ -33,20 +33,20 @@ class SaliencyBase(ExplainerBase, ABC):
 
     def produce(self, x_orig, fast=True):
         # Importance for a given model stays constant, so can be saved and re-returned
-        series = False
+        '''series = False
         name = None
         if isinstance(x_orig, pd.Series):
             name = x_orig.name
             series = True
-            x_orig = x_orig.to_frame().T
+            x_orig = x_orig.to_frame().T'''
 
         contributions = self.get_contributions(x_orig)
-        #contributions, x_interpret = self.transform_explanation(contributions, x_orig)
-        #if series:
+        # contributions, x_interpret = self.transform_explanation(contributions, x_orig)
+        # if series:
         #    x_interpret = x_interpret.squeeze()
         #    x_interpret.name = name
-        #contributions = contributions.get()
-        return contributions, #x_interpret
+        # contributions = contributions.get()
+        return (contributions,)  # x_interpret
 
     @abstractmethod
     def get_contributions(self, x_orig):
@@ -90,7 +90,6 @@ class SaliencyBase(ExplainerBase, ABC):
             for _ in range(n_iterations - 1):
                 if with_fit:
                     self.fit()
-                explanations.append(
-                    self.produce(self._x_train_orig.iloc[0:n_rows])[0].to_numpy())
+                explanations.append(self.produce(self._x_train_orig.iloc[0:n_rows])[0].to_numpy())
 
         return np.max(np.var(explanations, axis=0))

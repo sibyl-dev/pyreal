@@ -1,13 +1,11 @@
+import keras.backend as K
 import numpy as np
 import pandas as pd
-from shap import KernelExplainer, LinearExplainer, DeepExplainer
+import tensorflow as tf
+from shap import DeepExplainer, KernelExplainer, LinearExplainer
 
 from pyreal.explainers import ClassificationSaliencyBase
 from pyreal.types.explanations.feature_based import AdditiveFeatureContributionExplanation
-
-import keras.backend as K
-import tensorflow as tf
-
 from pyreal.types.explanations.time_series_saliency import TimeSeriesSaliency
 
 
@@ -44,12 +42,13 @@ class MaskImportance(ClassificationSaliencyBase):
         **kwargs: see base Explainer args
     """
 
-    def __init__(self, model, x_train_orig,
-                 window_size=1, shap_type=None, **kwargs):
+    def __init__(self, model, x_train_orig, window_size=1, shap_type=None, **kwargs):
         supported_types = ["kernel", "linear"]
         if shap_type is not None and shap_type not in supported_types:
-            raise ValueError("Shap type not supported, given %s, expected one of %s or None" %
-                             (shap_type, str(supported_types)))
+            raise ValueError(
+                "Shap type not supported, given %s, expected one of %s or None"
+                % (shap_type, str(supported_types))
+            )
         else:
             self.shap_type = shap_type
 
@@ -80,7 +79,7 @@ class MaskImportance(ClassificationSaliencyBase):
 
         mask_init = np.ones(sig.shape, dtype=np.float32)
 
-        #mask_init = config.m_reshape(np.ones((sig.shape[1]), dtype=np.float32))#.reshape(1, -1, 1)
+        # mask_init = config.m_reshape(np.ones((sig.shape[1]), dtype=np.float32))#.reshape(1, -1, 1)
         mask = K.variable(mask_init)
 
         for j in range(max_iterations):
@@ -89,12 +88,14 @@ class MaskImportance(ClassificationSaliencyBase):
             perturbated_input = (sig * mask) + (k * (1 - mask))
             outputs = self.model_predict_on_algorithm(perturbated_input.numpy())
 
-            loss = l1_coeff * K.mean(K.abs(1 - mask)) + \
-                   l2_coeff * K.sum(mask[1:] - mask[:-1]) + \
-                   outputs[:, predicted_class]
+            loss = (
+                l1_coeff * K.mean(K.abs(1 - mask))
+                + l2_coeff * K.sum(mask[1:] - mask[:-1])
+                + outputs[:, predicted_class]
+            )
 
             grads = K.gradients(loss, mask)[0]
-            grads /= (K.sqrt(K.mean(K.square(grads))) + 1e-5)
+            grads /= K.sqrt(K.mean(K.square(grads))) + 1e-5
             mask = mask - (grads)
 
             # loss = K.stop_gradient(loss)

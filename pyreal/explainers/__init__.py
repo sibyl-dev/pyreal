@@ -31,10 +31,6 @@ __all__ = [
     "DecisionTreeExplainer",
     "SurrogateDecisionTree",
     "dte",
-    "SaliencyBase",
-    "IntervalImportance",
-    "TimeSeriesImportance",
-    "tfi",
     "Explainer",
     "explain",
 ]

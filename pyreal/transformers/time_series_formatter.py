@@ -6,48 +6,32 @@ from pyreal.transformers import Transformer
 
 def _check_is_np2d(x):
     if not isinstance(x, np.ndarray):
-        raise ValueError(
-            f"Input data must be an np.ndarray, but found: {type(x)}"
-        )
+        raise ValueError(f"Input data must be an np.ndarray, but found: {type(x)}")
     if x.ndim != 2:
-        raise ValueError(
-            f"Input data must have two dimensions, but found shape: {x.shape}"
-        )
+        raise ValueError(f"Input data must have two dimensions, but found shape: {x.shape}")
 
 
 def _check_is_np3d(x):
     if not isinstance(x, np.ndarray):
-        raise ValueError(
-            f"Input data must be an np.ndarray, but found: {type(x)}"
-        )
+        raise ValueError(f"Input data must be an np.ndarray, but found: {type(x)}")
     if x.ndim != 3:
-        raise ValueError(
-            f"Input data must have three dimensions, but found shape: {x.shape}"
-        )
+        raise ValueError(f"Input data must have three dimensions, but found shape: {x.shape}")
 
 
 def _check_is_pd2d(x):
     if not isinstance(x, pd.DataFrame):
-        raise ValueError(
-            f"Input data must be a pd.DataFrame, but found: {type(x)}"
-        )
+        raise ValueError(f"Input data must be a pd.DataFrame, but found: {type(x)}")
     if x.ndim != 2:
-        raise ValueError(
-            f"Input data must have two dimensions, but found shape: {x.shape}"
-        )
+        raise ValueError(f"Input data must have two dimensions, but found shape: {x.shape}")
+
 
 def _check_is_sktime_nest(x):
     if not isinstance(x, pd.DataFrame):
-        raise ValueError(
-            f"Input data must be a pd.DataFrame, but found: {type(x)}"
-        )
-    else:     
-        if not x.applymap(
-            lambda cell: isinstance(cell, pd.Series)
-            ).values.any():
-            raise ValueError(
-                f"Entries of input data must be pd.Series"
-            )
+        raise ValueError(f"Input data must be a pd.DataFrame, but found: {type(x)}")
+    else:
+        if not x.applymap(lambda cell: isinstance(cell, pd.Series)).values.any():
+            raise ValueError(f"Entries of input data must be pd.Series")
+
 
 def is_valid_dataframe(x):
     """
@@ -186,7 +170,7 @@ class pd2d_to_df(Transformer):
     def data_transform(self, x):
         """
         Converts input data into a DataFrame with MultiIndex columns
- 
+
         Args:
             x (DataFrame of shape (n_instances, n_timepoints)):
                 Input DataFrame
@@ -255,7 +239,7 @@ class np3d_to_df(Transformer):
                 Input 3D NumPy array
         """
         n_instances, n_columns, n_timepoints = x.shape
-        flatten_data = x.reshape((n_instances, n_columns*n_timepoints))
+        flatten_data = x.reshape((n_instances, n_columns * n_timepoints))
         df = pd.DataFrame(flatten_data, columns=self.mi)
         return df
 
@@ -344,8 +328,7 @@ class nested_to_df(Transformer):
 
             data.append(data_ti)
 
-        full_data = np.concatenate(data, axis=0).reshape(
-            (n_instances, n_columns*n_timepoints))
+        full_data = np.concatenate(data, axis=0).reshape((n_instances, n_columns * n_timepoints))
         df = pd.DataFrame(full_data, columns=self.mi)
 
         return df
@@ -367,8 +350,10 @@ class nested_to_np3d(Transformer):
             NumPy ndarray, converted NumPy ndarray
         """
         return np.stack(
-            x.applymap(lambda cell: cell.to_numpy()).apply(
-                lambda row: np.stack(row), axis=1).to_numpy())
+            x.applymap(lambda cell: cell.to_numpy())
+            .apply(lambda row: np.stack(row), axis=1)
+            .to_numpy()
+        )
 
 
 class df_to_nested(Transformer):
@@ -391,8 +376,9 @@ class df_to_nested(Transformer):
 
         x_3d = np_data.reshape((x.shape[0], columns.size, timestamps.size))
         for vidx, var in enumerate(columns):
-            x_nested[var] = [pd.Series(x_3d[i, vidx, :], index=timestamps) 
-                             for i in range(instance_idxs)]
+            x_nested[var] = [
+                pd.Series(x_3d[i, vidx, :], index=timestamps) for i in range(instance_idxs)
+            ]
 
         return x_nested
 

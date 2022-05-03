@@ -151,10 +151,14 @@ class ExplainerBase(ABC):
         self.classes = classes
         if (
             classes is None
-            and str(self.model.__module__.startswith("sklearn"))
+            and (
+                str(self.model.__module__).startswith("sklearn")
+                or str(self.model.__module__).startswith("sktime")
+            )
             and is_classifier(model)
             and hasattr(model, "classes_")
         ):
+            print("getting sklearn classes")
             self.classes = model.classes_
 
         self.class_descriptions = class_descriptions

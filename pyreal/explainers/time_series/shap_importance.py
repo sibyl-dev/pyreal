@@ -1,6 +1,6 @@
 import numpy as np
 import pandas as pd
-from shap import KernelExplainer, LinearExplainer, DeepExplainer
+from shap import DeepExplainer, KernelExplainer, LinearExplainer
 
 from pyreal.explainers import ClassificationSaliencyBase
 from pyreal.types.explanations.feature_based import AdditiveFeatureContributionExplanation
@@ -39,12 +39,13 @@ class ShapImportance(ClassificationSaliencyBase):
         **kwargs: see base Explainer args
     """
 
-    def __init__(self, model, x_train_orig,
-                 window_size=1, shap_type=None, **kwargs):
+    def __init__(self, model, x_train_orig, window_size=1, shap_type=None, **kwargs):
         supported_types = ["kernel", "linear"]
         if shap_type is not None and shap_type not in supported_types:
-            raise ValueError("Shap type not supported, given %s, expected one of %s or None" %
-                             (shap_type, str(supported_types)))
+            raise ValueError(
+                "Shap type not supported, given %s, expected one of %s or None"
+                % (shap_type, str(supported_types))
+            )
         else:
             self.shap_type = shap_type
 
@@ -59,7 +60,6 @@ class ShapImportance(ClassificationSaliencyBase):
         """
         dataset = self.transform_to_x_algorithm(self._x_train_orig)
         self.explainer = KernelExplainer(self.model, dataset)
-
 
     def get_contributions(self, x_orig):
         """
