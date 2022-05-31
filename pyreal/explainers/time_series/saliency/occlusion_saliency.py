@@ -48,53 +48,56 @@ class OcclusionSaliency(SaliencyBase):
                  The contribution of each feature
         """
         x_orig = self.transform_to_x_algorithm(x_orig)
-        data_length = x_orig.shape[1]
-        #sig = np.copy(x_orig)
+        num_features = x_orig.shape[1]
+        signal_length = x_orig.shape[2]
+
         sig = x_orig
-        v = np.zeros((x_orig.shape[1], len(self.model.predict(sig)[0])))
+        print(sig.shape)
+        v = np.zeros((signal_length, num_features, len(self.model.predict(x_orig)[0])))
 
-        for i in range(1, width):
-            original_signal = sig[:, 0:i].copy()
-            if k == "avg":
-                sig[:, 0:i] = np.average([sig[:, 0], sig[:, i - 1]])
-            else:
-                sig[:, 0:i] = k
-            pred = self.model.predict(sig).reshape(-1)
-            for j in range(i, data_length):
-                v[j] += pred
-            sig[:, 0:i] = original_signal
+        for f in range(num_features):
+            #sig = x_orig[f]
+            for i in range(1, width):
+                original_signal = sig[:, f, 0:i].copy()
+                if k == "avg":
+                    sig[:, f, 0:i] = np.average([sig[:, f, 0], sig[:, f, i - 1]])
+                else:
+                    sig[:, f, 0:i] = k
+                pred = self.model.predict(sig).reshape(-1)
+                for j in range(i, signal_length):
+                    v[j, f] += pred
+                sig[:, f, 0:i] = original_signal
 
-        for i in range(data_length - width):
-            original_signal = sig[:, i : i + width].copy()
-            if k == "avg":
-                sig[:, i : i + width] = np.average([sig[:, i], sig[:, i + width - 1]])
-            else:
-                sig[:, i : i + width] = k
-            pred = self.model.predict(sig).reshape(-1)
-            for j in range(0, i):
-                v[j] += pred
-            for j in range(i + width, data_length):
-                v[j] += pred
-            sig[:, i : i + width] = original_signal
+            for i in range(signal_length - width):
+                original_signal = sig[:, f, i:i + width].copy()
+                if k == "avg":
+                    sig[:, f, i:i + width] = np.average([sig[:, f, i], sig[:, f, i + width - 1]])
+                else:
+                    sig[:, f, i:i + width] = k
+                pred = self.model.predict(sig).reshape(-1)
+                for j in range(0, i):
+                    v[j, f] += pred
+                for j in range(i + width, signal_length):
+                    v[j, f] += pred
+                sig[:, f, i:i + width] = original_signal
 
-        for i in range(1, width):
-            original_signal = sig[:, data_length - i : data_length].copy()
-            if k == "avg":
-                sig[:, data_length - i : data_length] = np.average(
-                    [sig[:, data_length - i], sig[:, data_length - 1]]
-                )
-            else:
-                sig[:, data_length - i : data_length] = k
-            pred = self.model.predict(sig).reshape(-1)
-            for j in range(0, data_length - i):
-                v[j] += pred
-            sig[:, data_length - i : data_length] = original_signal
+            for i in range(1, width):
+                original_signal = sig[:, f, signal_length - i:signal_length].copy()
+                if k == "avg":
+                    sig[:, f, signal_length - i: signal_length] = np.average(
+                        [sig[:, f, signal_length - i], sig[:, f, signal_length - 1]]
+                    )
+                else:
+                    sig[:, f, signal_length - i: signal_length] = k
+                pred = self.model.predict(sig).reshape(-1)
+                for j in range(0, signal_length - i):
+                    v[j, f] += pred
+                sig[:, f, signal_length - i: signal_length] = original_signal
 
-        predicted_class = np.argmax(self.model.predict(sig))
-        #class_index = self.classes.index(predicted_class)
-        importance = v[:, predicted_class]
-        max = np.amax(importance)
-        min = np.amin(importance)
-        importance = (importance - min) / (max - min)
+        predicted_class = np.argmax(self.model.predict(x_orig))
+        importance = v[:, :, predicted_class]
+        max_val = np.amax(importance)
+        min_val = np.amin(importance)
+        importance = (importance - min_val) / (max_val - min_val)
 
-        return importance.reshape(-1)
+        return importance.reshape(num_features, -1)
