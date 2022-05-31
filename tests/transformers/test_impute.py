@@ -5,14 +5,13 @@ from pandas.testing import assert_frame_equal, assert_series_equal
 from pyreal.transformers import MultiTypeImputer
 
 
-# TODO: Issue  # 100. Replace an np.nan with None
 def test_fit_transform_multitype_imputer():
     imputer = MultiTypeImputer()
     x = pd.DataFrame(
         [
-            [3, 1, np.nan, "a", "+"],
+            [3, 1, None, "a", "+"],
             [np.nan, 3, 4, "a", "-"],
-            [6, 7, 2, np.nan, "-"],
+            [6, 7, 2, None, "-"],
             [3, 9, 6, "b", "+"],
         ],
         columns=["A", "B", "C", "D", "E"],
