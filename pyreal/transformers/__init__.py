@@ -12,6 +12,16 @@ from pyreal.transformers.one_hot_encode import (
     MappingsOneHotEncoder,
     OneHotEncoder,
 )
+from pyreal.transformers.time_series_formatter import (
+    df_to_nested,
+    df_to_np2d,
+    df_to_np3d,
+    np2d_to_df,
+    np3d_to_df,
+    nested_to_df,
+    nested_to_np3d,
+    pd2d_to_df,
+)
 from pyreal.transformers.wrappers import DataFrameWrapper
 
 __all__ = [
@@ -26,5 +36,13 @@ __all__ = [
     "OneHotEncoder",
     "MappingsOneHotDecoder",
     "MappingsOneHotEncoder",
+    "df_to_nested",
+    "df_to_np2d",
+    "df_to_np3d",
+    "np2d_to_df",
+    "np3d_to_df",
+    "nested_to_df",
+    "nested_to_np3d",
+    "pd2d_to_df",
     "DataFrameWrapper",
 ]
