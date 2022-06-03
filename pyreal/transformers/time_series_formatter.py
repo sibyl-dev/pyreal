@@ -30,7 +30,7 @@ def _check_is_sktime_nest(x):
         raise ValueError(f"Input data must be a pd.DataFrame, but found: {type(x)}")
     else:
         if not x.applymap(lambda cell: isinstance(cell, pd.Series)).values.any():
-            raise ValueError(f"Entries of input data must be pd.Series")
+            raise ValueError("Entries of input data must be pd.Series")
 
 
 def is_valid_dataframe(x):
@@ -376,8 +376,6 @@ class df_to_nested(Transformer):
 
         x_3d = np_data.reshape((x.shape[0], columns.size, timestamps.size))
         for vidx, var in enumerate(columns):
-            x_nested[var] = [
-                pd.Series(x_3d[i, vidx, :], index=timestamps) for i in range(instance_idxs)
-            ]
+            x_nested[var] = [pd.Series(x_3d[i, vidx, :], index=timestamps) for i in instance_idxs]
 
         return x_nested

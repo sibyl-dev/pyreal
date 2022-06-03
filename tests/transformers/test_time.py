@@ -14,7 +14,10 @@ def test_df_to_sktime(time_series_data):
     nested = time_series_data["nested"]
     transformer = df_to_nested()
     array = transformer.fit_transform(df3d)
-    assert (array == nested).all()
+    for col in nested:
+        for i, series in enumerate(nested[col]):
+            if not series.equals(array[col][i]):
+                assert False
 
 
 def test_df_to_numpy2d(time_series_data):
