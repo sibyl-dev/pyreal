@@ -66,6 +66,32 @@ One-Hot Encoders
     Mappings
     Mappings.generate_mappings
 
+Time-Series Formatters
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.. autosummary::
+    :toctree: api/
+
+    np2d_to_df
+    np2d_to_df.fit
+    np2d_to_df.data_transform
+    pd2d_to_df
+    pd2d_to_df.fit
+    pd2d_to_df.data_transform
+    np3d_to_df
+    np3d_to_df.fit
+    np3d_to_df.data_transform
+    df_to_np3d
+    df_to_np3d.data_transform
+    df_to_np2d
+    df_to_np2d.data_transform
+    nested_to_df
+    nested_to_df.fit
+    nested_to_df.data_transform
+    nested_to_np3d
+    nested_to_np3d.data_transform
+    df_to_nested
+    df_to_nested.data_transform
+
 Wrappers
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .. autosummary::
