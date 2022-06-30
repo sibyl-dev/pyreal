@@ -24,7 +24,7 @@ The indexing on instances and variables can also be used together
 import numpy as np
 import pandas as pd
 
-from pyreal.transformers import fit_transformers, run_transformers, Transformer
+from pyreal.transformers import Transformer, fit_transformers, run_transformers
 
 
 def _check_is_np2d(x):
