@@ -6,6 +6,7 @@ from pyreal.transformers import (
     nested_to_np3d,
     np2d_to_df,
     np3d_to_df,
+    np3d_to_nested,
 )
 
 
@@ -50,6 +51,17 @@ def test_numpy3d_to_df(time_series_data):
     transformer = np3d_to_df()
     df = transformer.fit_transform(np3d)
     assert df.equals(df3d)
+
+
+def test_numpy3d_to_sktime(time_series_data):
+    np3d = time_series_data["np3d"]
+    nested = time_series_data["nested"]
+    transformer = np3d_to_nested()
+    array = transformer.fit_transform(np3d)
+    for col in nested:
+        for i, series in enumerate(nested[col]):
+            if not series.equals(array[col][i]):
+                assert False
 
 
 def test_sktime_to_df(time_series_data):

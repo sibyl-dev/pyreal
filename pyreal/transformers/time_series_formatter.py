@@ -1,7 +1,30 @@
+"""
+The default and preferred format for multi-variable time-series data in Pyreal is
+a DataFrame with two levels of columns. The first level of columns represents the
+variables of the data, and the second level represents the number of timesteps in
+the signal(s). The Index of this DataFrame numerates the number of instances in
+the data.
+
+Let `data` be a time-series dataset in Pyreal format with 100 instances, 3 variables
+and 200 steps. The indexing schemes of Pyreal time-series format work similarly
+as Pandas DataFrame.
+
+Examples
+-------------------
+Access the first instance sequence of data
+>>> data.iloc[0]
+Access the value of variable "dim_0" at step 50
+>>> data["dim_0"][50]
+or
+>>> data["dim_0", 50]
+
+The indexing on instances and variables can also be used together
+>>> data["dim_0", 50].iloc[0]
+"""
 import numpy as np
 import pandas as pd
 
-from pyreal.transformers import Transformer
+from pyreal.transformers import fit_transformers, run_transformers, Transformer
 
 
 def _check_is_np2d(x):
@@ -65,7 +88,7 @@ class np2d_to_df(Transformer):
             var_name (None or String):
                 Optional name to use for the variable
             timestamps (None or list-like with length of n_timepoints):
-                Optional time series index of returned DataFrame
+                Optional time series index of returned MultiIndex DataFrame
         """
         self.var_name = var_name
         self.timestamps = timestamps
@@ -358,7 +381,7 @@ class nested_to_np3d(Transformer):
 
 class df_to_nested(Transformer):
     """
-    Convert MultiIndex DataFrame into sktime nested DataFrame.
+    Convert MultiIndex DataFrame to sktime nested DataFrame.
     """
 
     def data_transform(self, x):
@@ -379,3 +402,65 @@ class df_to_nested(Transformer):
             x_nested[var] = [pd.Series(x_3d[i, vidx, :], index=timestamps) for i in instance_idxs]
 
         return x_nested
+
+
+class np2d_to_nested(Transformer):
+    """
+    Convert 2D NumPy array to sktime nested DataFrame.
+    """
+
+    def __init__(self, var_name=None, timestamps=None, **kwargs):
+        """
+        Initializes the converter.
+
+        Args:
+            var_name (None or String):
+                Optional name to use for the variable
+            timestamps (None or list-like with length of n_timepoints):
+                Optional time series index of returned nested DataFrame
+        """
+        self._transformers = [
+            np2d_to_df(var_name=var_name, timestamps=timestamps, **kwargs),
+            df_to_nested(),
+        ]
+        super().__init__(**kwargs)
+
+    def fit(self, x):
+        fit_transformers(self._transformers, x)
+
+    def data_transform(self, x):
+        """
+        Convert input NumPy 2D array into sktime nested DataFrame.
+        """
+        return run_transformers(self._transformers, x)
+
+
+class np3d_to_nested(Transformer):
+    """
+    Convert 3D NumPy array to sktime nested DataFrame.
+    """
+
+    def __init__(self, var_names=None, timestamps=None, **kwargs):
+        """
+        Initializes the converter.
+
+        Args:
+            var_names (None or list-like with length of n_variables):
+                Optional list of names to use for the variables
+            timestamps (None or list-like with length of n_timepoints):
+                Optional time series index of returned DataFrame
+        """
+        self._transformers = [
+            np3d_to_df(var_names=var_names, timestamps=timestamps, **kwargs),
+            df_to_nested(),
+        ]
+        super().__init__(**kwargs)
+
+    def fit(self, x):
+        fit_transformers(self._transformers, x)
+
+    def data_transform(self, x):
+        """
+        Convert input NumPy 3D array into sktime nested DataFrame.
+        """
+        return run_transformers(self._transformers, x)
