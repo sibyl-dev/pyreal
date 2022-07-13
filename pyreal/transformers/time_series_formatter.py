@@ -29,28 +29,28 @@ from pyreal.transformers import Transformer, fit_transformers, run_transformers
 
 def _check_is_np2d(x):
     if not isinstance(x, np.ndarray):
-        raise ValueError(f"Input data must be an np.ndarray, but found: {type(x)}")
+        raise TypeError(f"Input data must be an np.ndarray, but found: {type(x)}")
     if x.ndim != 2:
         raise ValueError(f"Input data must have two dimensions, but found shape: {x.shape}")
 
 
 def _check_is_np3d(x):
     if not isinstance(x, np.ndarray):
-        raise ValueError(f"Input data must be an np.ndarray, but found: {type(x)}")
+        raise TypeError(f"Input data must be an np.ndarray, but found: {type(x)}")
     if x.ndim != 3:
         raise ValueError(f"Input data must have three dimensions, but found shape: {x.shape}")
 
 
 def _check_is_pd2d(x):
     if not isinstance(x, pd.DataFrame):
-        raise ValueError(f"Input data must be a pd.DataFrame, but found: {type(x)}")
+        raise TypeError(f"Input data must be a pd.DataFrame, but found: {type(x)}")
     if x.ndim != 2:
         raise ValueError(f"Input data must have two dimensions, but found shape: {x.shape}")
 
 
 def _check_is_sktime_nest(x):
     if not isinstance(x, pd.DataFrame):
-        raise ValueError(f"Input data must be a pd.DataFrame, but found: {type(x)}")
+        raise TypeError(f"Input data must be a pd.DataFrame, but found: {type(x)}")
     else:
         if not x.applymap(lambda cell: isinstance(cell, pd.Series)).values.any():
             raise ValueError("Entries of input data must be pd.Series")
@@ -120,9 +120,7 @@ class np2d_to_df(Transformer):
             self.mi = pd.MultiIndex.from_product([["var_0"], timestamps])
         else:
             if not isinstance(self.var_name, str):
-                raise ValueError(
-                    f"var_name must be a String, received type: {type(self.var_name)}"
-                )
+                raise TypeError(f"var_name must be a String, received type: {type(self.var_name)}")
             self.mi = pd.MultiIndex.from_product([[self.var_name], timestamps])
         super().fit(x)
 
@@ -184,9 +182,7 @@ class pd2d_to_df(Transformer):
             self.mi = pd.MultiIndex.from_product([["var_0"], columns])
         else:
             if not isinstance(self.var_name, str):
-                raise ValueError(
-                    f"var_name must be a String, received type: {type(self.var_name)}"
-                )
+                raise TypeError(f"var_name must be a String, received type: {type(self.var_name)}")
             self.mi = pd.MultiIndex.from_product([[self.var_name], columns])
         super().fit()
 
@@ -245,7 +241,7 @@ class np3d_to_df(Transformer):
             self.timestamps = np.arange(n_timepoints)
         else:
             if len(self.timestamps) != n_timepoints:
-                raise ValueError(
+                raise TypeError(
                     f"Input data has {n_timepoints} timepoints, but only "
                     f"{len(self.timestamps)} steps are supplied in timestamps."
                 )
@@ -278,7 +274,7 @@ class df_to_np3d(Transformer):
         Convert input DataFrame into 3D NumPy array
         """
         if not is_valid_dataframe(x):
-            raise ValueError("Input DataFrame is not a valid DataFrame")
+            raise TypeError("Input DataFrame is not a valid DataFrame")
         n_instances = x.index.size
         n_columns, n_timepoints = x.columns.levshape
         array = x.to_numpy().reshape((n_instances, n_columns, n_timepoints))
@@ -389,7 +385,7 @@ class df_to_nested(Transformer):
         Convert input DataFrame into sktime nested DataFrame.
         """
         if not is_valid_dataframe(x):
-            raise ValueError("Input DataFrame is not a valid DataFrame")
+            raise TypeError("Input DataFrame is not a valid DataFrame")
         np_data = x.to_numpy()
 
         columns = x.columns.get_level_values(0).unique()
