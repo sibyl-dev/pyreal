@@ -12,6 +12,7 @@ from pyreal.transformers.one_hot_encode import (
     MappingsOneHotEncoder,
     OneHotEncoder,
 )
+from pyreal.transformers.sax import SAXTransformer
 from pyreal.transformers.time_series_formatter import (
     df_to_nested,
     df_to_np2d,
@@ -38,6 +39,7 @@ __all__ = [
     "OneHotEncoder",
     "MappingsOneHotDecoder",
     "MappingsOneHotEncoder",
+    "SAXTransformer",
     "df_to_nested",
     "df_to_np2d",
     "df_to_np3d",
