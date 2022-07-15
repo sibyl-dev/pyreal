@@ -138,6 +138,7 @@
 
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 
+<span class="kn">from</span> <span class="nn">pyreal.types.explanations.base</span> <span class="kn">import</span> <span class="n">Explanation</span>
 <span class="kn">from</span> <span class="nn">pyreal.types.explanations.decision_tree</span> <span class="kn">import</span> <span class="n">DecisionTreeExplanation</span>
 <span class="kn">from</span> <span class="nn">pyreal.types.explanations.feature_based</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">AdditiveFeatureContributionExplanation</span><span class="p">,</span>
@@ -366,6 +367,10 @@
 
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">explanation</span><span class="p">,</span> <span class="n">DecisionTreeExplanation</span><span class="p">):</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">inverse_transform_explanation_decision_tree</span><span class="p">(</span><span class="n">explanation</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">explanation</span><span class="p">,</span> <span class="n">Explanation</span><span class="p">):</span>  <span class="c1"># handle generic explanation cases</span>
+            <span class="k">return</span> <span class="n">explanation</span>
+
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Invalid explanation types </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">explanation</span><span class="o">.</span><span class="vm">__class__</span><span class="p">)</span>
 
 <div class="viewcode-block" id="Transformer.transform_explanation"><a class="viewcode-back" href="../../../api_reference/api/pyreal.transformers.Transformer.transform_explanation.html#pyreal.transformers.Transformer.transform_explanation">[docs]</a>    <span class="k">def</span> <span class="nf">transform_explanation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">explanation</span><span class="p">):</span>
@@ -395,6 +400,10 @@
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform_explanation_feature_importance</span><span class="p">(</span><span class="n">explanation</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">explanation</span><span class="p">,</span> <span class="n">FeatureBased</span><span class="p">):</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform_explanation_feature_based</span><span class="p">(</span><span class="n">explanation</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">explanation</span><span class="p">,</span> <span class="n">Explanation</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">explanation</span>
+
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Invalid explanation types </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">explanation</span><span class="o">.</span><span class="vm">__class__</span><span class="p">)</span></div>
 
     <span class="c1"># ========================== INVERSE TRANSFORM EXPLANATION METHODS ===========================</span>
