@@ -3,6 +3,7 @@ from abc import ABC, abstractmethod
 
 import pandas as pd
 
+from pyreal.types.explanations.base import Explanation
 from pyreal.types.explanations.decision_tree import DecisionTreeExplanation
 from pyreal.types.explanations.feature_based import (
     AdditiveFeatureContributionExplanation,
@@ -231,6 +232,10 @@ class Transformer(ABC):
 
         if isinstance(explanation, DecisionTreeExplanation):
             return self.inverse_transform_explanation_decision_tree(explanation)
+
+        if isinstance(explanation, Explanation):  # handle generic explanation cases
+            return explanation
+
         raise ValueError("Invalid explanation types %s" % explanation.__class__)
 
     def transform_explanation(self, explanation):
@@ -260,6 +265,10 @@ class Transformer(ABC):
             return self.transform_explanation_feature_importance(explanation)
         if isinstance(explanation, FeatureBased):
             return self.transform_explanation_feature_based(explanation)
+
+        if isinstance(explanation, Explanation):
+            return explanation
+
         raise ValueError("Invalid explanation types %s" % explanation.__class__)
 
     # ========================== INVERSE TRANSFORM EXPLANATION METHODS ===========================
