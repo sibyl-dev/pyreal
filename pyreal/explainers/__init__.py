@@ -39,6 +39,8 @@ __all__ = [
     "DecisionTreeExplainer",
     "SurrogateDecisionTree",
     "dte",
+    "SaliencyBase",
+    "UnivariateOcclusionSaliency",
     "Explainer",
     "explain",
 ]
