@@ -22,7 +22,8 @@ class SaliencyBase(ExplainerBase, ABC):
         **kwargs: see base Explainer args
     """
 
-    def __init__(self, model, x_train_orig, **kwargs):
+    def __init__(self, model, x_train_orig, interpretable_features=True, **kwargs):
+        self.interpretable_features = interpretable_features
         super(SaliencyBase, self).__init__(model, x_train_orig, **kwargs)
 
     @abstractmethod
@@ -31,22 +32,37 @@ class SaliencyBase(ExplainerBase, ABC):
         Fit this explainer object
         """
 
-    def produce(self, x_orig, fast=True):
-        # Importance for a given model stays constant, so can be saved and re-returned
-        '''series = False
+    def produce(self, x_orig):
+        """
+        Produce a saliency explanation for a univariate time series
+
+        Args:
+            x_orig (DataFrame of shape (n_instances, n_features)):
+                Input to explain
+
+        Returns:
+            DataFrame of shape (n_instances, n_features)
+                Contribution of each feature for each instance
+            DataFrame of shape (n_instances, x_orig_feature_count)
+                `x_orig` transformed to the state of the final explanation
+        """
+        series = False
         name = None
         if isinstance(x_orig, pd.Series):
             name = x_orig.name
             series = True
-            x_orig = x_orig.to_frame().T'''
-
+            x_orig = x_orig.to_frame().T
         contributions = self.get_contributions(x_orig)
-        # contributions, x_interpret = self.transform_explanation(contributions, x_orig)
-        # if series:
-        #    x_interpret = x_interpret.squeeze()
-        #    x_interpret.name = name
-        # contributions = contributions.get()
-        return (contributions,)  # x_interpret
+        contributions, x_interpret = self.transform_explanation(contributions, x_orig)
+        if series:
+            x_interpret = x_interpret.squeeze()
+            x_interpret.name = name
+        contributions = contributions.get()
+        if self.interpretable_features:
+            return self.convert_columns_to_interpretable(
+                contributions
+            ), self.convert_columns_to_interpretable(x_interpret)
+        return contributions, x_interpret
 
     @abstractmethod
     def get_contributions(self, x_orig):
