@@ -120,4 +120,3 @@ docs/api_reference/api/
 utils/scratch.py
 
 pyreal/benchmark/datasets
-tutorials/ecg/ECG5000
