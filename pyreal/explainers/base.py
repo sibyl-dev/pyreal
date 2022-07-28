@@ -158,7 +158,6 @@ class ExplainerBase(ABC):
             and is_classifier(model)
             and hasattr(model, "classes_")
         ):
-            print("getting sklearn classes")
             self.classes = model.classes_
 
         self.class_descriptions = class_descriptions
