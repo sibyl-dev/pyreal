@@ -76,7 +76,6 @@ class TreeExporter(_MPLTreeExporter):
         precision=3,
         fontsize=None,
     ):
-
         super().__init__(
             max_depth=max_depth,
             feature_names=feature_names,

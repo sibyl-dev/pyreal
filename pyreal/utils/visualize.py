@@ -3,8 +3,11 @@ Includes basic visualization methods, mostly used to testing purposes.
 """
 import matplotlib.pyplot as plt
 import numpy as np
+from matplotlib.collections import LineCollection
 
 from pyreal.utils._plot_tree import TreeExporter
+
+WIDTH = 5
 
 
 def plot_top_contributors(
@@ -180,3 +183,44 @@ def plot_tree_explanation(
         plt.savefig(filename, bbox_inches="tight")
 
     plt.show()
+
+
+"""def plot_timeseries_saliency(X, saliency, timesteps=None, show=True):
+    if timesteps is None:
+        timesteps = np.arange(X.shape[0])
+    plt.plot(timesteps, X, c=saliency)
+    if show:
+        plt.show()"""
+
+
+def plot_timeseries_saliency(
+    data, colors, title=None, fig=None, scale=True, mincol=None, maxcol=None
+):
+    y = data
+    x = np.arange(len(y))
+    # y = preprocessing.scale(y)
+    points = np.array([x, y]).T.reshape(-1, 1, 2)
+    segments = np.concatenate([points[:-1], points[1:]], axis=1)
+    if mincol is None:
+        mincol = colors.min()
+    if maxcol is None:
+        maxcol = colors.max()
+    norm = plt.Normalize(mincol, maxcol)
+    lc = LineCollection(segments, cmap="coolwarm", norm=norm)
+    lc.set_array(colors)
+    lc.set_linewidth(WIDTH)
+    # if(fig is None or ax is None):
+    #    fig, ax = plt.subplots()
+    if fig is None:
+        fig = plt.figure()
+    ax = plt.gca()
+    line = ax.add_collection(lc)
+    fig.colorbar(line, ax=ax)
+
+    if scale:
+        ax.set_xlim(x.min(), x.max())
+        ax.set_ylim(y.min(), y.max())
+
+    ax.set_title(title)
+
+    # plt.show()

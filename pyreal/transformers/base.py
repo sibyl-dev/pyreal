@@ -75,7 +75,7 @@ def run_transformers(transformers, x):
         transformers = [transformers]
     for transform in transformers:
         x_transform = transform.transform(x_transform)
-    if series:
+    if series and isinstance(x_transform, pd.DataFrame):
         x_transform = x_transform.squeeze()
         x_transform.name = name
     return x_transform
