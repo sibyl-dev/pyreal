@@ -65,8 +65,8 @@ def test_produce_occlusion_classification_no_transforms(classification_no_transf
     assert contributions["A"][0] == 0
     assert contributions["B"][0] == 2
     assert contributions["C"][0] == 0
-    
-    
+
+
 def test_produce_occlusion_classification_no_transforms_remove(classification_no_transforms):
     model = classification_no_transforms
     explainer = UnivariateOcclusionSaliency(
@@ -85,5 +85,5 @@ def test_produce_occlusion_classification_no_transforms_remove(classification_no
 
     assert contributions.shape == (3, 3)
     assert contributions["A"][0] == 0
-    assert abs(contributions["B"][0]) < 0.01 
+    assert abs(contributions["B"][0]) < 0.01
     assert contributions["C"][0] == 0
