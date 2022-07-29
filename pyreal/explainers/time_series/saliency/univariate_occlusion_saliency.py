@@ -128,7 +128,9 @@ class UnivariateOcclusionSaliency(SaliencyBase):
         elif self.k == "remove":
             mask = np.ones_like(occ_test_signal, dtype=bool)
             mask[:, win_min:win_max] = False
-            occ_test_signal = occ_test_signal[mask, ...].reshape(sig.shape)
+            new_shape = sig.shape
+            new_shape[1] = -1
+            occ_test_signal = occ_test_signal[mask, ...].reshape(new_shape)
         else:
             occ_test_signal[:, win_min:win_max] = k
 
