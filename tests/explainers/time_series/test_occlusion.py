@@ -7,6 +7,15 @@ from pyreal.explainers.time_series.saliency.univariate_occlusion_saliency import
 )
 
 
+class ModelDummy:
+    """
+    Test class that takes in variable length inputs
+    """
+
+    def predict(self, x):
+        return x.sum()
+
+
 def test_univariate_occlusion_no_transforms(regression_no_transforms):
     model = regression_no_transforms
     explainer = UnivariateOcclusionSaliency(
@@ -68,13 +77,12 @@ def test_produce_occlusion_classification_no_transforms(classification_no_transf
 
 
 def test_produce_occlusion_classification_no_transforms_remove(classification_no_transforms):
-    model = classification_no_transforms
+    model = ModelDummy()
     explainer = UnivariateOcclusionSaliency(
-        model=model["model"],
-        x_train_orig=model["x"],
+        model=model,
+        x_train_orig=pd.DataFrame([]),
         width=1,
         k="remove",
-        transformers=model["transformers"],
         fit_on_init=True,
         classes=np.arange(1, 4),
     )
@@ -84,6 +92,6 @@ def test_produce_occlusion_classification_no_transforms_remove(classification_no
     contributions = explainer.produce(x_one_dim)[0]
 
     assert contributions.shape == (3, 3)
-    assert contributions["A"][0] == 0
-    assert abs(contributions["B"][0]) < 0.01
-    assert contributions["C"][0] == 0
+    assert contributions["A"][0] == -1
+    assert contributions["B"][0] == -1
+    assert contributions["C"][0] == -1
