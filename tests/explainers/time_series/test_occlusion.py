@@ -60,9 +60,29 @@ def test_produce_occlusion_classification_no_transforms(classification_no_transf
     x_one_dim = pd.DataFrame([[1, 1, 1]], columns=["A", "B", "C"])
 
     contributions = explainer.produce(x_one_dim)[0]
-    print(contributions)
 
     assert contributions.shape == (3, 3)
     assert contributions["A"][0] == 0
     assert contributions["B"][0] == 2
+    assert contributions["C"][0] == 0
+    
+def test_produce_occlusion_classification_no_transforms_remove(classification_no_transforms):
+    model = classification_no_transforms
+    explainer = UnivariateOcclusionSaliency(
+        model=model["model"],
+        x_train_orig=model["x"],
+        width=1,
+        k="remove",
+        transformers=model["transformers"],
+        fit_on_init=True,
+        classes=np.arange(1, 4),
+    )
+
+    x_one_dim = pd.DataFrame([[1, 1, 1]], columns=["A", "B", "C"])
+
+    contributions = explainer.produce(x_one_dim)[0]
+
+    assert contributions.shape == (3, 3)
+    assert contributions["A"][0] == 0
+    assert abs(contributions["B"][0]) < 0.01 
     assert contributions["C"][0] == 0
