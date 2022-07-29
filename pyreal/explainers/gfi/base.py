@@ -96,6 +96,5 @@ class GlobalFeatureImportanceBase(ExplainerBase, ABC):
             for i in range(n_iterations - 1):
                 if with_fit:
                     self.fit()
-                explanations.append(
-                    self.produce(self.x_train_orig.iloc[0:n_rows]).to_numpy())
+                explanations.append(self.produce(self._x_train_orig.iloc[0:n_rows]).to_numpy())
         return np.max(np.var(explanations, axis=0))

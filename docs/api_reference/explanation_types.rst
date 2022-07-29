@@ -18,45 +18,45 @@ DataFrame Explanation Type
 .. autosummary::
     :toctree: api/
 
-    dataframe.DataFrameExplanation
-    dataframe.DataFrameExplanation.get
-    dataframe.DataFrameExplanation.validate
+    feature_based.FeatureBased
+    feature_based.FeatureBased.get
+    feature_based.FeatureBased.validate
 
 Feature Importance Explanation Type
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .. autosummary::
     :toctree: api/
 
-    dataframe.FeatureImportanceExplanation
-    dataframe.FeatureImportanceExplanation.get
-    dataframe.FeatureImportanceExplanation.validate
+    feature_based.FeatureImportanceExplanation
+    feature_based.FeatureImportanceExplanation.get
+    feature_based.FeatureImportanceExplanation.validate
 
 Additive Feature Importance Explanation Type
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .. autosummary::
     :toctree: api/
 
-    dataframe.AdditiveFeatureImportanceExplanation
-    dataframe.AdditiveFeatureImportanceExplanation.get
-    dataframe.AdditiveFeatureImportanceExplanation.validate
+    feature_based.AdditiveFeatureImportanceExplanation
+    feature_based.AdditiveFeatureImportanceExplanation.get
+    feature_based.AdditiveFeatureImportanceExplanation.validate
 
 Feature Contribution Explanation Type
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .. autosummary::
     :toctree: api/
 
-    dataframe.FeatureContributionExplanation
-    dataframe.FeatureContributionExplanation.get
-    dataframe.FeatureContributionExplanation.validate
+    feature_based.FeatureContributionExplanation
+    feature_based.FeatureContributionExplanation.get
+    feature_based.FeatureContributionExplanation.validate
 
 Additive Feature Contribution Explanation Type
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .. autosummary::
     :toctree: api/
 
-    dataframe.AdditiveFeatureContributionExplanation
-    dataframe.AdditiveFeatureContributionExplanation.get
-    dataframe.AdditiveFeatureContributionExplanation.validate
+    feature_based.AdditiveFeatureContributionExplanation
+    feature_based.AdditiveFeatureContributionExplanation.get
+    feature_based.AdditiveFeatureContributionExplanation.validate
 
 Decision Tree Explanation Type
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

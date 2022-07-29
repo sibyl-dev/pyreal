@@ -1,11 +1,10 @@
-import collections
+from collections.abc import Sequence
 
 import numpy as np
 import pandas as pd
 
-from pyreal.transformers import Transformer
-from pyreal.types.explanations.dataframe import (
-    AdditiveFeatureContributionExplanation, FeatureImportanceExplanation,)
+from pyreal.transformers import BreakingTransformError, Transformer
+from pyreal.types.explanations.feature_based import FeatureBased
 
 
 class FeatureSelectTransformer(Transformer):
@@ -27,7 +26,7 @@ class FeatureSelectTransformer(Transformer):
         self.dropped_columns = []
         super().__init__(**kwargs)
 
-    def fit(self, x):
+    def fit(self, x, **params):
         """
         Saves the columns being dropped
 
@@ -39,7 +38,7 @@ class FeatureSelectTransformer(Transformer):
 
         """
         self.dropped_columns = list(set(x.columns) - set(self.columns))
-        return self
+        super().fit(x)
 
     def data_transform(self, x):
         """
@@ -54,69 +53,50 @@ class FeatureSelectTransformer(Transformer):
         """
         return x[self.columns]
 
-    def inverse_transform_explanation_additive_contributions(self, explanation):
+    def inverse_transform_explanation_feature_based(self, explanation):
         """
         Sets the contribution of dropped features to 0
         Args:
-            explanation (AdditiveFeatureContributionExplanationType):
+            explanation (FeatureBased):
                 The explanation to be transformed
 
         Returns:
-            Returns:
-                AdditiveFeatureContributionExplanationType:
-                    The transformed explanation
-
-        """
-        explanation_df = explanation.get()
-        for col in self.dropped_columns:
-            explanation_df[col] = 0
-        return AdditiveFeatureContributionExplanation(explanation_df)
-
-    def inverse_transform_explanation_feature_importance(self, explanation):
-        """
-        Sets the importance of dropped features to 0
-
-        Args:
-            explanation (FeatureImportanceExplanation):
-                The explanation to be transformed
-        Returns:
-            FeatureImportanceExplanation:
+            FeatureBased:
                 The transformed explanation
 
         """
         explanation_df = explanation.get()
         for col in self.dropped_columns:
             explanation_df[col] = 0
-        return FeatureImportanceExplanation(explanation_df)
+        return FeatureBased(explanation_df)
 
-    def transform_explanation_additive_contributions(self, explanation):
+    def transform_explanation_feature_based(self, explanation):
         """
         Selects the desired columns
         Args:
-            explanation (AdditiveFeatureContributionExplanationType):
+            explanation (FeatureBased):
                 The explanation to be transformed
 
         Returns:
-            Returns:
-                AdditiveFeatureContributionExplanationType:
-                    The transformed explanation
-
-        """
-        return AdditiveFeatureContributionExplanation(explanation.get()[self.columns])
-
-    def transform_explanation_feature_importance(self, explanation):
-        """
-        Selects the desired columns
-
-        Args:
-            explanation (FeatureImportanceExplanation):
-                The explanation to be transformed
-        Returns:
-            FeatureImportanceExplanation:
+            FeatureBased:
                 The transformed explanation
 
         """
-        return FeatureImportanceExplanation(explanation.get()[self.columns])
+        return FeatureBased(explanation.get()[self.columns])
+
+    def transform_explanation_decision_tree(self, explanation):
+        """
+        Features cannot be removed from existing decision trees, so raise a BreakingTransformError
+
+        Args:
+            explanation (DecisionTree):
+                The explanation to be transformed
+
+        Raises:
+            BreakingTransformError
+
+        """
+        raise BreakingTransformError
 
 
 class ColumnDropTransformer(Transformer):
@@ -132,7 +112,7 @@ class ColumnDropTransformer(Transformer):
             columns (dataframe column label type or list of dataframe column label type):
                 Label of column to select, or an ordered list of column labels to select
         """
-        if columns is not None and not isinstance(columns, collections.Sequence):
+        if columns is not None and not isinstance(columns, Sequence):
             columns = [columns]
         self.dropped_columns = columns
         super().__init__(**kwargs)
@@ -150,37 +130,47 @@ class ColumnDropTransformer(Transformer):
         """
         return x.drop(self.dropped_columns, axis=1)
 
-    def inverse_transform_explanation_additive_contributions(self, explanation):
+    def inverse_transform_explanation_feature_based(self, explanation):
         """
         Sets the contribution of dropped features to 0
         Args:
-            explanation (AdditiveFeatureContributionExplanationType):
+            explanation (FeatureBased):
                 The explanation to be transformed
 
         Returns:
-            Returns:
-                AdditiveFeatureContributionExplanationType:
-                    The transformed explanation
-
-        """
-        explanation_df = explanation.get()
-        for col in self.dropped_columns:
-            explanation_df[col] = 0
-        return AdditiveFeatureContributionExplanation(explanation_df)
-
-    def inverse_transform_explanation_feature_importance(self, explanation):
-        """
-        Sets the importance of dropped features to 0
-
-        Args:
-            explanation (FeatureImportanceExplanation):
-                The explanation to be transformed
-        Returns:
-            FeatureImportanceExplanation:
+            FeatureBased:
                 The transformed explanation
 
         """
         explanation_df = explanation.get()
         for col in self.dropped_columns:
             explanation_df[col] = 0
-        return FeatureImportanceExplanation(explanation_df)
+        return FeatureBased(explanation_df)
+
+    def transform_explanation_feature_based(self, explanation):
+        """
+        Drops columns from an explanation
+        Args:
+            explanation (FeatureBased):
+                The explanation to be transformed
+
+        Returns:
+            FeatureBased:
+                The transformed explanation
+
+        """
+        return FeatureBased(explanation.get().drop(self.dropped_columns, axis=1))
+
+    def transform_explanation_decision_tree(self, explanation):
+        """
+        Features cannot be removed from existing decision trees, so raise a BreakingTransformError
+
+        Args:
+            explanation (DecisionTree):
+                The explanation to be transformed
+
+        Raises:
+            BreakingTransformError
+
+        """
+        raise BreakingTransformError

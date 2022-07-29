@@ -12,22 +12,13 @@ jobs:
       run:
         shell: bash
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Set up Python 3.9
-        uses: actions/setup-python@v2
+        run: pipx install poetry
+      - uses: actions/setup-python@v3
         with:
           python-version: 3.9
-
-      - name: Install Poetry
-        uses: snok/install-poetry@v1
-        with:
-          virtualenvs-in-project: true
-
-      - name: Cache Virtual Environment
-        uses: actions/cache@v2
-        with:
-          path: .venv
-          key: venv-${{ hashFiles('**/poetry.lock') }}
+          cache: 'poetry'
 
       - name: Install Package
         if: steps.cache-primes.outputs.cache-hit != 'true' # Only run if the cache is old

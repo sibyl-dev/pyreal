@@ -13,8 +13,9 @@
 
 Library for evaluating and deploying machine learning explanations.
 
-- Free software: Not open source
-- Documentation: https://sibyl-dev.github.io/pyreal
+- License: MIT
+- Documentation: https://pyreal.gitbook.io/pyreal
+- API Documentation: https://sibyl-ml.dev/pyreal/api_reference/index.html
 - Homepage: https://sibyl-ml.dev/
 
 # Overview
@@ -27,7 +28,7 @@ data form.
 
 ## Requirements
 
-**Pyreal** has been developed and tested on [Python 3.7, 3.8, and 3.9](https://www.python.org/downloads/)
+**Pyreal** has been developed and tested on [Python 3.8, 3.9, and 3.10](https://www.python.org/downloads/)
 The library uses Poetry for package management.
 
 ## Install from PyPI
