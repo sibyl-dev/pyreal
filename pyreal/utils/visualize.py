@@ -2,9 +2,14 @@
 Includes basic visualization methods, mostly used to testing purposes.
 """
 import matplotlib.pyplot as plt
+import matplotlib.colors as color
 import numpy as np
 
 from pyreal.utils._plot_tree import TreeExporter
+
+
+negative_color = "#ef8a62"
+positive_color = "#67a9cf"
 
 
 def plot_top_contributors(
@@ -147,9 +152,6 @@ def plot_tree_explanation(
             If not None, save the figure as filename.
     """
 
-    negative_color = "#ef8a62"
-    positive_color = "#67a9cf"
-
     decision_tree = dte.produce()
     feature_names = dte.return_features()
     figsize = (dte.max_depth * 4 + 10, dte.max_depth * 2)
@@ -178,5 +180,45 @@ def plot_tree_explanation(
     #           proportion=proportion, fontsize=fontsize, ax=ax)
     if filename is not None:
         plt.savefig(filename, bbox_inches="tight")
+
+    plt.show()
+
+
+def plot_shapelet(timeSeriesData, shapeletIndices, shapeletLength):
+    # only support plotting one instance at a time
+    index = timeSeriesData.index
+    assert index.size == 1
+    columns = timeSeriesData.columns.get_level_values(0).unique()
+    timestamps = timeSeriesData.columns.get_level_values(1).unique()
+    fig, axs = plt.subplots(columns.size)
+
+    for var in columns:
+        axs.plot(timestamps, timeSeriesData.iloc[0].loc[(var, slice(None))], color=negative_color)
+        for idx in shapeletIndices:
+            axs.plot(
+                np.arange(idx, idx + shapeletLength),
+                timeSeriesData.iloc[0].loc[(var, slice(idx, idx + shapeletLength - 1))],
+                color=positive_color,
+            )
+    plt.show()
+
+
+def plot_time_series_explanation(timeSeriesData, contribution):
+    index = timeSeriesData.index
+    assert index.size == 1
+    columns = timeSeriesData.columns.get_level_values(0).unique()
+    timestamps = timeSeriesData.columns.get_level_values(1).unique()
+    fig, axs = plt.subplots(columns.size)
+    cmap = color.LinearSegmentedColormap.from_list("posnegcmap", [negative_color, positive_color])
+
+    for var in columns:
+        axs.scatter(
+            timestamps,
+            timeSeriesData.iloc[0].loc[(var, slice(None))],
+            c=contribution,
+            cmap=cmap,
+            vmin=-1,
+            vmax=1,
+        )
 
     plt.show()

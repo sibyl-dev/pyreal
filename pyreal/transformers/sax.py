@@ -31,12 +31,12 @@ class SAXTransformer(Transformer):
         series. arXiv preprint arXiv:1802.04883, 2018
     """
 
-    def __init__(self, n_bins=4, window_size=32, word_length=8, **kwargs):
+    def __init__(self, n_bins=5, window_size=32, word_length=8, **kwargs):
         self.n_bins = n_bins
         self.window_size = window_size
         self.word_length = word_length
 
-        super.__init__(**kwargs)
+        super().__init__(**kwargs)
 
     def data_transform(self, x):
         """
@@ -50,7 +50,7 @@ class SAXTransformer(Transformer):
             X_new : array, shape = (n_samples, n_timestamps)
                 Binned data.
         """
-        if not isinstance(x, pd.DataFrame) or not isinstance(x, np.ndarray):
+        if not isinstance(x, pd.DataFrame) and not isinstance(x, np.ndarray):
             raise TypeError(
                 f"Input data must be a pd.DataFrame or np.ndarray, but found {type(x)}"
             )
@@ -66,11 +66,6 @@ class SAXTransformer(Transformer):
         saxList = self.paa_to_sax(paaList)
         # TODO: format SAX into pandas dataframe?
         return saxList
-
-    def prepare_calculations(self, x):
-        """
-        Precalculations for SAX.
-        """
 
     def intervals(self):
         # Pre-made gaussian curve breakpoints from UEA TSC codebase
@@ -97,7 +92,7 @@ class SAXTransformer(Transformer):
         }
         return interval_map[self.n_bins]
 
-    def paa_transform(self, x, n_timestamps, std_thresh=1e-3):
+    def paa_transform(self, x, n_timestamps, std_thresh=1e-3, save_stats=True):
         """
         Perform Piecewise Aggregate Approximation.
 
@@ -145,12 +140,20 @@ class SAXTransformer(Transformer):
         seqMean = seqSum / self.window_size
         seqStd = np.sqrt(seqSquareSum / self.window_size - seqMean**2)
 
-        # paa_sum has shape (n_instances, n_variables, n_sequences, word_length)
-        paa_sum = self.cum_sum[..., break_indices[1:]] - self.cum_sum[..., break_indices[:-1]]
+        # paa_sum and paa has shape (n_instances, n_variables, n_sequences, word_length)
+        break_indices_matrix = np.arange(n_sequences)[:, None] + break_indices[None, :]
+        paa_sum = (
+            self.cum_sum[..., break_indices_matrix[:, 1:]]
+            - self.cum_sum[..., break_indices_matrix[:, :-1]]
+        )
 
-        paa = (
-            paa_sum[:, :, None, :] * self.word_length / self.window_size - seqMean[:, :, :, None]
-        ) / (seqStd[:, :, :, None] + std_thresh)
+        paa = (paa_sum * self.word_length / self.window_size - seqMean[:, :, :, None]) / (
+            seqStd[:, :, :, None] + std_thresh
+        )
+
+        if save_stats:
+            self.seqMean = seqMean
+            self.seqStd = seqStd
 
         return paa
 
@@ -170,4 +173,10 @@ class SAXTransformer(Transformer):
         sax = np.zeros_like(paa)
         for endpoint in split:
             sax[paa > endpoint] += 1
-        return sax
+        return sax.astype(int)
+
+    def get_original_mean(self):
+        return self.seqMean
+
+    def get_original_std(self):
+        return self.seqStd

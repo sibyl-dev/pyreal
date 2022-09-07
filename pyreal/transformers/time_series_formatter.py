@@ -48,6 +48,13 @@ def _check_is_pd2d(x):
         raise ValueError(f"Input data must have two dimensions, but found shape: {x.shape}")
 
 
+def _check_is_pyreal_df(x):
+    if not is_valid_dataframe(x):
+        raise TypeError(
+            f"Input data must be a MultiIndex-ed column DataFrame, but found: {type(x)}"
+        )
+
+
 def _check_is_sktime_nest(x):
     if not isinstance(x, pd.DataFrame):
         raise TypeError(f"Input data must be a pd.DataFrame, but found: {type(x)}")
@@ -107,7 +114,7 @@ class np2d_to_df(Transformer):
 
         n_instances, n_timepoints = x.shape
         if self.timestamps is None:
-            timestamps = np.arange(n_timepoints)
+            self.timestamps = np.arange(n_timepoints)
         else:
             if len(self.timestamps) != n_timepoints:
                 raise ValueError(
@@ -117,11 +124,14 @@ class np2d_to_df(Transformer):
 
         # create indices for MultiIndex DataFrame
         if self.var_name is None:
-            self.mi = pd.MultiIndex.from_product([["var_0"], timestamps])
+            self.mi = pd.MultiIndex.from_product([["var_0"], self.timestamps])
         else:
-            if not isinstance(self.var_name, str):
+            if isinstance(self.var_name, str):
+                self.mi = pd.MultiIndex.from_product([[self.var_name], self.timestamps])
+            elif isinstance(self.var_name, (list, pd.Index)):
+                self.mi = pd.MultiIndex.from_product([self.var_name, self.timestamps])
+            else:
                 raise TypeError(f"var_name must be a String, received type: {type(self.var_name)}")
-            self.mi = pd.MultiIndex.from_product([[self.var_name], timestamps])
         super().fit(x)
 
     def data_transform(self, x):
@@ -132,6 +142,7 @@ class np2d_to_df(Transformer):
             x (ndarray of shape (n_instances, n_timepoints)):
                 Input ndarray
         """
+        _check_is_np2d(x)
         df = pd.DataFrame(x, columns=self.mi)
         return df
 
@@ -194,6 +205,7 @@ class pd2d_to_df(Transformer):
             x (DataFrame of shape (n_instances, n_timepoints)):
                 Input DataFrame
         """
+        _check_is_pd2d(x)
         df = pd.DataFrame(x, columns=self.mi)
         return df
 
@@ -257,6 +269,7 @@ class np3d_to_df(Transformer):
             x (ndarray with shape (n_instances, n_columns, n_timepoints)):
                 Input 3D NumPy array
         """
+        _check_is_np3d(x)
         n_instances, n_columns, n_timepoints = x.shape
         flatten_data = x.reshape((n_instances, n_columns * n_timepoints))
         df = pd.DataFrame(flatten_data, columns=self.mi)
@@ -273,8 +286,7 @@ class df_to_np3d(Transformer):
         """
         Convert input DataFrame into 3D NumPy array
         """
-        if not is_valid_dataframe(x):
-            raise TypeError("Input DataFrame is not a valid DataFrame")
+        _check_is_pyreal_df(x)
         n_instances = x.index.size
         n_columns, n_timepoints = x.columns.levshape
         array = x.to_numpy().reshape((n_instances, n_columns, n_timepoints))
@@ -336,6 +348,7 @@ class nested_to_df(Transformer):
         # nested_col_mask = [*x.applymap(
         #     lambda cell: isinstance(cell, (pd.Series, np.ndarray))
         #     ).values]
+        _check_is_sktime_nest(x)
         n_instances, n_columns = x.shape
         n_timepoints = x.iloc[0][0].size
         data = []
@@ -368,6 +381,7 @@ class nested_to_np3d(Transformer):
         Returns:
             NumPy ndarray, converted NumPy ndarray
         """
+        _check_is_sktime_nest(x)
         return np.stack(
             x.applymap(lambda cell: cell.to_numpy())
             .apply(lambda row: np.stack(row), axis=1)
@@ -384,18 +398,19 @@ class df_to_nested(Transformer):
         """
         Convert input DataFrame into sktime nested DataFrame.
         """
-        if not is_valid_dataframe(x):
-            raise TypeError("Input DataFrame is not a valid DataFrame")
+        _check_is_pyreal_df(x)
         np_data = x.to_numpy()
 
         columns = x.columns.get_level_values(0).unique()
         timestamps = x.columns.get_level_values(1).unique()
         instance_idxs = x.index
-        x_nested = pd.DataFrame(columns=columns)
+        x_nested = pd.DataFrame(columns=columns, index=instance_idxs)
 
         x_3d = np_data.reshape((x.shape[0], columns.size, timestamps.size))
         for vidx, var in enumerate(columns):
-            x_nested[var] = [pd.Series(x_3d[i, vidx, :], index=timestamps) for i in instance_idxs]
+            x_nested[var] = [
+                pd.Series(x_3d[i, vidx, :], index=timestamps) for i in range(len(instance_idxs))
+            ]
 
         return x_nested
 
