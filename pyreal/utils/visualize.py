@@ -1,12 +1,11 @@
 """
 Includes basic visualization methods, mostly used to testing purposes.
 """
-import matplotlib.pyplot as plt
 import matplotlib.colors as color
+import matplotlib.pyplot as plt
 import numpy as np
 
 from pyreal.utils._plot_tree import TreeExporter
-
 
 negative_color = "#ef8a62"
 positive_color = "#67a9cf"
