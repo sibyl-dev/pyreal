@@ -18,7 +18,7 @@ def _check_transformers(transformers):
     """
     Validate that all Transformers in `transformers` are legal. Converts single Transformer objects
     into lists. Checks for the existence of a `.transform()` function for all Transformers.
-    Test
+
     Args:
         transformers (Transformer or list of Transformers):
             A list of Transformer objects to validate
