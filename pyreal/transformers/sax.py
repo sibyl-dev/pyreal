@@ -31,7 +31,7 @@ class SAXTransformer(Transformer):
         series. arXiv preprint arXiv:1802.04883, 2018
     """
 
-    def __init__(self, n_bins=5, window_size=32, word_length=8, **kwargs):
+    def __init__(self, n_bins=4, window_size=32, word_length=8, **kwargs):
         self.n_bins = n_bins
         self.window_size = window_size
         self.word_length = word_length
