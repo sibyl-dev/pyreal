@@ -5,4 +5,4 @@ on:
 
 jobs:
   docs:
-    uses: synodic-software/.github/.github/workflows/python-docs.yml@main
+    uses: sibyl-dev/.github/.github/workflows/python-docs.yml@main

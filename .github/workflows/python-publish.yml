@@ -6,7 +6,7 @@ on:
 
 jobs:
   deploy:
-    uses: synodic-software/.github/.github/workflows/python-publish.yml@main
+    uses: sibyl-dev/.github/.github/workflows/python-publish.yml@main
     with:
       repository_url: https://upload.pypi.org/legacy/
     secrets:
