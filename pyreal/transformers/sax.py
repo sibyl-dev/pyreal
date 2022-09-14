@@ -5,7 +5,7 @@ import numpy as np
 import pandas as pd
 
 from pyreal.transformers import Transformer
-from pyreal.transformers.time_series_formatter import df_to_np3d, is_valid_dataframe
+from pyreal.transformers.time_series_formatter import MultiIndexFrameToNumpy3d, is_valid_dataframe
 
 
 class SAXTransformer(Transformer):
@@ -57,7 +57,7 @@ class SAXTransformer(Transformer):
 
         if is_valid_dataframe(x):
             n_timestamps = x.columns.levshape[1]
-            data = df_to_np3d().fit_transform(x)
+            data = MultiIndexFrameToNumpy3d().fit_transform(x)
         elif isinstance(x, pd.DataFrame):
             n_timestamps = x.shape[1]
             data = x.to_numpy()[:, np.newaxis, :]

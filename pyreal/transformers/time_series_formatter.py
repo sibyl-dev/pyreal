@@ -81,10 +81,10 @@ def is_valid_dataframe(x):
     return True
 
 
-class np2d_to_df(Transformer):
+class Numpy2dToMultiIndexFrame(Transformer):
     """
-    Convert 2D NumPy array to MultiIndex DataFrame.
-    **Don't use this for multivariate time series data**
+    **This Transformer should only be used on univariate time series data**
+    Convert 2D NumPy array to Pyreal time-series format.
     """
 
     def __init__(self, var_name=None, timestamps=None, **kwargs):
@@ -95,7 +95,7 @@ class np2d_to_df(Transformer):
             var_name (None or String):
                 Optional name to use for the variable
             timestamps (None or list-like with length of n_timepoints):
-                Optional time series index of returned MultiIndex DataFrame
+                Optional time series index for returned MultiIndex DataFrame
         """
         self.var_name = var_name
         self.timestamps = timestamps
@@ -147,9 +147,9 @@ class np2d_to_df(Transformer):
         return df
 
 
-class pd2d_to_df(Transformer):
+class Pandas2dToMultiIndexFrame(Transformer):
     """
-    Convert 2D DataFrame to a MultiIndex DataFrame.
+    Convert 2D DataFrame to Pyreal time-series format.
     """
 
     def __init__(self, var_name=None, timestamps=None, **kwargs):
@@ -160,7 +160,7 @@ class pd2d_to_df(Transformer):
             var_name (None or String):
                 Optional name to use for the variable
             timestamps (None or list-like with length of n_timepoints):
-                Optional time series index of returned DataFrame
+                Optional time series index for returned DataFrame
         """
         self.var_name = var_name
         self.timestamps = timestamps
@@ -168,7 +168,7 @@ class pd2d_to_df(Transformer):
 
     def fit(self, x):
         """
-        Check if the input data is a pandas DataFrame and create a MultiIndex
+        Check if the input data is a Pandas DataFrame and create a MultiIndex
         object.
 
         Args:
@@ -210,9 +210,9 @@ class pd2d_to_df(Transformer):
         return df
 
 
-class np3d_to_df(Transformer):
+class Numpy3dToMultiIndexFrame(Transformer):
     """
-    Convert 3D NumPy array to a MultiIndex DataFrame.
+    Convert 3D NumPy array to Pyreal time-series format.
     """
 
     def __init__(self, var_names=None, timestamps=None, **kwargs):
@@ -263,7 +263,7 @@ class np3d_to_df(Transformer):
 
     def data_transform(self, x):
         """
-        Converts input data into a DataFrame with MultiIndex columns
+        Converts input data into a DataFrame with MultiIndex column
 
         Args:
             x (ndarray with shape (n_instances, n_columns, n_timepoints)):
@@ -276,9 +276,9 @@ class np3d_to_df(Transformer):
         return df
 
 
-class df_to_np3d(Transformer):
+class MultiIndexFrameToNumpy3d(Transformer):
     """
-    Convert MultiIndex pandas DataFrame into NumPy ndarray with shape
+    Convert Pyreal time-series format into NumPy ndarray with shape
     (n_instances, n_columns, n_timepoints).
     """
 
@@ -293,10 +293,10 @@ class df_to_np3d(Transformer):
         return array
 
 
-class df_to_np2d(df_to_np3d):
+class MultiIndexFrameToNumpy2d(MultiIndexFrameToNumpy3d):
     """
-    **This should only be used on univariate series**
-    Convert MultiIndex pandas DataFrame into NumPy ndarray with shape
+    **This Transformer should only be used on univariate series**
+    Convert Pyreal time-series format into NumPy ndarray with shape
     (n_instances, n_timepoints).
     """
 
@@ -308,9 +308,9 @@ class df_to_np2d(df_to_np3d):
         return array.squeeze(axis=1)
 
 
-class nested_to_df(Transformer):
+class NestedFrameToMultiIndexFrame(Transformer):
     """
-    Convert sktime nested DataFrame format into MultiIndex DataFrame.
+    Convert sktime nested DataFrame format into Pyreal time-series format.
     """
 
     def fit(self, x):
@@ -366,9 +366,9 @@ class nested_to_df(Transformer):
         return df
 
 
-class nested_to_np3d(Transformer):
+class NestedFrameToNumpy3d(Transformer):
     """
-    Convert sktime nested pandas DataFrame format into NumPy ndarray
+    Convert sktime nested DataFrame format into NumPy ndarray
     with shape (n_instances, n_variables, n_timepoints).
     """
 
@@ -389,9 +389,9 @@ class nested_to_np3d(Transformer):
         )
 
 
-class df_to_nested(Transformer):
+class MultiIndexFrameToNestedFrame(Transformer):
     """
-    Convert MultiIndex DataFrame to sktime nested DataFrame.
+    Convert Pyreal time-series format to sktime nested DataFrame.
     """
 
     def data_transform(self, x):
@@ -415,7 +415,7 @@ class df_to_nested(Transformer):
         return x_nested
 
 
-class np2d_to_nested(Transformer):
+class Numpy2dToNestedFrame(Transformer):
     """
     Convert 2D NumPy array to sktime nested DataFrame.
     """
@@ -431,8 +431,8 @@ class np2d_to_nested(Transformer):
                 Optional time series index of returned nested DataFrame
         """
         self._transformers = [
-            np2d_to_df(var_name=var_name, timestamps=timestamps, **kwargs),
-            df_to_nested(),
+            Numpy2dToMultiIndexFrame(var_name=var_name, timestamps=timestamps, **kwargs),
+            MultiIndexFrameToNestedFrame(),
         ]
         super().__init__(**kwargs)
 
@@ -446,7 +446,7 @@ class np2d_to_nested(Transformer):
         return run_transformers(self._transformers, x)
 
 
-class np3d_to_nested(Transformer):
+class Numpy3dToNestedFrame(Transformer):
     """
     Convert 3D NumPy array to sktime nested DataFrame.
     """
@@ -462,8 +462,8 @@ class np3d_to_nested(Transformer):
                 Optional time series index of returned DataFrame
         """
         self._transformers = [
-            np3d_to_df(var_names=var_names, timestamps=timestamps, **kwargs),
-            df_to_nested(),
+            Numpy3dToMultiIndexFrame(var_names=var_names, timestamps=timestamps, **kwargs),
+            MultiIndexFrameToNestedFrame(),
         ]
         super().__init__(**kwargs)
 
