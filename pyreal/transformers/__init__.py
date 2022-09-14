@@ -6,6 +6,7 @@ from pyreal.transformers.base import (
 )
 from pyreal.transformers.feature_select import ColumnDropTransformer, FeatureSelectTransformer
 from pyreal.transformers.impute import MultiTypeImputer
+from pyreal.transformers.time_series_formatter import DimensionAdder
 from pyreal.transformers.one_hot_encode import (
     Mappings,
     MappingsOneHotDecoder,
@@ -32,6 +33,7 @@ __all__ = [
     "Transformer",
     "fit_transformers",
     "run_transformers",
+    "DimensionAdder",
     "BreakingTransformError",
     "FeatureSelectTransformer",
     "ColumnDropTransformer",

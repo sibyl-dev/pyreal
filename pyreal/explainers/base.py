@@ -18,6 +18,7 @@ def _check_transformers(transformers):
     """
     Validate that all Transformers in `transformers` are legal. Converts single Transformer objects
     into lists. Checks for the existence of a `.transform()` function for all Transformers.
+
     Args:
         transformers (Transformer or list of Transformers):
             A list of Transformer objects to validate
@@ -151,7 +152,10 @@ class ExplainerBase(ABC):
         self.classes = classes
         if (
             classes is None
-            and str(self.model.__module__.startswith("sklearn"))
+            and (
+                str(self.model.__module__).startswith("sklearn")
+                or str(self.model.__module__).startswith("sktime")
+            )
             and is_classifier(model)
             and hasattr(model, "classes_")
         ):
