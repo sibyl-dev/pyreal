@@ -437,6 +437,13 @@ class Numpy2dToNestedFrame(Transformer):
         super().__init__(**kwargs)
 
     def fit(self, x):
+        """
+        Check if the input data is a NumPy 2D array
+
+        Args:
+            x (ndarray of shape (n_instances, n_timepoints)):
+                Input ndarray
+        """
         fit_transformers(self._transformers, x)
 
     def data_transform(self, x):
@@ -468,6 +475,13 @@ class Numpy3dToNestedFrame(Transformer):
         super().__init__(**kwargs)
 
     def fit(self, x):
+        """
+        Check if the input data is a NumPy 3D array
+
+        Args:
+            x (ndarray of shape (n_instances, n_timepoints)):
+                Input ndarray
+        """
         fit_transformers(self._transformers, x)
 
     def data_transform(self, x):

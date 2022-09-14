@@ -71,26 +71,31 @@ Time-Series Formatters
 .. autosummary::
     :toctree: api/
 
-    np2d_to_df
-    np2d_to_df.fit
-    np2d_to_df.data_transform
-    pd2d_to_df
-    pd2d_to_df.fit
-    pd2d_to_df.data_transform
-    np3d_to_df
-    np3d_to_df.fit
-    np3d_to_df.data_transform
-    df_to_np3d
-    df_to_np3d.data_transform
-    df_to_np2d
-    df_to_np2d.data_transform
-    nested_to_df
-    nested_to_df.fit
-    nested_to_df.data_transform
-    nested_to_np3d
-    nested_to_np3d.data_transform
-    df_to_nested
-    df_to_nested.data_transform
+    MultiIndexFrameToNestedFrame
+    MultiIndexFrameToNestedFrame.data_transform
+    MultiIndexFrameToNumpy2d
+    MultiIndexFrameToNumpy2d.data_transform
+    MultiIndexFrameToNumpy3d
+    MultiIndexFrameToNumpy3d.data_transform
+    NestedFrameToMultiIndexFrame
+    NestedFrameToMultiIndexFrame.fit
+    NestedFrameToMultiIndexFrame.data_transform
+    NestedFrameToNumpy3d
+    NestedFrameToNumpy3d.data_transform
+    Numpy2dToMultiIndexFrame
+    Numpy2dToMultiIndexFrame.fit
+    Numpy2dToMultiIndexFrame.data_transform
+    Numpy2dToNestedFrame
+    Numpy2dToNestedFrame.fit
+    Numpy2dToNestedFrame.data_transform
+    Numpy3dToMultiIndexFrame
+    Numpy3dToMultiIndexFrame.fit
+    Numpy3dToMultiIndexFrame.data_transform
+    Numpy3dToNestedFrame
+    Numpy3dToNestedFrame.data_transform
+    Pandas2dToMultiIndexFrame
+    Pandas2dToMultiIndexFrame.fit
+    Pandas2dToMultiIndexFrame.data_transform
 
 Wrappers
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
