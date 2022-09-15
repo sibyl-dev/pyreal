@@ -82,9 +82,13 @@ class UnivariateLimeSaliency(SaliencyBase):
             if self.suppress_prob_warnings:
                 stack.enter_context(warnings.catch_warnings())
                 warnings.simplefilter("ignore")
-            exp = self.explainer.explain_instance(
-                np.array(x_algo), classifier_fn=self.model.predict, labels=self.classes
-            )
+            if self.classes is not None:
+                exp = self.explainer.explain_instance(
+                    np.array(x_algo), classifier_fn=self.model.predict, labels=self.classes
+                )
+            else:
+                exp = self.explainer.explain_instance(
+                    np.array(x_algo), classifier_fn=self.model.predict)
         explanation = exp.as_map()
 
         # Convert the lime explanation format to a DataFrame
