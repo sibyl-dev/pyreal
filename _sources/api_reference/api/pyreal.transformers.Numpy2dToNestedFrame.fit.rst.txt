@@ -1,0 +1,6 @@
+﻿pyreal.transformers.Numpy2dToNestedFrame.fit
+============================================
+
+.. currentmodule:: pyreal.transformers
+
+.. automethod:: Numpy2dToNestedFrame.fit
