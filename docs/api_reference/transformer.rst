@@ -66,6 +66,37 @@ One-Hot Encoders
     Mappings
     Mappings.generate_mappings
 
+Time-Series Formatters
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.. autosummary::
+    :toctree: api/
+
+    MultiIndexFrameToNestedFrame
+    MultiIndexFrameToNestedFrame.data_transform
+    MultiIndexFrameToNumpy2d
+    MultiIndexFrameToNumpy2d.data_transform
+    MultiIndexFrameToNumpy3d
+    MultiIndexFrameToNumpy3d.data_transform
+    NestedFrameToMultiIndexFrame
+    NestedFrameToMultiIndexFrame.fit
+    NestedFrameToMultiIndexFrame.data_transform
+    NestedFrameToNumpy3d
+    NestedFrameToNumpy3d.data_transform
+    Numpy2dToMultiIndexFrame
+    Numpy2dToMultiIndexFrame.fit
+    Numpy2dToMultiIndexFrame.data_transform
+    Numpy2dToNestedFrame
+    Numpy2dToNestedFrame.fit
+    Numpy2dToNestedFrame.data_transform
+    Numpy3dToMultiIndexFrame
+    Numpy3dToMultiIndexFrame.fit
+    Numpy3dToMultiIndexFrame.data_transform
+    Numpy3dToNestedFrame
+    Numpy3dToNestedFrame.data_transform
+    Pandas2dToMultiIndexFrame
+    Pandas2dToMultiIndexFrame.fit
+    Pandas2dToMultiIndexFrame.data_transform
+
 Wrappers
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .. autosummary::
