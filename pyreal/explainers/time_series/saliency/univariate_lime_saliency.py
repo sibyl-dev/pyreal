@@ -24,7 +24,7 @@ class UnivariateLimeSaliency(SaliencyBase):
     Can only take a single row input to .produce()
     """
 
-    def __init__(self, model, x_train_orig, y_orig, suppress_prob_warnings=False, **kwargs):
+    def __init__(self, model, x_train_orig, y_orig, regression=False, suppress_prob_warnings=False, **kwargs):
         """
         Args:
             model (string filepath or model object):
@@ -33,6 +33,9 @@ class UnivariateLimeSaliency(SaliencyBase):
                 Training set in original form.
             y_orig (DataFrame of shape (n_instances,)):
                 The y values for the dataset
+            regression (Boolean):
+                If true, model is a regression model.
+                If false, must provide a num_classes or classes parameter
             suppress_prob_warnings (Boolean):
                 LIME warns when class predictions do not sum to 1, because it suggests the model
                 is not predicting probabilites. In some cases, such as multilabel prediction,
@@ -41,6 +44,7 @@ class UnivariateLimeSaliency(SaliencyBase):
         """
         self.suppress_prob_warnings = suppress_prob_warnings
         self.explainer = None
+        self.regression = regression
         super(UnivariateLimeSaliency, self).__init__(model, x_train_orig, y_orig=y_orig, **kwargs)
 
     def fit(self):
@@ -50,12 +54,18 @@ class UnivariateLimeSaliency(SaliencyBase):
         x_train_algo_np = np.copy(x_train_algo)[: self.training_size, :]
         y_train_np = np.copy(self.y_orig)[: self.training_size]
 
+        if self.regression:
+            mode = 'regression'
+        else:
+            mode = 'classification'
+
         self.explainer = lime_tabular.RecurrentTabularExplainer(
             np.expand_dims(x_train_algo_np, 2),
             training_labels=y_train_np,
             feature_names=np.arange(num_timesteps),
             class_names=self.class_descriptions,
             categorical_features=np.arange(num_timesteps),
+            mode=mode
         )
 
         return self
