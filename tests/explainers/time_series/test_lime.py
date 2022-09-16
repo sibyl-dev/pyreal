@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 
-from pyreal.explainers.time_series.saliency.univariate_lime_saliency import UnivariateLimeSaliency
+from pyreal.explainers import UnivariateLimeSaliency
 
 
 class ModelDummyClass:
