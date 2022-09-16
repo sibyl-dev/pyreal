@@ -18,6 +18,7 @@ def _check_transformers(transformers):
     """
     Validate that all Transformers in `transformers` are legal. Converts single Transformer objects
     into lists. Checks for the existence of a `.transform()` function for all Transformers.
+
     Args:
         transformers (Transformer or list of Transformers):
             A list of Transformer objects to validate
@@ -163,6 +164,8 @@ class ExplainerBase(ABC):
         self.class_descriptions = class_descriptions
         self.return_original_explanation = return_original_explanation
         self.training_size = training_size
+        if training_size is None:
+            self.training_size = self.x_train_orig.shape[0]
 
         # this argument stores the indices of the rows of data we want to use
         data_sample_indices = self.x_train_orig.index
