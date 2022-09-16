@@ -24,7 +24,9 @@ class UnivariateLimeSaliency(SaliencyBase):
     Can only take a single row input to .produce()
     """
 
-    def __init__(self, model, x_train_orig, y_orig, regression=False, suppress_prob_warnings=False, **kwargs):
+    def __init__(
+        self, model, x_train_orig, y_orig, regression=False, suppress_prob_warnings=False, **kwargs
+    ):
         """
         Args:
             model (string filepath or model object):
@@ -55,9 +57,9 @@ class UnivariateLimeSaliency(SaliencyBase):
         y_train_np = np.copy(self.y_orig)[: self.training_size]
 
         if self.regression:
-            mode = 'regression'
+            mode = "regression"
         else:
-            mode = 'classification'
+            mode = "classification"
 
         self.explainer = lime_tabular.RecurrentTabularExplainer(
             np.expand_dims(x_train_algo_np, 2),
@@ -65,7 +67,7 @@ class UnivariateLimeSaliency(SaliencyBase):
             feature_names=np.arange(num_timesteps),
             class_names=self.class_descriptions,
             categorical_features=np.arange(num_timesteps),
-            mode=mode
+            mode=mode,
         )
 
         return self
@@ -98,7 +100,8 @@ class UnivariateLimeSaliency(SaliencyBase):
                 )
             else:
                 exp = self.explainer.explain_instance(
-                    np.array(x_algo), classifier_fn=self.model.predict)
+                    np.array(x_algo), classifier_fn=self.model.predict
+                )
         explanation = exp.as_map()
 
         # Convert the lime explanation format to a DataFrame

@@ -1,13 +1,12 @@
 import numpy as np
 import pandas as pd
-import pytest
 
 from pyreal.explainers.time_series.saliency.univariate_lime_saliency import UnivariateLimeSaliency
 
 
 class ModelDummyClass:
     def predict(self, x):
-        return np.squeeze(np.array([1/x[:, 0], 1/x[:, 1], 1/x[:, 2]])).T
+        return np.squeeze(np.array([1 / x[:, 0], 1 / x[:, 1], 1 / x[:, 2]])).T
 
 
 class ModelDummyReg:
@@ -24,7 +23,7 @@ def test_produce_lime_classification_no_transforms(classification_no_transforms)
         transformers=[],
         regression=False,
         fit_on_init=True,
-        classes=[0, 1, 2]
+        classes=[0, 1, 2],
     )
 
     x_one_dim = pd.DataFrame([[1, 1, 1]], columns=["A", "B", "C"])
@@ -32,14 +31,14 @@ def test_produce_lime_classification_no_transforms(classification_no_transforms)
     contributions = explainer.produce(x_one_dim)[0]
     print(contributions)
     assert contributions.shape == (3, 3)
-    assert contributions["A"][0] > .1
-    assert contributions["B"][1] > .1
-    assert contributions["C"][2] > .1
+    assert contributions["A"][0] > 0.1
+    assert contributions["B"][1] > 0.1
+    assert contributions["C"][2] > 0.1
 
-    assert (np.abs(contributions["A"].iloc[1:2]) < .01).all()
-    assert np.abs(contributions["B"].iloc[0]) < .01
-    assert np.abs(contributions["B"].iloc[2]) < .01
-    assert (np.abs(contributions["C"].iloc[0:1]) < .01).all()
+    assert (np.abs(contributions["A"].iloc[1:2]) < 0.01).all()
+    assert np.abs(contributions["B"].iloc[0]) < 0.01
+    assert np.abs(contributions["B"].iloc[2]) < 0.01
+    assert (np.abs(contributions["C"].iloc[0:1]) < 0.01).all()
 
 
 def test_produce_lime_regression_no_transforms(regression_no_transforms):
@@ -50,7 +49,7 @@ def test_produce_lime_regression_no_transforms(regression_no_transforms):
         y_orig=pd.Series([1, 2, 3]),
         transformers=[],
         regression=True,
-        fit_on_init=True
+        fit_on_init=True,
     )
 
     x_one_dim = pd.DataFrame([[1, 1, 1]], columns=["A", "B", "C"])
@@ -58,7 +57,6 @@ def test_produce_lime_regression_no_transforms(regression_no_transforms):
     contributions = explainer.produce(x_one_dim)[0]
 
     assert contributions.shape == (1, 3)
-    assert contributions["A"].iloc[0] < -.01
-    assert (np.abs(contributions["B"]) < .001).all()
-    assert (np.abs(contributions["C"]) < .001).all()
-
+    assert contributions["A"].iloc[0] < -0.01
+    assert (np.abs(contributions["B"]) < 0.001).all()
+    assert (np.abs(contributions["C"]) < 0.001).all()
