@@ -103,7 +103,10 @@ class UnivariateLimeSaliency(SaliencyBase):
 
         # Convert the lime explanation format to a DataFrame
         importances = {}
-        if self.classes is not None:
+        # if this is a regression model, just return the explanation for positive
+        if self.regression:
+            classes = [1]
+        elif self.classes is not None:
             classes = self.classes
         else:
             classes = list(explanation.keys())
