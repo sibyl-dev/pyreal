@@ -7,24 +7,13 @@ from pyreal.types.explanations.feature_based import FeatureContributionExplanati
 
 class UnivariateOcclusionSaliency(SaliencyBase):
     """
-    OcclusionSaliency object.
+    UnivariateOcclusionSaliency object.
 
     An OcclusionSaliency object judges the relative importance or saliency of each timestep
     value by iteratively occluding windows of data, and calculating the resulting change in model
     prediction.
 
     Can only take a single row input to .produce()
-
-    Args:
-        model (string filepath or model object):
-           Filepath to the pickled model to explain, or model object with .predict() function
-        x_train_orig (DataFrame of size (n_instances, length of series)):
-            Training set in original form.
-        window_size (int):
-            The size of the interval.
-        shap_type (string, one of ["kernel", "linear"]):
-            Type of shap algorithm to use. If None, SHAP will pick one.
-        **kwargs: see base Explainer args
     """
 
     def __init__(
@@ -33,21 +22,25 @@ class UnivariateOcclusionSaliency(SaliencyBase):
         """
         Generates a feature importance explanation of time-series type data by iteratively
         occluding windows of data and computing the change in model prediction
-        width - the width of the rolling window to occlude
 
         Args:
-            regression (Boolean)
+            model (string filepath or model object):
+                Filepath to the pickled model to explain, or model object with .predict() function
+            x_train_orig (DataFrame of size (n_instances, n_features)):
+                Training set in original form.
+            regression (Boolean):
                 If true, model is a regression model.
                 If false, must provide a num_classes or classes parameter
-            width (int)
+            width (int):
                 Length of the occlusion window
-            k (float or one of ["avg", "remove"])
+            k (float or one of ["avg", "remove"]):
                 The occlusion method. One of:
                     a float value - occlude with this constant value
                     "avg" - occlude with the average value of the window
                     "remove" - occlude by removing the section of the data
-            num_classes (int)
+            num_classes (int):
                 Required if regression=False and classes=None
+            **kwargs: see base Explainer args
         """
         self.width = width
         self.k = k
