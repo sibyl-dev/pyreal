@@ -34,6 +34,7 @@
     <script src="../../_static/underscore.js"></script>
     <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'api_reference/api/pyreal.explainers.LocalFeatureContribution';</script>
     <link rel="shortcut icon" href="../../_static/dai-logo-white.ico"/>
@@ -1133,8 +1134,8 @@ Currently, only SHAP is supported.</p>
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>model</strong> (<em>string filepath</em><em> or </em><em>model object</em>) – Filepath to the pickled model to explain, or model object with .predict() function</p></li>
-<li><p><strong>x_train_orig</strong> (<em>dataframe of shape</em><em> (</em><em>n_instances</em><em>, </em><em>x_orig_feature_count</em><em>)</em>) – The training set for the explainer</p></li>
-<li><p><strong>e_algorithm</strong> (<em>string</em><em>, </em><em>one of</em><em> [</em><em>&quot;shap&quot;</em><em>]</em>) – Explanation algorithm to use. If none, one will be chosen automatically based on model
+<li><p><strong>x_train_orig</strong> (<em>dataframe</em><em> of </em><em>shape</em><em> (</em><em>n_instances</em><em>, </em><em>x_orig_feature_count</em><em>)</em>) – The training set for the explainer</p></li>
+<li><p><strong>e_algorithm</strong> (<em>string</em><em>, </em><em>one</em><em> of </em><em>[</em><em>&quot;shap&quot;</em><em>]</em>) – Explanation algorithm to use. If none, one will be chosen automatically based on model
 type</p></li>
 <li><p><strong>**kwargs</strong> – see LocalFeatureContributionsBase args</p></li>
 </ul>
@@ -1235,6 +1236,38 @@ type</p></li>
               
 <div class="toc-item">
   
+<div class="tocsection onthispage">
+    <i class="fas fa-list"></i> On this page
+</div>
+<nav id="bd-toc-nav" class="page-toc">
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#pyreal.explainers.LocalFeatureContribution">
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     LocalFeatureContribution
+    </span>
+   </code>
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#pyreal.explainers.LocalFeatureContribution.__init__">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       LocalFeatureContribution.__init__()
+      </span>
+     </code>
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+</nav>
+</div>
+
+<div class="toc-item">
+  
 </div>
 
 <div class="toc-item">
@@ -1281,7 +1314,7 @@ type</p></li>
   <div class="footer-item">
     
 <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.1.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.2.3.<br>
 </p>
 
   </div>
