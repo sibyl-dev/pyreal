@@ -323,16 +323,16 @@ python-versions = ">=3.7"
 
 [[package]]
 name = "eli5"
-version = "0.11.0"
+version = "0.13.0"
 description = "Debug machine learning classifiers and explain their predictions"
 category = "main"
 optional = false
-python-versions = "*"
+python-versions = ">=3.6"
 
 [package.dependencies]
-attrs = ">16.0.0"
+attrs = ">17.1.0"
 graphviz = "*"
-jinja2 = "*"
+jinja2 = ">=3.0.0"
 numpy = ">=1.9.0"
 scikit-learn = ">=0.20"
 scipy = "*"
@@ -2291,7 +2291,7 @@ examples = ["tensorflow", "lightgbm"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8, <3.11"
-content-hash = "c5bed3c3b065d3f4869343f4e834682954573c64d7456607aba44efc46e5d836"
+content-hash = "0302172f37faec0296e574ccdc99b3384531c1f4127cd3fabb210fcd2abd1ad2"
 
 [metadata.files]
 absl-py = [
@@ -2644,8 +2644,7 @@ docutils = [
     {file = "docutils-0.19.tar.gz", hash = "sha256:33995a6753c30b7f577febfc2c50411fec6aac7f7ffeb7c4cfe5991072dcf9e6"},
 ]
 eli5 = [
-    {file = "eli5-0.11.0-py2.py3-none-any.whl", hash = "sha256:1ea45cd0722d20c8c9e9bb89c7c5909feeface4e5942e24b7a89809f0fe593a2"},
-    {file = "eli5-0.11.0.tar.gz", hash = "sha256:aea7b51be9157ce615b319711467f358de03da12328e5639818b3cb3755aa056"},
+    {file = "eli5-0.13.0.tar.gz", hash = "sha256:ec8459eaaf09d66743c53a7bdb115c6cda7e533d7a5d02a5a8bb717ee843eb37"},
 ]
 entrypoints = [
     {file = "entrypoints-0.4-py3-none-any.whl", hash = "sha256:f174b5ff827504fd3cd97cc3f8649f3693f51538c7e4bdf3ef002c8429d42f9f"},

@@ -37,7 +37,7 @@ include = ["AUTHORS.rst", "HISTORY.md"]
 python = "^3.8, <3.11"
 
 #Library Dependencies
-eli5 = "^0.11.0"
+eli5 = ">=0.11,<0.14"
 matplotlib = "^3.6.0"
 numpy = "^1.23.3"
 pandas = "^1.5.0"
