@@ -1469,7 +1469,7 @@ email = ["email-validator (>=1.0.3)"]
 
 [[package]]
 name = "pydata-sphinx-theme"
-version = "0.10.1"
+version = "0.11.0"
 description = "Bootstrap-based Sphinx theme from the PyData community"
 category = "dev"
 optional = false
@@ -1480,7 +1480,7 @@ beautifulsoup4 = "*"
 docutils = "!=0.17.0"
 packaging = "*"
 pygments = ">=2.7"
-sphinx = ">=4.0.2"
+sphinx = ">=4.2"
 
 [package.extras]
 coverage = ["codecov", "pydata-sphinx-theme[test]", "pytest-cov"]
@@ -3519,8 +3519,8 @@ pydantic = [
     {file = "pydantic-1.10.2.tar.gz", hash = "sha256:91b8e218852ef6007c2b98cd861601c6a09f1aa32bbbb74fab5b1c33d4a1e410"},
 ]
 pydata-sphinx-theme = [
-    {file = "pydata_sphinx_theme-0.10.1-py3-none-any.whl", hash = "sha256:4731f937c7f42f516e927d52be0a356ab6b901698aef8331b097e6c4fd8100f4"},
-    {file = "pydata_sphinx_theme-0.10.1.tar.gz", hash = "sha256:0c203ff3761407da96c3a5b7a51ae079fb3268a9c95557a4a8bbe0593c88ada2"},
+    {file = "pydata_sphinx_theme-0.11.0-py3-none-any.whl", hash = "sha256:64f1fc4c79a1f066b913541116cd5a7e83e140ba0e983509eedd9e66e1f948c8"},
+    {file = "pydata_sphinx_theme-0.11.0.tar.gz", hash = "sha256:5fb1751d68a4b8574f817296e925132835281332616eb2839ddac4ef4503cd99"},
 ]
 pyflakes = [
     {file = "pyflakes-2.3.1-py2.py3-none-any.whl", hash = "sha256:7893783d01b8a89811dd72d7dfd4d84ff098e5eed95cfa8905b22bbffe52efc3"},
