@@ -879,7 +879,7 @@ python-versions = "*"
 
 [[package]]
 name = "lightgbm"
-version = "3.3.2"
+version = "3.3.3"
 description = "LightGBM Python Package"
 category = "main"
 optional = true
@@ -2936,11 +2936,11 @@ libclang = [
     {file = "libclang-14.0.6.tar.gz", hash = "sha256:9052a8284d8846984f6fa826b1d7460a66d3b23a486d782633b42b6e3b418789"},
 ]
 lightgbm = [
-    {file = "lightgbm-3.3.2-py3-none-macosx_10_14_x86_64.macosx_10_15_x86_64.macosx_11_0_x86_64.whl", hash = "sha256:2e94bd1b3ab29d173102c9c1d80db2e27ad7e43b8ff5a74c5cb7984b37d19f45"},
-    {file = "lightgbm-3.3.2-py3-none-manylinux1_x86_64.whl", hash = "sha256:f4cba3b4f29336ad7e801cb32d9b948ea4cc5300dda650b78bcdfe36b3e2c4b2"},
-    {file = "lightgbm-3.3.2-py3-none-manylinux2014_aarch64.whl", hash = "sha256:8e788c56853316fc5d35db726d81bd002c721038c856853952287f68082e0158"},
-    {file = "lightgbm-3.3.2-py3-none-win_amd64.whl", hash = "sha256:e4f1529cad416066964f9af0efad208787861e9f2181b7f9ee7fc9bacc082d4f"},
-    {file = "lightgbm-3.3.2.tar.gz", hash = "sha256:5d25d16e77c844c297ece2044df57651139bc3c8ad8c4108916374267ac68b64"},
+    {file = "lightgbm-3.3.3-py3-none-macosx_10_15_x86_64.macosx_11_6_x86_64.macosx_12_0_x86_64.whl", hash = "sha256:27b0ae82549d6c59ede4fa3245f4b21a6bf71ab5ec5c55601cf5a962a18c6f80"},
+    {file = "lightgbm-3.3.3-py3-none-manylinux1_x86_64.whl", hash = "sha256:389edda68b7f24a1755a6af4dad06e16236e374e9de64253a105b12982b153e2"},
+    {file = "lightgbm-3.3.3-py3-none-manylinux2014_aarch64.whl", hash = "sha256:b0af55bd476785726eaacbd3c880f8168d362d4bba098790f55cd10fe928591b"},
+    {file = "lightgbm-3.3.3-py3-none-win_amd64.whl", hash = "sha256:b334dbcd670e3d87f4ff3cfe31d652ab18eb88ad9092a02010916320549b7d10"},
+    {file = "lightgbm-3.3.3.tar.gz", hash = "sha256:857e559ae84a22963ce2b62168292969d21add30bc9246a84d4e7eedae67966d"},
 ]
 lime = [
     {file = "lime-0.2.0.1.tar.gz", hash = "sha256:76960e4f055feb53e89b5022383bafc87b63f25bac6265984b0a333d1a57f781"},
