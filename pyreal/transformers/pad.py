@@ -1,6 +1,7 @@
-from pyreal.transformers import Transformer
 import numpy as np
 import pandas as pd
+
+from pyreal.transformers import Transformer
 
 
 class TimeSeriesPadder(Transformer):
@@ -63,8 +64,7 @@ class TimeSeriesPadder(Transformer):
         z = np.full([len(x), length], self.value)
         for i, j in enumerate(x):
             if len(j) < z.shape[1]:
-                z[i][0:len(j)] = j
+                z[i][0 : len(j)] = j
             else:
                 z[i][0:length] = j[0:length]
         return z
-

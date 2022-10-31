@@ -56,5 +56,5 @@ __all__ = [
     "Numpy3dToMultiIndexFrame",
     "Numpy3dToNestedFrame",
     "Pandas2dToMultiIndexFrame",
-    "TimeSeriesPadder"
+    "TimeSeriesPadder",
 ]
