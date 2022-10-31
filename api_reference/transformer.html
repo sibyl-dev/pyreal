@@ -388,6 +388,12 @@
 <li class="toctree-l2"><a class="reference internal" href="api/pyreal.transformers.DataFrameWrapper.transform.html">pyreal.transformers.DataFrameWrapper.transform</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/pyreal.transformers.DataFrameWrapper.fit_transform.html">pyreal.transformers.DataFrameWrapper.fit_transform</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/pyreal.transformers.DataFrameWrapper.transform_explanation.html">pyreal.transformers.DataFrameWrapper.transform_explanation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/pyreal.transformers.TimeSeriesPadder.html">pyreal.transformers.TimeSeriesPadder</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/pyreal.transformers.TimeSeriesPadder.fit.html">pyreal.transformers.TimeSeriesPadder.fit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/pyreal.transformers.TimeSeriesPadder.data_transform.html">pyreal.transformers.TimeSeriesPadder.data_transform</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/pyreal.transformers.TimeSeriesPadder.transform.html">pyreal.transformers.TimeSeriesPadder.transform</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/pyreal.transformers.TimeSeriesPadder.fit_transform.html">pyreal.transformers.TimeSeriesPadder.fit_transform</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/pyreal.transformers.TimeSeriesPadder.transform_explanation.html">pyreal.transformers.TimeSeriesPadder.transform_explanation</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="explanation_types.html">Explanation Type</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -708,6 +714,31 @@
 </tbody>
 </table>
 </section>
+<section id="time-series-padders">
+<h2>Time Series Padders<a class="headerlink" href="#time-series-padders" title="Permalink to this heading">#</a></h2>
+<table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/pyreal.transformers.TimeSeriesPadder.html#pyreal.transformers.TimeSeriesPadder" title="pyreal.transformers.TimeSeriesPadder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TimeSeriesPadder</span></code></a>(value[, length])</p></td>
+<td><p>A transformer that pads and truncates variable-length time series to equal lengths</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/pyreal.transformers.TimeSeriesPadder.fit.html#pyreal.transformers.TimeSeriesPadder.fit" title="pyreal.transformers.TimeSeriesPadder.fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TimeSeriesPadder.fit</span></code></a>(x, **params)</p></td>
+<td><p>Determines the length to pad to if not set</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/pyreal.transformers.TimeSeriesPadder.data_transform.html#pyreal.transformers.TimeSeriesPadder.data_transform" title="pyreal.transformers.TimeSeriesPadder.data_transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TimeSeriesPadder.data_transform</span></code></a>(x)</p></td>
+<td><p>Reorders and selects the features in x.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/pyreal.transformers.TimeSeriesPadder.transform.html#pyreal.transformers.TimeSeriesPadder.transform" title="pyreal.transformers.TimeSeriesPadder.transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TimeSeriesPadder.transform</span></code></a>(x)</p></td>
+<td><p>Wrapper for data_transform.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/pyreal.transformers.TimeSeriesPadder.fit_transform.html#pyreal.transformers.TimeSeriesPadder.fit_transform" title="pyreal.transformers.TimeSeriesPadder.fit_transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TimeSeriesPadder.fit_transform</span></code></a>(x, **fit_params)</p></td>
+<td><p>Fits this transformer to data and then transforms the same data</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/pyreal.transformers.TimeSeriesPadder.transform_explanation.html#pyreal.transformers.TimeSeriesPadder.transform_explanation" title="pyreal.transformers.TimeSeriesPadder.transform_explanation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TimeSeriesPadder.transform_explanation</span></code></a>(...)</p></td>
+<td><p>Transforms the explanation from the first feature space handled by this transformer to the second.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
 </section>
 
 
@@ -776,6 +807,11 @@
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#wrappers">
    Wrappers
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#time-series-padders">
+   Time Series Padders
   </a>
  </li>
 </ul>
