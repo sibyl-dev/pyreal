@@ -109,3 +109,15 @@ Wrappers
     DataFrameWrapper.fit_transform
     DataFrameWrapper.transform_explanation
 
+Time Series Padders
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.. autosummary::
+    :toctree: api/
+
+    TimeSeriesPadder
+    TimeSeriesPadder.fit
+    TimeSeriesPadder.data_transform
+    TimeSeriesPadder.transform
+    TimeSeriesPadder.fit_transform
+    TimeSeriesPadder.transform_explanation
+
