@@ -28,6 +28,7 @@ from pyreal.transformers.time_series_formatter import (
     Pandas2dToMultiIndexFrame,
 )
 from pyreal.transformers.wrappers import DataFrameWrapper
+from pyreal.transformers.pad import TimeSeriesPadder
 
 __all__ = [
     "Transformer",
@@ -55,4 +56,5 @@ __all__ = [
     "Numpy3dToMultiIndexFrame",
     "Numpy3dToNestedFrame",
     "Pandas2dToMultiIndexFrame",
+    "TimeSeriesPadder",
 ]
