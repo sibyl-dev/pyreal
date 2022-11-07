@@ -23,13 +23,14 @@ class BreakingTransformError(Exception):
     upon encountering this error.
     """
 
-
-def fit_transformers(transformers, x):
+def fit_transformers(transformers, x, tags=None):
     """
     Fit a set of transformers in-place, transforming the data after each fit. Checks if each
     transformer has a fit function and if so, calls it. Returns the data after being transformed
     by the final transformer.
     Args:
+        tags (dict, string to object):
+            Dictionary of current transformer tags to add to
         transformers (Transformer or list of Transformers):
             List of transformers to fit, in order
         x (DataFrame of shape (n_instances, n_features)):
@@ -39,6 +40,11 @@ def fit_transformers(transformers, x):
         DataFrame of shape (n_instances, n_features)
             `x` after being transformed by all transformers
     """
+    if tags is None:
+        tags = {}
+    else:
+        tags = dict(tags)
+
     x_transform = x.copy()
     if not isinstance(transformers, list):
         transformers = [transformers]
@@ -46,11 +52,12 @@ def fit_transformers(transformers, x):
         fit_func = getattr(transformer, "fit", None)
         if callable(fit_func):
             fit_func(x_transform)
-        x_transform = transformer.transform(x_transform)
-    return x_transform
+        x_transform, new_tags = transformer.transform(x_transform)
+        tags.update(new_tags)
+    return x_transform, tags
 
 
-def run_transformers(transformers, x):
+def run_transformers(transformers, x, tags=None):
     """
     Run a series of transformers on x_orig
 
@@ -59,6 +66,8 @@ def run_transformers(transformers, x):
             List of transformers to fit, in order
         x (DataFrame of shape (n_instances, n_features)):
             Dataset to transform
+        tags (dict, string to object):
+            Dictionary of current transformer tags to add to
 
     Returns:
         DataFrame of shape (n_instances, n_features)
@@ -67,18 +76,28 @@ def run_transformers(transformers, x):
     x_transform = x.copy()
     series = False
     name = None
+    if tags is None:
+        tags = {}
+    else:
+        tags = dict(tags)
+
+    # Standardize type for x and transformers
     if isinstance(x_transform, pd.Series):
         name = x_transform.name
         x_transform = x_transform.to_frame().T
         series = True
     if not isinstance(transformers, list):
         transformers = [transformers]
+
     for transform in transformers:
-        x_transform = transform.transform(x_transform)
+        x_transform, new_tags = transform.transform(x_transform)
+        tags.update(new_tags)
+
+    # Return x to original format
     if series and isinstance(x_transform, pd.DataFrame):
         x_transform = x_transform.squeeze()
         x_transform.name = name
-    return x_transform
+    return x_transform, tags
 
 
 def _display_missing_transform_info(transformer_name, function_name):
@@ -141,6 +160,21 @@ class Transformer(ABC):
         if self.model is False and self.algorithm is True:
             raise ValueError("algorithm flag cannot be True if model flag is False")
 
+    def _id_tag(self, name):
+        """
+        Generates the identified tag name from a base tag name by appending this objects unique
+        identifier
+
+        Args:
+            name (str):
+                Base tag name
+
+        Returns:
+            str:
+                The tag name with identifier
+        """
+        return str(id(self)) + "_" + name
+
     def fit(self, x, **params):
         """
         Fit this transformer to data
@@ -157,8 +191,31 @@ class Transformer(ABC):
         self.fitted = True
         return self
 
-    @abstractmethod
     def data_transform(self, x):
+        """
+        Transforms data `x` to a new feature space, and standardizes output format. Appends
+        unique object id to all tag names
+        Args:
+            x (DataFrame of shape (n_instances, n_features)):
+                The dataset to transform
+
+        Returns:
+            DataFrame of shape (n_instances, n_transformed_features):
+                The transformed dataset
+        """
+        result = self._data_transform(x)
+        identifier = id(self)
+        if len(result) == 1:
+            return result, {}
+        else:
+            tags = result[1]
+            for tag in tags:
+                new_name = str(identifier) + "_" + tag
+                tags[new_name] = tags.pop(tag)
+            return result[0], tags
+
+    @abstractmethod
+    def _data_transform(self, x):
         """
         Transforms data `x` to a new feature space.
         Args:
@@ -470,3 +527,4 @@ class Transformer(ABC):
         """
         _display_missing_transform_info(self.__class__, "transform_explanation_decision_tree")
         return explanation
+

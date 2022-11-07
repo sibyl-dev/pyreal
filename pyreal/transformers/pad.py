@@ -2,6 +2,7 @@ import numpy as np
 import pandas as pd
 
 from pyreal.transformers import Transformer
+from pyreal.explainers.data import Data
 
 
 class TimeSeriesPadder(Transformer):
@@ -25,6 +26,7 @@ class TimeSeriesPadder(Transformer):
             raise ValueError("Length must be integer >= 0")
         self.length = length
         self.value = value
+        self.tags = {}
         super().__init__(**kwargs)
 
     def fit(self, x, **params):
@@ -61,10 +63,20 @@ class TimeSeriesPadder(Transformer):
             length = len(max(x, key=lambda x_: len(x_)))
         else:
             length = self.length
+
+        lengths_orig = []
         z = np.full([len(x), length], self.value)
         for i, j in enumerate(x):
+            lengths_orig.append(len(j))
             if len(j) < z.shape[1]:
-                z[i][0 : len(j)] = j
+                z[i][0:len(j)] = j
             else:
                 z[i][0:length] = j[0:length]
-        return z
+        return z, {"lengths_orig": lengths_orig}
+
+    def inverse_transform_explanation_feature_based(self, explanation):
+        lengths_orig = explanation.tags.get_tag(self._id_tag("lengths_orig"))
+
+
+test = TimeSeriesPadder(0)
+test.data_transform(np.array([[1, 2, 3], [1, 2]], dtype=object))

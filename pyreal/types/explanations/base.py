@@ -4,7 +4,7 @@ class Explanation:
     valid explanation output.
     """
 
-    def __init__(self, explanation):
+    def __init__(self, explanation, tags=None):
         """
         Set the wrapped explanation to `explanation` and validate
         Args:
@@ -12,6 +12,10 @@ class Explanation:
                 an explanation algorithm output
         """
         self.explanation = explanation
+        if self.tags is None:
+            self.tags = {}
+        else:
+            self.tags = tags
         self.validate()
 
     def get(self):
