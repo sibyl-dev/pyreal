@@ -11,14 +11,19 @@ class MultiTypeImputer(Transformer):
     and categorical columns with the mode value.
     """
 
-    def __init__(self, **kwargs):
+    def __init__(self, columns=None, **kwargs):
         """
         Initialize the base imputers
         """
+        if columns is not None and not isinstance(columns, (list, tuple, np.ndarray, pd.Index)):
+            columns = [columns]
+        self.columns = columns
+
         self.numeric_cols = None
         self.categorical_cols = None
         self.numeric_imputer = SimpleImputer(missing_values=np.nan, strategy="mean")
         self.categorical_imputer = SimpleImputer(missing_values=np.nan, strategy="most_frequent")
+        self.types = None
         super().__init__(**kwargs)
 
     def fit(self, x, **params):
@@ -32,11 +37,14 @@ class MultiTypeImputer(Transformer):
         Returns:
             None
         """
+        if self.columns is None:
+            self.columns = x.columns
+
         self.numeric_cols = (
-            x.dropna(axis="columns", how="all").select_dtypes(include="number").columns
+            x[self.columns].dropna(axis="columns", how="all").select_dtypes(include="number").columns
         )
         self.categorical_cols = (
-            x.dropna(axis="columns", how="all").select_dtypes(exclude="number").columns
+            x[self.columns].dropna(axis="columns", how="all").select_dtypes(exclude="number").columns
         )
         if len(self.numeric_cols) == 0 and len(self.categorical_cols) == 0:
             raise ValueError("No valid numeric or categorical cols")
@@ -44,6 +52,8 @@ class MultiTypeImputer(Transformer):
             self.numeric_imputer.fit(x[self.numeric_cols])
         if len(self.categorical_cols) > 0:
             self.categorical_imputer.fit(x[self.categorical_cols])
+
+        self.types = x[self.columns].dtypes.to_dict()
         super().fit(x)
 
     def data_transform(self, x):
@@ -58,13 +68,15 @@ class MultiTypeImputer(Transformer):
             DataFrame of shape (n_instances, n_transformed_features):
                 The imputed dataset
         """
+        if self.types is None:
+            raise RuntimeError("Must fit imputer before transforming")
         series_flag = False
         name = None
         if isinstance(x, pd.Series):
             series_flag = True
             name = x.name
             x = x.to_frame().T
-        x = x.fillna(value=np.nan)
+        x[self.columns] = x[self.columns].fillna(value=np.nan)
         if len(self.categorical_cols) == 0:
             new_numeric_cols = self.numeric_imputer.transform(x[self.numeric_cols])
             result = pd.DataFrame(new_numeric_cols, columns=self.numeric_cols, index=x.index)
@@ -87,7 +99,9 @@ class MultiTypeImputer(Transformer):
                 ],
                 axis=1,
             )
-
+        print(result)
+        print(x.dtypes.to_dict())
+        result = result.astype(self.types)
         if series_flag:
             result = result.squeeze()
             result.name = name
