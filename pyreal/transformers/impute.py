@@ -39,10 +39,16 @@ class MultiTypeImputer(Transformer):
             self.columns = x.columns
 
         self.numeric_cols = (
-            x[self.columns].dropna(axis="columns", how="all").select_dtypes(include="number").columns
+            x[self.columns]
+            .dropna(axis="columns", how="all")
+            .select_dtypes(include="number")
+            .columns
         )
         self.categorical_cols = (
-            x[self.columns].dropna(axis="columns", how="all").select_dtypes(exclude="number").columns
+            x[self.columns]
+            .dropna(axis="columns", how="all")
+            .select_dtypes(exclude="number")
+            .columns
         )
 
         self.means = x[self.numeric_cols].mean(axis=0)

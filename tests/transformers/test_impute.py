@@ -36,13 +36,9 @@ def test_fit_transform_multitype_imputer():
 
 def test_fit_transform_multitype_imputer_cat_only():
     imputer = MultiTypeImputer()
-    x = pd.DataFrame([["a", "+"],
-                      ["a", "-"],
-                      [None, "-"]], columns=["D", "E"])
+    x = pd.DataFrame([["a", "+"], ["a", "-"], [None, "-"]], columns=["D", "E"])
 
-    expected_result = pd.DataFrame([["a", "+"],
-                                    ["a", "-"],
-                                    ["a", "-"]], columns=["D", "E"])
+    expected_result = pd.DataFrame([["a", "+"], ["a", "-"], ["a", "-"]], columns=["D", "E"])
     result = imputer.fit_transform(x)
     assert_frame_equal(expected_result, result)
 
@@ -55,9 +51,7 @@ def test_fit_transform_multitype_imputer_cat_only():
 
 def test_fit_transform_multitype_imputer_num_only():
     imputer = MultiTypeImputer()
-    x = pd.DataFrame([[3.0, 1.0],
-                      [1.0, 1.0],
-                      [np.nan, 1.0]], columns=["A", "B"])
+    x = pd.DataFrame([[3.0, 1.0], [1.0, 1.0], [np.nan, 1.0]], columns=["A", "B"])
 
     expected_result = pd.DataFrame([[3.0, 1.0], [1.0, 1.0], [2.0, 1.0]], columns=["A", "B"])
     result = imputer.fit_transform(x)
@@ -119,6 +113,7 @@ def test_fit_transform_column_parameter():
     result = imputer.fit_transform(x)
     assert_frame_equal(expected_result, result, check_exact=False, atol=1e-3)
 
+
 def test_fit_transform_multitype_columns_parameter():
     x = pd.DataFrame(
         [
@@ -175,6 +170,3 @@ def test_fit_transform_multitype_columns_parameter():
     result = imputer.fit_transform(x)
 
     assert_frame_equal(expected_result, result)
-
-
-
