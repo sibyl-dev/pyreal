@@ -1480,7 +1480,7 @@ email = ["email-validator (>=1.0.3)"]
 
 [[package]]
 name = "pydata-sphinx-theme"
-version = "0.11.0"
+version = "0.12.0"
 description = "Bootstrap-based Sphinx theme from the PyData community"
 category = "dev"
 optional = false
@@ -1494,9 +1494,9 @@ pygments = ">=2.7"
 sphinx = ">=4.2"
 
 [package.extras]
-coverage = ["codecov", "pydata-sphinx-theme[test]", "pytest-cov"]
+coverage = ["codecov", "colorama", "pydata-sphinx-theme[test]", "pytest-cov"]
 dev = ["nox", "pre-commit", "pydata-sphinx-theme[coverage]", "pyyaml"]
-doc = ["ablog", "jupyter_sphinx", "matplotlib", "myst-nb", "nbsphinx", "numpy", "numpydoc", "pandas", "plotly", "pytest", "pytest-regressions", "rich", "sphinx-copybutton", "sphinx-design", "sphinx-sitemap", "sphinx-togglebutton", "sphinxext-rediraffe", "xarray"]
+doc = ["ablog", "jupyter_sphinx", "linkify-it-py", "matplotlib", "myst-nb", "nbsphinx", "numpy", "numpydoc", "pandas", "plotly", "pytest", "pytest-regressions", "rich", "sphinx-copybutton", "sphinx-design", "sphinx-sitemap", "sphinx-togglebutton", "sphinxext-rediraffe", "xarray"]
 test = ["pydata-sphinx-theme[doc]", "pytest"]
 
 [[package]]
@@ -3532,8 +3532,8 @@ pydantic = [
     {file = "pydantic-1.10.2.tar.gz", hash = "sha256:91b8e218852ef6007c2b98cd861601c6a09f1aa32bbbb74fab5b1c33d4a1e410"},
 ]
 pydata-sphinx-theme = [
-    {file = "pydata_sphinx_theme-0.11.0-py3-none-any.whl", hash = "sha256:64f1fc4c79a1f066b913541116cd5a7e83e140ba0e983509eedd9e66e1f948c8"},
-    {file = "pydata_sphinx_theme-0.11.0.tar.gz", hash = "sha256:5fb1751d68a4b8574f817296e925132835281332616eb2839ddac4ef4503cd99"},
+    {file = "pydata_sphinx_theme-0.12.0-py3-none-any.whl", hash = "sha256:c17dbab67a3774f06f34f6378e896fcd0668cc8b5da1c1ba017e65cf1df0af58"},
+    {file = "pydata_sphinx_theme-0.12.0.tar.gz", hash = "sha256:7a07c3ac1fb1cfbb5f7d1e147a9500fb120e329d610e0fa2caac4a645141bdd9"},
 ]
 pyflakes = [
     {file = "pyflakes-2.5.0-py2.py3-none-any.whl", hash = "sha256:4579f67d887f804e67edb544428f264b7b24f435b263c4614f384135cea553d2"},
