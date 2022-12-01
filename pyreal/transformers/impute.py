@@ -23,7 +23,8 @@ class MultiTypeImputer(Transformer):
         self.categorical_cols = None
         self.numeric_imputer = SimpleImputer(missing_values=np.nan, strategy="mean")
         self.categorical_imputer = SimpleImputer(missing_values=np.nan, strategy="most_frequent")
-        self.types = None
+        self.means = None
+        self.modes = None
         super().__init__(**kwargs)
 
     def fit(self, x, **params):
@@ -46,14 +47,19 @@ class MultiTypeImputer(Transformer):
         self.categorical_cols = (
             x[self.columns].dropna(axis="columns", how="all").select_dtypes(exclude="number").columns
         )
-        if len(self.numeric_cols) == 0 and len(self.categorical_cols) == 0:
+
+        self.means = x[self.numeric_cols].mean(axis=0)
+        self.modes = x[self.categorical_cols].mode(axis=0)
+        if self.modes.shape[0] > 0:
+            self.modes = self.modes.iloc[0, :]
+
+        '''if len(self.numeric_cols) == 0 and len(self.categorical_cols) == 0:
             raise ValueError("No valid numeric or categorical cols")
         if len(self.numeric_cols) > 0:
             self.numeric_imputer.fit(x[self.numeric_cols])
         if len(self.categorical_cols) > 0:
-            self.categorical_imputer.fit(x[self.categorical_cols])
+            self.categorical_imputer.fit(x[self.categorical_cols])'''
 
-        self.types = x[self.columns].dtypes.to_dict()
         super().fit(x)
 
     def data_transform(self, x):
@@ -68,15 +74,16 @@ class MultiTypeImputer(Transformer):
             DataFrame of shape (n_instances, n_transformed_features):
                 The imputed dataset
         """
-        if self.types is None:
+        if self.numeric_cols is None:
             raise RuntimeError("Must fit imputer before transforming")
+        types = x[self.columns].dtypes
         series_flag = False
         name = None
         if isinstance(x, pd.Series):
             series_flag = True
             name = x.name
             x = x.to_frame().T
-        x[self.columns] = x[self.columns].fillna(value=np.nan)
+        '''x[self.columns] = x[self.columns].fillna(value=np.nan)
         if len(self.categorical_cols) == 0:
             new_numeric_cols = self.numeric_imputer.transform(x[self.numeric_cols])
             result = pd.DataFrame(new_numeric_cols, columns=self.numeric_cols, index=x.index)
@@ -98,10 +105,13 @@ class MultiTypeImputer(Transformer):
                     ),
                 ],
                 axis=1,
-            )
-        print(result)
-        print(x.dtypes.to_dict())
-        result = result.astype(self.types)
+            )'''
+
+        result = x.copy()
+        result[self.numeric_cols] = result[self.numeric_cols].fillna(value=self.means)
+        result[self.categorical_cols] = result[self.categorical_cols].fillna(value=self.modes)
+
+        result = result.astype(types)
         if series_flag:
             result = result.squeeze()
             result.name = name
