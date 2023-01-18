@@ -204,7 +204,7 @@ def plot_shapelet(timeSeriesData, shapeletIndices, shapeletLength):
     plt.show()
 
 
-def plot_time_series_explanation(timeSeriesData, contribution):
+def plot_time_series_explanation_color(timeSeriesData, contribution):
     index = timeSeriesData.index
     assert index.size == 1
     columns = timeSeriesData.columns.get_level_values(0).unique()
@@ -218,19 +218,24 @@ def plot_time_series_explanation(timeSeriesData, contribution):
             timeSeriesData.iloc[0].loc[(var, slice(None))],
             c=contribution,
             cmap=cmap,
-            vmin=-1,
-            vmax=1,
         )
 
     plt.show()
 
 
-"""def plot_timeseries_saliency(X, saliency, timesteps=None, show=True):
-    if timesteps is None:
-        timesteps = np.arange(X.shape[0])
-    plt.plot(timesteps, X, c=saliency)
-    if show:
-        plt.show()"""
+def plot_time_series_explanation(timeSeriesData, contribution):
+    index = timeSeriesData.index
+    assert index.size == 1
+    columns = timeSeriesData.columns.get_level_values(0).unique()
+    timestamps = timeSeriesData.columns.get_level_values(1).unique()
+    fig, axs = plt.subplots(nrows=columns.size)
+
+    for i, var in enumerate(columns):
+        axs.plot(timestamps, timeSeriesData.iloc[0].loc[(var, slice(None))])
+        contribution_ax = axs.twinx()
+        contribution_ax.plot(timestamps, contribution, color=negative_color)
+
+    plt.show()
 
 
 def plot_timeseries_saliency(

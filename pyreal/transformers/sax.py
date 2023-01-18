@@ -180,3 +180,9 @@ class SAXTransformer(Transformer):
 
     def get_original_std(self):
         return self.seqStd
+
+    def get_cummulative_sum(self):
+        return self.cum_sum
+
+    def get_cummulative_square_sum(self):
+        return self.cum_square_sum
