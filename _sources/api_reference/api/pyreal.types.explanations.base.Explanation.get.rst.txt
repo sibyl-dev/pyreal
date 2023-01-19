@@ -1,6 +1,0 @@
-﻿pyreal.types.explanations.base.Explanation.get
-==============================================
-
-.. currentmodule:: pyreal.types.explanations.base
-
-.. automethod:: Explanation.get

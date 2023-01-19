@@ -1,6 +1,0 @@
-﻿pyreal.transformers.Transformer.transform\_explanation
-======================================================
-
-.. currentmodule:: pyreal.transformers
-
-.. automethod:: Transformer.transform_explanation

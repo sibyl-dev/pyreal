@@ -1,6 +1,0 @@
-﻿pyreal.transformers.MultiTypeImputer.fit\_transform
-===================================================
-
-.. currentmodule:: pyreal.transformers
-
-.. automethod:: MultiTypeImputer.fit_transform
