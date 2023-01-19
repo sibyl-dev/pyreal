@@ -4,25 +4,29 @@ class Explanation:
     valid explanation output.
     """
 
-    def __init__(self, explanation):
+    def __init__(self, *args):
         """
         Set the wrapped explanation to `explanation` and validate
         Args:
-            explanation:
-                an explanation algorithm output
+            args:
+                explanation objects
         """
-        self.explanation = explanation
+        self.explanation = args
         self.validate()
 
-    def get(self):
+    def get(self, ind=0):
         """
         Get the explanation wrapped by this type
-
+        Args:
+            ind (int)
+                Integer index to get from explanation. If None, return full tuple
         Returns:
             object
                 wrapped explanation object
         """
-        return self.explanation
+        if ind is None:
+            return self.explanation
+        return self.explanation[ind]
 
     def validate(self):
         """
