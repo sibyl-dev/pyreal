@@ -4,8 +4,8 @@ Includes basic visualization methods, mostly used to testing purposes.
 import matplotlib.colors as color
 import matplotlib.pyplot as plt
 import numpy as np
-from matplotlib.collections import LineCollection
 import seaborn as sns
+from matplotlib.collections import LineCollection
 
 from pyreal.utils._plot_tree import TreeExporter
 
@@ -137,27 +137,39 @@ def swarm_plot(contributions, values, type="swarm", n=5, show=False, filename=No
     average_importance = np.mean(abs(contributions), axis=0)
     order = np.argsort(average_importance)[::-1]
     for i in range(n):
-        hues = values.iloc[:, order[i:i + 1]]
+        hues = values.iloc[:, order[i : i + 1]]
         hues = hues.melt()["value"]
         if type == "strip":
-            ax = sns.stripplot(x="value", y="variable", hue=hues,
-                               data=contributions.iloc[:, order[i:i + 1]].melt(),
-                               palette="coolwarm_r",
-                               legend=False, size=3, **kwargs)
+            ax = sns.stripplot(
+                x="value",
+                y="variable",
+                hue=hues,
+                data=contributions.iloc[:, order[i : i + 1]].melt(),
+                palette="coolwarm_r",
+                legend=False,
+                size=3,
+                **kwargs
+            )
         elif type == "swarm":
-            ax = sns.swarmplot(x="value", y="variable", hue=hues,
-                               data=contributions.iloc[:, order[i:i + 1]].melt(),
-                               palette="coolwarm_r",
-                               legend=False, size=3, **kwargs)
+            ax = sns.swarmplot(
+                x="value",
+                y="variable",
+                hue=hues,
+                data=contributions.iloc[:, order[i : i + 1]].melt(),
+                palette="coolwarm_r",
+                legend=False,
+                size=3,
+                **kwargs
+            )
         else:
             raise ValueError("Invalid type %s. Type must be one of [strip, swarm]." % type)
         plt.axvline(x=0, color="black", linewidth=1)
         ax.grid(axis="y")
         ax.set_ylabel("")
         ax.set_xlabel("Contributions")
-        ax.spines['top'].set_visible(False)
-        ax.spines['right'].set_visible(False)
-        ax.spines['left'].set_visible(False)
+        ax.spines["top"].set_visible(False)
+        ax.spines["right"].set_visible(False)
+        ax.spines["left"].set_visible(False)
 
     if filename is not None:
         plt.savefig(filename, bbox_inches="tight")

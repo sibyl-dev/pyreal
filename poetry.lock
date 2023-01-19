@@ -4532,4 +4532,4 @@ examples = ["tensorflow", "lightgbm"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.8, <3.11"
-content-hash = "87f77ede064b6d3d8336a1a1a25d20567072d070ff152c38a286879e1cfec907"
+content-hash = "53459f684ac6cd8620bf44f6a10a0468495d52be8b77c1b44ec9dfec77eea625"
