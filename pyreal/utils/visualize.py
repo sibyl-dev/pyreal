@@ -113,7 +113,9 @@ def plot_top_contributors(
         plt.show()
 
 
-def swarm_plot(contributions, values, type="swarm", n=5, show=False, filename=None, **kwargs):
+def swarm_plot(
+    contributions, values, type="swarm", n=5, show=False, filename=None, legend=True, **kwargs
+):
     """
     Generates a strip plot (type="strip") or a swarm plot (type="swarm") from a set of feature
     contributions.
@@ -131,6 +133,8 @@ def swarm_plot(contributions, values, type="swarm", n=5, show=False, filename=No
             Whether or not to show the figure
         filename (string or None):
             If not None, save the figure as filename
+        legend (Boolean):
+            If True, show a colorbar legend
         **kwargs:
             Additional arguments to pass to seaborn.swarmplot or seaborn.stripplot
     """
@@ -170,6 +174,18 @@ def swarm_plot(contributions, values, type="swarm", n=5, show=False, filename=No
         ax.spines["top"].set_visible(False)
         ax.spines["right"].set_visible(False)
         ax.spines["left"].set_visible(False)
+
+    if legend:
+        ax = plt.gca()
+        norm = plt.Normalize(0, 1)
+        sm = plt.cm.ScalarMappable(cmap="coolwarm_r", norm=norm)
+        sm.set_array([])
+        cbar = ax.figure.colorbar(sm)
+        cbar.ax.get_yaxis().set_ticks([])
+        cbar.ax.text(1.5, 0.05, "low", ha="left", va="center")
+        cbar.ax.text(1.5, 0.95, "high", ha="left", va="center")
+        cbar.ax.set_ylabel("Feature Value", rotation=270)
+        cbar.ax.get_yaxis().labelpad = 15
 
     if filename is not None:
         plt.savefig(filename, bbox_inches="tight")
