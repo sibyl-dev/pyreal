@@ -40,7 +40,7 @@ def test_init_invalid_model():
         LocalFeatureContribution(invalid_model, pd.DataFrame([0]))
 
 
-def test_tranform_to_functions(regression_one_hot):
+def test_transform_to_functions(regression_one_hot):
     x = pd.DataFrame([[2, 1, 3], [4, 3, 4], [6, 7, 2]], columns=["A", "B", "C"])
     expected = pd.DataFrame(
         [[1, 3, 1, 0, 0], [3, 4, 0, 1, 0], [7, 2, 0, 0, 1]],
@@ -62,7 +62,7 @@ def test_tranform_to_functions(regression_one_hot):
     assert_frame_equal(result, expected, check_like=True, check_dtype=False)
 
 
-def test_tranform_to_functions_series(regression_one_hot):
+def test_transform_to_functions_series(regression_one_hot):
     x = pd.Series([2, 1, 3], index=["A", "B", "C"])
     expected = pd.Series([1, 3, 1, 0, 0], index=["B", "C", "A_2", "A_4", "A_6"])
 

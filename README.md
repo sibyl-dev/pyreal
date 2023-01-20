@@ -14,7 +14,8 @@
 Library for evaluating and deploying machine learning explanations.
 
 - License: MIT
-- Documentation: https://sibyl-dev.github.io/pyreal
+- Documentation: https://pyreal.gitbook.io/pyreal
+- API Documentation: https://sibyl-ml.dev/pyreal/api_reference/index.html
 - Homepage: https://sibyl-ml.dev/
 
 # Overview

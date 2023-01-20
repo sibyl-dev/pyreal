@@ -1,10 +1,17 @@
 """
 Includes basic visualization methods, mostly used to testing purposes.
 """
+import matplotlib.colors as color
 import matplotlib.pyplot as plt
 import numpy as np
+import seaborn as sns
+from matplotlib.collections import LineCollection
 
 from pyreal.utils._plot_tree import TreeExporter
+
+negative_color = "#ef8a62"
+positive_color = "#67a9cf"
+WIDTH = 5
 
 
 def plot_top_contributors(
@@ -106,6 +113,70 @@ def plot_top_contributors(
         plt.show()
 
 
+def swarm_plot(contributions, values, type="swarm", n=5, show=False, filename=None, **kwargs):
+    """
+    Generates a strip plot (type="strip") or a swarm plot (type="swarm") from a set of feature
+    contributions.
+
+    Args:
+        contributions (Series or DataFrame of shape (n_instances, n_features):
+            Contributions, with feature names as the column names
+        values (Series or DataFrame of shape (n_instances, n_features):
+            If given, show the corresponding values alongside the feature names
+        type (String, one of ["strip", "swarm"]:
+            The type of plot to generate
+        n (int):
+            Number of features to show
+        show (Boolean):
+            Whether or not to show the figure
+        filename (string or None):
+            If not None, save the figure as filename
+        **kwargs:
+            Additional arguments to pass to seaborn.swarmplot or seaborn.stripplot
+    """
+    average_importance = np.mean(abs(contributions), axis=0)
+    order = np.argsort(average_importance)[::-1]
+    for i in range(n):
+        hues = values.iloc[:, order[i : i + 1]]
+        hues = hues.melt()["value"]
+        if type == "strip":
+            ax = sns.stripplot(
+                x="value",
+                y="variable",
+                hue=hues,
+                data=contributions.iloc[:, order[i : i + 1]].melt(),
+                palette="coolwarm_r",
+                legend=False,
+                size=3,
+                **kwargs
+            )
+        elif type == "swarm":
+            ax = sns.swarmplot(
+                x="value",
+                y="variable",
+                hue=hues,
+                data=contributions.iloc[:, order[i : i + 1]].melt(),
+                palette="coolwarm_r",
+                legend=False,
+                size=3,
+                **kwargs
+            )
+        else:
+            raise ValueError("Invalid type %s. Type must be one of [strip, swarm]." % type)
+        plt.axvline(x=0, color="black", linewidth=1)
+        ax.grid(axis="y")
+        ax.set_ylabel("")
+        ax.set_xlabel("Contributions")
+        ax.spines["top"].set_visible(False)
+        ax.spines["right"].set_visible(False)
+        ax.spines["left"].set_visible(False)
+
+    if filename is not None:
+        plt.savefig(filename, bbox_inches="tight")
+    if show:
+        plt.show()
+
+
 def plot_tree_explanation(
     dte,
     transparent=False,
@@ -147,9 +218,6 @@ def plot_tree_explanation(
             If not None, save the figure as filename.
     """
 
-    negative_color = "#ef8a62"
-    positive_color = "#67a9cf"
-
     decision_tree = dte.produce()
     feature_names = dte.return_features()
     figsize = (dte.max_depth * 4 + 10, dte.max_depth * 2)
@@ -180,3 +248,84 @@ def plot_tree_explanation(
         plt.savefig(filename, bbox_inches="tight")
 
     plt.show()
+
+
+def plot_shapelet(timeSeriesData, shapeletIndices, shapeletLength):
+    # only support plotting one instance at a time
+    index = timeSeriesData.index
+    assert index.size == 1
+    columns = timeSeriesData.columns.get_level_values(0).unique()
+    timestamps = timeSeriesData.columns.get_level_values(1).unique()
+    fig, axs = plt.subplots(columns.size)
+
+    for var in columns:
+        axs.plot(timestamps, timeSeriesData.iloc[0].loc[(var, slice(None))], color=negative_color)
+        for idx in shapeletIndices:
+            axs.plot(
+                np.arange(idx, idx + shapeletLength),
+                timeSeriesData.iloc[0].loc[(var, slice(idx, idx + shapeletLength - 1))],
+                color=positive_color,
+            )
+    plt.show()
+
+
+def plot_time_series_explanation(timeSeriesData, contribution):
+    index = timeSeriesData.index
+    assert index.size == 1
+    columns = timeSeriesData.columns.get_level_values(0).unique()
+    timestamps = timeSeriesData.columns.get_level_values(1).unique()
+    fig, axs = plt.subplots(columns.size)
+    cmap = color.LinearSegmentedColormap.from_list("posnegcmap", [negative_color, positive_color])
+
+    for var in columns:
+        axs.scatter(
+            timestamps,
+            timeSeriesData.iloc[0].loc[(var, slice(None))],
+            c=contribution,
+            cmap=cmap,
+            vmin=-1,
+            vmax=1,
+        )
+
+    plt.show()
+
+
+"""def plot_timeseries_saliency(X, saliency, timesteps=None, show=True):
+    if timesteps is None:
+        timesteps = np.arange(X.shape[0])
+    plt.plot(timesteps, X, c=saliency)
+    if show:
+        plt.show()"""
+
+
+def plot_timeseries_saliency(
+    data, colors, title=None, fig=None, scale=True, mincol=None, maxcol=None
+):
+    y = data
+    x = np.arange(len(y))
+    # y = preprocessing.scale(y)
+    points = np.array([x, y]).T.reshape(-1, 1, 2)
+    segments = np.concatenate([points[:-1], points[1:]], axis=1)
+    if mincol is None:
+        mincol = colors.min()
+    if maxcol is None:
+        maxcol = colors.max()
+    norm = plt.Normalize(mincol, maxcol)
+    lc = LineCollection(segments, cmap="coolwarm", norm=norm)
+    lc.set_array(colors)
+    lc.set_linewidth(WIDTH)
+    # if(fig is None or ax is None):
+    #    fig, ax = plt.subplots()
+    if fig is None:
+        fig = plt.figure()
+    ax = plt.gca()
+    line = ax.add_collection(lc)
+    fig.colorbar(line, ax=ax)
+
+    if scale:
+        ax.set_xlim(x.min(), x.max())
+        ax.set_ylim(y.min(), y.max())
+
+    ax.set_title(title)
+
+    # plt.show()
