@@ -113,7 +113,9 @@ def plot_top_contributors(
         plt.show()
 
 
-def swarm_plot(contributions, values, type="swarm", n=5, show=False, filename=None, legend=True, **kwargs):
+def swarm_plot(
+    contributions, values, type="swarm", n=5, show=False, filename=None, legend=True, **kwargs
+):
     """
     Generates a strip plot (type="strip") or a swarm plot (type="swarm") from a set of feature
     contributions.
@@ -180,9 +182,9 @@ def swarm_plot(contributions, values, type="swarm", n=5, show=False, filename=No
         sm.set_array([])
         cbar = ax.figure.colorbar(sm)
         cbar.ax.get_yaxis().set_ticks([])
-        cbar.ax.text(1.5, .05, "low", ha='left', va='center')
-        cbar.ax.text(1.5, .95, "high", ha='left', va='center')
-        cbar.ax.set_ylabel('Feature Value', rotation=270)
+        cbar.ax.text(1.5, 0.05, "low", ha="left", va="center")
+        cbar.ax.text(1.5, 0.95, "high", ha="left", va="center")
+        cbar.ax.set_ylabel("Feature Value", rotation=270)
         cbar.ax.get_yaxis().labelpad = 15
 
     if filename is not None:
