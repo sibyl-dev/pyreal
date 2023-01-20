@@ -10,7 +10,7 @@ maintainers = [
 
 description = "Library for evaluating and deploying human readable machine learning explanations."
 name = "pyreal"
-version = "0.3.1"
+version = "0.3.1.1"
 
 license = ""
 
