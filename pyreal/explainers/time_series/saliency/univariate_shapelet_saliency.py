@@ -1,68 +1,69 @@
 import numpy as np
 import pandas as pd
+from _sax_kernel import SAXKernel
 
 from pyreal.explainers.time_series import SaliencyBase
+from pyreal.transformers import SAXTransformer, is_valid_dataframe
 from pyreal.types.explanations.feature_based import FeatureContributionExplanation
 
 
-class SAXShaplet(SaliencyBase):
+class UnivariateSAXShaplet(SaliencyBase):
     """
-    SAXShapletSaliency object.
-
-    An OcclusionSaliency object judges the relative importance or saliency of each timestep
-    value by iteratively occluding windows of data, and calculating the resulting change in model
-    prediction.
-
-    Can only take a single row input to .produce()
-
-    Args:
-        model (string filepath or model object):
-           Filepath to the pickled model to explain, or model object with .predict() function
-        x_train_orig (DataFrame of size (n_instances, length of series)):
-            Training set in original form.
-        window_size (int):
-            The size of the interval.
-        shap_type (string, one of ["kernel", "linear"]):
-            Type of shap algorithm to use. If None, SHAP will pick one.
-        **kwargs: see base Explainer args
+    UnivariateSAXShaplet object.
     """
 
-    def __init__(
-        self, model, x_train_orig, regression=False, width=5, k="avg", num_classes=None, **kwargs
-    ):
+    def __init__(self, model, x_train_orig, n_bins=4, width=24, word_length=4, **kwargs):
         """
-        Generates a feature importance explanation of time-series type data by iteratively
-        occluding windows of data and computing the change in model prediction
-        width - the width of the rolling window to occlude
 
         Args:
-            regression (Boolean)
-                If true, model is a regression model.
-                If false, must provide a num_classes or classes parameter
+            model (string filepath or model object):
+                Filepath to the pickled model to explain, or model object with .predict() function
+            x_train_orig (DataFrame of size (n_instances, length of series)):
+                # TODO: does this fit the Transformer pipeline ??
+                Training set in original form.
+            n_bins (int, default = 4):
+                The number of bins to produce. It must be between 2 and
+                ``min(n_timestamps, 26)``.
             width (int)
-                Length of the occlusion window
-            k (float or one of ["avg", "remove"])
-                The occlusion method. One of:
-                    a float value - occlude with this constant value
-                    "avg" - occlude with the average value of the window
-                    "remove" - occlude by removing the section of the data
-            num_classes (int)
-                Required if regression=False and classes=None
+                Length of each SAX word window
+            word_length (int):
+                The number of characters in each representation of word, which
+                is reduced from each window.
         """
-        self.width = width
-        self.k = k
-        self.num_classes = num_classes
-        if regression:
-            self.num_classes = 1
-        super(UnivariateOcclusionSaliency, self).__init__(model, x_train_orig, **kwargs)
-        if self.num_classes is None and self.classes is None:
-            raise ValueError(
-                "Must provide classes or num_classes parameter when regression is False"
-            )
-        elif self.num_classes is None:
-            self.num_classes = len(self.classes)
+        self.sax_transformer = SAXTransformer(n_bins, width, word_length)
+        self.explainer = None
+        super(UnivariateSAXShaplet, self).__init__(model, x_train_orig, **kwargs)
 
-    def fit(self):
+    def fit(self, word_thresh=0.3):
+        """
+        Fit the SAX transformer and the subsequent SHAP kernel.
+        """
+        # The following generates the SAX representations of every signal in `x_train_orig`.
+        # Note that each data instance would contain multiple SAX words.
+        sax_list = self.sax_transformer.fit_transform(self._x_train_orig)
+        # The shape of `sax_list` should be (n_instances, n_variables=1, n_words, word_length)
+        # where n_words is the number of words in a single signal
+        n_instances, n_variables, n_sequences, word_length = sax_list.shape
+        # TODO: If buggy, uncomment the following line
+        # sax_list = sax_list.tolist()
+        # sax_dict counts the occurrence of each word in the dataset
+        sax_dict = {}
+        for i in range(n_instances):
+            for t in range(n_sequences):
+                word = "".join(str(x) for x in sax_list[i][0][t])
+                if word not in sax_dict.keys():
+                    sax_dict[word] = 1
+                else:
+                    sax_dict[word] += 1
+        # now we want to filter the words that appear more than `word_thresh*n_instances`.
+        self.sax_set = set()  # This is the final words list
+        for word, count in sax_dict.items():
+            if count >= word_thresh * n_instances:
+                self.sax_set.add(word)
+
+        dataset = self.transform_to_x_model(self._x_train_orig)
+        self.explainer = SAXKernel(self.model, dataset)
+
         return self
 
     def get_contributions(self, x_orig):

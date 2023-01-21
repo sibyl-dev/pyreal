@@ -166,7 +166,7 @@ class SAXTransformer(Transformer):
                 PAA representation.
         Returns:
             ndarray of shape (n_instances, n_variables, n_sequences, word_length)
-                SAX representation, in the form of integers (e.g. 01232012)
+                SAX representation, in the form of integers (e.g. 012320)
 
         """
         split = self.intervals()
