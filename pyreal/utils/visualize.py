@@ -124,7 +124,7 @@ def swarm_plot(
         contributions (Series or DataFrame of shape (n_instances, n_features):
             Contributions, with feature names as the column names
         values (Series or DataFrame of shape (n_instances, n_features):
-            If given, show the corresponding values alongside the feature names
+            If given, show the corresponding values alongside the feature names (ie, x_interpret)
         type (String, one of ["strip", "swarm"]:
             The type of plot to generate
         n (int):
