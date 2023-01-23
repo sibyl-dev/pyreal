@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>pyreal.transformers.MultiIndexFrameToNumpy3d &#8212; Pyreal 0.3.1 documentation</title>
+    <title>pyreal.utils.visualize.swarm_plot &#8212; Pyreal 0.3.1 documentation</title>
   
   
   
@@ -39,12 +39,11 @@
     <script src="../../_static/doctools.js"></script>
     <script src="../../_static/sphinx_highlight.js"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'api_reference/api/pyreal.transformers.MultiIndexFrameToNumpy3d';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'api_reference/api/pyreal.utils.visualize.swarm_plot';</script>
     <link rel="shortcut icon" href="../../_static/dai-logo-white.ico"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="pyreal.transformers.MultiIndexFrameToNumpy3d.data_transform" href="pyreal.transformers.MultiIndexFrameToNumpy3d.data_transform.html" />
-    <link rel="prev" title="pyreal.transformers.MultiIndexFrameToNumpy2d.data_transform" href="pyreal.transformers.MultiIndexFrameToNumpy2d.data_transform.html" />
+    <link rel="prev" title="pyreal.utils.visualize.plot_tree_explanation" href="pyreal.utils.visualize.plot_tree_explanation.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="docsearch:language" content="en">
   </head>
@@ -327,7 +326,7 @@
 <li class="toctree-l2"><a class="reference internal" href="pyreal.explainers.Explainer.produce.html">pyreal.explainers.Explainer.produce</a></li>
 </ul>
 </li>
-<li class="toctree-l1 current active has-children"><a class="reference internal" href="../transformer.html">Transformer</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../transformer.html">Transformer</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.transformers.Transformer.html">pyreal.transformers.Transformer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.transformers.Transformer.fit.html">pyreal.transformers.Transformer.fit</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.transformers.Transformer.data_transform.html">pyreal.transformers.Transformer.data_transform</a></li>
@@ -370,7 +369,7 @@
 <li class="toctree-l2"><a class="reference internal" href="pyreal.transformers.MultiIndexFrameToNestedFrame.data_transform.html">pyreal.transformers.MultiIndexFrameToNestedFrame.data_transform</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.transformers.MultiIndexFrameToNumpy2d.html">pyreal.transformers.MultiIndexFrameToNumpy2d</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.transformers.MultiIndexFrameToNumpy2d.data_transform.html">pyreal.transformers.MultiIndexFrameToNumpy2d.data_transform</a></li>
-<li class="toctree-l2 current active"><a class="current reference internal" href="#">pyreal.transformers.MultiIndexFrameToNumpy3d</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyreal.transformers.MultiIndexFrameToNumpy3d.html">pyreal.transformers.MultiIndexFrameToNumpy3d</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.transformers.MultiIndexFrameToNumpy3d.data_transform.html">pyreal.transformers.MultiIndexFrameToNumpy3d.data_transform</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.transformers.NestedFrameToMultiIndexFrame.html">pyreal.transformers.NestedFrameToMultiIndexFrame</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.transformers.NestedFrameToMultiIndexFrame.fit.html">pyreal.transformers.NestedFrameToMultiIndexFrame.fit</a></li>
@@ -434,10 +433,10 @@
 <li class="toctree-l2"><a class="reference internal" href="pyreal.utils.model_utils.load_model_from_weights.html">pyreal.utils.model_utils.load_model_from_weights</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../visualize.html">Visualization</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-9"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../visualize.html">Visualization</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-9"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="pyreal.utils.visualize.plot_top_contributors.html">pyreal.utils.visualize.plot_top_contributors</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.utils.visualize.plot_tree_explanation.html">pyreal.utils.visualize.plot_tree_explanation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyreal.utils.visualize.swarm_plot.html">pyreal.utils.visualize.swarm_plot</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">pyreal.utils.visualize.swarm_plot</a></li>
 </ul>
 </li>
 </ul>
@@ -471,97 +470,29 @@
             
             <article class="bd-article" role="main">
               
-  <section id="pyreal-transformers-multiindexframetonumpy3d">
-<h1>pyreal.transformers.MultiIndexFrameToNumpy3d<a class="headerlink" href="#pyreal-transformers-multiindexframetonumpy3d" title="Permalink to this heading">#</a></h1>
-<dl class="py class">
-<dt class="sig sig-object py" id="pyreal.transformers.MultiIndexFrameToNumpy3d">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyreal.transformers.</span></span><span class="sig-name descname"><span class="pre">MultiIndexFrameToNumpy3d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interpret</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">algorithm</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyreal/transformers/time_series_formatter.html#MultiIndexFrameToNumpy3d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyreal.transformers.MultiIndexFrameToNumpy3d" title="Permalink to this definition">#</a></dt>
-<dd><p>Convert Pyreal time-series format into NumPy ndarray with shape
-(n_instances, n_columns, n_timepoints).</p>
-<dl class="py method">
-<dt class="sig sig-object py" id="pyreal.transformers.MultiIndexFrameToNumpy3d.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interpret</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">algorithm</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyreal.transformers.MultiIndexFrameToNumpy3d.__init__" title="Permalink to this definition">#</a></dt>
-<dd><p>Set this Transformer’s flags.</p>
+  <section id="pyreal-utils-visualize-swarm-plot">
+<h1>pyreal.utils.visualize.swarm_plot<a class="headerlink" href="#pyreal-utils-visualize-swarm-plot" title="Permalink to this heading">#</a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="pyreal.utils.visualize.swarm_plot">
+<span class="sig-prename descclassname"><span class="pre">pyreal.utils.visualize.</span></span><span class="sig-name descname"><span class="pre">swarm_plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">contributions</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">values</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'swarm'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">legend</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyreal/utils/visualize.html#swarm_plot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyreal.utils.visualize.swarm_plot" title="Permalink to this definition">#</a></dt>
+<dd><p>Generates a strip plot (type=”strip”) or a swarm plot (type=”swarm”) from a set of feature
+contributions.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>model</strong> (<em>Boolean</em>) – If True, this transformer is required by the model-ready feature space. It will be
-run any time a model prediction is needed</p></li>
-<li><p><strong>interpret</strong> (<em>Boolean</em>) – If True, this transformer makes the data more human-interpretable</p></li>
-<li><p><strong>algorithm</strong> (<em>Boolean</em>) – If True, this transformer is required for the explanation algorithm. If
-algorithm is False, but model is True, this transformer will be applied only
-when making model predictions during the explanation algorithm. Cannot be True if
-if the model flag is False</p></li>
+<li><p><strong>contributions</strong> (<em>Series</em><em> or </em><em>DataFrame</em><em> of </em><em>shape</em><em> (</em><em>n_instances</em><em>, </em><em>n_features</em>) – Contributions, with feature names as the column names</p></li>
+<li><p><strong>values</strong> (<em>Series</em><em> or </em><em>DataFrame</em><em> of </em><em>shape</em><em> (</em><em>n_instances</em><em>, </em><em>n_features</em>) – If given, show the corresponding values alongside the feature names (ie, x_interpret)</p></li>
+<li><p><strong>(</strong><strong>String</strong> (<em>type</em>) – The type of plot to generate</p></li>
+<li><p><strong>[</strong><strong>&quot;strip&quot;</strong> (<em>one of</em>) – The type of plot to generate</p></li>
+<li><p><strong>&quot;swarm&quot;</strong><strong>]</strong> – The type of plot to generate</p></li>
+<li><p><strong>n</strong> (<em>int</em>) – Number of features to show</p></li>
+<li><p><strong>show</strong> (<em>Boolean</em>) – Whether or not to show the figure</p></li>
+<li><p><strong>filename</strong> (<em>string</em><em> or </em><em>None</em>) – If not None, save the figure as filename</p></li>
+<li><p><strong>legend</strong> (<em>Boolean</em>) – If True, show a colorbar legend</p></li>
+<li><p><strong>**kwargs</strong> – Additional arguments to pass to seaborn.swarmplot or seaborn.stripplot</p></li>
 </ul>
 </dd>
 </dl>
-</dd></dl>
-
-<p class="rubric">Methods</p>
-<table class="autosummary longtable table autosummary">
-<tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#pyreal.transformers.MultiIndexFrameToNumpy3d.__init__" title="pyreal.transformers.MultiIndexFrameToNumpy3d.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>([model, interpret, algorithm])</p></td>
-<td><p>Set this Transformer's flags.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="pyreal.transformers.MultiIndexFrameToNumpy3d.data_transform.html#pyreal.transformers.MultiIndexFrameToNumpy3d.data_transform" title="pyreal.transformers.MultiIndexFrameToNumpy3d.data_transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">data_transform</span></code></a>(x)</p></td>
-<td><p>Convert input DataFrame into 3D NumPy array</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit</span></code>(x, **params)</p></td>
-<td><p>Fit this transformer to data</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit_transform</span></code>(x, **fit_params)</p></td>
-<td><p>Fits this transformer to data and then transforms the same data</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">inverse_transform_explanation</span></code>(explanation)</p></td>
-<td><p>Transforms the explanation from the second feature space handled by this transformer to the first.</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">inverse_transform_explanation_additive_feature_contribution</span></code>(...)</p></td>
-<td><p>Inverse transforms additive feature contribution explanations</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">inverse_transform_explanation_additive_feature_importance</span></code>(...)</p></td>
-<td><p>Inverse transforms additive feature importance explanations</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">inverse_transform_explanation_decision_tree</span></code>(...)</p></td>
-<td><p>Inverse transforms feature-based explanations</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">inverse_transform_explanation_feature_based</span></code>(...)</p></td>
-<td><p>Inverse transforms feature-based explanations</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">inverse_transform_explanation_feature_contribution</span></code>(...)</p></td>
-<td><p>Inverse transforms feature contribution explanations</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">inverse_transform_explanation_feature_importance</span></code>(...)</p></td>
-<td><p>Inverse transforms feature importance explanations</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_flags</span></code>([model, interpret, algorithm])</p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform</span></code>(x)</p></td>
-<td><p>Wrapper for data_transform.</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_explanation</span></code>(explanation)</p></td>
-<td><p>Transforms the explanation from the first feature space handled by this transformer to the second.</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_explanation_additive_feature_contribution</span></code>(...)</p></td>
-<td><p>Transforms additive feature contribution explanations</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_explanation_additive_feature_importance</span></code>(...)</p></td>
-<td><p>Transforms additive feature importance explanations</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_explanation_decision_tree</span></code>(explanation)</p></td>
-<td><p>Inverse transforms feature-based explanations</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_explanation_feature_based</span></code>(explanation)</p></td>
-<td><p>Transforms feature-based explanations</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_explanation_feature_contribution</span></code>(...)</p></td>
-<td><p>Transforms feature contribution explanations</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_explanation_feature_importance</span></code>(...)</p></td>
-<td><p>Transforms feature importance explanations</p></td>
-</tr>
-</tbody>
-</table>
 </dd></dl>
 
 </section>
@@ -574,19 +505,12 @@ if the model flag is False</p></li>
             <footer class="bd-footer-article">
                 <!-- Previous / next buttons -->
 <div class='prev-next-area'>
-  <a class='left-prev' id="prev-link" href="pyreal.transformers.MultiIndexFrameToNumpy2d.data_transform.html" title="previous page">
+  <a class='left-prev' id="prev-link" href="pyreal.utils.visualize.plot_tree_explanation.html" title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
           <p class="prev-next-subtitle">previous</p>
-          <p class="prev-next-title">pyreal.transformers.MultiIndexFrameToNumpy2d.data_transform</p>
+          <p class="prev-next-title">pyreal.utils.visualize.plot_tree_explanation</p>
       </div>
-  </a>
-  <a class='right-next' id="next-link" href="pyreal.transformers.MultiIndexFrameToNumpy3d.data_transform.html" title="next page">
-  <div class="prev-next-info">
-      <p class="prev-next-subtitle">next</p>
-      <p class="prev-next-title">pyreal.transformers.MultiIndexFrameToNumpy3d.data_transform</p>
-  </div>
-  <i class="fa-solid fa-angle-right"></i>
   </a>
 </div>
             </footer>
@@ -605,24 +529,13 @@ if the model flag is False</p></li>
 <nav id="bd-toc-nav" class="page-toc">
     <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#pyreal.transformers.MultiIndexFrameToNumpy3d">
+  <a class="reference internal nav-link" href="#pyreal.utils.visualize.swarm_plot">
    <code class="docutils literal notranslate">
     <span class="pre">
-     MultiIndexFrameToNumpy3d
+     swarm_plot()
     </span>
    </code>
   </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#pyreal.transformers.MultiIndexFrameToNumpy3d.__init__">
-     <code class="docutils literal notranslate">
-      <span class="pre">
-       MultiIndexFrameToNumpy3d.__init__()
-      </span>
-     </code>
-    </a>
-   </li>
-  </ul>
  </li>
 </ul>
 
@@ -641,7 +554,7 @@ if the model flag is False</p></li>
 <div class="toc-item">
   
 <div class="tocsection sourcelink">
-    <a href="../../_sources/api_reference/api/pyreal.transformers.MultiIndexFrameToNumpy3d.rst.txt">
+    <a href="../../_sources/api_reference/api/pyreal.utils.visualize.swarm_plot.rst.txt">
         <i class="fa-solid fa-file-lines"></i> Show Source
     </a>
 </div>
