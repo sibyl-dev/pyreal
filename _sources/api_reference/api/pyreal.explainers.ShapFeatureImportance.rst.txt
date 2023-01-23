@@ -1,0 +1,37 @@
+﻿pyreal.explainers.ShapFeatureImportance
+=======================================
+
+.. currentmodule:: pyreal.explainers
+
+.. autoclass:: ShapFeatureImportance
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~ShapFeatureImportance.__init__
+      ~ShapFeatureImportance.convert_columns_to_interpretable
+      ~ShapFeatureImportance.convert_data_to_interpretable
+      ~ShapFeatureImportance.evaluate_model
+      ~ShapFeatureImportance.evaluate_variation
+      ~ShapFeatureImportance.feature_description
+      ~ShapFeatureImportance.fit
+      ~ShapFeatureImportance.get_importance
+      ~ShapFeatureImportance.model_predict
+      ~ShapFeatureImportance.model_predict_on_algorithm
+      ~ShapFeatureImportance.produce
+      ~ShapFeatureImportance.transform_explanation
+      ~ShapFeatureImportance.transform_to_x_algorithm
+      ~ShapFeatureImportance.transform_to_x_interpret
+      ~ShapFeatureImportance.transform_to_x_model
+      ~ShapFeatureImportance.transform_x_from_algorithm_to_model
+   
+   
+
+   
+   
+   

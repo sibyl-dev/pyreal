@@ -1,0 +1,6 @@
+﻿pyreal.explainers.SurrogateDecisionTree.fit
+===========================================
+
+.. currentmodule:: pyreal.explainers
+
+.. automethod:: SurrogateDecisionTree.fit

@@ -1,0 +1,6 @@
+﻿pyreal.transformers.MappingsOneHotDecoder.transform
+===================================================
+
+.. currentmodule:: pyreal.transformers
+
+.. automethod:: MappingsOneHotDecoder.transform

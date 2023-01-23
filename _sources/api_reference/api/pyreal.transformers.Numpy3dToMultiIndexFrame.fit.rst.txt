@@ -1,0 +1,6 @@
+﻿pyreal.transformers.Numpy3dToMultiIndexFrame.fit
+================================================
+
+.. currentmodule:: pyreal.transformers
+
+.. automethod:: Numpy3dToMultiIndexFrame.fit

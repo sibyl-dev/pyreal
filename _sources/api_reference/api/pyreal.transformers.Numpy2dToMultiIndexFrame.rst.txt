@@ -1,0 +1,41 @@
+﻿pyreal.transformers.Numpy2dToMultiIndexFrame
+============================================
+
+.. currentmodule:: pyreal.transformers
+
+.. autoclass:: Numpy2dToMultiIndexFrame
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~Numpy2dToMultiIndexFrame.__init__
+      ~Numpy2dToMultiIndexFrame.data_transform
+      ~Numpy2dToMultiIndexFrame.fit
+      ~Numpy2dToMultiIndexFrame.fit_transform
+      ~Numpy2dToMultiIndexFrame.inverse_transform_explanation
+      ~Numpy2dToMultiIndexFrame.inverse_transform_explanation_additive_feature_contribution
+      ~Numpy2dToMultiIndexFrame.inverse_transform_explanation_additive_feature_importance
+      ~Numpy2dToMultiIndexFrame.inverse_transform_explanation_decision_tree
+      ~Numpy2dToMultiIndexFrame.inverse_transform_explanation_feature_based
+      ~Numpy2dToMultiIndexFrame.inverse_transform_explanation_feature_contribution
+      ~Numpy2dToMultiIndexFrame.inverse_transform_explanation_feature_importance
+      ~Numpy2dToMultiIndexFrame.set_flags
+      ~Numpy2dToMultiIndexFrame.transform
+      ~Numpy2dToMultiIndexFrame.transform_explanation
+      ~Numpy2dToMultiIndexFrame.transform_explanation_additive_feature_contribution
+      ~Numpy2dToMultiIndexFrame.transform_explanation_additive_feature_importance
+      ~Numpy2dToMultiIndexFrame.transform_explanation_decision_tree
+      ~Numpy2dToMultiIndexFrame.transform_explanation_feature_based
+      ~Numpy2dToMultiIndexFrame.transform_explanation_feature_contribution
+      ~Numpy2dToMultiIndexFrame.transform_explanation_feature_importance
+   
+   
+
+   
+   
+   

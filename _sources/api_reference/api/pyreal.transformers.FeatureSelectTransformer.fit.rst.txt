@@ -1,0 +1,6 @@
+﻿pyreal.transformers.FeatureSelectTransformer.fit
+================================================
+
+.. currentmodule:: pyreal.transformers
+
+.. automethod:: FeatureSelectTransformer.fit

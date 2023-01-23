@@ -1,0 +1,6 @@
+﻿pyreal.transformers.FeatureSelectTransformer.transform\_explanation
+===================================================================
+
+.. currentmodule:: pyreal.transformers
+
+.. automethod:: FeatureSelectTransformer.transform_explanation

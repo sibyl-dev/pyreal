@@ -1,0 +1,41 @@
+﻿pyreal.transformers.Numpy2dToNestedFrame
+========================================
+
+.. currentmodule:: pyreal.transformers
+
+.. autoclass:: Numpy2dToNestedFrame
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~Numpy2dToNestedFrame.__init__
+      ~Numpy2dToNestedFrame.data_transform
+      ~Numpy2dToNestedFrame.fit
+      ~Numpy2dToNestedFrame.fit_transform
+      ~Numpy2dToNestedFrame.inverse_transform_explanation
+      ~Numpy2dToNestedFrame.inverse_transform_explanation_additive_feature_contribution
+      ~Numpy2dToNestedFrame.inverse_transform_explanation_additive_feature_importance
+      ~Numpy2dToNestedFrame.inverse_transform_explanation_decision_tree
+      ~Numpy2dToNestedFrame.inverse_transform_explanation_feature_based
+      ~Numpy2dToNestedFrame.inverse_transform_explanation_feature_contribution
+      ~Numpy2dToNestedFrame.inverse_transform_explanation_feature_importance
+      ~Numpy2dToNestedFrame.set_flags
+      ~Numpy2dToNestedFrame.transform
+      ~Numpy2dToNestedFrame.transform_explanation
+      ~Numpy2dToNestedFrame.transform_explanation_additive_feature_contribution
+      ~Numpy2dToNestedFrame.transform_explanation_additive_feature_importance
+      ~Numpy2dToNestedFrame.transform_explanation_decision_tree
+      ~Numpy2dToNestedFrame.transform_explanation_feature_based
+      ~Numpy2dToNestedFrame.transform_explanation_feature_contribution
+      ~Numpy2dToNestedFrame.transform_explanation_feature_importance
+   
+   
+
+   
+   
+   

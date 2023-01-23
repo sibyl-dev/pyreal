@@ -1,0 +1,6 @@
+﻿pyreal.utils.visualize.plot\_tree\_explanation
+==============================================
+
+.. currentmodule:: pyreal.utils.visualize
+
+.. autofunction:: plot_tree_explanation
