@@ -315,6 +315,8 @@ class MappingsOneHotEncoder(Transformer):
         ohe_data = {}
         for col in cols:
             values = x[col]
+            if col not in self.mappings.categorical_to_one_hot:
+                ohe_data[col] = values
             for item in self.mappings.categorical_to_one_hot[col]:
                 new_col_name = item[0]
                 ohe_data[new_col_name] = np.zeros(num_rows)
