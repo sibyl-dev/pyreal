@@ -5,14 +5,12 @@
    <i>An open source project from Data to AI Lab at MIT.</i>
    </p>
 
-Pyreal - Applied Explainability
+Pyreal Documentation
 ===============================
 
--  License:
--  Development Status:
-
--  Documentation: https://dai-lab.github.io/pyreal/
--  Homepage: https://github.com/DAI-Lab/pyreal
+-  License: MIT
+-  Documentation: https://pyreal.gitbook.io/pyreal
+-  Github: https://github.com/sibyl-dev/pyreal
 
 Overview
 --------
@@ -21,19 +19,14 @@ Overview
 handle all the transforming logic, in order to provide a human-interpretable explanation from any original
 data form.
 
-Current functionality and features:
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+`API Reference <api_reference/index.html>`_
 
-- functionality
+..
+    Current functionality and features:
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+..
+    - functionality
 
-Explore SDV
------------
-
-* `Getting Started <getting_started/index.html>`_
-* `User Guides <user_guides/index.html>`_
-* `API Reference <api_reference/index.html>`_
-* `Developer Guides <developer_guides/index.html>`_
-* `Release Notes <history.html>`_
 
 --------------
 
@@ -42,7 +35,4 @@ Explore SDV
     :hidden:
     :titlesonly:
 
-    getting_started/index
-    user_guides/index
     api_reference/index
-    developer_guides/index

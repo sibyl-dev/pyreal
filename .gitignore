@@ -118,3 +118,6 @@ docs/api_reference/api/
 # others
 .DS_Store
 utils/scratch.py
+
+pyreal/benchmark/datasets
+tutorials/ecg/
