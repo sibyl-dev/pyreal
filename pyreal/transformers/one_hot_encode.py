@@ -35,11 +35,10 @@ def _generate_categorical_to_one_hot(one_hot_to_categorical):
 
 
 def _generate_from_df(df):
-    # TODO: rename columns to be more natural
     categorical_to_one_hot = {}
     for i in range(df.shape[0]):
-        cf = df["name"][i]
-        ohf = df["original_name"][i]
+        cf = df["categorical"][i]
+        ohf = df["one_hot_encoded"][i]
         value = df["value"][i]
         if cf not in categorical_to_one_hot:
             categorical_to_one_hot[cf] = {ohf: value}
@@ -78,7 +77,8 @@ class Mappings:
             one_hot_to_categorical:
                 {OHE_feature_name : (categorical_feature_name, value), ...}
             dataframe:
-                DataFrame # TODO: specify type
+                DataFrame with three columns named [categorical, one_hot_encoded, values]
+                ie., [["A_a", "A", "a"], ["A_b", "B", "b"]]
         Returns:
             Mappings
                 A Mappings objects representing the column relationships
