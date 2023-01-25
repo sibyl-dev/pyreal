@@ -1,4 +1,5 @@
 import pandas as pd
+import pytest
 from pandas.testing import assert_frame_equal
 
 from pyreal.transformers import (
@@ -7,7 +8,6 @@ from pyreal.transformers import (
     MappingsOneHotEncoder,
     OneHotEncoder,
 )
-import pytest
 
 
 def test_fit_transform_one_hot_encoder(transformer_test_data):
