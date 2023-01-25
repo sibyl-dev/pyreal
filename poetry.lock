@@ -1786,17 +1786,17 @@ files = [
 
 [[package]]
 name = "lightgbm"
-version = "3.3.4"
+version = "3.3.5"
 description = "LightGBM Python Package"
 category = "main"
 optional = true
 python-versions = "*"
 files = [
-    {file = "lightgbm-3.3.4-py3-none-macosx_10_15_x86_64.macosx_11_6_x86_64.macosx_12_0_x86_64.whl", hash = "sha256:eb11d83b2f6ba6f77c6f4765de0d646c1bfbc47b5aec9247576c3c0d60e52960"},
-    {file = "lightgbm-3.3.4-py3-none-manylinux1_x86_64.whl", hash = "sha256:bf79910a75ba6260cdefa3ddfe030707928ba2a0ffb204c0b6ab31f56fc27ebd"},
-    {file = "lightgbm-3.3.4-py3-none-manylinux2014_aarch64.whl", hash = "sha256:5015ee512e4fbe2ca901b4a23dca650f1a423cae900646158f340ab84399fbe2"},
-    {file = "lightgbm-3.3.4-py3-none-win_amd64.whl", hash = "sha256:a3b29612af17096dbcc9419dd5ef5342dbb86cf77ec8f99064e2fa101722c3da"},
-    {file = "lightgbm-3.3.4.tar.gz", hash = "sha256:d6fa4d5b2a6f38d588434193f366757b20b301300b7385ca6924e2e402fc9063"},
+    {file = "lightgbm-3.3.5-py3-none-macosx_10_15_x86_64.macosx_11_6_x86_64.macosx_12_0_x86_64.whl", hash = "sha256:843dd37c00a1096a8898b80e368b3eef7f5a5d327d1fd9eb770b6f3c2e1edc49"},
+    {file = "lightgbm-3.3.5-py3-none-manylinux1_x86_64.whl", hash = "sha256:044f65664c1a32c98cb619bafa97d8cd9d93c2c2d5053376aadfe509a3a3e7fa"},
+    {file = "lightgbm-3.3.5-py3-none-manylinux2014_aarch64.whl", hash = "sha256:ef01e46939293a0a36729350a7384dc17a36880176d0f17d82b738bbe77e4528"},
+    {file = "lightgbm-3.3.5-py3-none-win_amd64.whl", hash = "sha256:02a40745c1972cf4a2cde764c7739228f45178c2237af2df40fde7063a58ac6a"},
+    {file = "lightgbm-3.3.5.tar.gz", hash = "sha256:10b8fbdcf851e4f68a1f02f38d99bdc44c7c7fb9b1a62dcf924a0d29ff73395c"},
 ]
 
 [package.dependencies]
