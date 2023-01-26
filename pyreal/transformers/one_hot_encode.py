@@ -35,11 +35,10 @@ def _generate_categorical_to_one_hot(one_hot_to_categorical):
 
 
 def _generate_from_df(df):
-    # TODO: rename columns to be more natural
     categorical_to_one_hot = {}
     for i in range(df.shape[0]):
-        cf = df["name"][i]
-        ohf = df["original_name"][i]
+        cf = df["categorical"][i]
+        ohf = df["one_hot_encoded"][i]
         value = df["value"][i]
         if cf not in categorical_to_one_hot:
             categorical_to_one_hot[cf] = {ohf: value}
@@ -78,7 +77,8 @@ class Mappings:
             one_hot_to_categorical:
                 {OHE_feature_name : (categorical_feature_name, value), ...}
             dataframe:
-                DataFrame # TODO: specify type
+                DataFrame with three columns named [categorical, one_hot_encoded, values]
+                ie., [["A_a", "A", "a"], ["A_b", "B", "b"]]
         Returns:
             Mappings
                 A Mappings objects representing the column relationships
@@ -315,10 +315,13 @@ class MappingsOneHotEncoder(Transformer):
         ohe_data = {}
         for col in cols:
             values = x[col]
-            for item in self.mappings.categorical_to_one_hot[col]:
-                new_col_name = item[0]
-                ohe_data[new_col_name] = np.zeros(num_rows)
-                ohe_data[new_col_name][np.where(values == item[1])] = 1
+            if col not in self.mappings.categorical_to_one_hot:
+                ohe_data[col] = values
+            else:
+                ohe_feature_dict = self.mappings.categorical_to_one_hot[col]
+                for ohe_feature in ohe_feature_dict:
+                    ohe_data[ohe_feature] = np.zeros(num_rows, dtype=bool)
+                    ohe_data[ohe_feature][np.where(values == ohe_feature_dict[ohe_feature])] = True
         return pd.DataFrame(ohe_data)
 
     def inverse_transform_explanation_additive_feature_contribution(self, explanation):

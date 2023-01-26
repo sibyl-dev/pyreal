@@ -1,7 +1,13 @@
 import pandas as pd
+import pytest
 from pandas.testing import assert_frame_equal
 
-from pyreal.transformers import OneHotEncoder
+from pyreal.transformers import (
+    Mappings,
+    MappingsOneHotDecoder,
+    MappingsOneHotEncoder,
+    OneHotEncoder,
+)
 
 
 def test_fit_transform_one_hot_encoder(transformer_test_data):
@@ -52,3 +58,52 @@ def test_transform_all_columns_one_hot_encoder(transformer_test_data):
         ],
     )
     assert_frame_equal(transformed_x, expected_transformed_x, check_dtype=False)
+
+
+categorical_to_one_hot = {
+    "A": {"A_a": "a", "A_b": "b"},
+    "B": {"B_a": "a", "B_b": "b", "B_c": "c"},
+}
+one_hot_to_categorical = {
+    "A_a": ("A", "a"),
+    "A_b": ("A", "b"),
+    "B_a": ("B", "a"),
+    "B_b": ("B", "b"),
+    "B_c": ("B", "c"),
+}
+dataframe = pd.DataFrame(
+    [
+        ["A_a", "A", "a"],
+        ["A_b", "A", "b"],
+        ["B_a", "B", "a"],
+        ["B_b", "B", "b"],
+        ["B_c", "B", "c"],
+    ],
+    columns=["one_hot_encoded", "categorical", "value"],
+)
+mappings_ctoh = Mappings.generate_mappings(categorical_to_one_hot=categorical_to_one_hot)
+mappings_ohtc = Mappings.generate_mappings(one_hot_to_categorical=one_hot_to_categorical)
+mappings_df = Mappings.generate_mappings(dataframe=dataframe)
+mappings_choices = [mappings_ctoh, mappings_ohtc, mappings_df]
+
+
+@pytest.mark.parametrize("mappings", mappings_choices)
+def test_mappings_encode_decode(mappings):
+    mappings_ohe = MappingsOneHotEncoder(mappings)
+
+    x = pd.DataFrame([["a", "b", 10, "f"], ["b", "c", 11, "d"]], columns=["A", "B", "C", "D"])
+
+    x_expected = pd.DataFrame(
+        [
+            [True, False, False, True, False, 10, "f"],
+            [False, True, False, False, True, 11, "d"],
+        ],
+        columns=["A_a", "A_b", "B_a", "B_b", "B_c", "C", "D"],
+    )
+    x_encoded = mappings_ohe.transform(x)
+    assert_frame_equal(x_encoded, x_expected)
+
+    mappings_ohd = MappingsOneHotDecoder(mappings)
+    x_decoded = mappings_ohd.transform(x_encoded)
+
+    assert_frame_equal(x_decoded, x)
