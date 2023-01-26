@@ -483,7 +483,8 @@ All but one keyword should be None</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>categorical_to_one_hot</strong> – {categorical_feature_name : {OHE_feature_name : value, …}, … }</p></li>
 <li><p><strong>one_hot_to_categorical</strong> – {OHE_feature_name : (categorical_feature_name, value), …}</p></li>
-<li><p><strong>dataframe</strong> – DataFrame # TODO: specify type</p></li>
+<li><p><strong>dataframe</strong> – DataFrame with three columns named [categorical, one_hot_encoded, values]
+ie., [[“A_a”, “A”, “a”], [“A_b”, “B”, “b”]]</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>

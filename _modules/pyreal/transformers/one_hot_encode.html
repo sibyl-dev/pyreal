@@ -310,11 +310,10 @@
 
 
 <span class="k">def</span> <span class="nf">_generate_from_df</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
-    <span class="c1"># TODO: rename columns to be more natural</span>
     <span class="n">categorical_to_one_hot</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
-        <span class="n">cf</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">]</span>
-        <span class="n">ohf</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;original_name&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">]</span>
+        <span class="n">cf</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;categorical&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">]</span>
+        <span class="n">ohf</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;one_hot_encoded&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">]</span>
         <span class="n">value</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;value&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">]</span>
         <span class="k">if</span> <span class="n">cf</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">categorical_to_one_hot</span><span class="p">:</span>
             <span class="n">categorical_to_one_hot</span><span class="p">[</span><span class="n">cf</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="n">ohf</span><span class="p">:</span> <span class="n">value</span><span class="p">}</span>
@@ -353,7 +352,8 @@
 <span class="sd">            one_hot_to_categorical:</span>
 <span class="sd">                {OHE_feature_name : (categorical_feature_name, value), ...}</span>
 <span class="sd">            dataframe:</span>
-<span class="sd">                DataFrame # TODO: specify type</span>
+<span class="sd">                DataFrame with three columns named [categorical, one_hot_encoded, values]</span>
+<span class="sd">                ie., [[&quot;A_a&quot;, &quot;A&quot;, &quot;a&quot;], [&quot;A_b&quot;, &quot;B&quot;, &quot;b&quot;]]</span>
 <span class="sd">        Returns:</span>
 <span class="sd">            Mappings</span>
 <span class="sd">                A Mappings objects representing the column relationships</span>
@@ -590,10 +590,13 @@
         <span class="n">ohe_data</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">cols</span><span class="p">:</span>
             <span class="n">values</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="n">col</span><span class="p">]</span>
-            <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">mappings</span><span class="o">.</span><span class="n">categorical_to_one_hot</span><span class="p">[</span><span class="n">col</span><span class="p">]:</span>
-                <span class="n">new_col_name</span> <span class="o">=</span> <span class="n">item</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-                <span class="n">ohe_data</span><span class="p">[</span><span class="n">new_col_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">num_rows</span><span class="p">)</span>
-                <span class="n">ohe_data</span><span class="p">[</span><span class="n">new_col_name</span><span class="p">][</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">values</span> <span class="o">==</span> <span class="n">item</span><span class="p">[</span><span class="mi">1</span><span class="p">])]</span> <span class="o">=</span> <span class="mi">1</span>
+            <span class="k">if</span> <span class="n">col</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">mappings</span><span class="o">.</span><span class="n">categorical_to_one_hot</span><span class="p">:</span>
+                <span class="n">ohe_data</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">values</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">ohe_feature_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mappings</span><span class="o">.</span><span class="n">categorical_to_one_hot</span><span class="p">[</span><span class="n">col</span><span class="p">]</span>
+                <span class="k">for</span> <span class="n">ohe_feature</span> <span class="ow">in</span> <span class="n">ohe_feature_dict</span><span class="p">:</span>
+                    <span class="n">ohe_data</span><span class="p">[</span><span class="n">ohe_feature</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">num_rows</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
+                    <span class="n">ohe_data</span><span class="p">[</span><span class="n">ohe_feature</span><span class="p">][</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">values</span> <span class="o">==</span> <span class="n">ohe_feature_dict</span><span class="p">[</span><span class="n">ohe_feature</span><span class="p">])]</span> <span class="o">=</span> <span class="kc">True</span>
         <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">ohe_data</span><span class="p">)</span></div>
 
     <span class="k">def</span> <span class="nf">inverse_transform_explanation_additive_feature_contribution</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">explanation</span><span class="p">):</span>
