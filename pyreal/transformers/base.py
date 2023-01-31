@@ -1,8 +1,27 @@
+import logging
 from abc import ABC, abstractmethod
 
-from pyreal.types.explanations.dataframe import (
-    AdditiveFeatureContributionExplanation, AdditiveFeatureImportanceExplanation,
-    FeatureContributionExplanation, FeatureImportanceExplanation,)
+import pandas as pd
+
+from pyreal.types.explanations.base import Explanation
+from pyreal.types.explanations.decision_tree import DecisionTreeExplanation
+from pyreal.types.explanations.feature_based import (
+    AdditiveFeatureContributionExplanation,
+    AdditiveFeatureImportanceExplanation,
+    FeatureBased,
+    FeatureContributionExplanation,
+    FeatureImportanceExplanation,
+)
+
+log = logging.getLogger(__name__)
+
+
+class BreakingTransformError(Exception):
+    """
+    Raised in a transform_explanation or inverse_transform_explanation function would be impossible
+    and is expected to break further transforms. The explanation transformation process will stop
+    upon encountering this error.
+    """
 
 
 def fit_transformers(transformers, x):
@@ -46,11 +65,38 @@ def run_transformers(transformers, x):
             Transformed data
     """
     x_transform = x.copy()
+    series = False
+    name = None
+    if isinstance(x_transform, pd.Series):
+        name = x_transform.name
+        x_transform = x_transform.to_frame().T
+        series = True
     if not isinstance(transformers, list):
         transformers = [transformers]
     for transform in transformers:
         x_transform = transform.transform(x_transform)
+    if series and isinstance(x_transform, pd.DataFrame):
+        x_transform = x_transform.squeeze()
+        x_transform.name = name
     return x_transform
+
+
+def _display_missing_transform_info(transformer_name, function_name):
+    log.info(
+        "Transformer %s does not have an implemented %s function. "
+        "Defaulting to no change in explanation. If this causes a break,"
+        "you may want to add a interpret=False flag to this transformer or redefine this "
+        "function to throw a BreakingTransformError." % (transformer_name, function_name)
+    )
+
+
+def _display_missing_transform_info_inverse(transformer_name, function_name):
+    log.info(
+        "Transformer %s does not have an implemented %s function. "
+        "Defaulting to no change in explanation. If this causes a break,"
+        "you may want to add an interpret=True flag to this transformer or redefine this "
+        "function to throw a BreakingTransformError." % (transformer_name, function_name)
+    )
 
 
 class Transformer(ABC):
@@ -58,6 +104,7 @@ class Transformer(ABC):
     An abstract base class for Transformers. Transformers transform data from a first feature space
     to a second, and explanations from the second back to the first.
     """
+
     def __init__(self, model=True, interpret=False, algorithm=None):
         """
         Set this Transformer's flags.
@@ -82,6 +129,7 @@ class Transformer(ABC):
             self.algorithm = algorithm
         if self.model is False and self.algorithm is True:
             raise ValueError("algorithm flag cannot be True if model flag is False")
+        self.fitted = False
 
     def set_flags(self, model=None, interpret=None, algorithm=None):
         if model is not None:
@@ -106,6 +154,7 @@ class Transformer(ABC):
         Returns:
             None
         """
+        self.fitted = True
         return self
 
     @abstractmethod
@@ -170,15 +219,23 @@ class Transformer(ABC):
                 If `explanation` is not of a supported ExplanationType
 
         """
-        if isinstance(explanation, AdditiveFeatureContributionExplanation) \
-                or isinstance(explanation, AdditiveFeatureImportanceExplanation):
-            return self.inverse_transform_explanation_additive_contributions(explanation)
-        # TODO: here we are temporarily using the additive version for non-additive explanations
-        #       Addressed in GH issue 114.
+        if isinstance(explanation, AdditiveFeatureContributionExplanation):
+            return self.inverse_transform_explanation_additive_feature_contribution(explanation)
+        if isinstance(explanation, AdditiveFeatureImportanceExplanation):
+            return self.inverse_transform_explanation_additive_feature_importance(explanation)
         if isinstance(explanation, FeatureContributionExplanation):
-            return self.inverse_transform_explanation_additive_contributions(explanation)
+            return self.inverse_transform_explanation_feature_contribution(explanation)
         if isinstance(explanation, FeatureImportanceExplanation):
             return self.inverse_transform_explanation_feature_importance(explanation)
+        if isinstance(explanation, FeatureBased):
+            return self.inverse_transform_explanation_feature_based(explanation)
+
+        if isinstance(explanation, DecisionTreeExplanation):
+            return self.inverse_transform_explanation_decision_tree(explanation)
+
+        if isinstance(explanation, Explanation):  # handle generic explanation cases
+            return explanation
+
         raise ValueError("Invalid explanation types %s" % explanation.__class__)
 
     def transform_explanation(self, explanation):
@@ -194,74 +251,179 @@ class Transformer(ABC):
                 The transformed explanation
         Raises:
             ValueError
-                If `explantion` is not of a supported ExplanationType
+                If `explanation` is not of a supported ExplanationType
 
         """
-        if isinstance(explanation, AdditiveFeatureContributionExplanation) \
-                or isinstance(explanation, AdditiveFeatureImportanceExplanation):
-            return self.transform_explanation_additive_contributions(explanation)
-        # for now, use the additive version for non-additive explanations
+        print(explanation)
+        if isinstance(explanation, AdditiveFeatureContributionExplanation):
+            return self.transform_explanation_additive_feature_contribution(explanation)
+        if isinstance(explanation, AdditiveFeatureImportanceExplanation):
+            return self.transform_explanation_additive_feature_importance(explanation)
         if isinstance(explanation, FeatureContributionExplanation):
-            return self.transform_explanation_additive_contributions(explanation)
+            return self.transform_explanation_feature_contribution(explanation)
         if isinstance(explanation, FeatureImportanceExplanation):
             return self.transform_explanation_feature_importance(explanation)
+        if isinstance(explanation, FeatureBased):
+            return self.transform_explanation_feature_based(explanation)
+
+        if isinstance(explanation, Explanation):
+            return explanation
+
         raise ValueError("Invalid explanation types %s" % explanation.__class__)
 
+    # ========================== INVERSE TRANSFORM EXPLANATION METHODS ===========================
+
     # noinspection PyMethodMayBeStatic
-    def inverse_transform_explanation_additive_contributions(self, explanation):
+    def inverse_transform_explanation_additive_feature_contribution(self, explanation):
         """
-        Transforms additive contribution explanations
+        Inverse transforms additive feature contribution explanations
 
         Args:
-            explanation (AdditiveFeatureContributionExplanationType):
+            explanation (AdditiveFeatureContributionExplanation):
                 The explanation to be transformed
 
         Returns:
-            AdditiveFeatureContributionExplanationType:
+            AdditiveFeatureContributionExplanation:
                 The transformed explanation
-
-        Raises:
-            NotImplementedError:
-                If this transformer does not support this kind of explanation transform
         """
-        raise NotImplementedError
+        return AdditiveFeatureContributionExplanation(
+            self.inverse_transform_explanation_feature_contribution(explanation).get()
+        )
+
+    # noinspection PyMethodMayBeStatic
+    def inverse_transform_explanation_additive_feature_importance(self, explanation):
+        """
+        Inverse transforms additive feature importance explanations
+
+        Args:
+            explanation (AdditiveFeatureImportanceExplanation):
+                The explanation to be transformed
+
+        Returns:
+            AdditiveFeatureImportanceExplanation:
+                The transformed explanation
+        """
+        return AdditiveFeatureImportanceExplanation(
+            self.inverse_transform_explanation_feature_importance(explanation).get()
+        )
+
+    # noinspection PyMethodMayBeStatic
+    def inverse_transform_explanation_feature_contribution(self, explanation):
+        """
+        Inverse transforms feature contribution explanations
+
+        Args:
+            explanation (FeatureContributionExplanation):
+                The explanation to be transformed
+        Returns:
+            FeatureContributionExplanation:
+                The transformed explanation
+        """
+        return FeatureContributionExplanation(
+            self.inverse_transform_explanation_feature_based(explanation).get()
+        )
 
     # noinspection PyMethodMayBeStatic
     def inverse_transform_explanation_feature_importance(self, explanation):
         """
-        Transforms feature importance explanations
+        Inverse transforms feature importance explanations
 
         Args:
-            explanation (FeatureImportanceExplanationType):
+            explanation (FeatureImportanceExplanation):
                 The explanation to be transformed
         Returns:
-            FeatureImportanceExplanationType:
+            FeatureImportanceExplanation:
                 The transformed explanation
-
-        Raises:
-            NotImplementedError:
-                If this transformer does not support this kind of explanation transform
         """
-        raise NotImplementedError
+        return FeatureImportanceExplanation(
+            self.inverse_transform_explanation_feature_based(explanation).get()
+        )
 
     # noinspection PyMethodMayBeStatic
-    def transform_explanation_additive_contributions(self, explanation):
+    def inverse_transform_explanation_feature_based(self, explanation):
         """
-        Transforms additive contribution explanations
+        Inverse transforms feature-based explanations
 
         Args:
-            explanation (AdditiveFeatureContributionExplanationType):
+            explanation (FeatureBased):
+                The explanation to be transformed
+        Returns:
+            FeatureBased:
+                The transformed explanation
+        """
+        _display_missing_transform_info_inverse(
+            self.__class__, "inverse_transform_explanation_feature_based"
+        )
+        return explanation
+
+    # noinspection PyMethodMayBeStatic
+    def inverse_transform_explanation_decision_tree(self, explanation):
+        """
+        Inverse transforms feature-based explanations
+
+        Args:
+            explanation (DecisionTree):
+                The explanation to be transformed
+        Returns:
+            DecisionTree:
+                The transformed explanation
+        """
+        _display_missing_transform_info_inverse(
+            self.__class__, "inverse_transform_explanation_decision_tree"
+        )
+        return explanation
+
+    # ============================== TRANSFORM EXPLANATION METHODS ================================
+
+    # noinspection PyMethodMayBeStatic
+    def transform_explanation_additive_feature_contribution(self, explanation):
+        """
+        Transforms additive feature contribution explanations
+
+        Args:
+            explanation (AdditiveFeatureContributionExplanation):
                 The explanation to be transformed
 
         Returns:
-            AdditiveFeatureContributionExplanationType:
+            AdditiveFeatureContributionExplanation:
                 The transformed explanation
-
-        Raises:
-            NotImplementedError:
-                If this transformer does not support this kind of explanation transform
         """
-        raise NotImplementedError
+        return AdditiveFeatureContributionExplanation(
+            self.transform_explanation_feature_contribution(explanation).get()
+        )
+
+    # noinspection PyMethodMayBeStatic
+    def transform_explanation_additive_feature_importance(self, explanation):
+        """
+        Transforms additive feature importance explanations
+
+        Args:
+            explanation (AdditiveFeatureImportanceExplanation):
+                The explanation to be transformed
+
+        Returns:
+            AdditiveFeatureImportanceExplanation:
+                The transformed explanation
+        """
+        return AdditiveFeatureImportanceExplanation(
+            self.transform_explanation_feature_importance(explanation).get()
+        )
+
+    # noinspection PyMethodMayBeStatic
+    def transform_explanation_feature_contribution(self, explanation):
+        """
+        Transforms feature contribution explanations
+
+        Args:
+            explanation (FeatureContributionExplanation):
+                The explanation to be transformed
+        Returns:
+            FeatureContributionExplanation:
+                The transformed explanation
+        """
+        return FeatureContributionExplanation(
+            self.transform_explanation_feature_based(explanation).get()
+        )
 
     # noinspection PyMethodMayBeStatic
     def transform_explanation_feature_importance(self, explanation):
@@ -269,14 +431,42 @@ class Transformer(ABC):
         Transforms feature importance explanations
 
         Args:
-            explanation (FeatureImportanceExplanationType):
+            explanation (FeatureImportanceExplanation):
                 The explanation to be transformed
         Returns:
-            FeatureImportanceExplanationType:
+            FeatureImportanceExplanation:
                 The transformed explanation
-
-        Raises:
-            NotImplementedError:
-                If this transformer does not support this kind of explanation transform
         """
-        raise NotImplementedError
+        return FeatureImportanceExplanation(
+            self.transform_explanation_feature_based(explanation).get()
+        )
+
+    # noinspection PyMethodMayBeStatic
+    def transform_explanation_feature_based(self, explanation):
+        """
+        Transforms feature-based explanations
+
+        Args:
+            explanation (FeatureBased):
+                The explanation to be transformed
+        Returns:
+            FeatureBased:
+                The transformed explanation
+        """
+        _display_missing_transform_info(self.__class__, "transform_explanation_feature_based")
+        return explanation
+
+    # noinspection PyMethodMayBeStatic
+    def transform_explanation_decision_tree(self, explanation):
+        """
+        Inverse transforms feature-based explanations
+
+        Args:
+            explanation (DecisionTree):
+                The explanation to be transformed
+        Returns:
+            DecisionTree:
+                The transformed explanation
+        """
+        _display_missing_transform_info(self.__class__, "transform_explanation_decision_tree")
+        return explanation

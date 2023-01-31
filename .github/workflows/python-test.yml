@@ -1,0 +1,8 @@
+name: Test CI
+
+on:
+  pull_request:
+
+jobs:
+  test:
+    uses: sibyl-dev/.github/.github/workflows/python-test.yml@main

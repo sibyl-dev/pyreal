@@ -2,10 +2,10 @@ from abc import ABC, abstractmethod
 
 import numpy as np
 
-from pyreal.explainers import Explainer
+from pyreal.explainers import ExplainerBase
 
 
-class GlobalFeatureImportanceBase(Explainer, ABC):
+class GlobalFeatureImportanceBase(ExplainerBase, ABC):
     """
     Base class for GlobalFeatureImportance explainer objects. Abstract class
 
@@ -96,6 +96,5 @@ class GlobalFeatureImportanceBase(Explainer, ABC):
             for i in range(n_iterations - 1):
                 if with_fit:
                     self.fit()
-                explanations.append(
-                    self.produce(self.x_train_orig.iloc[0:n_rows]).to_numpy())
+                explanations.append(self.produce(self._x_train_orig.iloc[0:n_rows]).to_numpy())
         return np.max(np.var(explanations, axis=0))

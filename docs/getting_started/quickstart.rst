@@ -61,10 +61,9 @@ the most contributing features using the `visualize` model.
     input_to_explain = x_orig.iloc[0]
     prediction = lfc.model_predict(input_to_explain) # Prediction: [0]
 
-    contributions = lfc.produce(input_to_explain)
+    contributions, x_interpret = lfc.produce(input_to_explain)
 
     from pyreal.utils import visualize
-    x_interpret = lfc.convert_data_to_interpretable(input_to_explain)
 
     # Plot a bar plot of top contributing features, by asbolute value
     visualize.plot_top_contributors(contributions, select_by="absolute", values=x_interpret)

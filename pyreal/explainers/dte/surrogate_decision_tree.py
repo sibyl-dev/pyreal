@@ -35,8 +35,8 @@ class SurrogateDecisionTree(DecisionTreeExplainerBase):
         Fit the decision tree.
         TODO: Perhaps use sklearn's GridSearchCV to find the "best" tree.
         """
-        a_dataset = self.transform_to_x_algorithm(self.x_train_orig)
-        m_dataset = self.transform_to_x_model(self.x_train_orig)
+        a_dataset = self.transform_to_x_algorithm(self._x_train_orig)
+        m_dataset = self.transform_to_x_model(self._x_train_orig)
         self.explainer_input_size = a_dataset.shape[1]
         if self.is_classifer:
             self.explainer = tree.DecisionTreeClassifier(max_depth=self.max_depth)
@@ -55,8 +55,10 @@ class SurrogateDecisionTree(DecisionTreeExplainerBase):
         """
 
         if self.explainer is None:
-            raise AttributeError("Instance has no explainer. Please fit the explainer \
-            before producing explanations.")
+            raise AttributeError(
+                "Instance has no explainer. Please fit the explainer             before producing"
+                " explanations."
+            )
 
         return self.explainer
 
@@ -68,8 +70,10 @@ class SurrogateDecisionTree(DecisionTreeExplainerBase):
             The feature importances of the decision tree explainer.
         """
         if self.explainer is None:
-            raise AttributeError("Instance has no explainer. Please fit the explainer \
-            before producing explanations.")
+            raise AttributeError(
+                "Instance has no explainer. Please fit the explainer             before producing"
+                " explanations."
+            )
 
         features = self.return_features()
         importances = pd.DataFrame(self.explainer.feature_importances_[None, :], columns=features)

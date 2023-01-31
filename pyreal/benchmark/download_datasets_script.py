@@ -11,7 +11,7 @@ def main():
     datasets = dataset.DEFAULT_DATASET_NAMES
     if not os.path.isdir(os.path.join(ROOT, "datasets")):
         os.mkdir(os.path.join(ROOT, "datasets"))
-    for (i, dataset_name) in enumerate(datasets):
+    for i, dataset_name in enumerate(datasets):
         filename = os.path.join(ROOT, "datasets", dataset_name + ".csv")
         if not os.path.exists(filename):
             url = dataset.get_dataset_url(dataset_name)
@@ -19,5 +19,5 @@ def main():
             df.to_csv(filename)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

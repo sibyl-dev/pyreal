@@ -1,0 +1,8 @@
+name: Generate Docs
+on:
+  push:
+    branches: [ dev ]
+
+jobs:
+  docs:
+    uses: sibyl-dev/.github/.github/workflows/python-docs.yml@main

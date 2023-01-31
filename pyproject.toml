@@ -1,7 +1,7 @@
 # Project Metadata
 [tool.poetry]
 authors = [
-  "Alexandra Zytek <zyteka@mit.edu>",
+  "Alexandra Zytek <zyteka@mit.edu>"
 ]
 
 maintainers = [
@@ -10,7 +10,7 @@ maintainers = [
 
 description = "Library for evaluating and deploying human readable machine learning explanations."
 name = "pyreal"
-version = "0.2.0"
+version = "0.3.1"
 
 license = ""
 
@@ -27,66 +27,69 @@ classifiers = [
   'Natural Language :: English',
 ]
 
-include = ["AUTHORS.rst", "HISTORY.md"]
 exclude = []
-
+include = ["AUTHORS.rst", "HISTORY.md"]
 
 # Library Requirements
 [tool.poetry.dependencies]
 
 # Main Python Requirements
-python = ">=3.7.1, <3.10"
+python = "^3.8, <3.11"
 
 #Library Dependencies
-eli5 = "^0.11.0"
-matplotlib = "^3.4.3"
-numpy = "^1.19.5"
-pandas = "^1.3.3"
-scikit-learn = "^0.24.2"
-shap = "^0.39.0"
+eli5 = ">=0.11,<0.14"
+matplotlib = "^3.6.0"
+numpy = "^1.23.3"
+pandas = "^1.5.0"
+scikit-learn = "^1.1.2"
+numba = "^0.56.2" # Explicit numba (required by shap) forces recent version
+shap = "^0.41.0"
+lime = "^0.2.0.1"
 
 # Example Dependencies
-tensorflow = {version = "^2.6.0", optional = true}
+tensorflow = {version = "^2.6.0,<=2.10.0", optional = true}
+lightgbm = {version = "^3.3.2", optional = true}
 
 # Development Requirements
+seaborn = "^0.12.2"
 [tool.poetry.dev-dependencies]
 
 # Testing Dependencies
-coverage = "^5.5"
-pytest = "^6.2.5"
-pytest-cov = "^2.12.1"
-pytest-xdist = "^2.4.0"
-jupyter = "^1.0.0"
-invoke = "^1.6.0"
-nbmake = "^0.8"
+coverage = ">=6.5.0"
+invoke = ">=1.7.3"
+jupyter = ">=1.0.0"
+pytest = ">=7.1.3"
+pytest-cov = ">=4.0.0"
+nbmake = "^1.3.5"
 
 # Style Dependencies
-flake8 = "^3.9.2"
-isort = "^5.9.3"
-autoflake = "^1.4"
-autopep8 = "^1.5.7"
+flake8 = "^5.0.4"
+isort = "^5.11.4"
+black = "^22.12.0"
 
 # Documentation Dependencies
-PyYaml = "^5.4.1"
-Sphinx = "^4.2.0"
-argh = "^0.26.2"
-autodocsumm = "^0.2.7"
-ipython = "^7.27.0"
-m2r2 = "^0.3.1"
-nbsphinx = "^0.8.7"
-pydata-sphinx-theme = "^0.7.2"
+PyYaml = ">=6.0"
+Sphinx = "==5.3.0"
+argh = ">=0.26.2"
+autodocsumm = ">=0.2.9"
+ipython = ">=8.5.0"
+m2r2 = ">=0.3.3"
+nbsphinx = ">=0.8.8"
+pydata-sphinx-theme = ">=0.10.1"
 
 # Extra Dependency Bundles
 [tool.poetry.extras]
-examples = ["tensorflow", "nbmake"]
+examples = ["tensorflow", "lightgbm"]
+
+[tool.black]
+line-length = 99
+preview = true
 
 [tool.isort]
-include_trailing_comma = true
+profile = "black"
 line_length = 99
-lines_between_types = 0
-multi_line_output = 4
-use_parentheses = true
+skip = ["__init__.py"]
 
 [build-system]
+requires = ["poetry-core>=1.2.0"]
 build-backend = "poetry.core.masonry.api"
-requires = ["poetry-core>=1.1.12"]

@@ -1,11 +1,12 @@
 from abc import ABC, abstractmethod
 
 import numpy as np
+import pandas as pd
 
-from pyreal.explainers import Explainer
+from pyreal.explainers import ExplainerBase
 
 
-class LocalFeatureContributionsBase(Explainer, ABC):
+class LocalFeatureContributionsBase(ExplainerBase, ABC):
     """
     Base class for LocalFeatureContributions explainer objects. Abstract class
 
@@ -45,14 +46,26 @@ class LocalFeatureContributionsBase(Explainer, ABC):
         Returns:
             DataFrame of shape (n_instances, n_features)
                 Contribution of each feature for each instance
+            DataFrame of shape (n_instances, x_orig_feature_count)
+                `x_orig` transformed to the state of the final explanation
         """
-        if x_orig.ndim == 1:
+        series = False
+        name = None
+        if isinstance(x_orig, pd.Series):
+            name = x_orig.name
+            series = True
             x_orig = x_orig.to_frame().T
         contributions = self.get_contributions(x_orig)
-        contributions = self.transform_explanation(contributions).get()
+        contributions, x_interpret = self.transform_explanation(contributions, x_orig)
+        if series:
+            x_interpret = x_interpret.squeeze()
+            x_interpret.name = name
+        contributions = contributions.get()
         if self.interpretable_features:
-            return self.convert_columns_to_interpretable(contributions)
-        return contributions
+            return self.convert_columns_to_interpretable(
+                contributions
+            ), self.convert_columns_to_interpretable(x_interpret)
+        return contributions, x_interpret
 
     @abstractmethod
     def get_contributions(self, x_orig):
@@ -96,6 +109,6 @@ class LocalFeatureContributionsBase(Explainer, ABC):
             for i in range(n_iterations - 1):
                 if with_fit:
                     self.fit()
-                explanations.append(
-                    self.produce(self.x_train_orig.iloc[0:n_rows]).to_numpy())
+                explanations.append(self.produce(self._x_train_orig.iloc[0:n_rows])[0].to_numpy())
+
         return np.max(np.var(explanations, axis=0))
