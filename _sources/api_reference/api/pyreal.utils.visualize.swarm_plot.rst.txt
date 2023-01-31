@@ -1,6 +1,0 @@
-﻿pyreal.utils.visualize.swarm\_plot
-==================================
-
-.. currentmodule:: pyreal.utils.visualize
-
-.. autofunction:: swarm_plot

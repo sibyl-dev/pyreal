@@ -1,6 +1,0 @@
-﻿pyreal.explainers.DecisionTreeExplainer.produce\_importances
-============================================================
-
-.. currentmodule:: pyreal.explainers
-
-.. automethod:: DecisionTreeExplainer.produce_importances

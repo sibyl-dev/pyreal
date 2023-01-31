@@ -1,6 +1,0 @@
-﻿pyreal.explainers.ExplainerBase.transform\_to\_x\_algorithm
-===========================================================
-
-.. currentmodule:: pyreal.explainers
-
-.. automethod:: ExplainerBase.transform_to_x_algorithm

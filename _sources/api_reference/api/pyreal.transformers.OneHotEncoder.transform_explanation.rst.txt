@@ -1,6 +1,0 @@
-﻿pyreal.transformers.OneHotEncoder.transform\_explanation
-========================================================
-
-.. currentmodule:: pyreal.transformers
-
-.. automethod:: OneHotEncoder.transform_explanation

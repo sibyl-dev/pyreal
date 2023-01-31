@@ -1,6 +1,0 @@
-﻿pyreal.transformers.MultiIndexFrameToNestedFrame.data\_transform
-================================================================
-
-.. currentmodule:: pyreal.transformers
-
-.. automethod:: MultiIndexFrameToNestedFrame.data_transform

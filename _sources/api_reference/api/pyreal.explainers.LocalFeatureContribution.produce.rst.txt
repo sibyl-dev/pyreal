@@ -1,6 +1,0 @@
-﻿pyreal.explainers.LocalFeatureContribution.produce
-==================================================
-
-.. currentmodule:: pyreal.explainers
-
-.. automethod:: LocalFeatureContribution.produce

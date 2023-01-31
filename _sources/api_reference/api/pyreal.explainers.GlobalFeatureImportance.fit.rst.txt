@@ -1,6 +1,0 @@
-﻿pyreal.explainers.GlobalFeatureImportance.fit
-=============================================
-
-.. currentmodule:: pyreal.explainers
-
-.. automethod:: GlobalFeatureImportance.fit

@@ -1,6 +1,0 @@
-﻿pyreal.types.explanations.feature\_based.FeatureBased.validate
-==============================================================
-
-.. currentmodule:: pyreal.types.explanations.feature_based
-
-.. automethod:: FeatureBased.validate

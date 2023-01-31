@@ -1,6 +1,0 @@
-﻿pyreal.transformers.FeatureSelectTransformer.data\_transform
-============================================================
-
-.. currentmodule:: pyreal.transformers
-
-.. automethod:: FeatureSelectTransformer.data_transform

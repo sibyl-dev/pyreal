@@ -1,6 +1,0 @@
-﻿pyreal.transformers.Mappings.generate\_mappings
-===============================================
-
-.. currentmodule:: pyreal.transformers
-
-.. automethod:: Mappings.generate_mappings
