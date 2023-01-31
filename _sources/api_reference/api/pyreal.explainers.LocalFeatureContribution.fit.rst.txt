@@ -1,0 +1,6 @@
+﻿pyreal.explainers.LocalFeatureContribution.fit
+==============================================
+
+.. currentmodule:: pyreal.explainers
+
+.. automethod:: LocalFeatureContribution.fit

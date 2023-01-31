@@ -1,0 +1,6 @@
+﻿pyreal.transformers.TimeSeriesPadder.transform
+==============================================
+
+.. currentmodule:: pyreal.transformers
+
+.. automethod:: TimeSeriesPadder.transform

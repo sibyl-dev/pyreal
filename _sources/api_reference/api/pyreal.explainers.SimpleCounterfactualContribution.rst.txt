@@ -1,0 +1,37 @@
+﻿pyreal.explainers.SimpleCounterfactualContribution
+==================================================
+
+.. currentmodule:: pyreal.explainers
+
+.. autoclass:: SimpleCounterfactualContribution
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~SimpleCounterfactualContribution.__init__
+      ~SimpleCounterfactualContribution.convert_columns_to_interpretable
+      ~SimpleCounterfactualContribution.convert_data_to_interpretable
+      ~SimpleCounterfactualContribution.evaluate_model
+      ~SimpleCounterfactualContribution.evaluate_variation
+      ~SimpleCounterfactualContribution.feature_description
+      ~SimpleCounterfactualContribution.fit
+      ~SimpleCounterfactualContribution.get_contributions
+      ~SimpleCounterfactualContribution.model_predict
+      ~SimpleCounterfactualContribution.model_predict_on_algorithm
+      ~SimpleCounterfactualContribution.produce
+      ~SimpleCounterfactualContribution.transform_explanation
+      ~SimpleCounterfactualContribution.transform_to_x_algorithm
+      ~SimpleCounterfactualContribution.transform_to_x_interpret
+      ~SimpleCounterfactualContribution.transform_to_x_model
+      ~SimpleCounterfactualContribution.transform_x_from_algorithm_to_model
+   
+   
+
+   
+   
+   

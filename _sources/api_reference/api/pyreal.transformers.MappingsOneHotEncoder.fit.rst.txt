@@ -1,0 +1,6 @@
+﻿pyreal.transformers.MappingsOneHotEncoder.fit
+=============================================
+
+.. currentmodule:: pyreal.transformers
+
+.. automethod:: MappingsOneHotEncoder.fit

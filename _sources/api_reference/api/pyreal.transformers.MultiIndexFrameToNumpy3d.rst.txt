@@ -1,0 +1,41 @@
+﻿pyreal.transformers.MultiIndexFrameToNumpy3d
+============================================
+
+.. currentmodule:: pyreal.transformers
+
+.. autoclass:: MultiIndexFrameToNumpy3d
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~MultiIndexFrameToNumpy3d.__init__
+      ~MultiIndexFrameToNumpy3d.data_transform
+      ~MultiIndexFrameToNumpy3d.fit
+      ~MultiIndexFrameToNumpy3d.fit_transform
+      ~MultiIndexFrameToNumpy3d.inverse_transform_explanation
+      ~MultiIndexFrameToNumpy3d.inverse_transform_explanation_additive_feature_contribution
+      ~MultiIndexFrameToNumpy3d.inverse_transform_explanation_additive_feature_importance
+      ~MultiIndexFrameToNumpy3d.inverse_transform_explanation_decision_tree
+      ~MultiIndexFrameToNumpy3d.inverse_transform_explanation_feature_based
+      ~MultiIndexFrameToNumpy3d.inverse_transform_explanation_feature_contribution
+      ~MultiIndexFrameToNumpy3d.inverse_transform_explanation_feature_importance
+      ~MultiIndexFrameToNumpy3d.set_flags
+      ~MultiIndexFrameToNumpy3d.transform
+      ~MultiIndexFrameToNumpy3d.transform_explanation
+      ~MultiIndexFrameToNumpy3d.transform_explanation_additive_feature_contribution
+      ~MultiIndexFrameToNumpy3d.transform_explanation_additive_feature_importance
+      ~MultiIndexFrameToNumpy3d.transform_explanation_decision_tree
+      ~MultiIndexFrameToNumpy3d.transform_explanation_feature_based
+      ~MultiIndexFrameToNumpy3d.transform_explanation_feature_contribution
+      ~MultiIndexFrameToNumpy3d.transform_explanation_feature_importance
+   
+   
+
+   
+   
+   

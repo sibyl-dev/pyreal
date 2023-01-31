@@ -1,0 +1,6 @@
+﻿pyreal.explainers.ExplainerBase.feature\_description
+====================================================
+
+.. currentmodule:: pyreal.explainers
+
+.. automethod:: ExplainerBase.feature_description

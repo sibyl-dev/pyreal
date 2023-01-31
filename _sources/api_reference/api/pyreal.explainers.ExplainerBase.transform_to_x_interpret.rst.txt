@@ -1,0 +1,6 @@
+﻿pyreal.explainers.ExplainerBase.transform\_to\_x\_interpret
+===========================================================
+
+.. currentmodule:: pyreal.explainers
+
+.. automethod:: ExplainerBase.transform_to_x_interpret

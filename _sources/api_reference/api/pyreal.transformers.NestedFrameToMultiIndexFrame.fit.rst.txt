@@ -1,0 +1,6 @@
+﻿pyreal.transformers.NestedFrameToMultiIndexFrame.fit
+====================================================
+
+.. currentmodule:: pyreal.transformers
+
+.. automethod:: NestedFrameToMultiIndexFrame.fit

@@ -1,0 +1,24 @@
+﻿pyreal.types.explanations.feature\_based.AdditiveFeatureContributionExplanation
+===============================================================================
+
+.. currentmodule:: pyreal.types.explanations.feature_based
+
+.. autoclass:: AdditiveFeatureContributionExplanation
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~AdditiveFeatureContributionExplanation.__init__
+      ~AdditiveFeatureContributionExplanation.get
+      ~AdditiveFeatureContributionExplanation.validate
+   
+   
+
+   
+   
+   
