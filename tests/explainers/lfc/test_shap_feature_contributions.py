@@ -1,7 +1,8 @@
-from pyreal.explainers import ShapFeatureContribution, LocalFeatureContribution
-from shap import LinearExplainer
 import numpy as np
 import pandas as pd
+from shap import LinearExplainer
+
+from pyreal.explainers import LocalFeatureContribution, ShapFeatureContribution
 
 
 def test_fit_shap(all_models):
@@ -148,6 +149,7 @@ def test_fit_shap_with_size(all_models):
 
         assert shap_with_size.explainer is not None
         assert isinstance(shap_with_size.explainer, LinearExplainer)
+
 
 def test_produce_shap_regression_no_transforms_with_size(regression_no_transforms):
     model = regression_no_transforms

@@ -2,6 +2,7 @@ import numpy as np
 
 from pyreal.explainers import GlobalFeatureImportance, PermutationFeatureImportance
 
+
 def test_produce_permutation_regression_no_transforms(regression_no_transforms):
     model = regression_no_transforms
     gfi = GlobalFeatureImportance(
