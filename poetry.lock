@@ -2290,14 +2290,14 @@ test = ["pep440", "pre-commit", "pytest", "testpath"]
 
 [[package]]
 name = "nbmake"
-version = "1.3.5"
+version = "1.4"
 description = "Pytest plugin for testing notebooks"
 category = "dev"
 optional = false
 python-versions = ">=3.7.0,<4.0.0"
 files = [
-    {file = "nbmake-1.3.5-py3-none-any.whl", hash = "sha256:8506d2a2d7eb55bdc0db0f1573039c734bd4f4d1c130df4ad8ade72b5b2a8fe0"},
-    {file = "nbmake-1.3.5.tar.gz", hash = "sha256:95d4716928171120fae562e69440989a636e2af8616c829573e9574f5bea30db"},
+    {file = "nbmake-1.4-py3-none-any.whl", hash = "sha256:bc89fbc32484e761d95f26111e85237c6e9ed44b1cd26ba926e9502e5db4ace1"},
+    {file = "nbmake-1.4.tar.gz", hash = "sha256:2d3b97b83a8a378d5d828ad7b5412e509b82ed883662af16533236c909cfa20a"},
 ]
 
 [package.dependencies]
@@ -4551,4 +4551,4 @@ examples = ["tensorflow", "lightgbm"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.8, <3.11"
-content-hash = "d549fd9116dacdb4be567d1f20ff3092a6e936e92784d7ace96495e7ff5408b3"
+content-hash = "3d290be2b16a3a54300b1b4341135912c3bd2f852378c50e28e7d220fc0efc96"
