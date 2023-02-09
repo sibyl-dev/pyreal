@@ -59,14 +59,14 @@ files = [
 
 [[package]]
 name = "argh"
-version = "0.26.2"
+version = "0.27.0"
 description = "An unobtrusive argparse wrapper with natural syntax"
 category = "dev"
 optional = false
 python-versions = "*"
 files = [
-    {file = "argh-0.26.2-py2.py3-none-any.whl", hash = "sha256:a9b3aaa1904eeb78e32394cd46c6f37ac0fb4af6dc488daa58971bdc7d7fcaf3"},
-    {file = "argh-0.26.2.tar.gz", hash = "sha256:e9535b8c84dc9571a48999094fda7f33e63c3f1b74f3e5f3ac0105a58405bb65"},
+    {file = "argh-0.27.0-py2.py3-none-any.whl", hash = "sha256:bce3a73c1173c7a317a76242deb236319b7f34ff86dde63c1d647bc13ee93fd2"},
+    {file = "argh-0.27.0.tar.gz", hash = "sha256:6d9d926cd3d893f7759c2793f71d63dac9c289b4ef1df7a04f8ae2c979710a11"},
 ]
 
 [[package]]
