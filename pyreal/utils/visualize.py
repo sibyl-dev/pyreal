@@ -238,6 +238,36 @@ def plot_time_series_explanation(timeSeriesData, contribution):
     plt.show()
 
 
+def get_cmap(n, name="hsv"):
+    """Returns a function that maps each index in 0, 1, ..., n-1 to a distinct
+    RGB color; the keyword argument name must be a standard mpl colormap name."""
+    return plt.cm.get_cmap(name, n)
+
+
+def plot_time_series_saliency_same_graph(timeSeriesData, contributions):
+    """
+    contributions (ndarray with shape (n_timepoints, n_classes))
+    contributions should contain contributions from all classes
+    """
+    index = timeSeriesData.index
+    assert index.size == 1
+    n_classes = contributions.shape[1]
+    columns = timeSeriesData.columns.get_level_values(0).unique()
+    timestamps = timeSeriesData.columns.get_level_values(1).unique()
+
+    fig, axs = plt.subplots(nrows=columns.size)
+    cmap = get_cmap(n_classes + 1)
+    for i, var in enumerate(columns):
+        axs.plot(timestamps, timeSeriesData.iloc[0].loc[(var, slice(None))])
+        contribution_ax = axs.twinx()
+        for j in range(n_classes):
+            contribution_ax.plot(
+                timestamps, contributions[:, j], color=cmap(j), label=f"class {j}"
+            )
+    plt.legend()
+    plt.show()
+
+
 def plot_timeseries_saliency(
     data, colors, title=None, fig=None, scale=True, mincol=None, maxcol=None
 ):
