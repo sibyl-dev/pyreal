@@ -1,6 +1,7 @@
-from pyreal.types.explanations.base import Explanation
-import pytest
 import pandas as pd
+import pytest
+
+from pyreal.types.explanations.base import Explanation
 
 
 class BaseExplanation:
@@ -31,4 +32,3 @@ def test_explanation_get_values_with_no_values_raise_error():
     assert explanation.get() is base_explanation
     with pytest.raises(ValueError):
         explanation.get_values()
-

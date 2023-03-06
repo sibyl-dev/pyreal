@@ -18,7 +18,11 @@ class Explanation:
 
         """
         self.explanation = explanation
-        if values is not None and not isinstance(values, pd.DataFrame) and not isinstance(values, pd.Series):
+        if (
+            values is not None
+            and not isinstance(values, pd.DataFrame)
+            and not isinstance(values, pd.Series)
+        ):
             raise TypeError("values must be of type DataFrame")
         self.values = values
         self.validate()

@@ -1,5 +1,5 @@
-import pandas as pd
 import numpy as np
+import pandas as pd
 
 from pyreal.types.explanations.base import Explanation
 
@@ -83,8 +83,10 @@ class FeatureContributionExplanation(FeatureBased):
                 if `self.explanation` is invalid
         """
         if len(self.explanation) < 2:
-            raise AssertionError("FeatureContributions explanations must include"
-                                 " contributions and values (len(self.explanation) < 2)")
+            raise AssertionError(
+                "FeatureContributions explanations must include"
+                " contributions and values (len(self.explanation) < 2)"
+            )
         if np.ndim(self.explanation[1]) != 0:
             raise AssertionError("FeatureContributions value object must be iterable")
         super().validate()
