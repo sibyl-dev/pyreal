@@ -19,10 +19,10 @@ class DecisionTreeExplanation(Explanation):
             AssertionException
                 if `self.explanation` is invalid
         """
-        if not isinstance(self.explanation[0], BaseDecisionTree):
+        if not isinstance(self.explanation, BaseDecisionTree):
             raise AssertionError("Decision tree explanations must be sklearn Decision Trees")
         try:
-            check_is_fitted(self.explanation[0])
+            check_is_fitted(self.explanation)
         except NotFittedError:
             raise AssertionError(
                 "Decision tree explanations must be fitted sklearn Decision Trees"
