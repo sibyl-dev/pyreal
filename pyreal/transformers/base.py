@@ -286,7 +286,7 @@ class Transformer(ABC):
                 The transformed explanation
         """
         return AdditiveFeatureContributionExplanation(
-            *self.inverse_transform_explanation_feature_contribution(explanation).get_all()
+            self.inverse_transform_explanation_feature_contribution(explanation).get()
         )
 
     # noinspection PyMethodMayBeStatic
@@ -303,7 +303,7 @@ class Transformer(ABC):
                 The transformed explanation
         """
         return AdditiveFeatureImportanceExplanation(
-            *self.inverse_transform_explanation_feature_importance(explanation).get_all()
+            self.inverse_transform_explanation_feature_importance(explanation).get()
         )
 
     # noinspection PyMethodMayBeStatic
@@ -319,7 +319,7 @@ class Transformer(ABC):
                 The transformed explanation
         """
         return FeatureContributionExplanation(
-            *self.inverse_transform_explanation_feature_based(explanation).get_all()
+            self.inverse_transform_explanation_feature_based(explanation).get()
         )
 
     # noinspection PyMethodMayBeStatic
@@ -335,7 +335,7 @@ class Transformer(ABC):
                 The transformed explanation
         """
         return FeatureImportanceExplanation(
-            *self.inverse_transform_explanation_feature_based(explanation).get_all()
+            self.inverse_transform_explanation_feature_based(explanation).get()
         )
 
     # noinspection PyMethodMayBeStatic
@@ -388,7 +388,7 @@ class Transformer(ABC):
                 The transformed explanation
         """
         return AdditiveFeatureContributionExplanation(
-            *self.transform_explanation_feature_contribution(explanation).get_all()
+            self.transform_explanation_feature_contribution(explanation).get()
         )
 
     # noinspection PyMethodMayBeStatic
@@ -405,7 +405,7 @@ class Transformer(ABC):
                 The transformed explanation
         """
         return AdditiveFeatureImportanceExplanation(
-            *self.transform_explanation_feature_importance(explanation).get_all()
+            self.transform_explanation_feature_importance(explanation).get()
         )
 
     # noinspection PyMethodMayBeStatic
@@ -421,7 +421,7 @@ class Transformer(ABC):
                 The transformed explanation
         """
         return FeatureContributionExplanation(
-            *self.transform_explanation_feature_based(explanation).get_all()
+            self.transform_explanation_feature_based(explanation).get()
         )
 
     # noinspection PyMethodMayBeStatic
@@ -437,7 +437,7 @@ class Transformer(ABC):
                 The transformed explanation
         """
         return FeatureImportanceExplanation(
-            *self.transform_explanation_feature_based(explanation).get_all()
+            self.transform_explanation_feature_based(explanation).get()
         )
 
     # noinspection PyMethodMayBeStatic

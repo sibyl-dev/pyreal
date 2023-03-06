@@ -1,4 +1,3 @@
-import numpy as np
 import pandas as pd
 
 from pyreal.types.explanations.base import Explanation
@@ -84,10 +83,16 @@ class FeatureContributionExplanation(FeatureBased):
         """
         super().validate()
 
-        if self.values is None:
-            raise AssertionError(
-                "FeatureContributions explanations must include contributions and values"
-            )
+    def validate_values(self):
+        """
+        Validate that self.values are valid values for this Explanation.
+
+        Returns:
+            None
+        Raises:
+            AssertionException
+                if `self.values` is invalid
+        """
         if self.values.shape != self.explanation.shape:
             raise AssertionError("FeatureContributions expects one value per contribution")
 

@@ -13,7 +13,7 @@ class Explanation:
         Args:
             explanation (object):
                 wrapped explanation
-            values (DataFrame of shape (n_instances, n_features)):
+            values (DataFrame of shape (n_instances, n_features) or None):
                 Values corresponding with the object being explained
 
         """
@@ -97,16 +97,30 @@ class Explanation:
 
     def validate(self):
         """
-        Validate that `self.explanation` is a valid object of type `Explanation`
+        Validate that `self.explanation` is a valid object of type `Explanation`. If values are not
+        None, additionally validate that they are valid values for this Explanation.
+
         Returns:
             None
         Raises:
             AssertionException
-                if `self.explanation` is invalid
+                if `self.explanation` or `self.values` is invalid
         """
-        if (
-            self.values is not None
-            and not isinstance(self.values, pd.DataFrame)
+        if self.values is not None:
+            self.validate_values()
+
+    def validate_values(self):
+        """
+        Validate that self.values are valid values for this Explanation.
+
+        Returns:
+            None
+        Raises:
+            AssertionException
+                if `self.values` is invalid
+        """
+        if (not isinstance(self.values, pd.DataFrame)
             and not isinstance(self.values, pd.Series)
         ):
             raise AssertionError("values must be of type DataFrame")
+
