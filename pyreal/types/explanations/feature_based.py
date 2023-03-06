@@ -19,7 +19,7 @@ class FeatureBased(Explanation):
                 if `self.explanation` is invalid
         """
         super().validate()
-        if not isinstance(self.explanation[0], pd.DataFrame):
+        if not isinstance(self.explanation, pd.DataFrame):
             raise AssertionError("DataFrame explanations must be of type DataFrame")
 
 
@@ -82,14 +82,14 @@ class FeatureContributionExplanation(FeatureBased):
             AssertionException
                 if `self.explanation` is invalid
         """
-        if len(self.explanation) < 2:
-            raise AssertionError(
-                "FeatureContributions explanations must include"
-                " contributions and values (len(self.explanation) < 2)"
-            )
-        if np.ndim(self.explanation[1]) != 0:
-            raise AssertionError("FeatureContributions value object must be iterable")
         super().validate()
+
+        if self.values is None:
+            raise AssertionError(
+                "FeatureContributions explanations must include contributions and values"
+            )
+        if self.values.shape != self.explanation.shape:
+            raise AssertionError("FeatureContributions expects one value per contribution")
 
 
 class AdditiveFeatureContributionExplanation(FeatureContributionExplanation):

@@ -23,7 +23,7 @@ class Explanation:
             and not isinstance(values, pd.DataFrame)
             and not isinstance(values, pd.Series)
         ):
-            raise TypeError("values must be of type DataFrame")
+            raise AssertionError("values must be of type DataFrame")
         self.values = values
         self.validate()
 
