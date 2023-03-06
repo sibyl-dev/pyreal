@@ -20,6 +20,8 @@ class Explanation:
         self.explanation = explanation
         self.values = values
         self.validate()
+        if self.values is not None:
+            self.validate_values()
 
     def get(self):
         """
@@ -69,6 +71,8 @@ class Explanation:
         if inplace:
             self.values = values
             self.validate()
+            if self.values is not None:
+                self.validate_values()
             return self
         else:
             return self.__class__(self.explanation, values)
@@ -91,6 +95,8 @@ class Explanation:
         if inplace:
             self.explanation = explanation
             self.validate()
+            if self.values is not None:
+                self.validate_values()
             return self
         else:
             return self.__class__(explanation, self.values)
@@ -106,8 +112,6 @@ class Explanation:
             AssertionException
                 if `self.explanation` or `self.values` is invalid
         """
-        if self.values is not None:
-            self.validate_values()
 
     def validate_values(self):
         """

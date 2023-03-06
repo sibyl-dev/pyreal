@@ -93,6 +93,7 @@ class FeatureContributionExplanation(FeatureBased):
             AssertionException
                 if `self.values` is invalid
         """
+        super().validate_values()
         if self.values.shape != self.explanation.shape:
             raise AssertionError("FeatureContributions expects one value per contribution")
 
@@ -117,3 +118,4 @@ class AdditiveFeatureContributionExplanation(FeatureContributionExplanation):
                 if `self.explanation` is invalid
         """
         super().validate()
+
