@@ -5,7 +5,7 @@ from pandas.testing import assert_frame_equal, assert_series_equal
 
 from pyreal.explainers import LocalFeatureContribution
 from pyreal.transformers import BreakingTransformError, FeatureSelectTransformer, Transformer
-from pyreal.types.explanations.feature_based import AdditiveFeatureContributionExplanation
+from pyreal.types.explanations.feature_based import AdditiveFeatureContributionExplanation, Explanation
 
 
 def breaking_transform(explanation):
@@ -186,7 +186,7 @@ def test_transform_explanation(regression_no_transforms):
     )
 
     explanation = pd.DataFrame([[1, 2, 3, 4], [1, 2, 3, 4]], columns=["A", "B", "C", "D"])
-    explanation = AdditiveFeatureContributionExplanation(explanation)
+    explanation = AdditiveFeatureContributionExplanation(explanation, explanation.copy())
 
     transform_explanation = explainer.transform_explanation(explanation).get()
     expected_explanation = pd.DataFrame([[0], [0]], columns=["C"])
@@ -211,10 +211,10 @@ def test_transform_x_with_produce(regression_no_transforms):
             return x - self.n
 
         def inverse_transform_explanation_additive_feature_contribution(self, explanation):
-            return AdditiveFeatureContributionExplanation(explanation.get() + self.n)
+            return AdditiveFeatureContributionExplanation(explanation.get() + self.n, explanation.get_values())
 
     explanation = pd.DataFrame([[1, 2, 3, 4], [1, 2, 3, 4]], columns=["A", "B", "C", "D"])
-    explanation = AdditiveFeatureContributionExplanation(explanation)
+    explanation = AdditiveFeatureContributionExplanation(explanation, explanation.copy())
     x = pd.DataFrame([[0, 1, 2, 3], [0, 1, 2, 3]], columns=["A", "B", "C", "D"])
 
     feature_select1 = FeatureSelectTransformer(columns=["A", "B", "C"])
@@ -273,7 +273,7 @@ def test_fit_transformer_param(regression_no_transforms):
     )
 
     explanation = pd.DataFrame([[1, 2, 3, 4], [1, 2, 3, 4]], columns=["A", "B", "C", "D"])
-    explanation = AdditiveFeatureContributionExplanation(explanation)
+    explanation = AdditiveFeatureContributionExplanation(explanation, explanation.copy())
 
     transform_explanation = explainer.transform_explanation(explanation).get()
     expected_explanation = pd.DataFrame([[0], [0]], columns=["C"])

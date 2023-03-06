@@ -276,32 +276,29 @@ class ExplainerBase(ABC):
         i_transformers = _get_transformers(self.transformers, interpret=True)
         return run_transformers(i_transformers, x_orig)
 
-    def transform_explanation(self, explanation, x_orig=None):
+    def transform_explanation(self, explanation):
         """
         Transform the explanation into its interpretable form, by running the e_transformer's
         "inverse_transform_explanation" and i_transformers "transform_explanation" functions.
-        If an `x_orig` argument is added, also convert x_orig with the same transformers. This
-        function will result in x_orig in the same feature space as the final explanation
+        If an `explanation` has a `values` parameter, also convert `values` with the same
+        transformers. This function will result in `values` in the same feature space as the final
+        explanation
 
         Args:
             explanation (type varies by subclass):
                 The raw explanation to transform
-            x_orig (DataFrame of shape (n_instances, x_orig_feature_count) or None):
-                Input data used to generate explanation. Optional argument
 
         Returns:
             type varies by subclass
                 The interpretable form of the explanation
-            DataFrame of shape (n_instances, x_orig_feature_count)
-                If `x_orig` is not None, return `x_orig` transformed to the state of the final
-                explanation. Not returned if `x_orig` is None.
         """
+        x_orig = explanation.get_values()
         convert_x = x_orig is not None
         if self.return_original_explanation:
             if convert_x:
-                return explanation, self.transform_to_x_algorithm(x_orig)
-            else:
-                return explanation
+                explanation.update_values(self.transform_to_x_algorithm(x_orig))
+            return explanation
+
         x = None
         if convert_x:
             x = x_orig.copy()
@@ -393,21 +390,20 @@ class ExplainerBase(ABC):
         """
         return self.feature_descriptions[feature_name]
 
-    def convert_columns_to_interpretable(self, exp):
+    def convert_columns_to_interpretable(self, df):
         """
         Returns df with columns (or index, for series) converted to the interpretable descriptions
 
         Args:
-            exp (FeatureBased explanation object):
+            df (DataFrame):
 
         Returns:
             string
                  Description of feature
         """
         if self.feature_descriptions is None:
-            return exp
+            return df
 
-        df = exp.get_explanation()
         if isinstance(df, pd.Series):
             return df.rename(self.feature_descriptions)
         return df.rename(self.feature_descriptions, axis="columns")

@@ -29,13 +29,32 @@ def test_explanation_get_values_invalid_type():
     base_explanation = BaseExplanation(5)
     invalid_values = [1]
     with pytest.raises(AssertionError):
-        explanation = Explanation(base_explanation, invalid_values)
+        Explanation(base_explanation, invalid_values)
 
 
-def test_explanation_get_values_with_no_values_raise_error():
+def test_update_values():
     base_explanation = BaseExplanation(5)
-    explanation = Explanation(base_explanation)
+    orig_values = pd.DataFrame([1])
+    new_values = pd.DataFrame([2])
+    invalid_values = [1]
 
-    assert explanation.get() is base_explanation
-    with pytest.raises(ValueError):
-        explanation.get_values()
+    explanation = Explanation(base_explanation, orig_values)
+
+    assert explanation.get_values() is orig_values
+
+    explanation.update_values(new_values)
+    assert explanation.get_values() is new_values
+
+    with pytest.raises(AssertionError):
+        explanation.update_values(invalid_values)
+
+
+def test_get_all():
+    base_explanation = BaseExplanation(5)
+    orig_values = pd.DataFrame([1])
+
+    explanation1 = Explanation(base_explanation, orig_values)
+    explanation2 = Explanation(*explanation1.get_all())
+
+    assert explanation2.get() is base_explanation
+    assert explanation2.get_values() is orig_values

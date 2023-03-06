@@ -18,12 +18,6 @@ class Explanation:
 
         """
         self.explanation = explanation
-        if (
-            values is not None
-            and not isinstance(values, pd.DataFrame)
-            and not isinstance(values, pd.Series)
-        ):
-            raise AssertionError("values must be of type DataFrame")
         self.values = values
         self.validate()
 
@@ -36,6 +30,17 @@ class Explanation:
         """
         return self.explanation
 
+    def get_all(self):
+        """
+        Get the explanation and wrapped values as a tuple. Convenience function for making a new
+        Explanation from a previous one.
+
+        Returns:
+            tuple
+                Explanation and values
+        """
+        return self.explanation, self.values
+
     def get_values(self):
         """
         Return the values associated with the explanation
@@ -44,9 +49,18 @@ class Explanation:
             DataFrame of shape (n_instances, n_features)
                 The values associated with this explanation
         """
-        if self.values is None:
-            raise ValueError("This explanation type does not include values")
         return self.values
+
+    def update_values(self, values):
+        """
+        Updates this objects values, and validates
+
+        Args:
+            values (DataFrame of shape (n_instances, n_features)):
+                New values
+        """
+        self.values = values
+        self.validate()
 
     def validate(self):
         """
@@ -57,3 +71,9 @@ class Explanation:
             AssertionException
                 if `self.explanation` is invalid
         """
+        if (
+            self.values is not None
+            and not isinstance(self.values, pd.DataFrame)
+            and not isinstance(self.values, pd.Series)
+        ):
+            raise AssertionError("values must be of type DataFrame")
