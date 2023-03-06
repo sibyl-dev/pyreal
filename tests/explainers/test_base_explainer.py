@@ -5,7 +5,10 @@ from pandas.testing import assert_frame_equal, assert_series_equal
 
 from pyreal.explainers import LocalFeatureContribution
 from pyreal.transformers import BreakingTransformError, FeatureSelectTransformer, Transformer
-from pyreal.types.explanations.feature_based import AdditiveFeatureContributionExplanation, Explanation
+from pyreal.types.explanations.feature_based import (
+    AdditiveFeatureContributionExplanation,
+    Explanation,
+)
 
 
 def breaking_transform(explanation):
@@ -211,7 +214,9 @@ def test_transform_x_with_produce(regression_no_transforms):
             return x - self.n
 
         def inverse_transform_explanation_additive_feature_contribution(self, explanation):
-            return AdditiveFeatureContributionExplanation(explanation.get() + self.n, explanation.get_values())
+            return AdditiveFeatureContributionExplanation(
+                explanation.get() + self.n, explanation.get_values()
+            )
 
     explanation = pd.DataFrame([[1, 2, 3, 4], [1, 2, 3, 4]], columns=["A", "B", "C", "D"])
     explanation = AdditiveFeatureContributionExplanation(explanation, explanation.copy())

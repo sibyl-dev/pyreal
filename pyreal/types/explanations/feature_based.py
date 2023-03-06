@@ -118,4 +118,3 @@ class AdditiveFeatureContributionExplanation(FeatureContributionExplanation):
                 if `self.explanation` is invalid
         """
         super().validate()
-

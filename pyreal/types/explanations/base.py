@@ -123,8 +123,5 @@ class Explanation:
             AssertionException
                 if `self.values` is invalid
         """
-        if (not isinstance(self.values, pd.DataFrame)
-            and not isinstance(self.values, pd.Series)
-        ):
+        if not isinstance(self.values, pd.DataFrame) and not isinstance(self.values, pd.Series):
             raise AssertionError("values must be of type DataFrame")
-
