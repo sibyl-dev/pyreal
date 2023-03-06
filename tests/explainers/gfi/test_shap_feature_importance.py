@@ -43,7 +43,7 @@ def test_produce_shap_regression_no_transforms(regression_no_transforms):
 
 
 def helper_produce_shap_regression_no_transforms(explainer, model):
-    importances = explainer.produce()
+    importances = explainer.produce().get()
     assert importances.shape == (1, model["x"].shape[1])
     assert abs(importances["A"][0] - (4 / 3)) < 0.0001
     assert abs(importances["B"][0]) < 0.0001
@@ -71,7 +71,7 @@ def test_produce_shap_regression_transforms(regression_one_hot):
 
 
 def helper_produce_shap_regression_one_hot(explainer, model):
-    importances = explainer.produce()
+    importances = explainer.produce().get()
     assert importances.shape == (1, model["x"].shape[1])
     assert abs(importances["A"][0] - (8 / 3)) < 0.0001
     assert abs(importances["B"][0]) < 0.0001
@@ -101,7 +101,7 @@ def test_shap_produce_classification_no_transforms(classification_no_transforms)
 
 
 def helper_shap_produce_classification_no_transforms(explainer, model):
-    importances = explainer.produce()
+    importances = explainer.produce().get()
     assert importances.shape == (1, model["x"].shape[1])
     assert abs(importances["A"][0]) < 0.0001
     assert abs(importances["B"][0] - 1) < 0.0001
@@ -130,7 +130,7 @@ def test_produce_shap_regression_transforms_with_size(regression_one_hot):
 
 
 def helper_produce_shap_regression_one_hot_with_size(explainer, model):
-    importances = explainer.produce()
+    importances = explainer.produce().get()
     assert importances.shape == (1, model["x"].shape[1])
 
 
@@ -159,6 +159,6 @@ def test_shap_produce_classification_no_transforms_with_size(classification_no_t
 
 
 def helper_shap_produce_classification_no_transforms_with_size(explainer, model):
-    importances = explainer.produce()
+    importances = explainer.produce().get()
     assert importances.shape == (1, model["x"].shape[1])
     assert abs(importances["C"][0]) > 0.0001
