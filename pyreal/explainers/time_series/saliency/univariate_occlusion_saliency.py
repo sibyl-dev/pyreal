@@ -2,7 +2,10 @@ import numpy as np
 import pandas as pd
 
 from pyreal.explainers.time_series import SaliencyBase
-from pyreal.types.explanations.feature_based import FeatureContributionExplanation
+from pyreal.types.explanations.feature_based import (
+    ClassFeatureContributionExplanation,
+    FeatureContributionExplanation,
+)
 
 
 class UnivariateOcclusionSaliency(SaliencyBase):
@@ -45,6 +48,7 @@ class UnivariateOcclusionSaliency(SaliencyBase):
         self.width = width
         self.k = k
         self.num_classes = num_classes
+        self.regression = regression
         if regression:
             self.num_classes = 1
         super(UnivariateOcclusionSaliency, self).__init__(model, x_train_orig, **kwargs)
@@ -107,7 +111,10 @@ class UnivariateOcclusionSaliency(SaliencyBase):
         else:
             importances_df = pd.DataFrame(importance).T
 
-        return FeatureContributionExplanation(importances_df)
+        if self.regression:
+            return FeatureContributionExplanation(importances_df)
+        else:
+            return ClassFeatureContributionExplanation(importances_df)
 
     def _occlude_once(self, sig, win_min, win_max, k):
         """

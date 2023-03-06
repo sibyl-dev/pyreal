@@ -345,6 +345,8 @@ class ExplainerBase(ABC):
             if convert_x:
                 x = t.transform(x)
         if convert_x:
+            print(explanation.get())
+            print(x)
             return explanation.update_values(x)
         return explanation
 

@@ -28,8 +28,7 @@ def test_produce_lime_classification_no_transforms(classification_no_transforms)
 
     x_one_dim = pd.DataFrame([[1, 1, 1]], columns=["A", "B", "C"])
 
-    contributions = explainer.produce(x_one_dim)[0]
-    print(contributions)
+    contributions = explainer.produce(x_one_dim).get()
     assert contributions.shape == (3, 3)
     assert contributions["A"][0] > 0.1
     assert contributions["B"][1] > 0.1
@@ -54,7 +53,7 @@ def test_produce_lime_regression_no_transforms(regression_no_transforms):
 
     x_one_dim = pd.DataFrame([[1, 1, 1]], columns=["A", "B", "C"])
 
-    contributions = explainer.produce(x_one_dim)[0]
+    contributions = explainer.produce(x_one_dim).get()
 
     assert contributions.shape == (1, 3)
     assert contributions["A"].iloc[0] < -0.01

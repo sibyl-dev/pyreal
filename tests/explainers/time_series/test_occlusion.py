@@ -29,7 +29,7 @@ def test_univariate_occlusion_no_transforms(regression_no_transforms):
     )
 
     x_one_dim = pd.DataFrame([[2, 10, 10]], columns=["A", "B", "C"])
-    contributions = explainer.produce(x_one_dim)[0]
+    contributions = explainer.produce(x_one_dim).get()
 
     assert x_one_dim.shape == contributions.shape
     assert contributions.iloc[0, 0] == -2
@@ -68,7 +68,7 @@ def test_produce_occlusion_classification_no_transforms(classification_no_transf
 
     x_one_dim = pd.DataFrame([[1, 1, 1]], columns=["A", "B", "C"])
 
-    contributions = explainer.produce(x_one_dim)[0]
+    contributions = explainer.produce(x_one_dim).get()
 
     assert contributions.shape == (3, 3)
     assert contributions["A"][0] == 0
@@ -89,7 +89,7 @@ def test_produce_occlusion_classification_no_transforms_remove(classification_no
 
     x_one_dim = pd.DataFrame([[1, 1, 1]], columns=["A", "B", "C"])
 
-    contributions = explainer.produce(x_one_dim)[0]
+    contributions = explainer.produce(x_one_dim).get()
 
     assert contributions.shape == (3, 3)
     assert contributions["A"][0] == -1

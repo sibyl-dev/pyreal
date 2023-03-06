@@ -118,3 +118,35 @@ class AdditiveFeatureContributionExplanation(FeatureContributionExplanation):
                 if `self.explanation` is invalid
         """
         super().validate()
+
+
+class ClassFeatureContributionExplanation(FeatureBased):
+    """
+    A type wrapper for local feature contribution DataFrame type outputs from explanation
+    algorithms. Classification Local feature contribution explanations give one numeric value
+    per instance per feature per class, representing that feature's contribution to the
+    model's prediction for this instance and class.
+    """
+
+    def validate(self):
+        """
+        Validate that `self.explanation` is a valid `DataFrame`
+        Returns:
+            None
+        Raises:
+            AssertionException
+                if `self.explanation` is invalid
+        """
+        super().validate()
+
+    def validate_values(self):
+        """
+        Validate that self.values are valid values for this Explanation.
+
+        Returns:
+            None
+        Raises:
+            AssertionException
+                if `self.values` is invalid
+        """
+        super().validate_values()
