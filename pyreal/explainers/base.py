@@ -10,6 +10,7 @@ from pyreal.transformers import BreakingTransformError
 from pyreal.transformers import fit_transformers as fit_transformers_func
 from pyreal.transformers import run_transformers
 from pyreal.utils import model_utils
+from pyreal.types.explanations.base import Explanation
 
 log = logging.getLogger(__name__)
 
@@ -276,23 +277,27 @@ class ExplainerBase(ABC):
         i_transformers = _get_transformers(self.transformers, interpret=True)
         return run_transformers(i_transformers, x_orig)
 
-    def transform_explanation(self, explanation):
+    def transform_explanation(self, explanation, x_orig=None):
         """
         Transform the explanation into its interpretable form, by running the e_transformer's
         "inverse_transform_explanation" and i_transformers "transform_explanation" functions.
-        If an `explanation` has a `values` parameter, also convert `values` with the same
-        transformers. This function will result in `values` in the same feature space as the final
-        explanation
+        If an `x_orig` is provided, also convert `x_orig` with the same
+        transformers. This function will result in `values` in the Explanation object
+        in the same feature space as the final explanation
 
         Args:
             explanation (type varies by subclass):
                 The raw explanation to transform
+            x_orig (DataFrame of shape (n_instances, n_features) or None)
+                Data to transform to final space
 
         Returns:
             Explanation
                 The interpretable form of the explanation
         """
-        x_orig = explanation.get_values()
+        if not isinstance(explanation, Explanation):
+            raise ValueError("explanation is not a valid Explanation object")
+
         convert_x = x_orig is not None
         if self.return_original_explanation:
             if convert_x:
