@@ -16,7 +16,7 @@ def test_produce_with_renames(classification_no_transform_tree):
         feature_descriptions=feature_descriptions,
     )
 
-    tree_object = dte.produce()
+    tree_object = dte.produce().get()
     assert tree_object.feature_importances_.shape == (
         dte.transform_to_x_algorithm(model["x"]).shape[1],
     )
@@ -39,7 +39,7 @@ def test_produce_with_renames_with_size(classification_no_transform_tree):
         training_size=3,
     )
 
-    tree_object = dte.produce()
+    tree_object = dte.produce().get()
     assert tree_object.feature_importances_.shape == (
         dte.transform_to_x_algorithm(model["x"]).shape[1],
     )

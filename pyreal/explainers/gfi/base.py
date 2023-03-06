@@ -53,7 +53,9 @@ class GlobalFeatureImportanceBase(ExplainerBase, ABC):
         explanation = self.get_importance()
         explanation = self.transform_explanation(explanation)
         if self.interpretable_features:
-            explanation.update_explanation(self.convert_columns_to_interpretable(explanation.get()), inplace=True)
+            explanation.update_explanation(
+                self.convert_columns_to_interpretable(explanation.get()), inplace=True
+            )
         self.importance = explanation
         return explanation
 
@@ -96,5 +98,7 @@ class GlobalFeatureImportanceBase(ExplainerBase, ABC):
             for i in range(n_iterations - 1):
                 if with_fit:
                     self.fit()
-                explanations.append(self.produce(self._x_train_orig.iloc[0:n_rows]).get().to_numpy())
+                explanations.append(
+                    self.produce(self._x_train_orig.iloc[0:n_rows]).get().to_numpy()
+                )
         return np.max(np.var(explanations, axis=0))
