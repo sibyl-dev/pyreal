@@ -49,6 +49,19 @@ def test_update_values():
         explanation.update_values(invalid_values)
 
 
+def test_update_explanation():
+    orig_explanation = BaseExplanation(5)
+    orig_values = pd.DataFrame([1])
+    new_explanation = pd.DataFrame([2])
+
+    explanation = Explanation(orig_explanation, orig_values)
+
+    assert explanation.get() is orig_explanation
+
+    explanation.update_explanation(new_explanation)
+    assert explanation.get() is new_explanation
+
+
 def test_get_all():
     base_explanation = BaseExplanation(5)
     orig_values = pd.DataFrame([1])

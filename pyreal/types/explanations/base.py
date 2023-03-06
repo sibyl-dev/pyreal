@@ -61,6 +61,19 @@ class Explanation:
         """
         self.values = values
         self.validate()
+        return self
+
+    def update_explanation(self, explanation):
+        """
+        Updates this objects explanation, and validates
+
+        Args:
+            explanation (object):
+                New explanation
+        """
+        self.explanation = explanation
+        self.validate()
+        return self
 
     def validate(self):
         """
