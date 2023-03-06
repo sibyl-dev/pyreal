@@ -220,23 +220,23 @@ class Transformer(ABC):
 
         """
         if isinstance(explanation, AdditiveFeatureContributionExplanation):
-            trans_exp = self.inverse_transform_explanation_additive_feature_contribution(explanation)
-        elif isinstance(explanation, AdditiveFeatureImportanceExplanation):
-            trans_exp = self.inverse_transform_explanation_additive_feature_importance(explanation)
-        elif isinstance(explanation, FeatureContributionExplanation):
-            trans_exp = self.inverse_transform_explanation_feature_contribution(explanation)
-        elif isinstance(explanation, FeatureImportanceExplanation):
-            trans_exp = self.inverse_transform_explanation_feature_importance(explanation)
-        elif isinstance(explanation, FeatureBased):
-            trans_exp = self.inverse_transform_explanation_feature_based(explanation)
+            return self.inverse_transform_explanation_additive_feature_contribution(explanation)
+        if isinstance(explanation, AdditiveFeatureImportanceExplanation):
+            return self.inverse_transform_explanation_additive_feature_importance(explanation)
+        if isinstance(explanation, FeatureContributionExplanation):
+            return self.inverse_transform_explanation_feature_contribution(explanation)
+        if isinstance(explanation, FeatureImportanceExplanation):
+            return self.inverse_transform_explanation_feature_importance(explanation)
+        if isinstance(explanation, FeatureBased):
+            return self.inverse_transform_explanation_feature_based(explanation)
 
-        elif isinstance(explanation, DecisionTreeExplanation):
-            trans_exp = self.inverse_transform_explanation_decision_tree(explanation)
+        if isinstance(explanation, DecisionTreeExplanation):
+            return self.inverse_transform_explanation_decision_tree(explanation)
 
-        else:
-            trans_exp = explanation
+        if isinstance(explanation, Explanation):  # handle generic explanation cases
+            return explanation
 
-        return explanation.__class__(trans_exp.get(), explanation.get_values())
+        raise ValueError("Invalid explanation types %s" % explanation.__class__)
 
     def transform_explanation(self, explanation):
         """
@@ -255,20 +255,20 @@ class Transformer(ABC):
 
         """
         if isinstance(explanation, AdditiveFeatureContributionExplanation):
-            trans_exp = self.transform_explanation_additive_feature_contribution(explanation)
-        elif isinstance(explanation, AdditiveFeatureImportanceExplanation):
-            trans_exp = self.transform_explanation_additive_feature_importance(explanation)
-        elif isinstance(explanation, FeatureContributionExplanation):
-            trans_exp = self.transform_explanation_feature_contribution(explanation)
-        elif isinstance(explanation, FeatureImportanceExplanation):
-            trans_exp = self.transform_explanation_feature_importance(explanation)
-        elif isinstance(explanation, FeatureBased):
-            trans_exp = self.transform_explanation_feature_based(explanation)
+            return self.transform_explanation_additive_feature_contribution(explanation)
+        if isinstance(explanation, AdditiveFeatureImportanceExplanation):
+            return self.transform_explanation_additive_feature_importance(explanation)
+        if isinstance(explanation, FeatureContributionExplanation):
+            return self.transform_explanation_feature_contribution(explanation)
+        if isinstance(explanation, FeatureImportanceExplanation):
+            return self.transform_explanation_feature_importance(explanation)
+        if isinstance(explanation, FeatureBased):
+            return self.transform_explanation_feature_based(explanation)
 
-        else:
-            trans_exp = explanation
+        if isinstance(explanation, Explanation):
+            return explanation
 
-        return explanation.__class__(trans_exp.get(), explanation.get_values())
+        raise ValueError("Invalid explanation types %s" % explanation.__class__)
 
     # ========================== INVERSE TRANSFORM EXPLANATION METHODS ===========================
 

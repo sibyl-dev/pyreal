@@ -9,7 +9,7 @@ from pyreal.transformers import (
     fit_transformers,
     run_transformers,
 )
-from pyreal.types.explanations.feature_based import FeatureImportanceExplanation, FeatureContributionExplanation
+from pyreal.types.explanations.feature_based import FeatureImportanceExplanation
 
 
 class TestTransformer(Transformer):
@@ -60,21 +60,3 @@ def test_explanation_transform_transfer():
     result2 = test_transformer.inverse_transform_explanation(explanation)
     assert result2.__class__ == FeatureImportanceExplanation
     assert_frame_equal(result2.get(), pd.DataFrame([["A", "B"]]))
-
-
-def test_inverse_transform_explanation_keeps_values():
-    values = pd.DataFrame([["0", "0"]])
-    test_transformer = TestTransformer()
-    explanation = FeatureContributionExplanation(pd.DataFrame([["1", "2"]]), values)
-
-    result1 = test_transformer.transform_explanation(explanation)
-    assert result1.get_values() is values
-
-
-def test_transform_explanation_keeps_values():
-    values = pd.DataFrame([["0", "0"]])
-    test_transformer = TestTransformer()
-    explanation = FeatureContributionExplanation(pd.DataFrame([["1", "2"]]), values)
-
-    result1 = test_transformer.inverse_transform_explanation(explanation)
-    assert result1.get_values() is values
