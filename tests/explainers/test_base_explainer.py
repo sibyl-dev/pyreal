@@ -217,9 +217,7 @@ def test_transform_x_with_produce(regression_no_transforms):
             return x - self.n
 
         def inverse_transform_explanation_additive_feature_contribution(self, explanation):
-            return AdditiveFeatureContributionExplanation(
-                explanation.get() + self.n
-            )
+            return AdditiveFeatureContributionExplanation(explanation.get() + self.n)
 
     x = pd.DataFrame([[0, 1, 2, 3], [0, 1, 2, 3]], columns=["A", "B", "C", "D"])
     explanation_base = pd.DataFrame([[1, 2, 3], [1, 2, 3]], columns=["A", "B", "C"])

@@ -8,6 +8,7 @@ from pyreal.types.explanations.feature_based import FeatureBased
 X = pd.DataFrame([[2, 1, 3, 9], [4, 3, 4, 0], [6, 7, 2, 2]], columns=["A", "B", "C", "D"])
 COLUMNS = ["C", "A"]
 
+
 def test_fit_feature_select_transformer(transformer_test_data):
     fs_transformer = FeatureSelectTransformer(columns=transformer_test_data["columns"])
     fs_transformer.fit(transformer_test_data["x"])
@@ -43,7 +44,9 @@ def test_fit_transform_feature_select_transformer_other_formats(transformer_test
 
 def test_transform_explanation_feature_select(transformer_test_data):
     fs_transformer = FeatureSelectTransformer(columns=COLUMNS)
-    explanation = FeatureBased(pd.DataFrame([[1, 2, 3, 4], [1, 2, 3, 4]], columns=["A", "B", "C", "D"]))
+    explanation = FeatureBased(
+        pd.DataFrame([[1, 2, 3, 4], [1, 2, 3, 4]], columns=["A", "B", "C", "D"])
+    )
     expected_explanation = pd.DataFrame([[3, 1], [3, 1]], columns=["C", "A"])
     fs_transformer.fit(X)
 
