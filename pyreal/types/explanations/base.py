@@ -1,32 +1,48 @@
+import pandas as pd
+
+
 class Explanation:
     """
     A type wrapper for outputs from explanation algorithms. Validates that an object is a
     valid explanation output.
     """
 
-    def __init__(self, *args):
+    def __init__(self, explanation, values=None):
         """
-        Set the wrapped explanation to `explanation` and validate
+        Set the wrapped explanation to `explanation` and values to `values` and validate
         Args:
-            args:
-                explanation objects
+            explanation (object):
+                wrapped explanation
+            values (DataFrame of shape (n_instances, n_features)):
+                Values corresponding with the object being explained
+
         """
-        self.explanation = args
+        self.explanation = explanation
+        if values is not None and not isinstance(values, pd.DataFrame) and not isinstance(values, pd.Series):
+            raise TypeError("values must be of type DataFrame")
+        self.values = values
         self.validate()
 
-    def get(self, ind=0):
+    def get(self):
         """
         Get the explanation wrapped by this type
-        Args:
-            ind (int)
-                Integer index to get from explanation. If None, return full tuple
         Returns:
             object
                 wrapped explanation object
         """
-        if ind is None:
-            return self.explanation
-        return self.explanation[ind]
+        return self.explanation
+
+    def get_values(self):
+        """
+        Return the values associated with the explanation
+
+        Returns:
+            DataFrame of shape (n_instances, n_features)
+                The values associated with this explanation
+        """
+        if self.values is None:
+            raise ValueError("This explanation type does not include values")
+        return self.values
 
     def validate(self):
         """

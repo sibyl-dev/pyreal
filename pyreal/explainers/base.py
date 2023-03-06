@@ -393,19 +393,21 @@ class ExplainerBase(ABC):
         """
         return self.feature_descriptions[feature_name]
 
-    def convert_columns_to_interpretable(self, df):
+    def convert_columns_to_interpretable(self, exp):
         """
         Returns df with columns (or index, for series) converted to the interpretable descriptions
 
         Args:
-            df (DataFrame of shape (n_instances, x_orig_feature_count) or Series):
+            exp (FeatureBased explanation object):
 
         Returns:
             string
                  Description of feature
         """
         if self.feature_descriptions is None:
-            return df
+            return exp
+
+        df = exp.get_explanation()
         if isinstance(df, pd.Series):
             return df.rename(self.feature_descriptions)
         return df.rename(self.feature_descriptions, axis="columns")
