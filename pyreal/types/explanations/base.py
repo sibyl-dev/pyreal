@@ -51,29 +51,49 @@ class Explanation:
         """
         return self.values
 
-    def update_values(self, values):
+    def update_values(self, values, inplace=False):
         """
         Updates this objects values, and validates
 
         Args:
             values (DataFrame of shape (n_instances, n_features)):
                 New values
-        """
-        self.values = values
-        self.validate()
-        return self
+            inplace (Boolean)
+                If True, change the values on this object. Otherwise, create a new object
+                identical to this one but with new values
 
-    def update_explanation(self, explanation):
+        Returns:
+            Explanation
+                `self` if `inplace=True`, else the new Explanation object.
+        """
+        if inplace:
+            self.values = values
+            self.validate()
+            return self
+        else:
+            return self.__class__(self.explanation, values)
+
+    def update_explanation(self, explanation, inplace=False):
         """
         Updates this objects explanation, and validates
 
         Args:
             explanation (object):
                 New explanation
+            inplace (Boolean)
+                If True, change the explanation on this object. Otherwise, create a new object
+                identical to this one but with a new explanation
+
+        Returns:
+            Explanation
+                `self` if `inplace=True`, else the new Explanation object.
         """
-        self.explanation = explanation
-        self.validate()
-        return self
+        if inplace:
+            self.explanation = explanation
+            self.validate()
+            return self
+        else:
+            return self.__class__(explanation, self.values)
 
     def validate(self):
         """

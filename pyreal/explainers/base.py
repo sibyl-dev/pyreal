@@ -289,14 +289,14 @@ class ExplainerBase(ABC):
                 The raw explanation to transform
 
         Returns:
-            type varies by subclass
+            Explanation
                 The interpretable form of the explanation
         """
         x_orig = explanation.get_values()
         convert_x = x_orig is not None
         if self.return_original_explanation:
             if convert_x:
-                explanation.update_values(self.transform_to_x_algorithm(x_orig))
+                explanation = explanation.update_values(self.transform_to_x_algorithm(x_orig))
             return explanation
 
         x = None
@@ -320,7 +320,7 @@ class ExplainerBase(ABC):
                 break_point = len(a_transformers) - i
                 if convert_x:
                     x = run_transformers(a_transformers[0:break_point], x)
-                    return explanation, x
+                    return explanation.update_values(x)
                 else:
                     return explanation
         # Iterate through interpret transformers
@@ -335,12 +335,12 @@ class ExplainerBase(ABC):
                         % type(t).__name__
                     )
                     if convert_x:
-                        return explanation, x
+                        return explanation.update_values(x)
                     return explanation
             if convert_x:
                 x = t.transform(x)
         if convert_x:
-            return explanation, x
+            return explanation.update_values(x)
         return explanation
 
     def model_predict(self, x_orig):
