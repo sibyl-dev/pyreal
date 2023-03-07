@@ -5,10 +5,7 @@ from pandas.testing import assert_frame_equal, assert_series_equal
 
 from pyreal.explainers import LocalFeatureContribution
 from pyreal.transformers import BreakingTransformError, FeatureSelectTransformer, Transformer
-from pyreal.types.explanations.feature_based import (
-    AdditiveFeatureContributionExplanation,
-    Explanation,
-)
+from pyreal.types.explanations.feature_based import AdditiveFeatureContributionExplanation
 
 
 def breaking_transform(explanation):
