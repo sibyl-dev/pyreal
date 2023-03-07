@@ -22,11 +22,9 @@ class Explanation:
 
         self.validate()
         if self.values is not None:
+            if hasattr(values, "ndim") and values.ndim == 1:
+                self.values = values.to_frame().T
             self.validate_values()
-            if values.ndim == 1:
-                self.values = self.values.to_frame().T
-            else:
-                self.values = values
 
     def get(self):
         """
@@ -77,13 +75,11 @@ class Explanation:
             self.values = values
             self.validate()
             if self.values is not None:
+                if hasattr(values, "ndim") and values.ndim == 1:
+                    self.values = values.to_frame().T
                 self.validate_values()
-            if self.values.ndim == 1:
-                self.values = values.to_frame().T
             return self
         else:
-            if self.values.ndim == 1:
-                self.values = values.to_frame().T
             return self.__class__(self.explanation, values)
 
     def update_explanation(self, explanation, inplace=False):
