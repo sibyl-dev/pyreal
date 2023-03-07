@@ -17,7 +17,7 @@ def test_produce_with_renames(regression_one_hot):
         feature_descriptions=feature_descriptions,
     )
 
-    importances = gfi.produce()
+    importances = gfi.produce().get()
     assert importances.shape == (1, model["x"].shape[1])
     assert abs(importances["Feature A"][0] - (8 / 3)) < 0.0001
     assert abs(importances["Feature B"][0]) < 0.0001
@@ -26,7 +26,7 @@ def test_produce_with_renames(regression_one_hot):
 
 def test_evaluate_variation(classification_no_transforms):
     model = classification_no_transforms
-    lfc = GlobalFeatureImportance(
+    gfi = GlobalFeatureImportance(
         model=model["model"],
         x_train_orig=model["x"],
         e_algorithm="shap",
@@ -36,13 +36,13 @@ def test_evaluate_variation(classification_no_transforms):
     )
 
     # Assert no crash. Values analyzed through benchmarking
-    lfc.evaluate_variation(with_fit=False, n_iterations=5)
-    lfc.evaluate_variation(with_fit=True, n_iterations=5)
+    gfi.evaluate_variation(with_fit=False, n_iterations=5)
+    gfi.evaluate_variation(with_fit=True, n_iterations=5)
 
 
 def test_evaluate_variation_with_size(classification_no_transforms):
     model = classification_no_transforms
-    lfc = GlobalFeatureImportance(
+    gfi = GlobalFeatureImportance(
         model=model["model"],
         x_train_orig=model["x"],
         e_algorithm="shap",
@@ -53,5 +53,5 @@ def test_evaluate_variation_with_size(classification_no_transforms):
     )
 
     # Assert no crash. Values analyzed through benchmarking
-    lfc.evaluate_variation(with_fit=False, n_iterations=5)
-    lfc.evaluate_variation(with_fit=True, n_iterations=5)
+    gfi.evaluate_variation(with_fit=False, n_iterations=5)
+    gfi.evaluate_variation(with_fit=True, n_iterations=5)

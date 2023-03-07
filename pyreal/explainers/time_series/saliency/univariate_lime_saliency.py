@@ -6,7 +6,7 @@ import pandas as pd
 from lime import lime_tabular
 
 from pyreal.explainers.time_series import SaliencyBase
-from pyreal.types.explanations.feature_based import FeatureContributionExplanation
+from pyreal.types.explanations.feature_based import ClassFeatureContributionExplanation
 
 
 class UnivariateLimeSaliency(SaliencyBase):
@@ -127,4 +127,4 @@ class UnivariateLimeSaliency(SaliencyBase):
         else:
             importances_df = pd.DataFrame(importances).T
 
-        return FeatureContributionExplanation(importances_df)
+        return ClassFeatureContributionExplanation(importances_df)

@@ -15,10 +15,11 @@ WIDTH = 5
 
 
 def plot_top_contributors(
-    contributions,
+    contributions=None,
+    values=None,
+    explainer=None,
     select_by="absolute",
     n=5,
-    values=None,
     transparent=False,
     flip_colors=False,
     precision=2,
@@ -31,12 +32,12 @@ def plot_top_contributors(
     Args:
         contributions (Series or DataFrame of shape (1, n_features):
             Contributions, with feature names as the column names
+        values (Series or DataFrame of shape (1, n_features):
+            If given, show the corresponding values alongside the feature names
         select_by (one of "absolute", "max", "min"):
             Which explanation to plot.
         n (int):
             Number of features to plot
-        values (Series or DataFrame of shape (1, n_features):
-            If given, show the corresponding values alongside the feature names
         transparent (Boolean):
             If True, the background of the figure is set to transparent.
         flip_colors (Boolean):
@@ -234,7 +235,7 @@ def plot_tree_explanation(
             If not None, save the figure as filename.
     """
 
-    decision_tree = dte.produce()
+    decision_tree = dte.produce().get()
     feature_names = dte.return_features()
     figsize = (dte.max_depth * 4 + 10, dte.max_depth * 2)
     if transparent:

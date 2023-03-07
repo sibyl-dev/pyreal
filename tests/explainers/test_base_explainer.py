@@ -172,9 +172,9 @@ def test_evaluate_model(regression_no_transforms):
 
 
 def test_transform_explanation(regression_no_transforms):
-    feature_select1 = FeatureSelectTransformer(["A", "B"], model=True)
-    feature_select2 = FeatureSelectTransformer(["C"], model=False, interpret=True)
-    x = pd.DataFrame([[1, 1, 1, 1]], columns=["A", "B", "C", "D"])
+    feature_select1 = FeatureSelectTransformer(["A", "B"])
+    feature_select2 = FeatureSelectTransformer(["C"], algorithm=False, interpret=True)
+    x = pd.DataFrame([[1, 1, 1, 1], [1, 1, 1, 1]], columns=["A", "B", "C", "D"])
     feature_select1.fit(x)
     feature_select2.fit(x)
 
@@ -185,19 +185,22 @@ def test_transform_explanation(regression_no_transforms):
         transformers=[feature_select1, feature_select2],
     )
 
-    explanation = pd.DataFrame([[1, 2, 3, 4], [1, 2, 3, 4]], columns=["A", "B", "C", "D"])
-    explanation = AdditiveFeatureContributionExplanation(explanation)
+    explanation_base = pd.DataFrame([[1, 2], [1, 2]], columns=["A", "B"])
+    explanation = AdditiveFeatureContributionExplanation(explanation_base)
 
-    transform_explanation = explainer.transform_explanation(explanation).get()
+    transform_explanation = explainer.transform_explanation(explanation, x).get()
     expected_explanation = pd.DataFrame([[0], [0]], columns=["C"])
     assert_frame_equal(transform_explanation, expected_explanation)
+
+    explanation_base = pd.DataFrame([[1, 2], [1, 2]], columns=["A", "B"])
+    explanation = AdditiveFeatureContributionExplanation(explanation_base)
 
     feature_select1.inverse_transform_explanation_additive_feature_contribution = (
         breaking_transform
     )
 
-    transform_explanation = explainer.transform_explanation(explanation).get()
-    expected_explanation = pd.DataFrame([[1, 2, 0, 0], [1, 2, 0, 0]], columns=["A", "B", "C", "D"])
+    transform_explanation = explainer.transform_explanation(explanation, x).get()
+    expected_explanation = pd.DataFrame([[1, 2], [1, 2]], columns=["A", "B"])
     assert_frame_equal(transform_explanation, expected_explanation)
 
 
@@ -213,11 +216,11 @@ def test_transform_x_with_produce(regression_no_transforms):
         def inverse_transform_explanation_additive_feature_contribution(self, explanation):
             return AdditiveFeatureContributionExplanation(explanation.get() + self.n)
 
-    explanation = pd.DataFrame([[1, 2, 3, 4], [1, 2, 3, 4]], columns=["A", "B", "C", "D"])
-    explanation = AdditiveFeatureContributionExplanation(explanation)
     x = pd.DataFrame([[0, 1, 2, 3], [0, 1, 2, 3]], columns=["A", "B", "C", "D"])
+    explanation_base = pd.DataFrame([[1, 2, 3], [1, 2, 3]], columns=["A", "B", "C"])
+    explanation = AdditiveFeatureContributionExplanation(explanation_base)
 
-    feature_select1 = FeatureSelectTransformer(columns=["A", "B", "C"])
+    feature_select1 = FeatureSelectTransformer(columns=["A", "B", "C"]).fit(x)
     subtract_1 = SubtractTransformer(1)
     subtract_2 = SubtractTransformer(2, model=False, interpret=True)
     subtract_3 = SubtractTransformer(3, model=False, interpret=True)
@@ -228,20 +231,25 @@ def test_transform_x_with_produce(regression_no_transforms):
         y_orig=regression_no_transforms["y"],
         transformers=[feature_select1, subtract_1, subtract_2, subtract_3],
     )
-    transform_explanation, transform_x = explainer.transform_explanation(explanation, x)
+    transform_explanation = explainer.transform_explanation(explanation, x)
     expected_x = pd.DataFrame([[-5, -4, -3, -2], [-5, -4, -3, -2]], columns=["A", "B", "C", "D"])
-    assert_frame_equal(transform_x, expected_x)
+    assert_frame_equal(transform_explanation.get_values(), expected_x)
+
+    explanation_base = pd.DataFrame([[1, 2, 3], [1, 2, 3]], columns=["A", "B", "C"])
+    explanation = AdditiveFeatureContributionExplanation(explanation_base)
 
     subtract_3.transform_explanation = breaking_transform
-    transform_explanation, transform_x = explainer.transform_explanation(explanation, x)
+    transform_explanation = explainer.transform_explanation(explanation, x)
     expected_x = pd.DataFrame([[-2, -1, 0, 1], [-2, -1, 0, 1]], columns=["A", "B", "C", "D"])
-    assert_frame_equal(transform_x, expected_x)
+    assert_frame_equal(transform_explanation.get_values(), expected_x)
+
+    explanation_base = pd.DataFrame([[1, 2, 3], [1, 2, 3]], columns=["A", "B", "C"])
+    explanation = AdditiveFeatureContributionExplanation(explanation_base)
 
     feature_select1.inverse_transform_explanation = breaking_transform
-    transform_explanation, transform_x = explainer.transform_explanation(explanation, x)
+    transform_explanation = explainer.transform_explanation(explanation, x)
     expected_x = pd.DataFrame([[0, 1, 2], [0, 1, 2]], columns=["A", "B", "C"])
-
-    assert_frame_equal(transform_x, expected_x)
+    assert_frame_equal(transform_explanation.get_values(), expected_x)
 
 
 def test_break(regression_no_transforms):
@@ -273,7 +281,7 @@ def test_fit_transformer_param(regression_no_transforms):
     )
 
     explanation = pd.DataFrame([[1, 2, 3, 4], [1, 2, 3, 4]], columns=["A", "B", "C", "D"])
-    explanation = AdditiveFeatureContributionExplanation(explanation)
+    explanation = AdditiveFeatureContributionExplanation(explanation, explanation.copy())
 
     transform_explanation = explainer.transform_explanation(explanation).get()
     expected_explanation = pd.DataFrame([[0], [0]], columns=["C"])
