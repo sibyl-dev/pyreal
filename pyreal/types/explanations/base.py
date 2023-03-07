@@ -73,16 +73,17 @@ class Explanation:
             Explanation
                 `self` if `inplace=True`, else the new Explanation object.
         """
-        if values.ndim == 1:
-            values = values.to_frame().T
-
         if inplace:
             self.values = values
             self.validate()
             if self.values is not None:
                 self.validate_values()
+            if self.values.ndim == 1:
+                self.values = values.to_frame().T
             return self
         else:
+            if self.values.ndim == 1:
+                self.values = values.to_frame().T
             return self.__class__(self.explanation, values)
 
     def update_explanation(self, explanation, inplace=False):
