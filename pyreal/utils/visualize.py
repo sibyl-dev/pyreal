@@ -237,14 +237,18 @@ def plot_tree_explanation(
 
     decision_tree = dte.produce().get()
     feature_names = dte.return_features()
-    figsize = (dte.max_depth * 4 + 10, dte.max_depth * 2)
+    if dte.max_depth is None:
+        max_depth = 6
+    else:
+        max_depth = dte.max_depth
+    figsize = (max_depth * 4 + 10, max_depth * 2)
     if transparent:
         fig, ax = plt.subplots(figsize=figsize)
     else:
         fig, ax = plt.subplots(figsize=figsize, facecolor="w")
 
     exporter = TreeExporter(
-        max_depth=dte.max_depth,
+        max_depth=max_depth,
         feature_names=feature_names,
         class_names=class_names,
         positive_color=positive_color,
