@@ -3,14 +3,35 @@ Includes basic visualization methods, mostly used to testing purposes.
 """
 import matplotlib.colors as color
 import matplotlib.pyplot as plt
+from matplotlib.colors import LinearSegmentedColormap
 import numpy as np
 import seaborn as sns
 from matplotlib.collections import LineCollection
 
 from pyreal.utils._plot_tree import TreeExporter
 
-negative_color = "#ef8a62"
-positive_color = "#67a9cf"
+negative_color = "#08415C"
+positive_color = "#710627"
+neutral_color = "#FEEBC3"
+
+
+def _lighten_color(color, amount=0.5):
+    """
+    Lightens the given color by multiplying (1-luminosity) by the given amount.
+    Input can be matplotlib color string, hex string, or RGB tuple.
+    From: https://gist.github.com/ihincks/6a420b599f43fcd7dbd79d56798c4e5a
+    """
+    import matplotlib.colors as mc
+    import colorsys
+    try:
+        c = mc.cnames[color]
+    except:
+        c = color
+    c = colorsys.rgb_to_hls(*mc.to_rgb(c))
+    return colorsys.hls_to_rgb(c[0], 1 - amount * (1 - c[1]), c[2])
+
+PALETTE = sns.blend_palette([_lighten_color(negative_color, 0.8), neutral_color, _lighten_color(positive_color, 0.8)])
+PALETTE_CMAP = sns.blend_palette([_lighten_color(negative_color, 0.8), neutral_color, _lighten_color(positive_color, 0.8)], as_cmap=True)
 WIDTH = 5
 
 
@@ -83,8 +104,6 @@ def plot_top_contributors(
 
     to_plot = order[0:n]
 
-    negative_color = "#ef8a62"
-    positive_color = "#67a9cf"
     if not flip_colors:
         colors = [
             negative_color if (c < 0) else positive_color for c in contributions[to_plot][::-1]
@@ -141,16 +160,20 @@ def swarm_plot(
     """
     average_importance = np.mean(abs(contributions), axis=0)
     order = np.argsort(average_importance)[::-1]
+
     for i in range(n):
         hues = values.iloc[:, order[i : i + 1]]
         hues = hues.melt()["value"]
+        num_colors = len(np.unique(hues.astype("str")))
+        palette = sns.blend_palette([_lighten_color(negative_color, 0.8), neutral_color,
+                                     _lighten_color(positive_color, 0.8)], n_colors=num_colors)
         if type == "strip":
             ax = sns.stripplot(
                 x="value",
                 y="variable",
                 hue=hues,
                 data=contributions.iloc[:, order[i : i + 1]].melt(),
-                palette="coolwarm_r",
+                palette=palette,
                 legend=False,
                 size=3,
                 **kwargs
@@ -161,7 +184,7 @@ def swarm_plot(
                 y="variable",
                 hue=hues,
                 data=contributions.iloc[:, order[i : i + 1]].melt(),
-                palette="coolwarm_r",
+                palette=palette,
                 legend=False,
                 size=3,
                 **kwargs
@@ -179,7 +202,7 @@ def swarm_plot(
     if legend:
         ax = plt.gca()
         norm = plt.Normalize(0, 1)
-        sm = plt.cm.ScalarMappable(cmap="coolwarm_r", norm=norm)
+        sm = plt.cm.ScalarMappable(cmap=PALETTE_CMAP, norm=norm)
         sm.set_array([])
         cbar = ax.figure.colorbar(sm)
         cbar.ax.get_yaxis().set_ticks([])
@@ -296,14 +319,13 @@ def plot_time_series_explanation(timeSeriesData, contribution):
     columns = timeSeriesData.columns.get_level_values(0).unique()
     timestamps = timeSeriesData.columns.get_level_values(1).unique()
     fig, axs = plt.subplots(columns.size)
-    cmap = color.LinearSegmentedColormap.from_list("posnegcmap", [negative_color, positive_color])
 
     for var in columns:
         axs.scatter(
             timestamps,
             timeSeriesData.iloc[0].loc[(var, slice(None))],
             c=contribution,
-            cmap=cmap,
+            cmap=PALETTE_CMAP,
             vmin=-1,
             vmax=1,
         )
@@ -332,7 +354,7 @@ def plot_timeseries_saliency(
     if maxcol is None:
         maxcol = colors.max()
     norm = plt.Normalize(mincol, maxcol)
-    lc = LineCollection(segments, cmap="coolwarm", norm=norm)
+    lc = LineCollection(segments, cmap=PALETTE_CMAP, norm=norm)
     lc.set_array(colors)
     lc.set_linewidth(WIDTH)
     # if(fig is None or ax is None):
