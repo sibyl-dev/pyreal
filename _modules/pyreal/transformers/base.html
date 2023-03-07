@@ -529,7 +529,6 @@
 <span class="sd">                If `explanation` is not of a supported ExplanationType</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="nb">print</span><span class="p">(</span><span class="n">explanation</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">explanation</span><span class="p">,</span> <span class="n">AdditiveFeatureContributionExplanation</span><span class="p">):</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform_explanation_additive_feature_contribution</span><span class="p">(</span><span class="n">explanation</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">explanation</span><span class="p">,</span> <span class="n">AdditiveFeatureImportanceExplanation</span><span class="p">):</span>

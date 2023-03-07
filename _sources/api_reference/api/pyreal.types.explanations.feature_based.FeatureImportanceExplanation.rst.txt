@@ -15,7 +15,12 @@
    
       ~FeatureImportanceExplanation.__init__
       ~FeatureImportanceExplanation.get
+      ~FeatureImportanceExplanation.get_all
+      ~FeatureImportanceExplanation.get_values
+      ~FeatureImportanceExplanation.update_explanation
+      ~FeatureImportanceExplanation.update_values
       ~FeatureImportanceExplanation.validate
+      ~FeatureImportanceExplanation.validate_values
    
    
 

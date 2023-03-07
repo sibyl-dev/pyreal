@@ -15,7 +15,12 @@
    
       ~Explanation.__init__
       ~Explanation.get
+      ~Explanation.get_all
+      ~Explanation.get_values
+      ~Explanation.update_explanation
+      ~Explanation.update_values
       ~Explanation.validate
+      ~Explanation.validate_values
    
    
 

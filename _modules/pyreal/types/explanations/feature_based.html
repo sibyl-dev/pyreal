@@ -356,7 +356,24 @@
 <span class="sd">            AssertionException</span>
 <span class="sd">                if `self.explanation` is invalid</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">validate</span><span class="p">()</span></div></div>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">validate</span><span class="p">()</span></div>
+
+    <span class="k">def</span> <span class="nf">validate_values</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Validate that self.values are valid values for this Explanation.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            None</span>
+<span class="sd">        Raises:</span>
+<span class="sd">            AssertionException</span>
+<span class="sd">                if `self.values` is invalid</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">validate_values</span><span class="p">()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">shape</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">explanation</span><span class="o">.</span><span class="n">shape</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span>
+                <span class="s2">&quot;FeatureContributions expects one value per contribution. Contributions shape: </span><span class="si">%s</span><span class="s2">,&quot;</span>
+                <span class="s2">&quot; values shape: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">explanation</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+            <span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="AdditiveFeatureContributionExplanation"><a class="viewcode-back" href="../../../../api_reference/api/pyreal.types.explanations.feature_based.AdditiveFeatureContributionExplanation.html#pyreal.types.explanations.feature_based.AdditiveFeatureContributionExplanation">[docs]</a><span class="k">class</span> <span class="nc">AdditiveFeatureContributionExplanation</span><span class="p">(</span><span class="n">FeatureContributionExplanation</span><span class="p">):</span>
@@ -379,6 +396,38 @@
 <span class="sd">                if `self.explanation` is invalid</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">validate</span><span class="p">()</span></div></div>
+
+
+<span class="k">class</span> <span class="nc">ClassFeatureContributionExplanation</span><span class="p">(</span><span class="n">FeatureBased</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A type wrapper for local feature contribution DataFrame type outputs from explanation</span>
+<span class="sd">    algorithms. Classification Local feature contribution explanations give one numeric value</span>
+<span class="sd">    per instance per feature per class, representing that feature&#39;s contribution to the</span>
+<span class="sd">    model&#39;s prediction for this instance and class.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">validate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Validate that `self.explanation` is a valid `DataFrame`</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            None</span>
+<span class="sd">        Raises:</span>
+<span class="sd">            AssertionException</span>
+<span class="sd">                if `self.explanation` is invalid</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">validate</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">validate_values</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Validate that self.values are valid values for this Explanation.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            None</span>
+<span class="sd">        Raises:</span>
+<span class="sd">            AssertionException</span>
+<span class="sd">                if `self.values` is invalid</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">validate_values</span><span class="p">()</span>
 </pre></div>
 
             </article>

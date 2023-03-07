@@ -15,7 +15,12 @@
    
       ~DecisionTreeExplanation.__init__
       ~DecisionTreeExplanation.get
+      ~DecisionTreeExplanation.get_all
+      ~DecisionTreeExplanation.get_values
+      ~DecisionTreeExplanation.update_explanation
+      ~DecisionTreeExplanation.update_values
       ~DecisionTreeExplanation.validate
+      ~DecisionTreeExplanation.validate_values
    
    
 

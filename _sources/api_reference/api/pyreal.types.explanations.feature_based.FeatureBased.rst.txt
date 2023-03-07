@@ -15,7 +15,12 @@
    
       ~FeatureBased.__init__
       ~FeatureBased.get
+      ~FeatureBased.get_all
+      ~FeatureBased.get_values
+      ~FeatureBased.update_explanation
+      ~FeatureBased.update_values
       ~FeatureBased.validate
+      ~FeatureBased.validate_values
    
    
 

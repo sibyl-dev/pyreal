@@ -15,7 +15,12 @@
    
       ~AdditiveFeatureImportanceExplanation.__init__
       ~AdditiveFeatureImportanceExplanation.get
+      ~AdditiveFeatureImportanceExplanation.get_all
+      ~AdditiveFeatureImportanceExplanation.get_values
+      ~AdditiveFeatureImportanceExplanation.update_explanation
+      ~AdditiveFeatureImportanceExplanation.update_values
       ~AdditiveFeatureImportanceExplanation.validate
+      ~AdditiveFeatureImportanceExplanation.validate_values
    
    
 

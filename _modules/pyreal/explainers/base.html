@@ -284,6 +284,7 @@
 <span class="kn">from</span> <span class="nn">pyreal.transformers</span> <span class="kn">import</span> <span class="n">BreakingTransformError</span>
 <span class="kn">from</span> <span class="nn">pyreal.transformers</span> <span class="kn">import</span> <span class="n">fit_transformers</span> <span class="k">as</span> <span class="n">fit_transformers_func</span>
 <span class="kn">from</span> <span class="nn">pyreal.transformers</span> <span class="kn">import</span> <span class="n">run_transformers</span>
+<span class="kn">from</span> <span class="nn">pyreal.types.explanations.base</span> <span class="kn">import</span> <span class="n">Explanation</span>
 <span class="kn">from</span> <span class="nn">pyreal.utils</span> <span class="kn">import</span> <span class="n">model_utils</span>
 
 <span class="n">log</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
@@ -555,28 +556,29 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Transform the explanation into its interpretable form, by running the e_transformer&#39;s</span>
 <span class="sd">        &quot;inverse_transform_explanation&quot; and i_transformers &quot;transform_explanation&quot; functions.</span>
-<span class="sd">        If an `x_orig` argument is added, also convert x_orig with the same transformers. This</span>
-<span class="sd">        function will result in x_orig in the same feature space as the final explanation</span>
+<span class="sd">        If an `x_orig` is provided, also convert `x_orig` with the same</span>
+<span class="sd">        transformers. This function will result in `values` in the Explanation object</span>
+<span class="sd">        in the same feature space as the final explanation</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            explanation (type varies by subclass):</span>
 <span class="sd">                The raw explanation to transform</span>
-<span class="sd">            x_orig (DataFrame of shape (n_instances, x_orig_feature_count) or None):</span>
-<span class="sd">                Input data used to generate explanation. Optional argument</span>
+<span class="sd">            x_orig (DataFrame of shape (n_instances, n_features) or None)</span>
+<span class="sd">                Data to transform to final space</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            type varies by subclass</span>
+<span class="sd">            Explanation</span>
 <span class="sd">                The interpretable form of the explanation</span>
-<span class="sd">            DataFrame of shape (n_instances, x_orig_feature_count)</span>
-<span class="sd">                If `x_orig` is not None, return `x_orig` transformed to the state of the final</span>
-<span class="sd">                explanation. Not returned if `x_orig` is None.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">explanation</span><span class="p">,</span> <span class="n">Explanation</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;explanation is not a valid Explanation object&quot;</span><span class="p">)</span>
+
         <span class="n">convert_x</span> <span class="o">=</span> <span class="n">x_orig</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">return_original_explanation</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">convert_x</span><span class="p">:</span>
-                <span class="k">return</span> <span class="n">explanation</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform_to_x_algorithm</span><span class="p">(</span><span class="n">x_orig</span><span class="p">)</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="k">return</span> <span class="n">explanation</span>
+                <span class="n">explanation</span> <span class="o">=</span> <span class="n">explanation</span><span class="o">.</span><span class="n">update_values</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">transform_to_x_algorithm</span><span class="p">(</span><span class="n">x_orig</span><span class="p">))</span>
+            <span class="k">return</span> <span class="n">explanation</span>
+
         <span class="n">x</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">if</span> <span class="n">convert_x</span><span class="p">:</span>
             <span class="n">x</span> <span class="o">=</span> <span class="n">x_orig</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
@@ -598,7 +600,7 @@
                 <span class="n">break_point</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">a_transformers</span><span class="p">)</span> <span class="o">-</span> <span class="n">i</span>
                 <span class="k">if</span> <span class="n">convert_x</span><span class="p">:</span>
                     <span class="n">x</span> <span class="o">=</span> <span class="n">run_transformers</span><span class="p">(</span><span class="n">a_transformers</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">break_point</span><span class="p">],</span> <span class="n">x</span><span class="p">)</span>
-                    <span class="k">return</span> <span class="n">explanation</span><span class="p">,</span> <span class="n">x</span>
+                    <span class="k">return</span> <span class="n">explanation</span><span class="o">.</span><span class="n">update_values</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="k">return</span> <span class="n">explanation</span>
         <span class="c1"># Iterate through interpret transformers</span>
@@ -613,12 +615,12 @@
                         <span class="o">%</span> <span class="nb">type</span><span class="p">(</span><span class="n">t</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span>
                     <span class="p">)</span>
                     <span class="k">if</span> <span class="n">convert_x</span><span class="p">:</span>
-                        <span class="k">return</span> <span class="n">explanation</span><span class="p">,</span> <span class="n">x</span>
+                        <span class="k">return</span> <span class="n">explanation</span><span class="o">.</span><span class="n">update_values</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
                     <span class="k">return</span> <span class="n">explanation</span>
             <span class="k">if</span> <span class="n">convert_x</span><span class="p">:</span>
                 <span class="n">x</span> <span class="o">=</span> <span class="n">t</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">convert_x</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">explanation</span><span class="p">,</span> <span class="n">x</span>
+            <span class="k">return</span> <span class="n">explanation</span><span class="o">.</span><span class="n">update_values</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">explanation</span>
 
 <div class="viewcode-block" id="ExplainerBase.model_predict"><a class="viewcode-back" href="../../../api_reference/api/pyreal.explainers.ExplainerBase.model_predict.html#pyreal.explainers.ExplainerBase.model_predict">[docs]</a>    <span class="k">def</span> <span class="nf">model_predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_orig</span><span class="p">):</span>
@@ -673,7 +675,7 @@
 <span class="sd">        Returns df with columns (or index, for series) converted to the interpretable descriptions</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            df (DataFrame of shape (n_instances, x_orig_feature_count) or Series):</span>
+<span class="sd">            df (DataFrame):</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            string</span>
@@ -681,6 +683,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">feature_descriptions</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">df</span>
+
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">df</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">feature_descriptions</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">df</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">feature_descriptions</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="s2">&quot;columns&quot;</span><span class="p">)</span>

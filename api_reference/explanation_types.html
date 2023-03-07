@@ -477,14 +477,14 @@
 <h2>Explanation Type<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h2>
 <table class="autosummary longtable table autosummary">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/pyreal.types.explanations.base.Explanation.html#pyreal.types.explanations.base.Explanation" title="pyreal.types.explanations.base.Explanation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">base.Explanation</span></code></a>(explanation)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/pyreal.types.explanations.base.Explanation.html#pyreal.types.explanations.base.Explanation" title="pyreal.types.explanations.base.Explanation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">base.Explanation</span></code></a>(explanation[, values])</p></td>
 <td><p>A type wrapper for outputs from explanation algorithms.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="api/pyreal.types.explanations.base.Explanation.get.html#pyreal.types.explanations.base.Explanation.get" title="pyreal.types.explanations.base.Explanation.get"><code class="xref py py-obj docutils literal notranslate"><span class="pre">base.Explanation.get</span></code></a>()</p></td>
-<td><p>Get the explanation wrapped by this type</p></td>
+<td><p>Get the explanation wrapped by this type :returns:</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="api/pyreal.types.explanations.base.Explanation.validate.html#pyreal.types.explanations.base.Explanation.validate" title="pyreal.types.explanations.base.Explanation.validate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">base.Explanation.validate</span></code></a>()</p></td>
-<td><p>Validate that <cite>self.explanation</cite> is a valid object of type <cite>Explanation</cite> :returns: None</p></td>
+<td><p>Validate that <cite>self.explanation</cite> is a valid object of type <cite>Explanation</cite>.</p></td>
 </tr>
 </tbody>
 </table>
@@ -493,11 +493,11 @@
 <h2>DataFrame Explanation Type<a class="headerlink" href="#dataframe-explanation-type" title="Permalink to this heading">#</a></h2>
 <table class="autosummary longtable table autosummary">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/pyreal.types.explanations.feature_based.FeatureBased.html#pyreal.types.explanations.feature_based.FeatureBased" title="pyreal.types.explanations.feature_based.FeatureBased"><code class="xref py py-obj docutils literal notranslate"><span class="pre">feature_based.FeatureBased</span></code></a>(explanation)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/pyreal.types.explanations.feature_based.FeatureBased.html#pyreal.types.explanations.feature_based.FeatureBased" title="pyreal.types.explanations.feature_based.FeatureBased"><code class="xref py py-obj docutils literal notranslate"><span class="pre">feature_based.FeatureBased</span></code></a>(explanation[, values])</p></td>
 <td><p>A type wrapper for feature-based DataFrame type outputs from explanation algorithms.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="api/pyreal.types.explanations.feature_based.FeatureBased.get.html#pyreal.types.explanations.feature_based.FeatureBased.get" title="pyreal.types.explanations.feature_based.FeatureBased.get"><code class="xref py py-obj docutils literal notranslate"><span class="pre">feature_based.FeatureBased.get</span></code></a>()</p></td>
-<td><p>Get the explanation wrapped by this type</p></td>
+<td><p>Get the explanation wrapped by this type :returns:</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="api/pyreal.types.explanations.feature_based.FeatureBased.validate.html#pyreal.types.explanations.feature_based.FeatureBased.validate" title="pyreal.types.explanations.feature_based.FeatureBased.validate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">feature_based.FeatureBased.validate</span></code></a>()</p></td>
 <td><p>Validate that <cite>self.explanation</cite> is a valid <cite>DataFrame</cite> :returns: None</p></td>
@@ -513,7 +513,7 @@
 <td><p>A type wrapper for global feature importance FeatureBased type outputs from explanation algorithms.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="api/pyreal.types.explanations.feature_based.FeatureImportanceExplanation.get.html#pyreal.types.explanations.feature_based.FeatureImportanceExplanation.get" title="pyreal.types.explanations.feature_based.FeatureImportanceExplanation.get"><code class="xref py py-obj docutils literal notranslate"><span class="pre">feature_based.FeatureImportanceExplanation.get</span></code></a>()</p></td>
-<td><p>Get the explanation wrapped by this type</p></td>
+<td><p>Get the explanation wrapped by this type :returns:</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="api/pyreal.types.explanations.feature_based.FeatureImportanceExplanation.validate.html#pyreal.types.explanations.feature_based.FeatureImportanceExplanation.validate" title="pyreal.types.explanations.feature_based.FeatureImportanceExplanation.validate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">feature_based.FeatureImportanceExplanation.validate</span></code></a>()</p></td>
 <td><p>Validate that <cite>self.explanation</cite> is a valid single-row <cite>DataFrame</cite> :returns: None</p></td>
@@ -529,7 +529,7 @@
 <td><p>A type wrapper for additive global feature importance DataFrame type outputs from explanation algorithms.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="api/pyreal.types.explanations.feature_based.AdditiveFeatureImportanceExplanation.get.html#pyreal.types.explanations.feature_based.AdditiveFeatureImportanceExplanation.get" title="pyreal.types.explanations.feature_based.AdditiveFeatureImportanceExplanation.get"><code class="xref py py-obj docutils literal notranslate"><span class="pre">feature_based.AdditiveFeatureImportanceExplanation.get</span></code></a>()</p></td>
-<td><p>Get the explanation wrapped by this type</p></td>
+<td><p>Get the explanation wrapped by this type :returns:</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="api/pyreal.types.explanations.feature_based.AdditiveFeatureImportanceExplanation.validate.html#pyreal.types.explanations.feature_based.AdditiveFeatureImportanceExplanation.validate" title="pyreal.types.explanations.feature_based.AdditiveFeatureImportanceExplanation.validate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">feature_based.AdditiveFeatureImportanceExplanation.validate</span></code></a>()</p></td>
 <td><p>Validate that <cite>self.explanation</cite> is a valid single-row <cite>DataFrame</cite> :returns: None</p></td>
@@ -545,7 +545,7 @@
 <td><p>A type wrapper for local feature contribution DataFrame type outputs from explanation algorithms.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="api/pyreal.types.explanations.feature_based.FeatureContributionExplanation.get.html#pyreal.types.explanations.feature_based.FeatureContributionExplanation.get" title="pyreal.types.explanations.feature_based.FeatureContributionExplanation.get"><code class="xref py py-obj docutils literal notranslate"><span class="pre">feature_based.FeatureContributionExplanation.get</span></code></a>()</p></td>
-<td><p>Get the explanation wrapped by this type</p></td>
+<td><p>Get the explanation wrapped by this type :returns:</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="api/pyreal.types.explanations.feature_based.FeatureContributionExplanation.validate.html#pyreal.types.explanations.feature_based.FeatureContributionExplanation.validate" title="pyreal.types.explanations.feature_based.FeatureContributionExplanation.validate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">feature_based.FeatureContributionExplanation.validate</span></code></a>()</p></td>
 <td><p>Validate that <cite>self.explanation</cite> is a valid <cite>DataFrame</cite> :returns: None</p></td>
@@ -561,7 +561,7 @@
 <td><p>A type wrapper for local feature contribution DataFrame type outputs from explanation algorithms.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="api/pyreal.types.explanations.feature_based.AdditiveFeatureContributionExplanation.get.html#pyreal.types.explanations.feature_based.AdditiveFeatureContributionExplanation.get" title="pyreal.types.explanations.feature_based.AdditiveFeatureContributionExplanation.get"><code class="xref py py-obj docutils literal notranslate"><span class="pre">feature_based.AdditiveFeatureContributionExplanation.get</span></code></a>()</p></td>
-<td><p>Get the explanation wrapped by this type</p></td>
+<td><p>Get the explanation wrapped by this type :returns:</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="api/pyreal.types.explanations.feature_based.AdditiveFeatureContributionExplanation.validate.html#pyreal.types.explanations.feature_based.AdditiveFeatureContributionExplanation.validate" title="pyreal.types.explanations.feature_based.AdditiveFeatureContributionExplanation.validate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">feature_based.AdditiveFeatureContributionExplanation.validate</span></code></a>()</p></td>
 <td><p>Validate that <cite>self.explanation</cite> is a valid <cite>DataFrame</cite> :returns: None</p></td>
@@ -573,11 +573,11 @@
 <h2>Decision Tree Explanation Type<a class="headerlink" href="#decision-tree-explanation-type" title="Permalink to this heading">#</a></h2>
 <table class="autosummary longtable table autosummary">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/pyreal.types.explanations.decision_tree.DecisionTreeExplanation.html#pyreal.types.explanations.decision_tree.DecisionTreeExplanation" title="pyreal.types.explanations.decision_tree.DecisionTreeExplanation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">decision_tree.DecisionTreeExplanation</span></code></a>(...)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/pyreal.types.explanations.decision_tree.DecisionTreeExplanation.html#pyreal.types.explanations.decision_tree.DecisionTreeExplanation" title="pyreal.types.explanations.decision_tree.DecisionTreeExplanation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">decision_tree.DecisionTreeExplanation</span></code></a>(...[, ...])</p></td>
 <td><p>A type wrapper for decision-tree based type outputs from explanation algorithms.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="api/pyreal.types.explanations.decision_tree.DecisionTreeExplanation.get.html#pyreal.types.explanations.decision_tree.DecisionTreeExplanation.get" title="pyreal.types.explanations.decision_tree.DecisionTreeExplanation.get"><code class="xref py py-obj docutils literal notranslate"><span class="pre">decision_tree.DecisionTreeExplanation.get</span></code></a>()</p></td>
-<td><p>Get the explanation wrapped by this type</p></td>
+<td><p>Get the explanation wrapped by this type :returns:</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="api/pyreal.types.explanations.decision_tree.DecisionTreeExplanation.validate.html#pyreal.types.explanations.decision_tree.DecisionTreeExplanation.validate" title="pyreal.types.explanations.decision_tree.DecisionTreeExplanation.validate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">decision_tree.DecisionTreeExplanation.validate</span></code></a>()</p></td>
 <td><p>Validate that <cite>self.explanation</cite> is a valid and fitted sklearn <cite>DecisionTree</cite> :returns: None</p></td>

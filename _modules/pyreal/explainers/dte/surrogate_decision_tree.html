@@ -277,6 +277,8 @@
 <span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">tree</span>
 
 <span class="kn">from</span> <span class="nn">pyreal.explainers</span> <span class="kn">import</span> <span class="n">DecisionTreeExplainerBase</span>
+<span class="kn">from</span> <span class="nn">pyreal.types.explanations.decision_tree</span> <span class="kn">import</span> <span class="n">DecisionTreeExplanation</span>
+<span class="kn">from</span> <span class="nn">pyreal.types.explanations.feature_based</span> <span class="kn">import</span> <span class="n">FeatureImportanceExplanation</span>
 
 
 <div class="viewcode-block" id="SurrogateDecisionTree"><a class="viewcode-back" href="../../../../api_reference/api/pyreal.explainers.SurrogateDecisionTree.html#pyreal.explainers.SurrogateDecisionTree">[docs]</a><span class="k">class</span> <span class="nc">SurrogateDecisionTree</span><span class="p">(</span><span class="n">DecisionTreeExplainerBase</span><span class="p">):</span>
@@ -331,11 +333,11 @@
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">explainer</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span>
-                <span class="s2">&quot;Instance has no explainer. Please fit the explainer             before producing&quot;</span>
+                <span class="s2">&quot;Instance has no explainer. Please fit the explainer before producing&quot;</span>
                 <span class="s2">&quot; explanations.&quot;</span>
             <span class="p">)</span>
 
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">explainer</span></div>
+        <span class="k">return</span> <span class="n">DecisionTreeExplanation</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">explainer</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="SurrogateDecisionTree.produce_importances"><a class="viewcode-back" href="../../../../api_reference/api/pyreal.explainers.SurrogateDecisionTree.produce_importances.html#pyreal.explainers.SurrogateDecisionTree.produce_importances">[docs]</a>    <span class="k">def</span> <span class="nf">produce_importances</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -352,7 +354,7 @@
 
         <span class="n">features</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">return_features</span><span class="p">()</span>
         <span class="n">importances</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">explainer</span><span class="o">.</span><span class="n">feature_importances_</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:],</span> <span class="n">columns</span><span class="o">=</span><span class="n">features</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">importances</span></div></div>
+        <span class="k">return</span> <span class="n">FeatureImportanceExplanation</span><span class="p">(</span><span class="n">importances</span><span class="p">)</span></div></div>
 </pre></div>
 
             </article>

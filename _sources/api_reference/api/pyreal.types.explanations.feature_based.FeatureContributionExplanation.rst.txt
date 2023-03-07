@@ -15,7 +15,12 @@
    
       ~FeatureContributionExplanation.__init__
       ~FeatureContributionExplanation.get
+      ~FeatureContributionExplanation.get_all
+      ~FeatureContributionExplanation.get_values
+      ~FeatureContributionExplanation.update_explanation
+      ~FeatureContributionExplanation.update_values
       ~FeatureContributionExplanation.validate
+      ~FeatureContributionExplanation.validate_values
    
    
 

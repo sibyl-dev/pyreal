@@ -290,10 +290,11 @@
 
 
 <div class="viewcode-block" id="plot_top_contributors"><a class="viewcode-back" href="../../../api_reference/api/pyreal.utils.visualize.plot_top_contributors.html#pyreal.utils.visualize.plot_top_contributors">[docs]</a><span class="k">def</span> <span class="nf">plot_top_contributors</span><span class="p">(</span>
-    <span class="n">contributions</span><span class="p">,</span>
+    <span class="n">contributions</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">values</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">explainer</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">select_by</span><span class="o">=</span><span class="s2">&quot;absolute&quot;</span><span class="p">,</span>
     <span class="n">n</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
-    <span class="n">values</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">transparent</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="n">flip_colors</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="n">precision</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
@@ -306,12 +307,12 @@
 <span class="sd">    Args:</span>
 <span class="sd">        contributions (Series or DataFrame of shape (1, n_features):</span>
 <span class="sd">            Contributions, with feature names as the column names</span>
+<span class="sd">        values (Series or DataFrame of shape (1, n_features):</span>
+<span class="sd">            If given, show the corresponding values alongside the feature names</span>
 <span class="sd">        select_by (one of &quot;absolute&quot;, &quot;max&quot;, &quot;min&quot;):</span>
 <span class="sd">            Which explanation to plot.</span>
 <span class="sd">        n (int):</span>
 <span class="sd">            Number of features to plot</span>
-<span class="sd">        values (Series or DataFrame of shape (1, n_features):</span>
-<span class="sd">            If given, show the corresponding values alongside the feature names</span>
 <span class="sd">        transparent (Boolean):</span>
 <span class="sd">            If True, the background of the figure is set to transparent.</span>
 <span class="sd">        flip_colors (Boolean):</span>
@@ -509,7 +510,7 @@
 <span class="sd">            If not None, save the figure as filename.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">decision_tree</span> <span class="o">=</span> <span class="n">dte</span><span class="o">.</span><span class="n">produce</span><span class="p">()</span>
+    <span class="n">decision_tree</span> <span class="o">=</span> <span class="n">dte</span><span class="o">.</span><span class="n">produce</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
     <span class="n">feature_names</span> <span class="o">=</span> <span class="n">dte</span><span class="o">.</span><span class="n">return_features</span><span class="p">()</span>
     <span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="n">dte</span><span class="o">.</span><span class="n">max_depth</span> <span class="o">*</span> <span class="mi">4</span> <span class="o">+</span> <span class="mi">10</span><span class="p">,</span> <span class="n">dte</span><span class="o">.</span><span class="n">max_depth</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">transparent</span><span class="p">:</span>
