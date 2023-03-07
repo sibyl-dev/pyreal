@@ -235,7 +235,7 @@ def plot_tree_explanation(
             If not None, save the figure as filename.
     """
 
-    decision_tree = dte.produce()
+    decision_tree = dte.produce().get()
     feature_names = dte.return_features()
     figsize = (dte.max_depth * 4 + 10, dte.max_depth * 2)
     if transparent:

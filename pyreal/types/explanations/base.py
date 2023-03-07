@@ -19,9 +19,14 @@ class Explanation:
         """
         self.explanation = explanation
         self.values = values
+
         self.validate()
         if self.values is not None:
             self.validate_values()
+            if values.ndim == 1:
+                self.values = self.values.to_frame().T
+            else:
+                self.values = values
 
     def get(self):
         """
@@ -68,6 +73,9 @@ class Explanation:
             Explanation
                 `self` if `inplace=True`, else the new Explanation object.
         """
+        if values.ndim == 1:
+            values = values.to_frame().T
+
         if inplace:
             self.values = values
             self.validate()

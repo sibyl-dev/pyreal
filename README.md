@@ -106,11 +106,7 @@ passenger on the Titanic would have survived.
 >>> prediction = lfc.model_predict(input_to_explain) # Prediction: [0]
 
 # Explain an input
->>> contributions = lfc.produce(input_to_explain)
-
-# Visualize the explanation
->>> from pyreal.utils import visualize
->>> x_interpret = lfc.convert_data_to_interpretable(input_to_explain)
+>>> explanation = lfc.produce(input_to_explain)
 
 ```
 
@@ -120,7 +116,7 @@ TODO: Running tests should not bring up a window. Refactor into the above docstr
 
 ##### Plot a bar plot of top contributing features, by absolute value
 ```
-visualize.plot_top_contributors(contributions, select_by="absolute", values=x_interpret)
+visualize.plot_top_contributors(explanation.get(), select_by="absolute", values=explanation.get_values())
 ```
 
 

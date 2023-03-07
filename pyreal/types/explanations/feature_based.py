@@ -95,7 +95,10 @@ class FeatureContributionExplanation(FeatureBased):
         """
         super().validate_values()
         if self.values.shape != self.explanation.shape:
-            raise AssertionError("FeatureContributions expects one value per contribution")
+            raise AssertionError(
+                "FeatureContributions expects one value per contribution. Contributions shape: %s,"
+                " values shape: %s" % (self.explanation.shape, self.values.shape)
+            )
 
 
 class AdditiveFeatureContributionExplanation(FeatureContributionExplanation):
