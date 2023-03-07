@@ -47,13 +47,13 @@ def helper_produce_shap_regression_no_transforms(explainer, model):
     x_one_dim = pd.DataFrame([[2, 10, 10]], columns=["A", "B", "C"])
     x_multi_dim = pd.DataFrame([[2, 1, 1], [4, 2, 3]], columns=["A", "B", "C"])
     expected = np.mean(model["y"])[0]
-    contributions = explainer.produce(x_one_dim)[0]
+    contributions = explainer.produce(x_one_dim).get()
     assert x_one_dim.shape == contributions.shape
     assert contributions.iloc[0, 0] == x_one_dim.iloc[0, 0] - expected
     assert contributions.iloc[0, 1] == 0
     assert contributions.iloc[0, 2] == 0
 
-    contributions = explainer.produce(x_multi_dim)[0]
+    contributions = explainer.produce(x_multi_dim).get()
     assert x_multi_dim.shape == contributions.shape
     assert contributions.iloc[0, 0] == x_multi_dim.iloc[0, 0] - expected
     assert contributions.iloc[1, 0] == x_multi_dim.iloc[1, 0] - expected
@@ -84,13 +84,13 @@ def test_produce_shap_regression_transforms(regression_one_hot):
 def helper_produce_shap_regression_one_hot(explainer):
     x_one_dim = pd.DataFrame([[2, 10, 10]], columns=["A", "B", "C"])
     x_multi_dim = pd.DataFrame([[4, 1, 1], [6, 2, 3]], columns=["A", "B", "C"])
-    contributions = explainer.produce(x_one_dim)[0]
+    contributions = explainer.produce(x_one_dim).get()
     assert x_one_dim.shape == contributions.shape
     assert abs(contributions["A"][0] + 1) < 0.0001
     assert abs(contributions["B"][0]) < 0.0001
     assert abs(contributions["C"][0]) < 0.0001
 
-    contributions = explainer.produce(x_multi_dim)[0]
+    contributions = explainer.produce(x_multi_dim).get()
     assert x_multi_dim.shape == contributions.shape
     assert abs(contributions["A"][0]) < 0.0001
     assert abs(contributions["A"][1] - 1 < 0.0001)
@@ -123,13 +123,13 @@ def test_produce_shap_classification_no_transforms(classification_no_transforms)
 def helper_produce_shap_classification_no_transforms(explainer):
     x_one_dim = pd.DataFrame([[1, 0, 0]], columns=["A", "B", "C"])
     x_multi_dim = pd.DataFrame([[1, 0, 0], [1, 1, 0]], columns=["A", "B", "C"])
-    contributions = explainer.produce(x_one_dim)[0]
+    contributions = explainer.produce(x_one_dim).get()
     assert x_one_dim.shape == contributions.shape
     assert abs(contributions["A"][0]) < 0.0001
     assert abs(contributions["B"][0] + 1) < 0.0001
     assert abs(contributions["C"][0]) < 0.0001
 
-    contributions = explainer.produce(x_multi_dim)[0]
+    contributions = explainer.produce(x_multi_dim).get()
     assert x_multi_dim.shape == contributions.shape
     assert (contributions["A"] == 0).all()
     assert abs(contributions["B"][0] + 1) < 0.0001
@@ -169,9 +169,9 @@ def helper_produce_shap_regression_no_transforms_with_size(explainer, model):
     x_one_dim = pd.DataFrame([[2, 10, 10]], columns=["A", "B", "C"])
     x_multi_dim = pd.DataFrame([[2, 1, 1], [4, 2, 3]], columns=["A", "B", "C"])
 
-    contributions = explainer.produce(x_one_dim)[0]
+    contributions = explainer.produce(x_one_dim).get()
     assert x_one_dim.shape == contributions.shape
-    contributions = explainer.produce(x_multi_dim)[0]
+    contributions = explainer.produce(x_multi_dim).get()
     assert x_multi_dim.shape == contributions.shape
     assert (contributions.iloc[:, 1] == 0).all()
     assert (contributions.iloc[:, 2] == 0).all()
@@ -194,12 +194,12 @@ def test_produce_shap_regression_transforms_with_size(regression_one_hot):
 def helper_produce_shap_regression_one_hot_with_size(explainer):
     x_one_dim = pd.DataFrame([[2, 10, 10]], columns=["A", "B", "C"])
     x_multi_dim = pd.DataFrame([[4, 1, 1], [6, 2, 3]], columns=["A", "B", "C"])
-    contributions = explainer.produce(x_one_dim)[0]
+    contributions = explainer.produce(x_one_dim).get()
     assert x_one_dim.shape == contributions.shape
     assert abs(contributions["B"][0]) < 0.0001
     assert abs(contributions["C"][0]) < 0.0001
 
-    contributions = explainer.produce(x_multi_dim)[0]
+    contributions = explainer.produce(x_multi_dim).get()
     assert x_multi_dim.shape == contributions.shape
     assert (contributions["B"] == 0).all()
     assert (contributions["C"] == 0).all()
@@ -222,9 +222,9 @@ def test_produce_shap_classification_no_transforms_with_size(classification_no_t
 def helper_produce_shap_classification_no_transforms_with_size(explainer):
     x_one_dim = pd.DataFrame([[1, 0, 0]], columns=["A", "B", "C"])
     x_multi_dim = pd.DataFrame([[1, 0, 0], [1, 0, 0]], columns=["A", "B", "C"])
-    contributions = explainer.produce(x_one_dim)[0]
+    contributions = explainer.produce(x_one_dim).get()
     assert x_one_dim.shape == contributions.shape
 
-    contributions = explainer.produce(x_multi_dim)[0]
+    contributions = explainer.produce(x_multi_dim).get()
     print(contributions)
     assert x_multi_dim.shape == contributions.shape

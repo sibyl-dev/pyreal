@@ -3,6 +3,10 @@ import pandas as pd
 from pandas.testing import assert_frame_equal
 
 from pyreal.transformers import ColumnDropTransformer, FeatureSelectTransformer
+from pyreal.types.explanations.feature_based import FeatureBased
+
+X = pd.DataFrame([[2, 1, 3, 9], [4, 3, 4, 0], [6, 7, 2, 2]], columns=["A", "B", "C", "D"])
+COLUMNS = ["C", "A"]
 
 
 def test_fit_feature_select_transformer(transformer_test_data):
@@ -36,3 +40,27 @@ def test_fit_transform_feature_select_transformer_other_formats(transformer_test
         transformed_x = fs_transformer.transform(transformer_test_data["x"])
         expected_transformed_x = pd.DataFrame([[2], [4], [6]], columns=["A"])
         assert_frame_equal(transformed_x, expected_transformed_x)
+
+
+def test_transform_explanation_feature_select(transformer_test_data):
+    fs_transformer = FeatureSelectTransformer(columns=COLUMNS)
+    explanation = FeatureBased(
+        pd.DataFrame([[1, 2, 3, 4], [1, 2, 3, 4]], columns=["A", "B", "C", "D"])
+    )
+    expected_explanation = pd.DataFrame([[3, 1], [3, 1]], columns=["C", "A"])
+    fs_transformer.fit(X)
+
+    trans_exp = fs_transformer.transform_explanation(explanation)
+
+    assert_frame_equal(trans_exp.get(), expected_explanation)
+
+
+def test_inverse_transform_explanation_feature_select(transformer_test_data):
+    fs_transformer = FeatureSelectTransformer(columns=COLUMNS)
+    explanation = FeatureBased(pd.DataFrame([[3, 1], [3, 1]], columns=["C", "A"]))
+    expected_explanation = pd.DataFrame([[1, 0, 3, 0], [1, 0, 3, 0]], columns=["A", "B", "C", "D"])
+    fs_transformer.fit(X)
+
+    trans_exp = fs_transformer.inverse_transform_explanation(explanation)
+
+    assert_frame_equal(trans_exp.get(), expected_explanation)

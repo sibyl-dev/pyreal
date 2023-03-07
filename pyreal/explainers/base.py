@@ -9,6 +9,7 @@ from sklearn.metrics import get_scorer
 from pyreal.transformers import BreakingTransformError
 from pyreal.transformers import fit_transformers as fit_transformers_func
 from pyreal.transformers import run_transformers
+from pyreal.types.explanations.base import Explanation
 from pyreal.utils import model_utils
 
 log = logging.getLogger(__name__)
@@ -280,28 +281,29 @@ class ExplainerBase(ABC):
         """
         Transform the explanation into its interpretable form, by running the e_transformer's
         "inverse_transform_explanation" and i_transformers "transform_explanation" functions.
-        If an `x_orig` argument is added, also convert x_orig with the same transformers. This
-        function will result in x_orig in the same feature space as the final explanation
+        If an `x_orig` is provided, also convert `x_orig` with the same
+        transformers. This function will result in `values` in the Explanation object
+        in the same feature space as the final explanation
 
         Args:
             explanation (type varies by subclass):
                 The raw explanation to transform
-            x_orig (DataFrame of shape (n_instances, x_orig_feature_count) or None):
-                Input data used to generate explanation. Optional argument
+            x_orig (DataFrame of shape (n_instances, n_features) or None)
+                Data to transform to final space
 
         Returns:
-            type varies by subclass
+            Explanation
                 The interpretable form of the explanation
-            DataFrame of shape (n_instances, x_orig_feature_count)
-                If `x_orig` is not None, return `x_orig` transformed to the state of the final
-                explanation. Not returned if `x_orig` is None.
         """
+        if not isinstance(explanation, Explanation):
+            raise ValueError("explanation is not a valid Explanation object")
+
         convert_x = x_orig is not None
         if self.return_original_explanation:
             if convert_x:
-                return explanation, self.transform_to_x_algorithm(x_orig)
-            else:
-                return explanation
+                explanation = explanation.update_values(self.transform_to_x_algorithm(x_orig))
+            return explanation
+
         x = None
         if convert_x:
             x = x_orig.copy()
@@ -323,7 +325,7 @@ class ExplainerBase(ABC):
                 break_point = len(a_transformers) - i
                 if convert_x:
                     x = run_transformers(a_transformers[0:break_point], x)
-                    return explanation, x
+                    return explanation.update_values(x)
                 else:
                     return explanation
         # Iterate through interpret transformers
@@ -338,12 +340,12 @@ class ExplainerBase(ABC):
                         % type(t).__name__
                     )
                     if convert_x:
-                        return explanation, x
+                        return explanation.update_values(x)
                     return explanation
             if convert_x:
                 x = t.transform(x)
         if convert_x:
-            return explanation, x
+            return explanation.update_values(x)
         return explanation
 
     def model_predict(self, x_orig):
@@ -398,7 +400,7 @@ class ExplainerBase(ABC):
         Returns df with columns (or index, for series) converted to the interpretable descriptions
 
         Args:
-            df (DataFrame of shape (n_instances, x_orig_feature_count) or Series):
+            df (DataFrame):
 
         Returns:
             string
@@ -406,6 +408,7 @@ class ExplainerBase(ABC):
         """
         if self.feature_descriptions is None:
             return df
+
         if isinstance(df, pd.Series):
             return df.rename(self.feature_descriptions)
         return df.rename(self.feature_descriptions, axis="columns")

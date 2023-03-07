@@ -28,7 +28,7 @@ def test_produce_decision_tree_regression_no_transforms(regression_no_transforms
 
 
 def helper_produce_decision_tree_regression_no_transforms(explainer, model):
-    tree_object = explainer.produce()
+    tree_object = explainer.produce().get()
     assert tree_object.feature_importances_.shape == (
         explainer.transform_to_x_algorithm(model["x"]).shape[1],
     )
@@ -56,7 +56,7 @@ def test_produce_decision_tree_regression_transforms(regression_one_hot):
 
 
 def helper_produce_decision_tree_regression_one_hot(explainer, model):
-    tree_object = explainer.produce()
+    tree_object = explainer.produce().get()
     assert tree_object.feature_importances_.shape == (
         explainer.transform_to_x_algorithm(model["x"]).shape[1],
     )
@@ -90,7 +90,7 @@ def test_produce_decision_tree_classification_no_transforms(classification_no_tr
 
 
 def helper_produce_decision_tree_classification_no_transforms(explainer, model):
-    tree_object = explainer.produce()
+    tree_object = explainer.produce().get()
     assert tree_object.feature_importances_.shape == (
         explainer.transform_to_x_algorithm(model["x"]).shape[1],
     )
@@ -176,7 +176,7 @@ def test_produce_decision_tree_classification_with_size(classification_no_transf
 
 
 def helper_produce_decision_tree_classification_no_transforms_with_size(explainer, model):
-    tree_object = explainer.produce()
+    tree_object = explainer.produce().get()
     assert tree_object.feature_importances_.shape == (
         explainer.transform_to_x_algorithm(model["x"]).shape[1],
     )
