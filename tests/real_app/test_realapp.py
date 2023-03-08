@@ -1,5 +1,6 @@
 import pytest
 from pyreal import RealApp
+import numpy as np
 
 
 def test_initalization_one_model(regression_one_hot):
@@ -55,3 +56,15 @@ def test_set_active_model(regression_one_hot, regression_no_transforms):
 
     assert len(realApp.models) == 2
     assert realApp.get_active_model() is regression_no_transforms["model"]
+
+
+def test_predict(regression_one_hot, regression_no_transforms):
+    realApp = RealApp(
+        regression_one_hot["model"], regression_one_hot["x"],
+        transformers=regression_one_hot["transformers"]
+    )
+    print(realApp.explainers)
+
+    expected = np.array(regression_one_hot["y"]).reshape(-1)
+    result = realApp.predict(regression_one_hot["x"])
+    assert np.array_equal(result, expected)

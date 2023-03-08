@@ -113,3 +113,9 @@ class RealApp:
                 The active model
         """
         return self.models[self.active_model_id]
+
+    def predict(self, x, model_id=None):
+        if model_id is None:
+            model_id = self.active_model_id
+
+        return self.base_explainers[model_id].model_predict(x)
