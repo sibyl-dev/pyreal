@@ -46,7 +46,7 @@ class RealApp:
                 raise ValueError("active_model_id not in models")
             self.active_model_id = active_model_id
         else:
-            self.active_model_id = next(iter(models))
+            self.active_model_id = next(iter(self.models))
 
         self.X_train_orig = X_train_orig
         self.y_orig = y_orig
@@ -68,7 +68,7 @@ class RealApp:
 
     def _make_explainer(self, model):
         return Explainer(
-            model, self.X_train_orig, self.y_orig, self.transformers, self.feature_descriptions
+            model, self.X_train_orig, y_orig=self.y_orig, transformers=self.transformers, feature_descriptions=self.feature_descriptions
         )
 
     def add_model(self, model, model_id=None):
@@ -103,3 +103,13 @@ class RealApp:
         if active_model_id not in self.models:
             raise ValueError("active_model_id not in models")
         self.active_model_id = active_model_id
+
+    def get_active_model(self):
+        """
+        Return the active model
+
+        Returns:
+            (model object)
+                The active model
+        """
+        return self.models[self.active_model_id]
