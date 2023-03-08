@@ -68,7 +68,11 @@ class RealApp:
 
     def _make_explainer(self, model):
         return Explainer(
-            model, self.X_train_orig, y_orig=self.y_orig, transformers=self.transformers, feature_descriptions=self.feature_descriptions
+            model,
+            self.X_train_orig,
+            y_orig=self.y_orig,
+            transformers=self.transformers,
+            feature_descriptions=self.feature_descriptions,
         )
 
     def add_model(self, model, model_id=None):

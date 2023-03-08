@@ -16,6 +16,7 @@ class DummyModel:
     def predict(self, x):
         return np.sum(x, axis=1) + self.value
 
+
 @pytest.fixture(scope="session", autouse=True)
 def test_root():
     test_root = os.path.dirname(os.path.abspath(__file__))
@@ -28,9 +29,11 @@ def test_root():
     for f in os.listdir(test_dir):
         os.remove(os.path.join(test_dir, f))
 
+
 @pytest.fixture()
 def dummy_models():
     return {"id0": DummyModel(0), "id1": DummyModel(1), "id2": DummyModel(2)}
+
 
 @pytest.fixture()
 def transformer_test_data():
