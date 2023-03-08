@@ -119,6 +119,19 @@ class RealApp:
         return self.models[self.active_model_id]
 
     def predict(self, x, model_id=None):
+        """
+        Predict on x using the active model or model specified by model_id
+
+        Args:
+            x (DataFrame of shape (n_instances, n_features)):
+                Data to predict on
+            model_id (int or string):
+                Model to use for prediction
+
+        Returns:
+            (model return type)
+                Model prediction on x
+        """
         if model_id is None:
             model_id = self.active_model_id
 
