@@ -2,7 +2,7 @@
 
 RealApp
 =========
-.. currentmodule:: pyreal.realapp
+.. currentmodule:: pyreal
 
 RealApp
 ~~~~~~~~~~~~~~
