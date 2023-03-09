@@ -8,7 +8,14 @@ from pyreal.types.explanations.feature_based import (
     FeatureContributionExplanation,
     FeatureImportanceExplanation,
 )
-from pyreal.visualize.visualize_config import NEGATIVE_COLOR, POSITIVE_COLOR, NEUTRAL_COLOR, PALETTE_CMAP, NEGATIVE_COLOR_LIGHT, POSITIVE_COLOR_LIGHT
+from pyreal.visualize.visualize_config import (
+    NEGATIVE_COLOR,
+    NEGATIVE_COLOR_LIGHT,
+    NEUTRAL_COLOR,
+    PALETTE_CMAP,
+    POSITIVE_COLOR,
+    POSITIVE_COLOR_LIGHT,
+)
 
 
 def plot_top_contributors(
@@ -158,8 +165,9 @@ def swarm_plot(explanation, type="swarm", n=5, show=False, filename=None, legend
         hues = values.iloc[:, order[i : i + 1]]
         hues = hues.melt()["value"]
         num_colors = len(np.unique(hues.astype("str")))
-        palette = sns.blend_palette([NEGATIVE_COLOR_LIGHT, NEUTRAL_COLOR,
-                                     POSITIVE_COLOR_LIGHT], n_colors=num_colors)
+        palette = sns.blend_palette(
+            [NEGATIVE_COLOR_LIGHT, NEUTRAL_COLOR, POSITIVE_COLOR_LIGHT], n_colors=num_colors
+        )
         if type == "strip":
             ax = sns.stripplot(
                 x="value",
