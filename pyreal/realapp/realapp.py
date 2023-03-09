@@ -26,12 +26,12 @@ def format_feature_contribution_output(explanation, ids=None):
         values = explanation.get_values().iloc[i, :]
         feature_names = contributions.index
 
-        explanation_dict[row_id] = pd.DataFrame(
+        explanation_dict[row_id] = pd.DataFrame.from_dict(
             {
-                "Feature Name": feature_names,
-                "Feature Value": values,
+                "Feature Name": feature_names.values,
+                "Feature Value": values.values,
                 "Contribution": contributions,
-                "Average/Mode": average_mode,
+                "Average/Mode": average_mode.values,
             }
         )
     return explanation_dict

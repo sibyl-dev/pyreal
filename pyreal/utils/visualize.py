@@ -4,7 +4,6 @@ Includes basic visualization methods, mostly used to testing purposes.
 import matplotlib.colors as color
 import matplotlib.pyplot as plt
 import numpy as np
-import seaborn as sns
 from matplotlib.collections import LineCollection
 
 from pyreal.utils._plot_tree import TreeExporter
