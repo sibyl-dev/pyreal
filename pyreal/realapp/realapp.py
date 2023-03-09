@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 
-from pyreal.explainers import Explainer, LocalFeatureContribution, GlobalFeatureImportance
+from pyreal.explainers import Explainer, GlobalFeatureImportance, LocalFeatureContribution
 
 
 def _format_feature_contribution_output(explanation, ids):
@@ -246,9 +246,7 @@ class RealApp:
         if self._explainer_exists(explanation_type_code, algorithm) and not force_refit:
             explainer = self._get_explainer(explanation_type_code, algorithm)
         else:
-            explainer = prepare_explainer_func(
-                model_id=model_id, algorithm=algorithm, **kwargs
-            )
+            explainer = prepare_explainer_func(model_id=model_id, algorithm=algorithm, **kwargs)
 
         if x_orig is not None:
             if id_column_name is not None:
@@ -290,15 +288,17 @@ class RealApp:
         if algorithm is None:
             algorithm = "shap"
 
-        return self._produce_explanation_helper(algorithm,
-                                                "lfc",
-                                                self.prepare_local_feature_contributions,
-                                                _format_feature_contribution_output,
-                                                x_orig=x_orig,
-                                                model_id=model_id,
-                                                id_column_name=id_column_name,
-                                                force_refit=force_refit,
-                                                shap_type=shap_type)
+        return self._produce_explanation_helper(
+            algorithm,
+            "lfc",
+            self.prepare_local_feature_contributions,
+            _format_feature_contribution_output,
+            x_orig=x_orig,
+            model_id=model_id,
+            id_column_name=id_column_name,
+            force_refit=force_refit,
+            shap_type=shap_type,
+        )
 
     def prepare_global_feature_importance(self, model_id=None, algorithm=None, shap_type=None):
         if algorithm is None:
@@ -325,10 +325,12 @@ class RealApp:
         if algorithm is None:
             algorithm = "shap"
 
-        return self._produce_explanation_helper(algorithm,
-                                                "gfi",
-                                                self.prepare_global_feature_importance,
-                                                _format_feature_importance_output,
-                                                model_id=model_id,
-                                                force_refit=force_refit,
-                                                shap_type=shap_type)
+        return self._produce_explanation_helper(
+            algorithm,
+            "gfi",
+            self.prepare_global_feature_importance,
+            _format_feature_importance_output,
+            model_id=model_id,
+            force_refit=force_refit,
+            shap_type=shap_type,
+        )
