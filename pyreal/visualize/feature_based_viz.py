@@ -1,11 +1,11 @@
 import matplotlib.pyplot as plt
 import numpy as np
+from pyreal.types.explanations.feature_based import FeatureContributionExplanation, FeatureImportanceExplanation
+from pyreal.realapp import realapp
 
 
 def plot_top_contributors(
-    contributions=None,
-    values=None,
-    explainer=None,
+    explanation,
     select_by="absolute",
     n=5,
     transparent=False,
@@ -18,10 +18,9 @@ def plot_top_contributors(
     Plot the most contributing features
 
     Args:
-        contributions (Series or DataFrame of shape (1, n_features):
-            Contributions, with feature names as the column names
-        values (Series or DataFrame of shape (1, n_features):
-            If given, show the corresponding values alongside the feature names
+        explanation (DataFrame or FeatureBased):
+            One output DataFrame from RealApp.produce_local_feature_contributions or
+            RealApp.prepare_global_feature_importance OR FeatureBased explanation object
         select_by (one of "absolute", "max", "min"):
             Which explanation to plot.
         n (int):
@@ -42,8 +41,14 @@ def plot_top_contributors(
         pyplot figure
             Bar plot of top contributors
     """
-    features = contributions.columns.to_numpy()
-    if values is not None:
+    if isinstance(explanation, FeatureContributionExplanation):
+        explanation = realapp.format_feature_contribution_output(explanation)
+    elif isinstance(explanation, FeatureImportanceExplanation):
+        explanation = realapp.format_feature_importance_output(explanation)
+
+    features = explanation["Feature Name"].to_numpy()
+    if "Feature Value" in explanation:
+        values = explanation["Feature Value"].to_numpy()
         features = np.array(
             [
                 (
@@ -54,6 +59,12 @@ def plot_top_contributors(
                 for feature in features
             ]
         )
+    if "Contribution" in explanation:
+        contributions = explanation["Contribution"]
+    elif "Importance" in explanation:
+        contributions = explanation["Importance"]
+    else:
+        raise ValueError("Provided DataFrame has neither Contribution nor Importance column")
 
     if contributions.ndim == 2:
         contributions = contributions.iloc[0]
