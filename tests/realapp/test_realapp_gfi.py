@@ -20,4 +20,7 @@ def test_produce_global_feature_importance(regression_no_transforms):
     assert abs(list(explanation["Importance"])[0]) > .1
     assert list(explanation["Importance"])[1:] == [0, 0]
 
+    # confirm no bug in explainer caching
+    realApp.produce_global_feature_importance(algorithm="permutation")
+
 
