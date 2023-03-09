@@ -58,9 +58,11 @@ def plot_top_contributors(
     if values is not None:
         features = np.array(
             [
-                "%s (%.*f)" % (feature, precision, values[feature])
-                if isinstance(values[feature], float)
-                else "%s (%s)" % (feature, values[feature])
+                (
+                    "%s (%.*f)" % (feature, precision, values[feature])
+                    if isinstance(values[feature], float)
+                    else "%s (%s)" % (feature, values[feature])
+                )
                 for feature in features
             ]
         )
