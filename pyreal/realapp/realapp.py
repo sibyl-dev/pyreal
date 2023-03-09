@@ -47,7 +47,7 @@ def _format_feature_importance_output(explanation):
             Feature Name    Feature Value   Contribution    Average/Mode
     """
     importances = explanation.get()
-    new_df = pd.DataFrame({"Feature Name": importances.columns, "Importance": importances})
+    return pd.DataFrame({"Feature Name": importances.columns, "Importance": importances.squeeze()})
 
 
 def _get_average_or_mode(df):
@@ -286,24 +286,47 @@ class RealApp:
         shap_type=None,
         force_refit=False,
     ):
-        if model_id is None:
-            model_id = self.active_model_id
-
         if algorithm is None:
             algorithm = "shap"
 
-        if self._explainer_exists("lfc", algorithm) and not force_refit:
-            explainer = self._get_explainer("lfc", algorithm)
-        else:
-            explainer = self.prepare_local_feature_contributions(
-                model_id=model_id, algorithm=algorithm, shap_type=shap_type
-            )
+        return self._produce_explanation_helper(algorithm,
+                                                "lfc",
+                                                self.prepare_local_feature_contributions,
+                                                _format_feature_contribution_output,
+                                                x_orig=x_orig,
+                                                model_id=model_id,
+                                                id_column_name=id_column_name,
+                                                force_refit=force_refit,
+                                                shap_type=shap_type)
 
-        if id_column_name is not None:
-            ids = x_orig[id_column_name]
-            x_orig = x_orig.drop(columns=id_column_name)
-        else:
-            ids = x_orig.index
+    def prepare_global_feature_importance(self, model_id=None, algorithm=None, shap_type=None):
+        if algorithm is None:
+            algorithm = "shap"
 
-        explanation = explainer.produce(x_orig)
-        return _format_feature_contribution_output(explanation, ids)
+        explainer = GlobalFeatureImportance(
+            self.models[model_id],
+            self.X_train_orig,
+            e_algorithm=algorithm,
+            shap_type=shap_type,
+            fit_on_init=True,
+        )
+        self._add_explainer("gfi", algorithm, explainer)
+        return explainer
+
+    def produce_global_feature_importance(
+        self,
+        model_id=None,
+        algorithm=None,
+        shap_type=None,
+        force_refit=False,
+    ):
+        if algorithm is None:
+            algorithm = "shap"
+
+        return self._produce_explanation_helper(algorithm,
+                                                "gfi",
+                                                self.prepare_global_feature_importance,
+                                                _format_feature_importance_output,
+                                                model_id=model_id,
+                                                force_refit=force_refit,
+                                                shap_type=shap_type)
