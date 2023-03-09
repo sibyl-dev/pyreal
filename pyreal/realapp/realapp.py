@@ -1,15 +1,15 @@
 import numpy as np
 import pandas as pd
 
-from pyreal.explainers import Explainer, LocalFeatureContribution
+from pyreal.explainers import Explainer, LocalFeatureContribution, GlobalFeatureImportance
 
 
 def _format_feature_contribution_output(explanation, ids):
     """
-    Format Pyreal Explanation objects into Local Feature Contribution outputs
+    Format Pyreal FeatureContributionExplanation objects into Local Feature Contribution outputs
     Args:
         explanation (FeatureContributionExplanation):
-            Pyreal Feature Contributions Explanation object to parse
+            Pyreal Explanation object to parse
         ids (list of strings or ints):
             List of row ids
 
@@ -33,6 +33,21 @@ def _format_feature_contribution_output(explanation, ids):
             }
         )
     return explanation_dict
+
+
+def _format_feature_importance_output(explanation):
+    """
+    Format Pyreal FeatureImportanceExplanation objects into Global Feature Importance outputs
+    Args:
+        explanation (FeatureImportanceExplanation):
+            Pyreal Explanation object to parse
+
+    Returns:
+        One dataframe per id, with each row representing a feature, and four columns:
+            Feature Name    Feature Value   Contribution    Average/Mode
+    """
+    importances = explanation.get()
+    new_df = pd.DataFrame({"Feature Name": importances.columns, "Importance": importances})
 
 
 def _get_average_or_mode(df):
@@ -213,7 +228,45 @@ class RealApp:
 
         return self.base_explainers[model_id].model_predict(x)
 
+    def _produce_explanation_helper(
+        self,
+        algorithm,
+        explanation_type_code,
+        prepare_explainer_func,
+        format_output_func,
+        x_orig=None,
+        model_id=None,
+        id_column_name=None,
+        force_refit=False,
+        **kwargs
+    ):
+        if model_id is None:
+            model_id = self.active_model_id
+
+        if self._explainer_exists(explanation_type_code, algorithm) and not force_refit:
+            explainer = self._get_explainer(explanation_type_code, algorithm)
+        else:
+            explainer = prepare_explainer_func(
+                model_id=model_id, algorithm=algorithm, **kwargs
+            )
+
+        if x_orig is not None:
+            if id_column_name is not None:
+                ids = x_orig[id_column_name]
+                x_orig = x_orig.drop(columns=id_column_name)
+            else:
+                ids = x_orig.index
+
+            explanation = explainer.produce(x_orig)
+            return format_output_func(explanation, ids)
+        else:
+            explanation = explainer.produce()
+            return format_output_func(explanation)
+
     def prepare_local_feature_contributions(self, model_id=None, algorithm=None, shap_type=None):
+        if algorithm is None:
+            algorithm = "shap"
+
         explainer = LocalFeatureContribution(
             self.models[model_id],
             self.X_train_orig,
