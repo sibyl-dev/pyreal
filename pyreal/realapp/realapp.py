@@ -4,30 +4,35 @@ import pandas as pd
 from pyreal.explainers import Explainer, LocalFeatureContribution
 
 
-def _parse_feature_contribution_df(contributions, values, average_mode):
+def _format_feature_contribution_output(explanation, ids):
     """
-    Convert the contributions and values into the expected output format,
-
+    Format Pyreal Explanation objects into Local Feature Contribution outputs
     Args:
-        contributions (Series of shape (n_features,)):
-            The contributions, with feature names as indices
-        values (Series of shape (n_features, )):
-            The values, with feature names as indices
+        explanation (FeatureContributionExplanation):
+            Pyreal Feature Contributions Explanation object to parse
+        ids (list of strings or ints):
+            List of row ids
 
     Returns:
-        One dataframe, with each row representing a feature, and four columns:
+        One dataframe per id, with each row representing a feature, and four columns:
             Feature Name    Feature Value   Contribution    Average/Mode
     """
-    feature_names = contributions.index
-    df = pd.DataFrame(
-        {
-            "Feature Name": feature_names,
-            "Feature Value": values,
-            "Contribution": contributions,
-            "Average/Mode": average_mode,
-        }
-    )
-    return df
+    average_mode = _get_average_or_mode(explanation.get_values())
+    explanation_dict = {}
+    for i, row_id in enumerate(ids):
+        contributions = explanation.get().iloc[i, :]
+        values = explanation.get_values().iloc[i, :]
+        feature_names = contributions.index
+
+        explanation_dict[row_id] = pd.DataFrame(
+            {
+                "Feature Name": feature_names,
+                "Feature Value": values,
+                "Contribution": contributions,
+                "Average/Mode": average_mode,
+            }
+        )
+    return explanation_dict
 
 
 def _get_average_or_mode(df):
@@ -248,11 +253,4 @@ class RealApp:
             ids = x_orig.index
 
         explanation = explainer.produce(x_orig)
-        average_mode = _get_average_or_mode(explanation.get_values())
-        explanation_dict = {}
-        for i, row_id in enumerate(ids):
-            explanation_dict[row_id] = _parse_feature_contribution_df(
-                explanation.get().iloc[i, :], explanation.get_values().iloc[i, :], average_mode
-            )
-
-        return explanation_dict
+        return _format_feature_contribution_output(explanation, ids)
