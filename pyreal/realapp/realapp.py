@@ -1,5 +1,5 @@
-import pandas as pd
 import numpy as np
+import pandas as pd
 
 from pyreal.explainers import Explainer, LocalFeatureContribution
 
@@ -208,8 +208,25 @@ class RealApp:
 
         return self.base_explainers[model_id].model_predict(x)
 
+    def prepare_local_feature_contributions(self, model_id=None, algorithm=None, shap_type=None):
+        explainer = LocalFeatureContribution(
+            self.models[model_id],
+            self.X_train_orig,
+            e_algorithm=algorithm,
+            shap_type=shap_type,
+            fit_on_init=True,
+        )
+        self._add_explainer("lfc", algorithm, explainer)
+        return explainer
+
     def produce_local_feature_contributions(
-        self, x_orig, model_id=None, algorithm=None, id_column_name=None, shap_type=None
+        self,
+        x_orig,
+        model_id=None,
+        algorithm=None,
+        id_column_name=None,
+        shap_type=None,
+        force_refit=False,
     ):
         if model_id is None:
             model_id = self.active_model_id
@@ -217,17 +234,12 @@ class RealApp:
         if algorithm is None:
             algorithm = "shap"
 
-        if self._explainer_exists("lfc", algorithm):
+        if self._explainer_exists("lfc", algorithm) and not force_refit:
             explainer = self._get_explainer("lfc", algorithm)
         else:
-            explainer = LocalFeatureContribution(
-                self.models[model_id],
-                self.X_train_orig,
-                e_algorithm=algorithm,
-                shap_type=shap_type,
-                fit_on_init=True,
+            explainer = self.prepare_local_feature_contributions(
+                model_id=model_id, algorithm=algorithm, shap_type=shap_type
             )
-            self._add_explainer("lfc", algorithm, explainer)
 
         if id_column_name is not None:
             ids = x_orig[id_column_name]

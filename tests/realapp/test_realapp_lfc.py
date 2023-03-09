@@ -1,30 +1,24 @@
+import numpy as np
 import pandas as pd
+
 from pyreal import RealApp
 from pyreal.realapp.realapp import _get_average_or_mode
-import numpy as np
-from pandas.testing import assert_series_equal
 
 
 def test_average_or_mode():
-    mix = pd.DataFrame([[1, "a", 2, "a"],
-                        [1, "a", 4, "a"],
-                        [1, "b", 3, "a"]])
+    mix = pd.DataFrame([[1, "a", 2, "a"], [1, "a", 4, "a"], [1, "b", 3, "a"]])
     expected = [1, "a", 3, "a"]
     result = _get_average_or_mode(mix)
     for i in range(len(expected)):
         assert expected[i] == result[i]
 
-    mode_only = pd.DataFrame([["a", "a", "b", "d"],
-                              ["b", "a", "b", "d"],
-                              ["a", "b", "d", "d"]])
+    mode_only = pd.DataFrame([["a", "a", "b", "d"], ["b", "a", "b", "d"], ["a", "b", "d", "d"]])
     expected = ["a", "a", "b", "d"]
     result = _get_average_or_mode(mode_only)
     for i in range(len(expected)):
         assert expected[i] == result[i]
 
-    mean_only = pd.DataFrame([[1, 0, 2, 2],
-                              [1, 5, 3, 3],
-                              [1, -5, 4, 4]])
+    mean_only = pd.DataFrame([[1, 0, 2, 2], [1, 5, 3, 3], [1, -5, 4, 4]])
     expected = [1, 0, 3, 3]
     result = _get_average_or_mode(mean_only)
     for i in range(len(expected)):
