@@ -43,6 +43,7 @@ def plot_top_contributors(
     """
     if isinstance(explanation, FeatureContributionExplanation):
         explanation = realapp.format_feature_contribution_output(explanation)
+        explanation = explanation[next(iter(explanation))]
     elif isinstance(explanation, FeatureImportanceExplanation):
         explanation = realapp.format_feature_importance_output(explanation)
 
@@ -52,11 +53,11 @@ def plot_top_contributors(
         features = np.array(
             [
                 (
-                    "%s (%.*f)" % (feature, precision, values[feature])
-                    if isinstance(values[feature], float)
-                    else "%s (%s)" % (feature, values[feature])
+                    "%s (%.*f)" % (features[i], precision, values[i])
+                    if isinstance(values[i], float)
+                    else "%s (%s)" % (features[i], values[i])
                 )
-                for feature in features
+                for i in range(len(features))
             ]
         )
     if "Contribution" in explanation:
