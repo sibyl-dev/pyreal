@@ -8,6 +8,7 @@ from pyreal.types.explanations.feature_based import (
     FeatureContributionExplanation,
     FeatureImportanceExplanation,
 )
+from pyreal.visualize.visualize_config import NEGATIVE_COLOR, POSITIVE_COLOR
 
 
 def plot_top_contributors(
@@ -91,15 +92,13 @@ def plot_top_contributors(
 
     to_plot = order[0:n]
 
-    negative_color = "#ef8a62"
-    positive_color = "#67a9cf"
     if not flip_colors:
         colors = [
-            negative_color if (c < 0) else positive_color for c in contributions[to_plot][::-1]
+            NEGATIVE_COLOR if (c < 0) else POSITIVE_COLOR for c in contributions[to_plot][::-1]
         ]
     else:
         colors = [
-            positive_color if (c < 0) else negative_color for c in contributions[to_plot][::-1]
+            POSITIVE_COLOR if (c < 0) else NEGATIVE_COLOR for c in contributions[to_plot][::-1]
         ]
 
     if transparent:

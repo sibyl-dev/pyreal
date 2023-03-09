@@ -1,0 +1,2 @@
+NEGATIVE_COLOR = "#ef8a62"
+POSITIVE_COLOR = "#67a9cf"
