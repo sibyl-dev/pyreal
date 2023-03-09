@@ -144,7 +144,7 @@ class RealApp:
         self.explainers[explanation_type][algorithm] = explainer
 
     def _get_explainer(self, explanation_type, algorithm):
-        return self.explainers[explanation_type, algorithm]
+        return self.explainers[explanation_type][algorithm]
 
     def add_model(self, model, model_id=None):
         """
@@ -236,7 +236,7 @@ class RealApp:
             ids = x_orig.index
 
         explanation = explainer.produce(x_orig)
-        average_mode = _get_average_or_mode(explanation.get())
+        average_mode = _get_average_or_mode(explanation.get_values())
         explanation_dict = {}
         for i, row_id in enumerate(ids):
             explanation_dict[row_id] = _parse_feature_contribution_df(

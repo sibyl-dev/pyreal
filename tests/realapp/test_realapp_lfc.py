@@ -2,6 +2,7 @@ import pandas as pd
 from pyreal import RealApp
 from pyreal.realapp.realapp import _get_average_or_mode
 import numpy as np
+from pandas.testing import assert_series_equal
 
 
 def test_average_or_mode():
@@ -36,23 +37,50 @@ def test_produce_local_feature_contributions(regression_no_transforms):
         regression_no_transforms["x"],
         transformers=regression_no_transforms["transformers"],
     )
+    features = ["A", "B", "C"]
 
-    x_one_dim = pd.DataFrame([[2, 10, 10]], columns=["A", "B", "C"])
-    x_multi_dim = pd.DataFrame([[2, 1, 1], [4, 2, 3]], columns=["A", "B", "C"])
+    x_one_dim = pd.DataFrame([[2, 10, 10]], columns=features)
 
     expected = np.mean(regression_no_transforms["y"])[0]
     explanation = realApp.produce_local_feature_contributions(x_one_dim)
 
-    print(explanation)
+    assert list(explanation[0]["Feature Name"]) == features
+    assert list(explanation[0]["Feature Value"]) == list(x_one_dim.iloc[0])
+    assert list(explanation[0]["Contribution"]) == [x_one_dim.iloc[0, 0] - expected, 0, 0]
+    assert list(explanation[0]["Average/Mode"]) == list(x_one_dim.iloc[0])
 
-    '''assert x_one_dim.shape == contributions.shape
-    assert contributions.iloc[0, 0] == x_one_dim.iloc[0, 0] - expected
-    assert contributions.iloc[0, 1] == 0
-    assert contributions.iloc[0, 2] == 0
+    x_multi_dim = pd.DataFrame([[2, 1, 1], [4, 2, 3]], columns=features)
+    explanation = realApp.produce_local_feature_contributions(x_multi_dim)
 
-    contributions = explainer.produce(x_multi_dim).get()
-    assert x_multi_dim.shape == contributions.shape
-    assert contributions.iloc[0, 0] == x_multi_dim.iloc[0, 0] - expected
-    assert contributions.iloc[1, 0] == x_multi_dim.iloc[1, 0] - expected
-    assert (contributions.iloc[:, 1] == 0).all()
-    assert (contributions.iloc[:, 2] == 0).all()'''
+    assert list(explanation[0]["Feature Name"]) == features
+    assert list(explanation[0]["Feature Value"]) == list(x_multi_dim.iloc[0])
+    assert list(explanation[0]["Contribution"]) == [x_multi_dim.iloc[0, 0] - expected, 0, 0]
+    assert list(explanation[0]["Average/Mode"]) == [3, 1.5, 2]
+
+    assert list(explanation[1]["Feature Name"]) == features
+    assert list(explanation[1]["Feature Value"]) == list(x_multi_dim.iloc[1])
+    assert list(explanation[1]["Contribution"]) == [x_multi_dim.iloc[1, 0] - expected, 0, 0]
+    assert list(explanation[1]["Average/Mode"]) == [3, 1.5, 2]
+
+
+def test_produce_local_feature_contributions_with_id_column(regression_no_transforms):
+    realApp = RealApp(
+        regression_no_transforms["model"],
+        regression_no_transforms["x"],
+        transformers=regression_no_transforms["transformers"],
+    )
+    features = ["A", "B", "C"]
+
+    x_multi_dim = pd.DataFrame([[2, 1, 1, "a"], [4, 2, 3, "b"]], columns=features + ["ID"])
+    explanation = realApp.produce_local_feature_contributions(x_multi_dim, id_column_name="ID")
+    expected = np.mean(regression_no_transforms["y"])[0]
+
+    assert list(explanation["a"]["Feature Name"]) == features
+    assert list(explanation["a"]["Feature Value"]) == list(x_multi_dim.iloc[0])[:-1]
+    assert list(explanation["a"]["Contribution"]) == [x_multi_dim.iloc[0, 0] - expected, 0, 0]
+    assert list(explanation["a"]["Average/Mode"]) == [3, 1.5, 2]
+
+    assert list(explanation["b"]["Feature Name"]) == features
+    assert list(explanation["b"]["Feature Value"]) == list(x_multi_dim.iloc[1])[:-1]
+    assert list(explanation["b"]["Contribution"]) == [x_multi_dim.iloc[1, 0] - expected, 0, 0]
+    assert list(explanation["b"]["Average/Mode"]) == [3, 1.5, 2]
