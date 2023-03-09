@@ -8,7 +8,7 @@ from pyreal.types.explanations.feature_based import (
     FeatureContributionExplanation,
     FeatureImportanceExplanation,
 )
-from pyreal.visualize.visualize_config import NEGATIVE_COLOR, POSITIVE_COLOR
+from pyreal.visualize.visualize_config import NEGATIVE_COLOR, POSITIVE_COLOR, NEUTRAL_COLOR, PALETTE_CMAP, NEGATIVE_COLOR_LIGHT, POSITIVE_COLOR_LIGHT
 
 
 def plot_top_contributors(
@@ -157,13 +157,16 @@ def swarm_plot(explanation, type="swarm", n=5, show=False, filename=None, legend
     for i in range(n):
         hues = values.iloc[:, order[i : i + 1]]
         hues = hues.melt()["value"]
+        num_colors = len(np.unique(hues.astype("str")))
+        palette = sns.blend_palette([NEGATIVE_COLOR_LIGHT, NEUTRAL_COLOR,
+                                     POSITIVE_COLOR_LIGHT], n_colors=num_colors)
         if type == "strip":
             ax = sns.stripplot(
                 x="value",
                 y="variable",
                 hue=hues,
                 data=contributions.iloc[:, order[i : i + 1]].melt(),
-                palette="coolwarm_r",
+                palette=palette,
                 legend=False,
                 size=3,
                 **kwargs
@@ -174,7 +177,7 @@ def swarm_plot(explanation, type="swarm", n=5, show=False, filename=None, legend
                 y="variable",
                 hue=hues,
                 data=contributions.iloc[:, order[i : i + 1]].melt(),
-                palette="coolwarm_r",
+                palette=palette,
                 legend=False,
                 size=3,
                 **kwargs
@@ -192,7 +195,7 @@ def swarm_plot(explanation, type="swarm", n=5, show=False, filename=None, legend
     if legend:
         ax = plt.gca()
         norm = plt.Normalize(0, 1)
-        sm = plt.cm.ScalarMappable(cmap="coolwarm_r", norm=norm)
+        sm = plt.cm.ScalarMappable(cmap=PALETTE_CMAP, norm=norm)
         sm.set_array([])
         cbar = ax.figure.colorbar(sm)
         cbar.ax.get_yaxis().set_ticks([])
