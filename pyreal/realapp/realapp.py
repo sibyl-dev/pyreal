@@ -4,7 +4,7 @@ import pandas as pd
 from pyreal.explainers import Explainer, GlobalFeatureImportance, LocalFeatureContribution
 
 
-def _format_feature_contribution_output(explanation, ids):
+def format_feature_contribution_output(explanation, ids=None):
     """
     Format Pyreal FeatureContributionExplanation objects into Local Feature Contribution outputs
     Args:
@@ -17,6 +17,8 @@ def _format_feature_contribution_output(explanation, ids):
         One dataframe per id, with each row representing a feature, and four columns:
             Feature Name    Feature Value   Contribution    Average/Mode
     """
+    if ids is None:
+        ids = explanation.get().index
     average_mode = _get_average_or_mode(explanation.get_values())
     explanation_dict = {}
     for i, row_id in enumerate(ids):
@@ -26,18 +28,18 @@ def _format_feature_contribution_output(explanation, ids):
 
         feature_names = contributions.index
 
-        explanation_dict[row_id] = pd.DataFrame(
+        explanation_dict[row_id] = pd.DataFrame.from_dict(
             {
-                "Feature Name": feature_names,
-                "Feature Value": values,
+                "Feature Name": feature_names.values,
+                "Feature Value": values.values,
                 "Contribution": contributions,
-                "Average/Mode": average_mode,
+                "Average/Mode": average_mode.values,
             }
         )
     return explanation_dict
 
 
-def _format_feature_importance_output(explanation):
+def format_feature_importance_output(explanation):
     """
     Format Pyreal FeatureImportanceExplanation objects into Global Feature Importance outputs
     Args:
@@ -263,11 +265,11 @@ class RealApp:
             explainer = prepare_explainer_func(model_id=model_id, algorithm=algorithm, **kwargs)
 
         if x_orig is not None:
+            ids = None
+
             if id_column_name is not None:
                 ids = x_orig[id_column_name]
                 x_orig = x_orig.drop(columns=id_column_name)
-            else:
-                ids = x_orig.index
 
             explanation = explainer.produce(x_orig)
             return format_output_func(explanation, ids)
@@ -405,7 +407,7 @@ class RealApp:
             "lfc",
             algorithm,
             self.prepare_local_feature_contributions,
-            _format_feature_contribution_output,
+            format_feature_contribution_output,
             x_orig=x_orig,
             model_id=model_id,
             id_column_name=id_column_name,
@@ -474,7 +476,7 @@ class RealApp:
             "gfi",
             algorithm,
             self.prepare_global_feature_importance,
-            _format_feature_importance_output,
+            format_feature_importance_output,
             model_id=model_id,
             force_refit=force_refit,
             shap_type=shap_type,
