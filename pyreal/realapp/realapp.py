@@ -270,6 +270,7 @@ class RealApp:
         explainer = LocalFeatureContribution(
             self.models[model_id],
             self.X_train_orig,
+            y_orig=self.y_orig,
             e_algorithm=algorithm,
             shap_type=shap_type,
             fit_on_init=True,
@@ -306,6 +307,7 @@ class RealApp:
         explainer = GlobalFeatureImportance(
             self.models[model_id],
             self.X_train_orig,
+            y_orig=self.y_orig,
             e_algorithm=algorithm,
             shap_type=shap_type,
             fit_on_init=True,
