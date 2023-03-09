@@ -1,4 +1,4 @@
-from pyreal.explainers import Explainer
+from pyreal.explainers import Explainer, LocalFeatureContribution
 
 
 class RealApp:
@@ -14,6 +14,8 @@ class RealApp:
         transformers=None,
         feature_descriptions=None,
         active_model_id=None,
+        classes=None,
+        class_descriptions=None
     ):
         """
         Initialize a RealApp object
@@ -31,6 +33,14 @@ class RealApp:
                 Mapping of default feature names to readable names
             active_model_id (string or int):
                 ID of model to store as active model, if None, this is set to the first model
+            classes (array):
+                List of class names returned by the model, in the order that the internal model
+                considers them if applicable.
+                Can be automatically extracted if model is an sklearn classifier
+                None if model is not a classifier
+            class_descriptions (dict):
+                Interpretable descriptions of each class
+                None if model is not a classifier
         """
         self.expect_model_id = False
         if isinstance(models, dict):
@@ -61,12 +71,13 @@ class RealApp:
         # Base explainer used for general transformations and model predictions
         # Also validates data, model, and transformers
         self.base_explainers = {
-            model_id: self._make_explainer(self.models[model_id]) for model_id in self.models
+            model_id: self._make_base_explainer(self.models[model_id]) for model_id in self.models
         }
 
-        self.explainers = {}
+        self.explainers = {} # Dictionary of dictionaries:
+                             # {"explanation_type": {"algorithm":Explainer} }
 
-    def _make_explainer(self, model):
+    def _make_base_explainer(self, model):
         return Explainer(
             model,
             self.X_train_orig,
@@ -74,6 +85,17 @@ class RealApp:
             transformers=self.transformers,
             feature_descriptions=self.feature_descriptions,
         )
+
+    def _explainer_exists(self, explanation_type, algorithm):
+        if explanation_type in self.explainers:
+            if algorithm in self.explainers[explanation_type]:
+                return True
+        return False
+
+    def _add_explainer(self, explanation_type, algorithm, explainer):
+        if explanation_type not in self.explainers:
+            self.explainers[explanation_type] = {}
+        self.explainers[explanation_type][algorithm] = explainer
 
     def add_model(self, model, model_id=None):
         """
@@ -136,3 +158,14 @@ class RealApp:
             model_id = self.active_model_id
 
         return self.base_explainers[model_id].model_predict(x)
+
+    def produce_local_feature_contributions(self, x_orig, model_id=None, algorithm=None, id_column_name=None, shap_type=None):
+        if model_id is None:
+            model_id = self.active_model_id
+
+        if algorithm is None:
+            algorithm = "shap"
+
+        if not self._explainer_exists("lfc", algorithm):
+            explainer = LocalFeatureContribution(self.models[model_id], self.X_train_orig, e_algorithm=algorithm, shap_type=shap_type, fit_on_init=True)
+            self._add_explainer("lfc", algorithm, explainer)
