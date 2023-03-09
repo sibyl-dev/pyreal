@@ -21,7 +21,9 @@ def _format_feature_contribution_output(explanation, ids):
     explanation_dict = {}
     for i, row_id in enumerate(ids):
         contributions = explanation.get().iloc[i, :]
-        values = explanation.get_values().iloc[i, :]
+        values = explanation.get_values().iloc[i, :].loc[contributions.index]
+        average_mode = average_mode.loc[contributions.index]
+
         feature_names = contributions.index
 
         explanation_dict[row_id] = pd.DataFrame(
@@ -357,6 +359,7 @@ class RealApp:
             self.models[model_id],
             self.X_train_orig,
             y_orig=self.y_orig,
+            transformers=self.transformers,
             e_algorithm=algorithm,
             shap_type=shap_type,
             fit_on_init=True,
@@ -432,6 +435,7 @@ class RealApp:
             self.models[model_id],
             self.X_train_orig,
             y_orig=self.y_orig,
+            transformers=self.transformers,
             e_algorithm=algorithm,
             shap_type=shap_type,
             fit_on_init=True,

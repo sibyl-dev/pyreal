@@ -82,3 +82,4 @@ def load_titanic_transformers():
         with open(TRANSFORMER_FILE, "wb") as f:
             pickle.dump(transformers, f)
         return transformers
+
