@@ -1,7 +1,8 @@
-from pyreal import RealApp
 import pandas as pd
-from pyreal.visualize import plot_top_contributors
-from pyreal.explainers import LocalFeatureContribution, GlobalFeatureImportance
+
+from pyreal import RealApp
+from pyreal.explainers import GlobalFeatureImportance, LocalFeatureContribution
+from pyreal.visualize import plot_top_contributors, swarm_plot
 
 
 def test_plot_top_contributors_lfc_no_break(regression_no_transforms):
@@ -54,3 +55,34 @@ def test_plot_top_contributors_gfi_object_no_break(regression_no_transforms):
 
     explanation = lfc.produce()
     plot_top_contributors(explanation, show=False)
+
+
+def test_plot_swarm_lfc_no_break(regression_no_transforms):
+    realApp = RealApp(
+        regression_no_transforms["model"],
+        regression_no_transforms["x"],
+        transformers=regression_no_transforms["transformers"],
+    )
+
+    x_multi_dim = pd.DataFrame(
+        [[2, 10, 10], [2, 10, 10], [2, 2, 2], [1, 1, 1]], columns=["A", "B", "C"]
+    )
+    explanation = realApp.produce_local_feature_contributions(x_multi_dim)
+
+    swarm_plot(explanation, show=False)
+
+
+def test_swarm_plot_lfc_object_no_break(regression_no_transforms):
+    lfc = LocalFeatureContribution(
+        model=regression_no_transforms["model"],
+        x_train_orig=regression_no_transforms["x"],
+        e_algorithm="shap",
+        transformers=regression_no_transforms["transformers"],
+        fit_on_init=True,
+    )
+
+    x_multi_dim = pd.DataFrame(
+        [[2, 10, 10], [2, 10, 10], [2, 2, 2], [1, 1, 1]], columns=["A", "B", "C"]
+    )
+    explanation = lfc.produce(x_multi_dim)
+    swarm_plot(explanation, show=False)
