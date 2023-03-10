@@ -130,6 +130,9 @@ class RealApp:
         self.X_train_orig = X_train_orig
         self.y_orig = y_orig
 
+        self.classes = classes
+        self.class_descriptions = class_descriptions
+
         if isinstance(transformers, list):
             self.transformers = transformers
         else:  # assume single transformer given
@@ -365,6 +368,8 @@ class RealApp:
             feature_descriptions=self.feature_descriptions,
             e_algorithm=algorithm,
             shap_type=shap_type,
+            classes=self.classes,
+            class_descriptions=self.class_descriptions,
             fit_on_init=True,
         )
         self._add_explainer("lfc", algorithm, explainer)
@@ -441,6 +446,8 @@ class RealApp:
             transformers=self.transformers,
             feature_descriptions=self.feature_descriptions,
             e_algorithm=algorithm,
+            classes=self.classes,
+            class_descriptions=self.class_descriptions,
             shap_type=shap_type,
             fit_on_init=True,
         )

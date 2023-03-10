@@ -4,7 +4,9 @@ from urllib.parse import urljoin
 
 import pandas as pd
 from sklearn.linear_model import LogisticRegression
+from lightgbm import LGBMClassifier
 
+from pyreal import RealApp
 from pyreal.transformers import (
     ColumnDropTransformer,
     MultiTypeImputer,
@@ -20,7 +22,7 @@ TRANSFORMER_FILE = os.path.join(DATA_DIR, "transformers.pkl")
 AWS_BASE_URL = "https://pyreal-data.s3.amazonaws.com/"
 
 
-def load_titanic_data():
+def load_titanic_data(n_rows=None):
     if os.path.exists(DATA_FILE):
         df = pd.read_csv(DATA_FILE)
     else:
@@ -32,6 +34,8 @@ def load_titanic_data():
         df.to_csv(DATA_FILE, index=False)
     y = df["target"].rename("Survived")
     x_orig = df.drop("target", axis="columns")
+    if n_rows is not None:
+        return x_orig[:n_rows], y[:n_rows]
     return x_orig, y
 
 
@@ -55,7 +59,8 @@ def load_titanic_model():
         transformers = load_titanic_transformers()
         x_orig, y = load_titanic_data()
         x_model = run_transformers(transformers, x_orig)
-        model = LogisticRegression(max_iter=500)
+        #model = LogisticRegression(max_iter=500)
+        model = LGBMClassifier()
         model.fit(x_model, y)
 
         if not os.path.isdir(DATA_DIR):
@@ -83,3 +88,17 @@ def load_titanic_transformers():
             pickle.dump(transformers, f)
         return transformers
 
+
+def load_titanic_app():
+    x_train_orig, y = load_titanic_data()
+    model = load_titanic_model()
+    transformers = load_titanic_transformers()
+    feature_descriptions = load_feature_descriptions()
+
+    return RealApp(
+        model,
+        x_train_orig,
+        y_orig=y,
+        transformers=transformers,
+        feature_descriptions=feature_descriptions,
+    )

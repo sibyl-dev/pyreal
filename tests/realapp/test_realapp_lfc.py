@@ -74,12 +74,12 @@ def test_produce_local_feature_contributions_with_id_column(regression_one_hot):
     assert list(explanation_a["Feature Name"]) == features
     assert list(explanation_a["Feature Value"]) == list(x_multi_dim.iloc[0])[:-1]
     for num in list(explanation_a["Contribution"]):
-        assert abs(num) < .001
+        assert abs(num) < 0.001
     assert list(explanation_a["Average/Mode"]) == [5, 1.5, 2]
 
     assert list(explanation_b["Feature Name"]) == features
     assert list(explanation_b["Feature Value"]) == list(x_multi_dim.iloc[1])[:-1]
-    assert abs(list(explanation_b["Contribution"])[0] - 1) < .001
+    assert abs(list(explanation_b["Contribution"])[0] - 1) < 0.001
     for num in list(explanation_a["Contribution"][1:]):
-        assert abs(num) < .001
+        assert abs(num) < 0.001
     assert list(explanation_b["Average/Mode"]) == [5, 1.5, 2]

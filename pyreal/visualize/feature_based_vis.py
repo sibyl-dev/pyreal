@@ -25,6 +25,8 @@ def plot_top_contributors(
     transparent=False,
     flip_colors=False,
     precision=2,
+    prediction=None,
+    include_averages=False,
     show=False,
     filename=None,
 ):
@@ -46,6 +48,10 @@ def plot_top_contributors(
             Useful if the target variable has a negative connotation
         precision (int):
             Number of decimal places to print for numeric float values
+        prediction (numeric or string):
+            Prediction to display in the title
+        include_averages (Boolean):
+            If True, include the mean values in the visualization (if provided in explanation)
         show (Boolean):
             Show the figure
         filename (string or None):
@@ -64,16 +70,30 @@ def plot_top_contributors(
     features = explanation["Feature Name"].to_numpy()
     if "Feature Value" in explanation:
         values = explanation["Feature Value"].to_numpy()
-        features = np.array(
-            [
-                (
-                    "%s (%.*f)" % (features[i], precision, values[i])
-                    if isinstance(values[i], float)
-                    else "%s (%s)" % (features[i], values[i])
-                )
-                for i in range(len(features))
-            ]
-        )
+        if include_averages and "Average/Mode" in explanation:
+            averages = explanation["Average/Mode"].to_numpy()
+            features = np.array(
+                [
+                    (
+                        "%s - %.*g (mean: %.*g)"
+                        % (features[i], precision, values[i], precision, averages[i])
+                        if isinstance(values[i], (float, np.float, int, np.integer))
+                        else "%s - %s (mode: %s)" % (features[i], values[i], averages[i])
+                    )
+                    for i in range(len(features))
+                ]
+            )
+        else:
+            features = np.array(
+                [
+                    (
+                        "%s (%.*f)" % (features[i], precision, values[i])
+                        if isinstance(values[i], float)
+                        else "%s (%s)" % (features[i], values[i])
+                    )
+                    for i in range(len(features))
+                ]
+            )
     if "Contribution" in explanation:
         contributions = explanation["Contribution"]
     elif "Importance" in explanation:
@@ -113,7 +133,10 @@ def plot_top_contributors(
     else:
         fig, ax = plt.subplots(facecolor="w")
     plt.barh(features[to_plot][::-1], contributions[to_plot][::-1], color=colors)
-    plt.title("Contribution by feature")
+    if prediction is not None:
+        plt.title("Contribution towards prediction: %s" % prediction)
+    else:
+        plt.title("Contribution by feature")
     plt.tick_params(axis="x", which="both", bottom=False, top=False, labelbottom=False)
 
     ax.spines["top"].set_visible(False)
