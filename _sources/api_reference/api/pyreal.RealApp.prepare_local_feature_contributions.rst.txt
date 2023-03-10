@@ -1,6 +1,0 @@
-﻿pyreal.RealApp.prepare\_local\_feature\_contributions
-=====================================================
-
-.. currentmodule:: pyreal
-
-.. automethod:: RealApp.prepare_local_feature_contributions

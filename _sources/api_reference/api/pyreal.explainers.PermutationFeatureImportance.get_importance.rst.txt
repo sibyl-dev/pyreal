@@ -1,6 +1,0 @@
-﻿pyreal.explainers.PermutationFeatureImportance.get\_importance
-==============================================================
-
-.. currentmodule:: pyreal.explainers
-
-.. automethod:: PermutationFeatureImportance.get_importance

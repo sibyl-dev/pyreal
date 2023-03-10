@@ -1,6 +1,0 @@
-﻿pyreal.explainers.ShapFeatureContribution.fit
-=============================================
-
-.. currentmodule:: pyreal.explainers
-
-.. automethod:: ShapFeatureContribution.fit

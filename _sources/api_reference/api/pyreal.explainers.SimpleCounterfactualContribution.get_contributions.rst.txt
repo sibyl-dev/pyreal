@@ -1,6 +1,0 @@
-﻿pyreal.explainers.SimpleCounterfactualContribution.get\_contributions
-=====================================================================
-
-.. currentmodule:: pyreal.explainers
-
-.. automethod:: SimpleCounterfactualContribution.get_contributions

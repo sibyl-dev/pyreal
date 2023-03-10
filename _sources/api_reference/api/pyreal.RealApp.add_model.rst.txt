@@ -1,6 +1,0 @@
-﻿pyreal.RealApp.add\_model
-=========================
-
-.. currentmodule:: pyreal
-
-.. automethod:: RealApp.add_model

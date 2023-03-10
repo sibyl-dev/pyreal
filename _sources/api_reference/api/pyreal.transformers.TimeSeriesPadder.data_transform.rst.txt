@@ -1,6 +1,0 @@
-﻿pyreal.transformers.TimeSeriesPadder.data\_transform
-====================================================
-
-.. currentmodule:: pyreal.transformers
-
-.. automethod:: TimeSeriesPadder.data_transform

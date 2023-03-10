@@ -1,6 +1,0 @@
-﻿pyreal.types.explanations.feature\_based.AdditiveFeatureContributionExplanation.validate
-========================================================================================
-
-.. currentmodule:: pyreal.types.explanations.feature_based
-
-.. automethod:: AdditiveFeatureContributionExplanation.validate

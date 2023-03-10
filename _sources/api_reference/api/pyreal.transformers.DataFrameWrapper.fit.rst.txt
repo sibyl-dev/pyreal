@@ -1,6 +1,0 @@
-﻿pyreal.transformers.DataFrameWrapper.fit
-========================================
-
-.. currentmodule:: pyreal.transformers
-
-.. automethod:: DataFrameWrapper.fit

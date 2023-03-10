@@ -1,6 +1,0 @@
-﻿pyreal.explainers.SimpleCounterfactualContribution.fit
-======================================================
-
-.. currentmodule:: pyreal.explainers
-
-.. automethod:: SimpleCounterfactualContribution.fit
