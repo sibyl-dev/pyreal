@@ -69,7 +69,6 @@ def test_predict(regression_one_hot, regression_no_transforms):
         regression_one_hot["x"],
         transformers=regression_one_hot["transformers"],
     )
-    print(realApp.explainers)
 
     expected = np.array(regression_one_hot["y"]).reshape(-1)
     result = realApp.predict(regression_one_hot["x"])

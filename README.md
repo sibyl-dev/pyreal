@@ -116,7 +116,8 @@ TODO: Running tests should not bring up a window. Refactor into the above docstr
 
 ##### Plot a bar plot of top contributing features, by absolute value
 ```
-visualize.plot_top_contributors(explanation.get(), select_by="absolute", values=explanation.get_values())
+from pyreal.visualize import plot_top_contributors
+plot_top_contributors(explanation, select_by="absolute", show=False)
 ```
 
 

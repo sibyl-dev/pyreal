@@ -118,7 +118,7 @@ class TreeExporter(_MPLTreeExporter):
         else:
             # If multi-output color node by impurity
             node_val = -tree.impurity[node_id]
-        return self.get_color(node_val)
+        return self.get_color(node_val).replace(" ", "0")
 
     # TODO: edit the following functions to change the sizes of the elements
     # in the plot
