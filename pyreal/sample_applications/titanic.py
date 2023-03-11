@@ -15,7 +15,7 @@ from pyreal.transformers import (
     run_transformers,
 )
 
-DATA_DIR = os.path.join(os.path.dirname(__file__), "data")
+DATA_DIR = os.path.join(os.path.dirname(__file__), "data_titanic")
 DATA_FILE = os.path.join(DATA_DIR, "data.csv")
 MODEL_FILE = os.path.join(DATA_DIR, "model.pkl")
 TRANSFORMER_FILE = os.path.join(DATA_DIR, "transformers.pkl")

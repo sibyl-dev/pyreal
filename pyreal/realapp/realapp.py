@@ -32,7 +32,7 @@ def format_feature_contribution_output(explanation, ids=None):
             {
                 "Feature Name": feature_names.values,
                 "Feature Value": values.values,
-                "Contribution": contributions,
+                "Contribution": contributions.values,
                 "Average/Mode": average_mode.values,
             }
         )
@@ -85,6 +85,7 @@ class RealApp:
         active_model_id=None,
         classes=None,
         class_descriptions=None,
+        fit_transformers=False
     ):
         """
         Initialize a RealApp object
@@ -110,6 +111,8 @@ class RealApp:
             class_descriptions (dict):
                 Interpretable descriptions of each class
                 None if model is not a classifier
+            fit_transformers (Boolean):
+                If True, fit the transformers to X_train_orig on initialization
         """
         self.expect_model_id = False
         if isinstance(models, dict):
@@ -140,6 +143,9 @@ class RealApp:
         self.transformers = transformers
         self.feature_descriptions = feature_descriptions
 
+        self.fit_transformers = fit_transformers
+        self.transformers_fitted = False
+
         # Base explainer used for general transformations and model predictions
         # Also validates data, model, and transformers
         self.base_explainers = {
@@ -160,12 +166,20 @@ class RealApp:
             Explainer
                 The explainer
         """
+        fit_transformers = False
+
+        if self.fit_transformers and not self.transformers_fitted:
+            self.transformers_fitted = True
+            fit_transformers = True
+            print("fitting transformers")
+
         return Explainer(
             model,
             self.X_train_orig,
             y_orig=self.y_orig,
             transformers=self.transformers,
             feature_descriptions=self.feature_descriptions,
+            fit_transformers=fit_transformers
         )
 
     def _explainer_exists(self, explanation_type, algorithm):

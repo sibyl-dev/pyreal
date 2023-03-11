@@ -18,6 +18,21 @@ from pyreal.visualize.visualize_config import (
 )
 
 
+def _parse_multi_contribution(explanation):
+    if isinstance(explanation, FeatureContributionExplanation):
+        contributions = explanation.get()
+        values = explanation.get()
+    else:
+        contribution_list = [explanation[i]["Contribution"] for i in explanation]
+        value_list = [explanation[i]["Feature Value"] for i in explanation]
+        feature_list = explanation[0]["Feature Name"].values
+        contributions = pd.DataFrame(contribution_list)
+        contributions.columns = feature_list
+        values = pd.DataFrame(value_list)
+        values.columns = feature_list
+    return contributions, values
+
+
 def plot_top_contributors(
     explanation,
     select_by="absolute",
@@ -173,14 +188,7 @@ def swarm_plot(explanation, type="swarm", n=5, show=False, filename=None, legend
         **kwargs:
             Additional arguments to pass to seaborn.swarmplot or seaborn.stripplot
     """
-    if isinstance(explanation, FeatureContributionExplanation):
-        contributions = explanation.get()
-        values = explanation.get()
-    else:
-        contribution_list = [explanation[i]["Contribution"] for i in explanation]
-        value_list = [explanation[i]["Feature Value"] for i in explanation]
-        contributions = pd.DataFrame(contribution_list)
-        values = pd.DataFrame(value_list)
+    contributions, values = _parse_multi_contribution(explanation)
 
     average_importance = np.mean(abs(contributions), axis=0)
     order = np.argsort(average_importance)[::-1]
@@ -239,3 +247,52 @@ def swarm_plot(explanation, type="swarm", n=5, show=False, filename=None, legend
         plt.savefig(filename, bbox_inches="tight")
     if show:
         plt.show()
+
+
+def feature_scatter_plot(explanation, feature, predictions):
+    """
+    Plot a contribution scatter plot for one feature
+
+    Args:
+        explanation (DataFrame or FeatureBased):
+            One output DataFrame from RealApp.produce_local_feature_contributions OR
+            FeatureContributions explanation object
+        feature (column label):
+            Label of column to visualize
+        predictions (array-like of length n_instances):
+            Predictions corresponding to explained instances
+
+    Returns:
+
+    """
+    contributions, values = _parse_multi_contribution(explanation)
+
+    contributions = contributions[feature]
+    values = values[feature]
+
+    data = pd.DataFrame({"Contribution": contributions.values, "Value":values.values, "Prediction":predictions})
+
+    num_colors = len(np.unique(predictions.astype("str")))
+    palette = sns.blend_palette(
+            [NEGATIVE_COLOR_LIGHT, NEUTRAL_COLOR, POSITIVE_COLOR_LIGHT], n_colors=num_colors
+        )
+    legend = True
+    if isinstance(predictions[0], (float)) or (isinstance(predictions[0], (int)) and num_colors > 6):
+        legend = False
+    ax = sns.lmplot( x="Value", y="Contribution",
+                data=data, fit_reg=False,
+                hue='Prediction', palette=palette,
+                legend=legend)
+    plt.xlabel("Values for %s" % feature)
+    if not legend:
+        norm = plt.Normalize(0, 1)
+        sm = plt.cm.ScalarMappable(cmap=PALETTE_CMAP, norm=norm)
+        min = predictions.min()
+        max = predictions.max()
+        sm.set_array([])
+        cbar = ax.figure.colorbar(sm)
+        cbar.ax.get_yaxis().set_ticks([])
+        cbar.ax.text(1.5, 0.05, ('%.2f' % min).rstrip('0').rstrip('.'), ha="left", va="center")
+        cbar.ax.text(1.5, 0.95, ('%.2f' % max).rstrip('0').rstrip('.'), ha="left", va="center")
+        cbar.ax.set_ylabel("Feature Value", rotation=270)
+        cbar.ax.get_yaxis().labelpad = 15
