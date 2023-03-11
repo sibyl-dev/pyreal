@@ -1,13 +1,22 @@
-import pandas as pd
 import os
 import pickle
+
+import pandas as pd
 from lightgbm import LGBMClassifier
-from pyreal.transformers import run_transformers, OneHotEncoder, DataFrameWrapper, Transformer, fit_transformers
 from sklearn.preprocessing import StandardScaler
+
 from pyreal import RealApp
+from pyreal.transformers import (
+    DataFrameWrapper,
+    OneHotEncoder,
+    Transformer,
+    fit_transformers,
+    run_transformers,
+)
 
 DATA_DIR = os.path.join(os.path.dirname(__file__), "data_student")
 DATA_FILE = os.path.join(DATA_DIR, "data.csv")
+STUDENTS_FILE = os.path.join(DATA_DIR, "students.csv")
 MODEL_FILE = os.path.join(DATA_DIR, "model.pkl")
 TRANSFORMER_FILE = os.path.join(DATA_DIR, "transformers.pkl")
 
@@ -20,10 +29,10 @@ class BooleanEncoder(Transformer):
     def data_transform(self, x):
         x_transform = x.copy()
         for col in self.cols:
-            x_transform[col] = x_transform[col].replace(('yes', 'no'), (1, 0))
-        x_transform["famsize"] = x_transform["famsize"].astype('category')
-        x_transform["famsize"] = x_transform["famsize"].cat.set_categories(['LE3', 'GT3'])
-        x_transform["famsize"] = x_transform["famsize"].cat.reorder_categories(['LE3', 'GT3'])
+            x_transform[col] = x_transform[col].replace(("yes", "no"), (1, 0))
+        x_transform["famsize"] = x_transform["famsize"].astype("category")
+        x_transform["famsize"] = x_transform["famsize"].cat.set_categories(["LE3", "GT3"])
+        x_transform["famsize"] = x_transform["famsize"].cat.reorder_categories(["LE3", "GT3"])
         x_transform["famsize"] = x_transform["famsize"].cat.codes
         return x_transform
 
@@ -59,20 +68,27 @@ def load_feature_descriptions():
         "Dalc": "Frequency of workday alcohol consumption (1-5)",
         "Walc": "Frequency of weekend alcohol consumption (1-5)",
         "health": "Current health status (1-5)",
-        "absences": "Number of school absences"
+        "absences": "Number of school absences",
     }
 
 
-def load_data(n_rows=None):
-    df = pd.read_csv(DATA_FILE, sep=";")
+def load_data(n_rows=None, filename=None):
+    if filename is None:
+        filename = DATA_FILE
+    df = pd.read_csv(filename)
     y = (df["G3"] > 10).astype(int)
 
-    data = df.drop(["G1", "G2", "G3"], axis='columns')
+    data = df.drop(["G1", "G2", "G3"], axis="columns")
     x_orig = data
 
     if n_rows is not None:
         return x_orig[:n_rows], y[:n_rows]
     return x_orig, y
+
+
+def load_students():
+    x, _ = load_data(filename=STUDENTS_FILE)
+    return x
 
 
 def load_model():
@@ -96,11 +112,12 @@ def load_transformers(x=None):
     if x is None:
         x, _ = load_data()
     onehotencoder = OneHotEncoder(
-        ["school", "sex", "address", "Pstatus", "reason", "guardian", "Mjob", "Fjob"],
-        model=True)
+        ["school", "sex", "address", "Pstatus", "reason", "guardian", "Mjob", "Fjob"], model=True
+    )
     boolean_encoder = BooleanEncoder(
         ["schoolsup", "famsup", "paid", "activities", "nursery", "internet", "romantic", "higher"],
-        model=True)
+        model=True,
+    )
     standard_scaler = DataFrameWrapper(StandardScaler(), model=True)
 
     transformers = [onehotencoder, boolean_encoder, standard_scaler]
@@ -120,4 +137,5 @@ def load_app():
         y_orig=y,
         transformers=transformers,
         feature_descriptions=feature_descriptions,
+        id_column="name"
     )

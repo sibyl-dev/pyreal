@@ -1,4 +1,8 @@
-from pyreal.visualize.feature_based_vis import plot_top_contributors, swarm_plot,  feature_scatter_plot
+from pyreal.visualize.feature_based_vis import (
+    plot_top_contributors,
+    swarm_plot,
+    feature_scatter_plot,
+)
 from pyreal.visualize.time_series_vis import (
     plot_time_series_explanation,
     plot_shapelet,
@@ -13,5 +17,5 @@ __all__ = [
     "plot_shapelet",
     "plot_timeseries_saliency",
     "plot_tree_explanation",
-    "feature_scatter_plot"
+    "feature_scatter_plot",
 ]

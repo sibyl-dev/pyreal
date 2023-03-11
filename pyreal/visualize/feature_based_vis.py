@@ -25,7 +25,7 @@ def _parse_multi_contribution(explanation):
     else:
         contribution_list = [explanation[i]["Contribution"] for i in explanation]
         value_list = [explanation[i]["Feature Value"] for i in explanation]
-        feature_list = explanation[0]["Feature Name"].values
+        feature_list = explanation[next(iter(explanation))]["Feature Name"].values
         contributions = pd.DataFrame(contribution_list)
         contributions.columns = feature_list
         values = pd.DataFrame(value_list)
@@ -166,7 +166,7 @@ def plot_top_contributors(
         plt.show()
 
 
-def swarm_plot(explanation, type="swarm", n=5, show=False, filename=None, legend=True, **kwargs):
+def swarm_plot(explanation, type="swarm", n=5, discrete=False, show=False, filename=None, **kwargs):
     """
     Generates a strip plot (type="strip") or a swarm plot (type="swarm") from a set of feature
     contributions.
@@ -179,8 +179,10 @@ def swarm_plot(explanation, type="swarm", n=5, show=False, filename=None, legend
             The type of plot to generate
         n (int):
             Number of features to show
+        discrete (Boolean):
+            If true, give discrete legends for each row. Otherwise, give a colorbar legend
         show (Boolean):
-            Whether or not to show the figure
+            If True, show the figure
         filename (string or None):
             If not None, save the figure as filename
         legend (Boolean):
@@ -192,6 +194,15 @@ def swarm_plot(explanation, type="swarm", n=5, show=False, filename=None, legend
 
     average_importance = np.mean(abs(contributions), axis=0)
     order = np.argsort(average_importance)[::-1]
+    num_cats = []
+
+    plt.subplots_adjust(left=0.2, right=0.8)
+
+    if discrete:
+        legend = "brief"
+    else:
+        legend = False
+
     for i in range(n):
         hues = values.iloc[:, order[i : i + 1]]
         hues = hues.melt()["value"]
@@ -206,7 +217,7 @@ def swarm_plot(explanation, type="swarm", n=5, show=False, filename=None, legend
                 hue=hues,
                 data=contributions.iloc[:, order[i : i + 1]].melt(),
                 palette=palette,
-                legend=False,
+                legend=legend,
                 size=3,
                 **kwargs
             )
@@ -217,12 +228,15 @@ def swarm_plot(explanation, type="swarm", n=5, show=False, filename=None, legend
                 hue=hues,
                 data=contributions.iloc[:, order[i : i + 1]].melt(),
                 palette=palette,
-                legend=False,
+                legend=legend,
                 size=3,
                 **kwargs
             )
         else:
             raise ValueError("Invalid type %s. Type must be one of [strip, swarm]." % type)
+
+        h, l = ax.get_legend_handles_labels()
+        num_cats.append(len(l) - sum(num_cats))
         plt.axvline(x=0, color="black", linewidth=1)
         ax.grid(axis="y")
         ax.set_ylabel("")
@@ -231,7 +245,29 @@ def swarm_plot(explanation, type="swarm", n=5, show=False, filename=None, legend
         ax.spines["right"].set_visible(False)
         ax.spines["left"].set_visible(False)
 
-    if legend:
+    legends = []
+    if discrete:
+        h, l = ax.get_legend_handles_labels()
+        shift = 1 / len(num_cats)
+        r = 0
+        for i in range(0, len(num_cats)):
+            l1 = ax.legend(
+                h[r : r + num_cats[i]],
+                l[r : r + num_cats[i]],
+                bbox_to_anchor=(1, 1 - (i * shift)),
+                loc="upper left",
+                ncol=num_cats[i],
+                labelspacing=0.2,
+                columnspacing=0.2,
+                handletextpad=0.1,
+                frameon=False,
+            )
+            legends.append(l1)
+            r += num_cats[i]
+        for l in legends[:-1]:
+            ax.add_artist(l)
+
+    else:
         ax = plt.gca()
         norm = plt.Normalize(0, 1)
         sm = plt.cm.ScalarMappable(cmap=PALETTE_CMAP, norm=norm)
@@ -244,8 +280,9 @@ def swarm_plot(explanation, type="swarm", n=5, show=False, filename=None, legend
         cbar.ax.get_yaxis().labelpad = 15
 
     if filename is not None:
-        plt.savefig(filename, bbox_inches="tight")
+        plt.gcf().savefig(filename, bbox_extra_artists=legends, bbox_inches="tight")
     if show:
+        plt.tight_layout()
         plt.show()
 
 
@@ -269,20 +306,32 @@ def feature_scatter_plot(explanation, feature, predictions):
 
     contributions = contributions[feature]
     values = values[feature]
+    if isinstance(predictions, dict):
+        prediction_list = [predictions[i] for i in predictions]
+        predictions = pd.DataFrame(prediction_list)
 
-    data = pd.DataFrame({"Contribution": contributions.values, "Value":values.values, "Prediction":predictions})
+    data = pd.DataFrame(
+        {"Contribution": contributions.values, "Value": values.values, "Prediction": predictions}
+    )
 
     num_colors = len(np.unique(predictions.astype("str")))
     palette = sns.blend_palette(
-            [NEGATIVE_COLOR_LIGHT, NEUTRAL_COLOR, POSITIVE_COLOR_LIGHT], n_colors=num_colors
-        )
+        [NEGATIVE_COLOR_LIGHT, NEUTRAL_COLOR, POSITIVE_COLOR_LIGHT], n_colors=num_colors
+    )
     legend = True
-    if isinstance(predictions[0], (float)) or (isinstance(predictions[0], (int)) and num_colors > 6):
+    if isinstance(predictions[0], (float)) or (
+        isinstance(predictions[0], (int)) and num_colors > 6
+    ):
         legend = False
-    ax = sns.lmplot( x="Value", y="Contribution",
-                data=data, fit_reg=False,
-                hue='Prediction', palette=palette,
-                legend=legend)
+    ax = sns.lmplot(
+        x="Value",
+        y="Contribution",
+        data=data,
+        fit_reg=False,
+        hue="Prediction",
+        palette=palette,
+        legend=legend,
+    )
     plt.xlabel("Values for %s" % feature)
     if not legend:
         norm = plt.Normalize(0, 1)
@@ -292,7 +341,7 @@ def feature_scatter_plot(explanation, feature, predictions):
         sm.set_array([])
         cbar = ax.figure.colorbar(sm)
         cbar.ax.get_yaxis().set_ticks([])
-        cbar.ax.text(1.5, 0.05, ('%.2f' % min).rstrip('0').rstrip('.'), ha="left", va="center")
-        cbar.ax.text(1.5, 0.95, ('%.2f' % max).rstrip('0').rstrip('.'), ha="left", va="center")
+        cbar.ax.text(1.5, 0.05, ("%.2f" % min).rstrip("0").rstrip("."), ha="left", va="center")
+        cbar.ax.text(1.5, 0.95, ("%.2f" % max).rstrip("0").rstrip("."), ha="left", va="center")
         cbar.ax.set_ylabel("Feature Value", rotation=270)
         cbar.ax.get_yaxis().labelpad = 15

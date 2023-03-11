@@ -3,8 +3,8 @@ import pickle
 from urllib.parse import urljoin
 
 import pandas as pd
-from sklearn.linear_model import LogisticRegression
 from lightgbm import LGBMClassifier
+from sklearn.linear_model import LogisticRegression
 
 from pyreal import RealApp
 from pyreal.transformers import (
@@ -59,7 +59,7 @@ def load_titanic_model():
         transformers = load_titanic_transformers()
         x_orig, y = load_titanic_data()
         x_model = run_transformers(transformers, x_orig)
-        #model = LogisticRegression(max_iter=500)
+        # model = LogisticRegression(max_iter=500)
         model = LGBMClassifier()
         model.fit(x_model, y)
 

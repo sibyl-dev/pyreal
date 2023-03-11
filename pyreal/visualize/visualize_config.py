@@ -3,8 +3,8 @@ import colorsys
 import matplotlib.colors as mc
 import seaborn as sns
 
-NEGATIVE_COLOR = "#08415C"
-POSITIVE_COLOR = "#710627"
+NEGATIVE_COLOR = "#710627"
+POSITIVE_COLOR = "#08415C"
 NEUTRAL_COLOR = "#FEEBC3"
 
 
