@@ -7,9 +7,9 @@ from pyreal.explainers import ExplainerBase
 from sklearn.inspection import partial_dependence
 
 
-class PartialDependenceExplainerBase(ExplainerBase, ABC):
+class PartialDependenceExplainer(ExplainerBase, ABC):
     """
-    Base class for PartialDependence explainer objects. Abstract class
+    Generic PartialDependence wrapper
 
     A PartialDependenceExplainer object explains a machine learning prediction by showing the
     marginal effect each feature has on the model prediction.
@@ -25,19 +25,22 @@ class PartialDependenceExplainerBase(ExplainerBase, ABC):
         **kwargs: see base Explainer args
     """
 
-    def __init__(self, model, x_train_orig, interpretable_features=True, **kwargs):
-        self.interpretable_features = interpretable_features
-        super(PartialDependenceExplainerBase, self).__init__(model, x_train_orig, **kwargs)
+    def __init__(self, model, x_train_orig, e_algorithm=None, **kwargs):
+        super(PartialDependenceExplainer, self).__init__(model, x_train_orig, **kwargs)
 
-    @abstractmethod
     def fit(self):
         """
         Fit this explainer object
         """
+        return self
 
-    def produce(self, x_orig=None):
+    def produce(self):
         """
         Produce the partial dependence explanation
+
+        Args:
+            x_orig (DataFrame of shape (n_instances, n_features)):
+                Input to explain
 
         Returns:
             DataFrame of shape (n_instances, n_features)
@@ -45,10 +48,9 @@ class PartialDependenceExplainerBase(ExplainerBase, ABC):
             DataFrame of shape (n_instances, x_orig_feature_count)
                 `x_orig` transformed to the state of the final explanation
         """
-        explanation = self.get_pdp()
+        x_algorithm = self.transform_to_x_algorithm(x_orig)
+        pdp = partial_dependence(self.model, x_algorithm)
 
-    @abstractmethod
-    def get_pdp(self):
 
     def evaluate_variation(self, with_fit=False, explanations=None, n_iterations=20, n_rows=10):
         """
