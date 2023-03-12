@@ -286,7 +286,7 @@ class RealApp:
         if x_orig is not None:
             ids = None
 
-            if self.id_column is not None:
+            if self.id_column is not None and self.id_column in x_orig:
                 ids = x_orig[self.id_column]
                 x_orig = x_orig.drop(columns=self.id_column)
 
@@ -356,7 +356,7 @@ class RealApp:
             (model return type)
                 Model prediction on x
         """
-        if self.id_column is not None:
+        if self.id_column is not None and self.id_column in x:
             ids = x[self.id_column]
             x = x.drop(columns=self.id_column)
         else:

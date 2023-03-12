@@ -286,7 +286,7 @@ def swarm_plot(explanation, type="swarm", n=5, discrete=False, show=False, filen
         plt.show()
 
 
-def feature_scatter_plot(explanation, feature, predictions):
+def feature_scatter_plot(explanation, feature, predictions, show=False, filename=None):
     """
     Plot a contribution scatter plot for one feature
 
@@ -298,6 +298,10 @@ def feature_scatter_plot(explanation, feature, predictions):
             Label of column to visualize
         predictions (array-like of length n_instances):
             Predictions corresponding to explained instances
+        show (Boolean):
+            If True, show the figure
+        filename (string or None):
+            If not None, save the figure as filename
 
     Returns:
 
@@ -306,13 +310,15 @@ def feature_scatter_plot(explanation, feature, predictions):
 
     contributions = contributions[feature]
     values = values[feature]
+
     if isinstance(predictions, dict):
-        prediction_list = [predictions[i] for i in predictions]
-        predictions = pd.DataFrame(prediction_list)
+        predictions = np.array([predictions[i] for i in predictions]).reshape(-1)
 
     data = pd.DataFrame(
         {"Contribution": contributions.values, "Value": values.values, "Prediction": predictions}
     )
+    data_mean = data.groupby(['Value', 'Prediction']).mean().reset_index()
+    print(data_mean)
 
     num_colors = len(np.unique(predictions.astype("str")))
     palette = sns.blend_palette(
@@ -323,15 +329,29 @@ def feature_scatter_plot(explanation, feature, predictions):
         isinstance(predictions[0], (int)) and num_colors > 6
     ):
         legend = False
-    ax = sns.lmplot(
-        x="Value",
-        y="Contribution",
-        data=data,
-        fit_reg=False,
-        hue="Prediction",
-        palette=palette,
-        legend=legend,
-    )
+    if not pd.api.types.is_numeric_dtype(values):
+        ax = sns.stripplot(
+            x="Value",
+            y="Contribution",
+            data=data,
+            hue="Prediction",
+            palette=palette,
+            legend=legend,
+            alpha=0.5,
+            zorder=0
+        )
+    else:
+        ax = sns.scatterplot(
+            x="Value",
+            y="Contribution",
+            data=data,
+            hue="Prediction",
+            palette=palette,
+            legend=legend,
+            alpha=0.5
+        )
+
+    plt.axhline(0, color="black", zorder=0)
     plt.xlabel("Values for %s" % feature)
     if not legend:
         norm = plt.Normalize(0, 1)
@@ -345,3 +365,10 @@ def feature_scatter_plot(explanation, feature, predictions):
         cbar.ax.text(1.5, 0.95, ("%.2f" % max).rstrip("0").rstrip("."), ha="left", va="center")
         cbar.ax.set_ylabel("Feature Value", rotation=270)
         cbar.ax.get_yaxis().labelpad = 15
+
+    if filename is not None:
+        plt.gcf().savefig(filename, bbox_inches="tight")
+    if show:
+        plt.tight_layout()
+        plt.show()
+
