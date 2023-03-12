@@ -6,7 +6,9 @@ from sklearn.preprocessing import OneHotEncoder as SklearnOneHotEncoder
 
 from pyreal.transformers import BreakingTransformError, Transformer
 from pyreal.types.explanations.feature_based import (
-    AdditiveFeatureContributionExplanation, AdditiveFeatureImportanceExplanation,)
+    AdditiveFeatureContributionExplanation,
+    AdditiveFeatureImportanceExplanation,
+)
 
 log = logging.getLogger(__name__)
 
@@ -33,11 +35,10 @@ def _generate_categorical_to_one_hot(one_hot_to_categorical):
 
 
 def _generate_from_df(df):
-    # TODO: rename columns to be more natural
     categorical_to_one_hot = {}
     for i in range(df.shape[0]):
-        cf = df["name"][i]
-        ohf = df["original_name"][i]
+        cf = df["categorical"][i]
+        ohf = df["one_hot_encoded"][i]
         value = df["value"][i]
         if cf not in categorical_to_one_hot:
             categorical_to_one_hot[cf] = {ohf: value}
@@ -63,9 +64,9 @@ class Mappings:
         self.one_hot_to_categorical = one_hot_to_categorical
 
     @staticmethod
-    def generate_mappings(categorical_to_one_hot=None,
-                          one_hot_to_categorical=None,
-                          dataframe=None):
+    def generate_mappings(
+        categorical_to_one_hot=None, one_hot_to_categorical=None, dataframe=None
+    ):
         """
         Generate a new Mappings object using one of the input formats
         All but one keyword should be None
@@ -76,22 +77,26 @@ class Mappings:
             one_hot_to_categorical:
                 {OHE_feature_name : (categorical_feature_name, value), ...}
             dataframe:
-                DataFrame # TODO: specify type
+                DataFrame with three columns named [categorical, one_hot_encoded, values]
+                ie., [["A_a", "A", "a"], ["A_b", "B", "b"]]
         Returns:
             Mappings
                 A Mappings objects representing the column relationships
         """
 
         if categorical_to_one_hot is not None:
-            return Mappings(categorical_to_one_hot,
-                            _generate_one_hot_to_categorical(categorical_to_one_hot))
+            return Mappings(
+                categorical_to_one_hot, _generate_one_hot_to_categorical(categorical_to_one_hot)
+            )
         if one_hot_to_categorical is not None:
-            return Mappings(_generate_categorical_to_one_hot(one_hot_to_categorical),
-                            one_hot_to_categorical)
+            return Mappings(
+                _generate_categorical_to_one_hot(one_hot_to_categorical), one_hot_to_categorical
+            )
         if dataframe is not None:
             categorical_to_one_hot = _generate_from_df(dataframe)
-            return Mappings(categorical_to_one_hot,
-                            _generate_one_hot_to_categorical(categorical_to_one_hot))
+            return Mappings(
+                categorical_to_one_hot, _generate_one_hot_to_categorical(categorical_to_one_hot)
+            )
 
 
 class OneHotEncoder(Transformer):
@@ -145,7 +150,7 @@ class OneHotEncoder(Transformer):
         if not self.fitted:
             raise RuntimeError("Must fit one hot encoder before transforming")
         x_to_encode = x[self.columns]
-        columns = self.ohe.get_feature_names(x_to_encode.columns)
+        columns = self.ohe.get_feature_names_out(x_to_encode.columns)
         index = x_to_encode.index
         x_cat_ohe = self.ohe.transform(x_to_encode)
         x_cat_ohe = pd.DataFrame(x_cat_ohe, columns=columns, index=index)
@@ -165,7 +170,8 @@ class OneHotEncoder(Transformer):
                 The transformed explanation
         """
         return AdditiveFeatureContributionExplanation(
-            self._helper_summed_values(explanation.get()))
+            self._helper_summed_values(explanation.get())
+        )
 
     def inverse_transform_explanation_additive_feature_importance(self, explanation):
         """
@@ -180,8 +186,7 @@ class OneHotEncoder(Transformer):
             AdditiveFeatureImportanceExplanation:
                 The transformed explanation
         """
-        return AdditiveFeatureImportanceExplanation(
-            self._helper_summed_values(explanation.get()))
+        return AdditiveFeatureImportanceExplanation(self._helper_summed_values(explanation.get()))
 
     def inverse_transform_explanation_feature_based(self, explanation):
         """
@@ -217,10 +222,12 @@ class OneHotEncoder(Transformer):
         Raises:
             BreakingTransformError
         """
-        log.info("Explanation cannot be one-hot encoded with the available information. "
-                 "If you'd like to get your explanation one-hot encoded, "
-                 "this procedure should be applied to the data before generating "
-                 "the explanation if possible.")
+        log.info(
+            "Explanation cannot be one-hot encoded with the available information. "
+            "If you'd like to get your explanation one-hot encoded, "
+            "this procedure should be applied to the data before generating "
+            "the explanation if possible."
+        )
         raise BreakingTransformError
 
     def transform_explanation_decision_tree(self, explanation):
@@ -264,10 +271,11 @@ class OneHotEncoder(Transformer):
         explanation = pd.DataFrame(explanation)
         if explanation.ndim == 1:
             explanation = explanation.reshape(1, -1)
-        encoded_columns = self.ohe.get_feature_names(self.columns)
+        encoded_columns = self.ohe.get_feature_names_out(self.columns)
         for original_feature in self.columns:
-            encoded_features = [item for item in encoded_columns if
-                                item.startswith(original_feature + "_")]
+            encoded_features = [
+                item for item in encoded_columns if item.startswith(original_feature + "_")
+            ]
             summed_contribution = explanation[encoded_features].sum(axis=1)
             explanation = explanation.drop(encoded_features, axis="columns")
             explanation[original_feature] = summed_contribution
@@ -307,10 +315,13 @@ class MappingsOneHotEncoder(Transformer):
         ohe_data = {}
         for col in cols:
             values = x[col]
-            for item in self.mappings.categorical_to_one_hot[col]:
-                new_col_name = item[0]
-                ohe_data[new_col_name] = np.zeros(num_rows)
-                ohe_data[new_col_name][np.where(values == item[1])] = 1
+            if col not in self.mappings.categorical_to_one_hot:
+                ohe_data[col] = values
+            else:
+                ohe_feature_dict = self.mappings.categorical_to_one_hot[col]
+                for ohe_feature in ohe_feature_dict:
+                    ohe_data[ohe_feature] = np.zeros(num_rows, dtype=bool)
+                    ohe_data[ohe_feature][np.where(values == ohe_feature_dict[ohe_feature])] = True
         return pd.DataFrame(ohe_data)
 
     def inverse_transform_explanation_additive_feature_contribution(self, explanation):
@@ -365,8 +376,9 @@ class MappingsOneHotDecoder(Transformer):
                 if new_name not in cat_data:
                     cat_data[new_name] = np.empty(num_rows, dtype="object")
                 # TODO: add functionality to handle defaults
-                cat_data[new_name][np.where(x[col] == 1)] = \
-                    self.mappings.one_hot_to_categorical[col][1]
+                cat_data[new_name][np.where(x[col] == 1)] = self.mappings.one_hot_to_categorical[
+                    col
+                ][1]
         return pd.DataFrame(cat_data)
 
     def transform_explanation_additive_feature_contribution(self, explanation):
@@ -374,13 +386,32 @@ class MappingsOneHotDecoder(Transformer):
         Transforms additive contribution explanations
 
         Args:
-            explanation (AdditiveFeatureContributionExplanationType):
+            explanation (AdditiveFeatureContributionExplanation):
                 The explanation to be transformed
 
         Returns:
-            AdditiveFeatureContributionExplanationType:
+            AdditiveFeatureContributionExplanation:
                 The transformed explanation
         """
+        explanation = self.helper_transform_explanation_additive(explanation)
+        return AdditiveFeatureContributionExplanation(explanation)
+
+    def transform_explanation_additive_feature_importance(self, explanation):
+        """
+        Transforms additive importance explanations
+
+        Args:
+            explanation (AdditiveFeatureImportanceExplanation):
+                The explanation to be transformed
+
+        Returns:
+            AdditiveFeatureImportanceExplanation:
+                The transformed explanation
+        """
+        explanation = self.helper_transform_explanation_additive(explanation)
+        return AdditiveFeatureImportanceExplanation(explanation)
+
+    def helper_transform_explanation_additive(self, explanation):
         explanation = pd.DataFrame(explanation.get())
         if explanation.ndim == 1:
             explanation = explanation.reshape(1, -1)
@@ -389,4 +420,4 @@ class MappingsOneHotDecoder(Transformer):
             summed_contribution = explanation[encoded_features].sum(axis=1)
             explanation = explanation.drop(encoded_features, axis="columns")
             explanation[original_feature] = summed_contribution
-        return AdditiveFeatureContributionExplanation(explanation)
+        return explanation

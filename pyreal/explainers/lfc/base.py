@@ -56,15 +56,18 @@ class LocalFeatureContributionsBase(ExplainerBase, ABC):
             series = True
             x_orig = x_orig.to_frame().T
         contributions = self.get_contributions(x_orig)
-        contributions, x_interpret = self.transform_explanation(contributions, x_orig)
+        explanation = self.transform_explanation(contributions, x_orig)
+        x_interpret = explanation.get_values()
         if series:
             x_interpret = x_interpret.squeeze()
             x_interpret.name = name
-        contributions = contributions.get()
+        contributions = explanation.get()
         if self.interpretable_features:
-            return self.convert_columns_to_interpretable(contributions), \
-                self.convert_columns_to_interpretable(x_interpret)
-        return contributions, x_interpret
+            contributions = self.convert_columns_to_interpretable(contributions)
+            x_interpret = self.convert_columns_to_interpretable(x_interpret)
+        explanation.update_values(x_interpret, inplace=True)
+        explanation.update_explanation(contributions, inplace=True)
+        return explanation
 
     @abstractmethod
     def get_contributions(self, x_orig):
@@ -109,6 +112,7 @@ class LocalFeatureContributionsBase(ExplainerBase, ABC):
                 if with_fit:
                     self.fit()
                 explanations.append(
-                    self.produce(self._x_train_orig.iloc[0:n_rows])[0].to_numpy())
+                    self.produce(self._x_train_orig.iloc[0:n_rows]).get().to_numpy()
+                )
 
         return np.max(np.var(explanations, axis=0))

@@ -9,6 +9,7 @@ and classes in Pyreal
 .. toctree::
    :maxdepth: 2
 
+   realapp
    explainer
    local_feature_contribution
    global_feature_importance

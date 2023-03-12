@@ -2,6 +2,8 @@ import pandas as pd
 from sklearn import tree
 
 from pyreal.explainers import DecisionTreeExplainerBase
+from pyreal.types.explanations.decision_tree import DecisionTreeExplanation
+from pyreal.types.explanations.feature_based import FeatureImportanceExplanation
 
 
 class SurrogateDecisionTree(DecisionTreeExplainerBase):
@@ -55,10 +57,12 @@ class SurrogateDecisionTree(DecisionTreeExplainerBase):
         """
 
         if self.explainer is None:
-            raise AttributeError("Instance has no explainer. Please fit the explainer \
-            before producing explanations.")
+            raise AttributeError(
+                "Instance has no explainer. Please fit the explainer before producing"
+                " explanations."
+            )
 
-        return self.explainer
+        return DecisionTreeExplanation(self.explainer)
 
     def produce_importances(self):
         """
@@ -68,9 +72,11 @@ class SurrogateDecisionTree(DecisionTreeExplainerBase):
             The feature importances of the decision tree explainer.
         """
         if self.explainer is None:
-            raise AttributeError("Instance has no explainer. Please fit the explainer \
-            before producing explanations.")
+            raise AttributeError(
+                "Instance has no explainer. Please fit the explainer             before producing"
+                " explanations."
+            )
 
         features = self.return_features()
         importances = pd.DataFrame(self.explainer.feature_importances_[None, :], columns=features)
-        return importances
+        return FeatureImportanceExplanation(importances)

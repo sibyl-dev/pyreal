@@ -25,4 +25,5 @@ class DecisionTreeExplanation(Explanation):
             check_is_fitted(self.explanation)
         except NotFittedError:
             raise AssertionError(
-                "Decision tree explanations must be fitted sklearn Decision Trees")
+                "Decision tree explanations must be fitted sklearn Decision Trees"
+            )

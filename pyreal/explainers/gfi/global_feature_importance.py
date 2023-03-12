@@ -1,7 +1,10 @@
 import logging
 
 from pyreal.explainers import (
-    GlobalFeatureImportanceBase, PermutationFeatureImportance, ShapFeatureImportance,)
+    GlobalFeatureImportanceBase,
+    PermutationFeatureImportance,
+    ShapFeatureImportance,
+)
 
 log = logging.getLogger(__name__)
 
@@ -18,11 +21,19 @@ def choose_algorithm():
     return "shap"
 
 
-def gfi(return_importances=True, return_explainer=False, explainer=None,
-        model=None, x_train_orig=None,
-        e_algorithm=None, feature_descriptions=None,
-        e_transforms=None, m_transforms=None, i_transforms=None,
-        interpretable_features=True):
+def gfi(
+    return_importances=True,
+    return_explainer=False,
+    explainer=None,
+    model=None,
+    x_train_orig=None,
+    e_algorithm=None,
+    feature_descriptions=None,
+    e_transforms=None,
+    m_transforms=None,
+    i_transforms=None,
+    interpretable_features=True,
+):
     """
     Get a global feature importance
 
@@ -66,21 +77,26 @@ def gfi(return_importances=True, return_explainer=False, explainer=None,
     """
     if not return_importances and not return_explainer:
         # TODO: replace with formal warning system
-        log.warning("gfi is non-functional with return_importances and return_explainer "
-                    "set to false")
+        log.warning(
+            "gfi is non-functional with return_importances and return_explainer set to false"
+        )
         return
 
     if explainer is None and (model is None or x_train_orig is None):
         raise ValueError("gfi requires either explainer OR model and x_train to be passed")
 
     if explainer is None:
-        explainer = GlobalFeatureImportance(model, x_train_orig,
-                                            e_algorithm=e_algorithm,
-                                            feature_descriptions=feature_descriptions,
-                                            e_transforms=e_transforms, m_transforms=m_transforms,
-                                            i_transforms=i_transforms,
-                                            interpretable_features=interpretable_features,
-                                            fit_on_init=True)
+        explainer = GlobalFeatureImportance(
+            model,
+            x_train_orig,
+            e_algorithm=e_algorithm,
+            feature_descriptions=feature_descriptions,
+            e_transforms=e_transforms,
+            m_transforms=m_transforms,
+            i_transforms=i_transforms,
+            interpretable_features=interpretable_features,
+            fit_on_init=True,
+        )
     if return_explainer and return_importances:
         return explainer, explainer.produce()
     if return_explainer:
@@ -102,22 +118,26 @@ class GlobalFeatureImportance(GlobalFeatureImportanceBase):
            Filepath to the pickled model to explain, or model object with .predict() function
         x_train_orig (dataframe of shape (n_instances, x_orig_feature_count)):
            The training set for the explainer
-        e_algorithm (string, one of ["shap"]):
+        e_algorithm (string, one of ["shap", "permutation"]):
            Explanation algorithm to use. If none, one will be chosen automatically based on model
            type
+        shap_type (string, one of ["kernel", "linear"]):
+            Type of shap algorithm to use, if e_algorithm="shap".
         **kwargs: see LocalFeatureContributionsBase args
     """
 
-    def __init__(self, model, x_train_orig, e_algorithm=None, **kwargs):
+    def __init__(self, model, x_train_orig, e_algorithm=None, shap_type=None, **kwargs):
         if e_algorithm is None:
             e_algorithm = choose_algorithm()
         self.base_global_feature_importance = None
         if e_algorithm == "shap":
             self.base_global_feature_importance = ShapFeatureImportance(
-                model, x_train_orig, **kwargs)
+                model, x_train_orig, shap_type=shap_type, **kwargs
+            )
         if e_algorithm == "permutation":
             self.base_global_feature_importance = PermutationFeatureImportance(
-                model, x_train_orig, **kwargs)
+                model, x_train_orig, **kwargs
+            )
         if self.base_global_feature_importance is None:
             raise ValueError("Invalid algorithm type %s" % e_algorithm)
 

@@ -13,8 +13,9 @@
 
 Library for evaluating and deploying machine learning explanations.
 
-- Free software: Not open source
-- Documentation: https://sibyl-dev.github.io/pyreal
+- License: MIT
+- Documentation: https://pyreal.gitbook.io/pyreal
+- API Documentation: https://sibyl-ml.dev/pyreal/api_reference/index.html
 - Homepage: https://sibyl-ml.dev/
 
 # Overview
@@ -27,7 +28,7 @@ data form.
 
 ## Requirements
 
-**Pyreal** has been developed and tested on [Python 3.7, 3.8, and 3.9](https://www.python.org/downloads/)
+**Pyreal** has been developed and tested on [Python 3.8, 3.9, and 3.10](https://www.python.org/downloads/)
 The library uses Poetry for package management.
 
 ## Install from PyPI
@@ -78,7 +79,7 @@ passenger on the Titanic would have survived.
 
 #### Load in demo dataset, pre-fit model, and transformers
 ```
->>> import pyreal.applications.titanic as titanic
+>>> import pyreal.sample_applications.titanic as titanic
 >>> from pyreal.transformers import ColumnDropTransformer, MultiTypeImputer
 
 # Load in data
@@ -105,11 +106,7 @@ passenger on the Titanic would have survived.
 >>> prediction = lfc.model_predict(input_to_explain) # Prediction: [0]
 
 # Explain an input
->>> contributions = lfc.produce(input_to_explain)
-
-# Visualize the explanation
->>> from pyreal.utils import visualize
->>> x_interpret = lfc.convert_data_to_interpretable(input_to_explain)
+>>> explanation = lfc.produce(input_to_explain)
 
 ```
 
@@ -119,7 +116,8 @@ TODO: Running tests should not bring up a window. Refactor into the above docstr
 
 ##### Plot a bar plot of top contributing features, by absolute value
 ```
-visualize.plot_top_contributors(contributions, select_by="absolute", values=x_interpret)
+from pyreal.visualize import plot_top_contributors
+plot_top_contributors(explanation, select_by="absolute", show=False)
 ```
 
 

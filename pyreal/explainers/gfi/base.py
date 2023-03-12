@@ -50,12 +50,14 @@ class GlobalFeatureImportanceBase(ExplainerBase, ABC):
         # Importance for a given model stays constant, so can be saved and re-returned
         if self.importance is not None:
             return self.importance
-        importance = self.get_importance()
-        importance = self.transform_explanation(importance).get()
+        explanation = self.get_importance()
+        explanation = self.transform_explanation(explanation)
         if self.interpretable_features:
-            return self.convert_columns_to_interpretable(importance)
-        self.importance = importance
-        return importance
+            explanation.update_explanation(
+                self.convert_columns_to_interpretable(explanation.get()), inplace=True
+            )
+        self.importance = explanation
+        return explanation
 
     @abstractmethod
     def get_importance(self):
@@ -97,5 +99,6 @@ class GlobalFeatureImportanceBase(ExplainerBase, ABC):
                 if with_fit:
                     self.fit()
                 explanations.append(
-                    self.produce(self._x_train_orig.iloc[0:n_rows]).to_numpy())
+                    self.produce(self._x_train_orig.iloc[0:n_rows]).get().to_numpy()
+                )
         return np.max(np.var(explanations, axis=0))
