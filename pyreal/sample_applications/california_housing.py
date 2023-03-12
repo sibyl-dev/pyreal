@@ -20,7 +20,7 @@ DATA_FILE = os.path.join(DATA_DIR, "california.csv")
 CITY_FILE = os.path.join(DATA_DIR, "cal_cities_lat_long.csv")
 MODEL_FILE = os.path.join(DATA_DIR, "model.pkl")
 TRANSFORMER_FILE = os.path.join(DATA_DIR, "transformers.pkl")
-AWS_BASE_URL = "https://pyreal-data.s3.amazonaws.com/usability_study"
+AWS_BASE_URL = "https://pyreal-data.s3.amazonaws.com/"
 
 
 def load_feature_descriptions():
@@ -41,7 +41,8 @@ def load_data(n_rows=None):
     if os.path.exists(DATA_FILE):
         df = pd.read_csv(DATA_FILE)
     else:
-        url = urljoin(AWS_BASE_URL, "california.csv")
+        url = urljoin(AWS_BASE_URL, "usability_study/california.csv")
+        print(url)
         df = pd.read_csv(url)
 
         if not os.path.isdir(DATA_DIR):
@@ -58,7 +59,7 @@ def load_city_data():
     if os.path.exists(CITY_FILE):
         df = pd.read_csv(CITY_FILE)
     else:
-        url = urljoin(AWS_BASE_URL, "cal_cities_lat_long.csv")
+        url = urljoin(AWS_BASE_URL, "usability_study/cal_cities_lat_long.csv")
         df = pd.read_csv(url)
 
         if not os.path.isdir(DATA_DIR):
