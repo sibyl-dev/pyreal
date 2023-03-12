@@ -6,12 +6,12 @@ import pandas as pd
 from pyreal.explainers import ExplainerBase
 
 
-class PDPPlot(ExplainerBase, ABC):
+class PartialDependenceExplainer(ExplainerBase, ABC):
     """
-    Base class for PDP plot explainer objects. Abstract class
+    Base class for PartialDependence explainer objects. Abstract class
 
-    A PDPPlot object explains a machine learning prediction by ... PDPPlot objects explain
-    by taking an instance and returning...
+    A PartialDependenceExplainer object explains a machine learning prediction by showing the
+    marginal effect each feature has on the model prediction.
 
     Args:
         model (string filepath or model object):
@@ -26,7 +26,7 @@ class PDPPlot(ExplainerBase, ABC):
 
     def __init__(self, model, x_train_orig, interpretable_features=True, **kwargs):
         self.interpretable_features = interpretable_features
-        super(PDPPlot, self).__init__(model, x_train_orig, **kwargs)
+        super(PartialDependenceExplainer, self).__init__(model, x_train_orig, **kwargs)
 
     @abstractmethod
     def fit(self):
@@ -36,7 +36,7 @@ class PDPPlot(ExplainerBase, ABC):
 
     def produce(self, x_orig):
         """
-        Produce the pdp explanation
+        Produce the partial dependence explanation
 
         Args:
             x_orig (DataFrame of shape (n_instances, n_features)):
@@ -55,15 +55,18 @@ class PDPPlot(ExplainerBase, ABC):
             series = True
             x_orig = x_orig.to_frame().T
         contributions = self.get_contributions(x_orig)
-        contributions, x_interpret = self.transform_explanation(contributions, x_orig)
+        explanation = self.transform_explanation(contributions, x_orig)
+        x_interpret = explanation.get_values()
         if series:
             x_interpret = x_interpret.squeeze()
             x_interpret.name = name
-        contributions = contributions.get()
+        contributions = explanation.get()
         if self.interpretable_features:
-            return self.convert_columns_to_interpretable(contributions), \
-                self.convert_columns_to_interpretable(x_interpret)
-        return contributions, x_interpret
+            contributions = self.convert_columns_to_interpretable(contributions)
+            x_interpret = self.convert_columns_to_interpretable(x_interpret)
+        explanation.update_values(x_interpret, inplace=True)
+        explanation.update_explanation(contributions, inplace=True)
+        return explanation
 
     @abstractmethod
     def get_contributions(self, x_orig):
@@ -108,6 +111,7 @@ class PDPPlot(ExplainerBase, ABC):
                 if with_fit:
                     self.fit()
                 explanations.append(
-                    self.produce(self._x_train_orig.iloc[0:n_rows])[0].to_numpy())
+                    self.produce(self._x_train_orig.iloc[0:n_rows]).get().to_numpy()
+                )
 
         return np.max(np.var(explanations, axis=0))
