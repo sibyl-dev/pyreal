@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import seaborn as sns
+import math
 
 from pyreal.realapp import realapp
 from pyreal.types.explanations.feature_based import (
@@ -196,8 +197,6 @@ def swarm_plot(explanation, type="swarm", n=5, discrete=False, show=False, filen
     order = np.argsort(average_importance)[::-1]
     num_cats = []
 
-    plt.subplots_adjust(left=0.2, right=0.8)
-
     if discrete:
         legend = "brief"
     else:
@@ -251,18 +250,33 @@ def swarm_plot(explanation, type="swarm", n=5, discrete=False, show=False, filen
         shift = 1 / len(num_cats)
         r = 0
         for i in range(0, len(num_cats)):
-            l1 = ax.legend(
-                h[r : r + num_cats[i]],
-                l[r : r + num_cats[i]],
-                bbox_to_anchor=(1, 1 - (i * shift)),
-                loc="upper left",
-                ncol=num_cats[i],
-                labelspacing=0.2,
-                columnspacing=0.2,
-                handletextpad=0.1,
-                frameon=False,
-            )
-            legends.append(l1)
+            if num_cats[i] <= 5:
+                l1 = ax.legend(
+                    h[r : r + num_cats[i]],
+                    l[r : r + num_cats[i]],
+                    bbox_to_anchor=(1, 1 - (i * shift)),
+                    loc="upper left",
+                    ncol=num_cats[i],
+                    labelspacing=0.2,
+                    columnspacing=0.2,
+                    handletextpad=0.1,
+                    frameon=False,
+                )
+                legends.append(l1)
+            else:
+                step = math.ceil(num_cats[i] / 5)
+                l1 = ax.legend(
+                    h[r: r + num_cats[i]: step],
+                    l[r: r + num_cats[i]: step],
+                    bbox_to_anchor=(1, 1 - (i * shift)),
+                    loc="upper left",
+                    ncol=num_cats[i],
+                    labelspacing=0.2,
+                    columnspacing=0.2,
+                    handletextpad=0.1,
+                    frameon=False,
+                )
+                legends.append(l1)
             r += num_cats[i]
         for l in legends[:-1]:
             ax.add_artist(l)
@@ -282,11 +296,10 @@ def swarm_plot(explanation, type="swarm", n=5, discrete=False, show=False, filen
     if filename is not None:
         plt.gcf().savefig(filename, bbox_extra_artists=legends, bbox_inches="tight")
     if show:
-        plt.tight_layout()
         plt.show()
 
 
-def feature_scatter_plot(explanation, feature, predictions, show=False, filename=None):
+def feature_scatter_plot(explanation, feature, predictions, discrete=None, show=False, filename=None):
     """
     Plot a contribution scatter plot for one feature
 
@@ -298,6 +311,8 @@ def feature_scatter_plot(explanation, feature, predictions, show=False, filename
             Label of column to visualize
         predictions (array-like of length n_instances):
             Predictions corresponding to explained instances
+        discrete (Boolean):
+            If true, plot x as discrete data. Defaults to True if x is not numeric.
         show (Boolean):
             If True, show the figure
         filename (string or None):
@@ -329,7 +344,10 @@ def feature_scatter_plot(explanation, feature, predictions, show=False, filename
         isinstance(predictions[0], (int)) and num_colors > 6
     ):
         legend = False
-    if not pd.api.types.is_numeric_dtype(values):
+
+    if discrete is None:
+        discrete = not pd.api.types.is_numeric_dtype(values)
+    if discrete:
         ax = sns.stripplot(
             x="Value",
             y="Contribution",
