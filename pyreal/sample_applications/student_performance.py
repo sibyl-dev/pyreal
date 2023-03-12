@@ -121,7 +121,8 @@ def load_transformers(x=None):
     standard_scaler = DataFrameWrapper(StandardScaler(), model=True)
 
     transformers = [onehotencoder, boolean_encoder, standard_scaler]
-    fit_transformers(transformers, x)
+    if x is not None:
+        fit_transformers(transformers, x)
     return transformers
 
 

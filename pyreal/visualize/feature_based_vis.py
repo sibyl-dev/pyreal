@@ -333,7 +333,6 @@ def feature_scatter_plot(explanation, feature, predictions, discrete=None, show=
         {"Contribution": contributions.values, "Value": values.values, "Prediction": predictions}
     )
     data_mean = data.groupby(['Value', 'Prediction']).mean().reset_index()
-    print(data_mean)
 
     num_colors = len(np.unique(predictions.astype("str")))
     palette = sns.blend_palette(
