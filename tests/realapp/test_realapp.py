@@ -70,7 +70,7 @@ def test_predict(regression_one_hot, regression_no_transforms):
         transformers=regression_one_hot["transformers"],
     )
 
-    expected = np.array(regression_one_hot["y"]).reshape(-1)
+    expected = {key: value for (key, value) in zip(regression_one_hot["x"].index, np.array(regression_one_hot["y"]).reshape(-1))}
     result = realApp.predict(regression_one_hot["x"])
     assert np.array_equal(result, expected)
 
@@ -79,10 +79,10 @@ def test_predict_multiple_models(dummy_models):
     x = pd.DataFrame([[1, 0]])
     realApp = RealApp(dummy_models, x, active_model_id="id2")
 
-    expected = np.array([3])
+    expected = {0: 3}
     result = realApp.predict(x)
     assert np.array_equal(result, expected)
 
-    expected = np.array([2])
+    expected = {0: 2}
     result = realApp.predict(x, model_id="id1")
     assert np.array_equal(result, expected)

@@ -62,11 +62,12 @@ def test_produce_local_feature_contributions_with_id_column(regression_one_hot):
         regression_one_hot["model"],
         regression_one_hot["x"],
         transformers=regression_one_hot["transformers"],
+        id_column="ID"
     )
     features = ["A", "B", "C"]
 
     x_multi_dim = pd.DataFrame([[4, 1, 1, "a"], [6, 2, 3, "b"]], columns=features + ["ID"])
-    explanation = realApp.produce_local_feature_contributions(x_multi_dim, id_column_name="ID")
+    explanation = realApp.produce_local_feature_contributions(x_multi_dim)
 
     explanation_a = explanation["a"].sort_values(by="Feature Name", axis=0)
     explanation_b = explanation["b"].sort_values(by="Feature Name", axis=0)

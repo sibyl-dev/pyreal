@@ -34,6 +34,7 @@ def load_feature_descriptions():
         "households": "Number of Households",
         "median_income": "Median Income",
         "ocean_proximity": "Proximity to Ocean",
+        "neighborhood": "Neighborhood"
     }
 
 

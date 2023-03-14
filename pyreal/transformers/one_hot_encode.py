@@ -112,7 +112,7 @@ class OneHotEncoder(Transformer):
             columns (dataframe column label type or list of dataframe column label type):
                 Label of column to select, or an ordered list of column labels to select
         """
-        self.ohe = SklearnOneHotEncoder(sparse=False)
+        self.ohe = SklearnOneHotEncoder(sparse_output=False)
         if columns is not None and not isinstance(columns, (list, tuple, np.ndarray, pd.Index)):
             columns = [columns]
         self.columns = columns

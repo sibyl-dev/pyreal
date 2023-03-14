@@ -269,7 +269,7 @@ class RealApp:
                 If True, initialize and fit a new explainer even if the appropriate explainer
                 already exists
             **kwargs:
-                Additional explainer fit parameters
+                Additional explainer parameters
 
         Returns:
             Type varies by explanation type
@@ -372,7 +372,7 @@ class RealApp:
             preds_dict[row_id] = preds[i]
         return preds_dict
 
-    def prepare_local_feature_contributions(self, model_id=None, algorithm=None, shap_type=None):
+    def prepare_local_feature_contributions(self, model_id=None, algorithm=None, shap_type=None, training_size=None):
         """
         Initialize and fit a local feature contribution explainer
 
@@ -401,6 +401,7 @@ class RealApp:
             classes=self.classes,
             class_descriptions=self.class_descriptions,
             fit_on_init=True,
+            training_size=training_size
         )
         self._add_explainer("lfc", algorithm, explainer)
         return explainer
@@ -412,6 +413,7 @@ class RealApp:
         algorithm=None,
         shap_type=None,
         force_refit=False,
+        training_size=None
     ):
         """
         Produce a LocalFeatureContributions explainer
@@ -445,9 +447,10 @@ class RealApp:
             model_id=model_id,
             force_refit=force_refit,
             shap_type=shap_type,
+            training_size=training_size
         )
 
-    def prepare_global_feature_importance(self, model_id=None, algorithm=None, shap_type=None):
+    def prepare_global_feature_importance(self, model_id=None, algorithm=None, shap_type=None, training_size=None):
         """
         Initialize and fit a global feature importance explainer
 
@@ -476,6 +479,7 @@ class RealApp:
             class_descriptions=self.class_descriptions,
             shap_type=shap_type,
             fit_on_init=True,
+            training_size=training_size
         )
         self._add_explainer("gfi", algorithm, explainer)
         return explainer
