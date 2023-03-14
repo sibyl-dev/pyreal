@@ -67,7 +67,8 @@ def _get_average_or_mode(df):
     s = df.select_dtypes(np.number).mean()
     if len(s) == df.shape[1]:  # all columns are numeric
         return s
-    return df.drop(s.index, axis=1).mode().iloc[0].append(s)
+    return pd.concat((df.drop(s.index, axis=1).mode().iloc[0], s))
+    #return df.drop(s.index, axis=1).mode().iloc[0].append(s)
 
 
 class RealApp:
