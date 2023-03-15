@@ -1,0 +1,2 @@
+# 📕 Glossary of Visualizations
+

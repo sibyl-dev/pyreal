@@ -6,11 +6,19 @@
 
 * [💻 Installation](getting-started/installation.md)
 * [🚀 Quickstart](getting-started/quickstart.md)
-* [🍎 Tutorials](getting-started/tutorials.md)
-* [💡 Pyreal Classes](getting-started/pyreal-classes/README.md)
-  * [Explainers](getting-started/pyreal-classes/explainers.md)
-  * [Transformers](getting-started/pyreal-classes/transformers.md)
-  * [Explanation Output Types](getting-started/pyreal-classes/explanation-output-types.md)
+* [👣 Next Steps](getting-started/next-steps.md)
+
+## User Guides
+
+* [💡 Understanding Explanations](user-guides/understanding-explanations.md)
+* [📊 Generating Explanations](user-guides/generating-explanations/README.md)
+  * [Visualizing Explanations](user-guides/generating-explanations/visualizing-explanations.md)
+
+***
+
+* [⚙ Developing Applications](developing-applications/README.md)
+  * [Working with Transformers](developing-applications/working-with-transformers.md)
+* [🍎 Other Tutorials](other-tutorials.md)
 
 ## Developer Guides
 
@@ -22,6 +30,14 @@
   * [Unit Testing Guidelines](developer-guides/contributing-to-pyreal/unit-testing-guidelines.md)
   * [Benchmarking Guidelines](developer-guides/contributing-to-pyreal/benchmarking-guidelines.md)
   * [Release Workflow](developer-guides/contributing-to-pyreal/release-workflow.md)
+
+## Glossaries
+
+***
+
+* [📗 Glossary of Explantions](glossary-of-explantions.md)
+* [📘 Glossary of Transformers](glossary-of-transformers.md)
+* [📕 Glossary of Visualizations](glossary-of-visualizations.md)
 
 ## Important Links
 
