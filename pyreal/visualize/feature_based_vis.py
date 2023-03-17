@@ -43,6 +43,7 @@ def plot_top_contributors(
     precision=2,
     prediction=None,
     include_averages=False,
+    include_axis = True,
     show=False,
     filename=None,
 ):
@@ -149,11 +150,15 @@ def plot_top_contributors(
     else:
         fig, ax = plt.subplots(facecolor="w")
     plt.barh(features[to_plot][::-1], contributions[to_plot][::-1], color=colors)
+    plt.title("Contributions by feature", fontsize=18)
     if prediction is not None:
-        plt.title("Contribution towards prediction: %s" % prediction)
+        plt.title("Overall prediction: %s" % prediction, fontsize=12)
+        plt.suptitle('Contributions by feature', fontsize=18, y=1)
+    if include_axis:
+        plt.tick_params(axis="x", which="both", bottom=True, top=False, labelbottom=True)
+        plt.xlabel("Contribution")
     else:
-        plt.title("Contribution by feature")
-    plt.tick_params(axis="x", which="both", bottom=False, top=False, labelbottom=False)
+        plt.tick_params(axis="x", which="both", bottom=False, top=False, labelbottom=False)
 
     ax.spines["top"].set_visible(False)
     ax.spines["bottom"].set_visible(False)
