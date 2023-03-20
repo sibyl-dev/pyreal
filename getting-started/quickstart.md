@@ -32,7 +32,8 @@ We can can generate explanations using the `produce()` functions. Let's try gene
 
 ```python
 explanation = real_app.produce_local_feature_contributions(sample_data)
-plot_top_contributors(explanation[1], prediction=predictions[passenger_id])
+plot_top_contributors(explanation[passenger_id], 
+                      prediction=predictions[passenger_id])
 ```
 
 <figure><img src="../.gitbook/assets/titanic.png" alt=""><figcaption><p>Feature contributions for passenger 1 in the Titanic Dataset. Blue bars indicate and increased prediction of survival, red bars indicate a decreased prediction of survival.</p></figcaption></figure>
