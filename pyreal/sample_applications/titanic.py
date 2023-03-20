@@ -4,7 +4,6 @@ from urllib.parse import urljoin
 
 import pandas as pd
 from lightgbm import LGBMClassifier
-from sklearn.linear_model import LogisticRegression
 
 from pyreal import RealApp
 from pyreal.transformers import (

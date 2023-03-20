@@ -1,19 +1,7 @@
 import os
-import pickle
 from urllib.parse import urljoin
 
 import pandas as pd
-from lightgbm import LGBMClassifier
-from sklearn.preprocessing import StandardScaler
-
-from pyreal import RealApp
-from pyreal.transformers import (
-    DataFrameWrapper,
-    OneHotEncoder,
-    Transformer,
-    fit_transformers,
-    run_transformers,
-)
 
 DATA_DIR = os.path.join(os.path.dirname(__file__), "data_housing")
 DATA_FILE = os.path.join(DATA_DIR, "california.csv")
@@ -34,7 +22,7 @@ def load_feature_descriptions():
         "households": "Number of Households",
         "median_income": "Median Income",
         "ocean_proximity": "Proximity to Ocean",
-        "neighborhood": "Neighborhood"
+        "neighborhood": "Neighborhood",
     }
 
 

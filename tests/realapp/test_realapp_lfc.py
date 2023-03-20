@@ -62,7 +62,7 @@ def test_produce_local_feature_contributions_with_id_column(regression_one_hot):
         regression_one_hot["model"],
         regression_one_hot["x"],
         transformers=regression_one_hot["transformers"],
-        id_column="ID"
+        id_column="ID",
     )
     features = ["A", "B", "C"]
 

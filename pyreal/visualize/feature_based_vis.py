@@ -1,8 +1,9 @@
+import math
+
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import seaborn as sns
-import math
 
 from pyreal.realapp import realapp
 from pyreal.types.explanations.feature_based import (
@@ -167,7 +168,9 @@ def plot_top_contributors(
         plt.show()
 
 
-def swarm_plot(explanation, type="swarm", n=5, discrete=False, show=False, filename=None, **kwargs):
+def swarm_plot(
+    explanation, type="swarm", n=5, discrete=False, show=False, filename=None, **kwargs
+):
     """
     Generates a strip plot (type="strip") or a swarm plot (type="swarm") from a set of feature
     contributions.
@@ -234,8 +237,8 @@ def swarm_plot(explanation, type="swarm", n=5, discrete=False, show=False, filen
         else:
             raise ValueError("Invalid type %s. Type must be one of [strip, swarm]." % type)
 
-        h, l = ax.get_legend_handles_labels()
-        num_cats.append(len(l) - sum(num_cats))
+        handles, labels = ax.get_legend_handles_labels()
+        num_cats.append(len(labels) - sum(num_cats))
         plt.axvline(x=0, color="black", linewidth=1)
         ax.grid(axis="y")
         ax.set_ylabel("")
@@ -246,14 +249,14 @@ def swarm_plot(explanation, type="swarm", n=5, discrete=False, show=False, filen
 
     legends = []
     if discrete:
-        h, l = ax.get_legend_handles_labels()
+        handles, labels = ax.get_legend_handles_labels()
         shift = 1 / len(num_cats)
         r = 0
         for i in range(0, len(num_cats)):
             if num_cats[i] <= 5:
                 l1 = ax.legend(
-                    h[r : r + num_cats[i]],
-                    l[r : r + num_cats[i]],
+                    handles[r: r + num_cats[i]],
+                    labels[r: r + num_cats[i]],
                     bbox_to_anchor=(1, 1 - (i * shift)),
                     loc="upper left",
                     ncol=num_cats[i],
@@ -266,8 +269,8 @@ def swarm_plot(explanation, type="swarm", n=5, discrete=False, show=False, filen
             else:
                 step = math.ceil(num_cats[i] / 5)
                 l1 = ax.legend(
-                    h[r: r + num_cats[i]: step],
-                    l[r: r + num_cats[i]: step],
+                    handles[r: r + num_cats[i]: step],
+                    labels[r: r + num_cats[i]: step],
                     bbox_to_anchor=(1, 1 - (i * shift)),
                     loc="upper left",
                     ncol=num_cats[i],
@@ -278,8 +281,8 @@ def swarm_plot(explanation, type="swarm", n=5, discrete=False, show=False, filen
                 )
                 legends.append(l1)
             r += num_cats[i]
-        for l in legends[:-1]:
-            ax.add_artist(l)
+        for labels in legends[:-1]:
+            ax.add_artist(labels)
 
     else:
         ax = plt.gca()
@@ -299,7 +302,9 @@ def swarm_plot(explanation, type="swarm", n=5, discrete=False, show=False, filen
         plt.show()
 
 
-def feature_scatter_plot(explanation, feature, predictions, discrete=None, show=False, filename=None):
+def feature_scatter_plot(
+    explanation, feature, predictions, discrete=None, show=False, filename=None
+):
     """
     Plot a contribution scatter plot for one feature
 
@@ -332,7 +337,6 @@ def feature_scatter_plot(explanation, feature, predictions, discrete=None, show=
     data = pd.DataFrame(
         {"Contribution": contributions.values, "Value": values.values, "Prediction": predictions}
     )
-    data_mean = data.groupby(['Value', 'Prediction']).mean().reset_index()
 
     num_colors = len(np.unique(predictions.astype("str")))
     palette = sns.blend_palette(
@@ -355,7 +359,7 @@ def feature_scatter_plot(explanation, feature, predictions, discrete=None, show=
             palette=palette,
             legend=legend,
             alpha=0.5,
-            zorder=0
+            zorder=0,
         )
     else:
         ax = sns.scatterplot(
@@ -365,7 +369,7 @@ def feature_scatter_plot(explanation, feature, predictions, discrete=None, show=
             hue="Prediction",
             palette=palette,
             legend=legend,
-            alpha=0.5
+            alpha=0.5,
         )
 
     plt.axhline(0, color="black", zorder=0)
@@ -388,4 +392,3 @@ def feature_scatter_plot(explanation, feature, predictions, discrete=None, show=
     if show:
         plt.tight_layout()
         plt.show()
-
