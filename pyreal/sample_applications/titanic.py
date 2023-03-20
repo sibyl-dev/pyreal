@@ -21,7 +21,7 @@ TRANSFORMER_FILE = os.path.join(DATA_DIR, "transformers.pkl")
 AWS_BASE_URL = "https://pyreal-data.s3.amazonaws.com/"
 
 
-def load_titanic_data(n_rows=None):
+def load_titanic_data(n_rows=None, include_targets=False):
     if os.path.exists(DATA_FILE):
         df = pd.read_csv(DATA_FILE)
     else:
@@ -33,9 +33,15 @@ def load_titanic_data(n_rows=None):
         df.to_csv(DATA_FILE, index=False)
     y = df["target"].rename("Survived")
     x_orig = df.drop("target", axis="columns")
-    if n_rows is not None:
+
+    if n_rows is not None and include_targets:
         return x_orig[:n_rows], y[:n_rows]
-    return x_orig, y
+    elif n_rows is not None:
+        return x_orig[:n_rows]
+    elif include_targets:
+        return x_orig, y
+    else:
+        return x_orig
 
 
 def load_feature_descriptions():
@@ -89,7 +95,7 @@ def load_titanic_transformers():
 
 
 def load_titanic_app():
-    x_train_orig, y = load_titanic_data()
+    x_train_orig, y = load_titanic_data(include_targets=True)
     model = load_titanic_model()
     transformers = load_titanic_transformers()
     feature_descriptions = load_feature_descriptions()
