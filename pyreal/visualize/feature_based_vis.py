@@ -44,7 +44,7 @@ def plot_top_contributors(
     precision=2,
     prediction=None,
     include_averages=False,
-    include_axis = True,
+    include_axis=True,
     show=False,
     filename=None,
 ):
@@ -154,7 +154,7 @@ def plot_top_contributors(
     plt.title("Contributions by feature", fontsize=18)
     if prediction is not None:
         plt.title("Overall prediction: %s" % prediction, fontsize=12)
-        plt.suptitle('Contributions by feature', fontsize=18, y=1)
+        plt.suptitle("Contributions by feature", fontsize=18, y=1)
     if include_axis:
         plt.tick_params(axis="x", which="both", bottom=True, top=False, labelbottom=True)
         plt.xlabel("Contribution")
@@ -260,8 +260,8 @@ def swarm_plot(
         for i in range(0, len(num_cats)):
             if num_cats[i] <= 5:
                 l1 = ax.legend(
-                    handles[r: r + num_cats[i]],
-                    labels[r: r + num_cats[i]],
+                    handles[r : r + num_cats[i]],
+                    labels[r : r + num_cats[i]],
                     bbox_to_anchor=(1, 1 - (i * shift)),
                     loc="upper left",
                     ncol=num_cats[i],
@@ -274,8 +274,8 @@ def swarm_plot(
             else:
                 step = math.ceil(num_cats[i] / 5)
                 l1 = ax.legend(
-                    handles[r: r + num_cats[i]: step],
-                    labels[r: r + num_cats[i]: step],
+                    handles[r : r + num_cats[i] : step],
+                    labels[r : r + num_cats[i] : step],
                     bbox_to_anchor=(1, 1 - (i * shift)),
                     loc="upper left",
                     ncol=num_cats[i],
