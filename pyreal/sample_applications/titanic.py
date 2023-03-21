@@ -62,7 +62,7 @@ def load_titanic_model():
         return pickle.load(open(os.path.join(DATA_DIR, "model.pkl"), "rb"))
     else:
         transformers = load_titanic_transformers()
-        x_orig, y = load_titanic_data()
+        x_orig, y = load_titanic_data(include_targets=True)
         x_model = run_transformers(transformers, x_orig)
         # model = LogisticRegression(max_iter=500)
         model = LGBMClassifier()
@@ -79,7 +79,7 @@ def load_titanic_transformers():
     if os.path.exists(TRANSFORMER_FILE):
         return pickle.load(open(os.path.join(DATA_DIR, "transformers.pkl"), "rb"))
     else:
-        x_orig, y = load_titanic_data()
+        x_orig, y = load_titanic_data(include_targets=True)
         column_drop = ColumnDropTransformer(["PassengerId", "Name", "Ticket", "Cabin"])
         imputer = MultiTypeImputer()
         one_hot_encoder = OneHotEncoder(["Sex", "Embarked"])
