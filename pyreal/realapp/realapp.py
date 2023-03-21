@@ -68,7 +68,7 @@ def _get_average_or_mode(df):
     if len(s) == df.shape[1]:  # all columns are numeric
         return s
     return pd.concat((df.drop(s.index, axis=1).mode().iloc[0], s))
-    #return df.drop(s.index, axis=1).mode().iloc[0].append(s)
+    # return df.drop(s.index, axis=1).mode().iloc[0].append(s)
 
 
 class RealApp:
@@ -87,7 +87,7 @@ class RealApp:
         classes=None,
         class_descriptions=None,
         fit_transformers=False,
-        id_column=None
+        id_column=None,
     ):
         """
         Initialize a RealApp object
@@ -373,7 +373,9 @@ class RealApp:
             preds_dict[row_id] = preds[i]
         return preds_dict
 
-    def prepare_local_feature_contributions(self, model_id=None, algorithm=None, shap_type=None, training_size=None):
+    def prepare_local_feature_contributions(
+        self, model_id=None, algorithm=None, shap_type=None, training_size=None
+    ):
         """
         Initialize and fit a local feature contribution explainer
 
@@ -402,7 +404,7 @@ class RealApp:
             classes=self.classes,
             class_descriptions=self.class_descriptions,
             fit_on_init=True,
-            training_size=training_size
+            training_size=training_size,
         )
         self._add_explainer("lfc", algorithm, explainer)
         return explainer
@@ -414,7 +416,7 @@ class RealApp:
         algorithm=None,
         shap_type=None,
         force_refit=False,
-        training_size=None
+        training_size=None,
     ):
         """
         Produce a LocalFeatureContributions explainer
@@ -448,10 +450,12 @@ class RealApp:
             model_id=model_id,
             force_refit=force_refit,
             shap_type=shap_type,
-            training_size=training_size
+            training_size=training_size,
         )
 
-    def prepare_global_feature_importance(self, model_id=None, algorithm=None, shap_type=None, training_size=None):
+    def prepare_global_feature_importance(
+        self, model_id=None, algorithm=None, shap_type=None, training_size=None
+    ):
         """
         Initialize and fit a global feature importance explainer
 
@@ -480,7 +484,7 @@ class RealApp:
             class_descriptions=self.class_descriptions,
             shap_type=shap_type,
             fit_on_init=True,
-            training_size=training_size
+            training_size=training_size,
         )
         self._add_explainer("gfi", algorithm, explainer)
         return explainer

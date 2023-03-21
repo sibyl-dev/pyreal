@@ -70,7 +70,12 @@ def test_predict(regression_one_hot, regression_no_transforms):
         transformers=regression_one_hot["transformers"],
     )
 
-    expected = {key: value for (key, value) in zip(regression_one_hot["x"].index, np.array(regression_one_hot["y"]).reshape(-1))}
+    expected = {
+        key: value
+        for (key, value) in zip(
+            regression_one_hot["x"].index, np.array(regression_one_hot["y"]).reshape(-1)
+        )
+    }
     result = realApp.predict(regression_one_hot["x"])
     assert np.array_equal(result, expected)
 

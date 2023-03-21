@@ -138,5 +138,5 @@ def load_app():
         y_orig=y,
         transformers=transformers,
         feature_descriptions=feature_descriptions,
-        id_column="name"
+        id_column="name",
     )
