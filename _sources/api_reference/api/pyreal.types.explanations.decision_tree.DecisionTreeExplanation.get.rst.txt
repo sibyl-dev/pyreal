@@ -1,0 +1,6 @@
+﻿pyreal.types.explanations.decision\_tree.DecisionTreeExplanation.get
+====================================================================
+
+.. currentmodule:: pyreal.types.explanations.decision_tree
+
+.. automethod:: DecisionTreeExplanation.get

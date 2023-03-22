@@ -1,0 +1,30 @@
+﻿pyreal.RealApp
+==============
+
+.. currentmodule:: pyreal
+
+.. autoclass:: RealApp
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~RealApp.__init__
+      ~RealApp.add_model
+      ~RealApp.get_active_model
+      ~RealApp.predict
+      ~RealApp.prepare_global_feature_importance
+      ~RealApp.prepare_local_feature_contributions
+      ~RealApp.produce_global_feature_importance
+      ~RealApp.produce_local_feature_contributions
+      ~RealApp.set_active_model_id
+   
+   
+
+   
+   
+   

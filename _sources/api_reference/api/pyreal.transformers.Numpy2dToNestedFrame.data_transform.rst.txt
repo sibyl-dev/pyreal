@@ -1,0 +1,6 @@
+﻿pyreal.transformers.Numpy2dToNestedFrame.data\_transform
+========================================================
+
+.. currentmodule:: pyreal.transformers
+
+.. automethod:: Numpy2dToNestedFrame.data_transform

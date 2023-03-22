@@ -1,0 +1,6 @@
+﻿pyreal.explainers.ExplainerBase.convert\_data\_to\_interpretable
+================================================================
+
+.. currentmodule:: pyreal.explainers
+
+.. automethod:: ExplainerBase.convert_data_to_interpretable

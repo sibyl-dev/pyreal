@@ -1,0 +1,6 @@
+﻿pyreal.explainers.PermutationFeatureImportance.fit
+==================================================
+
+.. currentmodule:: pyreal.explainers
+
+.. automethod:: PermutationFeatureImportance.fit

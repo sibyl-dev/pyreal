@@ -1,0 +1,869 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>pyreal.explainers.base &#8212; Pyreal 0.3.2 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+<link href="../../../_static/styles/bootstrap.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+
+  
+  <link href="../../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=12da95d707ffb74b382d" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=12da95d707ffb74b382d" />
+
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/sphinx_highlight.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/pyreal/explainers/base';</script>
+    <link rel="shortcut icon" href="../../../_static/dai-logo-white.ico"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  <div class="navbar-header-items__start">
+    
+      <div class="navbar-item">
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../../_static/dai-logo-white-200.png" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../../../_static/dai-logo-white-200.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+    
+  </div>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../api_reference/index.html">
+                        API Reference
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/dai-lab/pyreal" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+    </div>
+  
+
+  
+</div>
+
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../api_reference/index.html">
+                        API Reference
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/dai-lab/pyreal" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumbs">
+  <ul class="bd-breadcrumbs" role="navigation" aria-label="Breadcrumb">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../index.html" class="nav-link">Module code</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">pyreal.explainers.base</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <h1>Source code for pyreal.explainers.base</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABC</span><span class="p">,</span> <span class="n">abstractmethod</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">sklearn.base</span> <span class="kn">import</span> <span class="n">is_classifier</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">get_scorer</span>
+
+<span class="kn">from</span> <span class="nn">pyreal.transformers</span> <span class="kn">import</span> <span class="n">BreakingTransformError</span>
+<span class="kn">from</span> <span class="nn">pyreal.transformers</span> <span class="kn">import</span> <span class="n">fit_transformers</span> <span class="k">as</span> <span class="n">fit_transformers_func</span>
+<span class="kn">from</span> <span class="nn">pyreal.transformers</span> <span class="kn">import</span> <span class="n">run_transformers</span>
+<span class="kn">from</span> <span class="nn">pyreal.types.explanations.base</span> <span class="kn">import</span> <span class="n">Explanation</span>
+<span class="kn">from</span> <span class="nn">pyreal.utils</span> <span class="kn">import</span> <span class="n">model_utils</span>
+
+<span class="n">log</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_check_transformers</span><span class="p">(</span><span class="n">transformers</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Validate that all Transformers in `transformers` are legal. Converts single Transformer objects</span>
+<span class="sd">    into lists. Checks for the existence of a `.transform()` function for all Transformers.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        transformers (Transformer or list of Transformers):</span>
+<span class="sd">            A list of Transformer objects to validate</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        List of Transformers</span>
+<span class="sd">            The original input list, or a single Transformer converted to a list</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        TypeError</span>
+<span class="sd">            If one or more objects in `transformers` does not have a `.transform()` function.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">transformers</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">[]</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">transformers</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+        <span class="n">transformers</span> <span class="o">=</span> <span class="p">[</span><span class="n">transformers</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">transformers</span> <span class="o">=</span> <span class="n">transformers</span>
+    <span class="k">for</span> <span class="n">transformer</span> <span class="ow">in</span> <span class="n">transformers</span><span class="p">:</span>
+        <span class="n">transform_method</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">transformer</span><span class="p">,</span> <span class="s2">&quot;transform&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">callable</span><span class="p">(</span><span class="n">transform_method</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Given transformer that does not have a .transform function&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">transformers</span>
+
+
+<span class="k">def</span> <span class="nf">_get_transformers</span><span class="p">(</span><span class="n">transformers</span><span class="p">,</span> <span class="n">algorithm</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">interpret</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return Transformers in `transformers` that have all the requested flags.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        transformers (list of Transformers):</span>
+<span class="sd">            List from which to pick transformers</span>
+<span class="sd">        algorithm (Boolean or None):</span>
+<span class="sd">            If True or False, choose transformers with that value. If None, do not consider the</span>
+<span class="sd">            value of this flag.</span>
+<span class="sd">        model (Boolean or None):</span>
+<span class="sd">            If True or False, choose transformers with that value. If None, do not consider the</span>
+<span class="sd">            value of this flag.</span>
+<span class="sd">        interpret (Boolean or None):</span>
+<span class="sd">            If True or False, choose transformers with that value. If None, do not consider the</span>
+<span class="sd">            value of this flag.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        List of Transformers</span>
+<span class="sd">            A list of Transformers from `transformers` that have all requested flags.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">select_transformers</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">transformers</span><span class="p">:</span>
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="p">(</span><span class="n">algorithm</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">t</span><span class="o">.</span><span class="n">algorithm</span> <span class="o">==</span> <span class="n">algorithm</span><span class="p">)</span>
+            <span class="ow">and</span> <span class="p">(</span><span class="n">model</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">t</span><span class="o">.</span><span class="n">model</span> <span class="o">==</span> <span class="n">model</span><span class="p">)</span>
+            <span class="ow">and</span> <span class="p">(</span><span class="n">interpret</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">t</span><span class="o">.</span><span class="n">interpret</span> <span class="o">==</span> <span class="n">interpret</span><span class="p">)</span>
+        <span class="p">):</span>
+            <span class="n">select_transformers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">select_transformers</span>
+
+
+<div class="viewcode-block" id="ExplainerBase"><a class="viewcode-back" href="../../../api_reference/api/pyreal.explainers.ExplainerBase.html#pyreal.explainers.ExplainerBase">[docs]</a><span class="k">class</span> <span class="nc">ExplainerBase</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Generic ExplainerBase object</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        model (string filepath or model object):</span>
+<span class="sd">           Filepath to the pickled model to explain, or model object with .predict() function</span>
+<span class="sd">           model.predict() should return a single value prediction for each input</span>
+<span class="sd">           Classification models should return the index or class. If the latter, the `classes`</span>
+<span class="sd">           parameter should be provided.</span>
+<span class="sd">        x_train_orig (DataFrame of shape (n_instances, x_orig_feature_count)):</span>
+<span class="sd">           The training set for the explainer</span>
+<span class="sd">        y_orig (DataFrame of shape (n_instances,)):</span>
+<span class="sd">           The y values for the dataset</span>
+<span class="sd">        feature_descriptions (dict):</span>
+<span class="sd">           Interpretable descriptions of each feature</span>
+<span class="sd">        classes (array):</span>
+<span class="sd">            List of class names returned by the model, in the order that the internal model</span>
+<span class="sd">            considers them if applicable.</span>
+<span class="sd">            Can be automatically extracted if model is an sklearn classifier</span>
+<span class="sd">            None if model is not a classifier</span>
+<span class="sd">        class_descriptions (dict):</span>
+<span class="sd">            Interpretable descriptions of each class</span>
+<span class="sd">            None if model is not a classifier</span>
+<span class="sd">        transformers (transformer object or list of transformer objects):</span>
+<span class="sd">           Transformer(s) used by the Explainer.</span>
+<span class="sd">        fit_on_init (Boolean):</span>
+<span class="sd">           If True, fit the explainer on initiation.</span>
+<span class="sd">           If False, self.fit() must be manually called before produce() is called</span>
+<span class="sd">        training_size (Integer):</span>
+<span class="sd">            If given this value, sample a training set with size of this value</span>
+<span class="sd">            from x_train_orig and use it to train the explainer instead of the</span>
+<span class="sd">            entire x_train_orig.</span>
+<span class="sd">        return_original_explanation (Boolean):</span>
+<span class="sd">            If True, return the explanation originally generated without any transformations</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="ExplainerBase.__init__"><a class="viewcode-back" href="../../../api_reference/api/pyreal.explainers.ExplainerBase.html#pyreal.explainers.ExplainerBase.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">model</span><span class="p">,</span>
+        <span class="n">x_train_orig</span><span class="p">,</span>
+        <span class="n">y_orig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">feature_descriptions</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">classes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">class_descriptions</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">transformers</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">fit_on_init</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">training_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">return_original_explanation</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">fit_transformers</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">model_utils</span><span class="o">.</span><span class="n">load_model_from_pickle</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">predict_method</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="s2">&quot;predict&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">callable</span><span class="p">(</span><span class="n">predict_method</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Given model that does not have a .predict function&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">model</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">x_train_orig</span> <span class="o">=</span> <span class="n">x_train_orig</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">y_orig</span> <span class="o">=</span> <span class="n">y_orig</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x_train_orig</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span>
+            <span class="n">y_orig</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+            <span class="ow">and</span> <span class="ow">not</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">y_orig</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">y_orig</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">))</span>
+        <span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;x_orig and y_orig must be of type DataFrame&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">x_orig_feature_count</span> <span class="o">=</span> <span class="n">x_train_orig</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">transformers</span> <span class="o">=</span> <span class="n">_check_transformers</span><span class="p">(</span><span class="n">transformers</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">feature_descriptions</span> <span class="o">=</span> <span class="n">feature_descriptions</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">classes</span> <span class="o">=</span> <span class="n">classes</span>
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="n">classes</span> <span class="ow">is</span> <span class="kc">None</span>
+            <span class="ow">and</span> <span class="p">(</span>
+                <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="vm">__module__</span><span class="p">)</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;sklearn&quot;</span><span class="p">)</span>
+                <span class="ow">or</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="vm">__module__</span><span class="p">)</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;sktime&quot;</span><span class="p">)</span>
+            <span class="p">)</span>
+            <span class="ow">and</span> <span class="n">is_classifier</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+            <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="s2">&quot;classes_&quot;</span><span class="p">)</span>
+        <span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">classes</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">classes_</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">class_descriptions</span> <span class="o">=</span> <span class="n">class_descriptions</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">return_original_explanation</span> <span class="o">=</span> <span class="n">return_original_explanation</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">training_size</span> <span class="o">=</span> <span class="n">training_size</span>
+        <span class="k">if</span> <span class="n">training_size</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">training_size</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">x_train_orig</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="c1"># this argument stores the indices of the rows of data we want to use</span>
+        <span class="n">data_sample_indices</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">x_train_orig</span><span class="o">.</span><span class="n">index</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">training_size</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                <span class="s2">&quot;Info: training_size not provided. Defaulting to train with full &quot;</span>
+                <span class="s2">&quot;dataset, running time might be slow.&quot;</span>
+            <span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">training_size</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x_train_orig</span><span class="o">.</span><span class="n">index</span><span class="p">):</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">classes</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">training_size</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">classes</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;training_size must be larger than the number of classes&quot;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">data_sample_indices</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Index</span><span class="p">(</span>
+                    <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x_train_orig</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">training_size</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+                <span class="p">)</span>
+
+        <span class="c1"># use _x_train_orig for fitting explainer</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_x_train_orig</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">x_train_orig</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">data_sample_indices</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">y_orig</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_y_orig</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">y_orig</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">data_sample_indices</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">fit_transformers</span><span class="p">:</span>
+            <span class="n">a_transformers</span> <span class="o">=</span> <span class="n">_get_transformers</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">transformers</span><span class="p">,</span> <span class="n">algorithm</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">i_transformers</span> <span class="o">=</span> <span class="n">_get_transformers</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">transformers</span><span class="p">,</span> <span class="n">interpret</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">fit_transformers_func</span><span class="p">(</span><span class="n">a_transformers</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">x_train_orig</span><span class="p">)</span>
+            <span class="n">fit_transformers_func</span><span class="p">(</span><span class="n">i_transformers</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">x_train_orig</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">fit_on_init</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="ExplainerBase.fit"><a class="viewcode-back" href="../../../api_reference/api/pyreal.explainers.ExplainerBase.fit.html#pyreal.explainers.ExplainerBase.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Fit this explainer object. Abstract method</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="ExplainerBase.produce"><a class="viewcode-back" href="../../../api_reference/api/pyreal.explainers.ExplainerBase.produce.html#pyreal.explainers.ExplainerBase.produce">[docs]</a>    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">produce</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_orig</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the explanation, in the desired form.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            x_orig (DataFrame of shape (n_instances, n_features):</span>
+<span class="sd">                Input to explain</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Type varies by subclass</span>
+<span class="sd">                Explanation</span>
+<span class="sd">        &quot;&quot;&quot;</span></div>
+
+<div class="viewcode-block" id="ExplainerBase.transform_to_x_algorithm"><a class="viewcode-back" href="../../../api_reference/api/pyreal.explainers.ExplainerBase.transform_to_x_algorithm.html#pyreal.explainers.ExplainerBase.transform_to_x_algorithm">[docs]</a>    <span class="k">def</span> <span class="nf">transform_to_x_algorithm</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_orig</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Transform x_orig to x_algorithm, using the algorithm transformers</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            x_orig (DataFrame of shape (n_instances, x_orig_feature_count)  or Series):</span>
+<span class="sd">                Original input</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">             DataFrame or Series of shape (n_instances, x_algorithm_feature_count)</span>
+<span class="sd">                x_orig converted to explainable form</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">a_transformers</span> <span class="o">=</span> <span class="n">_get_transformers</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">transformers</span><span class="p">,</span> <span class="n">algorithm</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">run_transformers</span><span class="p">(</span><span class="n">a_transformers</span><span class="p">,</span> <span class="n">x_orig</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ExplainerBase.transform_to_x_model"><a class="viewcode-back" href="../../../api_reference/api/pyreal.explainers.ExplainerBase.transform_to_x_model.html#pyreal.explainers.ExplainerBase.transform_to_x_model">[docs]</a>    <span class="k">def</span> <span class="nf">transform_to_x_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_orig</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Transform x_orig to x_model, using the model transformers</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            x_orig (DataFrame of shape (n_instances, x_orig_feature_count) or Series):</span>
+<span class="sd">                Original input</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">             DataFrame or Series of shape (n_instances, x_model_feature_count)</span>
+<span class="sd">                x_orig converted to model-ready form</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">m_transformers</span> <span class="o">=</span> <span class="n">_get_transformers</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">transformers</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">run_transformers</span><span class="p">(</span><span class="n">m_transformers</span><span class="p">,</span> <span class="n">x_orig</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">transform_x_from_algorithm_to_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_algorithm</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Transform x_algorithm to x_model, using the model transformers</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            x_algorithm (DataFrame of shape (n_instances, x_orig_feature_count) or Series):</span>
+<span class="sd">                Input in explain space</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">             DataFrame or Series of shape (n_instances, x_model_feature_count)</span>
+<span class="sd">                x_algorithm converted to model-ready form</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">m_transformers</span> <span class="o">=</span> <span class="n">_get_transformers</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">transformers</span><span class="p">,</span> <span class="n">algorithm</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">run_transformers</span><span class="p">(</span><span class="n">m_transformers</span><span class="p">,</span> <span class="n">x_algorithm</span><span class="p">)</span>
+
+<div class="viewcode-block" id="ExplainerBase.transform_to_x_interpret"><a class="viewcode-back" href="../../../api_reference/api/pyreal.explainers.ExplainerBase.transform_to_x_interpret.html#pyreal.explainers.ExplainerBase.transform_to_x_interpret">[docs]</a>    <span class="k">def</span> <span class="nf">transform_to_x_interpret</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_orig</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Transform x_orig to x_interpret, using the interpret transformers</span>
+<span class="sd">        Args:</span>
+<span class="sd">            x_orig (DataFrame of shape (n_instances, x_orig_feature_count) or Series):</span>
+<span class="sd">                Original input</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">             DataFrame or Series of shape (n_instances, x_interpret_feature_count)</span>
+<span class="sd">                x_orig converted to interpretable form</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">i_transformers</span> <span class="o">=</span> <span class="n">_get_transformers</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">transformers</span><span class="p">,</span> <span class="n">interpret</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">run_transformers</span><span class="p">(</span><span class="n">i_transformers</span><span class="p">,</span> <span class="n">x_orig</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">transform_explanation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">explanation</span><span class="p">,</span> <span class="n">x_orig</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Transform the explanation into its interpretable form, by running the e_transformer&#39;s</span>
+<span class="sd">        &quot;inverse_transform_explanation&quot; and i_transformers &quot;transform_explanation&quot; functions.</span>
+<span class="sd">        If an `x_orig` is provided, also convert `x_orig` with the same</span>
+<span class="sd">        transformers. This function will result in `values` in the Explanation object</span>
+<span class="sd">        in the same feature space as the final explanation</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            explanation (type varies by subclass):</span>
+<span class="sd">                The raw explanation to transform</span>
+<span class="sd">            x_orig (DataFrame of shape (n_instances, n_features) or None)</span>
+<span class="sd">                Data to transform to final space</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Explanation</span>
+<span class="sd">                The interpretable form of the explanation</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">explanation</span><span class="p">,</span> <span class="n">Explanation</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;explanation is not a valid Explanation object&quot;</span><span class="p">)</span>
+
+        <span class="n">convert_x</span> <span class="o">=</span> <span class="n">x_orig</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">return_original_explanation</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">convert_x</span><span class="p">:</span>
+                <span class="n">explanation</span> <span class="o">=</span> <span class="n">explanation</span><span class="o">.</span><span class="n">update_values</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">transform_to_x_algorithm</span><span class="p">(</span><span class="n">x_orig</span><span class="p">))</span>
+            <span class="k">return</span> <span class="n">explanation</span>
+
+        <span class="n">x</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">convert_x</span><span class="p">:</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">x_orig</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+        <span class="n">a_transformers</span> <span class="o">=</span> <span class="n">_get_transformers</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">transformers</span><span class="p">,</span> <span class="n">algorithm</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">interpret</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">i_transformers</span> <span class="o">=</span> <span class="n">_get_transformers</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">transformers</span><span class="p">,</span> <span class="n">interpret</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="c1"># Iterate through algorithm transformers</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">a_transformers</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]):</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">explanation</span> <span class="o">=</span> <span class="n">t</span><span class="o">.</span><span class="n">inverse_transform_explanation</span><span class="p">(</span><span class="n">explanation</span><span class="p">)</span>
+            <span class="c1"># If this is a breaking transformer, transform x to the current point and return</span>
+            <span class="k">except</span> <span class="n">BreakingTransformError</span><span class="p">:</span>
+                <span class="n">log</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                    <span class="s2">&quot;Transformer class </span><span class="si">%s</span><span class="s2"> does not have the required inverse explanation &quot;</span>
+                    <span class="s2">&quot;transform and is set to break, stopping transform process&quot;</span>
+                    <span class="o">%</span> <span class="nb">type</span><span class="p">(</span><span class="n">t</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span>
+                <span class="p">)</span>
+                <span class="n">break_point</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">a_transformers</span><span class="p">)</span> <span class="o">-</span> <span class="n">i</span>
+                <span class="k">if</span> <span class="n">convert_x</span><span class="p">:</span>
+                    <span class="n">x</span> <span class="o">=</span> <span class="n">run_transformers</span><span class="p">(</span><span class="n">a_transformers</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">break_point</span><span class="p">],</span> <span class="n">x</span><span class="p">)</span>
+                    <span class="k">return</span> <span class="n">explanation</span><span class="o">.</span><span class="n">update_values</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="n">explanation</span>
+        <span class="c1"># Iterate through interpret transformers</span>
+        <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">i_transformers</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">t</span><span class="o">.</span><span class="n">algorithm</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">explanation</span> <span class="o">=</span> <span class="n">t</span><span class="o">.</span><span class="n">transform_explanation</span><span class="p">(</span><span class="n">explanation</span><span class="p">)</span>
+                <span class="k">except</span> <span class="n">BreakingTransformError</span><span class="p">:</span>
+                    <span class="n">log</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                        <span class="s2">&quot;Transformer class </span><span class="si">%s</span><span class="s2"> does not have the required explanation &quot;</span>
+                        <span class="s2">&quot;transform and is set to break, stopping transform process&quot;</span>
+                        <span class="o">%</span> <span class="nb">type</span><span class="p">(</span><span class="n">t</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span>
+                    <span class="p">)</span>
+                    <span class="k">if</span> <span class="n">convert_x</span><span class="p">:</span>
+                        <span class="k">return</span> <span class="n">explanation</span><span class="o">.</span><span class="n">update_values</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+                    <span class="k">return</span> <span class="n">explanation</span>
+            <span class="k">if</span> <span class="n">convert_x</span><span class="p">:</span>
+                <span class="n">x</span> <span class="o">=</span> <span class="n">t</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">convert_x</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">explanation</span><span class="o">.</span><span class="n">update_values</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">explanation</span>
+
+<div class="viewcode-block" id="ExplainerBase.model_predict"><a class="viewcode-back" href="../../../api_reference/api/pyreal.explainers.ExplainerBase.model_predict.html#pyreal.explainers.ExplainerBase.model_predict">[docs]</a>    <span class="k">def</span> <span class="nf">model_predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_orig</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Predict on x_orig using the model and return the result</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            x_orig (DataFrame of shape (n_instances, x_orig_feature_count)):</span>
+<span class="sd">                Data to predict on</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            DataFrame of shape (n_instances,)</span>
+<span class="sd">                Model prediction on x_orig</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">x_orig</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">x_orig</span> <span class="o">=</span> <span class="n">x_orig</span><span class="o">.</span><span class="n">to_frame</span><span class="p">()</span><span class="o">.</span><span class="n">T</span>
+        <span class="n">x_model</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform_to_x_model</span><span class="p">(</span><span class="n">x_orig</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">x_model</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">model_predict_on_algorithm</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_algorithm</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Predict on x_algorithm using the model and return the result</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            x_algorithm (DataFrame of shape (n_instances, x_orig_feature_count)):</span>
+<span class="sd">                Data to predict on</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            DataFrame of shape (n_instances,)</span>
+<span class="sd">                Model prediction on x_orig</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">x_algorithm</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">x_algorithm</span> <span class="o">=</span> <span class="n">x_algorithm</span><span class="o">.</span><span class="n">to_frame</span><span class="p">()</span><span class="o">.</span><span class="n">T</span>
+        <span class="n">x_model</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform_x_from_algorithm_to_model</span><span class="p">(</span><span class="n">x_algorithm</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">x_model</span><span class="p">)</span>
+
+<div class="viewcode-block" id="ExplainerBase.feature_description"><a class="viewcode-back" href="../../../api_reference/api/pyreal.explainers.ExplainerBase.feature_description.html#pyreal.explainers.ExplainerBase.feature_description">[docs]</a>    <span class="k">def</span> <span class="nf">feature_description</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">feature_name</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the interpretable description associated with a feature</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            feature_name (string)</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            string</span>
+<span class="sd">                 Description of feature</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">feature_descriptions</span><span class="p">[</span><span class="n">feature_name</span><span class="p">]</span></div>
+
+    <span class="k">def</span> <span class="nf">convert_columns_to_interpretable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns df with columns (or index, for series) converted to the interpretable descriptions</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            df (DataFrame):</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            string</span>
+<span class="sd">                 Description of feature</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">feature_descriptions</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">df</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">df</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">feature_descriptions</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">df</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">feature_descriptions</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="s2">&quot;columns&quot;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="ExplainerBase.convert_data_to_interpretable"><a class="viewcode-back" href="../../../api_reference/api/pyreal.explainers.ExplainerBase.convert_data_to_interpretable.html#pyreal.explainers.ExplainerBase.convert_data_to_interpretable">[docs]</a>    <span class="k">def</span> <span class="nf">convert_data_to_interpretable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_orig</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Convert data in its original form to an interpretable form, with interpretable features</span>
+<span class="sd">        Args:</span>
+<span class="sd">            x_orig (DataFrame of shape (n_instances, n_features) or Series):</span>
+<span class="sd">                Input data to convert</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            DataFrame of shape (n_instances, x_interpret_feature_count)</span>
+<span class="sd">                Transformed, interpretable data</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">convert_columns_to_interpretable</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">transform_to_x_interpret</span><span class="p">(</span><span class="n">x_orig</span><span class="p">))</span></div>
+
+    <span class="k">def</span> <span class="nf">evaluate_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scorer</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Evaluate the model using a chosen scorer algorithm.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            scorer (string):</span>
+<span class="sd">                Type of scorer to use. See sklearn&#39;s scoring parameter options here:</span>
+<span class="sd">                https://scikit-learn.org/stable/modules/model_evaluation.html#scoring-parameter</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            float</span>
+<span class="sd">                A score for the model</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">y_orig</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Explainer must have a y_orig parameter to score model&quot;</span><span class="p">)</span>
+        <span class="n">scorer</span> <span class="o">=</span> <span class="n">get_scorer</span><span class="p">(</span><span class="n">scorer</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform_to_x_model</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_x_train_orig</span><span class="p">)</span>
+        <span class="n">score</span> <span class="o">=</span> <span class="n">scorer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_y_orig</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">score</span>
+
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">evaluate_variation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">with_fit</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">explanations</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">n_iterations</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">n_rows</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Evaluate the variation of the explanations generated by this Explainer.</span>
+<span class="sd">        A variation of 0 means this explainer is expected to generate the exact same explanation</span>
+<span class="sd">        given the same model and input. Variation is always non-negative, and can be arbitrarily</span>
+<span class="sd">        high.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            with_fit (Boolean):</span>
+<span class="sd">                If True, evaluate the variation in explanations including the fit (fit each time</span>
+<span class="sd">                before running). If False, evaluate the variation in explanations of a pre-fit</span>
+<span class="sd">                Explainer.</span>
+<span class="sd">            explanations (None or List of Explanation Objects):</span>
+<span class="sd">                If provided, run the variation check on the precomputed list of explanations</span>
+<span class="sd">                instead of generating</span>
+<span class="sd">            n_iterations (int):</span>
+<span class="sd">                Number of explanations to generate to evaluation variation</span>
+<span class="sd">            n_rows (int):</span>
+<span class="sd">                Number of rows of dataset to generate explanations on</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            float</span>
+<span class="sd">                The variation of this Explainer&#39;s explanations</span>
+<span class="sd">        &quot;&quot;&quot;</span></div>
+</pre></div>
+
+                </article>
+              
+              
+              
+                <footer class="bd-footer-article">
+                  <!-- Previous / next buttons -->
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            <div class="bd-footer-content__inner"></div>
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../_static/scripts/bootstrap.js?digest=12da95d707ffb74b382d"></script>
+<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=12da95d707ffb74b382d"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+  <p class="copyright">
+    
+      © Copyright 2020, MIT Data To AI Lab.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+  <p class="sphinx-version">
+    Created using <a href="https://sphinx-doc.org/">Sphinx</a> 5.3.0.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.13.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

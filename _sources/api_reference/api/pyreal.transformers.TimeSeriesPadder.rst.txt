@@ -1,0 +1,41 @@
+﻿pyreal.transformers.TimeSeriesPadder
+====================================
+
+.. currentmodule:: pyreal.transformers
+
+.. autoclass:: TimeSeriesPadder
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~TimeSeriesPadder.__init__
+      ~TimeSeriesPadder.data_transform
+      ~TimeSeriesPadder.fit
+      ~TimeSeriesPadder.fit_transform
+      ~TimeSeriesPadder.inverse_transform_explanation
+      ~TimeSeriesPadder.inverse_transform_explanation_additive_feature_contribution
+      ~TimeSeriesPadder.inverse_transform_explanation_additive_feature_importance
+      ~TimeSeriesPadder.inverse_transform_explanation_decision_tree
+      ~TimeSeriesPadder.inverse_transform_explanation_feature_based
+      ~TimeSeriesPadder.inverse_transform_explanation_feature_contribution
+      ~TimeSeriesPadder.inverse_transform_explanation_feature_importance
+      ~TimeSeriesPadder.set_flags
+      ~TimeSeriesPadder.transform
+      ~TimeSeriesPadder.transform_explanation
+      ~TimeSeriesPadder.transform_explanation_additive_feature_contribution
+      ~TimeSeriesPadder.transform_explanation_additive_feature_importance
+      ~TimeSeriesPadder.transform_explanation_decision_tree
+      ~TimeSeriesPadder.transform_explanation_feature_based
+      ~TimeSeriesPadder.transform_explanation_feature_contribution
+      ~TimeSeriesPadder.transform_explanation_feature_importance
+   
+   
+
+   
+   
+   

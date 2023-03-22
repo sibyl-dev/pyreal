@@ -1,0 +1,6 @@
+﻿pyreal.transformers.Numpy2dToMultiIndexFrame.data\_transform
+============================================================
+
+.. currentmodule:: pyreal.transformers
+
+.. automethod:: Numpy2dToMultiIndexFrame.data_transform

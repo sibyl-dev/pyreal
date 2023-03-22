@@ -1,0 +1,6 @@
+﻿pyreal.RealApp.set\_active\_model\_id
+=====================================
+
+.. currentmodule:: pyreal
+
+.. automethod:: RealApp.set_active_model_id

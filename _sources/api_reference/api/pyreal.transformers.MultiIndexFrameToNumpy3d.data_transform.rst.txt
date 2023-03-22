@@ -1,0 +1,6 @@
+﻿pyreal.transformers.MultiIndexFrameToNumpy3d.data\_transform
+============================================================
+
+.. currentmodule:: pyreal.transformers
+
+.. automethod:: MultiIndexFrameToNumpy3d.data_transform

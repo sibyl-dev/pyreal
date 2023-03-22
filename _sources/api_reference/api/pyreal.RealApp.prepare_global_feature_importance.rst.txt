@@ -1,0 +1,6 @@
+﻿pyreal.RealApp.prepare\_global\_feature\_importance
+===================================================
+
+.. currentmodule:: pyreal
+
+.. automethod:: RealApp.prepare_global_feature_importance
