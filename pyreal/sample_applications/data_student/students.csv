@@ -1,0 +1,12 @@
+﻿name,school,sex,age,address,famsize,Pstatus,Medu,Fedu,Mjob,Fjob,reason,guardian,traveltime,studytime,failures,schoolsup,famsup,paid,activities,nursery,higher,internet,romantic,famrel,freetime,goout,Dalc,Walc,health,absences,G1,G2,G3
+Jessica Gonzalez,GP,F,15,U,LE3,T,1,1,at_home,other,other,mother,1,2,0,yes,no,no,no,yes,yes,yes,no,4,3,2,2,3,3,6,12,13,12
+Lucia Thompson,GP,F,15,U,GT3,T,4,2,health,services,home,mother,1,3,0,no,yes,no,yes,yes,yes,yes,yes,3,2,2,1,1,5,0,14,14,14
+Lincoln Bennet,GP,M,16,U,GT3,T,3,3,other,other,home,father,1,2,0,no,yes,no,no,yes,yes,no,no,4,3,2,1,2,5,0,11,13,13
+Lily Perkins,MS,F,18,R,GT3,T,4,4,other,teacher,other,father,3,2,0,no,yes,no,no,no,yes,yes,yes,3,2,2,4,2,5,0,7,5,0
+Trevor Butler,GP,M,17,R,GT3,T,3,2,other,other,course,mother,2,2,2,yes,yes,no,no,yes,yes,yes,yes,4,4,4,1,4,3,4,7,6,8
+Rebeca Guzman,MS,F,17,R,GT3,T,1,1,other,other,other,father,1,1,1,no,yes,no,no,no,no,yes,no,5,4,4,2,2,5,0,6,6,7
+Arianna Larson,MS,F,16,U,GT3,T,3,1,other,other,course,mother,1,1,0,no,no,no,yes,yes,yes,yes,no,3,1,3,1,3,1,0,8,6,8
+Alberto Luna,MS,M,16,U,GT3,T,3,2,services,at_home,course,mother,1,1,0,no,no,no,no,yes,yes,yes,no,3,1,3,1,4,3,2,7,6,7
+Laura Tyler,MS,F,17,U,GT3,T,4,2,other,other,course,mother,2,2,0,no,yes,no,no,yes,yes,yes,no,4,3,3,1,2,4,0,17,18,18
+Adelyn Baker,MS,F,17,U,GT3,T,4,2,teacher,other,course,father,2,4,0,no,no,no,no,yes,yes,yes,yes,4,2,3,3,1,5,0,18,18,18
+Andre Kim,MS,M,18,U,GT3,T,4,4,teacher,teacher,home,father,1,2,0,no,no,no,yes,no,yes,yes,no,3,2,4,1,4,2,4,17,18,19

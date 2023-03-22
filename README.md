@@ -74,56 +74,33 @@ In this short tutorial we will guide you through a series of steps that will hel
 getting started with **Pyreal**. We will get an explanation for a prediction on whether a
 passenger on the Titanic would have survived.
 
- For a more detailed version of this tutorial, see
-`examples.titanic.titanic_lfc.ipynb`
+ For a more detailed version of this tutorial, see [our documentation](https://dtail.gitbook.io/pyreal/getting-started/quickstart).
 
-#### Load in demo dataset, pre-fit model, and transformers
+#### Load in the demo data and application
 ```
 >>> import pyreal.sample_applications.titanic as titanic
->>> from pyreal.transformers import ColumnDropTransformer, MultiTypeImputer
 
-# Load in data
->>> x_train_orig, y = titanic.load_titanic_data()
-
-# Load in feature descriptions -> dict(feature_name: feature_description, ...)
->>> feature_descriptions = titanic.load_feature_descriptions()
-
-# Load in model
->>> model = titanic.load_titanic_model()
-
-# Load in list of transformers
->>> transformers = titanic.load_titanic_transformers()
-
-# Create and fit LocalFeatureContribution Explainer object
->>> from pyreal.explainers import LocalFeatureContribution
->>> lfc = LocalFeatureContribution(model=model, x_train_orig=x_train_orig,
-...                                transformers=transformers,
-...                                feature_descriptions=feature_descriptions,
-...                                fit_on_init=True)
-
-# Make predictions on an input
->>> input_to_explain = x_train_orig.iloc[0]
->>> prediction = lfc.model_predict(input_to_explain) # Prediction: [0]
-
-# Explain an input
->>> explanation = lfc.produce(input_to_explain)
+>>> real_app = titanic.load_titanic_app()
+>>> sample_data = titanic.load_titanic_data(n_rows=300)
 
 ```
-
-<!--## Install for Development
-
-TODO: Running tests should not bring up a window. Refactor into the above docstring, not actually spawning the subsequent window-->
-
-##### Plot a bar plot of top contributing features, by absolute value
+#### Predict and produce explanation
 ```
-from pyreal.visualize import plot_top_contributors
-plot_top_contributors(explanation, select_by="absolute", show=False)
-```
+>>> predictions = real_app.predict(sample_data)
 
+>>> explanation = real_app.produce_local_feature_contributions(sample_data)
+
+```
+#### Visualize explanation for one passenger
+```
+passenger_id = 1
+plot_top_contributors(explanation[passenger_id], prediction=predictions[passenger_id], show=False)
+
+```
 
 The output will be a bar plot showing the most contributing features, by absolute value.
 
-![Quickstart](docs/images/quickstart.png)
+![Quickstart](docs/images/titanic.png)
 
 We can see here that the input passenger's predicted chance of survival was greatly reduced
 because of their sex (male) and ticket class (3rd class).

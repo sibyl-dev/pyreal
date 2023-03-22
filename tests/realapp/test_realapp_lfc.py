@@ -57,24 +57,30 @@ def test_produce_local_feature_contributions(regression_no_transforms):
     assert list(explanation[1]["Average/Mode"]) == [3, 1.5, 2]
 
 
-def test_produce_local_feature_contributions_with_id_column(regression_no_transforms):
+def test_produce_local_feature_contributions_with_id_column(regression_one_hot):
     realApp = RealApp(
-        regression_no_transforms["model"],
-        regression_no_transforms["x"],
-        transformers=regression_no_transforms["transformers"],
+        regression_one_hot["model"],
+        regression_one_hot["x"],
+        transformers=regression_one_hot["transformers"],
+        id_column="ID",
     )
     features = ["A", "B", "C"]
 
-    x_multi_dim = pd.DataFrame([[2, 1, 1, "a"], [4, 2, 3, "b"]], columns=features + ["ID"])
-    explanation = realApp.produce_local_feature_contributions(x_multi_dim, id_column_name="ID")
-    expected = np.mean(regression_no_transforms["y"])[0]
+    x_multi_dim = pd.DataFrame([[4, 1, 1, "a"], [6, 2, 3, "b"]], columns=features + ["ID"])
+    explanation = realApp.produce_local_feature_contributions(x_multi_dim)
 
-    assert list(explanation["a"]["Feature Name"]) == features
-    assert list(explanation["a"]["Feature Value"]) == list(x_multi_dim.iloc[0])[:-1]
-    assert list(explanation["a"]["Contribution"]) == [x_multi_dim.iloc[0, 0] - expected, 0, 0]
-    assert list(explanation["a"]["Average/Mode"]) == [3, 1.5, 2]
+    explanation_a = explanation["a"].sort_values(by="Feature Name", axis=0)
+    explanation_b = explanation["b"].sort_values(by="Feature Name", axis=0)
 
-    assert list(explanation["b"]["Feature Name"]) == features
-    assert list(explanation["b"]["Feature Value"]) == list(x_multi_dim.iloc[1])[:-1]
-    assert list(explanation["b"]["Contribution"]) == [x_multi_dim.iloc[1, 0] - expected, 0, 0]
-    assert list(explanation["b"]["Average/Mode"]) == [3, 1.5, 2]
+    assert list(explanation_a["Feature Name"]) == features
+    assert list(explanation_a["Feature Value"]) == list(x_multi_dim.iloc[0])[:-1]
+    for num in list(explanation_a["Contribution"]):
+        assert abs(num) < 0.001
+    assert list(explanation_a["Average/Mode"]) == [5, 1.5, 2]
+
+    assert list(explanation_b["Feature Name"]) == features
+    assert list(explanation_b["Feature Value"]) == list(x_multi_dim.iloc[1])[:-1]
+    assert abs(list(explanation_b["Contribution"])[0] - 1) < 0.001
+    for num in list(explanation_a["Contribution"][1:]):
+        assert abs(num) < 0.001
+    assert list(explanation_b["Average/Mode"]) == [5, 1.5, 2]

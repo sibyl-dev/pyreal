@@ -1,3 +1,5 @@
+import math
+
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
@@ -18,6 +20,21 @@ from pyreal.visualize.visualize_config import (
 )
 
 
+def _parse_multi_contribution(explanation):
+    if isinstance(explanation, FeatureContributionExplanation):
+        contributions = explanation.get()
+        values = explanation.get()
+    else:
+        contribution_list = [explanation[i]["Contribution"] for i in explanation]
+        value_list = [explanation[i]["Feature Value"] for i in explanation]
+        feature_list = explanation[next(iter(explanation))]["Feature Name"].values
+        contributions = pd.DataFrame(contribution_list)
+        contributions.columns = feature_list
+        values = pd.DataFrame(value_list)
+        values.columns = feature_list
+    return contributions, values
+
+
 def plot_top_contributors(
     explanation,
     select_by="absolute",
@@ -25,6 +42,9 @@ def plot_top_contributors(
     transparent=False,
     flip_colors=False,
     precision=2,
+    prediction=None,
+    include_averages=False,
+    include_axis=True,
     show=False,
     filename=None,
 ):
@@ -46,6 +66,10 @@ def plot_top_contributors(
             Useful if the target variable has a negative connotation
         precision (int):
             Number of decimal places to print for numeric float values
+        prediction (numeric or string):
+            Prediction to display in the title
+        include_averages (Boolean):
+            If True, include the mean values in the visualization (if provided in explanation)
         show (Boolean):
             Show the figure
         filename (string or None):
@@ -64,16 +88,30 @@ def plot_top_contributors(
     features = explanation["Feature Name"].to_numpy()
     if "Feature Value" in explanation:
         values = explanation["Feature Value"].to_numpy()
-        features = np.array(
-            [
-                (
-                    "%s (%.*f)" % (features[i], precision, values[i])
-                    if isinstance(values[i], float)
-                    else "%s (%s)" % (features[i], values[i])
-                )
-                for i in range(len(features))
-            ]
-        )
+        if include_averages and "Average/Mode" in explanation:
+            averages = explanation["Average/Mode"].to_numpy()
+            features = np.array(
+                [
+                    (
+                        "%s - %.*g (mean: %.*g)"
+                        % (features[i], precision, values[i], precision, averages[i])
+                        if isinstance(values[i], (float, np.float, int, np.integer))
+                        else "%s - %s (mode: %s)" % (features[i], values[i], averages[i])
+                    )
+                    for i in range(len(features))
+                ]
+            )
+        else:
+            features = np.array(
+                [
+                    (
+                        "%s (%.*f)" % (features[i], precision, values[i])
+                        if isinstance(values[i], float)
+                        else "%s (%s)" % (features[i], values[i])
+                    )
+                    for i in range(len(features))
+                ]
+            )
     if "Contribution" in explanation:
         contributions = explanation["Contribution"]
     elif "Importance" in explanation:
@@ -113,8 +151,15 @@ def plot_top_contributors(
     else:
         fig, ax = plt.subplots(facecolor="w")
     plt.barh(features[to_plot][::-1], contributions[to_plot][::-1], color=colors)
-    plt.title("Contribution by feature")
-    plt.tick_params(axis="x", which="both", bottom=False, top=False, labelbottom=False)
+    plt.title("Contributions by feature", fontsize=18)
+    if prediction is not None:
+        plt.title("Overall prediction: %s" % prediction, fontsize=12)
+        plt.suptitle("Contributions by feature", fontsize=18, y=1)
+    if include_axis:
+        plt.tick_params(axis="x", which="both", bottom=True, top=False, labelbottom=True)
+        plt.xlabel("Contribution")
+    else:
+        plt.tick_params(axis="x", which="both", bottom=False, top=False, labelbottom=False)
 
     ax.spines["top"].set_visible(False)
     ax.spines["bottom"].set_visible(False)
@@ -128,7 +173,9 @@ def plot_top_contributors(
         plt.show()
 
 
-def swarm_plot(explanation, type="swarm", n=5, show=False, filename=None, legend=True, **kwargs):
+def swarm_plot(
+    explanation, type="swarm", n=5, discrete=False, show=False, filename=None, **kwargs
+):
     """
     Generates a strip plot (type="strip") or a swarm plot (type="swarm") from a set of feature
     contributions.
@@ -141,8 +188,10 @@ def swarm_plot(explanation, type="swarm", n=5, show=False, filename=None, legend
             The type of plot to generate
         n (int):
             Number of features to show
+        discrete (Boolean):
+            If true, give discrete legends for each row. Otherwise, give a colorbar legend
         show (Boolean):
-            Whether or not to show the figure
+            If True, show the figure
         filename (string or None):
             If not None, save the figure as filename
         legend (Boolean):
@@ -150,17 +199,17 @@ def swarm_plot(explanation, type="swarm", n=5, show=False, filename=None, legend
         **kwargs:
             Additional arguments to pass to seaborn.swarmplot or seaborn.stripplot
     """
-    if isinstance(explanation, FeatureContributionExplanation):
-        contributions = explanation.get()
-        values = explanation.get()
-    else:
-        contribution_list = [explanation[i]["Contribution"] for i in explanation]
-        value_list = [explanation[i]["Feature Value"] for i in explanation]
-        contributions = pd.DataFrame(contribution_list)
-        values = pd.DataFrame(value_list)
+    contributions, values = _parse_multi_contribution(explanation)
 
     average_importance = np.mean(abs(contributions), axis=0)
     order = np.argsort(average_importance)[::-1]
+    num_cats = []
+
+    if discrete:
+        legend = "brief"
+    else:
+        legend = False
+
     for i in range(n):
         hues = values.iloc[:, order[i : i + 1]]
         hues = hues.melt()["value"]
@@ -175,7 +224,7 @@ def swarm_plot(explanation, type="swarm", n=5, show=False, filename=None, legend
                 hue=hues,
                 data=contributions.iloc[:, order[i : i + 1]].melt(),
                 palette=palette,
-                legend=False,
+                legend=legend,
                 size=3,
                 **kwargs
             )
@@ -186,12 +235,15 @@ def swarm_plot(explanation, type="swarm", n=5, show=False, filename=None, legend
                 hue=hues,
                 data=contributions.iloc[:, order[i : i + 1]].melt(),
                 palette=palette,
-                legend=False,
+                legend=legend,
                 size=3,
                 **kwargs
             )
         else:
             raise ValueError("Invalid type %s. Type must be one of [strip, swarm]." % type)
+
+        handles, labels = ax.get_legend_handles_labels()
+        num_cats.append(len(labels) - sum(num_cats))
         plt.axvline(x=0, color="black", linewidth=1)
         ax.grid(axis="y")
         ax.set_ylabel("")
@@ -200,7 +252,44 @@ def swarm_plot(explanation, type="swarm", n=5, show=False, filename=None, legend
         ax.spines["right"].set_visible(False)
         ax.spines["left"].set_visible(False)
 
-    if legend:
+    legends = []
+    if discrete:
+        handles, labels = ax.get_legend_handles_labels()
+        shift = 1 / len(num_cats)
+        r = 0
+        for i in range(0, len(num_cats)):
+            if num_cats[i] <= 5:
+                l1 = ax.legend(
+                    handles[r : r + num_cats[i]],
+                    labels[r : r + num_cats[i]],
+                    bbox_to_anchor=(1, 1 - (i * shift)),
+                    loc="upper left",
+                    ncol=num_cats[i],
+                    labelspacing=0.2,
+                    columnspacing=0.2,
+                    handletextpad=0.1,
+                    frameon=False,
+                )
+                legends.append(l1)
+            else:
+                step = math.ceil(num_cats[i] / 5)
+                l1 = ax.legend(
+                    handles[r : r + num_cats[i] : step],
+                    labels[r : r + num_cats[i] : step],
+                    bbox_to_anchor=(1, 1 - (i * shift)),
+                    loc="upper left",
+                    ncol=num_cats[i],
+                    labelspacing=0.2,
+                    columnspacing=0.2,
+                    handletextpad=0.1,
+                    frameon=False,
+                )
+                legends.append(l1)
+            r += num_cats[i]
+        for labels in legends[:-1]:
+            ax.add_artist(labels)
+
+    else:
         ax = plt.gca()
         norm = plt.Normalize(0, 1)
         sm = plt.cm.ScalarMappable(cmap=PALETTE_CMAP, norm=norm)
@@ -213,6 +302,98 @@ def swarm_plot(explanation, type="swarm", n=5, show=False, filename=None, legend
         cbar.ax.get_yaxis().labelpad = 15
 
     if filename is not None:
-        plt.savefig(filename, bbox_inches="tight")
+        plt.gcf().savefig(filename, bbox_extra_artists=legends, bbox_inches="tight")
     if show:
+        plt.show()
+
+
+def feature_scatter_plot(
+    explanation, feature, predictions, discrete=None, show=False, filename=None
+):
+    """
+    Plot a contribution scatter plot for one feature
+
+    Args:
+        explanation (DataFrame or FeatureBased):
+            One output DataFrame from RealApp.produce_local_feature_contributions OR
+            FeatureContributions explanation object
+        feature (column label):
+            Label of column to visualize
+        predictions (array-like of length n_instances):
+            Predictions corresponding to explained instances
+        discrete (Boolean):
+            If true, plot x as discrete data. Defaults to True if x is not numeric.
+        show (Boolean):
+            If True, show the figure
+        filename (string or None):
+            If not None, save the figure as filename
+
+    Returns:
+
+    """
+    contributions, values = _parse_multi_contribution(explanation)
+
+    contributions = contributions[feature]
+    values = values[feature]
+
+    if isinstance(predictions, dict):
+        predictions = np.array([predictions[i] for i in predictions]).reshape(-1)
+
+    data = pd.DataFrame(
+        {"Contribution": contributions.values, "Value": values.values, "Prediction": predictions}
+    )
+
+    num_colors = len(np.unique(predictions.astype("str")))
+    palette = sns.blend_palette(
+        [NEGATIVE_COLOR_LIGHT, NEUTRAL_COLOR, POSITIVE_COLOR_LIGHT], n_colors=num_colors
+    )
+    legend = True
+    if isinstance(predictions[0], (float)) or (
+        isinstance(predictions[0], (int)) and num_colors > 6
+    ):
+        legend = False
+
+    if discrete is None:
+        discrete = not pd.api.types.is_numeric_dtype(values)
+    if discrete:
+        ax = sns.stripplot(
+            x="Value",
+            y="Contribution",
+            data=data,
+            hue="Prediction",
+            palette=palette,
+            legend=legend,
+            alpha=0.5,
+            zorder=0,
+        )
+    else:
+        ax = sns.scatterplot(
+            x="Value",
+            y="Contribution",
+            data=data,
+            hue="Prediction",
+            palette=palette,
+            legend=legend,
+            alpha=0.5,
+        )
+
+    plt.axhline(0, color="black", zorder=0)
+    plt.xlabel("Values for %s" % feature)
+    if not legend:
+        norm = plt.Normalize(0, 1)
+        sm = plt.cm.ScalarMappable(cmap=PALETTE_CMAP, norm=norm)
+        min = predictions.min()
+        max = predictions.max()
+        sm.set_array([])
+        cbar = ax.figure.colorbar(sm)
+        cbar.ax.get_yaxis().set_ticks([])
+        cbar.ax.text(1.5, 0.05, ("%.2f" % min).rstrip("0").rstrip("."), ha="left", va="center")
+        cbar.ax.text(1.5, 0.95, ("%.2f" % max).rstrip("0").rstrip("."), ha="left", va="center")
+        cbar.ax.set_ylabel("Feature Value", rotation=270)
+        cbar.ax.get_yaxis().labelpad = 15
+
+    if filename is not None:
+        plt.gcf().savefig(filename, bbox_inches="tight")
+    if show:
+        plt.tight_layout()
         plt.show()

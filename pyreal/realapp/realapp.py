@@ -23,14 +23,16 @@ def format_feature_contribution_output(explanation, ids=None):
     explanation_dict = {}
     for i, row_id in enumerate(ids):
         contributions = explanation.get().iloc[i, :]
-        values = explanation.get_values().iloc[i, :]
+        values = explanation.get_values().iloc[i, :].loc[contributions.index]
+        average_mode = average_mode.loc[contributions.index]
+
         feature_names = contributions.index
 
         explanation_dict[row_id] = pd.DataFrame.from_dict(
             {
                 "Feature Name": feature_names.values,
                 "Feature Value": values.values,
-                "Contribution": contributions,
+                "Contribution": contributions.values,
                 "Average/Mode": average_mode.values,
             }
         )
@@ -65,7 +67,8 @@ def _get_average_or_mode(df):
     s = df.select_dtypes(np.number).mean()
     if len(s) == df.shape[1]:  # all columns are numeric
         return s
-    return df.drop(s.index, axis=1).mode().iloc[0].append(s)
+    return pd.concat((df.drop(s.index, axis=1).mode().iloc[0], s))
+    # return df.drop(s.index, axis=1).mode().iloc[0].append(s)
 
 
 class RealApp:
@@ -83,6 +86,8 @@ class RealApp:
         active_model_id=None,
         classes=None,
         class_descriptions=None,
+        fit_transformers=False,
+        id_column=None,
     ):
         """
         Initialize a RealApp object
@@ -108,6 +113,10 @@ class RealApp:
             class_descriptions (dict):
                 Interpretable descriptions of each class
                 None if model is not a classifier
+            fit_transformers (Boolean):
+                If True, fit the transformers to X_train_orig on initialization
+            id_column (string or int):
+                Name of column that contains item ids in input data
         """
         self.expect_model_id = False
         if isinstance(models, dict):
@@ -128,12 +137,20 @@ class RealApp:
         self.X_train_orig = X_train_orig
         self.y_orig = y_orig
 
+        self.id_column = id_column
+
+        self.classes = classes
+        self.class_descriptions = class_descriptions
+
         if isinstance(transformers, list):
             self.transformers = transformers
         else:  # assume single transformer given
             self.transformers = [transformers]
         self.transformers = transformers
         self.feature_descriptions = feature_descriptions
+
+        self.fit_transformers = fit_transformers
+        self.transformers_fitted = False
 
         # Base explainer used for general transformations and model predictions
         # Also validates data, model, and transformers
@@ -155,12 +172,20 @@ class RealApp:
             Explainer
                 The explainer
         """
+        fit_transformers = False
+
+        if self.fit_transformers and not self.transformers_fitted:
+            self.transformers_fitted = True
+            fit_transformers = True
+            print("fitting transformers")
+
         return Explainer(
             model,
             self.X_train_orig,
             y_orig=self.y_orig,
             transformers=self.transformers,
             feature_descriptions=self.feature_descriptions,
+            fit_transformers=fit_transformers,
         )
 
     def _explainer_exists(self, explanation_type, algorithm):
@@ -222,7 +247,6 @@ class RealApp:
         format_output_func,
         x_orig=None,
         model_id=None,
-        id_column_name=None,
         force_refit=False,
         **kwargs
     ):
@@ -242,13 +266,11 @@ class RealApp:
                 Data to explain, required for local explanations
             model_id (string or int):
                 ID of model to explain
-            id_column_name (string or int):
-                Name of column that contains item ids in input data
             force_refit (Boolean):
                 If True, initialize and fit a new explainer even if the appropriate explainer
                 already exists
             **kwargs:
-                Additional explainer fit parameters
+                Additional explainer parameters
 
         Returns:
             Type varies by explanation type
@@ -265,9 +287,9 @@ class RealApp:
         if x_orig is not None:
             ids = None
 
-            if id_column_name is not None:
-                ids = x_orig[id_column_name]
-                x_orig = x_orig.drop(columns=id_column_name)
+            if self.id_column is not None and self.id_column in x_orig:
+                ids = x_orig[self.id_column]
+                x_orig = x_orig.drop(columns=self.id_column)
 
             explanation = explainer.produce(x_orig)
             return format_output_func(explanation, ids)
@@ -318,7 +340,7 @@ class RealApp:
         """
         return self.models[self.active_model_id]
 
-    def predict(self, x, model_id=None):
+    def predict(self, x, model_id=None, as_dict=True):
         """
         Predict on x using the active model or model specified by model_id
 
@@ -327,17 +349,33 @@ class RealApp:
                 Data to predict on
             model_id (int or string):
                 Model to use for prediction
+            as_dict (Boolean):
+                If False, return predictions as a single Series/List. Otherwise, return
+                in {row_id: pred} format.
 
         Returns:
             (model return type)
                 Model prediction on x
         """
+        if self.id_column is not None and self.id_column in x:
+            ids = x[self.id_column]
+            x = x.drop(columns=self.id_column)
+        else:
+            ids = x.index
         if model_id is None:
             model_id = self.active_model_id
 
-        return self.base_explainers[model_id].model_predict(x)
+        preds = self.base_explainers[model_id].model_predict(x)
+        if not as_dict:
+            return preds
+        preds_dict = {}
+        for i, row_id in enumerate(ids):
+            preds_dict[row_id] = preds[i]
+        return preds_dict
 
-    def prepare_local_feature_contributions(self, model_id=None, algorithm=None, shap_type=None):
+    def prepare_local_feature_contributions(
+        self, model_id=None, algorithm=None, shap_type=None, training_size=None
+    ):
         """
         Initialize and fit a local feature contribution explainer
 
@@ -359,9 +397,14 @@ class RealApp:
             self.models[model_id],
             self.X_train_orig,
             y_orig=self.y_orig,
+            transformers=self.transformers,
+            feature_descriptions=self.feature_descriptions,
             e_algorithm=algorithm,
             shap_type=shap_type,
+            classes=self.classes,
+            class_descriptions=self.class_descriptions,
             fit_on_init=True,
+            training_size=training_size,
         )
         self._add_explainer("lfc", algorithm, explainer)
         return explainer
@@ -371,9 +414,9 @@ class RealApp:
         x_orig,
         model_id=None,
         algorithm=None,
-        id_column_name=None,
         shap_type=None,
         force_refit=False,
+        training_size=None,
     ):
         """
         Produce a LocalFeatureContributions explainer
@@ -385,8 +428,6 @@ class RealApp:
                 ID of model to explain
             algorithm (string):
                 Name of algorithm
-            id_column_name (string or int):
-                Name of column that contains item ids in input data
             shap_type (string):
                 If algorithm="shap", type of SHAP explainer to use
             force_refit (Boolean):
@@ -407,12 +448,14 @@ class RealApp:
             format_feature_contribution_output,
             x_orig=x_orig,
             model_id=model_id,
-            id_column_name=id_column_name,
             force_refit=force_refit,
             shap_type=shap_type,
+            training_size=training_size,
         )
 
-    def prepare_global_feature_importance(self, model_id=None, algorithm=None, shap_type=None):
+    def prepare_global_feature_importance(
+        self, model_id=None, algorithm=None, shap_type=None, training_size=None
+    ):
         """
         Initialize and fit a global feature importance explainer
 
@@ -434,9 +477,14 @@ class RealApp:
             self.models[model_id],
             self.X_train_orig,
             y_orig=self.y_orig,
+            transformers=self.transformers,
+            feature_descriptions=self.feature_descriptions,
             e_algorithm=algorithm,
+            classes=self.classes,
+            class_descriptions=self.class_descriptions,
             shap_type=shap_type,
             fit_on_init=True,
+            training_size=training_size,
         )
         self._add_explainer("gfi", algorithm, explainer)
         return explainer
