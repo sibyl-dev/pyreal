@@ -13,7 +13,7 @@ def test_plot_top_contributors_lfc_no_break(regression_no_transforms):
     )
 
     x_one_dim = pd.DataFrame([[2, 10, 10]], columns=["A", "B", "C"])
-    explanation = realApp.produce_local_feature_contributions(x_one_dim)
+    explanation = realApp.produce_feature_contributions(x_one_dim)
 
     plot_top_contributors(explanation[next(iter(explanation))], show=False)
 
@@ -25,7 +25,7 @@ def test_plot_top_contributors_gfi_no_break(regression_no_transforms):
         transformers=regression_no_transforms["transformers"],
     )
 
-    explanation = realApp.produce_global_feature_importance()
+    explanation = realApp.produce_feature_importance()
 
     plot_top_contributors(explanation, show=False)
 
@@ -67,7 +67,7 @@ def test_plot_swarm_lfc_no_break(regression_no_transforms):
     x_multi_dim = pd.DataFrame(
         [[2, 10, 10], [2, 10, 10], [2, 2, 2], [1, 1, 1]], columns=["A", "B", "C"]
     )
-    explanation = realApp.produce_local_feature_contributions(x_multi_dim)
+    explanation = realApp.produce_feature_contributions(x_multi_dim)
 
     swarm_plot(explanation, show=False)
 

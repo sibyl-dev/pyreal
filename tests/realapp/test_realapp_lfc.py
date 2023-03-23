@@ -36,7 +36,7 @@ def test_produce_local_feature_contributions(regression_no_transforms):
     x_one_dim = pd.DataFrame([[2, 10, 10]], columns=features)
 
     expected = np.mean(regression_no_transforms["y"])[0]
-    explanation = realApp.produce_local_feature_contributions(x_one_dim)
+    explanation = realApp.produce_feature_contributions(x_one_dim)
 
     assert list(explanation[0]["Feature Name"]) == features
     assert list(explanation[0]["Feature Value"]) == list(x_one_dim.iloc[0])
@@ -44,7 +44,7 @@ def test_produce_local_feature_contributions(regression_no_transforms):
     assert list(explanation[0]["Average/Mode"]) == list(x_one_dim.iloc[0])
 
     x_multi_dim = pd.DataFrame([[2, 1, 1], [4, 2, 3]], columns=features)
-    explanation = realApp.produce_local_feature_contributions(x_multi_dim)
+    explanation = realApp.produce_feature_contributions(x_multi_dim)
 
     assert list(explanation[0]["Feature Name"]) == features
     assert list(explanation[0]["Feature Value"]) == list(x_multi_dim.iloc[0])
@@ -67,7 +67,7 @@ def test_produce_local_feature_contributions_with_id_column(regression_one_hot):
     features = ["A", "B", "C"]
 
     x_multi_dim = pd.DataFrame([[4, 1, 1, "a"], [6, 2, 3, "b"]], columns=features + ["ID"])
-    explanation = realApp.produce_local_feature_contributions(x_multi_dim)
+    explanation = realApp.produce_feature_contributions(x_multi_dim)
 
     explanation_a = explanation["a"].sort_values(by="Feature Name", axis=0)
     explanation_b = explanation["b"].sort_values(by="Feature Name", axis=0)
