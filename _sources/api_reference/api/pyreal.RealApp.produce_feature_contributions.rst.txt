@@ -1,0 +1,6 @@
+﻿pyreal.RealApp.produce\_feature\_contributions
+==============================================
+
+.. currentmodule:: pyreal
+
+.. automethod:: RealApp.produce_feature_contributions

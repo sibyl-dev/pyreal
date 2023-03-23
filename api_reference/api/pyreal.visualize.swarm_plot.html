@@ -290,10 +290,10 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="pyreal.RealApp.set_active_model_id.html">pyreal.RealApp.set_active_model_id</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.RealApp.get_active_model.html">pyreal.RealApp.get_active_model</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.RealApp.predict.html">pyreal.RealApp.predict</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyreal.RealApp.prepare_local_feature_contributions.html">pyreal.RealApp.prepare_local_feature_contributions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyreal.RealApp.produce_local_feature_contributions.html">pyreal.RealApp.produce_local_feature_contributions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyreal.RealApp.prepare_global_feature_importance.html">pyreal.RealApp.prepare_global_feature_importance</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyreal.RealApp.produce_global_feature_importance.html">pyreal.RealApp.produce_global_feature_importance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyreal.RealApp.prepare_feature_contributions.html">pyreal.RealApp.prepare_feature_contributions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyreal.RealApp.produce_feature_contributions.html">pyreal.RealApp.produce_feature_contributions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyreal.RealApp.prepare_feature_importance.html">pyreal.RealApp.prepare_feature_importance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyreal.RealApp.produce_feature_importance.html">pyreal.RealApp.produce_feature_importance</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../explainer.html">Explainer</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -548,7 +548,7 @@ contributions.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>explanation</strong> (<em>DataFrame</em><em> or </em><a class="reference internal" href="pyreal.types.explanations.feature_based.FeatureBased.html#pyreal.types.explanations.feature_based.FeatureBased" title="pyreal.types.explanations.feature_based.FeatureBased"><em>FeatureBased</em></a>) – One output DataFrame from RealApp.produce_local_feature_contributions OR
+<li><p><strong>explanation</strong> (<em>DataFrame</em><em> or </em><a class="reference internal" href="pyreal.types.explanations.feature_based.FeatureBased.html#pyreal.types.explanations.feature_based.FeatureBased" title="pyreal.types.explanations.feature_based.FeatureBased"><em>FeatureBased</em></a>) – One output DataFrame from RealApp.produce_feature_contributions OR
 FeatureContributions explanation object</p></li>
 <li><p><strong>(</strong><strong>String</strong> (<em>type</em>) – The type of plot to generate</p></li>
 <li><p><strong>[</strong><strong>&quot;strip&quot;</strong> (<em>one of</em>) – The type of plot to generate</p></li>

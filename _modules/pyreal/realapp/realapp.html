@@ -701,7 +701,7 @@ document.write(`
             <span class="n">preds_dict</span><span class="p">[</span><span class="n">row_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">preds</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
         <span class="k">return</span> <span class="n">preds_dict</span></div>
 
-<div class="viewcode-block" id="RealApp.prepare_local_feature_contributions"><a class="viewcode-back" href="../../../api_reference/api/pyreal.RealApp.prepare_local_feature_contributions.html#pyreal.RealApp.prepare_local_feature_contributions">[docs]</a>    <span class="k">def</span> <span class="nf">prepare_local_feature_contributions</span><span class="p">(</span>
+<div class="viewcode-block" id="RealApp.prepare_feature_contributions"><a class="viewcode-back" href="../../../api_reference/api/pyreal.RealApp.prepare_feature_contributions.html#pyreal.RealApp.prepare_feature_contributions">[docs]</a>    <span class="k">def</span> <span class="nf">prepare_feature_contributions</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">model_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">algorithm</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">shap_type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">training_size</span><span class="o">=</span><span class="kc">None</span>
     <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -737,7 +737,7 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">_add_explainer</span><span class="p">(</span><span class="s2">&quot;lfc&quot;</span><span class="p">,</span> <span class="n">algorithm</span><span class="p">,</span> <span class="n">explainer</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">explainer</span></div>
 
-<div class="viewcode-block" id="RealApp.produce_local_feature_contributions"><a class="viewcode-back" href="../../../api_reference/api/pyreal.RealApp.produce_local_feature_contributions.html#pyreal.RealApp.produce_local_feature_contributions">[docs]</a>    <span class="k">def</span> <span class="nf">produce_local_feature_contributions</span><span class="p">(</span>
+<div class="viewcode-block" id="RealApp.produce_feature_contributions"><a class="viewcode-back" href="../../../api_reference/api/pyreal.RealApp.produce_feature_contributions.html#pyreal.RealApp.produce_feature_contributions">[docs]</a>    <span class="k">def</span> <span class="nf">produce_feature_contributions</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">x_orig</span><span class="p">,</span>
         <span class="n">model_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -747,7 +747,7 @@ document.write(`
         <span class="n">training_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Produce a LocalFeatureContributions explainer</span>
+<span class="sd">        Produce a feature contribution explanation</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            x_orig (DataFrame):</span>
@@ -772,7 +772,7 @@ document.write(`
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_produce_explanation_helper</span><span class="p">(</span>
             <span class="s2">&quot;lfc&quot;</span><span class="p">,</span>
             <span class="n">algorithm</span><span class="p">,</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">prepare_local_feature_contributions</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">prepare_feature_contributions</span><span class="p">,</span>
             <span class="n">format_feature_contribution_output</span><span class="p">,</span>
             <span class="n">x_orig</span><span class="o">=</span><span class="n">x_orig</span><span class="p">,</span>
             <span class="n">model_id</span><span class="o">=</span><span class="n">model_id</span><span class="p">,</span>
@@ -781,7 +781,7 @@ document.write(`
             <span class="n">training_size</span><span class="o">=</span><span class="n">training_size</span><span class="p">,</span>
         <span class="p">)</span></div>
 
-<div class="viewcode-block" id="RealApp.prepare_global_feature_importance"><a class="viewcode-back" href="../../../api_reference/api/pyreal.RealApp.prepare_global_feature_importance.html#pyreal.RealApp.prepare_global_feature_importance">[docs]</a>    <span class="k">def</span> <span class="nf">prepare_global_feature_importance</span><span class="p">(</span>
+<div class="viewcode-block" id="RealApp.prepare_feature_importance"><a class="viewcode-back" href="../../../api_reference/api/pyreal.RealApp.prepare_feature_importance.html#pyreal.RealApp.prepare_feature_importance">[docs]</a>    <span class="k">def</span> <span class="nf">prepare_feature_importance</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">model_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">algorithm</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">shap_type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">training_size</span><span class="o">=</span><span class="kc">None</span>
     <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -817,7 +817,7 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">_add_explainer</span><span class="p">(</span><span class="s2">&quot;gfi&quot;</span><span class="p">,</span> <span class="n">algorithm</span><span class="p">,</span> <span class="n">explainer</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">explainer</span></div>
 
-<div class="viewcode-block" id="RealApp.produce_global_feature_importance"><a class="viewcode-back" href="../../../api_reference/api/pyreal.RealApp.produce_global_feature_importance.html#pyreal.RealApp.produce_global_feature_importance">[docs]</a>    <span class="k">def</span> <span class="nf">produce_global_feature_importance</span><span class="p">(</span>
+<div class="viewcode-block" id="RealApp.produce_feature_importance"><a class="viewcode-back" href="../../../api_reference/api/pyreal.RealApp.produce_feature_importance.html#pyreal.RealApp.produce_feature_importance">[docs]</a>    <span class="k">def</span> <span class="nf">produce_feature_importance</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">model_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">algorithm</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -847,7 +847,7 @@ document.write(`
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_produce_explanation_helper</span><span class="p">(</span>
             <span class="s2">&quot;gfi&quot;</span><span class="p">,</span>
             <span class="n">algorithm</span><span class="p">,</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">prepare_global_feature_importance</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">prepare_feature_importance</span><span class="p">,</span>
             <span class="n">format_feature_importance_output</span><span class="p">,</span>
             <span class="n">model_id</span><span class="o">=</span><span class="n">model_id</span><span class="p">,</span>
             <span class="n">force_refit</span><span class="o">=</span><span class="n">force_refit</span><span class="p">,</span>
