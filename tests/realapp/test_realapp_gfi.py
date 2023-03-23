@@ -10,15 +10,15 @@ def test_produce_global_feature_importance(regression_no_transforms):
     )
     features = ["A", "B", "C"]
 
-    explanation = realApp.produce_global_feature_importance()
+    explanation = realApp.produce_feature_importance()
 
     assert list(explanation["Feature Name"]) == features
     assert list(explanation["Importance"]) == [4 / 3, 0, 0]
 
-    explanation = realApp.produce_global_feature_importance(algorithm="permutation")
+    explanation = realApp.produce_feature_importance(algorithm="permutation")
     assert list(explanation["Feature Name"]) == features
     assert abs(list(explanation["Importance"])[0]) > 0.1
     assert list(explanation["Importance"])[1:] == [0, 0]
 
     # confirm no bug in explainer caching
-    realApp.produce_global_feature_importance(algorithm="permutation")
+    realApp.produce_feature_importance(algorithm="permutation")

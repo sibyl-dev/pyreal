@@ -88,7 +88,7 @@ passenger on the Titanic would have survived.
 ```
 >>> predictions = real_app.predict(sample_data)
 
->>> explanation = real_app.produce_local_feature_contributions(sample_data)
+>>> explanation = real_app.produce_feature_contributions(sample_data)
 
 ```
 #### Visualize explanation for one passenger
