@@ -1,3 +1,4 @@
+import matplotlib
 import pandas as pd
 
 from pyreal import RealApp
@@ -6,6 +7,8 @@ from pyreal.visualize import plot_top_contributors, swarm_plot
 
 
 def test_plot_top_contributors_lfc_no_break(regression_no_transforms):
+    matplotlib.use("Agg")
+
     realApp = RealApp(
         regression_no_transforms["model"],
         regression_no_transforms["x"],
@@ -19,6 +22,8 @@ def test_plot_top_contributors_lfc_no_break(regression_no_transforms):
 
 
 def test_plot_top_contributors_gfi_no_break(regression_no_transforms):
+    matplotlib.use("Agg")
+
     realApp = RealApp(
         regression_no_transforms["model"],
         regression_no_transforms["x"],
@@ -31,6 +36,8 @@ def test_plot_top_contributors_gfi_no_break(regression_no_transforms):
 
 
 def test_plot_top_contributors_lfc_object_no_break(regression_no_transforms):
+    matplotlib.use("Agg")
+
     lfc = LocalFeatureContribution(
         model=regression_no_transforms["model"],
         x_train_orig=regression_no_transforms["x"],
@@ -45,6 +52,8 @@ def test_plot_top_contributors_lfc_object_no_break(regression_no_transforms):
 
 
 def test_plot_top_contributors_gfi_object_no_break(regression_no_transforms):
+    matplotlib.use("Agg")
+
     lfc = GlobalFeatureImportance(
         model=regression_no_transforms["model"],
         x_train_orig=regression_no_transforms["x"],
@@ -58,6 +67,8 @@ def test_plot_top_contributors_gfi_object_no_break(regression_no_transforms):
 
 
 def test_plot_swarm_lfc_no_break(regression_no_transforms):
+    matplotlib.use("Agg")
+
     realApp = RealApp(
         regression_no_transforms["model"],
         regression_no_transforms["x"],
@@ -73,6 +84,8 @@ def test_plot_swarm_lfc_no_break(regression_no_transforms):
 
 
 def test_swarm_plot_lfc_object_no_break(regression_no_transforms):
+    matplotlib.use("Agg")
+
     lfc = LocalFeatureContribution(
         model=regression_no_transforms["model"],
         x_train_orig=regression_no_transforms["x"],
