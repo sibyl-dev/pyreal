@@ -70,6 +70,8 @@ def plot_top_contributors(
             Prediction to display in the title
         include_averages (Boolean):
             If True, include the mean values in the visualization (if provided in explanation)
+        include_axis (Boolean):
+            If True, include the contribution axis
         show (Boolean):
             Show the figure
         filename (string or None):
