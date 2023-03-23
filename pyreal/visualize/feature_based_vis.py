@@ -53,8 +53,8 @@ def plot_top_contributors(
 
     Args:
         explanation (DataFrame or FeatureBased):
-            One output DataFrame from RealApp.produce_local_feature_contributions or
-            RealApp.prepare_global_feature_importance OR FeatureBased explanation object
+            One output DataFrame from RealApp.produce_feature_contributions or
+            RealApp.prepare_feature_importance OR FeatureBased explanation object
         select_by (one of "absolute", "max", "min"):
             Which explanation to plot.
         n (int):
@@ -184,7 +184,7 @@ def swarm_plot(
 
     Args:
         explanation (DataFrame or FeatureBased):
-            One output DataFrame from RealApp.produce_local_feature_contributions OR
+            One output DataFrame from RealApp.produce_feature_contributions OR
             FeatureContributions explanation object
         type (String, one of ["strip", "swarm"]:
             The type of plot to generate
@@ -317,7 +317,7 @@ def feature_scatter_plot(
 
     Args:
         explanation (DataFrame or FeatureBased):
-            One output DataFrame from RealApp.produce_local_feature_contributions OR
+            One output DataFrame from RealApp.produce_feature_contributions OR
             FeatureContributions explanation object
         feature (column label):
             Label of column to visualize

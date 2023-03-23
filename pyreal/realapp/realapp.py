@@ -373,7 +373,7 @@ class RealApp:
             preds_dict[row_id] = preds[i]
         return preds_dict
 
-    def prepare_local_feature_contributions(
+    def prepare_feature_contributions(
         self, model_id=None, algorithm=None, shap_type=None, training_size=None
     ):
         """
@@ -409,7 +409,7 @@ class RealApp:
         self._add_explainer("lfc", algorithm, explainer)
         return explainer
 
-    def produce_local_feature_contributions(
+    def produce_feature_contributions(
         self,
         x_orig,
         model_id=None,
@@ -419,7 +419,7 @@ class RealApp:
         training_size=None,
     ):
         """
-        Produce a LocalFeatureContributions explainer
+        Produce a feature contribution explanation
 
         Args:
             x_orig (DataFrame):
@@ -444,7 +444,7 @@ class RealApp:
         return self._produce_explanation_helper(
             "lfc",
             algorithm,
-            self.prepare_local_feature_contributions,
+            self.prepare_feature_contributions,
             format_feature_contribution_output,
             x_orig=x_orig,
             model_id=model_id,
@@ -453,7 +453,7 @@ class RealApp:
             training_size=training_size,
         )
 
-    def prepare_global_feature_importance(
+    def prepare_feature_importance(
         self, model_id=None, algorithm=None, shap_type=None, training_size=None
     ):
         """
@@ -489,7 +489,7 @@ class RealApp:
         self._add_explainer("gfi", algorithm, explainer)
         return explainer
 
-    def produce_global_feature_importance(
+    def produce_feature_importance(
         self,
         model_id=None,
         algorithm=None,
@@ -519,7 +519,7 @@ class RealApp:
         return self._produce_explanation_helper(
             "gfi",
             algorithm,
-            self.prepare_global_feature_importance,
+            self.prepare_feature_importance,
             format_feature_importance_output,
             model_id=model_id,
             force_refit=force_refit,
