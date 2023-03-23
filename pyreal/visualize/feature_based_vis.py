@@ -308,7 +308,7 @@ def swarm_plot(
 
 
 def feature_scatter_plot(
-    explanation, feature, predictions, discrete=None, show=False, filename=None
+    explanation, feature, predictions=None, discrete=None, show=False, filename=None
 ):
     """
     Plot a contribution scatter plot for one feature
@@ -339,6 +339,11 @@ def feature_scatter_plot(
     if isinstance(predictions, dict):
         predictions = np.array([predictions[i] for i in predictions]).reshape(-1)
 
+    legend_type = "continuous"
+    if predictions is None:
+        legend_type = "none"
+        predictions = np.zeros_like(contributions)
+
     data = pd.DataFrame(
         {"Contribution": contributions.values, "Value": values.values, "Prediction": predictions}
     )
@@ -347,11 +352,15 @@ def feature_scatter_plot(
     palette = sns.blend_palette(
         [NEGATIVE_COLOR_LIGHT, NEUTRAL_COLOR, POSITIVE_COLOR_LIGHT], n_colors=num_colors
     )
-    legend = True
-    if isinstance(predictions[0], (float)) or (
-        isinstance(predictions[0], (int)) and num_colors > 6
+
+    if legend_type is not "none" and isinstance(predictions[0], float) or (
+        isinstance(predictions[0], int) and num_colors > 6
     ):
-        legend = False
+        legend_type = "discrete"
+
+    plot_legend = False
+    if legend_type is "discrete":
+        plot_legend = True
 
     if discrete is None:
         discrete = not pd.api.types.is_numeric_dtype(values)
@@ -362,7 +371,7 @@ def feature_scatter_plot(
             data=data,
             hue="Prediction",
             palette=palette,
-            legend=legend,
+            legend=plot_legend,
             alpha=0.5,
             zorder=0,
         )
@@ -373,13 +382,13 @@ def feature_scatter_plot(
             data=data,
             hue="Prediction",
             palette=palette,
-            legend=legend,
+            legend=plot_legend,
             alpha=0.5,
         )
 
     plt.axhline(0, color="black", zorder=0)
     plt.xlabel("Values for %s" % feature)
-    if not legend:
+    if legend_type is "continuous":
         norm = plt.Normalize(0, 1)
         sm = plt.cm.ScalarMappable(cmap=PALETTE_CMAP, norm=norm)
         min = predictions.min()
@@ -389,7 +398,7 @@ def feature_scatter_plot(
         cbar.ax.get_yaxis().set_ticks([])
         cbar.ax.text(1.5, 0.05, ("%.2f" % min).rstrip("0").rstrip("."), ha="left", va="center")
         cbar.ax.text(1.5, 0.95, ("%.2f" % max).rstrip("0").rstrip("."), ha="left", va="center")
-        cbar.ax.set_ylabel("Feature Value", rotation=270)
+        cbar.ax.set_ylabel("Prediction", rotation=270)
         cbar.ax.get_yaxis().labelpad = 15
 
     if filename is not None:
