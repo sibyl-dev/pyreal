@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 
-from pyreal.explainers import Explainer, GlobalFeatureImportance, LocalFeatureContribution
+from pyreal.explainers import Explainer, GlobalFeatureImportance, LocalFeatureContribution, DecisionTreeExplainer
 
 
 def format_feature_contribution_output(explanation, ids=None):
@@ -497,7 +497,7 @@ class RealApp:
         force_refit=False,
     ):
         """
-        Produce a GlobalFeatureImportance explainer
+        Produce a feature importance explanation
 
         Args:
             model_id (string or int):
@@ -524,4 +524,67 @@ class RealApp:
             model_id=model_id,
             force_refit=force_refit,
             shap_type=shap_type,
+        )
+
+    def prepare_decision_tree(self, model_id=None, algorithm="surrogate_tree", training_size=None):
+        """
+        Initialize and fit a decision tree explainer
+
+        Args:
+            model_id (int or string):
+                Model id to explain
+            algorithm (string):
+                Algorithm to use
+            training_size (int):
+                Number of data points to use in training
+
+        Returns:
+            A fit DecisionTree explainer
+        """
+
+        explainer = DecisionTreeExplainer(
+            self.models[model_id],
+            self.X_train_orig,
+            y_orig=self.y_orig,
+            transformers=self.transformers,
+            feature_descriptions=self.feature_descriptions,
+            e_algorithm=algorithm,
+            classes=self.classes,
+            class_descriptions=self.class_descriptions,
+            fit_on_init=True,
+            training_size=training_size,
+        )
+        self._add_explainer("dte", algorithm, explainer)
+        return explainer
+
+    def produce_decision_tree(
+        self,
+        model_id=None,
+        algorithm=None,
+        force_refit=False,
+    ):
+        """
+        Produce a DecisionTree explanation
+
+        Args:
+            model_id (string or int):
+                ID of model to explain
+            algorithm (string):
+                Name of algorithm
+            shap_type (string):
+                If algorithm="shap", type of SHAP explainer to use
+            force_refit (Boolean):
+                If True, initialize and fit a new explainer even if the appropriate explainer
+                already exists
+
+        Returns:
+            DataFrame with a Feature Name column and an Importance column
+        """
+        return self._produce_explanation_helper(
+            "dte",
+            algorithm,
+            self.prepare_decision_tree,
+            format_decision_tree_ouput,
+            model_id=model_id,
+            force_refit=force_refit,
         )
