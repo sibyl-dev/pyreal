@@ -65,7 +65,7 @@ nbmake = "^1.4.1"
 # Style Dependencies
 flake8 = "^5.0.4"
 isort = "^5.11.4"
-black = "^23.1.0"
+black = "^23.3.0"
 
 # Documentation Dependencies
 PyYaml = ">=6.0"
