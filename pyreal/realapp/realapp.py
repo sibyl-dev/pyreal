@@ -2,6 +2,7 @@ import numpy as np
 import pandas as pd
 
 from pyreal.explainers import Explainer, GlobalFeatureImportance, LocalFeatureContribution, DecisionTreeExplainer
+import pyreal.realapp.formatters as fmt
 
 
 def format_feature_contribution_output(explanation, ids=None):
@@ -584,7 +585,7 @@ class RealApp:
             "dte",
             algorithm,
             self.prepare_decision_tree,
-            format_decision_tree_ouput,
+            fmt.format_decision_tree_output,
             model_id=model_id,
             force_refit=force_refit,
         )
