@@ -14,7 +14,7 @@ We start by loading in the pre-made `RealApp` object. In the next section, we wi
 import pyreal.sample_applications.titanic as titanic
 
 real_app = titanic.load_titanic_app()
-sample_data, _ = titanic.load_titanic_data(n_rows=300)
+sample_data = titanic.load_titanic_data(n_rows=300)
 ```
 
 We can get the model's prediction on a row of data using the `real_app.predict()` function:
