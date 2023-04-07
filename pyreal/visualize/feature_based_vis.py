@@ -355,8 +355,10 @@ def feature_scatter_plot(
         [NEGATIVE_COLOR_LIGHT, NEUTRAL_COLOR, POSITIVE_COLOR_LIGHT], n_colors=num_colors
     )
 
-    if legend_type != "none" and isinstance(predictions[0], float) or (
-        isinstance(predictions[0], int) and num_colors > 6
+    if (
+        legend_type != "none"
+        and isinstance(predictions[0], float)
+        or (isinstance(predictions[0], int) and num_colors > 6)
     ):
         legend_type = "continuous"
 
