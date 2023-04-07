@@ -3,7 +3,7 @@ from urllib.parse import urljoin
 
 import pandas as pd
 
-DATA_DIR = os.path.join(os.path.dirname(__file__), "data_housing")
+DATA_DIR = os.path.join(os.path.dirname(__file__), "data_cal_housing")
 DATA_FILE = os.path.join(DATA_DIR, "california.csv")
 CITY_FILE = os.path.join(DATA_DIR, "cal_cities_lat_long.csv")
 MODEL_FILE = os.path.join(DATA_DIR, "model.pkl")
