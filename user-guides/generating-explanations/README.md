@@ -24,13 +24,39 @@ all_explanations["Trevor Butler"]
 
 | Feature Name                   | Feature Value | Contribution | Average/Mode |
 | ------------------------------ | ------------- | ------------ | ------------ |
-| Age                            | 17            | -0.13377     | 16.54545     |
-| Mother's education             | 3             | 0.001509     | 3.090909     |
-| Father's education             | 2             | -0.05293     | 2.181818     |
-| Weekly study time              | 2             | 0.023261     | 2            |
-| Number of past class failures  | 2             | -3.74398     | 0.272727     |
-| Extra education support        | yes           | -0.59027     | no           |
-| Wants to take higher education | yes           | 0.065789     | yes          |
+| Age                            | 17            | -0.13        | 16.54        |
+| Mother's education             | 3             | 0.0015       | 3.09         |
+| Father's education             | 2             | -0.052       | 2.18         |
+| Weekly study time              | 2             | 0.023        | 2            |
+| Number of past class failures  | 2             | -3.74        | 0.27         |
+| Extra education support        | yes           | -0.59        | no           |
+| Wants to take higher education | yes           | 0.065        | yes          |
 | ...                            | ...           | ...          | ...          |
+
+Again, for global explanations you do not need a parameter for `.produce()`:
+
+```python
+from pyreal.sample_applications import student_performance
+
+real_app = student_performance.load_app()
+students = student_performance.load_students()
+
+explanation = realApp.produce_feature_importance()
+```
+
+... which generates a DataFrame of feature importance values
+
+| Feature Name                   | Importance |
+| ------------------------------ | ---------- |
+| Age                            | 3.4        |
+| Mother's education             | .002       |
+| Father's education             | .023       |
+| Weekly study time              | .54        |
+| Number of past class failures  | 9.7        |
+| Extra education support        | 1.45       |
+| Wants to take higher education | .23        |
+| ...                            | ...        |
+
+Similarly, you can generate other kinds of explanations using the functions found in our [Glossary of Explanations](../../glossary-of-explantions.md).
 
 &#x20;
