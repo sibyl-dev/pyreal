@@ -80,8 +80,8 @@ passenger on the Titanic would have survived.
 ```
 >>> import pyreal.sample_applications.titanic as titanic
 
->>> real_app = titanic.load_titanic_app()
->>> sample_data = titanic.load_titanic_data(n_rows=300)
+>>> real_app = titanic.load_app()
+>>> sample_data = titanic.load_data(n_rows=300)
 
 ```
 #### Predict and produce explanation
