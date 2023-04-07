@@ -134,10 +134,13 @@ class RealApp:
         else:
             self.active_model_id = next(iter(self.models))
 
-        self.X_train_orig = X_train_orig
-        self.y_orig = y_orig
-
         self.id_column = id_column
+
+        if self.id_column is not None and self.id_column in X_train_orig:
+            self.X_train_orig = X_train_orig.drop(columns=self.id_column)
+        else:
+            self.X_train_orig = X_train_orig
+        self.y_orig = y_orig
 
         self.classes = classes
         self.class_descriptions = class_descriptions
