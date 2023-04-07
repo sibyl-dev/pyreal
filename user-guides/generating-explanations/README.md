@@ -12,7 +12,7 @@ students = student_performance.load_students()
 <strong>all_explanations = realApp.produce_feature_contributions(students)
 </strong></code></pre>
 
-all\_explanations can be indexed by row ids, found in the column labelled by the optional `id_column` parameter to RealApps (if no id column is provided, the ids are row number).&#x20;
+`all_explanations` can be indexed by row ids, found in the column labelled by the optional `id_column` parameter to RealApps (if no id column is provided, the ids are row number).&#x20;
 
 This allows us to access the explanation for a given student by name:
 
