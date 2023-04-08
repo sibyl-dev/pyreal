@@ -15,6 +15,10 @@ from pyreal.explainers.dte.base import DecisionTreeExplainerBase
 from pyreal.explainers.dte.surrogate_decision_tree import SurrogateDecisionTree
 from pyreal.explainers.dte.decision_tree_explainer import DecisionTreeExplainer, dte
 
+from pyreal.explainers.pdp.base import PartialDependenceExplainerBase
+from pyreal.explainers.pdp.partial_dependence import PartialDependence
+from pyreal.explainers.pdp.partial_dependence_explainer import PartialDependenceExplainer, pdp
+
 from pyreal.explainers.time_series.saliency.base import SaliencyBase
 from pyreal.explainers.time_series.saliency.univariate_occlusion_saliency import (
     UnivariateOcclusionSaliency,
