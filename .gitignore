@@ -119,5 +119,9 @@ docs/api_reference/api/
 .DS_Store
 utils/scratch.py
 
+# Data
 pyreal/benchmark/datasets
 tutorials/ecg/
+
+# Pretrained models
+pyreal/sample_applications/**/*.pkl
