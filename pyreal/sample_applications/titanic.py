@@ -21,7 +21,7 @@ TRANSFORMER_FILE = os.path.join(DATA_DIR, "transformers.pkl")
 AWS_BASE_URL = "https://pyreal-data.s3.amazonaws.com/"
 
 
-def load_titanic_data(n_rows=None, include_targets=False):
+def load_data(n_rows=None, include_targets=False):
     if os.path.exists(DATA_FILE):
         df = pd.read_csv(DATA_FILE)
     else:
@@ -57,12 +57,12 @@ def load_feature_descriptions():
     }
 
 
-def load_titanic_model():
+def load_model():
     if os.path.exists(MODEL_FILE):
         return pickle.load(open(os.path.join(DATA_DIR, "model.pkl"), "rb"))
     else:
-        transformers = load_titanic_transformers()
-        x_orig, y = load_titanic_data(include_targets=True)
+        transformers = load_transformers()
+        x_orig, y = load_data(include_targets=True)
         x_model = run_transformers(transformers, x_orig)
         # model = LogisticRegression(max_iter=500)
         model = LGBMClassifier()
@@ -75,11 +75,11 @@ def load_titanic_model():
         return model
 
 
-def load_titanic_transformers():
+def load_transformers():
     if os.path.exists(TRANSFORMER_FILE):
         return pickle.load(open(os.path.join(DATA_DIR, "transformers.pkl"), "rb"))
     else:
-        x_orig, y = load_titanic_data(include_targets=True)
+        x_orig, y = load_data(include_targets=True)
         column_drop = ColumnDropTransformer(["PassengerId", "Name", "Ticket", "Cabin"])
         imputer = MultiTypeImputer()
         one_hot_encoder = OneHotEncoder(["Sex", "Embarked"])
@@ -94,10 +94,10 @@ def load_titanic_transformers():
         return transformers
 
 
-def load_titanic_app():
-    x_train_orig, y = load_titanic_data(include_targets=True)
-    model = load_titanic_model()
-    transformers = load_titanic_transformers()
+def load_app():
+    x_train_orig, y = load_data(include_targets=True)
+    model = load_model()
+    transformers = load_transformers()
     feature_descriptions = load_feature_descriptions()
 
     return RealApp(
