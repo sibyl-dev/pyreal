@@ -9,4 +9,4 @@ We follow this process to make new releases (at the time, only development leads
 5. One all checks have passed and reviews are complete, merge the release branch into table. **Do not delete the release branch**.&#x20;
 6. Once merged, tag the merge commit in stable as `v*.*.*`, and push the tag. This will automatically deploy the release to pypi.
 7. Merge `release-v*.*.*` back into `dev` with a pull request. Keep the past three release branches; delete any old ones.
-8. Make a release on `github.com`, selecting the tag you just made. Fill in the release notes with the same list of changes you used for the PR description.
+8. Make a release on `github.com`, selecting the tag you just made. Follow the title convention of `vX.X.X - YYYY-MM-DD`. Fill in the release notes with the same list of changes you used for the PR description.
