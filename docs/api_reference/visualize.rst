@@ -2,13 +2,13 @@
 
 Visualization
 ================
-.. currentmodule:: pyreal.utils.visualize
+.. currentmodule:: pyreal.visualize
 
 Feature Contribution Visualizations
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .. autosummary::
     :toctree: api/
 
-    pyreal.utils.visualize.plot_top_contributors
-    pyreal.utils.visualize.plot_tree_explanation
-    pyreal.utils.visualize.swarm_plot
+    pyreal.visualize.plot_top_contributors
+    pyreal.visualize.plot_tree_explanation
+    pyreal.visualize.swarm_plot

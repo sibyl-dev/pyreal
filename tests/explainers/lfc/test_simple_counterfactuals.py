@@ -34,14 +34,14 @@ def test_produce_simple_regression_no_transforms(regression_no_transforms):
     )
     x_one_dim = pd.DataFrame([[2, 10, 10]], columns=["A", "B", "C"])
     x_multi_dim = pd.DataFrame([[2, 1, 1], [4, 2, 3]], columns=["A", "B", "C"])
-    contributions = explainer.produce(x_one_dim)[0]
+    contributions = explainer.produce(x_one_dim).get()
     assert x_one_dim.shape == contributions.shape
     assert contributions.iloc[0, 0] <= 4
     assert contributions.iloc[0, 0] >= 0.01  # with very high probability
     assert contributions.iloc[0, 1] == 0
     assert contributions.iloc[0, 2] == 0
 
-    contributions = explainer.produce(x_multi_dim)[0]
+    contributions = explainer.produce(x_multi_dim).get()
     assert x_multi_dim.shape == contributions.shape
     assert contributions.iloc[0, 0] <= 4
     assert contributions.iloc[0, 0] >= 0.01  # with very high probability
@@ -62,14 +62,14 @@ def test_produce_simple_regression_transforms(regression_one_hot):
     )
     x_one_dim = pd.DataFrame([[2, 10, 10]], columns=["A", "B", "C"])
     x_multi_dim = pd.DataFrame([[4, 1, 1], [6, 2, 3]], columns=["A", "B", "C"])
-    contributions = explainer.produce(x_one_dim)[0]
+    contributions = explainer.produce(x_one_dim).get()
     assert x_one_dim.shape == contributions.shape
     assert contributions["A"][0] <= 2
     assert contributions["A"][0] >= 0.5
     assert contributions["B"][0] == 0
     assert contributions["C"][0] == 0
 
-    contributions = explainer.produce(x_multi_dim)[0]
+    contributions = explainer.produce(x_multi_dim).get()
     print(contributions)
     assert x_multi_dim.shape == contributions.shape
     assert contributions["A"][0] <= 2
@@ -91,12 +91,12 @@ def test_produce_simple_regression_no_transforms_with_size(regression_no_transfo
     )
     x_one_dim = pd.DataFrame([[2, 10, 10]], columns=["A", "B", "C"])
     x_multi_dim = pd.DataFrame([[2, 1, 1], [4, 2, 3]], columns=["A", "B", "C"])
-    contributions = explainer.produce(x_one_dim)[0]
+    contributions = explainer.produce(x_one_dim).get()
     assert x_one_dim.shape == contributions.shape
     assert contributions.iloc[0, 1] == 0
     assert contributions.iloc[0, 2] == 0
 
-    contributions = explainer.produce(x_multi_dim)[0]
+    contributions = explainer.produce(x_multi_dim).get()
     assert x_multi_dim.shape == contributions.shape
     assert (contributions.iloc[:, 1] == 0).all()
     assert (contributions.iloc[:, 2] == 0).all()

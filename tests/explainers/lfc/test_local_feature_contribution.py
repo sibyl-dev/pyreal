@@ -19,7 +19,7 @@ def test_produce_with_renames(regression_one_hot):
     )
     x_one_dim = pd.DataFrame([[2, 10, 10]], columns=["A", "B", "C"])
 
-    contributions = lfc.produce(x_one_dim)[0]
+    contributions = lfc.produce(x_one_dim).get()
     assert x_one_dim.shape == contributions.shape
     assert abs(contributions["Feature A"][0] + 1) < 0.0001
     assert abs(contributions["Feature B"][0]) < 0.0001
@@ -58,7 +58,7 @@ def test_produce_with_renames_with_size(regression_one_hot):
     )
     x_one_dim = pd.DataFrame([[2, 10, 10]], columns=["A", "B", "C"])
 
-    contributions = lfc.produce(x_one_dim)[0]
+    contributions = lfc.produce(x_one_dim).get()
     assert x_one_dim.shape == contributions.shape
 
 

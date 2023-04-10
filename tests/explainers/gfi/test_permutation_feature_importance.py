@@ -26,7 +26,7 @@ def test_produce_permutation_regression_no_transforms(regression_no_transforms):
 
 
 def helper_produce_permutation_regression_no_transforms(explainer, model):
-    importances = explainer.produce()
+    importances = explainer.produce().get()
     assert importances.shape == (1, model["x"].shape[1])
     assert importances["A"][0] > 0.0001
     assert abs(importances["B"][0]) < 0.0001
@@ -56,7 +56,7 @@ def test_produce_permutation_regression_transforms(regression_one_hot):
 
 
 def helper_produce_permutation_regression_one_hot(explainer, model):
-    importances = explainer.produce()
+    importances = explainer.produce().get()
     assert importances.shape == (1, 5)
     assert importances["A_2"][0] > 0.0001
     assert importances["A_4"][0] > 0.0001
@@ -92,7 +92,7 @@ def test_permutation_produce_classification_no_transforms(classification_no_tran
 
 
 def helper_permutation_produce_classification_no_transforms(explainer, model):
-    importances = explainer.produce()
+    importances = explainer.produce().get()
     assert importances.shape == (1, model["x"].shape[1])
     assert abs(importances["A"][0]) < 0.0001
     assert importances["B"][0] > 0.0001
@@ -124,7 +124,7 @@ def test_produce_permutation_regression_no_transforms_with_size(regression_no_tr
 
 
 def helper_produce_permutation_regression_no_transforms_with_size(explainer, model):
-    importances = explainer.produce()
+    importances = explainer.produce().get()
     assert importances.shape == (1, model["x"].shape[1])
 
 
@@ -155,5 +155,5 @@ def test_permutation_produce_classification_no_transforms_with_size(classificati
 
 
 def helper_permutation_produce_with_size(explainer, model):
-    importances = explainer.produce()
+    importances = explainer.produce().get()
     assert importances.shape == (1, model["x"].shape[1])

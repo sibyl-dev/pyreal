@@ -23,6 +23,7 @@ class FeatureSelectTransformer(Transformer):
         if columns is not None and not isinstance(columns, (list, tuple, np.ndarray, pd.Index)):
             columns = [columns]
         self.columns = columns
+        self.column_order = None
         self.dropped_columns = []
         super().__init__(**kwargs)
 
@@ -38,7 +39,8 @@ class FeatureSelectTransformer(Transformer):
 
         """
         self.dropped_columns = list(set(x.columns) - set(self.columns))
-        super().fit(x)
+        self.column_order = x.columns
+        return super().fit(x)
 
     def data_transform(self, x):
         """
@@ -68,7 +70,7 @@ class FeatureSelectTransformer(Transformer):
         explanation_df = explanation.get()
         for col in self.dropped_columns:
             explanation_df[col] = 0
-        return FeatureBased(explanation_df)
+        return FeatureBased(explanation_df[self.column_order])
 
     def transform_explanation_feature_based(self, explanation):
         """
@@ -115,6 +117,7 @@ class ColumnDropTransformer(Transformer):
         if columns is not None and not isinstance(columns, Sequence):
             columns = [columns]
         self.dropped_columns = columns
+        self.column_order = None
         super().__init__(**kwargs)
 
     def data_transform(self, x):
@@ -128,6 +131,7 @@ class ColumnDropTransformer(Transformer):
             DataFrame of shape (n_instances, len(columns)):
                 The data with features selected and reordered
         """
+        self.column_order = x.columns
         return x.drop(self.dropped_columns, axis=1)
 
     def inverse_transform_explanation_feature_based(self, explanation):
@@ -145,7 +149,7 @@ class ColumnDropTransformer(Transformer):
         explanation_df = explanation.get()
         for col in self.dropped_columns:
             explanation_df[col] = 0
-        return FeatureBased(explanation_df)
+        return FeatureBased(explanation_df[self.column_order])
 
     def transform_explanation_feature_based(self, explanation):
         """

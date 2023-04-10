@@ -10,7 +10,7 @@ maintainers = [
 
 description = "Library for evaluating and deploying human readable machine learning explanations."
 name = "pyreal"
-version = "0.3.2"
+version = "0.4.0"
 
 license = ""
 
@@ -37,17 +37,15 @@ include = ["AUTHORS.rst", "HISTORY.md"]
 python = "^3.8, <3.11"
 
 #Library Dependencies
-eli5 = ">=0.11,<0.14"
 matplotlib = "^3.6.0"
 numpy = "^1.23.3"
 pandas = "^1.5.0"
 scikit-learn = "^1.1.2"
 numba = "^0.56.2" # Explicit numba (required by shap) forces recent version
-shap = "=0.40.0"
+shap = "=0.40.0" # Explicit shap prevents break with newer versions
 lime = "^0.2.0.1"
 
 # Example Dependencies
-tensorflow = {version = "^2.6.0,<=2.10.0", optional = true}
 lightgbm = {version = "^3.3.2", optional = true}
 
 # Development Requirements
@@ -79,7 +77,7 @@ pydata-sphinx-theme = ">=0.10.1"
 
 # Extra Dependency Bundles
 [tool.poetry.extras]
-examples = ["tensorflow", "lightgbm"]
+examples = ["lightgbm"]
 
 [tool.black]
 line-length = 99
