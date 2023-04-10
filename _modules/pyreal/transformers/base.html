@@ -372,7 +372,7 @@ document.write(`
         <span class="n">transformers</span> <span class="o">=</span> <span class="p">[</span><span class="n">transformers</span><span class="p">]</span>
     <span class="k">for</span> <span class="n">transformer</span> <span class="ow">in</span> <span class="n">transformers</span><span class="p">:</span>
         <span class="n">fit_func</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">transformer</span><span class="p">,</span> <span class="s2">&quot;fit&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">callable</span><span class="p">(</span><span class="n">fit_func</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">callable</span><span class="p">(</span><span class="n">fit_func</span><span class="p">):</span>
             <span class="n">fit_func</span><span class="p">(</span><span class="n">x_transform</span><span class="p">)</span>
         <span class="n">x_transform</span> <span class="o">=</span> <span class="n">transformer</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">x_transform</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">x_transform</span>
