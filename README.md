@@ -20,9 +20,8 @@ Library for evaluating and deploying machine learning explanations.
 
 # Overview
 
-**Pyreal** wraps the complete machine learning explainability pipeline into Explainer objects. Explainer objects
-handle all the transforming logic, in order to provide a human-interpretable explanation from any original
-data form.
+**Pyreal** wraps the complete machine learning explainability pipeline into RealApp objects, which seamlessly
+provide usable explanations in a low-code manner.
 
 # Install
 
@@ -40,7 +39,7 @@ We recommend using
 pip install pyreal
 ```
 
-This will pull and install the latest stable release from [PyPI](https://pypi.org/).
+This will pull and install the latest stable release from [PyPI](https://pypi.org/project/pyreal/).
 
 ## Install from source
 If you do not have **poetry** installed, please head to [poetry installation guide](https://python-poetry.org/docs/#installation)
@@ -52,12 +51,12 @@ poetry --version
 ```
 
 Finally, you can clone this repository and install it from
-source by running `poetry install`:
+source by running `poetry install`, with the optional `examples` extras if you'd like to run our tutorial scripts.
 
 ```
 git clone git@github.com:DAI-Lab/pyreal.git
 cd pyreal
-poetry install
+poetry install -E examples
 ```
 
 ## Install for Development
@@ -65,7 +64,7 @@ poetry install
 If you want to contribute to the project, a few more steps are required to make the project ready
 for development.
 
-Please head to the [Contributing Guide](https://sibyl-dev.github.io/pyreal/developer_guides/contributing.html)
+Please head to the [Contributing Guide](https://dtail.gitbook.io/pyreal/developer-guides/contributing-to-pyreal)
 for more details about this process.
 
 # Quickstart
@@ -113,4 +112,4 @@ transformations. The [Terminology User Guide](https://sibyl-ml.dev/pyreal/user_g
 
 For more details about **Pyreal** and all its possibilities
 and features, please check the [documentation site](
-https://sibyl-dev.github.io/pyreal/).
+https://dtail.gitbook.io/pyreal/).
