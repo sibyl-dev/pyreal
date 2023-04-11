@@ -24,9 +24,10 @@ class FeatureValueExplanation:
         self.grid = grid
 
     def rename_features(self, feature_descriptions):
-        for i, feature in enumerate(self.feature_names):
-            if feature in feature_descriptions.keys():
-                self.feature_names[i] = feature_descriptions[feature]
+        if feature_descriptions is not None:
+            for i, feature in enumerate(self.feature_names):
+                if feature in feature_descriptions.keys():
+                    self.feature_names[i] = feature_descriptions[feature]
 
 
 class FeatureValueBased(Explanation):
@@ -48,7 +49,7 @@ class FeatureValueBased(Explanation):
                 if `self.explanation` is invalid
         """
         super().validate()
-        if not isinstance(self.explanation.feature_names, list):
+        if not isinstance(self.explanation.feature_names, (list, pd.Index)):
             raise AssertionError(
                 "You must provide the explainer feature names as a list of strings, get type"
                 f" {type(self.explanation.feature_names)}"
