@@ -31,7 +31,7 @@ class PartialDependence(PartialDependenceExplainerBase):
         features,
         grid_resolution=100,
         interpretable_features=True,
-        **kwargs
+        **kwargs,
     ):
         self.features = features
         self.grid_resolution = grid_resolution
@@ -50,12 +50,14 @@ class PartialDependence(PartialDependenceExplainerBase):
                 The grid points where the partial dependence values are calculated.
         """
         dataset = self.transform_to_x_model(self._x_train_orig)
-        self.pdp_values, self.grid_points = partial_dependence(
+        explanation_results = partial_dependence(
             self.model,
             dataset,
-            feature_names=self.features,
+            features=self.features,
             grid_resolution=self.grid_resolution,
         )
+        self.pdp_values = explanation_results["average"]
+        self.grid_points = explanation_results["values"]
         return self
 
     def get_pdp(self):

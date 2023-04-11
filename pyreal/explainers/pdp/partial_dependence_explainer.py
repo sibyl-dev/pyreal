@@ -110,10 +110,10 @@ class PartialDependenceExplainer(PartialDependenceExplainerBase):
     """
 
     def __init__(self, model, x_train_orig, features, grid_resolution=100, **kwargs):
-        super(PartialDependenceExplainer, self).__init__(model, x_train_orig, **kwargs)
         self.base_partial_dependence = PartialDependence(
             model, x_train_orig, features=features, grid_resolution=grid_resolution
         )
+        super(PartialDependenceExplainer, self).__init__(model, x_train_orig, **kwargs)
 
     def get_pdp(self):
         """

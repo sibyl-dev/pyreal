@@ -23,6 +23,7 @@ class PartialDependenceExplainerBase(ExplainerBase, ABC):
 
     def __init__(self, model, x_train_orig, interpretable_features=True, **kwargs):
         self.interpretable_features = interpretable_features
+        self.pdp_explanation = None
         super(PartialDependenceExplainerBase, self).__init__(model, x_train_orig, **kwargs)
 
     @abstractmethod
@@ -41,8 +42,14 @@ class PartialDependenceExplainerBase(ExplainerBase, ABC):
             DataFrame of shape (n_instances, x_orig_feature_count)
                 `x_orig` transformed to the state of the final explanation
         """
-        explanation = self.get_pdp()
-        return explanation
+        if self.pdp_explanation is None:
+            explanation = self.get_pdp()
+            explanation = self.transform_explanation(explanation)
+            if self.interpretable_features:
+                explanation.update_feature_names(self.feature_descriptions)
+            self.pdp_explanation = explanation
+
+        return self.pdp_explanation
 
     @abstractmethod
     def get_pdp(self):
