@@ -1,0 +1,6 @@
+﻿pyreal.explainers.PartialDependence.produce
+===========================================
+
+.. currentmodule:: pyreal.explainers
+
+.. automethod:: PartialDependence.produce

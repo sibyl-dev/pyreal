@@ -1,0 +1,30 @@
+﻿pyreal.types.explanations.feature\_value\_based.PartialDependenceExplanation
+============================================================================
+
+.. currentmodule:: pyreal.types.explanations.feature_value_based
+
+.. autoclass:: PartialDependenceExplanation
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~PartialDependenceExplanation.__init__
+      ~PartialDependenceExplanation.get
+      ~PartialDependenceExplanation.get_all
+      ~PartialDependenceExplanation.get_values
+      ~PartialDependenceExplanation.update_explanation
+      ~PartialDependenceExplanation.update_feature_names
+      ~PartialDependenceExplanation.update_values
+      ~PartialDependenceExplanation.validate
+      ~PartialDependenceExplanation.validate_values
+   
+   
+
+   
+   
+   

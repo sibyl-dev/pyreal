@@ -1,0 +1,6 @@
+﻿pyreal.explainers.PartialDependenceExplainerBase.get\_pdp
+=========================================================
+
+.. currentmodule:: pyreal.explainers
+
+.. automethod:: PartialDependenceExplainerBase.get_pdp
