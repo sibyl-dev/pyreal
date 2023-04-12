@@ -1,8 +1,4 @@
-import logging
-
 from pyreal.explainers import PartialDependence, PartialDependenceExplainerBase
-
-log = logging.getLogger(__name__)
 
 
 def pdp(
@@ -59,8 +55,7 @@ def pdp(
             The contribution of each feature. Only returned if return_explanation is True
     """
     if not return_explanation and not return_explainer:
-        # TODO: replace with formal warning system
-        log.warning(
+        raise ValueError(
             "explainer is non-functional with return_contribution and return_explainer set to"
             " false"
         )
