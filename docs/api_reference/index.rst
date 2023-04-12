@@ -14,6 +14,7 @@ and classes in Pyreal
    local_feature_contribution
    global_feature_importance
    decision_tree_explainer
+   partial_dependence_explainer
    generic_explainer
    transformer
    explanation_types
