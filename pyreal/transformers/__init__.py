@@ -29,6 +29,7 @@ from pyreal.transformers.time_series_formatter import (
 )
 from pyreal.transformers.wrappers import DataFrameWrapper
 from pyreal.transformers.pad import TimeSeriesPadder
+from pyreal.transformers.type_cast import BoolToIntCaster
 
 __all__ = [
     "Transformer",
@@ -57,4 +58,5 @@ __all__ = [
     "Numpy3dToNestedFrame",
     "Pandas2dToMultiIndexFrame",
     "TimeSeriesPadder",
+    "BoolToIntCaster"
 ]
