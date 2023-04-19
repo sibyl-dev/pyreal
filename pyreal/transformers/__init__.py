@@ -58,5 +58,5 @@ __all__ = [
     "Numpy3dToNestedFrame",
     "Pandas2dToMultiIndexFrame",
     "TimeSeriesPadder",
-    "BoolToIntCaster"
+    "BoolToIntCaster",
 ]
