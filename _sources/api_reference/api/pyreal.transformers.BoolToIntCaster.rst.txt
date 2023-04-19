@@ -1,0 +1,41 @@
+﻿pyreal.transformers.BoolToIntCaster
+===================================
+
+.. currentmodule:: pyreal.transformers
+
+.. autoclass:: BoolToIntCaster
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~BoolToIntCaster.__init__
+      ~BoolToIntCaster.data_transform
+      ~BoolToIntCaster.fit
+      ~BoolToIntCaster.fit_transform
+      ~BoolToIntCaster.inverse_transform_explanation
+      ~BoolToIntCaster.inverse_transform_explanation_additive_feature_contribution
+      ~BoolToIntCaster.inverse_transform_explanation_additive_feature_importance
+      ~BoolToIntCaster.inverse_transform_explanation_decision_tree
+      ~BoolToIntCaster.inverse_transform_explanation_feature_based
+      ~BoolToIntCaster.inverse_transform_explanation_feature_contribution
+      ~BoolToIntCaster.inverse_transform_explanation_feature_importance
+      ~BoolToIntCaster.set_flags
+      ~BoolToIntCaster.transform
+      ~BoolToIntCaster.transform_explanation
+      ~BoolToIntCaster.transform_explanation_additive_feature_contribution
+      ~BoolToIntCaster.transform_explanation_additive_feature_importance
+      ~BoolToIntCaster.transform_explanation_decision_tree
+      ~BoolToIntCaster.transform_explanation_feature_based
+      ~BoolToIntCaster.transform_explanation_feature_contribution
+      ~BoolToIntCaster.transform_explanation_feature_importance
+   
+   
+
+   
+   
+   
