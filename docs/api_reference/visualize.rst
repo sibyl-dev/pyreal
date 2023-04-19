@@ -9,6 +9,8 @@ Feature Contribution Visualizations
 .. autosummary::
     :toctree: api/
 
-    pyreal.visualize.plot_top_contributors
-    pyreal.visualize.plot_tree_explanation
-    pyreal.visualize.swarm_plot
+    plot_top_contributors
+    plot_tree_explanation
+    swarm_plot
+    feature_scatter_plot
+    plot_timeseries_saliency
