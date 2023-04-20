@@ -17,6 +17,8 @@
 ***
 
 * [⚙ Developing Applications](developing-applications/README.md)
+  * [Developer Terminology Guide](developing-applications/developer-terminology-guide.md)
+  * [Feature Space Pipeline](developing-applications/feature-space-pipeline.md)
   * [Working with Transformers](developing-applications/working-with-transformers.md)
 * [🍎 Other Tutorials](other-tutorials.md)
 
