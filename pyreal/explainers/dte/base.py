@@ -21,7 +21,7 @@ class DecisionTreeExplainerBase(ExplainerBase, ABC):
         **kwargs: see base Explainer args
     """
 
-    def __init__(self, model, x_train_orig, interpretable_features=True, **kwargs):
+    def __init__(self, model, x_train_orig=None, interpretable_features=True, **kwargs):
         self.interpretable_features = interpretable_features
         super(DecisionTreeExplainerBase, self).__init__(model, x_train_orig, **kwargs)
 

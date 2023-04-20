@@ -130,7 +130,7 @@ class LocalFeatureContribution(LocalFeatureContributionsBase):
         **kwargs: see LocalFeatureContributionsBase args
     """
 
-    def __init__(self, model, x_train_orig, e_algorithm=None, shap_type=None, **kwargs):
+    def __init__(self, model, x_train_orig=None, e_algorithm=None, shap_type=None, **kwargs):
         if e_algorithm is None:
             e_algorithm = choose_algorithm()
         self.base_local_feature_contribution = None

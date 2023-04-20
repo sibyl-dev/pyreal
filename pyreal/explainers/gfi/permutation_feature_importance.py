@@ -21,7 +21,7 @@ class PermutationFeatureImportance(GlobalFeatureImportanceBase):
         **kwargs: see base Explainer args
     """
 
-    def __init__(self, model, x_train_orig, **kwargs):
+    def __init__(self, model, x_train_orig=None, **kwargs):
         self.explainer = None
         self.explainer_input_size = None
         super(PermutationFeatureImportance, self).__init__(model, x_train_orig, **kwargs)

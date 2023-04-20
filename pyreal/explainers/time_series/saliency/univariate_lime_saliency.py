@@ -25,7 +25,7 @@ class UnivariateLimeSaliency(SaliencyBase):
     """
 
     def __init__(
-        self, model, x_train_orig, y_train, regression=False, suppress_prob_warnings=False, **kwargs
+        self, model, x_train_orig=None, y_train=None, regression=False, suppress_prob_warnings=False, **kwargs
     ):
         """
         Args:

@@ -20,7 +20,7 @@ class UnivariateOcclusionSaliency(SaliencyBase):
     """
 
     def __init__(
-        self, model, x_train_orig, regression=False, width=5, k="avg", num_classes=None, **kwargs
+        self, model, x_train_orig=None, regression=False, width=5, k="avg", num_classes=None, **kwargs
     ):
         """
         Generates a feature importance explanation of time-series type data by iteratively

@@ -25,7 +25,7 @@ class ShapFeatureContribution(LocalFeatureContributionsBase):
         **kwargs: see base Explainer args
     """
 
-    def __init__(self, model, x_train_orig, shap_type=None, **kwargs):
+    def __init__(self, model, x_train_orig=None, shap_type=None, **kwargs):
         supported_types = ["kernel", "linear"]
         if shap_type is not None and shap_type not in supported_types:
             raise ValueError(

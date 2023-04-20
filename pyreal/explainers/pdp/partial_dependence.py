@@ -27,8 +27,8 @@ class PartialDependence(PartialDependenceExplainerBase):
     def __init__(
         self,
         model,
-        x_train_orig,
         features,
+        x_train_orig=None,
         grid_resolution=100,
         interpretable_features=True,
         **kwargs,

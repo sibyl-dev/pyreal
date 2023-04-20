@@ -25,7 +25,7 @@ class SurrogateDecisionTree(DecisionTreeExplainerBase):
         **kwargs: see base Explainer args
     """
 
-    def __init__(self, model, x_train_orig, is_classifier=True, max_depth=None, **kwargs):
+    def __init__(self, model, x_train_orig=None, is_classifier=True, max_depth=None, **kwargs):
         self.explainer = None
         self.explainer_input_size = None
         self.is_classifer = is_classifier

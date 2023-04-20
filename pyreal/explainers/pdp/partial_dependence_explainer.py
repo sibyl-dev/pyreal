@@ -103,9 +103,9 @@ class PartialDependenceExplainer(PartialDependenceExplainerBase):
         **kwargs: see base Explainer args
     """
 
-    def __init__(self, model, x_train_orig, features, grid_resolution=100, **kwargs):
+    def __init__(self, model, features, x_train_orig=None, grid_resolution=100, **kwargs):
         self.base_partial_dependence = PartialDependence(
-            model, x_train_orig, features=features, grid_resolution=grid_resolution
+            model, features=features, x_train_orig=x_train_orig, grid_resolution=grid_resolution
         )
         super(PartialDependenceExplainer, self).__init__(model, x_train_orig, **kwargs)
 

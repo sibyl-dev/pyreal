@@ -28,7 +28,7 @@ class SimpleCounterfactualContribution(LocalFeatureContributionsBase):
         **kwargs: see base Explainer args
     """
 
-    def __init__(self, model, x_train_orig, n_iterations=30, **kwargs):
+    def __init__(self, model, x_train_orig=None, n_iterations=30, **kwargs):
         self.explainer_input_size = None
         self.n_iterations = n_iterations
         super(SimpleCounterfactualContribution, self).__init__(model, x_train_orig, **kwargs)

@@ -8,15 +8,15 @@ def test_produce_partial_dependence_regression_no_transforms(regression_no_trans
     features = model["x"].columns[:-1]
     pdpe = PartialDependenceExplainer(
         model=model["model"],
-        x_train_orig=model["x"],
         features=features,
+        x_train_orig=model["x"],
         transformers=model["transformers"],
         fit_on_init=True,
     )
     pdp = PartialDependence(
         model=model["model"],
-        x_train_orig=model["x"],
         features=features,
+        x_train_orig=model["x"],
         transformers=model["transformers"],
         fit_on_init=True,
     )

@@ -122,7 +122,7 @@ class DecisionTreeExplainer(DecisionTreeExplainerBase):
     """
 
     def __init__(
-        self, model, x_train_orig, e_algorithm=None, is_classifier=True, max_depth=None, **kwargs
+        self, model, x_train_orig=None, e_algorithm=None, is_classifier=True, max_depth=None, **kwargs
     ):
         self.is_classifier = is_classifier
         self.max_depth = max_depth
