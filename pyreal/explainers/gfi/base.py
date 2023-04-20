@@ -30,9 +30,15 @@ class GlobalFeatureImportanceBase(ExplainerBase, ABC):
         super(GlobalFeatureImportanceBase, self).__init__(model, x_train_orig, **kwargs)
 
     @abstractmethod
-    def fit(self):
+    def fit(self, x_train_orig=None, y_train=None):
         """
         Fit this explainer object
+
+        Args:
+             x_train_orig (DataFrame of shape (n_instances, n_features):
+                Training set to fit on, required if not provided on initialization
+            y_train:
+                Targets of training set, required if not provided on initialization
         """
 
     def produce(self, x_orig=None):

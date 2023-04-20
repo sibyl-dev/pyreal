@@ -30,9 +30,13 @@ class LocalFeatureContributionsBase(ExplainerBase, ABC):
         super(LocalFeatureContributionsBase, self).__init__(model, x_train_orig, **kwargs)
 
     @abstractmethod
-    def fit(self):
+    def fit(self, x_train_orig=None, y_train=None):
         """
         Fit this explainer object
+
+        Args:
+            y_train:
+            x_train_orig:
         """
 
     def produce(self, x_orig):

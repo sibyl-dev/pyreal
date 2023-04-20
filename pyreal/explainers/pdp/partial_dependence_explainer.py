@@ -118,9 +118,13 @@ class PartialDependenceExplainer(PartialDependenceExplainerBase):
         """
         return self.base_partial_dependence.get_pdp()
 
-    def fit(self):
+    def fit(self, x_train_orig=None, y_train=None):
         """
         Fit this explainer object
+
+        Args:
+            y_train:
+            x_train_orig:
         """
         self.base_partial_dependence.fit()
         return self

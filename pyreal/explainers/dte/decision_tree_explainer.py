@@ -122,7 +122,13 @@ class DecisionTreeExplainer(DecisionTreeExplainerBase):
     """
 
     def __init__(
-        self, model, x_train_orig=None, e_algorithm=None, is_classifier=True, max_depth=None, **kwargs
+        self,
+        model,
+        x_train_orig=None,
+        e_algorithm=None,
+        is_classifier=True,
+        max_depth=None,
+        **kwargs
     ):
         self.is_classifier = is_classifier
         self.max_depth = max_depth
@@ -137,11 +143,17 @@ class DecisionTreeExplainer(DecisionTreeExplainerBase):
 
         super(DecisionTreeExplainer, self).__init__(model, x_train_orig, **kwargs)
 
-    def fit(self):
+    def fit(self, x_train_orig=None, y_train=None):
         """
         Fit this explainer object
+
+        Args:
+             x_train_orig (DataFrame of shape (n_instances, n_features):
+                Training set to fit on, required if not provided on initialization
+            y_train:
+                Targets of training set, required if not provided on initialization
         """
-        self.base_decision_tree.fit()
+        self.base_decision_tree.fit(x_train_orig, y_train)
         return self
 
     def produce(self, x_orig=None):

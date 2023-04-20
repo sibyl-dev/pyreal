@@ -32,13 +32,22 @@ class SurrogateDecisionTree(DecisionTreeExplainerBase):
         self.max_depth = max_depth
         super(SurrogateDecisionTree, self).__init__(model, x_train_orig, **kwargs)
 
-    def fit(self):
+    def fit(self, x_train_orig=None, y_train=None):
         """
         Fit the decision tree.
         TODO: Perhaps use sklearn's GridSearchCV to find the "best" tree.
+
+        Args:
+             x_train_orig (DataFrame of shape (n_instances, n_features):
+                Training set to fit on, required if not provided on initialization
+            y_train:
+                Targets of training set, required if not provided on initialization
         """
-        a_dataset = self.transform_to_x_algorithm(self.x_train_orig_subset)
-        m_dataset = self.transform_to_x_model(self.x_train_orig_subset)
+        x_train_orig = self._get_x_train_orig(x_train_orig)
+
+        a_dataset = self.transform_to_x_algorithm(x_train_orig)
+        m_dataset = self.transform_to_x_model(x_train_orig)
+
         self.explainer_input_size = a_dataset.shape[1]
         if self.is_classifer:
             self.explainer = tree.DecisionTreeClassifier(max_depth=self.max_depth)
@@ -48,7 +57,7 @@ class SurrogateDecisionTree(DecisionTreeExplainerBase):
             self.explainer.fit(a_dataset, self.model.predict(m_dataset))
         return self
 
-    def produce(self):
+    def produce(self, x_orig=None):
         """
         Produce the explanation as a decision tree model.
 

@@ -33,9 +33,13 @@ class SimpleCounterfactualContribution(LocalFeatureContributionsBase):
         self.n_iterations = n_iterations
         super(SimpleCounterfactualContribution, self).__init__(model, x_train_orig, **kwargs)
 
-    def fit(self):
+    def fit(self, x_train_orig=None, y_train=None):
         """
         Fit the contribution explainer
+
+        Args:
+            y_train:
+            x_train_orig:
         """
         dataset = self.transform_to_x_algorithm(self.x_train_orig_subset)
         self.explainer_input_size = dataset.shape[1]

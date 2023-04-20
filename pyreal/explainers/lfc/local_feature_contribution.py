@@ -147,9 +147,13 @@ class LocalFeatureContribution(LocalFeatureContributionsBase):
 
         super(LocalFeatureContribution, self).__init__(model, x_train_orig, **kwargs)
 
-    def fit(self):
+    def fit(self, x_train_orig=None, y_train=None):
         """
         Fit this explainer object
+
+        Args:
+            y_train:
+            x_train_orig:
         """
         self.base_local_feature_contribution.fit()
         return self

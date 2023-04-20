@@ -35,21 +35,50 @@ class ShapFeatureImportance(GlobalFeatureImportanceBase):
 
         self.explainer = None
         self.explainer_input_size = None
+        self.importance_from_fit = None
+
         super(ShapFeatureImportance, self).__init__(model, x_train_orig, **kwargs)
 
-    def fit(self):
+    def fit(self, x_train_orig=None, y_train=None):
         """
         Fit the feature importance explainer
+
+        Args:
+            y_train:
+            x_train_orig:
         """
-        dataset = self.transform_to_x_model(self.x_train_orig_subset)
-        self.explainer_input_size = dataset.shape[1]
+        x_train_orig = self._get_x_train_orig(x_train_orig)
+
+        x_model = self.transform_to_x_model(x_train_orig)
+        self.explainer_input_size = x_model.shape[1]
         if self.shap_type == "kernel":
-            self.explainer = KernelExplainer(self.model.predict, dataset)
+            self.explainer = KernelExplainer(self.model.predict, x_model)
         # Note: we manually check for linear model here because of SHAP bug
         elif self.shap_type == "linear":
-            self.explainer = LinearExplainer(self.model, dataset)
+            self.explainer = LinearExplainer(self.model, x_model)
         else:
-            self.explainer = ShapExplainer(self.model, dataset)  # SHAP will pick an algorithm
+            self.explainer = ShapExplainer(self.model, x_model)  # SHAP will pick an algorithm
+
+        x_model_np = np.asanyarray(x_model)
+        if isinstance(self.explainer, TreeExplainer):
+            shap_values = np.array(self.explainer.shap_values(x_model_np, check_additivity=False))
+        else:
+            shap_values = np.array(self.explainer.shap_values(x_model_np))
+
+        if shap_values.ndim < 2:
+            raise RuntimeError("Something went wrong with SHAP - expected at least 2 dimensions")
+        if shap_values.ndim > 2:
+            predictions = self.model_predict(x_train_orig)
+
+            if self.classes is not None:
+                predictions = [np.where(self.classes == i)[0][0] for i in predictions]
+            print(shap_values.shape)
+            print(predictions)
+            shap_values = shap_values[predictions, np.arange(shap_values.shape[1]), :]
+
+        importances = np.mean(np.absolute(shap_values), axis=0).reshape(1, -1)
+        self.importance_from_fit = pd.DataFrame(importances, columns=x_model.columns)
+
         return self
 
     def get_importance(self):
@@ -60,26 +89,8 @@ class ShapFeatureImportance(GlobalFeatureImportanceBase):
             DataFrame of shape (n_features, ):
                  The global importance of each feature
         """
-        if self.explainer is None:
-            raise AttributeError("Instance has no explainer. Must call fit() before produce()")
-        x_model = self.transform_to_x_model(self.x_train_orig_subset)
-        x_model_np = np.asanyarray(x_model)
-        if isinstance(self.explainer, TreeExplainer):
-            shap_values = np.array(self.explainer.shap_values(x_model_np, check_additivity=False))
-        else:
-            shap_values = np.array(self.explainer.shap_values(x_model_np))
-
-        if shap_values.ndim < 2:
-            raise RuntimeError("Something went wrong with SHAP - expected at least 2 dimensions")
-        if shap_values.ndim > 2:
-            predictions = self.model_predict(self.x_train_orig_subset)
-
-            if self.classes is not None:
-                predictions = [np.where(self.classes == i)[0][0] for i in predictions]
-
-            shap_values = shap_values[predictions, np.arange(shap_values.shape[1]), :]
-
-        importances = np.mean(np.absolute(shap_values), axis=0).reshape(1, -1)
+        if self.importance_from_fit is None:
+            raise RuntimeError("Must fit explainer before calling produce!")
         return AdditiveFeatureImportanceExplanation(
-            pd.DataFrame(importances, columns=x_model.columns)
+            self.importance_from_fit
         )

@@ -203,9 +203,15 @@ class ExplainerBase(ABC):
         if fit_on_init:
             self.fit()
 
-    def fit(self):
+    def fit(self, x_train_orig=None, y_train=None):
         """
         Fit this explainer object.
+
+        Args:
+            x_train_orig (DataFrame of shape (n_instances, n_features):
+                Training set to fit on, required if not provided on initialization
+            y_train:
+                Targets of training set, required if not provided on initialization
         """
         return self
 
@@ -451,14 +457,9 @@ class ExplainerBase(ABC):
                 A score for the model
 
         """
-        if x_orig is None:
-            if self.x_train_orig is None:
-                raise ValueError("Explainer does not have x_train_orig. Must provide x_orig to score.")
-            x_orig = self.x_train_orig_subset
-        if y is None:
-            if self.y_train is None:
-                raise ValueError("Explainer does not have y_train. Must provide y to score.")
-            y = self.y_train_subset
+        x_orig = self._get_x_train_orig(x_orig)
+        y = self._get_y_train(y)
+
         scorer = get_scorer(scorer)
         x_model = self.transform_to_x_model(x_orig)
         score = scorer(self.model, x_model, y)
@@ -489,3 +490,41 @@ class ExplainerBase(ABC):
             float
                 The variation of this Explainer's explanations
         """
+
+    def _get_x_train_orig(self, x_train_orig=None):
+        """
+        Helper function to get the appropriate x_orig or raise errors if something goes wrong
+        Args:
+            x_orig (DataFrame or None):
+                Provided DataFrame
+        Returns:
+            The dataframe to use (x_orig or self.x_train_orig)
+
+        Raises:
+            ValueError if no valid dataframe
+        """
+        if x_train_orig is not None:
+            return x_train_orig
+        if self.x_train_orig_subset is not None:
+            return self.x_train_orig_subset
+        else:
+            raise ValueError("Must provide x_train_orig at initialization or fitting time!")
+
+    def _get_y_train(self, y_train=None):
+        """
+        Helper function to get the appropriate y or raise errors if something goes wrong
+        Args:
+            y (DataFrame or None):
+                Provided DataFrame
+        Returns:
+            The dataframe to use (y or self.y_train)
+
+        Raises:
+            ValueError if no valid dataframe
+        """
+        if y_train is not None:
+            return y_train
+        if self.y_train_subset is not None:
+            return self.y_train_subset
+        else:
+            raise ValueError("Must provide x_train at initialization or fitting time!")

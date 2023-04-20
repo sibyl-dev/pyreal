@@ -25,7 +25,13 @@ class UnivariateLimeSaliency(SaliencyBase):
     """
 
     def __init__(
-        self, model, x_train_orig=None, y_train=None, regression=False, suppress_prob_warnings=False, **kwargs
+        self,
+        model,
+        x_train_orig=None,
+        y_train=None,
+        regression=False,
+        suppress_prob_warnings=False,
+        **kwargs
     ):
         """
         Args:
@@ -47,9 +53,11 @@ class UnivariateLimeSaliency(SaliencyBase):
         self.suppress_prob_warnings = suppress_prob_warnings
         self.explainer = None
         self.regression = regression
-        super(UnivariateLimeSaliency, self).__init__(model, x_train_orig, y_train=y_train, **kwargs)
+        super(UnivariateLimeSaliency, self).__init__(
+            model, x_train_orig, y_train=y_train, **kwargs
+        )
 
-    def fit(self):
+    def fit(self, x_train_orig=None, y_train=None):
         x_train_algo = self.transform_to_x_algorithm(self.x_train_orig)
         num_timesteps = x_train_algo.shape[1]
 
