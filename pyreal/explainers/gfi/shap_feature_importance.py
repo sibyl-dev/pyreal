@@ -41,7 +41,7 @@ class ShapFeatureImportance(GlobalFeatureImportanceBase):
         """
         Fit the feature importance explainer
         """
-        dataset = self.transform_to_x_model(self._x_train_orig)
+        dataset = self.transform_to_x_model(self.x_train_orig_subset)
         self.explainer_input_size = dataset.shape[1]
         if self.shap_type == "kernel":
             self.explainer = KernelExplainer(self.model.predict, dataset)
@@ -62,7 +62,7 @@ class ShapFeatureImportance(GlobalFeatureImportanceBase):
         """
         if self.explainer is None:
             raise AttributeError("Instance has no explainer. Must call fit() before produce()")
-        x_model = self.transform_to_x_model(self._x_train_orig)
+        x_model = self.transform_to_x_model(self.x_train_orig_subset)
         x_model_np = np.asanyarray(x_model)
         if isinstance(self.explainer, TreeExplainer):
             shap_values = np.array(self.explainer.shap_values(x_model_np, check_additivity=False))
@@ -72,7 +72,7 @@ class ShapFeatureImportance(GlobalFeatureImportanceBase):
         if shap_values.ndim < 2:
             raise RuntimeError("Something went wrong with SHAP - expected at least 2 dimensions")
         if shap_values.ndim > 2:
-            predictions = self.model_predict(self._x_train_orig)
+            predictions = self.model_predict(self.x_train_orig_subset)
 
             if self.classes is not None:
                 predictions = [np.where(self.classes == i)[0][0] for i in predictions]

@@ -49,7 +49,7 @@ class PartialDependence(PartialDependenceExplainerBase):
             self.grid_points: ndarray of shape (features, grid_resolution)
                 The grid points where the partial dependence values are calculated.
         """
-        dataset = self.transform_to_x_model(self._x_train_orig)
+        dataset = self.transform_to_x_model(self.x_train_orig_subset)
         explanation_results = partial_dependence(
             self.model,
             dataset,

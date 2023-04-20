@@ -5,7 +5,7 @@ def test_produce_global_feature_importance(regression_no_transforms):
     realApp = RealApp(
         regression_no_transforms["model"],
         regression_no_transforms["x"],
-        y_orig=regression_no_transforms["y"],
+        y_train=regression_no_transforms["y"],
         transformers=regression_no_transforms["transformers"],
     )
     features = ["A", "B", "C"]

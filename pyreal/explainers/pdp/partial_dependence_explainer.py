@@ -59,7 +59,6 @@ def pdp(
             "explainer is non-functional with return_contribution and return_explainer set to"
             " false"
         )
-        return
     if explainer is None and (model is None or x_train_orig is None or features is None):
         raise ValueError(
             "explainer requires either explainer OR model, x_train, features to be passed"

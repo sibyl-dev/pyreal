@@ -25,7 +25,7 @@ class UnivariateLimeSaliency(SaliencyBase):
     """
 
     def __init__(
-        self, model, x_train_orig, y_orig, regression=False, suppress_prob_warnings=False, **kwargs
+        self, model, x_train_orig, y_train, regression=False, suppress_prob_warnings=False, **kwargs
     ):
         """
         Args:
@@ -33,7 +33,7 @@ class UnivariateLimeSaliency(SaliencyBase):
                 Filepath to the pickled model to explain, or model object with .predict() function
             x_train_orig (DataFrame of size (n_instances, n_features)):
                 Training set in original form.
-            y_orig (DataFrame of shape (n_instances,)):
+            y_train (DataFrame of shape (n_instances,)):
                 The y values for the dataset
             regression (Boolean):
                 If true, model is a regression model.
@@ -47,14 +47,14 @@ class UnivariateLimeSaliency(SaliencyBase):
         self.suppress_prob_warnings = suppress_prob_warnings
         self.explainer = None
         self.regression = regression
-        super(UnivariateLimeSaliency, self).__init__(model, x_train_orig, y_orig=y_orig, **kwargs)
+        super(UnivariateLimeSaliency, self).__init__(model, x_train_orig, y_train=y_train, **kwargs)
 
     def fit(self):
         x_train_algo = self.transform_to_x_algorithm(self.x_train_orig)
         num_timesteps = x_train_algo.shape[1]
 
         x_train_algo_np = np.copy(x_train_algo)[: self.training_size, :]
-        y_train_np = np.copy(self.y_orig)[: self.training_size]
+        y_train_np = np.copy(self.y_train)[: self.training_size]
 
         if self.regression:
             mode = "regression"

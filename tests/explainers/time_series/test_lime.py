@@ -19,7 +19,7 @@ def test_produce_lime_classification_no_transforms(classification_no_transforms)
     explainer = UnivariateLimeSaliency(
         model=model,
         x_train_orig=pd.DataFrame([[3, 2, 1], [1, 2, 3], [6, 2, 5]]),
-        y_orig=pd.DataFrame([[0, 0, 1], [1, 0, 0], [0, 1, 0]]),
+        y_train=pd.DataFrame([[0, 0, 1], [1, 0, 0], [0, 1, 0]]),
         transformers=[],
         regression=False,
         fit_on_init=True,
@@ -45,7 +45,7 @@ def test_produce_lime_regression_no_transforms(regression_no_transforms):
     explainer = UnivariateLimeSaliency(
         model=model,
         x_train_orig=pd.DataFrame([[1, 0, 0], [2, 0, 2], [3, 3, 0]]),
-        y_orig=pd.Series([1, 2, 3]),
+        y_train=pd.Series([1, 2, 3]),
         transformers=[],
         regression=True,
         fit_on_init=True,

@@ -154,7 +154,7 @@ def test_evaluate_model(regression_no_transforms):
     explainer = LocalFeatureContribution(
         regression_no_transforms["model"],
         regression_no_transforms["x"],
-        y_orig=regression_no_transforms["y"],
+        y_train=regression_no_transforms["y"],
     )
     score = explainer.evaluate_model("accuracy")
     assert score == 1
@@ -165,7 +165,7 @@ def test_evaluate_model(regression_no_transforms):
     new_y = regression_no_transforms["x"].iloc[:, 0:1].copy()
     new_y.iloc[0, 0] = 0
     explainer = LocalFeatureContribution(
-        regression_no_transforms["model"], regression_no_transforms["x"], y_orig=new_y
+        regression_no_transforms["model"], regression_no_transforms["x"], y_train=new_y
     )
     score = explainer.evaluate_model("accuracy")
     assert abs(score - 0.6667) <= 0.0001
@@ -181,7 +181,7 @@ def test_transform_explanation(regression_no_transforms):
     explainer = LocalFeatureContribution(
         regression_no_transforms["model"],
         x,
-        y_orig=regression_no_transforms["y"],
+        y_train=regression_no_transforms["y"],
         transformers=[feature_select1, feature_select2],
     )
 
@@ -228,7 +228,7 @@ def test_transform_x_with_produce(regression_no_transforms):
     explainer = LocalFeatureContribution(
         regression_no_transforms["model"],
         regression_no_transforms["x"],
-        y_orig=regression_no_transforms["y"],
+        y_train=regression_no_transforms["y"],
         transformers=[feature_select1, subtract_1, subtract_2, subtract_3],
     )
     transform_explanation = explainer.transform_explanation(explanation, x)
@@ -275,7 +275,7 @@ def test_fit_transformer_param(regression_no_transforms):
     explainer = LocalFeatureContribution(
         regression_no_transforms["model"],
         x,
-        y_orig=regression_no_transforms["y"],
+        y_train=regression_no_transforms["y"],
         transformers=[feature_select1, feature_select2],
         fit_transformers=True,
     )

@@ -8,7 +8,7 @@ def test_produce_permutation_regression_no_transforms(regression_no_transforms):
     gfi = GlobalFeatureImportance(
         model=model["model"],
         x_train_orig=model["x"],
-        y_orig=model["y"],
+        y_train=model["y"],
         e_algorithm="permutation",
         transformers=model["transformers"],
         fit_on_init=True,
@@ -16,7 +16,7 @@ def test_produce_permutation_regression_no_transforms(regression_no_transforms):
     shap = PermutationFeatureImportance(
         model=model["model"],
         x_train_orig=model["x"],
-        y_orig=model["y"],
+        y_train=model["y"],
         transformers=model["transformers"],
         fit_on_init=True,
     )
@@ -38,7 +38,7 @@ def test_produce_permutation_regression_transforms(regression_one_hot):
     gfi = GlobalFeatureImportance(
         model=model["model"],
         x_train_orig=model["x"],
-        y_orig=model["y"],
+        y_train=model["y"],
         e_algorithm="permutation",
         transformers=model["transformers"],
         fit_on_init=True,
@@ -46,7 +46,7 @@ def test_produce_permutation_regression_transforms(regression_one_hot):
     shap = PermutationFeatureImportance(
         model=model["model"],
         x_train_orig=model["x"],
-        y_orig=model["y"],
+        y_train=model["y"],
         transformers=model["transformers"],
         fit_on_init=True,
     )
@@ -70,7 +70,7 @@ def test_permutation_produce_classification_no_transforms(classification_no_tran
     gfi = GlobalFeatureImportance(
         model=model["model"],
         x_train_orig=model["x"],
-        y_orig=model["y"],
+        y_train=model["y"],
         e_algorithm="permutation",
         transformers=model["transformers"],
         fit_on_init=True,
@@ -79,7 +79,7 @@ def test_permutation_produce_classification_no_transforms(classification_no_tran
     permutation = PermutationFeatureImportance(
         model=model["model"],
         x_train_orig=model["x"],
-        y_orig=model["y"],
+        y_train=model["y"],
         transformers=model["transformers"],
         fit_on_init=True,
         classes=np.arange(1, 4),
@@ -104,7 +104,7 @@ def test_produce_permutation_regression_no_transforms_with_size(regression_no_tr
     gfi = GlobalFeatureImportance(
         model=model["model"],
         x_train_orig=model["x"],
-        y_orig=model["y"],
+        y_train=model["y"],
         e_algorithm="permutation",
         transformers=model["transformers"],
         fit_on_init=True,
@@ -113,7 +113,7 @@ def test_produce_permutation_regression_no_transforms_with_size(regression_no_tr
     shap = PermutationFeatureImportance(
         model=model["model"],
         x_train_orig=model["x"],
-        y_orig=model["y"],
+        y_train=model["y"],
         transformers=model["transformers"],
         fit_on_init=True,
         training_size=4,
@@ -133,7 +133,7 @@ def test_permutation_produce_classification_no_transforms_with_size(classificati
     gfi = GlobalFeatureImportance(
         model=model["model"],
         x_train_orig=model["x"],
-        y_orig=model["y"],
+        y_train=model["y"],
         e_algorithm="permutation",
         transformers=model["transformers"],
         fit_on_init=True,
@@ -143,7 +143,7 @@ def test_permutation_produce_classification_no_transforms_with_size(classificati
     permutation = PermutationFeatureImportance(
         model=model["model"],
         x_train_orig=model["x"],
-        y_orig=model["y"],
+        y_train=model["y"],
         transformers=model["transformers"],
         fit_on_init=True,
         training_size=5,

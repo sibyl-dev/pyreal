@@ -87,8 +87,8 @@ class ExplainerBase(ABC):
            Classification models should return the index or class. If the latter, the `classes`
            parameter should be provided.
         x_train_orig (DataFrame of shape (n_instances, x_orig_feature_count)):
-           The training set for the explainer
-        y_orig (DataFrame of shape (n_instances,)):
+           The training set for the explainer. If none, must be provided separately when fitting
+        y_train (DataFrame of shape (n_instances,)):
            The y values for the dataset
         feature_descriptions (dict):
            Interpretable descriptions of each feature
@@ -111,13 +111,15 @@ class ExplainerBase(ABC):
             entire x_train_orig.
         return_original_explanation (Boolean):
             If True, return the explanation originally generated without any transformations
+        fit_transformers (Boolean):
+            If True, fit transformers on x_train_orig. Requires x_train_orig not be None
     """
 
     def __init__(
         self,
         model,
-        x_train_orig,
-        y_orig=None,
+        x_train_orig=None,
+        y_train=None,
         feature_descriptions=None,
         classes=None,
         class_descriptions=None,
@@ -136,13 +138,13 @@ class ExplainerBase(ABC):
             self.model = model
 
         self.x_train_orig = x_train_orig
-        self.y_orig = y_orig
+        self.y_train = y_train
 
         if not isinstance(x_train_orig, pd.DataFrame) or (
-            y_orig is not None
-            and not (isinstance(y_orig, pd.DataFrame) or isinstance(y_orig, pd.Series))
+            y_train is not None
+            and not (isinstance(y_train, pd.DataFrame) or isinstance(y_train, pd.Series))
         ):
-            raise TypeError("x_orig and y_orig must be of type DataFrame")
+            raise TypeError("x_orig and y_train must be of type DataFrame")
 
         self.x_orig_feature_count = x_train_orig.shape[1]
 
@@ -184,12 +186,15 @@ class ExplainerBase(ABC):
                     np.random.choice(self.x_train_orig.index, self.training_size, replace=False)
                 )
 
-        # use _x_train_orig for fitting explainer
-        self._x_train_orig = self.x_train_orig.loc[data_sample_indices]
-        if y_orig is not None:
-            self._y_orig = self.y_orig.loc[data_sample_indices]
+        # use x_train_orig_subset for fitting explainer
+        if x_train_orig is not None:
+            self.x_train_orig_subset = self.x_train_orig.loc[data_sample_indices]
+        if y_train is not None:
+            self.y_train_subset = self.y_train.loc[data_sample_indices]
 
         if fit_transformers:
+            if x_train_orig is None:
+                raise ValueError("Cannot fit transformers unless x_train_orig is provided")
             a_transformers = _get_transformers(self.transformers, algorithm=True)
             i_transformers = _get_transformers(self.transformers, interpret=True)
             fit_transformers_func(a_transformers, self.x_train_orig)
@@ -200,7 +205,7 @@ class ExplainerBase(ABC):
 
     def fit(self):
         """
-        Fit this explainer object. Abstract method
+        Fit this explainer object.
         """
         return self
 
@@ -426,7 +431,7 @@ class ExplainerBase(ABC):
         """
         return self.convert_columns_to_interpretable(self.transform_to_x_interpret(x_orig))
 
-    def evaluate_model(self, scorer):
+    def evaluate_model(self, scorer, x_orig=None, y=None):
         """
         Evaluate the model using a chosen scorer algorithm.
 
@@ -434,17 +439,29 @@ class ExplainerBase(ABC):
             scorer (string):
                 Type of scorer to use. See sklearn's scoring parameter options here:
                 https://scikit-learn.org/stable/modules/model_evaluation.html#scoring-parameter
+            x_orig (DataFrame of shape (n_instances, n_features)):
+                Dataset to score on. Required if x_train_orig was not provided at initialization.
+                If None, use self.x_train_orig
+            y (DataFrame of shape (n_instances, n_features)):
+                Dataset to score on. Required if y_train was not provided at initialization
+
 
         Returns:
             float
                 A score for the model
 
         """
-        if self.y_orig is None:
-            raise ValueError("Explainer must have a y_orig parameter to score model")
+        if x_orig is None:
+            if self.x_train_orig is None:
+                raise ValueError("Explainer does not have x_train_orig. Must provide x_orig to score.")
+            x_orig = self.x_train_orig_subset
+        if y is None:
+            if self.y_train is None:
+                raise ValueError("Explainer does not have y_train. Must provide y to score.")
+            y = self.y_train_subset
         scorer = get_scorer(scorer)
-        x = self.transform_to_x_model(self._x_train_orig)
-        score = scorer(self.model, x, self._y_orig)
+        x_model = self.transform_to_x_model(x_orig)
+        score = scorer(self.model, x_model, y)
         return score
 
     @abstractmethod

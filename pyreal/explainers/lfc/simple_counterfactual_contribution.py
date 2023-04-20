@@ -37,7 +37,7 @@ class SimpleCounterfactualContribution(LocalFeatureContributionsBase):
         """
         Fit the contribution explainer
         """
-        dataset = self.transform_to_x_algorithm(self._x_train_orig)
+        dataset = self.transform_to_x_algorithm(self.x_train_orig_subset)
         self.explainer_input_size = dataset.shape[1]
         return self
 
@@ -59,7 +59,7 @@ class SimpleCounterfactualContribution(LocalFeatureContributionsBase):
                     self.explainer_input_size, x.shape
                 )
             )
-        x_train_explain = self.transform_to_x_algorithm(self._x_train_orig)
+        x_train_explain = self.transform_to_x_algorithm(self.x_train_orig_subset)
         pred_orig = self.model_predict_on_algorithm(x)
         contributions = pd.DataFrame(np.zeros_like(x), columns=x.columns)
         for col in x:

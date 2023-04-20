@@ -80,7 +80,7 @@ class RealApp:
         self,
         models,
         X_train_orig,
-        y_orig=None,
+        y_train=None,
         transformers=None,
         feature_descriptions=None,
         active_model_id=None,
@@ -97,7 +97,7 @@ class RealApp:
                 Model(s) for this application
             X_train_orig (DataFrame of shape (n_instances,n_features):
                 Training data for models
-            y_orig (DataFrame of shape (n_instances,)):
+            y_train (DataFrame of shape (n_instances,)):
                 The y values for the dataset
             transformers (Transformer object or list of Transformer objects):
                 Transformers for this application
@@ -140,7 +140,7 @@ class RealApp:
             self.X_train_orig = X_train_orig.drop(columns=self.id_column)
         else:
             self.X_train_orig = X_train_orig
-        self.y_orig = y_orig
+        self.y_train = y_train
 
         self.classes = classes
         self.class_descriptions = class_descriptions
@@ -185,7 +185,7 @@ class RealApp:
         return Explainer(
             model,
             self.X_train_orig,
-            y_orig=self.y_orig,
+            y_train=self.y_train,
             transformers=self.transformers,
             feature_descriptions=self.feature_descriptions,
             fit_transformers=fit_transformers,
@@ -399,7 +399,7 @@ class RealApp:
         explainer = LocalFeatureContribution(
             self.models[model_id],
             self.X_train_orig,
-            y_orig=self.y_orig,
+            y_train=self.y_train,
             transformers=self.transformers,
             feature_descriptions=self.feature_descriptions,
             e_algorithm=algorithm,
@@ -479,7 +479,7 @@ class RealApp:
         explainer = GlobalFeatureImportance(
             self.models[model_id],
             self.X_train_orig,
-            y_orig=self.y_orig,
+            y_train=self.y_train,
             transformers=self.transformers,
             feature_descriptions=self.feature_descriptions,
             e_algorithm=algorithm,

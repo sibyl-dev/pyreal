@@ -112,7 +112,7 @@ class LocalFeatureContributionsBase(ExplainerBase, ABC):
                 if with_fit:
                     self.fit()
                 explanations.append(
-                    self.produce(self._x_train_orig.iloc[0:n_rows]).get().to_numpy()
+                    self.produce(self.x_train_orig_subset.iloc[0:n_rows]).get().to_numpy()
                 )
 
         return np.max(np.var(explanations, axis=0))
