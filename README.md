@@ -106,7 +106,7 @@ because of their sex (male) and ticket class (3rd class).
 
 ### Terminology
 Pyreal introduces specific terms and naming schemes to refer to different feature spaces and
-transformations. The [Terminology User Guide](https://sibyl-ml.dev/pyreal/user_guides/transformer_workflow.html#terminology) provides an introduction to these terms.
+transformations. The [Terminology User Guide]([https://sibyl-ml.dev/pyreal/user_guides/transformer_workflow.html#terminology](https://dtail.gitbook.io/pyreal/developing-applications/developer-terminology-guide)) provides an introduction to these terms.
 
 # What's next?
 
