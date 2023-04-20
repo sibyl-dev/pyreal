@@ -8,13 +8,15 @@ Here, we offer a short summary of the specific terminology Pyreal used throughou
 
 ### General Concepts
 
-| Term              | Definition                                                                                  |
-| ----------------- | ------------------------------------------------------------------------------------------- |
-| **model**         | A machine learning predictor, defined as an object with a `.predict()` function.            |
-| **x**             |  Data, in the form of a pandas DataFrame, usually of shape (`n_instances`, `n_features`).   |
-| **x\_train**      | Training data for the model and explanation algorithms                                      |
-| **explanation**   | An explanation of a model or model prediction                                               |
-| **feature space** | A specific format of data (for example, ML models take in data in a specific feature space) |
+| Term                   | Definition                                                                                  |
+| ---------------------- | ------------------------------------------------------------------------------------------- |
+| **model**              | A machine learning predictor, defined as an object with a `.predict()` function.            |
+| **x**                  |  Data, in the form of a pandas DataFrame, usually of shape (`n_instances`, `n_features`).   |
+| **x\_train**           | Training data for the model and explanation algorithms                                      |
+| **explanation**        | An explanation of a model or model prediction                                               |
+| **local explanation**  | An explanation of a specific model prediction                                               |
+| **global explanation** | An explanation of a model overall                                                           |
+| **feature space**      | A specific format of data (for example, ML models take in data in a specific feature space) |
 
 ### Pyreal Classes
 
