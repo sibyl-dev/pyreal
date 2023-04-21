@@ -74,6 +74,26 @@ def test_produce_shap_regression_transforms(regression_one_hot):
     helper_produce_shap_regression_one_hot(shap, regression_one_hot)
 
 
+def test_produce_shap_no_dataset_on_init(regression_one_hot):
+    model = regression_one_hot
+    x = model["x"]
+    gfi = GlobalFeatureImportance(
+        model=model["model"],
+        e_algorithm="shap",
+        transformers=model["transformers"],
+    )
+    shap = ShapFeatureImportance(
+        model=model["model"],
+        transformers=model["transformers"],
+    )
+
+    gfi.fit(x)
+    shap.fit(x)
+
+    helper_produce_shap_regression_one_hot(gfi, regression_one_hot)
+    helper_produce_shap_regression_one_hot(shap, regression_one_hot)
+
+
 def helper_produce_shap_regression_one_hot(explainer, model):
     importances = explainer.produce().get()
     assert importances.shape == (1, model["x"].shape[1])

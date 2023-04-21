@@ -91,6 +91,31 @@ def test_permutation_produce_classification_no_transforms(classification_no_tran
     )
 
 
+def test_permutation_produce_no_dataset_on_init(classification_no_transforms):
+    model = classification_no_transforms
+    x = model["x"]
+    y = model["y"]
+    gfi = GlobalFeatureImportance(
+        model=model["model"],
+        e_algorithm="permutation",
+        transformers=model["transformers"],
+        classes=np.arange(1, 4),
+    )
+    permutation = PermutationFeatureImportance(
+        model=model["model"],
+        transformers=model["transformers"],
+        classes=np.arange(1, 4),
+    )
+
+    gfi.fit(x, y)
+    permutation.fit(x, y)
+
+    helper_permutation_produce_classification_no_transforms(gfi, classification_no_transforms)
+    helper_permutation_produce_classification_no_transforms(
+        permutation, classification_no_transforms
+    )
+
+
 def helper_permutation_produce_classification_no_transforms(explainer, model):
     importances = explainer.produce().get()
     assert importances.shape == (1, model["x"].shape[1])

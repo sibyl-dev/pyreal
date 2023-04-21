@@ -192,6 +192,8 @@ class ExplainerBase(ABC):
             fit_transformers_func(i_transformers, self.x_train_orig)
 
         if fit_on_init:
+            if x_train_orig is None:
+                raise
             self.fit()
 
     def fit(self, x_train_orig=None, y_train=None):
