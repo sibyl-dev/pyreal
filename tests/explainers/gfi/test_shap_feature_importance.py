@@ -11,11 +11,14 @@ def test_fit_shap(all_models):
             x_train_orig=model["x"],
             transformers=model["transformers"],
             e_algorithm="shap",
-            classes=np.arange(1, 4)
+            classes=np.arange(1, 4),
         )
         gfi_object.fit()
         shap = ShapFeatureImportance(
-            model=model["model"], x_train_orig=model["x"], transformers=model["transformers"], classes=np.arange(1, 4)
+            model=model["model"],
+            x_train_orig=model["x"],
+            transformers=model["transformers"],
+            classes=np.arange(1, 4),
         )
         shap.fit()
 

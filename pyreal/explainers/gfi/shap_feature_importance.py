@@ -91,6 +91,4 @@ class ShapFeatureImportance(GlobalFeatureImportanceBase):
         """
         if self.importance_from_fit is None:
             raise RuntimeError("Must fit explainer before calling produce!")
-        return AdditiveFeatureImportanceExplanation(
-            self.importance_from_fit
-        )
+        return AdditiveFeatureImportanceExplanation(self.importance_from_fit)
