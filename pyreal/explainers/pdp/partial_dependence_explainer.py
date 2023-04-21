@@ -123,8 +123,10 @@ class PartialDependenceExplainer(PartialDependenceExplainerBase):
         Fit this explainer object
 
         Args:
+            x_train_orig (DataFrame of shape (n_instances, n_features):
+                Training set to fit on, required if not provided on initialization
             y_train:
-            x_train_orig:
+                Targets of training set, required if not provided on initialization
         """
-        self.base_partial_dependence.fit()
+        self.base_partial_dependence.fit(x_train_orig, y_train)
         return self
