@@ -488,7 +488,7 @@ class ExplainerBase(ABC):
         """
         Helper function to get the appropriate x_orig or raise errors if something goes wrong
         Args:
-            x_orig (DataFrame or None):
+            x_train_orig (DataFrame or None):
                 Provided DataFrame
         Returns:
             The dataframe to use (x_orig or self.x_train_orig)
@@ -507,7 +507,7 @@ class ExplainerBase(ABC):
         """
         Helper function to get the appropriate y or raise errors if something goes wrong
         Args:
-            y (DataFrame or None):
+            y_train (DataFrame or None):
                 Provided DataFrame
         Returns:
             The dataframe to use (y or self.y_train)
@@ -520,4 +520,4 @@ class ExplainerBase(ABC):
         if self.y_train_subset is not None:
             return self.y_train_subset
         else:
-            raise ValueError("Must provide x_train at initialization or fitting time!")
+            raise ValueError("Must provide y_train at initialization or fitting time!")

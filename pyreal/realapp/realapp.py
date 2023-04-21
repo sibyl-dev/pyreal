@@ -79,7 +79,7 @@ class RealApp:
     def __init__(
         self,
         models,
-        X_train_orig,
+        X_train_orig=None,
         y_train=None,
         transformers=None,
         feature_descriptions=None,
@@ -96,7 +96,7 @@ class RealApp:
             models (model object, list of models, or dict of model_id:model):
                 Model(s) for this application
             X_train_orig (DataFrame of shape (n_instances,n_features):
-                Training data for models
+                Training data for models. If None, must be provided when preparing explainers.
             y_train (DataFrame of shape (n_instances,)):
                 The y values for the dataset
             transformers (Transformer object or list of Transformer objects):
@@ -136,7 +136,7 @@ class RealApp:
 
         self.id_column = id_column
 
-        if self.id_column is not None and self.id_column in X_train_orig:
+        if X_train_orig is not None and self.id_column is not None and self.id_column in X_train_orig:
             self.X_train_orig = X_train_orig.drop(columns=self.id_column)
         else:
             self.X_train_orig = X_train_orig
@@ -184,8 +184,6 @@ class RealApp:
 
         return Explainer(
             model,
-            self.X_train_orig,
-            y_train=self.y_train,
             transformers=self.transformers,
             feature_descriptions=self.feature_descriptions,
             fit_transformers=fit_transformers,
@@ -248,6 +246,8 @@ class RealApp:
         algorithm,
         prepare_explainer_func,
         format_output_func,
+        x_train_orig=None,
+        y_train=None,
         x_orig=None,
         model_id=None,
         force_refit=False,
@@ -265,6 +265,10 @@ class RealApp:
                 Function that initializes and fits the appropriate explainer
             format_output_func (function):
                 Function that formats Explanation objects into the appropriate output format
+            x_train_orig (DataFrame of shape (n_instances, n_features)):
+                Training data, if not provided at initialization.
+            y_train (DataFrame or Series):
+                Training targets, if not provided at initialization
             x_orig (DataFrame):
                 Data to explain, required for local explanations
             model_id (string or int):
@@ -285,7 +289,7 @@ class RealApp:
         if self._explainer_exists(explanation_type_code, algorithm) and not force_refit:
             explainer = self._get_explainer(explanation_type_code, algorithm)
         else:
-            explainer = prepare_explainer_func(model_id=model_id, algorithm=algorithm, **kwargs)
+            explainer = prepare_explainer_func(model_id=model_id, algorithm=algorithm, x_train_orig=x_train_orig, y_train=y_train, **kwargs)
 
         if x_orig is not None:
             ids = None
@@ -377,7 +381,7 @@ class RealApp:
         return preds_dict
 
     def prepare_feature_contributions(
-        self, model_id=None, algorithm=None, shap_type=None, training_size=None
+        self, model_id=None, x_train_orig=None, y_train=None, algorithm=None, shap_type=None, training_size=None
     ):
         """
         Initialize and fit a local feature contribution explainer
@@ -385,6 +389,10 @@ class RealApp:
         Args:
             model_id (int or string):
                 Model id to explain
+            x_train_orig (DataFrame of shape (n_instances, n_features)):
+                Training data, if not provided at initialization.
+            y_train (DataFrame or Series):
+                Training targets, if not provided at initialization
             algorithm (string):
                 LFC algorithm to use
             shap_type (string):
@@ -396,19 +404,20 @@ class RealApp:
         if algorithm is None:
             algorithm = "shap"
 
+        if model_id is None:
+            model_id = self.active_model_id
+
         explainer = LocalFeatureContribution(
             self.models[model_id],
-            self.X_train_orig,
-            y_train=self.y_train,
             transformers=self.transformers,
             feature_descriptions=self.feature_descriptions,
             e_algorithm=algorithm,
             shap_type=shap_type,
             classes=self.classes,
             class_descriptions=self.class_descriptions,
-            fit_on_init=True,
             training_size=training_size,
         )
+        explainer.fit(self._get_x_train_orig(x_train_orig), self._get_y_train(y_train))
         self._add_explainer("lfc", algorithm, explainer)
         return explainer
 
@@ -416,6 +425,8 @@ class RealApp:
         self,
         x_orig,
         model_id=None,
+        x_train_orig=None,
+        y_train=None,
         algorithm=None,
         shap_type=None,
         force_refit=False,
@@ -429,6 +440,10 @@ class RealApp:
                 Input to explain
             model_id (string or int):
                 ID of model to explain
+            x_train_orig (DataFrame):
+                Data to fit on, if not provided during initialization
+            y_train (DataFrame or Series):
+                Training targets to fit on, if not provided during initialization
             algorithm (string):
                 Name of algorithm
             shap_type (string):
@@ -449,6 +464,8 @@ class RealApp:
             algorithm,
             self.prepare_feature_contributions,
             format_feature_contribution_output,
+            x_train_orig=x_train_orig,
+            y_train=y_train,
             x_orig=x_orig,
             model_id=model_id,
             force_refit=force_refit,
@@ -457,7 +474,7 @@ class RealApp:
         )
 
     def prepare_feature_importance(
-        self, model_id=None, algorithm=None, shap_type=None, training_size=None
+        self, model_id=None, x_train_orig=None, y_train=None, algorithm=None, shap_type=None, training_size=None
     ):
         """
         Initialize and fit a global feature importance explainer
@@ -465,6 +482,10 @@ class RealApp:
         Args:
             model_id (int or string):
                 Model id to explain
+            x_train_orig (DataFrame of shape (n_instances, n_features)):
+                Training data, if not provided at initialization.
+            y_train (DataFrame or Series):
+                Training targets, if not provided at initialization
             algorithm (string):
                 GFI algorithm to use
             shap_type (string):
@@ -476,25 +497,28 @@ class RealApp:
         if algorithm is None:
             algorithm = "shap"
 
+        if model_id is None:
+            model_id = self.active_model_id
+
         explainer = GlobalFeatureImportance(
             self.models[model_id],
-            self.X_train_orig,
-            y_train=self.y_train,
             transformers=self.transformers,
             feature_descriptions=self.feature_descriptions,
             e_algorithm=algorithm,
             classes=self.classes,
             class_descriptions=self.class_descriptions,
             shap_type=shap_type,
-            fit_on_init=True,
             training_size=training_size,
         )
+        explainer.fit(self._get_x_train_orig(x_train_orig), self._get_y_train(y_train))
         self._add_explainer("gfi", algorithm, explainer)
         return explainer
 
     def produce_feature_importance(
         self,
         model_id=None,
+        x_train_orig=None,
+        y_train=None,
         algorithm=None,
         shap_type=None,
         force_refit=False,
@@ -505,6 +529,10 @@ class RealApp:
         Args:
             model_id (string or int):
                 ID of model to explain
+            x_train_orig (DataFrame):
+                Data to fit on, if not provided during initialization
+            y_train (DataFrame or Series):
+                Training targets to fit on, if not provided during initialization
             algorithm (string):
                 Name of algorithm
             shap_type (string):
@@ -525,6 +553,36 @@ class RealApp:
             self.prepare_feature_importance,
             format_feature_importance_output,
             model_id=model_id,
+            x_train_orig=x_train_orig,
+            y_train=y_train,
             force_refit=force_refit,
             shap_type=shap_type,
         )
+
+    def _get_x_train_orig(self, x_train_orig):
+        """
+        Helper function to get the appropriate x_orig or raise errors if something goes wrong
+        Args:
+            x_train_orig (DataFrame or None):
+                Provided DataFrame
+        Returns:
+            The dataframe to use (x_orig or self.x_train_orig), may be None if neither is given
+        """
+        if x_train_orig is not None:
+            return x_train_orig
+        else:
+            return self.X_train_orig
+
+    def _get_y_train(self, y_train):
+        """
+        Helper function to get the appropriate y or raise errors if something goes wrong
+        Args:
+            y (DataFrame or None):
+                Provided DataFrame
+        Returns:
+            The dataframe to use (y or self.y_train), may be None if neither is given
+        """
+        if y_train is not None:
+            return y_train
+        else:
+            return self.y_train
