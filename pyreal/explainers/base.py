@@ -140,13 +140,12 @@ class ExplainerBase(ABC):
         self.x_train_orig = x_train_orig
         self.y_train = y_train
 
-        if not isinstance(x_train_orig, pd.DataFrame) or (
-            y_train is not None
-            and not (isinstance(y_train, pd.DataFrame) or isinstance(y_train, pd.Series))
-        ):
-            raise TypeError("x_orig and y_train must be of type DataFrame")
+        if x_train_orig is not None and not isinstance(x_train_orig, pd.DataFrame):
+            raise TypeError("x_train_orig must be of type DataFrame")
+        if y_train is not None and not (isinstance(y_train, pd.DataFrame) or isinstance(y_train, pd.Series)):
+            raise TypeError("y_train must be of type DataFrame or Series")
 
-        self.x_orig_feature_count = x_train_orig.shape[1]
+        #self.x_orig_feature_count = x_train_orig.shape[1]
 
         self.transformers = _check_transformers(transformers)
 
@@ -166,31 +165,23 @@ class ExplainerBase(ABC):
 
         self.class_descriptions = class_descriptions
         self.return_original_explanation = return_original_explanation
+
+        self.x_train_orig_subset = self.x_train_orig
+        self.y_train_subset = self.y_train
+
         self.training_size = training_size
-        if training_size is None:
-            self.training_size = self.x_train_orig.shape[0]
+        if x_train_orig is not None and training_size is not None:
+            if self.training_size < len(self.x_train_orig.index):
+                if self.classes is not None and self.training_size < len(self.classes):
+                    raise ValueError("training_size must be larger than the number of classes")
+                else:
+                    data_sample_indices = pd.Index(
+                        np.random.choice(self.x_train_orig.index, self.training_size, replace=False))
 
-        # this argument stores the indices of the rows of data we want to use
-        data_sample_indices = self.x_train_orig.index
-
-        if self.training_size is None:
-            log.info(
-                "Info: training_size not provided. Defaulting to train with full "
-                "dataset, running time might be slow."
-            )
-        elif self.training_size < len(self.x_train_orig.index):
-            if self.classes is not None and self.training_size < len(self.classes):
-                raise ValueError("training_size must be larger than the number of classes")
-            else:
-                data_sample_indices = pd.Index(
-                    np.random.choice(self.x_train_orig.index, self.training_size, replace=False)
-                )
-
-        # use x_train_orig_subset for fitting explainer
-        if x_train_orig is not None:
-            self.x_train_orig_subset = self.x_train_orig.loc[data_sample_indices]
-        if y_train is not None:
-            self.y_train_subset = self.y_train.loc[data_sample_indices]
+                # use x_train_orig_subset for fitting explainer
+                self.x_train_orig_subset = self.x_train_orig.loc[data_sample_indices]
+                if y_train is not None:
+                    self.y_train_subset = self.y_train.loc[data_sample_indices]
 
         if fit_transformers:
             if x_train_orig is None:

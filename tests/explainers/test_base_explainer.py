@@ -171,6 +171,19 @@ def test_evaluate_model(regression_no_transforms):
     assert abs(score - 0.6667) <= 0.0001
 
 
+def test_evaluate_model_no_dataset_on_init(regression_no_transforms):
+    x = regression_no_transforms["x"]
+    y = regression_no_transforms["y"]
+    explainer = LocalFeatureContribution(
+        regression_no_transforms["model"],
+    )
+    score = explainer.evaluate_model("accuracy", x, y)
+    assert score == 1
+
+    score = explainer.evaluate_model("neg_mean_squared_error", x, y)
+    assert score == 0
+
+
 def test_transform_explanation(regression_no_transforms):
     feature_select1 = FeatureSelectTransformer(["A", "B"])
     feature_select2 = FeatureSelectTransformer(["C"], algorithm=False, interpret=True)
