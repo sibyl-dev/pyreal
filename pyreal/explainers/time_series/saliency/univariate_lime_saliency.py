@@ -58,11 +58,23 @@ class UnivariateLimeSaliency(SaliencyBase):
         )
 
     def fit(self, x_train_orig=None, y_train=None):
-        x_train_algo = self.transform_to_x_algorithm(self.x_train_orig)
+        """
+        Fit this explainer object
+
+        Args:
+            x_train_orig (DataFrame of shape (n_instances, n_features):
+                Training set to fit on, required if not provided on initialization
+            y_train:
+                Targets of training set, required if not provided on initialization
+        """
+        x_train_orig = self._get_x_train_orig(x_train_orig)
+        y_train = self._get_y_train(y_train)
+
+        x_train_algo = self.transform_to_x_algorithm(x_train_orig)
         num_timesteps = x_train_algo.shape[1]
 
         x_train_algo_np = np.copy(x_train_algo)[: self.training_size, :]
-        y_train_np = np.copy(self.y_train)[: self.training_size]
+        y_train_np = np.copy(y_train)[: self.training_size]
 
         if self.regression:
             mode = "regression"
