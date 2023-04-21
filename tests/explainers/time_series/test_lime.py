@@ -59,3 +59,24 @@ def test_produce_lime_regression_no_transforms(regression_no_transforms):
     assert contributions["A"].iloc[0] < -0.01
     assert (np.abs(contributions["B"]) < 0.001).all()
     assert (np.abs(contributions["C"]) < 0.001).all()
+
+
+def test_produce_lime_no_dataset_on_init(regression_no_transforms):
+    model = ModelDummyReg()
+    x = pd.DataFrame([[1, 0, 0], [2, 0, 2], [3, 3, 0]])
+    y = pd.Series([1, 2, 3])
+    explainer = UnivariateLimeSaliency(
+        model=model,
+        transformers=[],
+        regression=True,
+    )
+    explainer.fit(x, y)
+
+    x_one_dim = pd.DataFrame([[1, 1, 1]], columns=["A", "B", "C"])
+
+    contributions = explainer.produce(x_one_dim).get()
+
+    assert contributions.shape == (1, 3)
+    assert contributions["A"].iloc[0] < -0.01
+    assert (np.abs(contributions["B"]) < 0.001).all()
+    assert (np.abs(contributions["C"]) < 0.001).all()

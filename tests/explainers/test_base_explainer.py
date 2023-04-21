@@ -3,7 +3,7 @@ import pandas as pd
 import pytest
 from pandas.testing import assert_frame_equal, assert_series_equal
 
-from pyreal.explainers import LocalFeatureContribution
+from pyreal.explainers import LocalFeatureContribution, Explainer
 from pyreal.transformers import BreakingTransformError, FeatureSelectTransformer, Transformer
 from pyreal.types.explanations.feature_based import AdditiveFeatureContributionExplanation
 
@@ -299,3 +299,12 @@ def test_fit_transformer_param(regression_no_transforms):
     transform_explanation = explainer.transform_explanation(explanation).get()
     expected_explanation = pd.DataFrame([[0], [0]], columns=["C"])
     assert_frame_equal(transform_explanation, expected_explanation)
+
+
+def test_no_dataset_on_init(regression_no_transforms):
+    x = regression_no_transforms["x"]
+    model = regression_no_transforms["model"]
+    explainer = Explainer(model)
+    assert explainer.x_train_orig is None
+    explainer.fit(x)
+    assert explainer.x_train_orig is None
