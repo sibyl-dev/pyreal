@@ -44,10 +44,14 @@ class ShapFeatureContribution(LocalFeatureContributionsBase):
         Fit the contribution explainer
 
         Args:
+            x_train_orig (DataFrame of shape (n_instances, n_features):
+                Training set to fit on, required if not provided on initialization
             y_train:
-            x_train_orig:
+                Targets of training set, required if not provided on initialization
         """
-        dataset = self.transform_to_x_algorithm(self.x_train_orig_subset)
+        x_train_orig = self._get_x_train_orig(x_train_orig)
+
+        dataset = self.transform_to_x_algorithm(x_train_orig)
         self.explainer_input_size = dataset.shape[1]
         if self.shap_type == "kernel":
             self.explainer = KernelExplainer(self.model.predict, dataset)

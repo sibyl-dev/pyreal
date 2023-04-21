@@ -35,7 +35,7 @@ class GlobalFeatureImportanceBase(ExplainerBase, ABC):
         Fit this explainer object
 
         Args:
-             x_train_orig (DataFrame of shape (n_instances, n_features):
+            x_train_orig (DataFrame of shape (n_instances, n_features):
                 Training set to fit on, required if not provided on initialization
             y_train:
                 Targets of training set, required if not provided on initialization

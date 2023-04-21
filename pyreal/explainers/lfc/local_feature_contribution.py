@@ -152,10 +152,12 @@ class LocalFeatureContribution(LocalFeatureContributionsBase):
         Fit this explainer object
 
         Args:
+            x_train_orig (DataFrame of shape (n_instances, n_features):
+                Training set to fit on, required if not provided on initialization
             y_train:
-            x_train_orig:
+                Targets of training set, required if not provided on initialization
         """
-        self.base_local_feature_contribution.fit()
+        self.base_local_feature_contribution.fit(x_train_orig, y_train)
         return self
 
     def get_contributions(self, x_orig):
