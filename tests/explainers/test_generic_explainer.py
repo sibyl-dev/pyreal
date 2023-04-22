@@ -124,7 +124,7 @@ def test_evaluate_model_local_shap(regression_no_transforms):
 
 def test_evaluate_model_no_dataset_on_init(regression_no_transforms):
     x = regression_no_transforms["x"]
-    y= regression_no_transforms["y"]
+    y = regression_no_transforms["y"]
     explainer = Explainer(
         regression_no_transforms["model"],
         scope="local",

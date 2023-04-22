@@ -136,7 +136,11 @@ class RealApp:
 
         self.id_column = id_column
 
-        if X_train_orig is not None and self.id_column is not None and self.id_column in X_train_orig:
+        if (
+            X_train_orig is not None
+            and self.id_column is not None
+            and self.id_column in X_train_orig
+        ):
             self.X_train_orig = X_train_orig.drop(columns=self.id_column)
         else:
             self.X_train_orig = X_train_orig
@@ -152,8 +156,9 @@ class RealApp:
         self.transformers = transformers
         self.feature_descriptions = feature_descriptions
 
-        self.fit_transformers = fit_transformers
-        self.transformers_fitted = False
+        if fit_transformers:
+            # Hacky way of fitting transformers, may want to clean up later
+            Explainer(self.models[next(iter(self.models))], X_train_orig, transformers=self.transformers, fit_transformers=True)
 
         # Base explainer used for general transformations and model predictions
         # Also validates data, model, and transformers
@@ -175,18 +180,10 @@ class RealApp:
             Explainer
                 The explainer
         """
-        fit_transformers = False
-
-        if self.fit_transformers and not self.transformers_fitted:
-            self.transformers_fitted = True
-            fit_transformers = True
-            print("fitting transformers")
-
         return Explainer(
             model,
             transformers=self.transformers,
             feature_descriptions=self.feature_descriptions,
-            fit_transformers=fit_transformers,
         )
 
     def _explainer_exists(self, explanation_type, algorithm):
@@ -289,7 +286,13 @@ class RealApp:
         if self._explainer_exists(explanation_type_code, algorithm) and not force_refit:
             explainer = self._get_explainer(explanation_type_code, algorithm)
         else:
-            explainer = prepare_explainer_func(model_id=model_id, algorithm=algorithm, x_train_orig=x_train_orig, y_train=y_train, **kwargs)
+            explainer = prepare_explainer_func(
+                model_id=model_id,
+                algorithm=algorithm,
+                x_train_orig=x_train_orig,
+                y_train=y_train,
+                **kwargs
+            )
 
         if x_orig is not None:
             ids = None
@@ -381,7 +384,13 @@ class RealApp:
         return preds_dict
 
     def prepare_feature_contributions(
-        self, model_id=None, x_train_orig=None, y_train=None, algorithm=None, shap_type=None, training_size=None
+        self,
+        model_id=None,
+        x_train_orig=None,
+        y_train=None,
+        algorithm=None,
+        shap_type=None,
+        training_size=None,
     ):
         """
         Initialize and fit a local feature contribution explainer
@@ -474,7 +483,13 @@ class RealApp:
         )
 
     def prepare_feature_importance(
-        self, model_id=None, x_train_orig=None, y_train=None, algorithm=None, shap_type=None, training_size=None
+        self,
+        model_id=None,
+        x_train_orig=None,
+        y_train=None,
+        algorithm=None,
+        shap_type=None,
+        training_size=None,
     ):
         """
         Initialize and fit a global feature importance explainer

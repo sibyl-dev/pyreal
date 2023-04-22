@@ -142,10 +142,12 @@ class ExplainerBase(ABC):
 
         if x_train_orig is not None and not isinstance(x_train_orig, pd.DataFrame):
             raise TypeError("x_train_orig must be of type DataFrame")
-        if y_train is not None and not (isinstance(y_train, pd.DataFrame) or isinstance(y_train, pd.Series)):
+        if y_train is not None and not (
+            isinstance(y_train, pd.DataFrame) or isinstance(y_train, pd.Series)
+        ):
             raise TypeError("y_train must be of type DataFrame or Series")
 
-        #self.x_orig_feature_count = x_train_orig.shape[1]
+        # self.x_orig_feature_count = x_train_orig.shape[1]
 
         self.transformers = _check_transformers(transformers)
 
@@ -176,7 +178,10 @@ class ExplainerBase(ABC):
                     raise ValueError("training_size must be larger than the number of classes")
                 else:
                     data_sample_indices = pd.Index(
-                        np.random.choice(self.x_train_orig.index, self.training_size, replace=False))
+                        np.random.choice(
+                            self.x_train_orig.index, self.training_size, replace=False
+                        )
+                    )
 
                 # use x_train_orig_subset for fitting explainer
                 self.x_train_orig_subset = self.x_train_orig.loc[data_sample_indices]

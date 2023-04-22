@@ -1,6 +1,7 @@
+import pickle
+
 import numpy as np
 import pandas as pd
-import pickle
 
 from pyreal import RealApp
 
@@ -101,8 +102,7 @@ def test_realapp_check_size(regression_no_transforms):
     realapp_size = len(pickle.dumps(realapp))
     assert realapp_size < 2000
 
-    realapp.prepare_feature_importance(x_train_orig=x_large, y_train=y_large,
-                                       algorithm="permutation")
+    realapp.prepare_feature_importance(
+        x_train_orig=x_large, y_train=y_large, algorithm="permutation"
+    )
     assert realapp_size < 2000
-
-
