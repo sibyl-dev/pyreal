@@ -36,7 +36,7 @@ def test_evaluate_model_global_shap(regression_no_transforms):
         regression_no_transforms["model"],
         regression_no_transforms["x"],
         e_algorithm="shap",
-        y_orig=regression_no_transforms["y"],
+        y_train=regression_no_transforms["y"],
     )
     score = explainer.evaluate_model("accuracy")
     assert score == 1
@@ -50,7 +50,7 @@ def test_evaluate_model_global_shap(regression_no_transforms):
         regression_no_transforms["model"],
         regression_no_transforms["x"],
         e_algorithm="shap",
-        y_orig=new_y,
+        y_train=new_y,
     )
     score = explainer.evaluate_model("accuracy")
     assert abs(score - 0.6667) <= 0.0001
@@ -102,7 +102,7 @@ def test_evaluate_model_local_shap(regression_no_transforms):
         regression_no_transforms["x"],
         scope="local",
         e_algorithm="shap",
-        y_orig=regression_no_transforms["y"],
+        y_train=regression_no_transforms["y"],
     )
     score = explainer.evaluate_model("accuracy")
     assert score == 1
@@ -116,7 +116,22 @@ def test_evaluate_model_local_shap(regression_no_transforms):
         regression_no_transforms["model"],
         regression_no_transforms["x"],
         e_algorithm="shap",
-        y_orig=new_y,
+        y_train=new_y,
     )
     score = explainer.evaluate_model("accuracy")
     assert abs(score - 0.6667) <= 0.0001
+
+
+def test_evaluate_model_no_dataset_on_init(regression_no_transforms):
+    x = regression_no_transforms["x"]
+    y = regression_no_transforms["y"]
+    explainer = Explainer(
+        regression_no_transforms["model"],
+        scope="local",
+        e_algorithm="shap",
+    )
+    score = explainer.evaluate_model("accuracy", x, y)
+    assert score == 1
+
+    score = explainer.evaluate_model("neg_mean_squared_error", x, y)
+    assert score == 0

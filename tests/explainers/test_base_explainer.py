@@ -3,7 +3,7 @@ import pandas as pd
 import pytest
 from pandas.testing import assert_frame_equal, assert_series_equal
 
-from pyreal.explainers import LocalFeatureContribution
+from pyreal.explainers import Explainer, LocalFeatureContribution
 from pyreal.transformers import BreakingTransformError, FeatureSelectTransformer, Transformer
 from pyreal.types.explanations.feature_based import AdditiveFeatureContributionExplanation
 
@@ -154,7 +154,7 @@ def test_evaluate_model(regression_no_transforms):
     explainer = LocalFeatureContribution(
         regression_no_transforms["model"],
         regression_no_transforms["x"],
-        y_orig=regression_no_transforms["y"],
+        y_train=regression_no_transforms["y"],
     )
     score = explainer.evaluate_model("accuracy")
     assert score == 1
@@ -165,10 +165,23 @@ def test_evaluate_model(regression_no_transforms):
     new_y = regression_no_transforms["x"].iloc[:, 0:1].copy()
     new_y.iloc[0, 0] = 0
     explainer = LocalFeatureContribution(
-        regression_no_transforms["model"], regression_no_transforms["x"], y_orig=new_y
+        regression_no_transforms["model"], regression_no_transforms["x"], y_train=new_y
     )
     score = explainer.evaluate_model("accuracy")
     assert abs(score - 0.6667) <= 0.0001
+
+
+def test_evaluate_model_no_dataset_on_init(regression_no_transforms):
+    x = regression_no_transforms["x"]
+    y = regression_no_transforms["y"]
+    explainer = LocalFeatureContribution(
+        regression_no_transforms["model"],
+    )
+    score = explainer.evaluate_model("accuracy", x, y)
+    assert score == 1
+
+    score = explainer.evaluate_model("neg_mean_squared_error", x, y)
+    assert score == 0
 
 
 def test_transform_explanation(regression_no_transforms):
@@ -181,7 +194,7 @@ def test_transform_explanation(regression_no_transforms):
     explainer = LocalFeatureContribution(
         regression_no_transforms["model"],
         x,
-        y_orig=regression_no_transforms["y"],
+        y_train=regression_no_transforms["y"],
         transformers=[feature_select1, feature_select2],
     )
 
@@ -228,7 +241,7 @@ def test_transform_x_with_produce(regression_no_transforms):
     explainer = LocalFeatureContribution(
         regression_no_transforms["model"],
         regression_no_transforms["x"],
-        y_orig=regression_no_transforms["y"],
+        y_train=regression_no_transforms["y"],
         transformers=[feature_select1, subtract_1, subtract_2, subtract_3],
     )
     transform_explanation = explainer.transform_explanation(explanation, x)
@@ -275,7 +288,7 @@ def test_fit_transformer_param(regression_no_transforms):
     explainer = LocalFeatureContribution(
         regression_no_transforms["model"],
         x,
-        y_orig=regression_no_transforms["y"],
+        y_train=regression_no_transforms["y"],
         transformers=[feature_select1, feature_select2],
         fit_transformers=True,
     )
@@ -286,3 +299,19 @@ def test_fit_transformer_param(regression_no_transforms):
     transform_explanation = explainer.transform_explanation(explanation).get()
     expected_explanation = pd.DataFrame([[0], [0]], columns=["C"])
     assert_frame_equal(transform_explanation, expected_explanation)
+
+
+def test_no_dataset_on_init(regression_no_transforms):
+    x = regression_no_transforms["x"]
+    model = regression_no_transforms["model"]
+    explainer = Explainer(model)
+    assert explainer.x_train_orig is None
+    explainer.fit(x)
+    assert explainer.x_train_orig is None
+
+
+def test_no_dataset_on_init_or_fit_ensure_break(regression_no_transforms):
+    model = regression_no_transforms["model"]
+    explainer = Explainer(model)
+    with pytest.raises(ValueError):
+        explainer.fit()

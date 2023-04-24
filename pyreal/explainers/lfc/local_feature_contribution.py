@@ -130,7 +130,7 @@ class LocalFeatureContribution(LocalFeatureContributionsBase):
         **kwargs: see LocalFeatureContributionsBase args
     """
 
-    def __init__(self, model, x_train_orig, e_algorithm=None, shap_type=None, **kwargs):
+    def __init__(self, model, x_train_orig=None, e_algorithm=None, shap_type=None, **kwargs):
         if e_algorithm is None:
             e_algorithm = choose_algorithm()
         self.base_local_feature_contribution = None
@@ -147,11 +147,17 @@ class LocalFeatureContribution(LocalFeatureContributionsBase):
 
         super(LocalFeatureContribution, self).__init__(model, x_train_orig, **kwargs)
 
-    def fit(self):
+    def fit(self, x_train_orig=None, y_train=None):
         """
         Fit this explainer object
+
+        Args:
+            x_train_orig (DataFrame of shape (n_instances, n_features):
+                Training set to fit on, required if not provided on initialization
+            y_train:
+                Targets of training set, required if not provided on initialization
         """
-        self.base_local_feature_contribution.fit()
+        self.base_local_feature_contribution.fit(x_train_orig, y_train)
         return self
 
     def get_contributions(self, x_orig):

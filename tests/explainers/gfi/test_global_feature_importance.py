@@ -24,6 +24,27 @@ def test_produce_with_renames(regression_one_hot):
     assert abs(importances["C"][0]) < 0.0001
 
 
+def test_produce_no_dataset_on_init(regression_one_hot):
+    model = regression_one_hot
+    x = model["x"]
+    transforms = model["transformers"]
+    feature_descriptions = {"A": "Feature A", "B": "Feature B"}
+    gfi = GlobalFeatureImportance(
+        model=model["model"],
+        e_algorithm="shap",
+        transformers=transforms,
+        interpretable_features=True,
+        feature_descriptions=feature_descriptions,
+    )
+    gfi.fit(x)
+
+    importances = gfi.produce().get()
+    assert importances.shape == (1, x.shape[1])
+    assert abs(importances["Feature A"][0] - (8 / 3)) < 0.0001
+    assert abs(importances["Feature B"][0]) < 0.0001
+    assert abs(importances["C"][0]) < 0.0001
+
+
 def test_evaluate_variation(classification_no_transforms):
     model = classification_no_transforms
     gfi = GlobalFeatureImportance(

@@ -13,6 +13,9 @@ class DummyModel:
     def __init__(self, value):
         self.value = value
 
+    def fit(self, x):
+        return self
+
     def predict(self, x):
         return np.sum(x, axis=1) + self.value
 
@@ -33,6 +36,11 @@ def test_root():
 @pytest.fixture()
 def dummy_models():
     return {"id0": DummyModel(0), "id1": DummyModel(1), "id2": DummyModel(2)}
+
+
+@pytest.fixture()
+def dummy_model():
+    return DummyModel(0)
 
 
 @pytest.fixture()
