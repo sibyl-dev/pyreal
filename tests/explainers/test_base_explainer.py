@@ -308,3 +308,10 @@ def test_no_dataset_on_init(regression_no_transforms):
     assert explainer.x_train_orig is None
     explainer.fit(x)
     assert explainer.x_train_orig is None
+
+
+def test_no_dataset_on_init_or_fit_ensure_break(regression_no_transforms):
+    model = regression_no_transforms["model"]
+    explainer = Explainer(model)
+    with pytest.raises(ValueError):
+        explainer.fit()

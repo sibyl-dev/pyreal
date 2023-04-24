@@ -2,6 +2,7 @@ import pickle
 
 import numpy as np
 import pandas as pd
+import pytest
 
 from pyreal import RealApp
 
@@ -106,3 +107,13 @@ def test_realapp_check_size(regression_no_transforms):
         x_train_orig=x_large, y_train=y_large, algorithm="permutation"
     )
     assert realapp_size < 2000
+
+
+def test_no_dataset_on_init_or_fit_ensure_break(regression_no_transforms):
+    model = regression_no_transforms["model"]
+    x = regression_no_transforms["x"]
+    explainer = RealApp(model)
+    with pytest.raises(ValueError):
+        explainer.produce_feature_contributions(x)
+    with pytest.raises(ValueError):
+        explainer.prepare_feature_importance()
