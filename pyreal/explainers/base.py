@@ -487,7 +487,7 @@ class ExplainerBase(ABC):
             ValueError if no valid dataframe
         """
         if x_train_orig is not None:
-            return x_train_orig
+            return self._select_training_set(x_train_orig)[0]
         if self.x_train_orig_subset is not None:
             return self.x_train_orig_subset
         else:
