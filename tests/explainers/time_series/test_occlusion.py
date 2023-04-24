@@ -37,6 +37,28 @@ def test_univariate_occlusion_no_transforms(regression_no_transforms):
     assert contributions.iloc[0, 2] == 0
 
 
+def test_occlusion_no_dataset_on_init(regression_no_transforms):
+    model = regression_no_transforms
+    x = model["x"]
+
+    explainer = UnivariateOcclusionSaliency(
+        model=model["model"],
+        transformers=model["transformers"],
+        width=1,
+        k=0,
+        regression=True,
+    )
+    explainer.fit(x)
+
+    x_one_dim = pd.DataFrame([[2, 10, 10]], columns=["A", "B", "C"])
+    contributions = explainer.produce(x_one_dim).get()
+
+    assert x_one_dim.shape == contributions.shape
+    assert contributions.iloc[0, 0] == -2
+    assert contributions.iloc[0, 1] == 0
+    assert contributions.iloc[0, 2] == 0
+
+
 def test_univariate_occlusion_multivariate_raise_error(regression_no_transforms):
     model = regression_no_transforms
     explainer = UnivariateOcclusionSaliency(

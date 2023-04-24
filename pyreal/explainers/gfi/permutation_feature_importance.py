@@ -21,16 +21,31 @@ class PermutationFeatureImportance(GlobalFeatureImportanceBase):
         **kwargs: see base Explainer args
     """
 
-    def __init__(self, model, x_train_orig, **kwargs):
+    def __init__(self, model, x_train_orig=None, **kwargs):
         self.explainer = None
         self.explainer_input_size = None
+        self.importance_from_fit = None
+
         super(PermutationFeatureImportance, self).__init__(model, x_train_orig, **kwargs)
 
-    def fit(self):
+    def fit(self, x_train_orig=None, y_train=None):
         """
         Fit the feature importance explainer.
         No-op as permutation_importance does not require fitting
+
+        Args:
+            y_train:
+            x_train_orig:
         """
+        x_train_orig, y_train = self._get_training_data(x_train_orig, y_train)
+
+        x = self.transform_to_x_model(x_train_orig)
+        columns = x.columns
+        x = np.asanyarray(x)
+        importance_result = permutation_importance(self.model, x, y_train, n_repeats=100)
+        importances = importance_result.importances_mean
+        self.importance_from_fit = pd.DataFrame(importances.reshape(1, -1), columns=columns)
+
         return self
 
     def get_importance(self):
@@ -42,11 +57,6 @@ class PermutationFeatureImportance(GlobalFeatureImportanceBase):
             DataFrame of shape (n_features, ):
                  The global importance of each feature
         """
-        x = self.transform_to_x_model(self._x_train_orig)
-        columns = x.columns
-        x = np.asanyarray(x)
-        importance_result = permutation_importance(self.model, x, self._y_orig, n_repeats=100)
-        importances = importance_result.importances_mean
-        return FeatureImportanceExplanation(
-            pd.DataFrame(importances.reshape(1, -1), columns=columns)
-        )
+        if self.importance_from_fit is None:
+            raise RuntimeError("Must fit explainer before calling produce!")
+        return FeatureImportanceExplanation(self.importance_from_fit)

@@ -81,6 +81,25 @@ def test_produce_shap_regression_transforms(regression_one_hot):
     helper_produce_shap_regression_one_hot(shap)
 
 
+def test_produce_shap_no_dataset_on_init(regression_one_hot):
+    model = regression_one_hot
+    x = model["x"]
+    lfc = LocalFeatureContribution(
+        model=model["model"],
+        e_algorithm="shap",
+        transformers=model["transformers"],
+    )
+    shap = ShapFeatureContribution(
+        model=model["model"],
+        transformers=model["transformers"],
+    )
+    lfc.fit(x)
+    shap.fit(x)
+
+    helper_produce_shap_regression_one_hot(lfc)
+    helper_produce_shap_regression_one_hot(shap)
+
+
 def helper_produce_shap_regression_one_hot(explainer):
     x_one_dim = pd.DataFrame([[2, 10, 10]], columns=["A", "B", "C"])
     x_multi_dim = pd.DataFrame([[4, 1, 1], [6, 2, 3]], columns=["A", "B", "C"])

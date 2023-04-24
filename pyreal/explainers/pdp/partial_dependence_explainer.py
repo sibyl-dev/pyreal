@@ -21,9 +21,9 @@ class PartialDependenceExplainer(PartialDependenceExplainerBase):
         **kwargs: see base Explainer args
     """
 
-    def __init__(self, model, x_train_orig, features, grid_resolution=100, **kwargs):
+    def __init__(self, model, features, x_train_orig=None, grid_resolution=100, **kwargs):
         self.base_partial_dependence = PartialDependence(
-            model, x_train_orig, features=features, grid_resolution=grid_resolution
+            model, features=features, x_train_orig=x_train_orig, grid_resolution=grid_resolution
         )
         super(PartialDependenceExplainer, self).__init__(model, x_train_orig, **kwargs)
 
@@ -36,9 +36,15 @@ class PartialDependenceExplainer(PartialDependenceExplainerBase):
         """
         return self.base_partial_dependence.get_pdp()
 
-    def fit(self):
+    def fit(self, x_train_orig=None, y_train=None):
         """
         Fit this explainer object
+
+        Args:
+            x_train_orig (DataFrame of shape (n_instances, n_features):
+                Training set to fit on, required if not provided on initialization
+            y_train:
+                Targets of training set, required if not provided on initialization
         """
-        self.base_partial_dependence.fit()
+        self.base_partial_dependence.fit(x_train_orig, y_train)
         return self

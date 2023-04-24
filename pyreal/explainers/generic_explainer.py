@@ -26,7 +26,7 @@ class Explainer(ExplainerBase):
     def __init__(
         self,
         model,
-        x_train_orig,
+        x_train_orig=None,
         scope="global",
         e_algorithm="shap",
         interpretable_features=True,
@@ -53,11 +53,17 @@ class Explainer(ExplainerBase):
         else:
             raise TypeError("Explainers must be either global or local")
 
-    def fit(self):
+    def fit(self, x_train_orig=None, y_train=None):
         """
         Fit this explainer object
+
+        Args:
+             x_train_orig (DataFrame of shape (n_instances, n_features):
+                Training set to fit on, required if not provided on initialization
+            y_train:
+                Targets of training set, required if not provided on initialization
         """
-        self.base_explainer.fit()
+        self.base_explainer.fit(x_train_orig, y_train)
 
     def produce(self, x_orig=None):
         """

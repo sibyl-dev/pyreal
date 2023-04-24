@@ -11,10 +11,14 @@ def test_fit_shap(all_models):
             x_train_orig=model["x"],
             transformers=model["transformers"],
             e_algorithm="shap",
+            classes=np.arange(1, 4),
         )
         gfi_object.fit()
         shap = ShapFeatureImportance(
-            model=model["model"], x_train_orig=model["x"], transformers=model["transformers"]
+            model=model["model"],
+            x_train_orig=model["x"],
+            transformers=model["transformers"],
+            classes=np.arange(1, 4),
         )
         shap.fit()
 
@@ -65,6 +69,26 @@ def test_produce_shap_regression_transforms(regression_one_hot):
         transformers=model["transformers"],
         fit_on_init=True,
     )
+
+    helper_produce_shap_regression_one_hot(gfi, regression_one_hot)
+    helper_produce_shap_regression_one_hot(shap, regression_one_hot)
+
+
+def test_produce_shap_no_dataset_on_init(regression_one_hot):
+    model = regression_one_hot
+    x = model["x"]
+    gfi = GlobalFeatureImportance(
+        model=model["model"],
+        e_algorithm="shap",
+        transformers=model["transformers"],
+    )
+    shap = ShapFeatureImportance(
+        model=model["model"],
+        transformers=model["transformers"],
+    )
+
+    gfi.fit(x)
+    shap.fit(x)
 
     helper_produce_shap_regression_one_hot(gfi, regression_one_hot)
     helper_produce_shap_regression_one_hot(shap, regression_one_hot)

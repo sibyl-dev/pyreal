@@ -8,18 +8,40 @@ def test_produce_partial_dependence_regression_no_transforms(regression_no_trans
     features = model["x"].columns[:-1]
     pdpe = PartialDependenceExplainer(
         model=model["model"],
-        x_train_orig=model["x"],
         features=features,
+        x_train_orig=model["x"],
         transformers=model["transformers"],
         fit_on_init=True,
     )
     pdp = PartialDependence(
         model=model["model"],
-        x_train_orig=model["x"],
         features=features,
+        x_train_orig=model["x"],
         transformers=model["transformers"],
         fit_on_init=True,
     )
+
+    helper_partial_dependence_regression_no_transforms(pdpe, model)
+    helper_partial_dependence_regression_no_transforms(pdp, model)
+
+
+def test_produce_partial_dependence_no_dataset_on_init(regression_no_transforms):
+    model = regression_no_transforms
+    features = model["x"].columns[:-1]
+    x = model["x"]
+    pdpe = PartialDependenceExplainer(
+        model=model["model"],
+        features=features,
+        transformers=model["transformers"],
+    )
+    pdp = PartialDependence(
+        model=model["model"],
+        features=features,
+        transformers=model["transformers"],
+    )
+
+    pdpe.fit(x)
+    pdp.fit(x)
 
     helper_partial_dependence_regression_no_transforms(pdpe, model)
     helper_partial_dependence_regression_no_transforms(pdp, model)
