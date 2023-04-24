@@ -67,8 +67,7 @@ class UnivariateLimeSaliency(SaliencyBase):
             y_train:
                 Targets of training set, required if not provided on initialization
         """
-        x_train_orig = self._get_x_train_orig(x_train_orig)
-        y_train = self._get_y_train(y_train)
+        x_train_orig, y_train = self._get_training_data(x_train_orig, y_train)
 
         x_train_algo = self.transform_to_x_algorithm(x_train_orig)
         num_timesteps = x_train_algo.shape[1]

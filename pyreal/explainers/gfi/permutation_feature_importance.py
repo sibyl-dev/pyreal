@@ -37,8 +37,7 @@ class PermutationFeatureImportance(GlobalFeatureImportanceBase):
             y_train:
             x_train_orig:
         """
-        x_train_orig = self._get_x_train_orig(x_train_orig)
-        y_train = self._get_y_train(y_train)
+        x_train_orig, y_train = self._get_training_data(x_train_orig, y_train)
 
         x = self.transform_to_x_model(x_train_orig)
         columns = x.columns

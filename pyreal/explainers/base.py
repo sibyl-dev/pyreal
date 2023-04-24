@@ -173,20 +173,7 @@ class ExplainerBase(ABC):
 
         self.training_size = training_size
         if x_train_orig is not None and training_size is not None:
-            if self.training_size < len(self.x_train_orig.index):
-                if self.classes is not None and self.training_size < len(self.classes):
-                    raise ValueError("training_size must be larger than the number of classes")
-                else:
-                    data_sample_indices = pd.Index(
-                        np.random.choice(
-                            self.x_train_orig.index, self.training_size, replace=False
-                        )
-                    )
-
-                # use x_train_orig_subset for fitting explainer
-                self.x_train_orig_subset = self.x_train_orig.loc[data_sample_indices]
-                if y_train is not None:
-                    self.y_train_subset = self.y_train.loc[data_sample_indices]
+            self.x_train_orig_subset, self.y_train_subset = self._select_training_set(x_train_orig, y_train)
 
         if fit_transformers:
             if x_train_orig is None:
@@ -453,10 +440,8 @@ class ExplainerBase(ABC):
         Returns:
             float
                 A score for the model
-
         """
-        x_orig = self._get_x_train_orig(x_orig)
-        y = self._get_y_train(y)
+        x_orig, y = self._get_training_data(x_orig, y)
 
         scorer = get_scorer(scorer)
         x_model = self.transform_to_x_model(x_orig)
@@ -489,7 +474,7 @@ class ExplainerBase(ABC):
                 The variation of this Explainer's explanations
         """
 
-    def _get_x_train_orig(self, x_train_orig=None):
+    def _get_x_train_orig(self, x_train_orig):
         """
         Helper function to get the appropriate x_orig or raise errors if something goes wrong
         Args:
@@ -508,21 +493,37 @@ class ExplainerBase(ABC):
         else:
             raise ValueError("Must provide x_train_orig at initialization or fitting time!")
 
-    def _get_y_train(self, y_train=None):
-        """
-        Helper function to get the appropriate y or raise errors if something goes wrong
-        Args:
-            y_train (DataFrame or None):
-                Provided DataFrame
-        Returns:
-            The dataframe to use (y or self.y_train)
+    def _get_training_data(self, x_train_orig, y_train):
+        if x_train_orig is None and self.x_train_orig is None:
+            raise ValueError("Must provide x_train_orig at initialization or fitting time")
+        if y_train is None and self.y_train is None:
+            raise ValueError("Must provide y_train at initialization or fitting time")
+        if x_train_orig is not None and y_train is None:
+            raise ValueError("Must provide y_train if providing x_train_orig")
 
-        Raises:
-            ValueError if no valid dataframe
-        """
-        if y_train is not None:
-            return y_train
-        if self.y_train_subset is not None:
-            return self.y_train_subset
+        if x_train_orig is None:
+            return self.x_train_orig_subset, self.y_train_subset
         else:
-            raise ValueError("Must provide y_train at initialization or fitting time!")
+            return self._select_training_set(x_train_orig, y_train)
+
+    def _select_training_set(self, x_train, y_train=None):
+        if self.training_size is None:
+            return x_train, y_train
+        if self.training_size < len(x_train.index):
+            if self.classes is not None and self.training_size < len(self.classes):
+                raise ValueError("training_size must be larger than the number of classes")
+            else:
+                data_sample_indices = pd.Index(
+                    np.random.choice(
+                        x_train.index, self.training_size, replace=False
+                    )
+                )
+
+            # use x_train_orig_subset for fitting explainer
+            x_train_subset = x_train.loc[data_sample_indices]
+            if y_train is not None:
+                y_train_subset = y_train.loc[data_sample_indices]
+                return x_train_subset, y_train_subset
+            return x_train_subset, None
+        else:
+            return x_train, y_train
