@@ -353,20 +353,29 @@ document.write(`
 <span class="sd">        **kwargs: see base Explainer args</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="SurrogateDecisionTree.__init__"><a class="viewcode-back" href="../../../../api_reference/api/pyreal.explainers.SurrogateDecisionTree.html#pyreal.explainers.SurrogateDecisionTree.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">x_train_orig</span><span class="p">,</span> <span class="n">is_classifier</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">max_depth</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="SurrogateDecisionTree.__init__"><a class="viewcode-back" href="../../../../api_reference/api/pyreal.explainers.SurrogateDecisionTree.html#pyreal.explainers.SurrogateDecisionTree.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">x_train_orig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">is_classifier</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">max_depth</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">explainer</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">explainer_input_size</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">is_classifer</span> <span class="o">=</span> <span class="n">is_classifier</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">max_depth</span> <span class="o">=</span> <span class="n">max_depth</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">SurrogateDecisionTree</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">x_train_orig</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="SurrogateDecisionTree.fit"><a class="viewcode-back" href="../../../../api_reference/api/pyreal.explainers.SurrogateDecisionTree.fit.html#pyreal.explainers.SurrogateDecisionTree.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="SurrogateDecisionTree.fit"><a class="viewcode-back" href="../../../../api_reference/api/pyreal.explainers.SurrogateDecisionTree.fit.html#pyreal.explainers.SurrogateDecisionTree.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_train_orig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">y_train</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Fit the decision tree.</span>
 <span class="sd">        TODO: Perhaps use sklearn&#39;s GridSearchCV to find the &quot;best&quot; tree.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">             x_train_orig (DataFrame of shape (n_instances, n_features):</span>
+<span class="sd">                Training set to fit on, required if not provided on initialization</span>
+<span class="sd">            y_train:</span>
+<span class="sd">                Targets of training set, required if not provided on initialization</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">a_dataset</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform_to_x_algorithm</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_x_train_orig</span><span class="p">)</span>
-        <span class="n">m_dataset</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform_to_x_model</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_x_train_orig</span><span class="p">)</span>
+        <span class="n">x_train_orig</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_x_train_orig</span><span class="p">(</span><span class="n">x_train_orig</span><span class="p">)</span>
+
+        <span class="n">a_dataset</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform_to_x_algorithm</span><span class="p">(</span><span class="n">x_train_orig</span><span class="p">)</span>
+        <span class="n">m_dataset</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform_to_x_model</span><span class="p">(</span><span class="n">x_train_orig</span><span class="p">)</span>
+
         <span class="bp">self</span><span class="o">.</span><span class="n">explainer_input_size</span> <span class="o">=</span> <span class="n">a_dataset</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_classifer</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">explainer</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">DecisionTreeClassifier</span><span class="p">(</span><span class="n">max_depth</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">max_depth</span><span class="p">)</span>
@@ -376,7 +385,7 @@ document.write(`
             <span class="bp">self</span><span class="o">.</span><span class="n">explainer</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">a_dataset</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">m_dataset</span><span class="p">))</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
-<div class="viewcode-block" id="SurrogateDecisionTree.produce"><a class="viewcode-back" href="../../../../api_reference/api/pyreal.explainers.SurrogateDecisionTree.produce.html#pyreal.explainers.SurrogateDecisionTree.produce">[docs]</a>    <span class="k">def</span> <span class="nf">produce</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="SurrogateDecisionTree.produce"><a class="viewcode-back" href="../../../../api_reference/api/pyreal.explainers.SurrogateDecisionTree.produce.html#pyreal.explainers.SurrogateDecisionTree.produce">[docs]</a>    <span class="k">def</span> <span class="nf">produce</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_orig</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Produce the explanation as a decision tree model.</span>
 

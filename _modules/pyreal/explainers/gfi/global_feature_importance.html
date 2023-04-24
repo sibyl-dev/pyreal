@@ -454,7 +454,7 @@ document.write(`
 <span class="sd">        **kwargs: see LocalFeatureContributionsBase args</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="GlobalFeatureImportance.__init__"><a class="viewcode-back" href="../../../../api_reference/api/pyreal.explainers.GlobalFeatureImportance.html#pyreal.explainers.GlobalFeatureImportance.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">x_train_orig</span><span class="p">,</span> <span class="n">e_algorithm</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">shap_type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="GlobalFeatureImportance.__init__"><a class="viewcode-back" href="../../../../api_reference/api/pyreal.explainers.GlobalFeatureImportance.html#pyreal.explainers.GlobalFeatureImportance.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">x_train_orig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">e_algorithm</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">shap_type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">e_algorithm</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">e_algorithm</span> <span class="o">=</span> <span class="n">choose_algorithm</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">base_global_feature_importance</span> <span class="o">=</span> <span class="kc">None</span>
@@ -471,11 +471,17 @@ document.write(`
 
         <span class="nb">super</span><span class="p">(</span><span class="n">GlobalFeatureImportance</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">x_train_orig</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="GlobalFeatureImportance.fit"><a class="viewcode-back" href="../../../../api_reference/api/pyreal.explainers.GlobalFeatureImportance.fit.html#pyreal.explainers.GlobalFeatureImportance.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="GlobalFeatureImportance.fit"><a class="viewcode-back" href="../../../../api_reference/api/pyreal.explainers.GlobalFeatureImportance.fit.html#pyreal.explainers.GlobalFeatureImportance.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_train_orig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">y_train</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Fit this explainer object</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">             x_train_orig (DataFrame of shape (n_instances, n_features):</span>
+<span class="sd">                Training set to fit on, required if not provided on initialization</span>
+<span class="sd">            y_train:</span>
+<span class="sd">                Targets of training set, required if not provided on initialization</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">base_global_feature_importance</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">base_global_feature_importance</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x_train_orig</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
     <span class="k">def</span> <span class="nf">get_importance</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>

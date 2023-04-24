@@ -574,11 +574,12 @@ document.write(`
 <h1>pyreal.explainers.SimpleCounterfactualContribution<a class="headerlink" href="#pyreal-explainers-simplecounterfactualcontribution" title="Permalink to this heading">#</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="pyreal.explainers.SimpleCounterfactualContribution">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyreal.explainers.</span></span><span class="sig-name descname"><span class="pre">SimpleCounterfactualContribution</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_train_orig</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_iterations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">30</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyreal/explainers/lfc/simple_counterfactual_contribution.html#SimpleCounterfactualContribution"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyreal.explainers.SimpleCounterfactualContribution" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyreal.explainers.</span></span><span class="sig-name descname"><span class="pre">SimpleCounterfactualContribution</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_train_orig</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_iterations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">30</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyreal/explainers/lfc/simple_counterfactual_contribution.html#SimpleCounterfactualContribution"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyreal.explainers.SimpleCounterfactualContribution" title="Permalink to this definition">#</a></dt>
 <dd><p>SimpleCounterfactualContribution object.</p>
 <p>A SimpleCounterfactualContribution object gets feature contribution explanations by changing
 each feature to a set of other possible feature values through a random selection from the
 column, and then averaging the change in model prediction.</p>
+<p>Note that this explainer will save the full dataset when fitting.</p>
 <p>Does not support classification models</p>
 <p>Expects categorical features rather than one-hot-encodings. Otherwise, can take any state.</p>
 <dl class="field-list simple">
@@ -594,13 +595,13 @@ function</p></li>
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="pyreal.explainers.SimpleCounterfactualContribution.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_train_orig</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_iterations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">30</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyreal/explainers/lfc/simple_counterfactual_contribution.html#SimpleCounterfactualContribution.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyreal.explainers.SimpleCounterfactualContribution.__init__" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_train_orig</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_iterations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">30</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyreal/explainers/lfc/simple_counterfactual_contribution.html#SimpleCounterfactualContribution.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyreal.explainers.SimpleCounterfactualContribution.__init__" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <p class="rubric">Methods</p>
 <table class="autosummary longtable table autosummary">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#pyreal.explainers.SimpleCounterfactualContribution.__init__" title="pyreal.explainers.SimpleCounterfactualContribution.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(model, x_train_orig[, n_iterations])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pyreal.explainers.SimpleCounterfactualContribution.__init__" title="pyreal.explainers.SimpleCounterfactualContribution.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(model[, x_train_orig, n_iterations])</p></td>
 <td><p></p></td>
 </tr>
 <tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">convert_columns_to_interpretable</span></code>(df)</p></td>
@@ -609,7 +610,7 @@ function</p></li>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">convert_data_to_interpretable</span></code>(x_orig)</p></td>
 <td><p>Convert data in its original form to an interpretable form, with interpretable features :param x_orig: Input data to convert :type x_orig: DataFrame of shape (n_instances, n_features) or Series</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">evaluate_model</span></code>(scorer)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">evaluate_model</span></code>(scorer[, x_orig, y])</p></td>
 <td><p>Evaluate the model using a chosen scorer algorithm.</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">evaluate_variation</span></code>([with_fit, explanations, ...])</p></td>
@@ -618,11 +619,11 @@ function</p></li>
 <tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">feature_description</span></code>(feature_name)</p></td>
 <td><p>Returns the interpretable description associated with a feature</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="pyreal.explainers.SimpleCounterfactualContribution.fit.html#pyreal.explainers.SimpleCounterfactualContribution.fit" title="pyreal.explainers.SimpleCounterfactualContribution.fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="pyreal.explainers.SimpleCounterfactualContribution.fit.html#pyreal.explainers.SimpleCounterfactualContribution.fit" title="pyreal.explainers.SimpleCounterfactualContribution.fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit</span></code></a>([x_train_orig, y_train])</p></td>
 <td><p>Fit the contribution explainer</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="pyreal.explainers.SimpleCounterfactualContribution.get_contributions.html#pyreal.explainers.SimpleCounterfactualContribution.get_contributions" title="pyreal.explainers.SimpleCounterfactualContribution.get_contributions"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_contributions</span></code></a>(x_orig)</p></td>
-<td><p>Calculate the explanation of each feature in x using SHAP.</p></td>
+<td><p>Calculate the explanation of each feature in x using the sample counterfactural algorithm.</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">model_predict</span></code>(x_orig)</p></td>
 <td><p>Predict on x_orig using the model and return the result</p></td>

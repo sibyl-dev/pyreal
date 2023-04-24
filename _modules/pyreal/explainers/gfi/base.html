@@ -352,15 +352,21 @@ document.write(`
 <span class="sd">        **kwargs: see base Explainer args</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="GlobalFeatureImportanceBase.__init__"><a class="viewcode-back" href="../../../../api_reference/api/pyreal.explainers.GlobalFeatureImportanceBase.html#pyreal.explainers.GlobalFeatureImportanceBase.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">x_train_orig</span><span class="p">,</span> <span class="n">interpretable_features</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="GlobalFeatureImportanceBase.__init__"><a class="viewcode-back" href="../../../../api_reference/api/pyreal.explainers.GlobalFeatureImportanceBase.html#pyreal.explainers.GlobalFeatureImportanceBase.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">x_train_orig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">interpretable_features</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">interpretable_features</span> <span class="o">=</span> <span class="n">interpretable_features</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">importance</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">GlobalFeatureImportanceBase</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">x_train_orig</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="GlobalFeatureImportanceBase.fit"><a class="viewcode-back" href="../../../../api_reference/api/pyreal.explainers.GlobalFeatureImportanceBase.fit.html#pyreal.explainers.GlobalFeatureImportanceBase.fit">[docs]</a>    <span class="nd">@abstractmethod</span>
-    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_train_orig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">y_train</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Fit this explainer object</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            x_train_orig (DataFrame of shape (n_instances, n_features):</span>
+<span class="sd">                Training set to fit on, required if not provided on initialization</span>
+<span class="sd">            y_train:</span>
+<span class="sd">                Targets of training set, required if not provided on initialization</span>
 <span class="sd">        &quot;&quot;&quot;</span></div>
 
 <div class="viewcode-block" id="GlobalFeatureImportanceBase.produce"><a class="viewcode-back" href="../../../../api_reference/api/pyreal.explainers.GlobalFeatureImportanceBase.produce.html#pyreal.explainers.GlobalFeatureImportanceBase.produce">[docs]</a>    <span class="k">def</span> <span class="nf">produce</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_orig</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -427,7 +433,7 @@ document.write(`
                 <span class="k">if</span> <span class="n">with_fit</span><span class="p">:</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
                 <span class="n">explanations</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">produce</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_x_train_orig</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">n_rows</span><span class="p">])</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">produce</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x_train_orig_subset</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">n_rows</span><span class="p">])</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
                 <span class="p">)</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">explanations</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span></div>
 </pre></div>

@@ -431,7 +431,7 @@ document.write(`
 <div class="viewcode-block" id="Explainer.__init__"><a class="viewcode-back" href="../../../api_reference/api/pyreal.explainers.Explainer.html#pyreal.explainers.Explainer.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">model</span><span class="p">,</span>
-        <span class="n">x_train_orig</span><span class="p">,</span>
+        <span class="n">x_train_orig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">scope</span><span class="o">=</span><span class="s2">&quot;global&quot;</span><span class="p">,</span>
         <span class="n">e_algorithm</span><span class="o">=</span><span class="s2">&quot;shap&quot;</span><span class="p">,</span>
         <span class="n">interpretable_features</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
@@ -458,11 +458,17 @@ document.write(`
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Explainers must be either global or local&quot;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Explainer.fit"><a class="viewcode-back" href="../../../api_reference/api/pyreal.explainers.Explainer.fit.html#pyreal.explainers.Explainer.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Explainer.fit"><a class="viewcode-back" href="../../../api_reference/api/pyreal.explainers.Explainer.fit.html#pyreal.explainers.Explainer.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_train_orig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">y_train</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Fit this explainer object</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">             x_train_orig (DataFrame of shape (n_instances, n_features):</span>
+<span class="sd">                Training set to fit on, required if not provided on initialization</span>
+<span class="sd">            y_train:</span>
+<span class="sd">                Targets of training set, required if not provided on initialization</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">base_explainer</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">base_explainer</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x_train_orig</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Explainer.produce"><a class="viewcode-back" href="../../../api_reference/api/pyreal.explainers.Explainer.produce.html#pyreal.explainers.Explainer.produce">[docs]</a>    <span class="k">def</span> <span class="nf">produce</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_orig</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>

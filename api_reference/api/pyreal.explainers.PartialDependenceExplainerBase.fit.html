@@ -574,8 +574,16 @@ document.write(`
 <h1>pyreal.explainers.PartialDependenceExplainerBase.fit<a class="headerlink" href="#pyreal-explainers-partialdependenceexplainerbase-fit" title="Permalink to this heading">#</a></h1>
 <dl class="py method">
 <dt class="sig sig-object py" id="pyreal.explainers.PartialDependenceExplainerBase.fit">
-<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PartialDependenceExplainerBase.</span></span><span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyreal/explainers/pdp/base.html#PartialDependenceExplainerBase.fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyreal.explainers.PartialDependenceExplainerBase.fit" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PartialDependenceExplainerBase.</span></span><span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_train_orig</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_train</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyreal/explainers/pdp/base.html#PartialDependenceExplainerBase.fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyreal.explainers.PartialDependenceExplainerBase.fit" title="Permalink to this definition">#</a></dt>
 <dd><p>Fit this explainer object</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x_train_orig</strong> (<em>DataFrame</em><em> of </em><em>shape</em><em> (</em><em>n_instances</em><em>, </em><em>n_features</em>) – Training set to fit on, required if not provided on initialization</p></li>
+<li><p><strong>y_train</strong> – Targets of training set, required if not provided on initialization</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 </section>

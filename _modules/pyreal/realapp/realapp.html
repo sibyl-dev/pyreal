@@ -407,8 +407,8 @@ document.write(`
 <div class="viewcode-block" id="RealApp.__init__"><a class="viewcode-back" href="../../../api_reference/api/pyreal.RealApp.html#pyreal.RealApp.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">models</span><span class="p">,</span>
-        <span class="n">X_train_orig</span><span class="p">,</span>
-        <span class="n">y_orig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">X_train_orig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">y_train</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">transformers</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">feature_descriptions</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">active_model_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -424,8 +424,8 @@ document.write(`
 <span class="sd">            models (model object, list of models, or dict of model_id:model):</span>
 <span class="sd">                Model(s) for this application</span>
 <span class="sd">            X_train_orig (DataFrame of shape (n_instances,n_features):</span>
-<span class="sd">                Training data for models</span>
-<span class="sd">            y_orig (DataFrame of shape (n_instances,)):</span>
+<span class="sd">                Training data for models. If None, must be provided when preparing explainers.</span>
+<span class="sd">            y_train (DataFrame of shape (n_instances,)):</span>
 <span class="sd">                The y values for the dataset</span>
 <span class="sd">            transformers (Transformer object or list of Transformer objects):</span>
 <span class="sd">                Transformers for this application</span>
@@ -464,11 +464,15 @@ document.write(`
 
         <span class="bp">self</span><span class="o">.</span><span class="n">id_column</span> <span class="o">=</span> <span class="n">id_column</span>
 
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">id_column</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">id_column</span> <span class="ow">in</span> <span class="n">X_train_orig</span><span class="p">:</span>
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="n">X_train_orig</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+            <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">id_column</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+            <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">id_column</span> <span class="ow">in</span> <span class="n">X_train_orig</span>
+        <span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">X_train_orig</span> <span class="o">=</span> <span class="n">X_train_orig</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">id_column</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">X_train_orig</span> <span class="o">=</span> <span class="n">X_train_orig</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">y_orig</span> <span class="o">=</span> <span class="n">y_orig</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">y_train</span> <span class="o">=</span> <span class="n">y_train</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">classes</span> <span class="o">=</span> <span class="n">classes</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">class_descriptions</span> <span class="o">=</span> <span class="n">class_descriptions</span>
@@ -480,8 +484,14 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">transformers</span> <span class="o">=</span> <span class="n">transformers</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">feature_descriptions</span> <span class="o">=</span> <span class="n">feature_descriptions</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">fit_transformers</span> <span class="o">=</span> <span class="n">fit_transformers</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">transformers_fitted</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">if</span> <span class="n">fit_transformers</span><span class="p">:</span>
+            <span class="c1"># Hacky way of fitting transformers, may want to clean up later</span>
+            <span class="n">Explainer</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">models</span><span class="p">[</span><span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">models</span><span class="p">))],</span>
+                <span class="n">X_train_orig</span><span class="p">,</span>
+                <span class="n">transformers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">transformers</span><span class="p">,</span>
+                <span class="n">fit_transformers</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="p">)</span>
 
         <span class="c1"># Base explainer used for general transformations and model predictions</span>
         <span class="c1"># Also validates data, model, and transformers</span>
@@ -503,20 +513,10 @@ document.write(`
 <span class="sd">            Explainer</span>
 <span class="sd">                The explainer</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">fit_transformers</span> <span class="o">=</span> <span class="kc">False</span>
-
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">fit_transformers</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">transformers_fitted</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">transformers_fitted</span> <span class="o">=</span> <span class="kc">True</span>
-            <span class="n">fit_transformers</span> <span class="o">=</span> <span class="kc">True</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;fitting transformers&quot;</span><span class="p">)</span>
-
         <span class="k">return</span> <span class="n">Explainer</span><span class="p">(</span>
             <span class="n">model</span><span class="p">,</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">X_train_orig</span><span class="p">,</span>
-            <span class="n">y_orig</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">y_orig</span><span class="p">,</span>
             <span class="n">transformers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">transformers</span><span class="p">,</span>
             <span class="n">feature_descriptions</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">feature_descriptions</span><span class="p">,</span>
-            <span class="n">fit_transformers</span><span class="o">=</span><span class="n">fit_transformers</span><span class="p">,</span>
         <span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_explainer_exists</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">explanation_type</span><span class="p">,</span> <span class="n">algorithm</span><span class="p">):</span>
@@ -576,6 +576,8 @@ document.write(`
         <span class="n">algorithm</span><span class="p">,</span>
         <span class="n">prepare_explainer_func</span><span class="p">,</span>
         <span class="n">format_output_func</span><span class="p">,</span>
+        <span class="n">x_train_orig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">y_train</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">x_orig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">model_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">force_refit</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
@@ -593,6 +595,10 @@ document.write(`
 <span class="sd">                Function that initializes and fits the appropriate explainer</span>
 <span class="sd">            format_output_func (function):</span>
 <span class="sd">                Function that formats Explanation objects into the appropriate output format</span>
+<span class="sd">            x_train_orig (DataFrame of shape (n_instances, n_features)):</span>
+<span class="sd">                Training data, if not provided at initialization.</span>
+<span class="sd">            y_train (DataFrame or Series):</span>
+<span class="sd">                Training targets, if not provided at initialization</span>
 <span class="sd">            x_orig (DataFrame):</span>
 <span class="sd">                Data to explain, required for local explanations</span>
 <span class="sd">            model_id (string or int):</span>
@@ -613,7 +619,13 @@ document.write(`
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_explainer_exists</span><span class="p">(</span><span class="n">explanation_type_code</span><span class="p">,</span> <span class="n">algorithm</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">force_refit</span><span class="p">:</span>
             <span class="n">explainer</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_explainer</span><span class="p">(</span><span class="n">explanation_type_code</span><span class="p">,</span> <span class="n">algorithm</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">explainer</span> <span class="o">=</span> <span class="n">prepare_explainer_func</span><span class="p">(</span><span class="n">model_id</span><span class="o">=</span><span class="n">model_id</span><span class="p">,</span> <span class="n">algorithm</span><span class="o">=</span><span class="n">algorithm</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="n">explainer</span> <span class="o">=</span> <span class="n">prepare_explainer_func</span><span class="p">(</span>
+                <span class="n">model_id</span><span class="o">=</span><span class="n">model_id</span><span class="p">,</span>
+                <span class="n">algorithm</span><span class="o">=</span><span class="n">algorithm</span><span class="p">,</span>
+                <span class="n">x_train_orig</span><span class="o">=</span><span class="n">x_train_orig</span><span class="p">,</span>
+                <span class="n">y_train</span><span class="o">=</span><span class="n">y_train</span><span class="p">,</span>
+                <span class="o">**</span><span class="n">kwargs</span>
+            <span class="p">)</span>
 
         <span class="k">if</span> <span class="n">x_orig</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">ids</span> <span class="o">=</span> <span class="kc">None</span>
@@ -705,7 +717,13 @@ document.write(`
         <span class="k">return</span> <span class="n">preds_dict</span></div>
 
 <div class="viewcode-block" id="RealApp.prepare_feature_contributions"><a class="viewcode-back" href="../../../api_reference/api/pyreal.RealApp.prepare_feature_contributions.html#pyreal.RealApp.prepare_feature_contributions">[docs]</a>    <span class="k">def</span> <span class="nf">prepare_feature_contributions</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">model_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">algorithm</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">shap_type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">training_size</span><span class="o">=</span><span class="kc">None</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">model_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">x_train_orig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">y_train</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">algorithm</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">shap_type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">training_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Initialize and fit a local feature contribution explainer</span>
@@ -713,6 +731,10 @@ document.write(`
 <span class="sd">        Args:</span>
 <span class="sd">            model_id (int or string):</span>
 <span class="sd">                Model id to explain</span>
+<span class="sd">            x_train_orig (DataFrame of shape (n_instances, n_features)):</span>
+<span class="sd">                Training data, if not provided at initialization.</span>
+<span class="sd">            y_train (DataFrame or Series):</span>
+<span class="sd">                Training targets, if not provided at initialization</span>
 <span class="sd">            algorithm (string):</span>
 <span class="sd">                LFC algorithm to use</span>
 <span class="sd">            shap_type (string):</span>
@@ -724,19 +746,20 @@ document.write(`
         <span class="k">if</span> <span class="n">algorithm</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">algorithm</span> <span class="o">=</span> <span class="s2">&quot;shap&quot;</span>
 
+        <span class="k">if</span> <span class="n">model_id</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">model_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">active_model_id</span>
+
         <span class="n">explainer</span> <span class="o">=</span> <span class="n">LocalFeatureContribution</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">models</span><span class="p">[</span><span class="n">model_id</span><span class="p">],</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">X_train_orig</span><span class="p">,</span>
-            <span class="n">y_orig</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">y_orig</span><span class="p">,</span>
             <span class="n">transformers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">transformers</span><span class="p">,</span>
             <span class="n">feature_descriptions</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">feature_descriptions</span><span class="p">,</span>
             <span class="n">e_algorithm</span><span class="o">=</span><span class="n">algorithm</span><span class="p">,</span>
             <span class="n">shap_type</span><span class="o">=</span><span class="n">shap_type</span><span class="p">,</span>
             <span class="n">classes</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">classes</span><span class="p">,</span>
             <span class="n">class_descriptions</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">class_descriptions</span><span class="p">,</span>
-            <span class="n">fit_on_init</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
             <span class="n">training_size</span><span class="o">=</span><span class="n">training_size</span><span class="p">,</span>
         <span class="p">)</span>
+        <span class="n">explainer</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_x_train_orig</span><span class="p">(</span><span class="n">x_train_orig</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_y_train</span><span class="p">(</span><span class="n">y_train</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_add_explainer</span><span class="p">(</span><span class="s2">&quot;lfc&quot;</span><span class="p">,</span> <span class="n">algorithm</span><span class="p">,</span> <span class="n">explainer</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">explainer</span></div>
 
@@ -744,6 +767,8 @@ document.write(`
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">x_orig</span><span class="p">,</span>
         <span class="n">model_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">x_train_orig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">y_train</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">algorithm</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">shap_type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">force_refit</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
@@ -757,6 +782,10 @@ document.write(`
 <span class="sd">                Input to explain</span>
 <span class="sd">            model_id (string or int):</span>
 <span class="sd">                ID of model to explain</span>
+<span class="sd">            x_train_orig (DataFrame):</span>
+<span class="sd">                Data to fit on, if not provided during initialization</span>
+<span class="sd">            y_train (DataFrame or Series):</span>
+<span class="sd">                Training targets to fit on, if not provided during initialization</span>
 <span class="sd">            algorithm (string):</span>
 <span class="sd">                Name of algorithm</span>
 <span class="sd">            shap_type (string):</span>
@@ -777,6 +806,8 @@ document.write(`
             <span class="n">algorithm</span><span class="p">,</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">prepare_feature_contributions</span><span class="p">,</span>
             <span class="n">format_feature_contribution_output</span><span class="p">,</span>
+            <span class="n">x_train_orig</span><span class="o">=</span><span class="n">x_train_orig</span><span class="p">,</span>
+            <span class="n">y_train</span><span class="o">=</span><span class="n">y_train</span><span class="p">,</span>
             <span class="n">x_orig</span><span class="o">=</span><span class="n">x_orig</span><span class="p">,</span>
             <span class="n">model_id</span><span class="o">=</span><span class="n">model_id</span><span class="p">,</span>
             <span class="n">force_refit</span><span class="o">=</span><span class="n">force_refit</span><span class="p">,</span>
@@ -785,7 +816,13 @@ document.write(`
         <span class="p">)</span></div>
 
 <div class="viewcode-block" id="RealApp.prepare_feature_importance"><a class="viewcode-back" href="../../../api_reference/api/pyreal.RealApp.prepare_feature_importance.html#pyreal.RealApp.prepare_feature_importance">[docs]</a>    <span class="k">def</span> <span class="nf">prepare_feature_importance</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">model_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">algorithm</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">shap_type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">training_size</span><span class="o">=</span><span class="kc">None</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">model_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">x_train_orig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">y_train</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">algorithm</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">shap_type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">training_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Initialize and fit a global feature importance explainer</span>
@@ -793,6 +830,10 @@ document.write(`
 <span class="sd">        Args:</span>
 <span class="sd">            model_id (int or string):</span>
 <span class="sd">                Model id to explain</span>
+<span class="sd">            x_train_orig (DataFrame of shape (n_instances, n_features)):</span>
+<span class="sd">                Training data, if not provided at initialization.</span>
+<span class="sd">            y_train (DataFrame or Series):</span>
+<span class="sd">                Training targets, if not provided at initialization</span>
 <span class="sd">            algorithm (string):</span>
 <span class="sd">                GFI algorithm to use</span>
 <span class="sd">            shap_type (string):</span>
@@ -804,25 +845,28 @@ document.write(`
         <span class="k">if</span> <span class="n">algorithm</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">algorithm</span> <span class="o">=</span> <span class="s2">&quot;shap&quot;</span>
 
+        <span class="k">if</span> <span class="n">model_id</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">model_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">active_model_id</span>
+
         <span class="n">explainer</span> <span class="o">=</span> <span class="n">GlobalFeatureImportance</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">models</span><span class="p">[</span><span class="n">model_id</span><span class="p">],</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">X_train_orig</span><span class="p">,</span>
-            <span class="n">y_orig</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">y_orig</span><span class="p">,</span>
             <span class="n">transformers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">transformers</span><span class="p">,</span>
             <span class="n">feature_descriptions</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">feature_descriptions</span><span class="p">,</span>
             <span class="n">e_algorithm</span><span class="o">=</span><span class="n">algorithm</span><span class="p">,</span>
             <span class="n">classes</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">classes</span><span class="p">,</span>
             <span class="n">class_descriptions</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">class_descriptions</span><span class="p">,</span>
             <span class="n">shap_type</span><span class="o">=</span><span class="n">shap_type</span><span class="p">,</span>
-            <span class="n">fit_on_init</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
             <span class="n">training_size</span><span class="o">=</span><span class="n">training_size</span><span class="p">,</span>
         <span class="p">)</span>
+        <span class="n">explainer</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_x_train_orig</span><span class="p">(</span><span class="n">x_train_orig</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_y_train</span><span class="p">(</span><span class="n">y_train</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_add_explainer</span><span class="p">(</span><span class="s2">&quot;gfi&quot;</span><span class="p">,</span> <span class="n">algorithm</span><span class="p">,</span> <span class="n">explainer</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">explainer</span></div>
 
 <div class="viewcode-block" id="RealApp.produce_feature_importance"><a class="viewcode-back" href="../../../api_reference/api/pyreal.RealApp.produce_feature_importance.html#pyreal.RealApp.produce_feature_importance">[docs]</a>    <span class="k">def</span> <span class="nf">produce_feature_importance</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">model_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">x_train_orig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">y_train</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">algorithm</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">shap_type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">force_refit</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
@@ -833,6 +877,10 @@ document.write(`
 <span class="sd">        Args:</span>
 <span class="sd">            model_id (string or int):</span>
 <span class="sd">                ID of model to explain</span>
+<span class="sd">            x_train_orig (DataFrame):</span>
+<span class="sd">                Data to fit on, if not provided during initialization</span>
+<span class="sd">            y_train (DataFrame or Series):</span>
+<span class="sd">                Training targets to fit on, if not provided during initialization</span>
 <span class="sd">            algorithm (string):</span>
 <span class="sd">                Name of algorithm</span>
 <span class="sd">            shap_type (string):</span>
@@ -853,9 +901,39 @@ document.write(`
             <span class="bp">self</span><span class="o">.</span><span class="n">prepare_feature_importance</span><span class="p">,</span>
             <span class="n">format_feature_importance_output</span><span class="p">,</span>
             <span class="n">model_id</span><span class="o">=</span><span class="n">model_id</span><span class="p">,</span>
+            <span class="n">x_train_orig</span><span class="o">=</span><span class="n">x_train_orig</span><span class="p">,</span>
+            <span class="n">y_train</span><span class="o">=</span><span class="n">y_train</span><span class="p">,</span>
             <span class="n">force_refit</span><span class="o">=</span><span class="n">force_refit</span><span class="p">,</span>
             <span class="n">shap_type</span><span class="o">=</span><span class="n">shap_type</span><span class="p">,</span>
-        <span class="p">)</span></div></div>
+        <span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">_get_x_train_orig</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_train_orig</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Helper function to get the appropriate x_orig or raise errors if something goes wrong</span>
+<span class="sd">        Args:</span>
+<span class="sd">            x_train_orig (DataFrame or None):</span>
+<span class="sd">                Provided DataFrame</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            The dataframe to use (x_orig or self.x_train_orig), may be None if neither is given</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">x_train_orig</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">x_train_orig</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">X_train_orig</span>
+
+    <span class="k">def</span> <span class="nf">_get_y_train</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y_train</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Helper function to get the appropriate y or raise errors if something goes wrong</span>
+<span class="sd">        Args:</span>
+<span class="sd">            y (DataFrame or None):</span>
+<span class="sd">                Provided DataFrame</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            The dataframe to use (y or self.y_train), may be None if neither is given</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">y_train</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">y_train</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">y_train</span></div>
 </pre></div>
 
                 </article>

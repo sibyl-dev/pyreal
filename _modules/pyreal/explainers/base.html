@@ -415,8 +415,8 @@ document.write(`
 <span class="sd">           Classification models should return the index or class. If the latter, the `classes`</span>
 <span class="sd">           parameter should be provided.</span>
 <span class="sd">        x_train_orig (DataFrame of shape (n_instances, x_orig_feature_count)):</span>
-<span class="sd">           The training set for the explainer</span>
-<span class="sd">        y_orig (DataFrame of shape (n_instances,)):</span>
+<span class="sd">           The training set for the explainer. If none, must be provided separately when fitting</span>
+<span class="sd">        y_train (DataFrame of shape (n_instances,)):</span>
 <span class="sd">           The y values for the dataset</span>
 <span class="sd">        feature_descriptions (dict):</span>
 <span class="sd">           Interpretable descriptions of each feature</span>
@@ -439,13 +439,15 @@ document.write(`
 <span class="sd">            entire x_train_orig.</span>
 <span class="sd">        return_original_explanation (Boolean):</span>
 <span class="sd">            If True, return the explanation originally generated without any transformations</span>
+<span class="sd">        fit_transformers (Boolean):</span>
+<span class="sd">            If True, fit transformers on x_train_orig. Requires x_train_orig not be None</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="ExplainerBase.__init__"><a class="viewcode-back" href="../../../api_reference/api/pyreal.explainers.ExplainerBase.html#pyreal.explainers.ExplainerBase.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">model</span><span class="p">,</span>
-        <span class="n">x_train_orig</span><span class="p">,</span>
-        <span class="n">y_orig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">x_train_orig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">y_train</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">feature_descriptions</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">classes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">class_descriptions</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -464,15 +466,16 @@ document.write(`
             <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">model</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">x_train_orig</span> <span class="o">=</span> <span class="n">x_train_orig</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">y_orig</span> <span class="o">=</span> <span class="n">y_orig</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">y_train</span> <span class="o">=</span> <span class="n">y_train</span>
 
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x_train_orig</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span>
-            <span class="n">y_orig</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
-            <span class="ow">and</span> <span class="ow">not</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">y_orig</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">y_orig</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">x_train_orig</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x_train_orig</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;x_train_orig must be of type DataFrame&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">y_train</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="p">(</span>
+            <span class="nb">isinstance</span><span class="p">(</span><span class="n">y_train</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">y_train</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">)</span>
         <span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;x_orig and y_orig must be of type DataFrame&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;y_train must be of type DataFrame or Series&quot;</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">x_orig_feature_count</span> <span class="o">=</span> <span class="n">x_train_orig</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="c1"># self.x_orig_feature_count = x_train_orig.shape[1]</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">transformers</span> <span class="o">=</span> <span class="n">_check_transformers</span><span class="p">(</span><span class="n">transformers</span><span class="p">)</span>
 
@@ -492,43 +495,38 @@ document.write(`
 
         <span class="bp">self</span><span class="o">.</span><span class="n">class_descriptions</span> <span class="o">=</span> <span class="n">class_descriptions</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">return_original_explanation</span> <span class="o">=</span> <span class="n">return_original_explanation</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">x_train_orig_subset</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">x_train_orig</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">y_train_subset</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">y_train</span>
+
         <span class="bp">self</span><span class="o">.</span><span class="n">training_size</span> <span class="o">=</span> <span class="n">training_size</span>
-        <span class="k">if</span> <span class="n">training_size</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">training_size</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">x_train_orig</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-
-        <span class="c1"># this argument stores the indices of the rows of data we want to use</span>
-        <span class="n">data_sample_indices</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">x_train_orig</span><span class="o">.</span><span class="n">index</span>
-
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">training_size</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-                <span class="s2">&quot;Info: training_size not provided. Defaulting to train with full &quot;</span>
-                <span class="s2">&quot;dataset, running time might be slow.&quot;</span>
+        <span class="k">if</span> <span class="n">x_train_orig</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">training_size</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">x_train_orig_subset</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y_train_subset</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_select_training_set</span><span class="p">(</span>
+                <span class="n">x_train_orig</span><span class="p">,</span> <span class="n">y_train</span>
             <span class="p">)</span>
-        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">training_size</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x_train_orig</span><span class="o">.</span><span class="n">index</span><span class="p">):</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">classes</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">training_size</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">classes</span><span class="p">):</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;training_size must be larger than the number of classes&quot;</span><span class="p">)</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">data_sample_indices</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Index</span><span class="p">(</span>
-                    <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x_train_orig</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">training_size</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-                <span class="p">)</span>
-
-        <span class="c1"># use _x_train_orig for fitting explainer</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_x_train_orig</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">x_train_orig</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">data_sample_indices</span><span class="p">]</span>
-        <span class="k">if</span> <span class="n">y_orig</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_y_orig</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">y_orig</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">data_sample_indices</span><span class="p">]</span>
 
         <span class="k">if</span> <span class="n">fit_transformers</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">x_train_orig</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Cannot fit transformers unless x_train_orig is provided&quot;</span><span class="p">)</span>
             <span class="n">a_transformers</span> <span class="o">=</span> <span class="n">_get_transformers</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">transformers</span><span class="p">,</span> <span class="n">algorithm</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
             <span class="n">i_transformers</span> <span class="o">=</span> <span class="n">_get_transformers</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">transformers</span><span class="p">,</span> <span class="n">interpret</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
             <span class="n">fit_transformers_func</span><span class="p">(</span><span class="n">a_transformers</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">x_train_orig</span><span class="p">)</span>
             <span class="n">fit_transformers_func</span><span class="p">(</span><span class="n">i_transformers</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">x_train_orig</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">fit_on_init</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">x_train_orig</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="ExplainerBase.fit"><a class="viewcode-back" href="../../../api_reference/api/pyreal.explainers.ExplainerBase.fit.html#pyreal.explainers.ExplainerBase.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="ExplainerBase.fit"><a class="viewcode-back" href="../../../api_reference/api/pyreal.explainers.ExplainerBase.fit.html#pyreal.explainers.ExplainerBase.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_train_orig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">y_train</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Fit this explainer object. Abstract method</span>
+<span class="sd">        Fit this explainer object.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            x_train_orig (DataFrame of shape (n_instances, n_features):</span>
+<span class="sd">                Training set to fit on, required if not provided on initialization</span>
+<span class="sd">            y_train:</span>
+<span class="sd">                Targets of training set, required if not provided on initialization</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
@@ -754,7 +752,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">convert_columns_to_interpretable</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">transform_to_x_interpret</span><span class="p">(</span><span class="n">x_orig</span><span class="p">))</span></div>
 
-    <span class="k">def</span> <span class="nf">evaluate_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scorer</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">evaluate_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scorer</span><span class="p">,</span> <span class="n">x_orig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Evaluate the model using a chosen scorer algorithm.</span>
 
@@ -762,17 +760,22 @@ document.write(`
 <span class="sd">            scorer (string):</span>
 <span class="sd">                Type of scorer to use. See sklearn&#39;s scoring parameter options here:</span>
 <span class="sd">                https://scikit-learn.org/stable/modules/model_evaluation.html#scoring-parameter</span>
+<span class="sd">            x_orig (DataFrame of shape (n_instances, n_features)):</span>
+<span class="sd">                Dataset to score on. Required if x_train_orig was not provided at initialization.</span>
+<span class="sd">                If None, use self.x_train_orig</span>
+<span class="sd">            y (DataFrame of shape (n_instances, n_features)):</span>
+<span class="sd">                Dataset to score on. Required if y_train was not provided at initialization</span>
+
 
 <span class="sd">        Returns:</span>
 <span class="sd">            float</span>
 <span class="sd">                A score for the model</span>
-
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">y_orig</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Explainer must have a y_orig parameter to score model&quot;</span><span class="p">)</span>
+        <span class="n">x_orig</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_training_data</span><span class="p">(</span><span class="n">x_orig</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+
         <span class="n">scorer</span> <span class="o">=</span> <span class="n">get_scorer</span><span class="p">(</span><span class="n">scorer</span><span class="p">)</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform_to_x_model</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_x_train_orig</span><span class="p">)</span>
-        <span class="n">score</span> <span class="o">=</span> <span class="n">scorer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_y_orig</span><span class="p">)</span>
+        <span class="n">x_model</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform_to_x_model</span><span class="p">(</span><span class="n">x_orig</span><span class="p">)</span>
+        <span class="n">score</span> <span class="o">=</span> <span class="n">scorer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">,</span> <span class="n">x_model</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">score</span>
 
     <span class="nd">@abstractmethod</span>
@@ -799,7 +802,59 @@ document.write(`
 <span class="sd">        Returns:</span>
 <span class="sd">            float</span>
 <span class="sd">                The variation of this Explainer&#39;s explanations</span>
-<span class="sd">        &quot;&quot;&quot;</span></div>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">_get_x_train_orig</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_train_orig</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Helper function to get the appropriate x_orig or raise errors if something goes wrong</span>
+<span class="sd">        Args:</span>
+<span class="sd">            x_train_orig (DataFrame or None):</span>
+<span class="sd">                Provided DataFrame</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            The dataframe to use (x_orig or self.x_train_orig)</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError if no valid dataframe</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">x_train_orig</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_select_training_set</span><span class="p">(</span><span class="n">x_train_orig</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">x_train_orig_subset</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">x_train_orig_subset</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Must provide x_train_orig at initialization or fitting time!&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_get_training_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_train_orig</span><span class="p">,</span> <span class="n">y_train</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">x_train_orig</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">x_train_orig</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Must provide x_train_orig at initialization or fitting time&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">y_train</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">y_train</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Must provide y_train at initialization or fitting time&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">x_train_orig</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">y_train</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Must provide y_train if providing x_train_orig&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">x_train_orig</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">x_train_orig_subset</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y_train_subset</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_select_training_set</span><span class="p">(</span><span class="n">x_train_orig</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_select_training_set</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">training_size</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">training_size</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">x_train</span><span class="o">.</span><span class="n">index</span><span class="p">):</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">classes</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">training_size</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">classes</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;training_size must be larger than the number of classes&quot;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">data_sample_indices</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Index</span><span class="p">(</span>
+                    <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">x_train</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">training_size</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+                <span class="p">)</span>
+
+            <span class="c1"># use x_train_orig_subset for fitting explainer</span>
+            <span class="n">x_train_subset</span> <span class="o">=</span> <span class="n">x_train</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">data_sample_indices</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">y_train</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">y_train_subset</span> <span class="o">=</span> <span class="n">y_train</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">data_sample_indices</span><span class="p">]</span>
+                <span class="k">return</span> <span class="n">x_train_subset</span><span class="p">,</span> <span class="n">y_train_subset</span>
+            <span class="k">return</span> <span class="n">x_train_subset</span><span class="p">,</span> <span class="kc">None</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span></div>
 </pre></div>
 
                 </article>

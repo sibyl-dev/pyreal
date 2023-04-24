@@ -355,8 +355,8 @@ document.write(`
 <div class="viewcode-block" id="PartialDependence.__init__"><a class="viewcode-back" href="../../../../api_reference/api/pyreal.explainers.PartialDependence.html#pyreal.explainers.PartialDependence.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">model</span><span class="p">,</span>
-        <span class="n">x_train_orig</span><span class="p">,</span>
         <span class="n">features</span><span class="p">,</span>
+        <span class="n">x_train_orig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">grid_resolution</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
         <span class="n">interpretable_features</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
@@ -365,7 +365,7 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">grid_resolution</span> <span class="o">=</span> <span class="n">grid_resolution</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">x_train_orig</span><span class="p">,</span> <span class="n">interpretable_features</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="PartialDependence.fit"><a class="viewcode-back" href="../../../../api_reference/api/pyreal.explainers.PartialDependence.fit.html#pyreal.explainers.PartialDependence.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="PartialDependence.fit"><a class="viewcode-back" href="../../../../api_reference/api/pyreal.explainers.PartialDependence.fit.html#pyreal.explainers.PartialDependence.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_train_orig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">y_train</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Fit this explainer.</span>
 
@@ -376,8 +376,16 @@ document.write(`
 <span class="sd">                Partial dependence values calculated for each feature combination in the grid.</span>
 <span class="sd">            self.grid_points: ndarray of shape (features, grid_resolution)</span>
 <span class="sd">                The grid points where the partial dependence values are calculated.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            x_train_orig (DataFrame of shape (n_instances, n_features):</span>
+<span class="sd">                Training set to fit on, required if not provided on initialization</span>
+<span class="sd">            y_train:</span>
+<span class="sd">                Targets of training set, required if not provided on initialization</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">dataset</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform_to_x_model</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_x_train_orig</span><span class="p">)</span>
+        <span class="n">x_train_orig</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_x_train_orig</span><span class="p">(</span><span class="n">x_train_orig</span><span class="p">)</span>
+
+        <span class="n">dataset</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform_to_x_model</span><span class="p">(</span><span class="n">x_train_orig</span><span class="p">)</span>
         <span class="n">explanation_results</span> <span class="o">=</span> <span class="n">partial_dependence</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">,</span>
             <span class="n">dataset</span><span class="p">,</span>

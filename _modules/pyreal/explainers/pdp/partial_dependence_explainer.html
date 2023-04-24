@@ -387,7 +387,6 @@ document.write(`
             <span class="s2">&quot;explainer is non-functional with return_contribution and return_explainer set to&quot;</span>
             <span class="s2">&quot; false&quot;</span>
         <span class="p">)</span>
-        <span class="k">return</span>
     <span class="k">if</span> <span class="n">explainer</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="p">(</span><span class="n">model</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">x_train_orig</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">features</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
             <span class="s2">&quot;explainer requires either explainer OR model, x_train, features to be passed&quot;</span>
@@ -432,9 +431,9 @@ document.write(`
 <span class="sd">        **kwargs: see base Explainer args</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="PartialDependenceExplainer.__init__"><a class="viewcode-back" href="../../../../api_reference/api/pyreal.explainers.PartialDependenceExplainer.html#pyreal.explainers.PartialDependenceExplainer.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">x_train_orig</span><span class="p">,</span> <span class="n">features</span><span class="p">,</span> <span class="n">grid_resolution</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="PartialDependenceExplainer.__init__"><a class="viewcode-back" href="../../../../api_reference/api/pyreal.explainers.PartialDependenceExplainer.html#pyreal.explainers.PartialDependenceExplainer.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">features</span><span class="p">,</span> <span class="n">x_train_orig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">grid_resolution</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">base_partial_dependence</span> <span class="o">=</span> <span class="n">PartialDependence</span><span class="p">(</span>
-            <span class="n">model</span><span class="p">,</span> <span class="n">x_train_orig</span><span class="p">,</span> <span class="n">features</span><span class="o">=</span><span class="n">features</span><span class="p">,</span> <span class="n">grid_resolution</span><span class="o">=</span><span class="n">grid_resolution</span>
+            <span class="n">model</span><span class="p">,</span> <span class="n">features</span><span class="o">=</span><span class="n">features</span><span class="p">,</span> <span class="n">x_train_orig</span><span class="o">=</span><span class="n">x_train_orig</span><span class="p">,</span> <span class="n">grid_resolution</span><span class="o">=</span><span class="n">grid_resolution</span>
         <span class="p">)</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">PartialDependenceExplainer</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">x_train_orig</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
@@ -447,11 +446,17 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_partial_dependence</span><span class="o">.</span><span class="n">get_pdp</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="PartialDependenceExplainer.fit"><a class="viewcode-back" href="../../../../api_reference/api/pyreal.explainers.PartialDependenceExplainer.fit.html#pyreal.explainers.PartialDependenceExplainer.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="PartialDependenceExplainer.fit"><a class="viewcode-back" href="../../../../api_reference/api/pyreal.explainers.PartialDependenceExplainer.fit.html#pyreal.explainers.PartialDependenceExplainer.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_train_orig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">y_train</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Fit this explainer object</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            x_train_orig (DataFrame of shape (n_instances, n_features):</span>
+<span class="sd">                Training set to fit on, required if not provided on initialization</span>
+<span class="sd">            y_train:</span>
+<span class="sd">                Targets of training set, required if not provided on initialization</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">base_partial_dependence</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">base_partial_dependence</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x_train_orig</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span></div></div>
 </pre></div>
 

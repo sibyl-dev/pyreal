@@ -353,7 +353,7 @@ document.write(`
 <span class="sd">        **kwargs: see base Explainer args</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="ShapFeatureContribution.__init__"><a class="viewcode-back" href="../../../../api_reference/api/pyreal.explainers.ShapFeatureContribution.html#pyreal.explainers.ShapFeatureContribution.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">x_train_orig</span><span class="p">,</span> <span class="n">shap_type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="ShapFeatureContribution.__init__"><a class="viewcode-back" href="../../../../api_reference/api/pyreal.explainers.ShapFeatureContribution.html#pyreal.explainers.ShapFeatureContribution.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">x_train_orig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">shap_type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="n">supported_types</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;kernel&quot;</span><span class="p">,</span> <span class="s2">&quot;linear&quot;</span><span class="p">]</span>
         <span class="k">if</span> <span class="n">shap_type</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">shap_type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">supported_types</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
@@ -367,11 +367,19 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">explainer_input_size</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">ShapFeatureContribution</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">x_train_orig</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="ShapFeatureContribution.fit"><a class="viewcode-back" href="../../../../api_reference/api/pyreal.explainers.ShapFeatureContribution.fit.html#pyreal.explainers.ShapFeatureContribution.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="ShapFeatureContribution.fit"><a class="viewcode-back" href="../../../../api_reference/api/pyreal.explainers.ShapFeatureContribution.fit.html#pyreal.explainers.ShapFeatureContribution.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_train_orig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">y_train</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Fit the contribution explainer</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            x_train_orig (DataFrame of shape (n_instances, n_features):</span>
+<span class="sd">                Training set to fit on, required if not provided on initialization</span>
+<span class="sd">            y_train:</span>
+<span class="sd">                Targets of training set, required if not provided on initialization</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">dataset</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform_to_x_algorithm</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_x_train_orig</span><span class="p">)</span>
+        <span class="n">x_train_orig</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_x_train_orig</span><span class="p">(</span><span class="n">x_train_orig</span><span class="p">)</span>
+
+        <span class="n">dataset</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform_to_x_algorithm</span><span class="p">(</span><span class="n">x_train_orig</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">explainer_input_size</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">shap_type</span> <span class="o">==</span> <span class="s2">&quot;kernel&quot;</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">explainer</span> <span class="o">=</span> <span class="n">KernelExplainer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">,</span> <span class="n">dataset</span><span class="p">)</span>
