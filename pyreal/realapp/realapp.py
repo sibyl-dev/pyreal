@@ -158,7 +158,12 @@ class RealApp:
 
         if fit_transformers:
             # Hacky way of fitting transformers, may want to clean up later
-            Explainer(self.models[next(iter(self.models))], X_train_orig, transformers=self.transformers, fit_transformers=True)
+            Explainer(
+                self.models[next(iter(self.models))],
+                X_train_orig,
+                transformers=self.transformers,
+                fit_transformers=True,
+            )
 
         # Base explainer used for general transformations and model predictions
         # Also validates data, model, and transformers

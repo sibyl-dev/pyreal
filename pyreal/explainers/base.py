@@ -173,7 +173,9 @@ class ExplainerBase(ABC):
 
         self.training_size = training_size
         if x_train_orig is not None and training_size is not None:
-            self.x_train_orig_subset, self.y_train_subset = self._select_training_set(x_train_orig, y_train)
+            self.x_train_orig_subset, self.y_train_subset = self._select_training_set(
+                x_train_orig, y_train
+            )
 
         if fit_transformers:
             if x_train_orig is None:
@@ -514,9 +516,7 @@ class ExplainerBase(ABC):
                 raise ValueError("training_size must be larger than the number of classes")
             else:
                 data_sample_indices = pd.Index(
-                    np.random.choice(
-                        x_train.index, self.training_size, replace=False
-                    )
+                    np.random.choice(x_train.index, self.training_size, replace=False)
                 )
 
             # use x_train_orig_subset for fitting explainer
