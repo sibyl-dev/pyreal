@@ -68,3 +68,9 @@ def test_fit_transform_fit_with_length_defined(transformer_test_data):
     x_trans = transformer.transform(X)
 
     np.testing.assert_array_equal(x_padded, x_trans)
+
+
+def test_fit_returns_self():
+    transformer = TimeSeriesPadder(value=0, length=2)
+    result = transformer.fit(None)
+    assert result == transformer

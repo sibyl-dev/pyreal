@@ -170,3 +170,9 @@ def test_fit_transform_multitype_columns_parameter():
     result = imputer.fit_transform(x)
 
     assert_frame_equal(expected_result, result)
+
+
+def test_fit_returns_self():
+    transformer = MultiTypeImputer()
+    result = transformer.fit(pd.DataFrame([0, 1]))
+    assert result == transformer

@@ -56,7 +56,7 @@ class MultiTypeImputer(Transformer):
         if self.modes.shape[0] > 0:
             self.modes = self.modes.iloc[0, :]
 
-        super().fit(x)
+        return super().fit(x)
 
     def data_transform(self, x):
         """

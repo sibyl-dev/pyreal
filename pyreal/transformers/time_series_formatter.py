@@ -132,7 +132,7 @@ class Numpy2dToMultiIndexFrame(Transformer):
                 self.mi = pd.MultiIndex.from_product([self.var_name, self.timestamps])
             else:
                 raise TypeError(f"var_name must be a String, received type: {type(self.var_name)}")
-        super().fit(x)
+        return super().fit(x)
 
     def data_transform(self, x):
         """
@@ -195,7 +195,7 @@ class Pandas2dToMultiIndexFrame(Transformer):
             if not isinstance(self.var_name, str):
                 raise TypeError(f"var_name must be a String, received type: {type(self.var_name)}")
             self.mi = pd.MultiIndex.from_product([[self.var_name], columns])
-        super().fit()
+        return super().fit(x)
 
     def data_transform(self, x):
         """
@@ -259,7 +259,7 @@ class Numpy3dToMultiIndexFrame(Transformer):
                 )
 
         self.mi = pd.MultiIndex.from_product([self.var_names, self.timestamps])
-        super().fit(x)
+        return super().fit(x)
 
     def data_transform(self, x):
         """
@@ -330,7 +330,7 @@ class NestedFrameToMultiIndexFrame(Transformer):
         self.timestamps = sample_series.index
 
         self.mi = pd.MultiIndex.from_product([self.var_names, self.timestamps])
-        super().fit(x)
+        return super().fit(x)
 
     def data_transform(self, x):
         """
@@ -445,6 +445,7 @@ class Numpy2dToNestedFrame(Transformer):
                 Input ndarray
         """
         fit_transformers(self._transformers, x)
+        return super().fit(x)
 
     def data_transform(self, x):
         """
@@ -483,6 +484,7 @@ class Numpy3dToNestedFrame(Transformer):
                 Input ndarray
         """
         fit_transformers(self._transformers, x)
+        return super().fit(x)
 
     def data_transform(self, x):
         """

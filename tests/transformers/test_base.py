@@ -60,3 +60,9 @@ def test_explanation_transform_transfer():
     result2 = test_transformer.inverse_transform_explanation(explanation)
     assert result2.__class__ == FeatureImportanceExplanation
     assert_frame_equal(result2.get(), pd.DataFrame([["A", "B"]]))
+
+
+def test_fit_returns_self():
+    transformer = TestTransformer()
+    result = transformer.fit(None)
+    assert result == transformer

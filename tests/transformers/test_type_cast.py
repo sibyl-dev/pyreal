@@ -12,6 +12,7 @@ def test_bool_to_int_data_transform():
     assert_frame_equal(x_expected, x_transformed)
 
 
-def test_bool_to_int_fit():
-    # no-op, ensure no break
-    BoolToIntCaster().fit(pd.DataFrame([1, 2]))
+def test_fit_returns_self():
+    transformer = BoolToIntCaster()
+    result = transformer.fit(None)
+    assert result == transformer
