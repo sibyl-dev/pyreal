@@ -135,7 +135,7 @@ def load_app():
     return RealApp(
         model,
         x_train_orig,
-        y_orig=y,
+        y_train=y,
         transformers=transformers,
         feature_descriptions=feature_descriptions,
         id_column="name",

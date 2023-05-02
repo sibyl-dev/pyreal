@@ -97,6 +97,18 @@ Time-Series Formatters
     Pandas2dToMultiIndexFrame.fit
     Pandas2dToMultiIndexFrame.data_transform
 
+Type Casters
+~~~~~~~~~~~~~~~~~~~~~
+.. autosummary::
+    :toctree: api/
+
+    BoolToIntCaster
+    BoolToIntCaster.fit
+    BoolToIntCaster.data_transform
+    BoolToIntCaster.transform
+    BoolToIntCaster.fit_transform
+    BoolToIntCaster.transform_explanation
+
 Wrappers
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .. autosummary::

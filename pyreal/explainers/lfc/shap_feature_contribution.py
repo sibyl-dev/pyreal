@@ -25,7 +25,7 @@ class ShapFeatureContribution(LocalFeatureContributionsBase):
         **kwargs: see base Explainer args
     """
 
-    def __init__(self, model, x_train_orig, shap_type=None, **kwargs):
+    def __init__(self, model, x_train_orig=None, shap_type=None, **kwargs):
         supported_types = ["kernel", "linear"]
         if shap_type is not None and shap_type not in supported_types:
             raise ValueError(
@@ -39,11 +39,19 @@ class ShapFeatureContribution(LocalFeatureContributionsBase):
         self.explainer_input_size = None
         super(ShapFeatureContribution, self).__init__(model, x_train_orig, **kwargs)
 
-    def fit(self):
+    def fit(self, x_train_orig=None, y_train=None):
         """
         Fit the contribution explainer
+
+        Args:
+            x_train_orig (DataFrame of shape (n_instances, n_features):
+                Training set to fit on, required if not provided on initialization
+            y_train:
+                Targets of training set, required if not provided on initialization
         """
-        dataset = self.transform_to_x_algorithm(self._x_train_orig)
+        x_train_orig = self._get_x_train_orig(x_train_orig)
+
+        dataset = self.transform_to_x_algorithm(x_train_orig)
         self.explainer_input_size = dataset.shape[1]
         if self.shap_type == "kernel":
             self.explainer = KernelExplainer(self.model.predict, dataset)
