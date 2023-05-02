@@ -133,7 +133,7 @@ class OneHotEncoder(Transformer):
         if self.columns is None:
             self.columns = x.columns
         self.ohe.fit(x[self.columns])
-        super().fit(x)
+        return super().fit(x)
 
     def data_transform(self, x):
         """
