@@ -43,7 +43,7 @@ class TimeSeriesPadder(Transformer):
                 self.length = x.shape[1]
             else:
                 self.length = len(max(x, key=lambda x_: len(x_)))
-        super().fit(x)
+        return super().fit(x)
 
     def data_transform(self, x):
         """

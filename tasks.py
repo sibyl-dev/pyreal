@@ -156,9 +156,9 @@ def test(context):
         failures_in.append("Tutorials")
 
     if len(failures_in) == 0:
-        print_green("\nAll tests successful")
+        print_green("\nAll tests successful :)")
     else:
-        print_red("\nFailures in: ")
+        print_red("\n:( Failures in: ")
         for i in failures_in:
             print_red(i + ", ")
 

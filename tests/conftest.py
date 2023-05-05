@@ -13,6 +13,9 @@ class DummyModel:
     def __init__(self, value):
         self.value = value
 
+    def fit(self, x):
+        return self
+
     def predict(self, x):
         return np.sum(x, axis=1) + self.value
 
@@ -33,6 +36,11 @@ def test_root():
 @pytest.fixture()
 def dummy_models():
     return {"id0": DummyModel(0), "id1": DummyModel(1), "id2": DummyModel(2)}
+
+
+@pytest.fixture()
+def dummy_model():
+    return DummyModel(0)
 
 
 @pytest.fixture()
@@ -63,6 +71,22 @@ def regression_no_transforms(test_root):
 
 
 @pytest.fixture()
+def regression_no_transforms_big(test_root):
+    data = np.stack((np.arange(100), np.arange(100) * -0.37, np.arange(100) * 0.2 + 3), axis=1)
+    x = pd.DataFrame(data, columns=["A", "B", "C"])
+    y = x.iloc[:, 0:1].copy()
+    model_no_transforms = LinearRegression()
+    model_no_transforms.fit(x, y)
+    model_no_transforms.coef_ = np.array([1, 0, 0])
+    model_no_transforms.intercept_ = 0
+    model_no_transforms_filename = os.path.join(test_root, "data", "model_no_transforms.pkl")
+    with open(model_no_transforms_filename, "wb") as f:
+        pickle.dump(model_no_transforms, f)
+
+    return {"model": model_no_transforms_filename, "transformers": None, "x": x, "y": y}
+
+
+@pytest.fixture()
 def classification_no_transforms(test_root):
     x = pd.DataFrame([[3, 0, 0], [0, 3, 0], [0, 0, 3]], columns=["A", "B", "C"])
     y = pd.Series([1, 1, 3])
@@ -80,6 +104,27 @@ def classification_no_transforms(test_root):
         "x": x,
         "y": y,
         "classes": np.arange(1, 4),
+    }
+
+
+@pytest.fixture()
+def binary_classification_no_transforms(test_root):
+    x = pd.DataFrame([[3, 0, 0], [0, 3, 0], [0, 0, 3]], columns=["A", "B", "C"])
+    y = pd.Series([1, 1, 0])
+    model_no_transforms = LogisticRegression()
+    model_no_transforms.fit(x, pd.Series([1, 2, 3]))
+    model_no_transforms.coef_ = np.array([[0, 1, 0], [0, 1, 0], [0, 0, 1]])
+    model_no_transforms.intercept_ = np.array([0])
+    model_no_transforms_filename = os.path.join(test_root, "data", "model_no_transforms.pkl")
+    with open(model_no_transforms_filename, "wb") as f:
+        pickle.dump(model_no_transforms, f)
+
+    return {
+        "model": model_no_transforms_filename,
+        "transformers": None,
+        "x": x,
+        "y": y,
+        "classes": np.arange(0, 2),
     }
 
 

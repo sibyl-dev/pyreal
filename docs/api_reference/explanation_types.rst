@@ -58,6 +58,26 @@ Additive Feature Contribution Explanation Type
     feature_based.AdditiveFeatureContributionExplanation.get
     feature_based.AdditiveFeatureContributionExplanation.validate
 
+Feature Value Based Explanation Type
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.. autosummary::
+    :toctree: api/
+
+    feature_value_based.FeatureValueBased
+    feature_value_based.FeatureValueBased.get
+    feature_value_based.FeatureValueBased.validate
+    feature_value_based.FeatureValueBased.update_feature_names
+
+Partial Dependence Explanation Type
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.. autosummary::
+    :toctree: api/
+
+    feature_value_based.PartialDependenceExplanation
+    feature_value_based.PartialDependenceExplanation.get
+    feature_value_based.PartialDependenceExplanation.validate
+    feature_value_based.PartialDependenceExplanation.update_feature_names
+
 Decision Tree Explanation Type
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .. autosummary::

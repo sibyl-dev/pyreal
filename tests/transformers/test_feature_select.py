@@ -64,3 +64,9 @@ def test_inverse_transform_explanation_feature_select(transformer_test_data):
     trans_exp = fs_transformer.inverse_transform_explanation(explanation)
 
     assert_frame_equal(trans_exp.get(), expected_explanation)
+
+
+def test_fit_returns_self():
+    transformer = FeatureSelectTransformer(columns=[])
+    result = transformer.fit(pd.DataFrame([0, 1]))
+    assert result == transformer

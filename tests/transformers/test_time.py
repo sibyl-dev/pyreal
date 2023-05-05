@@ -78,3 +78,29 @@ def test_sktime_to_numpy3d(time_series_data):
     transformer = NestedFrameToNumpy3d()
     array = transformer.fit_transform(nested)
     assert (array == np3d).all()
+
+
+def test_fit_returns_self(time_series_data):
+    nested = time_series_data["nested"]
+    np3d = time_series_data["np3d"]
+    np2d = time_series_data["np2d"]
+    df3d = time_series_data["df3d"]
+    for transformer in [MultiIndexFrameToNestedFrame(),
+                        MultiIndexFrameToNumpy2d(),
+                        MultiIndexFrameToNumpy3d()]:
+        result = transformer.fit(df3d)
+        assert result == transformer
+
+    for transformer in [NestedFrameToMultiIndexFrame(),
+                        NestedFrameToNumpy3d()]:
+        result = transformer.fit(nested)
+        assert result == transformer
+
+    for transformer in [Numpy2dToMultiIndexFrame()]:
+        result = transformer.fit(np2d)
+        assert result == transformer
+
+    for transformer in [Numpy3dToMultiIndexFrame(),
+                        Numpy3dToNestedFrame()]:
+        result = transformer.fit(np3d)
+        assert result == transformer

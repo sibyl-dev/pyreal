@@ -20,7 +20,14 @@ class UnivariateOcclusionSaliency(SaliencyBase):
     """
 
     def __init__(
-        self, model, x_train_orig, regression=False, width=5, k="avg", num_classes=None, **kwargs
+        self,
+        model,
+        x_train_orig=None,
+        regression=False,
+        width=5,
+        k="avg",
+        num_classes=None,
+        **kwargs
     ):
         """
         Generates a feature importance explanation of time-series type data by iteratively
@@ -59,7 +66,16 @@ class UnivariateOcclusionSaliency(SaliencyBase):
         elif self.num_classes is None:
             self.num_classes = len(self.classes)
 
-    def fit(self):
+    def fit(self, x_train_orig=None, y_train=None):
+        """
+        Fit this explainer object
+
+        Args:
+            x_train_orig (DataFrame of shape (n_instances, n_features):
+                Training set to fit on, required if not provided on initialization
+            y_train:
+                Targets of training set, required if not provided on initialization
+        """
         return self
 
     def get_contributions(self, x_orig):
