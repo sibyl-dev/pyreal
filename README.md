@@ -27,7 +27,7 @@ provide usable explanations in a low-code manner.
 
 ## Requirements
 
-**Pyreal** has been developed and tested on [Python 3.8, 3.9, and 3.10](https://www.python.org/downloads/)
+**Pyreal** has been developed and tested on [Python 3.9, 3.10, and 3.11](https://www.python.org/downloads/)
 The library uses Poetry for package management.
 
 ## Install from PyPI

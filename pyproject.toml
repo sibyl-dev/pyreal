@@ -34,7 +34,7 @@ include = ["AUTHORS.rst", "HISTORY.md"]
 [tool.poetry.dependencies]
 
 # Main Python Requirements
-python = "^3.8, <3.12"
+python = "^3.9, <3.12"
 
 #Library Dependencies
 matplotlib = "^3.6.0"
