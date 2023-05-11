@@ -11,7 +11,7 @@
 [![Build Action Status](https://github.com/DAI-Lab/pyreal/workflows/Test%20CI/badge.svg)](https://github.com/DAI-Lab/pyreal/actions)
 # Pyreal
 
-Library for evaluating and deploying machine learning explanations.
+Library for generating useful and usable machine learning explanations.
 
 - License: MIT
 - Documentation: https://pyreal.gitbook.io/pyreal
@@ -54,9 +54,9 @@ Finally, you can clone this repository and install it from
 source by running `poetry install`, with the optional `examples` extras if you'd like to run our tutorial scripts.
 
 ```
-git clone git@github.com:DAI-Lab/pyreal.git
+git clone https://github.com/sibyl-dev/pyreal.git
 cd pyreal
-poetry install -E examples
+poetry install
 ```
 
 ## Install for Development
