@@ -5,7 +5,7 @@ Partial Dependence Explainer
 .. currentmodule:: pyreal.explainers
 
 Partial Dependence Explainer Base
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .. autosummary::
     :toctree: api/
 
@@ -15,7 +15,7 @@ Partial Dependence Explainer Base
     PartialDependenceExplainerBase.get_pdp
 
 Partial Dependence Explainer
-~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .. autosummary::
     :toctree: api/
 

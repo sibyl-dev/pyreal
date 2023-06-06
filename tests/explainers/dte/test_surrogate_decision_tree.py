@@ -55,6 +55,27 @@ def test_produce_decision_tree_regression_transforms(regression_one_hot):
     helper_produce_decision_tree_regression_one_hot(SUdte, model)
 
 
+def test_produce_decision_tree_no_dataset_on_init(regression_one_hot):
+    model = regression_one_hot
+    x = model["x"]
+    dte = DecisionTreeExplainer(
+        model=model["model"],
+        e_algorithm="surrogate_tree",
+        is_classifier=False,
+        transformers=model["transformers"],
+    )
+    su_dte = SurrogateDecisionTree(
+        model=model["model"],
+        transformers=model["transformers"],
+    )
+
+    dte.fit(x)
+    su_dte.fit(x)
+
+    helper_produce_decision_tree_regression_one_hot(dte, model)
+    helper_produce_decision_tree_regression_one_hot(su_dte, model)
+
+
 def helper_produce_decision_tree_regression_one_hot(explainer, model):
     tree_object = explainer.produce().get()
     assert tree_object.feature_importances_.shape == (

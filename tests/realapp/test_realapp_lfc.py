@@ -84,3 +84,22 @@ def test_produce_local_feature_contributions_with_id_column(regression_one_hot):
     for num in list(explanation_a["Contribution"][1:]):
         assert abs(num) < 0.001
     assert list(explanation_b["Average/Mode"]) == [5, 1.5, 2]
+
+
+def test_produce_local_feature_contributions_no_data_on_init(regression_no_transforms):
+    realApp = RealApp(
+        regression_no_transforms["model"],
+        transformers=regression_no_transforms["transformers"],
+    )
+    features = ["A", "B", "C"]
+    x_one_dim = pd.DataFrame([[2, 10, 10]], columns=features)
+
+    expected = np.mean(regression_no_transforms["y"])[0]
+    explanation = realApp.produce_feature_contributions(
+        x_one_dim, x_train_orig=regression_no_transforms["x"]
+    )
+
+    assert list(explanation[0]["Feature Name"]) == features
+    assert list(explanation[0]["Feature Value"]) == list(x_one_dim.iloc[0])
+    assert list(explanation[0]["Contribution"]) == [x_one_dim.iloc[0, 0] - expected, 0, 0]
+    assert list(explanation[0]["Average/Mode"]) == list(x_one_dim.iloc[0])

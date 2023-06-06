@@ -27,8 +27,8 @@ class PartialDependence(PartialDependenceExplainerBase):
     def __init__(
         self,
         model,
-        x_train_orig,
         features,
+        x_train_orig=None,
         grid_resolution=100,
         interpretable_features=True,
         **kwargs,
@@ -37,7 +37,7 @@ class PartialDependence(PartialDependenceExplainerBase):
         self.grid_resolution = grid_resolution
         super().__init__(model, x_train_orig, interpretable_features, **kwargs)
 
-    def fit(self):
+    def fit(self, x_train_orig=None, y_train=None):
         """
         Fit this explainer.
 
@@ -48,8 +48,16 @@ class PartialDependence(PartialDependenceExplainerBase):
                 Partial dependence values calculated for each feature combination in the grid.
             self.grid_points: ndarray of shape (features, grid_resolution)
                 The grid points where the partial dependence values are calculated.
+
+        Args:
+            x_train_orig (DataFrame of shape (n_instances, n_features):
+                Training set to fit on, required if not provided on initialization
+            y_train:
+                Targets of training set, required if not provided on initialization
         """
-        dataset = self.transform_to_x_model(self._x_train_orig)
+        x_train_orig = self._get_x_train_orig(x_train_orig)
+
+        dataset = self.transform_to_x_model(x_train_orig)
         explanation_results = partial_dependence(
             self.model,
             dataset,

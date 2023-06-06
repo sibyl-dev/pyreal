@@ -11,7 +11,7 @@
 [![Build Action Status](https://github.com/DAI-Lab/pyreal/workflows/Test%20CI/badge.svg)](https://github.com/DAI-Lab/pyreal/actions)
 # Pyreal
 
-Library for evaluating and deploying machine learning explanations.
+Library for generating useful and usable machine learning explanations.
 
 - License: MIT
 - Documentation: https://pyreal.gitbook.io/pyreal
@@ -54,9 +54,9 @@ Finally, you can clone this repository and install it from
 source by running `poetry install`, with the optional `examples` extras if you'd like to run our tutorial scripts.
 
 ```
-git clone git@github.com:DAI-Lab/pyreal.git
+git clone https://github.com/sibyl-dev/pyreal.git
 cd pyreal
-poetry install -E examples
+poetry install
 ```
 
 ## Install for Development
@@ -106,7 +106,7 @@ because of their sex (male) and ticket class (3rd class).
 
 ### Terminology
 Pyreal introduces specific terms and naming schemes to refer to different feature spaces and
-transformations. The [Terminology User Guide](https://sibyl-ml.dev/pyreal/user_guides/transformer_workflow.html#terminology) provides an introduction to these terms.
+transformations. The [Terminology User Guide](https://dtail.gitbook.io/pyreal/developing-applications/developer-terminology-guide) provides an introduction to these terms.
 
 # What's next?
 

@@ -21,14 +21,20 @@ class DecisionTreeExplainerBase(ExplainerBase, ABC):
         **kwargs: see base Explainer args
     """
 
-    def __init__(self, model, x_train_orig, interpretable_features=True, **kwargs):
+    def __init__(self, model, x_train_orig=None, interpretable_features=True, **kwargs):
         self.interpretable_features = interpretable_features
         super(DecisionTreeExplainerBase, self).__init__(model, x_train_orig, **kwargs)
 
     @abstractmethod
-    def fit(self):
+    def fit(self, x_train_orig=None, y_train=None):
         """
         Fit this explainer object
+
+        Args:
+             x_train_orig (DataFrame of shape (n_instances, n_features):
+                Training set to fit on, required if not provided on initialization
+            y_train:
+                Targets of training set, required if not provided on initialization
         """
 
     @abstractmethod
@@ -52,7 +58,7 @@ class DecisionTreeExplainerBase(ExplainerBase, ABC):
             The features of the dataset. Interpret the features if
             `interpretable_features` is set to true.
         """
-        x_algorithm = self.transform_to_x_algorithm(self._x_train_orig)
+        x_algorithm = self.transform_to_x_algorithm(self.x_train_orig_subset)
 
         if self.interpretable_features:
             features = self.convert_columns_to_interpretable(x_algorithm).columns

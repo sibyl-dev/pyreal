@@ -87,8 +87,8 @@ class ExplainerBase(ABC):
            Classification models should return the index or class. If the latter, the `classes`
            parameter should be provided.
         x_train_orig (DataFrame of shape (n_instances, x_orig_feature_count)):
-           The training set for the explainer
-        y_orig (DataFrame of shape (n_instances,)):
+           The training set for the explainer. If none, must be provided separately when fitting
+        y_train (DataFrame of shape (n_instances,)):
            The y values for the dataset
         feature_descriptions (dict):
            Interpretable descriptions of each feature
@@ -111,13 +111,15 @@ class ExplainerBase(ABC):
             entire x_train_orig.
         return_original_explanation (Boolean):
             If True, return the explanation originally generated without any transformations
+        fit_transformers (Boolean):
+            If True, fit transformers on x_train_orig. Requires x_train_orig not be None
     """
 
     def __init__(
         self,
         model,
-        x_train_orig,
-        y_orig=None,
+        x_train_orig=None,
+        y_train=None,
         feature_descriptions=None,
         classes=None,
         class_descriptions=None,
@@ -136,15 +138,16 @@ class ExplainerBase(ABC):
             self.model = model
 
         self.x_train_orig = x_train_orig
-        self.y_orig = y_orig
+        self.y_train = y_train
 
-        if not isinstance(x_train_orig, pd.DataFrame) or (
-            y_orig is not None
-            and not (isinstance(y_orig, pd.DataFrame) or isinstance(y_orig, pd.Series))
+        if x_train_orig is not None and not isinstance(x_train_orig, pd.DataFrame):
+            raise TypeError("x_train_orig must be of type DataFrame")
+        if y_train is not None and not (
+            isinstance(y_train, pd.DataFrame) or isinstance(y_train, pd.Series)
         ):
-            raise TypeError("x_orig and y_orig must be of type DataFrame")
+            raise TypeError("y_train must be of type DataFrame or Series")
 
-        self.x_orig_feature_count = x_train_orig.shape[1]
+        # self.x_orig_feature_count = x_train_orig.shape[1]
 
         self.transformers = _check_transformers(transformers)
 
@@ -164,43 +167,38 @@ class ExplainerBase(ABC):
 
         self.class_descriptions = class_descriptions
         self.return_original_explanation = return_original_explanation
+
+        self.x_train_orig_subset = self.x_train_orig
+        self.y_train_subset = self.y_train
+
         self.training_size = training_size
-        if training_size is None:
-            self.training_size = self.x_train_orig.shape[0]
-
-        # this argument stores the indices of the rows of data we want to use
-        data_sample_indices = self.x_train_orig.index
-
-        if self.training_size is None:
-            log.info(
-                "Info: training_size not provided. Defaulting to train with full "
-                "dataset, running time might be slow."
+        if x_train_orig is not None and training_size is not None:
+            self.x_train_orig_subset, self.y_train_subset = self._select_training_set(
+                x_train_orig, y_train
             )
-        elif self.training_size < len(self.x_train_orig.index):
-            if self.classes is not None and self.training_size < len(self.classes):
-                raise ValueError("training_size must be larger than the number of classes")
-            else:
-                data_sample_indices = pd.Index(
-                    np.random.choice(self.x_train_orig.index, self.training_size, replace=False)
-                )
-
-        # use _x_train_orig for fitting explainer
-        self._x_train_orig = self.x_train_orig.loc[data_sample_indices]
-        if y_orig is not None:
-            self._y_orig = self.y_orig.loc[data_sample_indices]
 
         if fit_transformers:
+            if x_train_orig is None:
+                raise ValueError("Cannot fit transformers unless x_train_orig is provided")
             a_transformers = _get_transformers(self.transformers, algorithm=True)
             i_transformers = _get_transformers(self.transformers, interpret=True)
             fit_transformers_func(a_transformers, self.x_train_orig)
             fit_transformers_func(i_transformers, self.x_train_orig)
 
         if fit_on_init:
+            if x_train_orig is None:
+                raise
             self.fit()
 
-    def fit(self):
+    def fit(self, x_train_orig=None, y_train=None):
         """
-        Fit this explainer object. Abstract method
+        Fit this explainer object.
+
+        Args:
+            x_train_orig (DataFrame of shape (n_instances, n_features):
+                Training set to fit on, required if not provided on initialization
+            y_train:
+                Targets of training set, required if not provided on initialization
         """
         return self
 
@@ -426,7 +424,7 @@ class ExplainerBase(ABC):
         """
         return self.convert_columns_to_interpretable(self.transform_to_x_interpret(x_orig))
 
-    def evaluate_model(self, scorer):
+    def evaluate_model(self, scorer, x_orig=None, y=None):
         """
         Evaluate the model using a chosen scorer algorithm.
 
@@ -434,17 +432,22 @@ class ExplainerBase(ABC):
             scorer (string):
                 Type of scorer to use. See sklearn's scoring parameter options here:
                 https://scikit-learn.org/stable/modules/model_evaluation.html#scoring-parameter
+            x_orig (DataFrame of shape (n_instances, n_features)):
+                Dataset to score on. Required if x_train_orig was not provided at initialization.
+                If None, use self.x_train_orig
+            y (DataFrame of shape (n_instances, n_features)):
+                Dataset to score on. Required if y_train was not provided at initialization
+
 
         Returns:
             float
                 A score for the model
-
         """
-        if self.y_orig is None:
-            raise ValueError("Explainer must have a y_orig parameter to score model")
+        x_orig, y = self._get_training_data(x_orig, y)
+
         scorer = get_scorer(scorer)
-        x = self.transform_to_x_model(self._x_train_orig)
-        score = scorer(self.model, x, self._y_orig)
+        x_model = self.transform_to_x_model(x_orig)
+        score = scorer(self.model, x_model, y)
         return score
 
     @abstractmethod
@@ -472,3 +475,55 @@ class ExplainerBase(ABC):
             float
                 The variation of this Explainer's explanations
         """
+
+    def _get_x_train_orig(self, x_train_orig):
+        """
+        Helper function to get the appropriate x_orig or raise errors if something goes wrong
+        Args:
+            x_train_orig (DataFrame or None):
+                Provided DataFrame
+        Returns:
+            The dataframe to use (x_orig or self.x_train_orig)
+
+        Raises:
+            ValueError if no valid dataframe
+        """
+        if x_train_orig is not None:
+            return self._select_training_set(x_train_orig)[0]
+        if self.x_train_orig_subset is not None:
+            return self.x_train_orig_subset
+        else:
+            raise ValueError("Must provide x_train_orig at initialization or fitting time!")
+
+    def _get_training_data(self, x_train_orig, y_train):
+        if x_train_orig is None and self.x_train_orig is None:
+            raise ValueError("Must provide x_train_orig at initialization or fitting time")
+        if y_train is None and self.y_train is None:
+            raise ValueError("Must provide y_train at initialization or fitting time")
+        if x_train_orig is not None and y_train is None:
+            raise ValueError("Must provide y_train if providing x_train_orig")
+
+        if x_train_orig is None:
+            return self.x_train_orig_subset, self.y_train_subset
+        else:
+            return self._select_training_set(x_train_orig, y_train)
+
+    def _select_training_set(self, x_train, y_train=None):
+        if self.training_size is None:
+            return x_train, y_train
+        if self.training_size < len(x_train.index):
+            if self.classes is not None and self.training_size < len(self.classes):
+                raise ValueError("training_size must be larger than the number of classes")
+            else:
+                data_sample_indices = pd.Index(
+                    np.random.choice(x_train.index, self.training_size, replace=False)
+                )
+
+            # use x_train_orig_subset for fitting explainer
+            x_train_subset = x_train.loc[data_sample_indices]
+            if y_train is not None:
+                y_train_subset = y_train.loc[data_sample_indices]
+                return x_train_subset, y_train_subset
+            return x_train_subset, None
+        else:
+            return x_train, y_train

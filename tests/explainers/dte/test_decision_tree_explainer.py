@@ -23,6 +23,26 @@ def test_produce_with_renames(classification_no_transform_tree):
     assert (tree_object.predict(model["x"].to_numpy()) == model["y"].to_numpy().ravel()).all()
 
 
+def test_produce_no_dataset_on_init(classification_no_transform_tree):
+    model = classification_no_transform_tree
+    transforms = model["transformers"]
+    x = model["x"]
+    dte = DecisionTreeExplainer(
+        model=model["model"],
+        is_classifier=True,
+        e_algorithm="surrogate_tree",
+        transformers=transforms,
+    )
+
+    dte.fit(x)
+
+    tree_object = dte.produce().get()
+    assert tree_object.feature_importances_.shape == (
+        dte.transform_to_x_algorithm(model["x"]).shape[1],
+    )
+    assert (tree_object.predict(model["x"].to_numpy()) == model["y"].to_numpy().ravel()).all()
+
+
 def test_produce_with_renames_with_size(classification_no_transform_tree):
     model = classification_no_transform_tree
     transforms = model["transformers"]
