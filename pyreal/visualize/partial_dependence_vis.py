@@ -1,15 +1,7 @@
-import seaborn as sns
 import matplotlib.pyplot as plt
+import seaborn as sns
 
 from pyreal.types.explanations.feature_value_based import FeatureValueBased
-from pyreal.visualize.visualize_config import (
-    NEGATIVE_COLOR,
-    NEGATIVE_COLOR_LIGHT,
-    NEUTRAL_COLOR,
-    PALETTE_CMAP,
-    POSITIVE_COLOR,
-    POSITIVE_COLOR_LIGHT,
-)
 
 
 def partial_dependence_plot(explanation, transparent=False, show=False, filename=None):
@@ -51,7 +43,7 @@ def partial_dependence_plot(explanation, transparent=False, show=False, filename
         )
         ax.set(xlabel=explanation.explanation.feature_names[0], ylabel="Partial Dependence")
     else:
-        cs = plt.contourf(
+        plt.contourf(
             explanation.explanation.grid[0],
             explanation.explanation.grid[1],
             explanation.explanation.predictions[0],
