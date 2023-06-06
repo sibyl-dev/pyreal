@@ -116,6 +116,8 @@ class OneHotEncoder(Transformer):
         if columns is not None and not isinstance(columns, (list, tuple, np.ndarray, pd.Index)):
             columns = [columns]
         self.columns = columns
+        self.orig_columns = None
+        self.onehot_columns = None
         super().__init__(**kwargs)
 
     def fit(self, x, **params):
@@ -132,7 +134,9 @@ class OneHotEncoder(Transformer):
 
         if self.columns is None:
             self.columns = x.columns
+        self.orig_columns = x.columns
         self.ohe.fit(x[self.columns])
+        self.onehot_columns = self.ohe.get_feature_names_out(self.columns)
         return super().fit(x)
 
     def data_transform(self, x):
@@ -150,11 +154,30 @@ class OneHotEncoder(Transformer):
         if not self.fitted:
             raise RuntimeError("Must fit one hot encoder before transforming")
         x_to_encode = x[self.columns]
-        columns = self.ohe.get_feature_names_out(x_to_encode.columns)
         index = x_to_encode.index
         x_cat_ohe = self.ohe.transform(x_to_encode)
-        x_cat_ohe = pd.DataFrame(x_cat_ohe, columns=columns, index=index)
+        x_cat_ohe = pd.DataFrame(x_cat_ohe, columns=self.onehot_columns, index=index)
         return pd.concat([x.drop(self.columns, axis="columns"), x_cat_ohe], axis=1)
+
+    def inverse_transform(self, x_new):
+        """
+        Transforms one-hot encoded data `x_new` back into the original feature space.
+        Args:
+            x_new (DataFrame of shape (n_instances, n_transformed_features)):
+                The one-hot encoded dataset
+
+        Returns:
+            DataFrame of shape (n_instances, n_features):
+                The inverse-transformed dataset
+        """
+        if not self.fitted:
+            raise RuntimeError("Must fit one hot encoder before performing inverse transform")
+        index = x_new.index
+        x_orig = self.ohe.inverse_transform(x_new[self.onehot_columns])
+        x_orig = pd.DataFrame(x_orig, columns=self.columns, index=index)
+        unordered_x = pd.concat([x_new.drop(self.onehot_columns, axis="columns"), x_orig], axis=1)
+
+        return unordered_x[self.orig_columns]
 
     def inverse_transform_explanation_additive_feature_contribution(self, explanation):
         """
@@ -324,6 +347,34 @@ class MappingsOneHotEncoder(Transformer):
                     ohe_data[ohe_feature][np.where(values == ohe_feature_dict[ohe_feature])] = True
         return pd.DataFrame(ohe_data)
 
+    def inverse_transform(self, x_onehot):
+        """
+        Transforms one-hot encoded data `x_onehot` back into categorical form.
+        Args:
+            x_onehot (DataFrame of shape (n_instances, n_transformed_features)):
+                The one-hot encoded dataset
+
+        Returns:
+            DataFrame of shape (n_instances, n_features):
+                The dataset in categorical form
+        """
+        cat_data = {}
+        cols = x_onehot.columns
+        num_rows = x_onehot.shape[0]
+
+        for col in cols:
+            if col not in self.mappings.one_hot_to_categorical:
+                cat_data[col] = x_onehot[col]
+            else:
+                new_name = self.mappings.one_hot_to_categorical[col][0]
+                if new_name not in cat_data:
+                    cat_data[new_name] = np.empty(num_rows, dtype="object")
+                # TODO: add functionality to handle defaults
+                cat_data[new_name][np.where(x_onehot[col] == 1)] = (
+                    self.mappings.one_hot_to_categorical[col][1]
+                )
+        return pd.DataFrame(cat_data)
+
     def inverse_transform_explanation_additive_feature_contribution(self, explanation):
         explanation = pd.DataFrame(explanation.get())
         if explanation.ndim == 1:
@@ -380,6 +431,31 @@ class MappingsOneHotDecoder(Transformer):
                     col
                 ][1]
         return pd.DataFrame(cat_data)
+
+    def inverse_transform(self, x_cat):
+        """
+        Transforms one-hot decoded data `x_cat` back into one-hot encoded form.
+        Args:
+            x_cat (DataFrame of shape (n_instances, n_transformed_features)):
+                The dataset to transform
+
+        Returns:
+            DataFrame of shape (n_instances, n_features):
+                The one-hot encoded dataset
+        """
+        cols = x_cat.columns
+        num_rows = x_cat.shape[0]
+        ohe_data = {}
+        for col in cols:
+            values = x_cat[col]
+            if col not in self.mappings.categorical_to_one_hot:
+                ohe_data[col] = values
+            else:
+                ohe_feature_dict = self.mappings.categorical_to_one_hot[col]
+                for ohe_feature in ohe_feature_dict:
+                    ohe_data[ohe_feature] = np.zeros(num_rows, dtype=bool)
+                    ohe_data[ohe_feature][np.where(values == ohe_feature_dict[ohe_feature])] = True
+        return pd.DataFrame(ohe_data)
 
     def transform_explanation_additive_feature_contribution(self, explanation):
         """
