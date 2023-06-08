@@ -1,6 +1,6 @@
-from pyreal.types.explanations.base import Explanation
-
 import pandas as pd
+
+from pyreal.types.explanations.base import Explanation
 
 
 class ExampleBased(Explanation):
@@ -24,10 +24,10 @@ class ExampleBased(Explanation):
 
 class SimilarExamples(Explanation):
     """
-       A type wrapper for explanations that include most similar rows from the training set.
+    A type wrapper for explanations that include most similar rows from the training set.
 
-       Contains a dict of dataframes
-       """
+    Contains a dict of dataframes
+    """
 
     def validate(self):
         """

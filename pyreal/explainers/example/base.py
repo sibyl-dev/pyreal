@@ -55,7 +55,9 @@ class ExampleBase(ExplainerBase, ABC):
         similar_examples = explanation.get()
         if self.interpretable_features:
             for key in similar_examples:
-                similar_examples[key] = self.convert_columns_to_interpretable(similar_examples[key])
+                similar_examples[key] = self.convert_columns_to_interpretable(
+                    similar_examples[key]
+                )
         explanation.update_explanation(similar_examples, inplace=True)
         return explanation
 
@@ -97,4 +99,4 @@ class ExampleBase(ExplainerBase, ABC):
             float
                 The variation of this Explainer's explanations
         """
-        return 0 # TODO: complete this
+        return 0  # TODO: complete this

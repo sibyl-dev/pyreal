@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
 from sklearn.neighbors import KDTree
+
 from pyreal.explainers.example.base import ExampleBase
 from pyreal.types.explanations.example_based import SimilarExamples
 
@@ -60,7 +61,10 @@ class SimilarExampleExplainer(ExampleBase):
             raise AttributeError("Instance has no explainer. Must call fit() before produce()")
         x = self.transform_to_x_algorithm(x_orig)
 
-        inds = self.explainer.query(x, k=n, return_distance=False)
-        print(inds)
-        return SimilarExamples({key: (self.x_train_orig[i], self.y_train[i]) for (key, i) in zip(np.arange(n), inds)})
-
+        inds = self.explainer.query(x, k=n, return_distance=False)[0]
+        return SimilarExamples(
+            explanation={
+                key: (self.x_train_orig.iloc[i, :], self.y_train[i])
+                for (key, i) in zip(np.arange(n), inds)
+            }
+        )
