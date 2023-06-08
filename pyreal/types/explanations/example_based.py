@@ -1,5 +1,3 @@
-import pandas as pd
-
 from pyreal.types.explanations.base import Explanation
 
 
