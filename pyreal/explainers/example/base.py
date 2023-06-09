@@ -3,7 +3,7 @@ from abc import ABC, abstractmethod
 from pyreal.explainers import ExplainerBase
 
 
-class ExampleBase(ExplainerBase, ABC):
+class ExampleBasedBase(ExplainerBase, ABC):
     """
     Base class for Example explainer objects. Abstract class
 
@@ -23,7 +23,7 @@ class ExampleBase(ExplainerBase, ABC):
 
     def __init__(self, model, x_train_orig=None, interpretable_features=True, **kwargs):
         self.interpretable_features = interpretable_features
-        super(ExampleBase, self).__init__(model, x_train_orig, **kwargs)
+        super(ExampleBasedBase, self).__init__(model, x_train_orig, **kwargs)
 
     @abstractmethod
     def fit(self, x_train_orig=None, y_train=None):

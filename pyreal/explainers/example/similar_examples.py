@@ -1,11 +1,11 @@
 import numpy as np
 from sklearn.neighbors import KDTree
 
-from pyreal.explainers.example.base import ExampleBase
-from pyreal.types.explanations.example_based import SimilarExamples
+from pyreal.explainers.example.base import ExampleBasedBase
+from pyreal.types.explanations.example_based import SimilarExampleExplanation
 
 
-class SimilarExampleExplainer(ExampleBase):
+class SimilarExamples(ExampleBasedBase):
     """
     SimilarExamples object.
 
@@ -23,7 +23,7 @@ class SimilarExampleExplainer(ExampleBase):
 
     def __init__(self, model, x_train_orig=None, **kwargs):
         self.explainer = None
-        super(SimilarExampleExplainer, self).__init__(model, x_train_orig, **kwargs)
+        super(SimilarExamples, self).__init__(model, x_train_orig, **kwargs)
 
     def fit(self, x_train_orig=None, y_train=None):
         """
@@ -61,7 +61,7 @@ class SimilarExampleExplainer(ExampleBase):
         x = self.transform_to_x_algorithm(x_orig)
 
         inds = self.explainer.query(x, k=n, return_distance=False)[0]
-        return SimilarExamples(
+        return SimilarExampleExplanation(
             explanation={
                 key: (self.x_train_orig.iloc[i, :], self.y_train[i])
                 for (key, i) in zip(np.arange(n), inds)

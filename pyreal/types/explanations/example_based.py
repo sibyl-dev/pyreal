@@ -1,7 +1,7 @@
 from pyreal.types.explanations.base import Explanation
 
 
-class ExampleBased(Explanation):
+class ExampleBasedExplanation(Explanation):
     """
     A type wrapper for example-based type outputs from explanation algorithms.
 
@@ -20,7 +20,7 @@ class ExampleBased(Explanation):
         super().validate()
 
 
-class SimilarExamples(Explanation):
+class SimilarExampleExplanation(ExampleBasedExplanation):
     """
     A type wrapper for explanations that include most similar rows from the training set.
 
