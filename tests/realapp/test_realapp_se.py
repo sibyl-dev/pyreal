@@ -1,5 +1,5 @@
 import pandas as pd
-from pandas.testing import assert_frame_equal
+from pandas.testing import assert_frame_equal, assert_series_equal
 
 from pyreal import RealApp
 
@@ -19,4 +19,9 @@ def test_produce_similar_examples(regression_one_hot_with_interpret):
         pd.DataFrame([["id1", 6, 7, 9], ["id2", 2, 1, 1]], columns=["ID", "A", "B", "C"]), n=2
     )
     assert "id1" in explanation
-    assert_frame_equal(explanation["id1"]["X"], pd.DataFrame((x.iloc[[0, 3], :] + 1)))
+    assert_frame_equal(explanation["id1"]["X"], x.iloc[[2, 1], :] + 1)
+    assert_series_equal(explanation["id1"]["y"], y.iloc[[2, 1]])
+
+    assert "id2" in explanation
+    assert_frame_equal(explanation["id2"]["X"], x.iloc[[3, 0], :] + 1)
+    assert_series_equal(explanation["id2"]["y"], y.iloc[[3, 0]])
