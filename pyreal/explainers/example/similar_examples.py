@@ -1,4 +1,3 @@
-import numpy as np
 from sklearn.neighbors import KDTree
 
 from pyreal.explainers.example.base import ExampleBasedBase

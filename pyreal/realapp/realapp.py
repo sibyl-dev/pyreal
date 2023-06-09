@@ -75,7 +75,6 @@ def format_similar_examples_output(explanation, ids=None):
     if ids is None:
         ids = explanation.get_row_ids()
     for key, id in enumerate(ids):
-        row_result = []
         examples = explanation.get_examples(row_id=key)
         targets = explanation.get_targets(row_id=key)
         result[id] = {"X": examples, "y": targets}
