@@ -7,6 +7,7 @@ import pytest
 from sklearn.linear_model import LinearRegression, LogisticRegression
 
 from pyreal.transformers.one_hot_encode import OneHotEncoder
+from pyreal.transformers import Transformer
 
 
 class DummyModel:
@@ -143,6 +144,21 @@ def regression_one_hot(test_root):
     with open(model_one_hot_filename, "wb") as f:
         pickle.dump(model_one_hot, f)
     return {"model": model_one_hot_filename, "transformers": one_hot_encoder, "x": x, "y": y}
+
+
+@pytest.fixture()
+def regression_one_hot_with_interpret(test_root, regression_one_hot):
+    data = {"model": regression_one_hot["model"],
+            "x": regression_one_hot["x"],
+            "y": regression_one_hot["y"]}
+
+    class InterpretTransformer(Transformer):
+        def data_transform(self, x):
+            return x+1
+
+    data["transformers"] = [regression_one_hot["transformers"],
+                            InterpretTransformer(interpret=True, model=False)]
+    return data
 
 
 @pytest.fixture()

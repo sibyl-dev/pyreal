@@ -63,7 +63,7 @@ class SimilarExamples(ExampleBasedBase):
         inds = self.explainer.query(x, k=n, return_distance=False)[0]
         return SimilarExampleExplanation(
             explanation={
-                key: (self.x_train_orig.iloc[i, :], self.y_train[i])
+                key: (self.x_train_orig.iloc[i, :], self.y_train.iloc[i].squeeze())
                 for (key, i) in zip(np.arange(n), inds)
             }
         )

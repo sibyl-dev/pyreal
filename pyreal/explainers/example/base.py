@@ -52,13 +52,9 @@ class ExampleBasedBase(ExplainerBase, ABC):
                 The explanation
         """
         explanation = self.get_explanation(x_orig, n)
-        similar_examples = explanation.get()
+        explanation.update_examples(self.transform_to_x_interpret)
         if self.interpretable_features:
-            for key in similar_examples:
-                similar_examples[key] = self.convert_columns_to_interpretable(
-                    similar_examples[key]
-                )
-        explanation.update_explanation(similar_examples, inplace=True)
+            explanation.update_examples(self.convert_columns_to_interpretable)
         return explanation
 
     @abstractmethod
