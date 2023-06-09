@@ -39,3 +39,24 @@ def test_produce_with_transforms(regression_one_hot_with_interpret):
     print(result.get_targets())
     print(expected_targets)
     assert_series_equal(result.get_targets().reset_index(drop=True), expected_targets)
+
+
+def test_produce_multiple_with_transforms(regression_one_hot_with_interpret):
+    x = pd.DataFrame([[2, 1, 3], [4, 3, 4], [6, 7, 10]], columns=["A", "B", "C"])
+    y = pd.Series([1, 2, 3])
+    explainer = SimilarExamples(
+        model=regression_one_hot_with_interpret["model"],
+        x_train_orig=x,
+        y_train=y,
+        transformers=regression_one_hot_with_interpret["transformers"],
+        fit_on_init=True,
+        feature_descriptions={"A": "Feature A"},
+    )
+    result = explainer.produce(pd.DataFrame([[2, 1, 4], [6, 7, 9]], columns=["A", "B", "C"]), n=2)
+    expected_examples_1 = pd.DataFrame((x.iloc[[0, 1], :] + 1)).rename(columns={"A": "Feature A"})
+    expected_targets_1 = pd.Series([y.iloc[[0, 1]]]).squeeze()
+
+    assert len(result.get_row_ids()) == 2
+    assert result.get_examples(row_id=0).shape[0] == 2
+    assert_frame_equal(result.get_examples(row_id=0).reset_index(drop=True), expected_examples_1)
+    assert_series_equal(result.get_targets().reset_index(drop=True), expected_targets_1)
