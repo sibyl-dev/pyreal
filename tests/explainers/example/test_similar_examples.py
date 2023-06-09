@@ -53,18 +53,18 @@ def test_produce_multiple_with_transforms(regression_one_hot_with_interpret):
         feature_descriptions={"A": "Feature A"},
     )
     result = explainer.produce(pd.DataFrame([[2, 1, 4], [6, 7, 9]], columns=["A", "B", "C"]), n=2)
-    expected_examples_1 = pd.DataFrame((x.iloc[[0, 1], :] + 1)).rename(columns={"A": "Feature A"})
-    expected_targets_1 = pd.Series([y.iloc[[0, 1]]]).squeeze()
+    expected_examples_1 = (x.iloc[[0, 1], :] + 1).rename(columns={"A": "Feature A"})
+    expected_targets_1 = y.iloc[[0, 1]]
 
     assert len(result.get_row_ids()) == 2
     assert result.get_examples(row_id=0).shape[0] == 2
-    assert_frame_equal(result.get_examples(row_id=0).reset_index(drop=True), expected_examples_1.reset_index(drop=True))
-    assert_series_equal(result.get_targets(row_id=0).reset_index(drop=True), expected_targets_1.reset_index(drop=True))
+    assert_frame_equal(result.get_examples(row_id=0), expected_examples_1)
+    assert_series_equal(result.get_targets(row_id=0), expected_targets_1)
 
-    expected_examples_2 = pd.DataFrame((x.iloc[[2, 1], :] + 1)).rename(columns={"A": "Feature A"})
-    expected_targets_2 = pd.Series([y.iloc[[2, 1]]]).squeeze()
+    expected_examples_2 = (x.iloc[[2, 1], :] + 1).rename(columns={"A": "Feature A"})
+    expected_targets_2 = y.iloc[[2, 1]]
 
     assert len(result.get_row_ids()) == 2
     assert result.get_examples(row_id=1).shape[0] == 2
-    assert_frame_equal(result.get_examples(row_id=1).reset_index(drop=True), expected_examples_2.reset_index(drop=True))
-    assert_series_equal(result.get_targets(row_id=1).reset_index(drop=True), expected_targets_2.reset_index(drop=True))
+    assert_frame_equal(result.get_examples(row_id=1), expected_examples_2)
+    assert_series_equal(result.get_targets(row_id=1), expected_targets_2)
