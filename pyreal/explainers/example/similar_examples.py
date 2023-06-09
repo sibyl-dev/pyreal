@@ -60,10 +60,8 @@ class SimilarExamples(ExampleBasedBase):
             raise AttributeError("Instance has no explainer. Must call fit() before produce()")
         x = self.transform_to_x_algorithm(x_orig)
 
-        inds = self.explainer.query(x, k=n, return_distance=False)[0]
-        return SimilarExampleExplanation(
-            explanation={
-                key: (self.x_train_orig.iloc[i, :], self.y_train.iloc[i].squeeze())
-                for (key, i) in zip(np.arange(n), inds)
-            }
-        )
+        inds = self.explainer.query(x, k=n, return_distance=False)
+        explanation = {}
+        for i in range(len(inds)):
+            explanation[i] = (self.x_train_orig.iloc[inds[i], :], self.y_train.iloc[inds[i]])
+        return SimilarExampleExplanation(explanation)

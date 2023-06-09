@@ -1,29 +1,26 @@
 import pandas as pd
-from pandas.testing import assert_series_equal
+from pandas.testing import assert_series_equal, assert_frame_equal
 
 from pyreal.explainers.example.similar_examples import SimilarExamples
 
 
 def test_produce(dummy_model):
-    X = pd.DataFrame([[0, 0, 0], [4, 5, 3], [0, 1, 1], [5, 5, 3]])
+    X = pd.DataFrame([[1, 1, 1], [4, 5, 3], [0, 0, 0], [5, 5, 3]])
     y = pd.Series([0, 1, 0, 1])
 
     explainer = SimilarExamples(model=dummy_model, x_train_orig=X, y_train=y, fit_on_init=True)
     result = explainer.produce(pd.DataFrame([[0, 1, 0]]), n=2)
-    nearest_neighbors = [[0, 0, 0], [0, 1, 1]]
-    assert len(result.get_keys()) == 2
-    found = [False, False]
-    for item in result.get_all_examples(include_targets=True):
-        assert item[1] == 0
-        for i in range(len(nearest_neighbors)):
-            if list(item[0]) == nearest_neighbors[i]:
-                found[i] = True
-    assert all(found)
+    expected_examples = pd.DataFrame([[0, 0, 0], [1, 1, 1]])
+    expected_targets = pd.Series([0, 0])
+    assert len(result.get_row_ids()) == 1
+    assert result.get_examples(row_id=0).shape[0] == 2
+    assert_frame_equal(result.get_examples().reset_index(drop=True), expected_examples)
+    assert_series_equal(result.get_targets().reset_index(drop=True), expected_targets)
 
 
 def test_produce_with_transforms(regression_one_hot_with_interpret):
     x = pd.DataFrame([[2, 1, 3], [4, 3, 4], [6, 7, 10]], columns=["A", "B", "C"])
-    y = pd.DataFrame([1, 2, 3])
+    y = pd.Series([1, 2, 3])
     explainer = SimilarExamples(
         model=regression_one_hot_with_interpret["model"],
         x_train_orig=x,
@@ -33,8 +30,12 @@ def test_produce_with_transforms(regression_one_hot_with_interpret):
         feature_descriptions={"A": "Feature A"},
     )
     result = explainer.produce(pd.DataFrame([[2, 1, 4]], columns=["A", "B", "C"]), n=1)
-    assert len(result.get_keys()) == 1
-    assert_series_equal(
-        result.get_all_examples()[0], ((x.iloc[0, :]) + 1).rename({"A": "Feature A"})
-    )
-    assert result.get_target(list(result.get_keys())[0]) == y.iloc[0].squeeze()
+    expected_examples = pd.DataFrame([((x.iloc[0, :]) + 1).rename({"A": "Feature A"})])
+    expected_targets = pd.Series([y.iloc[0]])
+
+    assert len(result.get_row_ids()) == 1
+    assert result.get_examples(row_id=0).shape[0] == 1
+    assert_frame_equal(result.get_examples().reset_index(drop=True), expected_examples)
+    print(result.get_targets())
+    print(expected_targets)
+    assert_series_equal(result.get_targets().reset_index(drop=True), expected_targets)
