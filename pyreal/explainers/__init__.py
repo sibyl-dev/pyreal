@@ -52,5 +52,7 @@ __all__ = [
     "SaliencyBase",
     "UnivariateOcclusionSaliency",
     "UnivariateLimeSaliency",
+    "ExampleBasedBase",
+    "SimilarExamples",
     "Explainer",
 ]
