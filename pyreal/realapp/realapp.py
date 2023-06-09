@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 
-from pyreal.explainers import Explainer, GlobalFeatureImportance, LocalFeatureContribution
+from pyreal.explainers import Explainer, GlobalFeatureImportance, LocalFeatureContribution, SimilarExamples
 
 
 def format_feature_contribution_output(explanation, ids=None):
@@ -577,6 +577,92 @@ class RealApp:
             y_train=y_train,
             force_refit=force_refit,
             shap_type=shap_type,
+        )
+
+    def prepare_similar_examples(
+        self,
+        model_id=None,
+        x_train_orig=None,
+        y_train=None,
+        algorithm=None,
+        training_size=None,
+    ):
+        """
+        Initialize and fit a nearest neighbor explainer
+
+        Args:
+            model_id (int or string):
+                Model id to explain
+            x_train_orig (DataFrame of shape (n_instances, n_features)):
+                Training data, if not provided at initialization.
+            y_train (DataFrame or Series):
+                Training targets, if not provided at initialization
+            algorithm (string):
+                NN algorithm to use (current options: [nn])
+            training_size (int):
+                Number of rows to use in fitting explainer
+
+        Returns:
+            A fit SimilarExamples explainer
+        """
+        if algorithm is None:
+            algorithm = "nn"
+
+        if model_id is None:
+            model_id = self.active_model_id
+
+        explainer = SimilarExamples(
+            self.models[model_id],
+            transformers=self.transformers,
+            feature_descriptions=self.feature_descriptions,
+            e_algorithm=algorithm,
+            classes=self.classes,
+            class_descriptions=self.class_descriptions,
+            training_size=training_size,
+        )
+        explainer.fit(self._get_x_train_orig(x_train_orig), self._get_y_train(y_train))
+        self._add_explainer("se", algorithm, explainer)
+        return explainer
+
+    def produce_similar_examples(
+        self,
+        model_id=None,
+        x_train_orig=None,
+        y_train=None,
+        algorithm=None,
+        force_refit=False,
+    ):
+        """
+        Produce a SimilarExamples explainer
+
+        Args:
+            model_id (string or int):
+                ID of model to explain
+            x_train_orig (DataFrame):
+                Data to fit on, if not provided during initialization
+            y_train (DataFrame or Series):
+                Training targets to fit on, if not provided during initialization
+            algorithm (string):
+                Name of algorithm
+            force_refit (Boolean):
+                If True, initialize and fit a new explainer even if the appropriate explainer
+                already exists
+
+        Returns:
+            DataFrame with a Feature Name column and an Importance column
+        """
+        if algorithm is None:
+            algorithm = "nn"
+
+        return self._produce_explanation_helper(
+            "se",
+            algorithm,
+            self.prepare_feature_importance,
+            format_feature_importance_output,
+            model_id=model_id,
+            x_train_orig=x_train_orig,
+            y_train=y_train,
+            force_refit=force_refit,
         )
 
     def _get_x_train_orig(self, x_train_orig):
