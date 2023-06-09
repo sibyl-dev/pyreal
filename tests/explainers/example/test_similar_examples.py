@@ -1,5 +1,5 @@
 import pandas as pd
-from pandas.testing import assert_series_equal, assert_frame_equal
+from pandas.testing import assert_frame_equal, assert_series_equal
 
 from pyreal.explainers.example.similar_examples import SimilarExamples
 
@@ -58,5 +58,13 @@ def test_produce_multiple_with_transforms(regression_one_hot_with_interpret):
 
     assert len(result.get_row_ids()) == 2
     assert result.get_examples(row_id=0).shape[0] == 2
-    assert_frame_equal(result.get_examples(row_id=0).reset_index(drop=True), expected_examples_1)
-    assert_series_equal(result.get_targets().reset_index(drop=True), expected_targets_1)
+    assert_frame_equal(result.get_examples(row_id=0).reset_index(drop=True), expected_examples_1.reset_index(drop=True))
+    assert_series_equal(result.get_targets(row_id=0).reset_index(drop=True), expected_targets_1.reset_index(drop=True))
+
+    expected_examples_2 = pd.DataFrame((x.iloc[[2, 1], :] + 1)).rename(columns={"A": "Feature A"})
+    expected_targets_2 = pd.Series([y.iloc[[2, 1]]]).squeeze()
+
+    assert len(result.get_row_ids()) == 2
+    assert result.get_examples(row_id=1).shape[0] == 2
+    assert_frame_equal(result.get_examples(row_id=1).reset_index(drop=True), expected_examples_2.reset_index(drop=True))
+    assert_series_equal(result.get_targets(row_id=1).reset_index(drop=True), expected_targets_2.reset_index(drop=True))

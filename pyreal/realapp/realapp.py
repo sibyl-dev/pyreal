@@ -1,7 +1,12 @@
 import numpy as np
 import pandas as pd
 
-from pyreal.explainers import Explainer, GlobalFeatureImportance, LocalFeatureContribution, SimilarExamples
+from pyreal.explainers import (
+    Explainer,
+    GlobalFeatureImportance,
+    LocalFeatureContribution,
+    SimilarExamples,
+)
 
 
 def format_feature_contribution_output(explanation, ids=None):
@@ -59,17 +64,21 @@ def format_similar_examples_output(explanation, ids=None):
     Args:
         explanation (SimilarExampleExplanation):
             Pyreal Explanation object to parse
-        ids (None):
-            Unused, included for consistency
+        ids (list of strings or ints):
+            List of row ids
 
     Returns:
-        Dictionary of "rank" -> {"y", "X"}, where rank is an integer ranking the distance from the
-        input, "y" is the true target value for the example, and X is the example.
+        Dictionary of "id" -> {"X": DataFrame, "y": Series} where X is the examples, ordered from
+        top to bottom by similarity to input and y is the corresponding y values
     """
     result = {}
-    keys = explanation.get_keys()
-    for key in keys:
-        result[key] = {"y": explanation.get_target(key), "X": explanation.get_example(key)}
+    if ids is None:
+        ids = explanation.get_row_ids()
+    for key, id in enumerate(ids):
+        row_result = []
+        examples = explanation.get_examples(row_id=key)
+        targets = explanation.get_targets(row_id=key)
+        result[id] = {"X": examples, "y": targets}
     return result
 
 
@@ -518,7 +527,7 @@ class RealApp:
             model_id=model_id,
             force_refit=force_refit,
             training_size=training_size,
-            prepare_kwargs={"shap_type": shap_type}
+            prepare_kwargs={"shap_type": shap_type},
         )
 
     def prepare_feature_importance(
@@ -578,7 +587,7 @@ class RealApp:
         algorithm=None,
         shap_type=None,
         force_refit=False,
-        training_size=None
+        training_size=None,
     ):
         """
         Produce a GlobalFeatureImportance explainer
@@ -616,7 +625,7 @@ class RealApp:
             y_train=y_train,
             force_refit=force_refit,
             training_size=training_size,
-            prepare_kwargs={"shap_type":shap_type}
+            prepare_kwargs={"shap_type": shap_type},
         )
 
     def prepare_similar_examples(
@@ -710,7 +719,7 @@ class RealApp:
             x_train_orig=x_train_orig,
             y_train=y_train,
             force_refit=force_refit,
-            produce_kwargs={"n": n}
+            produce_kwargs={"n": n},
         )
 
     def _get_x_train_orig(self, x_train_orig):
