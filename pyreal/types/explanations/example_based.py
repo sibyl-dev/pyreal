@@ -9,6 +9,7 @@ class ExampleBasedExplanation(Explanation):
 
     Contains a dict of dataframes
     """
+
     def validate(self):
         """
         Validate that `self.explanation` is a valid dict of `DataFrames`

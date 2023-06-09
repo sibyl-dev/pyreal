@@ -1,5 +1,5 @@
 import pandas as pd
-import numpy as np
+from pandas.testing import assert_series_equal
 
 from pyreal.explainers.example.similar_examples import SimilarExamples
 
@@ -24,13 +24,17 @@ def test_produce(dummy_model):
 def test_produce_with_transforms(regression_one_hot_with_interpret):
     x = pd.DataFrame([[2, 1, 3], [4, 3, 4], [6, 7, 10]], columns=["A", "B", "C"])
     y = pd.DataFrame([1, 2, 3])
-    explainer = SimilarExamples(model=regression_one_hot_with_interpret["model"],
-                                x_train_orig=x,
-                                y_train=y,
-                                transformers=regression_one_hot_with_interpret["transformers"],
-                                fit_on_init=True)
+    explainer = SimilarExamples(
+        model=regression_one_hot_with_interpret["model"],
+        x_train_orig=x,
+        y_train=y,
+        transformers=regression_one_hot_with_interpret["transformers"],
+        fit_on_init=True,
+        feature_descriptions={"A": "Feature A"},
+    )
     result = explainer.produce(pd.DataFrame([[2, 1, 4]], columns=["A", "B", "C"]), n=1)
     assert len(result.get_keys()) == 1
-    np.testing.assert_array_equal(np.array(result.get_all_examples()[0]), (np.array(x.iloc[0, :])+1))
+    assert_series_equal(
+        result.get_all_examples()[0], ((x.iloc[0, :]) + 1).rename({"A": "Feature A"})
+    )
     assert result.get_target(list(result.get_keys())[0]) == y.iloc[0].squeeze()
-
