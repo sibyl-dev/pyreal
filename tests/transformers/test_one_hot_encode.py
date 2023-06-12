@@ -110,8 +110,10 @@ def test_mappings_encode_decode(mappings):
 
 
 def test_fit_returns_self():
-    for transformer in [MappingsOneHotDecoder(mappings_ctoh),
-                        MappingsOneHotEncoder(mappings_ctoh),
-                        OneHotEncoder(columns=[])]:
+    for transformer in [
+        MappingsOneHotDecoder(mappings_ctoh),
+        MappingsOneHotEncoder(mappings_ctoh),
+        OneHotEncoder(columns=[]),
+    ]:
         result = transformer.fit(pd.DataFrame([0, 1]))
         assert result == transformer

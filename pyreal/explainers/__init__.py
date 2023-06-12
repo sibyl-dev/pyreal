@@ -27,6 +27,9 @@ from pyreal.explainers.time_series.saliency.univariate_lime_saliency import (
     UnivariateLimeSaliency,
 )
 
+from pyreal.explainers.example.base import ExampleBasedBase
+from pyreal.explainers.example.similar_examples import SimilarExamples
+
 from pyreal.explainers.generic_explainer import Explainer
 
 
@@ -49,5 +52,7 @@ __all__ = [
     "SaliencyBase",
     "UnivariateOcclusionSaliency",
     "UnivariateLimeSaliency",
+    "ExampleBasedBase",
+    "SimilarExamples",
     "Explainer",
 ]
