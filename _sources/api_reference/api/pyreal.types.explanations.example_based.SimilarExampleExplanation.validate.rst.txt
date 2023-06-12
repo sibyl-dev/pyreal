@@ -1,0 +1,6 @@
+﻿pyreal.types.explanations.example\_based.SimilarExampleExplanation.validate
+===========================================================================
+
+.. currentmodule:: pyreal.types.explanations.example_based
+
+.. automethod:: SimilarExampleExplanation.validate

@@ -295,6 +295,8 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="pyreal.RealApp.produce_feature_contributions.html">pyreal.RealApp.produce_feature_contributions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.RealApp.prepare_feature_importance.html">pyreal.RealApp.prepare_feature_importance</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.RealApp.produce_feature_importance.html">pyreal.RealApp.produce_feature_importance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyreal.RealApp.prepare_similar_examples.html">pyreal.RealApp.prepare_similar_examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyreal.RealApp.produce_similar_examples.html">pyreal.RealApp.produce_similar_examples</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../explainer.html">Explainer</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -375,13 +377,22 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="pyreal.explainers.PartialDependence.get_pdp.html">pyreal.explainers.PartialDependence.get_pdp</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../generic_explainer.html">Generic Explainer</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../example_based_explainer.html">Example Based</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="pyreal.explainers.ExampleBasedBase.html">pyreal.explainers.ExampleBasedBase</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyreal.explainers.ExampleBasedBase.fit.html">pyreal.explainers.ExampleBasedBase.fit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyreal.explainers.ExampleBasedBase.produce.html">pyreal.explainers.ExampleBasedBase.produce</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyreal.explainers.SimilarExamples.html">pyreal.explainers.SimilarExamples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyreal.explainers.SimilarExamples.fit.html">pyreal.explainers.SimilarExamples.fit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyreal.explainers.SimilarExamples.produce.html">pyreal.explainers.SimilarExamples.produce</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../generic_explainer.html">Generic Explainer</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-8"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.explainers.Explainer.html">pyreal.explainers.Explainer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.explainers.Explainer.fit.html">pyreal.explainers.Explainer.fit</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.explainers.Explainer.produce.html">pyreal.explainers.Explainer.produce</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../transformer.html">Transformer</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-8"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../transformer.html">Transformer</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-9"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.transformers.Transformer.html">pyreal.transformers.Transformer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.transformers.Transformer.fit.html">pyreal.transformers.Transformer.fit</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.transformers.Transformer.data_transform.html">pyreal.transformers.Transformer.data_transform</a></li>
@@ -465,7 +476,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="pyreal.transformers.TimeSeriesPadder.transform_explanation.html">pyreal.transformers.TimeSeriesPadder.transform_explanation</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../explanation_types.html">Explanation Type</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-9"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../explanation_types.html">Explanation Type</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-10"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.types.explanations.base.Explanation.html">pyreal.types.explanations.base.Explanation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.types.explanations.base.Explanation.get.html">pyreal.types.explanations.base.Explanation.get</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.types.explanations.base.Explanation.validate.html">pyreal.types.explanations.base.Explanation.validate</a></li>
@@ -495,14 +506,20 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="pyreal.types.explanations.decision_tree.DecisionTreeExplanation.html">pyreal.types.explanations.decision_tree.DecisionTreeExplanation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.types.explanations.decision_tree.DecisionTreeExplanation.get.html">pyreal.types.explanations.decision_tree.DecisionTreeExplanation.get</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.types.explanations.decision_tree.DecisionTreeExplanation.validate.html">pyreal.types.explanations.decision_tree.DecisionTreeExplanation.validate</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyreal.types.explanations.example_based.ExampleBasedExplanation.html">pyreal.types.explanations.example_based.ExampleBasedExplanation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyreal.types.explanations.example_based.ExampleBasedExplanation.get.html">pyreal.types.explanations.example_based.ExampleBasedExplanation.get</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyreal.types.explanations.example_based.ExampleBasedExplanation.validate.html">pyreal.types.explanations.example_based.ExampleBasedExplanation.validate</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyreal.types.explanations.example_based.SimilarExampleExplanation.html">pyreal.types.explanations.example_based.SimilarExampleExplanation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyreal.types.explanations.example_based.SimilarExampleExplanation.get.html">pyreal.types.explanations.example_based.SimilarExampleExplanation.get</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyreal.types.explanations.example_based.SimilarExampleExplanation.validate.html">pyreal.types.explanations.example_based.SimilarExampleExplanation.validate</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../model_utils.html">Model Utils</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-10"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../model_utils.html">Model Utils</a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-11"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.utils.model_utils.load_model_from_pickle.html">pyreal.utils.model_utils.load_model_from_pickle</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.utils.model_utils.load_model_from_weights.html">pyreal.utils.model_utils.load_model_from_weights</a></li>
 </ul>
 </li>
-<li class="toctree-l1 current active has-children"><a class="reference internal" href="../visualize.html">Visualization</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-11"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../visualize.html">Visualization</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-12"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="pyreal.visualize.plot_top_contributors.html">pyreal.visualize.plot_top_contributors</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.visualize.plot_tree_explanation.html">pyreal.visualize.plot_tree_explanation</a></li>
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">pyreal.visualize.swarm_plot</a></li>
