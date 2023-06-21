@@ -49,7 +49,7 @@ class DataFrameWrapper(Transformer):
         transformed_np = self.wrapped_transformer.transform(x)
         return pd.DataFrame(transformed_np, columns=x.columns, index=x.index)
 
-    def inverse_transform(self, x_new):
+    def inverse_data_transform(self, x_new):
         """
         Inverese transform `x_new` using the wrapped transformer
         Args:

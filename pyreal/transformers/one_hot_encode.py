@@ -159,7 +159,7 @@ class OneHotEncoder(Transformer):
         x_cat_ohe = pd.DataFrame(x_cat_ohe, columns=self.onehot_columns, index=index)
         return pd.concat([x.drop(self.columns, axis="columns"), x_cat_ohe], axis=1)
 
-    def inverse_transform(self, x_new):
+    def inverse_data_transform(self, x_new):
         """
         Transforms one-hot encoded data `x_new` back into the original feature space.
         Args:
@@ -347,7 +347,7 @@ class MappingsOneHotEncoder(Transformer):
                     ohe_data[ohe_feature][np.where(values == ohe_feature_dict[ohe_feature])] = True
         return pd.DataFrame(ohe_data)
 
-    def inverse_transform(self, x_onehot):
+    def inverse_data_transform(self, x_onehot):
         """
         Transforms one-hot encoded data `x_onehot` back into categorical form.
         Args:
@@ -432,7 +432,7 @@ class MappingsOneHotDecoder(Transformer):
                 ][1]
         return pd.DataFrame(cat_data)
 
-    def inverse_transform(self, x_cat):
+    def inverse_data_transform(self, x_cat):
         """
         Transforms one-hot decoded data `x_cat` back into one-hot encoded form.
         Args:

@@ -202,7 +202,7 @@ class Transformer(ABC):
         """
         self.fit(x, **fit_params)
         return self.data_transform(x)
-    
+
     def inverse_data_transform(self, x_new):
         """
         Wrapper for inverse_data_transform.
@@ -215,7 +215,6 @@ class Transformer(ABC):
             DataFrame of shape (n_instances, n_features):
                 The inverse-transformed dataset
         """
-        return self.
         raise NotImplementedError("Inverse transform is not defined for this Transformer.")
 
     def inverse_transform(self, x_new):
@@ -229,7 +228,7 @@ class Transformer(ABC):
             DataFrame of shape (n_instances, n_features):
                 The inverse-transformed dataset
         """
-        raise NotImplementedError("Inverse transform is not defined for this Transformer.")
+        return self.inverse_data_transform(x_new)
 
     def inverse_transform_explanation(self, explanation):
         """
