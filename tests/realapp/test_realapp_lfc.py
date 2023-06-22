@@ -35,7 +35,7 @@ def test_produce_local_feature_contributions(regression_no_transforms):
 
     x_one_dim = pd.DataFrame([[2, 10, 10]], columns=features)
 
-    expected = np.mean(regression_no_transforms["y"])[0]
+    expected = np.mean(regression_no_transforms["y"])
     explanation = realApp.produce_feature_contributions(x_one_dim)
 
     assert list(explanation[0]["Feature Name"]) == features
@@ -94,7 +94,7 @@ def test_produce_local_feature_contributions_no_data_on_init(regression_no_trans
     features = ["A", "B", "C"]
     x_one_dim = pd.DataFrame([[2, 10, 10]], columns=features)
 
-    expected = np.mean(regression_no_transforms["y"])[0]
+    expected = np.mean(regression_no_transforms["y"])
     explanation = realApp.produce_feature_contributions(
         x_one_dim, x_train_orig=regression_no_transforms["x"]
     )
