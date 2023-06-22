@@ -39,7 +39,7 @@ python = "^3.8, <3.11"
 #Library Dependencies
 matplotlib = "^3.6.0"
 numpy = "^1.23.3"
-pandas = "^1.5.0"
+pandas = ">=1.5,<3.0"
 scikit-learn = "^1.1.2"
 numba = "^0.56.2" # Explicit numba (required by shap) forces recent version
 shap = "=0.40.0" # Explicit shap prevents break with newer versions
