@@ -17,6 +17,8 @@
       ~Numpy3dToNestedFrame.data_transform
       ~Numpy3dToNestedFrame.fit
       ~Numpy3dToNestedFrame.fit_transform
+      ~Numpy3dToNestedFrame.inverse_data_transform
+      ~Numpy3dToNestedFrame.inverse_transform
       ~Numpy3dToNestedFrame.inverse_transform_explanation
       ~Numpy3dToNestedFrame.inverse_transform_explanation_additive_feature_contribution
       ~Numpy3dToNestedFrame.inverse_transform_explanation_additive_feature_importance

@@ -17,6 +17,8 @@
       ~BoolToIntCaster.data_transform
       ~BoolToIntCaster.fit
       ~BoolToIntCaster.fit_transform
+      ~BoolToIntCaster.inverse_data_transform
+      ~BoolToIntCaster.inverse_transform
       ~BoolToIntCaster.inverse_transform_explanation
       ~BoolToIntCaster.inverse_transform_explanation_additive_feature_contribution
       ~BoolToIntCaster.inverse_transform_explanation_additive_feature_importance

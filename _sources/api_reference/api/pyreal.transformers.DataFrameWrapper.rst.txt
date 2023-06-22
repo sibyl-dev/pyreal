@@ -17,6 +17,8 @@
       ~DataFrameWrapper.data_transform
       ~DataFrameWrapper.fit
       ~DataFrameWrapper.fit_transform
+      ~DataFrameWrapper.inverse_data_transform
+      ~DataFrameWrapper.inverse_transform
       ~DataFrameWrapper.inverse_transform_explanation
       ~DataFrameWrapper.inverse_transform_explanation_additive_feature_contribution
       ~DataFrameWrapper.inverse_transform_explanation_additive_feature_importance

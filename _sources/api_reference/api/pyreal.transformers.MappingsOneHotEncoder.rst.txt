@@ -17,6 +17,8 @@
       ~MappingsOneHotEncoder.data_transform
       ~MappingsOneHotEncoder.fit
       ~MappingsOneHotEncoder.fit_transform
+      ~MappingsOneHotEncoder.inverse_data_transform
+      ~MappingsOneHotEncoder.inverse_transform
       ~MappingsOneHotEncoder.inverse_transform_explanation
       ~MappingsOneHotEncoder.inverse_transform_explanation_additive_feature_contribution
       ~MappingsOneHotEncoder.inverse_transform_explanation_additive_feature_importance

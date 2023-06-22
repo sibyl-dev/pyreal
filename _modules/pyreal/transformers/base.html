@@ -527,6 +527,33 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="o">**</span><span class="n">fit_params</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_transform</span><span class="p">(</span><span class="n">x</span><span class="p">)</span></div>
 
+    <span class="k">def</span> <span class="nf">inverse_data_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_new</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Wrapper for inverse_data_transform.</span>
+<span class="sd">        Transforms data `x_new` from new feature space back into the original feature space.</span>
+<span class="sd">        Args:</span>
+<span class="sd">            x_new (DataFrame of shape (n_instances, n_transformed_features)):</span>
+<span class="sd">                The dataset to inverse-transform</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            DataFrame of shape (n_instances, n_features):</span>
+<span class="sd">                The inverse-transformed dataset</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Inverse transform is not defined for this Transformer.&quot;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Transformer.inverse_transform"><a class="viewcode-back" href="../../../api_reference/api/pyreal.transformers.Transformer.inverse_transform.html#pyreal.transformers.Transformer.inverse_transform">[docs]</a>    <span class="k">def</span> <span class="nf">inverse_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_new</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Transforms data `x_new` from new feature space back into the original feature space.</span>
+<span class="sd">        Args:</span>
+<span class="sd">            x_new (DataFrame of shape (n_instances, n_transformed_features)):</span>
+<span class="sd">                The dataset to inverse-transform</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            DataFrame of shape (n_instances, n_features):</span>
+<span class="sd">                The inverse-transformed dataset</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">inverse_data_transform</span><span class="p">(</span><span class="n">x_new</span><span class="p">)</span></div>
+
     <span class="k">def</span> <span class="nf">inverse_transform_explanation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">explanation</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Transforms the explanation from the second feature space handled by this transformer</span>

@@ -17,6 +17,8 @@
       ~MultiTypeImputer.data_transform
       ~MultiTypeImputer.fit
       ~MultiTypeImputer.fit_transform
+      ~MultiTypeImputer.inverse_data_transform
+      ~MultiTypeImputer.inverse_transform
       ~MultiTypeImputer.inverse_transform_explanation
       ~MultiTypeImputer.inverse_transform_explanation_additive_feature_contribution
       ~MultiTypeImputer.inverse_transform_explanation_additive_feature_importance

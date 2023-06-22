@@ -17,6 +17,8 @@
       ~MultiIndexFrameToNumpy2d.data_transform
       ~MultiIndexFrameToNumpy2d.fit
       ~MultiIndexFrameToNumpy2d.fit_transform
+      ~MultiIndexFrameToNumpy2d.inverse_data_transform
+      ~MultiIndexFrameToNumpy2d.inverse_transform
       ~MultiIndexFrameToNumpy2d.inverse_transform_explanation
       ~MultiIndexFrameToNumpy2d.inverse_transform_explanation_additive_feature_contribution
       ~MultiIndexFrameToNumpy2d.inverse_transform_explanation_additive_feature_importance

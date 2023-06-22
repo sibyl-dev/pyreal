@@ -17,6 +17,8 @@
       ~NestedFrameToMultiIndexFrame.data_transform
       ~NestedFrameToMultiIndexFrame.fit
       ~NestedFrameToMultiIndexFrame.fit_transform
+      ~NestedFrameToMultiIndexFrame.inverse_data_transform
+      ~NestedFrameToMultiIndexFrame.inverse_transform
       ~NestedFrameToMultiIndexFrame.inverse_transform_explanation
       ~NestedFrameToMultiIndexFrame.inverse_transform_explanation_additive_feature_contribution
       ~NestedFrameToMultiIndexFrame.inverse_transform_explanation_additive_feature_importance

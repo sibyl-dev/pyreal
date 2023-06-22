@@ -440,6 +440,8 @@ document.write(`
         <span class="k">if</span> <span class="n">columns</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">columns</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Index</span><span class="p">)):</span>
             <span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="n">columns</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">columns</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">orig_columns</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">onehot_columns</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="OneHotEncoder.fit"><a class="viewcode-back" href="../../../api_reference/api/pyreal.transformers.OneHotEncoder.fit.html#pyreal.transformers.OneHotEncoder.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="o">**</span><span class="n">params</span><span class="p">):</span>
@@ -456,7 +458,9 @@ document.write(`
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">columns</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">columns</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">orig_columns</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">columns</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ohe</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">onehot_columns</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ohe</span><span class="o">.</span><span class="n">get_feature_names_out</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
         <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="OneHotEncoder.data_transform"><a class="viewcode-back" href="../../../api_reference/api/pyreal.transformers.OneHotEncoder.data_transform.html#pyreal.transformers.OneHotEncoder.data_transform">[docs]</a>    <span class="k">def</span> <span class="nf">data_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
@@ -474,11 +478,30 @@ document.write(`
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">fitted</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;Must fit one hot encoder before transforming&quot;</span><span class="p">)</span>
         <span class="n">x_to_encode</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">]</span>
-        <span class="n">columns</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ohe</span><span class="o">.</span><span class="n">get_feature_names_out</span><span class="p">(</span><span class="n">x_to_encode</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
         <span class="n">index</span> <span class="o">=</span> <span class="n">x_to_encode</span><span class="o">.</span><span class="n">index</span>
         <span class="n">x_cat_ohe</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ohe</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">x_to_encode</span><span class="p">)</span>
-        <span class="n">x_cat_ohe</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">x_cat_ohe</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">columns</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">index</span><span class="p">)</span>
+        <span class="n">x_cat_ohe</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">x_cat_ohe</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">onehot_columns</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">index</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">x</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="s2">&quot;columns&quot;</span><span class="p">),</span> <span class="n">x_cat_ohe</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">inverse_data_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_new</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Transforms one-hot encoded data `x_new` back into the original feature space.</span>
+<span class="sd">        Args:</span>
+<span class="sd">            x_new (DataFrame of shape (n_instances, n_transformed_features)):</span>
+<span class="sd">                The one-hot encoded dataset</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            DataFrame of shape (n_instances, n_features):</span>
+<span class="sd">                The inverse-transformed dataset</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">fitted</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;Must fit one hot encoder before performing inverse transform&quot;</span><span class="p">)</span>
+        <span class="n">index</span> <span class="o">=</span> <span class="n">x_new</span><span class="o">.</span><span class="n">index</span>
+        <span class="n">x_orig</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ohe</span><span class="o">.</span><span class="n">inverse_transform</span><span class="p">(</span><span class="n">x_new</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">onehot_columns</span><span class="p">])</span>
+        <span class="n">x_orig</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">x_orig</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">index</span><span class="p">)</span>
+        <span class="n">unordered_x</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">x_new</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">onehot_columns</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="s2">&quot;columns&quot;</span><span class="p">),</span> <span class="n">x_orig</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">unordered_x</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">orig_columns</span><span class="p">]</span>
 
     <span class="k">def</span> <span class="nf">inverse_transform_explanation_additive_feature_contribution</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">explanation</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -648,6 +671,34 @@ document.write(`
                     <span class="n">ohe_data</span><span class="p">[</span><span class="n">ohe_feature</span><span class="p">][</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">values</span> <span class="o">==</span> <span class="n">ohe_feature_dict</span><span class="p">[</span><span class="n">ohe_feature</span><span class="p">])]</span> <span class="o">=</span> <span class="kc">True</span>
         <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">ohe_data</span><span class="p">)</span></div>
 
+    <span class="k">def</span> <span class="nf">inverse_data_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_onehot</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Transforms one-hot encoded data `x_onehot` back into categorical form.</span>
+<span class="sd">        Args:</span>
+<span class="sd">            x_onehot (DataFrame of shape (n_instances, n_transformed_features)):</span>
+<span class="sd">                The one-hot encoded dataset</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            DataFrame of shape (n_instances, n_features):</span>
+<span class="sd">                The dataset in categorical form</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">cat_data</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">cols</span> <span class="o">=</span> <span class="n">x_onehot</span><span class="o">.</span><span class="n">columns</span>
+        <span class="n">num_rows</span> <span class="o">=</span> <span class="n">x_onehot</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">cols</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">col</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">mappings</span><span class="o">.</span><span class="n">one_hot_to_categorical</span><span class="p">:</span>
+                <span class="n">cat_data</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">x_onehot</span><span class="p">[</span><span class="n">col</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">new_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mappings</span><span class="o">.</span><span class="n">one_hot_to_categorical</span><span class="p">[</span><span class="n">col</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">new_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">cat_data</span><span class="p">:</span>
+                    <span class="n">cat_data</span><span class="p">[</span><span class="n">new_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">num_rows</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;object&quot;</span><span class="p">)</span>
+                <span class="c1"># TODO: add functionality to handle defaults</span>
+                <span class="n">cat_data</span><span class="p">[</span><span class="n">new_name</span><span class="p">][</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">x_onehot</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)]</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">mappings</span><span class="o">.</span><span class="n">one_hot_to_categorical</span><span class="p">[</span><span class="n">col</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+                <span class="p">)</span>
+        <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">cat_data</span><span class="p">)</span>
+
     <span class="k">def</span> <span class="nf">inverse_transform_explanation_additive_feature_contribution</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">explanation</span><span class="p">):</span>
         <span class="n">explanation</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">explanation</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
         <span class="k">if</span> <span class="n">explanation</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
@@ -704,6 +755,31 @@ document.write(`
                     <span class="n">col</span>
                 <span class="p">][</span><span class="mi">1</span><span class="p">]</span>
         <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">cat_data</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">inverse_data_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_cat</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Transforms one-hot decoded data `x_cat` back into one-hot encoded form.</span>
+<span class="sd">        Args:</span>
+<span class="sd">            x_cat (DataFrame of shape (n_instances, n_transformed_features)):</span>
+<span class="sd">                The dataset to transform</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            DataFrame of shape (n_instances, n_features):</span>
+<span class="sd">                The one-hot encoded dataset</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">cols</span> <span class="o">=</span> <span class="n">x_cat</span><span class="o">.</span><span class="n">columns</span>
+        <span class="n">num_rows</span> <span class="o">=</span> <span class="n">x_cat</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">ohe_data</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">cols</span><span class="p">:</span>
+            <span class="n">values</span> <span class="o">=</span> <span class="n">x_cat</span><span class="p">[</span><span class="n">col</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">col</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">mappings</span><span class="o">.</span><span class="n">categorical_to_one_hot</span><span class="p">:</span>
+                <span class="n">ohe_data</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">values</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">ohe_feature_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mappings</span><span class="o">.</span><span class="n">categorical_to_one_hot</span><span class="p">[</span><span class="n">col</span><span class="p">]</span>
+                <span class="k">for</span> <span class="n">ohe_feature</span> <span class="ow">in</span> <span class="n">ohe_feature_dict</span><span class="p">:</span>
+                    <span class="n">ohe_data</span><span class="p">[</span><span class="n">ohe_feature</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">num_rows</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
+                    <span class="n">ohe_data</span><span class="p">[</span><span class="n">ohe_feature</span><span class="p">][</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">values</span> <span class="o">==</span> <span class="n">ohe_feature_dict</span><span class="p">[</span><span class="n">ohe_feature</span><span class="p">])]</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">ohe_data</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">transform_explanation_additive_feature_contribution</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">explanation</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>

@@ -43,7 +43,7 @@
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="pyreal.transformers.FeatureSelectTransformer" href="pyreal.transformers.FeatureSelectTransformer.html" />
-    <link rel="prev" title="pyreal.transformers.Transformer.fit_transform" href="pyreal.transformers.Transformer.fit_transform.html" />
+    <link rel="prev" title="pyreal.transformers.Transformer.inverse_transform" href="pyreal.transformers.Transformer.inverse_transform.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -394,6 +394,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="pyreal.transformers.Transformer.data_transform.html">pyreal.transformers.Transformer.data_transform</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.transformers.Transformer.transform.html">pyreal.transformers.Transformer.transform</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.transformers.Transformer.fit_transform.html">pyreal.transformers.Transformer.fit_transform</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyreal.transformers.Transformer.inverse_transform.html">pyreal.transformers.Transformer.inverse_transform</a></li>
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">pyreal.transformers.Transformer.transform_explanation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.transformers.FeatureSelectTransformer.html">pyreal.transformers.FeatureSelectTransformer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.transformers.FeatureSelectTransformer.fit.html">pyreal.transformers.FeatureSelectTransformer.fit</a></li>
@@ -412,18 +413,21 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="pyreal.transformers.OneHotEncoder.data_transform.html">pyreal.transformers.OneHotEncoder.data_transform</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.transformers.OneHotEncoder.transform.html">pyreal.transformers.OneHotEncoder.transform</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.transformers.OneHotEncoder.fit_transform.html">pyreal.transformers.OneHotEncoder.fit_transform</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyreal.transformers.OneHotEncoder.inverse_transform.html">pyreal.transformers.OneHotEncoder.inverse_transform</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.transformers.OneHotEncoder.transform_explanation.html">pyreal.transformers.OneHotEncoder.transform_explanation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.transformers.MappingsOneHotEncoder.html">pyreal.transformers.MappingsOneHotEncoder</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.transformers.MappingsOneHotEncoder.fit.html">pyreal.transformers.MappingsOneHotEncoder.fit</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.transformers.MappingsOneHotEncoder.data_transform.html">pyreal.transformers.MappingsOneHotEncoder.data_transform</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.transformers.MappingsOneHotEncoder.transform.html">pyreal.transformers.MappingsOneHotEncoder.transform</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.transformers.MappingsOneHotEncoder.fit_transform.html">pyreal.transformers.MappingsOneHotEncoder.fit_transform</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyreal.transformers.MappingsOneHotEncoder.inverse_transform.html">pyreal.transformers.MappingsOneHotEncoder.inverse_transform</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.transformers.MappingsOneHotEncoder.transform_explanation.html">pyreal.transformers.MappingsOneHotEncoder.transform_explanation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.transformers.MappingsOneHotDecoder.html">pyreal.transformers.MappingsOneHotDecoder</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.transformers.MappingsOneHotDecoder.fit.html">pyreal.transformers.MappingsOneHotDecoder.fit</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.transformers.MappingsOneHotDecoder.data_transform.html">pyreal.transformers.MappingsOneHotDecoder.data_transform</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.transformers.MappingsOneHotDecoder.transform.html">pyreal.transformers.MappingsOneHotDecoder.transform</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.transformers.MappingsOneHotDecoder.fit_transform.html">pyreal.transformers.MappingsOneHotDecoder.fit_transform</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyreal.transformers.MappingsOneHotDecoder.inverse_transform.html">pyreal.transformers.MappingsOneHotDecoder.inverse_transform</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.transformers.MappingsOneHotDecoder.transform_explanation.html">pyreal.transformers.MappingsOneHotDecoder.transform_explanation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.transformers.Mappings.html">pyreal.transformers.Mappings</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.transformers.Mappings.generate_mappings.html">pyreal.transformers.Mappings.generate_mappings</a></li>
@@ -463,6 +467,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="pyreal.transformers.DataFrameWrapper.data_transform.html">pyreal.transformers.DataFrameWrapper.data_transform</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.transformers.DataFrameWrapper.transform.html">pyreal.transformers.DataFrameWrapper.transform</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.transformers.DataFrameWrapper.fit_transform.html">pyreal.transformers.DataFrameWrapper.fit_transform</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyreal.transformers.DataFrameWrapper.inverse_transform.html">pyreal.transformers.DataFrameWrapper.inverse_transform</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.transformers.DataFrameWrapper.transform_explanation.html">pyreal.transformers.DataFrameWrapper.transform_explanation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.transformers.TimeSeriesPadder.html">pyreal.transformers.TimeSeriesPadder</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.transformers.TimeSeriesPadder.fit.html">pyreal.transformers.TimeSeriesPadder.fit</a></li>
@@ -620,12 +625,12 @@ to the second.</p>
     <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
-       href="pyreal.transformers.Transformer.fit_transform.html"
+       href="pyreal.transformers.Transformer.inverse_transform.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">pyreal.transformers.Transformer.fit_transform</p>
+        <p class="prev-next-title">pyreal.transformers.Transformer.inverse_transform</p>
       </div>
     </a>
     <a class="right-next"

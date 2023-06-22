@@ -17,6 +17,8 @@
       ~TimeSeriesPadder.data_transform
       ~TimeSeriesPadder.fit
       ~TimeSeriesPadder.fit_transform
+      ~TimeSeriesPadder.inverse_data_transform
+      ~TimeSeriesPadder.inverse_transform
       ~TimeSeriesPadder.inverse_transform_explanation
       ~TimeSeriesPadder.inverse_transform_explanation_additive_feature_contribution
       ~TimeSeriesPadder.inverse_transform_explanation_additive_feature_importance

@@ -17,6 +17,8 @@
       ~MultiIndexFrameToNumpy3d.data_transform
       ~MultiIndexFrameToNumpy3d.fit
       ~MultiIndexFrameToNumpy3d.fit_transform
+      ~MultiIndexFrameToNumpy3d.inverse_data_transform
+      ~MultiIndexFrameToNumpy3d.inverse_transform
       ~MultiIndexFrameToNumpy3d.inverse_transform_explanation
       ~MultiIndexFrameToNumpy3d.inverse_transform_explanation_additive_feature_contribution
       ~MultiIndexFrameToNumpy3d.inverse_transform_explanation_additive_feature_importance
