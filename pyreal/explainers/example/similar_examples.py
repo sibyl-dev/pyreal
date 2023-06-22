@@ -60,7 +60,6 @@ class SimilarExamples(ExampleBasedBase):
         x = self.transform_to_x_algorithm(x_orig)
 
         inds = self.explainer.query(x, k=n, return_distance=False)
-        print("INDS", inds)
         explanation = {}
         for i in range(len(inds)):
             explanation[i] = (self.x_train_orig.iloc[inds[i], :], self.y_train.iloc[inds[i]])
