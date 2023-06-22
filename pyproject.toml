@@ -41,7 +41,7 @@ matplotlib = "^3.6.0"
 numpy = "^1.23.3"
 pandas = "^1.5.0"
 scikit-learn = "^1.1.2"
-numba = "^0.56.2" # Explicit numba (required by shap) forces recent version
+numba = ">=0.56.2,<0.58.0" # Explicit numba (required by shap) forces recent version
 shap = "=0.40.0" # Explicit shap prevents break with newer versions
 lime = "^0.2.0.1"
 seaborn = "^0.12.2"
