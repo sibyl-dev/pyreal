@@ -18,3 +18,5 @@ RealApp
     RealApp.produce_feature_contributions
     RealApp.prepare_feature_importance
     RealApp.produce_feature_importance
+    RealApp.prepare_similar_examples
+    RealApp.produce_similar_examples

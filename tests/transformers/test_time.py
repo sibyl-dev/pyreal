@@ -85,14 +85,15 @@ def test_fit_returns_self(time_series_data):
     np3d = time_series_data["np3d"]
     np2d = time_series_data["np2d"]
     df3d = time_series_data["df3d"]
-    for transformer in [MultiIndexFrameToNestedFrame(),
-                        MultiIndexFrameToNumpy2d(),
-                        MultiIndexFrameToNumpy3d()]:
+    for transformer in [
+        MultiIndexFrameToNestedFrame(),
+        MultiIndexFrameToNumpy2d(),
+        MultiIndexFrameToNumpy3d(),
+    ]:
         result = transformer.fit(df3d)
         assert result == transformer
 
-    for transformer in [NestedFrameToMultiIndexFrame(),
-                        NestedFrameToNumpy3d()]:
+    for transformer in [NestedFrameToMultiIndexFrame(), NestedFrameToNumpy3d()]:
         result = transformer.fit(nested)
         assert result == transformer
 
@@ -100,7 +101,6 @@ def test_fit_returns_self(time_series_data):
         result = transformer.fit(np2d)
         assert result == transformer
 
-    for transformer in [Numpy3dToMultiIndexFrame(),
-                        Numpy3dToNestedFrame()]:
+    for transformer in [Numpy3dToMultiIndexFrame(), Numpy3dToNestedFrame()]:
         result = transformer.fit(np3d)
         assert result == transformer
