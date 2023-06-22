@@ -4,11 +4,10 @@
 
 Ready to contribute? Here's how to setup Pyreal for local development, and make contributions
 
-* Fork the `pyreal` repo on GitHub.
-* Clone your fork locally and cd into the new directory:
+* Clone the `pyreal` repo onto your local machine and cd into the new directory:
 
 ```git
-git clone git@github.com:your_name_here/pyreal.git
+git clone https://github.com/sibyl-dev/pyreal.git
 cd pyreal
 git checkout dev
 ```
@@ -16,10 +15,10 @@ git checkout dev
 * Install the project dependencies using Poetry.
 
 ```
-poetry install -E examples
+poetry install
 ```
 
-* Create a branch for local development. You should always be branching off of the `dev` branch when contributing.&#x20;
+* Create a branch for local development. You should always be branching off of the `dev` branch when contributing. Give your branch a descriptive name that describes what change you will be making. Each branch should aim to resolve at most one issue.
 
 ```git
 git checkout -b name-of-your-bugfix-or-feature
@@ -27,19 +26,15 @@ git checkout -b name-of-your-bugfix-or-feature
 
 * Now you can make your changes locally. While making your changes, make sure to cover all your additions with the [required unit tests](unit-testing-guidelines.md), and that none of the old tests fail as a consequence of your changes. For this, make sure to run the tests suite and check the code coverage:
 
-```
+```bash
 poetry run invoke lint       # Check code styling
 poetry run invoke test       # Run the tests
 poetry run invoke coverage   # Get the coverage report
-```
 
-All of these commands can be shortened by running within the Poetry shell::
-
-```
-poetry shell      # activate the poetry shell
-invoke lint       # Check code styling
-invoke test       # Run the tests
-invoke coverage   # Get the coverage report
+# Other helpful commands:
+poetry run invoke fix-lint   # Run the auto-fomatter (fixes most linting errors)
+poetry run invoke test-unit  # Run only unit tests
+poetry run invoke test-tutorials # Run only the tutorial scripts
 ```
 
 * Make also sure to include the necessary documentation in the code as docstrings following the [Google docstrings style guide.](https://google.github.io/styleguide/pyguide.html?showone=Comments#Comments) Test the autodocs generation process by running:
@@ -58,4 +53,4 @@ git push origin name-of-your-bugfix-or-feature
 ```
 
 * Submit a pull request through the GitHub website, merging back into `dev`.
-* Once you have a minimum of two approvals, you can merge your branch in. Branches should be deleted on merge.
+* Once you have a minimum of two approvals, you can merge your branch in. **Branches should be deleted on merge.**
