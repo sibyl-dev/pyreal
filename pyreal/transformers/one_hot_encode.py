@@ -329,7 +329,7 @@ class MappingsOneHotEncoder(Transformer):
         if explanation.ndim == 1:
             explanation = explanation.reshape(1, -1)
         for original_feature in self.mappings.categorical_to_one_hot.keys():
-            encoded_features = self.mappings.categorical_to_one_hot[original_feature]
+            encoded_features = self.mappings.categorical_to_one_hot[original_feature].keys()
             summed_contribution = explanation[encoded_features].sum(axis=1)
             explanation = explanation.drop(encoded_features, axis="columns")
             explanation[original_feature] = summed_contribution
@@ -416,7 +416,7 @@ class MappingsOneHotDecoder(Transformer):
         if explanation.ndim == 1:
             explanation = explanation.reshape(1, -1)
         for original_feature in self.mappings.categorical_to_one_hot.keys():
-            encoded_features = self.mappings.categorical_to_one_hot[original_feature]
+            encoded_features = self.mappings.categorical_to_one_hot[original_feature].keys()
             summed_contribution = explanation[encoded_features].sum(axis=1)
             explanation = explanation.drop(encoded_features, axis="columns")
             explanation[original_feature] = summed_contribution
