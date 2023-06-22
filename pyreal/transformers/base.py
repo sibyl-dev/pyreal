@@ -203,6 +203,33 @@ class Transformer(ABC):
         self.fit(x, **fit_params)
         return self.data_transform(x)
 
+    def inverse_data_transform(self, x_new):
+        """
+        Wrapper for inverse_data_transform.
+        Transforms data `x_new` from new feature space back into the original feature space.
+        Args:
+            x_new (DataFrame of shape (n_instances, n_transformed_features)):
+                The dataset to inverse-transform
+
+        Returns:
+            DataFrame of shape (n_instances, n_features):
+                The inverse-transformed dataset
+        """
+        raise NotImplementedError("Inverse transform is not defined for this Transformer.")
+
+    def inverse_transform(self, x_new):
+        """
+        Transforms data `x_new` from new feature space back into the original feature space.
+        Args:
+            x_new (DataFrame of shape (n_instances, n_transformed_features)):
+                The dataset to inverse-transform
+
+        Returns:
+            DataFrame of shape (n_instances, n_features):
+                The inverse-transformed dataset
+        """
+        return self.inverse_data_transform(x_new)
+
     def inverse_transform_explanation(self, explanation):
         """
         Transforms the explanation from the second feature space handled by this transformer

@@ -60,6 +60,15 @@ def test_transform_all_columns_one_hot_encoder(transformer_test_data):
     assert_frame_equal(transformed_x, expected_transformed_x, check_dtype=False)
 
 
+def test_inverse_transform_one_hot_encoder(transformer_test_data):
+    ohe_transformer = OneHotEncoder(columns=transformer_test_data["columns"])
+    ohe_transformer.fit(transformer_test_data["x"])
+    test_x = pd.DataFrame([[6, 0, 2, 1], [4, 1, 3, 8], [2, 0, 4, 3]], columns=["A", "B", "C", "D"])
+    transformed_x = ohe_transformer.transform(test_x)
+    identity_x = ohe_transformer.inverse_transform(transformed_x)
+    assert_frame_equal(identity_x, test_x, check_dtype=False)
+
+
 categorical_to_one_hot = {
     "A": {"A_a": "a", "A_b": "b"},
     "B": {"B_a": "a", "B_b": "b", "B_c": "c"},
@@ -107,6 +116,21 @@ def test_mappings_encode_decode(mappings):
     x_decoded = mappings_ohd.transform(x_encoded)
 
     assert_frame_equal(x_decoded, x)
+
+
+@pytest.mark.parametrize("mappings", mappings_choices)
+def test_mappings_inverse_transform(mappings):
+    mappings_ohe = MappingsOneHotEncoder(mappings)
+
+    x = pd.DataFrame([["a", "b", 10, "f"], ["b", "c", 11, "d"]], columns=["A", "B", "C", "D"])
+    x_encoded = mappings_ohe.transform(x)
+    x_identity = mappings_ohe.inverse_transform(x_encoded)
+    assert_frame_equal(x_identity, x)
+
+    mappings_ohd = MappingsOneHotDecoder(mappings)
+    x_encoded_identity = mappings_ohd.inverse_transform(x)
+
+    assert_frame_equal(x_encoded_identity, x_encoded)
 
 
 def test_fit_returns_self():
