@@ -1,6 +1,6 @@
 import pandas as pd
-from pandas.testing import assert_frame_equal, assert_series_equal
 import pytest
+from pandas.testing import assert_frame_equal, assert_series_equal
 
 from pyreal import RealApp
 
@@ -39,10 +39,27 @@ def test_prepare_similar_examples(regression_no_transforms):
         realApp.produce_similar_examples(x)
 
     # Confirm no error
-    realApp.prepare_similar_examples(x_train_orig=regression_no_transforms["x"],
-                                     y_train=regression_no_transforms["y"])
+    realApp.prepare_similar_examples(
+        x_train_orig=regression_no_transforms["x"], y_train=regression_no_transforms["y"]
+    )
 
     # Confirm explainer was prepped and now works without being given data
     realApp.produce_similar_examples(x)
 
 
+def test_prepare_similar_examples_with_id_column(regression_no_transforms):
+    realApp = RealApp(
+        regression_no_transforms["model"],
+        transformers=regression_no_transforms["transformers"],
+        id_column="ID",
+    )
+    features = ["A", "B", "C"]
+    x_multi_dim = pd.DataFrame(
+        [[4, 1, 1, "a"], [6, 2, 3, "b"], [1, 1, 1, "c"]], columns=features + ["ID"]
+    )
+
+    # Confirm no error
+    realApp.prepare_similar_examples(x_train_orig=x_multi_dim, y_train=pd.Series([0, 1, 1]))
+
+    # Confirm explainer was prepped and now works without being given data
+    realApp.produce_similar_examples(x_multi_dim, n=1)

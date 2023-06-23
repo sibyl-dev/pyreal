@@ -37,11 +37,30 @@ def test_prepare_local_feature_contribution(regression_no_transforms):
         realApp.produce_feature_contributions(x)
 
     # Confirm no error
-    realApp.prepare_feature_contributions(x_train_orig=regression_no_transforms["x"],
-                                          y_train=regression_no_transforms["y"])
+    realApp.prepare_feature_contributions(
+        x_train_orig=regression_no_transforms["x"], y_train=regression_no_transforms["y"]
+    )
 
     # Confirm explainer was prepped and now works without being given data
     realApp.produce_feature_contributions(x)
+
+
+def test_prepare_local_feature_contribution_with_id_column(regression_no_transforms):
+    realApp = RealApp(
+        regression_no_transforms["model"],
+        transformers=regression_no_transforms["transformers"],
+        id_column="ID",
+    )
+    features = ["A", "B", "C"]
+    x_multi_dim = pd.DataFrame([[4, 1, 1, "a"], [6, 2, 3, "b"]], columns=features + ["ID"])
+
+    # Confirm no error
+    realApp.prepare_feature_contributions(
+        x_train_orig=x_multi_dim, y_train=regression_no_transforms["y"]
+    )
+
+    # Confirm explainer was prepped and now works without being given data
+    realApp.produce_feature_contributions(x_multi_dim)
 
 
 def test_produce_local_feature_contributions(regression_no_transforms):
@@ -86,8 +105,6 @@ def test_produce_local_feature_contributions_with_id_column(regression_one_hot):
 
     features = ["A", "B", "C"]
     x_multi_dim = pd.DataFrame([[4, 1, 1, "a"], [6, 2, 3, "b"]], columns=features + ["ID"])
-
-    real_app.prepare_feature_contributions(x_multi_dim)
 
     explanation = real_app.produce_feature_contributions(x_multi_dim)
 

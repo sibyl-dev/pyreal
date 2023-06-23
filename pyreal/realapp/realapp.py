@@ -731,6 +731,8 @@ class RealApp:
             The dataframe to use (x_orig or self.x_train_orig), may be None if neither is given
         """
         if x_train_orig is not None:
+            if self.id_column is not None and self.id_column in x_train_orig:
+                return x_train_orig.drop(columns=self.id_column)
             return x_train_orig
         else:
             return self.X_train_orig
