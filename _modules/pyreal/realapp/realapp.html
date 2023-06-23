@@ -1055,6 +1055,8 @@ document.write(`
 <span class="sd">            The dataframe to use (x_orig or self.x_train_orig), may be None if neither is given</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">x_train_orig</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">id_column</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">id_column</span> <span class="ow">in</span> <span class="n">x_train_orig</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">x_train_orig</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">id_column</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">x_train_orig</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">X_train_orig</span>
