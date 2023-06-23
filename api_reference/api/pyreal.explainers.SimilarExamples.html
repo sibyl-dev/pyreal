@@ -592,7 +592,7 @@ document.write(`
 <h1>pyreal.explainers.SimilarExamples<a class="headerlink" href="#pyreal-explainers-similarexamples" title="Permalink to this heading">#</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="pyreal.explainers.SimilarExamples">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyreal.explainers.</span></span><span class="sig-name descname"><span class="pre">SimilarExamples</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_train_orig</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyreal/explainers/example/similar_examples.html#SimilarExamples"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyreal.explainers.SimilarExamples" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyreal.explainers.</span></span><span class="sig-name descname"><span class="pre">SimilarExamples</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_train_orig</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">standardize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyreal/explainers/example/similar_examples.html#SimilarExamples"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyreal.explainers.SimilarExamples" title="Permalink to this definition">#</a></dt>
 <dd><p>SimilarExamples object.</p>
 <p>A SimilarExamples object gets feature explanation using the Nearest Neighbors algorithm</p>
 <p>SimilarExamples explainers expect data to be entirely numeric</p>
@@ -601,19 +601,20 @@ document.write(`
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>model</strong> (<em>string filepath</em><em> or </em><em>model object</em>) – Filepath to the pickled model to explain, or model object with .predict() function</p></li>
 <li><p><strong>x_train_orig</strong> (<em>DataFrame</em><em> of </em><em>size</em><em> (</em><em>n_instances</em><em>, </em><em>n_features</em><em>)</em>) – Training set in original form.</p></li>
+<li><p><strong>standardize</strong> (<em>Boolean</em>) – If True, standardize the data when selected similar examples</p></li>
 <li><p><strong>**kwargs</strong> – see base Explainer args</p></li>
 </ul>
 </dd>
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="pyreal.explainers.SimilarExamples.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_train_orig</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyreal/explainers/example/similar_examples.html#SimilarExamples.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyreal.explainers.SimilarExamples.__init__" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_train_orig</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">standardize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyreal/explainers/example/similar_examples.html#SimilarExamples.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyreal.explainers.SimilarExamples.__init__" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <p class="rubric">Methods</p>
 <table class="autosummary longtable table autosummary">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#pyreal.explainers.SimilarExamples.__init__" title="pyreal.explainers.SimilarExamples.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(model[, x_train_orig])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pyreal.explainers.SimilarExamples.__init__" title="pyreal.explainers.SimilarExamples.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(model[, x_train_orig, standardize])</p></td>
 <td><p></p></td>
 </tr>
 <tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">convert_columns_to_interpretable</span></code>(df)</p></td>

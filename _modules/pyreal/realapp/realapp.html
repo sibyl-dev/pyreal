@@ -958,6 +958,7 @@ document.write(`
         <span class="n">model_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">algorithm</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">training_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">standardize</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Initialize and fit a nearest neighbor explainer</span>
@@ -973,6 +974,9 @@ document.write(`
 <span class="sd">                NN algorithm to use (current options: [nn])</span>
 <span class="sd">            training_size (int):</span>
 <span class="sd">                Number of rows to use in fitting explainer</span>
+<span class="sd">            standardize (Boolean):</span>
+<span class="sd">                If True, standardize data before using it to get similar examples.</span>
+<span class="sd">                Recommended if model-ready data is not already standardized</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            A fit SimilarExamples explainer</span>
@@ -991,6 +995,7 @@ document.write(`
             <span class="n">classes</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">classes</span><span class="p">,</span>
             <span class="n">class_descriptions</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">class_descriptions</span><span class="p">,</span>
             <span class="n">training_size</span><span class="o">=</span><span class="n">training_size</span><span class="p">,</span>
+            <span class="n">standardize</span><span class="o">=</span><span class="n">standardize</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="n">explainer</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_x_train_orig</span><span class="p">(</span><span class="n">x_train_orig</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_y_train</span><span class="p">(</span><span class="n">y_train</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_add_explainer</span><span class="p">(</span><span class="s2">&quot;se&quot;</span><span class="p">,</span> <span class="n">algorithm</span><span class="p">,</span> <span class="n">explainer</span><span class="p">)</span>
@@ -1003,6 +1008,7 @@ document.write(`
         <span class="n">x_train_orig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">y_train</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">n</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+        <span class="n">standardize</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
         <span class="n">algorithm</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">force_refit</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="p">):</span>
@@ -1020,6 +1026,9 @@ document.write(`
 <span class="sd">                Training targets to fit on, if not provided during initialization</span>
 <span class="sd">            n (int):</span>
 <span class="sd">                Number of similar examples to return</span>
+<span class="sd">            standardize (Boolean):</span>
+<span class="sd">                If True, standardize data before using it to get similar examples.</span>
+<span class="sd">                Recommended if model-ready data is not already standardized</span>
 <span class="sd">            algorithm (string):</span>
 <span class="sd">                Name of algorithm</span>
 <span class="sd">            force_refit (Boolean):</span>
@@ -1042,6 +1051,7 @@ document.write(`
             <span class="n">x_train_orig</span><span class="o">=</span><span class="n">x_train_orig</span><span class="p">,</span>
             <span class="n">y_train</span><span class="o">=</span><span class="n">y_train</span><span class="p">,</span>
             <span class="n">force_refit</span><span class="o">=</span><span class="n">force_refit</span><span class="p">,</span>
+            <span class="n">prepare_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;standardize&quot;</span><span class="p">:</span> <span class="n">standardize</span><span class="p">},</span>
             <span class="n">produce_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;n&quot;</span><span class="p">:</span> <span class="n">n</span><span class="p">},</span>
         <span class="p">)</span></div>
 
