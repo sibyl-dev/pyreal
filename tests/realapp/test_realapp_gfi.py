@@ -1,3 +1,4 @@
+import pandas as pd
 import pytest
 
 from pyreal import RealApp
@@ -15,6 +16,24 @@ def test_prepare_global_feature_importance(regression_no_transforms):
     # Confirm no error
     realApp.prepare_feature_importance(
         x_train_orig=regression_no_transforms["x"], y_train=regression_no_transforms["y"]
+    )
+
+    # Confirm explainer was prepped and now works without being given data
+    realApp.produce_feature_importance()
+
+
+def test_prepare_global_feature_importance_with_id_column(regression_no_transforms):
+    realApp = RealApp(
+        regression_no_transforms["model"],
+        transformers=regression_no_transforms["transformers"],
+        id_column="ID",
+    )
+    features = ["A", "B", "C"]
+    x_multi_dim = pd.DataFrame([[4, 1, 1, "a"], [6, 2, 3, "b"]], columns=features + ["ID"])
+
+    # Confirm no error
+    realApp.prepare_feature_importance(
+        x_train_orig=x_multi_dim, y_train=regression_no_transforms["y"]
     )
 
     # Confirm explainer was prepped and now works without being given data
