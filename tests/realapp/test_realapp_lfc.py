@@ -37,8 +37,9 @@ def test_prepare_local_feature_contribution(regression_no_transforms):
         realApp.produce_feature_contributions(x)
 
     # Confirm no error
-    realApp.prepare_feature_contributions(x_train_orig=regression_no_transforms["x"],
-                                          y_train=regression_no_transforms["y"])
+    realApp.prepare_feature_contributions(
+        x_train_orig=regression_no_transforms["x"], y_train=regression_no_transforms["y"]
+    )
 
     # Confirm explainer was prepped and now works without being given data
     realApp.produce_feature_contributions(x)

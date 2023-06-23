@@ -1,5 +1,6 @@
-from pyreal import RealApp
 import pytest
+
+from pyreal import RealApp
 
 
 def test_prepare_global_feature_importance(regression_no_transforms):
@@ -12,8 +13,9 @@ def test_prepare_global_feature_importance(regression_no_transforms):
         realApp.produce_feature_importance()
 
     # Confirm no error
-    realApp.prepare_feature_importance(x_train_orig=regression_no_transforms["x"],
-                                       y_train=regression_no_transforms["y"])
+    realApp.prepare_feature_importance(
+        x_train_orig=regression_no_transforms["x"], y_train=regression_no_transforms["y"]
+    )
 
     # Confirm explainer was prepped and now works without being given data
     realApp.produce_feature_importance()

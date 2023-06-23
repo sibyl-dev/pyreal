@@ -1,6 +1,6 @@
 import pandas as pd
-from pandas.testing import assert_frame_equal, assert_series_equal
 import pytest
+from pandas.testing import assert_frame_equal, assert_series_equal
 
 from pyreal import RealApp
 
@@ -39,10 +39,9 @@ def test_prepare_similar_examples(regression_no_transforms):
         realApp.produce_similar_examples(x)
 
     # Confirm no error
-    realApp.prepare_similar_examples(x_train_orig=regression_no_transforms["x"],
-                                     y_train=regression_no_transforms["y"])
+    realApp.prepare_similar_examples(
+        x_train_orig=regression_no_transforms["x"], y_train=regression_no_transforms["y"]
+    )
 
     # Confirm explainer was prepped and now works without being given data
     realApp.produce_similar_examples(x)
-
-
