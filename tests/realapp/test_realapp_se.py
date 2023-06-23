@@ -1,4 +1,5 @@
 import pandas as pd
+import pytest
 from pandas.testing import assert_frame_equal, assert_series_equal
 
 from pyreal import RealApp
@@ -25,3 +26,22 @@ def test_produce_similar_examples(regression_one_hot_with_interpret):
     assert "id2" in explanation
     assert_frame_equal(explanation["id2"]["X"], x.iloc[[3, 0], :] + 1)
     assert_series_equal(explanation["id2"]["y"], y.iloc[[3, 0]])
+
+
+def test_prepare_similar_examples(regression_no_transforms):
+    realApp = RealApp(
+        regression_no_transforms["model"],
+        transformers=regression_no_transforms["transformers"],
+    )
+    x = pd.DataFrame([[2, 10, 10]])
+
+    with pytest.raises(ValueError):
+        realApp.produce_similar_examples(x)
+
+    # Confirm no error
+    realApp.prepare_similar_examples(
+        x_train_orig=regression_no_transforms["x"], y_train=regression_no_transforms["y"]
+    )
+
+    # Confirm explainer was prepped and now works without being given data
+    realApp.produce_similar_examples(x)

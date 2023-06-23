@@ -428,9 +428,9 @@ class RealApp:
 
     def prepare_feature_contributions(
         self,
-        model_id=None,
         x_train_orig=None,
         y_train=None,
+        model_id=None,
         algorithm=None,
         shap_type=None,
         training_size=None,
@@ -531,9 +531,9 @@ class RealApp:
 
     def prepare_feature_importance(
         self,
-        model_id=None,
         x_train_orig=None,
         y_train=None,
+        model_id=None,
         algorithm=None,
         shap_type=None,
         training_size=None,
@@ -629,9 +629,9 @@ class RealApp:
 
     def prepare_similar_examples(
         self,
-        model_id=None,
         x_train_orig=None,
         y_train=None,
+        model_id=None,
         algorithm=None,
         training_size=None,
     ):
