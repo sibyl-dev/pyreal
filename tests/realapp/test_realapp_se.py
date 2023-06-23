@@ -8,7 +8,7 @@ from pyreal import RealApp
 def test_produce_similar_examples(regression_one_hot_with_interpret):
     x = pd.DataFrame([[2, 0, 0], [6, 6, 6], [6, 7, 8], [2, 0, 1]], columns=["A", "B", "C"])
     y = pd.Series([1, 0, 0, 1])
-    realApp = RealApp(
+    real_app = RealApp(
         regression_one_hot_with_interpret["model"],
         X_train_orig=x,
         y_train=y,
@@ -16,7 +16,7 @@ def test_produce_similar_examples(regression_one_hot_with_interpret):
         id_column="ID",
     )
 
-    explanation = realApp.produce_similar_examples(
+    explanation = real_app.produce_similar_examples(
         pd.DataFrame([["id1", 6, 7, 9], ["id2", 2, 1, 1]], columns=["ID", "A", "B", "C"]), n=2
     )
     assert "id1" in explanation
@@ -29,26 +29,26 @@ def test_produce_similar_examples(regression_one_hot_with_interpret):
 
 
 def test_prepare_similar_examples(regression_no_transforms):
-    realApp = RealApp(
+    real_app = RealApp(
         regression_no_transforms["model"],
         transformers=regression_no_transforms["transformers"],
     )
     x = pd.DataFrame([[2, 10, 10]])
 
     with pytest.raises(ValueError):
-        realApp.produce_similar_examples(x)
+        real_app.produce_similar_examples(x)
 
     # Confirm no error
-    realApp.prepare_similar_examples(
+    real_app.prepare_similar_examples(
         x_train_orig=regression_no_transforms["x"], y_train=regression_no_transforms["y"]
     )
 
     # Confirm explainer was prepped and now works without being given data
-    realApp.produce_similar_examples(x)
+    real_app.produce_similar_examples(x)
 
 
 def test_prepare_similar_examples_with_id_column(regression_no_transforms):
-    realApp = RealApp(
+    real_app = RealApp(
         regression_no_transforms["model"],
         transformers=regression_no_transforms["transformers"],
         id_column="ID",
@@ -59,7 +59,24 @@ def test_prepare_similar_examples_with_id_column(regression_no_transforms):
     )
 
     # Confirm no error
-    realApp.prepare_similar_examples(x_train_orig=x_multi_dim, y_train=pd.Series([0, 1, 1]))
+    real_app.prepare_similar_examples(x_train_orig=x_multi_dim, y_train=pd.Series([0, 1, 1]))
 
     # Confirm explainer was prepped and now works without being given data
-    realApp.produce_similar_examples(x_multi_dim, n=1)
+    real_app.produce_similar_examples(x_multi_dim, n=1)
+
+
+def test_produce_similar_examples_with_standardization(dummy_model):
+    x = pd.DataFrame([[1, 100], [3, 100], [1, 200], [3, 300]])
+    y = pd.Series([1, 2, 3, 4])
+    real_app = RealApp(
+        dummy_model,
+        X_train_orig=x,
+        y_train=y,
+    )
+
+    explanation = real_app.produce_similar_examples(
+        pd.DataFrame([[1, 100]]), n=2, standardize=True
+    )
+
+    assert_frame_equal(explanation[0]["X"], x.iloc[[0, 2], :])
+    assert_series_equal(explanation[0]["y"], y.iloc[[0, 2]])

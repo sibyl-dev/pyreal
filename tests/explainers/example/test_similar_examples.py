@@ -5,17 +5,17 @@ from pyreal.explainers.example.similar_examples import SimilarExamples
 
 
 def test_produce(dummy_model):
-    X = pd.DataFrame([[1, 1, 1], [4, 5, 3], [0, 0, 0], [5, 5, 3]])
+    x = pd.DataFrame([[1, 1, 1], [4, 5, 3], [0, 0, 0], [5, 5, 3]])
     y = pd.Series([0, 1, 0, 1])
 
-    explainer = SimilarExamples(model=dummy_model, x_train_orig=X, y_train=y, fit_on_init=True)
+    explainer = SimilarExamples(model=dummy_model, x_train_orig=x, y_train=y, fit_on_init=True)
     result = explainer.produce(pd.DataFrame([[0, 1, 0]]), n=2)
-    expected_examples = pd.DataFrame([[0, 0, 0], [1, 1, 1]])
-    expected_targets = pd.Series([0, 0])
+    expected_examples = x.iloc[[2, 0], :]
+    expected_targets = y.iloc[[2, 0]]
     assert len(result.get_row_ids()) == 1
     assert result.get_examples(row_id=0).shape[0] == 2
-    assert_frame_equal(result.get_examples().reset_index(drop=True), expected_examples)
-    assert_series_equal(result.get_targets().reset_index(drop=True), expected_targets)
+    assert_frame_equal(result.get_examples(), expected_examples)
+    assert_series_equal(result.get_targets(), expected_targets)
 
 
 def test_produce_with_transforms(regression_one_hot_with_interpret):
@@ -35,10 +35,8 @@ def test_produce_with_transforms(regression_one_hot_with_interpret):
 
     assert len(result.get_row_ids()) == 1
     assert result.get_examples(row_id=0).shape[0] == 1
-    assert_frame_equal(result.get_examples().reset_index(drop=True), expected_examples)
-    print(result.get_targets())
-    print(expected_targets)
-    assert_series_equal(result.get_targets().reset_index(drop=True), expected_targets)
+    assert_frame_equal(result.get_examples(), expected_examples)
+    assert_series_equal(result.get_targets(), expected_targets)
 
 
 def test_produce_multiple_with_transforms(regression_one_hot_with_interpret):
@@ -68,3 +66,24 @@ def test_produce_multiple_with_transforms(regression_one_hot_with_interpret):
     assert result.get_examples(row_id=1).shape[0] == 2
     assert_frame_equal(result.get_examples(row_id=1), expected_examples_2)
     assert_series_equal(result.get_targets(row_id=1), expected_targets_2)
+
+
+def test_produce_with_standardize(dummy_model):
+    x = pd.DataFrame([[1, 100], [3, 100], [1, 200], [3, 300]])
+    y = pd.Series([1, 2, 3, 4])
+    explainer = SimilarExamples(
+        model=dummy_model,
+        x_train_orig=x,
+        y_train=y,
+        fit_on_init=True,
+        standardize=True,
+    )
+    result = explainer.produce(pd.DataFrame([[1, 100]]), n=2)
+    expected_examples = x.iloc[[0, 2], :]
+    expected_targets = y.iloc[[0, 2]]
+
+    assert len(result.get_row_ids()) == 1
+    assert result.get_examples(row_id=0).shape[0] == 2
+
+    assert_frame_equal(result.get_examples(), expected_examples)
+    assert_series_equal(result.get_targets(), expected_targets)
