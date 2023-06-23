@@ -671,7 +671,7 @@ class RealApp:
             classes=self.classes,
             class_descriptions=self.class_descriptions,
             training_size=training_size,
-            standardize=standardize
+            standardize=standardize,
         )
         explainer.fit(self._get_x_train_orig(x_train_orig), self._get_y_train(y_train))
         self._add_explainer("se", algorithm, explainer)

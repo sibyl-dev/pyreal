@@ -1,8 +1,8 @@
 from sklearn.neighbors import KDTree
+from sklearn.preprocessing import StandardScaler
 
 from pyreal.explainers.example.base import ExampleBasedBase
 from pyreal.types.explanations.example_based import SimilarExampleExplanation
-from sklearn.preprocessing import StandardScaler
 
 
 class SimilarExamples(ExampleBasedBase):
