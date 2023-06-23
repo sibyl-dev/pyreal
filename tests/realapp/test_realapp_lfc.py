@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+import pytest
 
 from pyreal import RealApp
 from pyreal.realapp.realapp import _get_average_or_mode
@@ -23,6 +24,24 @@ def test_average_or_mode():
     result = _get_average_or_mode(mean_only)
     for i in range(len(expected)):
         assert expected[i] == result[i]
+
+
+def test_prepare_local_feature_contribution(regression_no_transforms):
+    realApp = RealApp(
+        regression_no_transforms["model"],
+        transformers=regression_no_transforms["transformers"],
+    )
+    x = pd.DataFrame([[2, 10, 10]])
+
+    with pytest.raises(ValueError):
+        realApp.produce_feature_contributions(x)
+
+    # Confirm no error
+    realApp.prepare_feature_contributions(x_train_orig=regression_no_transforms["x"],
+                                          y_train=regression_no_transforms["y"])
+
+    # Confirm explainer was prepped and now works without being given data
+    realApp.produce_feature_contributions(x)
 
 
 def test_produce_local_feature_contributions(regression_no_transforms):
