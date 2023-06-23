@@ -2,6 +2,7 @@ from sklearn.neighbors import KDTree
 
 from pyreal.explainers.example.base import ExampleBasedBase
 from pyreal.types.explanations.example_based import SimilarExampleExplanation
+from sklearn.preprocessing import StandardScaler
 
 
 class SimilarExamples(ExampleBasedBase):
@@ -17,11 +18,15 @@ class SimilarExamples(ExampleBasedBase):
            Filepath to the pickled model to explain, or model object with .predict() function
         x_train_orig (DataFrame of size (n_instances, n_features)):
             Training set in original form.
+        standardize (Boolean):
+            If True, standardize the data when selected similar examples
         **kwargs: see base Explainer args
     """
 
-    def __init__(self, model, x_train_orig=None, **kwargs):
+    def __init__(self, model, x_train_orig=None, standardize=False, **kwargs):
         self.explainer = None
+        self.standardize = standardize
+        self.standardizer = None
         super(SimilarExamples, self).__init__(model, x_train_orig, **kwargs)
 
     def fit(self, x_train_orig=None, y_train=None):
@@ -37,6 +42,9 @@ class SimilarExamples(ExampleBasedBase):
         x_train_orig, y_train = self._get_training_data(x_train_orig, y_train)
 
         dataset = self.transform_to_x_algorithm(x_train_orig)
+        if self.standardize:
+            self.standardizer = StandardScaler()
+            dataset = self.standardizer.fit_transform(dataset)
         self.explainer = KDTree(dataset)
         self.y_train = y_train
         self.x_train_orig = x_train_orig
@@ -58,7 +66,8 @@ class SimilarExamples(ExampleBasedBase):
         if self.explainer is None:
             raise AttributeError("Instance has no explainer. Must call fit() before produce()")
         x = self.transform_to_x_algorithm(x_orig)
-
+        if self.standardize:
+            x = self.standardizer.transform(x)
         inds = self.explainer.query(x, k=n, return_distance=False)
         explanation = {}
         for i in range(len(inds)):
