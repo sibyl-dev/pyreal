@@ -428,9 +428,9 @@ class RealApp:
 
     def prepare_feature_contributions(
         self,
-        model_id=None,
         x_train_orig=None,
         y_train=None,
+        model_id=None,
         algorithm=None,
         shap_type=None,
         training_size=None,
@@ -531,9 +531,9 @@ class RealApp:
 
     def prepare_feature_importance(
         self,
-        model_id=None,
         x_train_orig=None,
         y_train=None,
+        model_id=None,
         algorithm=None,
         shap_type=None,
         training_size=None,
@@ -629,11 +629,12 @@ class RealApp:
 
     def prepare_similar_examples(
         self,
-        model_id=None,
         x_train_orig=None,
         y_train=None,
+        model_id=None,
         algorithm=None,
         training_size=None,
+        standardize=False,
     ):
         """
         Initialize and fit a nearest neighbor explainer
@@ -649,6 +650,9 @@ class RealApp:
                 NN algorithm to use (current options: [nn])
             training_size (int):
                 Number of rows to use in fitting explainer
+            standardize (Boolean):
+                If True, standardize data before using it to get similar examples.
+                Recommended if model-ready data is not already standardized
 
         Returns:
             A fit SimilarExamples explainer
@@ -667,6 +671,7 @@ class RealApp:
             classes=self.classes,
             class_descriptions=self.class_descriptions,
             training_size=training_size,
+            standardize=standardize,
         )
         explainer.fit(self._get_x_train_orig(x_train_orig), self._get_y_train(y_train))
         self._add_explainer("se", algorithm, explainer)
@@ -679,6 +684,7 @@ class RealApp:
         x_train_orig=None,
         y_train=None,
         n=3,
+        standardize=False,
         algorithm=None,
         force_refit=False,
     ):
@@ -696,6 +702,9 @@ class RealApp:
                 Training targets to fit on, if not provided during initialization
             n (int):
                 Number of similar examples to return
+            standardize (Boolean):
+                If True, standardize data before using it to get similar examples.
+                Recommended if model-ready data is not already standardized
             algorithm (string):
                 Name of algorithm
             force_refit (Boolean):
@@ -718,6 +727,7 @@ class RealApp:
             x_train_orig=x_train_orig,
             y_train=y_train,
             force_refit=force_refit,
+            prepare_kwargs={"standardize": standardize},
             produce_kwargs={"n": n},
         )
 
@@ -731,6 +741,8 @@ class RealApp:
             The dataframe to use (x_orig or self.x_train_orig), may be None if neither is given
         """
         if x_train_orig is not None:
+            if self.id_column is not None and self.id_column in x_train_orig:
+                return x_train_orig.drop(columns=self.id_column)
             return x_train_orig
         else:
             return self.X_train_orig
