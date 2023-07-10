@@ -1,7 +1,10 @@
 import matplotlib.pyplot as plt
+import numpy as np
 import seaborn as sns
+from matplotlib.colors import LinearSegmentedColormap
 
 from pyreal.types.explanations.feature_value_based import FeatureValueBased
+from pyreal.visualize.visualize_config import NEGATIVE_COLOR, NEUTRAL_COLOR, POSITIVE_COLOR
 
 
 def partial_dependence_plot(explanation, transparent=False, show=False, filename=None):
@@ -35,26 +38,28 @@ def partial_dependence_plot(explanation, transparent=False, show=False, filename
     else:
         fig, ax = plt.subplots(facecolor="w")
 
+    cmap = LinearSegmentedColormap.from_list(
+        "pyreal_cm", colors=[NEGATIVE_COLOR, NEUTRAL_COLOR, POSITIVE_COLOR]
+    )
     dim = len(explanation.explanation.grid)
     # one dimensional pdp
     if dim == 1:
         ax = sns.lineplot(
             x=explanation.explanation.grid[0], y=explanation.explanation.predictions[0]
         )
-        ax.set(xlabel=explanation.explanation.feature_names[0], ylabel="Partial Dependence")
+        ax.set(
+            xlabel=f"Feature: {explanation.explanation.feature_names[0]}",
+            ylabel="Partial Dependence",
+        )
     else:
-        plt.contourf(
+        contour_plot = ax.contourf(
             explanation.explanation.grid[0],
             explanation.explanation.grid[1],
-            explanation.explanation.predictions[0],
+            np.transpose(explanation.explanation.predictions[0]),
+            # transpose is due to the first feature lying on x-axis
+            cmap=cmap,
         )
-        # Add labels to the contour lines with custom names
-        # plt.clabel(
-        #     cs,
-        #     fontsize=10,
-        #     colors="k",
-        #     use_clabeltext=True,
-        # )
+        fig.colorbar(contour_plot, label="partial dependence")
 
         ax = plt.gca()
         ax.set(
