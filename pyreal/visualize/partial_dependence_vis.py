@@ -16,11 +16,6 @@ def partial_dependence_plot(explanation, transparent=False, show=False, filename
             A FeatureValueBased explanation object
         transparent (Boolean):
             If True, the background of the figure is set to transparent.
-        flip_colors (Boolean):
-            If True, make the positive explanation red and negative explanation blue.
-            Useful if the target variable has a negative connotation
-        include_averages (Boolean):
-            If True, include the mean values in the visualization (if provided in explanation)
         show (Boolean):
             Show the figure
         filename (string or None):
