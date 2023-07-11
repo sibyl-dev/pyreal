@@ -1,7 +1,12 @@
 import numpy as np
 import pandas as pd
 
-from pyreal.explainers import Explainer, GlobalFeatureImportance, LocalFeatureContribution
+from pyreal.explainers import (
+    Explainer,
+    GlobalFeatureImportance,
+    LocalFeatureContribution,
+    SimilarExamples,
+)
 
 
 def format_feature_contribution_output(explanation, ids=None):
@@ -51,6 +56,29 @@ def format_feature_importance_output(explanation):
     """
     importances = explanation.get()
     return pd.DataFrame({"Feature Name": importances.columns, "Importance": importances.squeeze()})
+
+
+def format_similar_examples_output(explanation, ids=None):
+    """
+    Format Pyreal SimilarExamples objects into Similar Examples outputs
+    Args:
+        explanation (SimilarExampleExplanation):
+            Pyreal Explanation object to parse
+        ids (list of strings or ints):
+            List of row ids
+
+    Returns:
+        Dictionary of "id" -> {"X": DataFrame, "y": Series} where X is the examples, ordered from
+        top to bottom by similarity to input and y is the corresponding y values
+    """
+    result = {}
+    if ids is None:
+        ids = explanation.get_row_ids()
+    for key, id in enumerate(ids):
+        examples = explanation.get_examples(row_id=key)
+        targets = explanation.get_targets(row_id=key)
+        result[id] = {"X": examples, "y": targets}
+    return result
 
 
 def _get_average_or_mode(df):
@@ -253,13 +281,15 @@ class RealApp:
         x_orig=None,
         model_id=None,
         force_refit=False,
-        **kwargs
+        training_size=None,
+        prepare_kwargs=None,
+        produce_kwargs=None,
     ):
         """
         Produce an explanation from a specified Explainer
 
         Args:
-            explanation_type (string):
+            explanation_type_code (string):
                 Code for explanation_type
             algorithm (string):
                 Name of algorithm
@@ -278,8 +308,10 @@ class RealApp:
             force_refit (Boolean):
                 If True, initialize and fit a new explainer even if the appropriate explainer
                 already exists
-            **kwargs:
-                Additional explainer parameters
+            prepare_kwargs (dict):
+                Additional parameters for explainer init function
+            produce_kwargs (dict):
+                Additional paramters for explainer produce function
 
         Returns:
             Type varies by explanation type
@@ -287,6 +319,11 @@ class RealApp:
         """
         if model_id is None:
             model_id = self.active_model_id
+
+        if prepare_kwargs is None:
+            prepare_kwargs = {}
+        if produce_kwargs is None:
+            produce_kwargs = {}
 
         if self._explainer_exists(explanation_type_code, algorithm) and not force_refit:
             explainer = self._get_explainer(explanation_type_code, algorithm)
@@ -296,7 +333,8 @@ class RealApp:
                 algorithm=algorithm,
                 x_train_orig=x_train_orig,
                 y_train=y_train,
-                **kwargs
+                training_size=training_size,
+                **prepare_kwargs
             )
 
         if x_orig is not None:
@@ -306,10 +344,10 @@ class RealApp:
                 ids = x_orig[self.id_column]
                 x_orig = x_orig.drop(columns=self.id_column)
 
-            explanation = explainer.produce(x_orig)
+            explanation = explainer.produce(x_orig, **produce_kwargs)
             return format_output_func(explanation, ids)
         else:
-            explanation = explainer.produce()
+            explanation = explainer.produce(**produce_kwargs)
             return format_output_func(explanation)
 
     def add_model(self, model, model_id=None):
@@ -390,9 +428,9 @@ class RealApp:
 
     def prepare_feature_contributions(
         self,
-        model_id=None,
         x_train_orig=None,
         y_train=None,
+        model_id=None,
         algorithm=None,
         shap_type=None,
         training_size=None,
@@ -411,6 +449,8 @@ class RealApp:
                 LFC algorithm to use
             shap_type (string):
                 If algorithm is "shap", type of shap to use
+            training_size (int):
+                Number of rows to use in fitting explainer
 
         Returns:
             A fit LocalFeatureContribution explainer
@@ -465,6 +505,8 @@ class RealApp:
             force_refit (Boolean):
                 If True, initialize and fit a new explainer even if the appropriate explainer
                 already exists
+            training_size (int):
+                Number of rows to use in fitting explainer
 
         Returns:
             One dataframe per id, with each row representing a feature, and four columns:
@@ -483,15 +525,15 @@ class RealApp:
             x_orig=x_orig,
             model_id=model_id,
             force_refit=force_refit,
-            shap_type=shap_type,
             training_size=training_size,
+            prepare_kwargs={"shap_type": shap_type},
         )
 
     def prepare_feature_importance(
         self,
-        model_id=None,
         x_train_orig=None,
         y_train=None,
+        model_id=None,
         algorithm=None,
         shap_type=None,
         training_size=None,
@@ -510,6 +552,8 @@ class RealApp:
                 GFI algorithm to use
             shap_type (string):
                 If algorithm is "shap", type of shap to use
+            training_size (int):
+                Number of rows to use in fitting explainer
 
         Returns:
             A fit GlobalFeatureImportance explainer
@@ -542,6 +586,7 @@ class RealApp:
         algorithm=None,
         shap_type=None,
         force_refit=False,
+        training_size=None,
     ):
         """
         Produce a GlobalFeatureImportance explainer
@@ -560,6 +605,8 @@ class RealApp:
             force_refit (Boolean):
                 If True, initialize and fit a new explainer even if the appropriate explainer
                 already exists
+            training_size (int):
+                Number of rows to use in fitting explainer
 
         Returns:
             DataFrame with a Feature Name column and an Importance column
@@ -576,7 +623,112 @@ class RealApp:
             x_train_orig=x_train_orig,
             y_train=y_train,
             force_refit=force_refit,
-            shap_type=shap_type,
+            training_size=training_size,
+            prepare_kwargs={"shap_type": shap_type},
+        )
+
+    def prepare_similar_examples(
+        self,
+        x_train_orig=None,
+        y_train=None,
+        model_id=None,
+        algorithm=None,
+        training_size=None,
+        standardize=False,
+    ):
+        """
+        Initialize and fit a nearest neighbor explainer
+
+        Args:
+            model_id (int or string):
+                Model id to explain
+            x_train_orig (DataFrame of shape (n_instances, n_features)):
+                Training data, if not provided at initialization.
+            y_train (DataFrame or Series):
+                Training targets, if not provided at initialization
+            algorithm (string):
+                NN algorithm to use (current options: [nn])
+            training_size (int):
+                Number of rows to use in fitting explainer
+            standardize (Boolean):
+                If True, standardize data before using it to get similar examples.
+                Recommended if model-ready data is not already standardized
+
+        Returns:
+            A fit SimilarExamples explainer
+        """
+        if algorithm is None:
+            algorithm = "nn"
+
+        if model_id is None:
+            model_id = self.active_model_id
+
+        explainer = SimilarExamples(
+            self.models[model_id],
+            transformers=self.transformers,
+            feature_descriptions=self.feature_descriptions,
+            e_algorithm=algorithm,
+            classes=self.classes,
+            class_descriptions=self.class_descriptions,
+            training_size=training_size,
+            standardize=standardize,
+        )
+        explainer.fit(self._get_x_train_orig(x_train_orig), self._get_y_train(y_train))
+        self._add_explainer("se", algorithm, explainer)
+        return explainer
+
+    def produce_similar_examples(
+        self,
+        x_orig,
+        model_id=None,
+        x_train_orig=None,
+        y_train=None,
+        n=3,
+        standardize=False,
+        algorithm=None,
+        force_refit=False,
+    ):
+        """
+        Produce a SimilarExamples explainer
+
+        Args:
+            x_orig (DataFrame):
+                Input to explain
+            model_id (string or int):
+                ID of model to explain
+            x_train_orig (DataFrame):
+                Data to fit on, if not provided during initialization
+            y_train (DataFrame or Series):
+                Training targets to fit on, if not provided during initialization
+            n (int):
+                Number of similar examples to return
+            standardize (Boolean):
+                If True, standardize data before using it to get similar examples.
+                Recommended if model-ready data is not already standardized
+            algorithm (string):
+                Name of algorithm
+            force_refit (Boolean):
+                If True, initialize and fit a new explainer even if the appropriate explainer
+                already exists
+
+        Returns:
+            DataFrame with a Feature Name column and an Importance column
+        """
+        if algorithm is None:
+            algorithm = "nn"
+
+        return self._produce_explanation_helper(
+            "se",
+            algorithm,
+            self.prepare_similar_examples,
+            format_similar_examples_output,
+            x_orig=x_orig,
+            model_id=model_id,
+            x_train_orig=x_train_orig,
+            y_train=y_train,
+            force_refit=force_refit,
+            prepare_kwargs={"standardize": standardize},
+            produce_kwargs={"n": n},
         )
 
     def _get_x_train_orig(self, x_train_orig):
@@ -589,6 +741,8 @@ class RealApp:
             The dataframe to use (x_orig or self.x_train_orig), may be None if neither is given
         """
         if x_train_orig is not None:
+            if self.id_column is not None and self.id_column in x_train_orig:
+                return x_train_orig.drop(columns=self.id_column)
             return x_train_orig
         else:
             return self.X_train_orig

@@ -90,6 +90,8 @@ class ExplainerBase(ABC):
            The training set for the explainer. If none, must be provided separately when fitting
         y_train (DataFrame of shape (n_instances,)):
            The y values for the dataset
+        e_algorithm (string):
+            Algorithm to use, if applicable
         feature_descriptions (dict):
            Interpretable descriptions of each feature
         classes (array):
@@ -120,6 +122,7 @@ class ExplainerBase(ABC):
         model,
         x_train_orig=None,
         y_train=None,
+        e_algorithm=None,
         feature_descriptions=None,
         classes=None,
         class_descriptions=None,
@@ -147,7 +150,7 @@ class ExplainerBase(ABC):
         ):
             raise TypeError("y_train must be of type DataFrame or Series")
 
-        # self.x_orig_feature_count = x_train_orig.shape[1]
+        self.e_algorithm = e_algorithm
 
         self.transformers = _check_transformers(transformers)
 
