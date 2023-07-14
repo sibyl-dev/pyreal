@@ -366,9 +366,9 @@ def feature_scatter_plot(
     if legend_type == "discrete":
         plot_legend = True
 
-    categorical = (discrete is None) and (not pd.api.types.is_numeric_dtype(values))
-
-    if discrete or categorical:
+    if discrete is None:
+        discrete = not pd.api.types.is_numeric_dtype(values)
+    if discrete:
         ax = sns.stripplot(
             x="Value",
             y="Contribution",
@@ -395,7 +395,7 @@ def feature_scatter_plot(
     if legend_type == "continuous":
         norm = plt.Normalize(0, 1)
         sm = plt.cm.ScalarMappable(cmap=PALETTE_CMAP, norm=norm)
-        if categorical:
+        if discrete:
             plt.xticks(rotation=45, ha='right')
         min_val = predictions.min()
         max_val = predictions.max()
