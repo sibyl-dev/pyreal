@@ -395,6 +395,8 @@ def feature_scatter_plot(
     if legend_type == "continuous":
         norm = plt.Normalize(0, 1)
         sm = plt.cm.ScalarMappable(cmap=PALETTE_CMAP, norm=norm)
+        if discrete:
+            plt.xticks(rotation=45, ha='right')
         min_val = predictions.min()
         max_val = predictions.max()
         sm.set_array([])
