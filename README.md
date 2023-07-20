@@ -4,19 +4,23 @@
 </p>
 
 <!-- Uncomment these lines after releasing the package to PyPI for version and downloads badges -->
+
 [![PyPI Shield](https://img.shields.io/pypi/v/pyreal.svg)](https://pypi.python.org/pypi/pyreal)
+
 <!--[![Downloads](https://pepy.tech/badge/pyreal)](https://pepy.tech/project/pyreal)-->
 <!--[![Travis CI Shield](https://travis-ci.org/DAI-Lab/pyreal.svg?branch=stable)](https://travis-ci.org/DAI-Lab/pyreal)-->
 <!--[![Coverage Status](https://codecov.io/gh/DAI-Lab/pyreal/branch/stable/graph/badge.svg)](https://codecov.io/gh/DAI-Lab/pyreal)-->
+
 [![Build Action Status](https://github.com/DAI-Lab/pyreal/workflows/Test%20CI/badge.svg)](https://github.com/DAI-Lab/pyreal/actions)
+
 # Pyreal
 
 Library for generating useful and usable machine learning explanations.
 
-- License: MIT
-- Documentation: https://pyreal.gitbook.io/pyreal
-- API Documentation: https://sibyl-ml.dev/pyreal/api_reference/index.html
-- Homepage: https://sibyl-ml.dev/
+-   License: MIT
+-   Documentation: https://pyreal.gitbook.io/pyreal
+-   API Documentation: https://sibyl-ml.dev/pyreal/api_reference/index.html
+-   Homepage: https://sibyl-ml.dev/
 
 # Overview
 
@@ -42,6 +46,7 @@ pip install pyreal
 This will pull and install the latest stable release from [PyPI](https://pypi.org/project/pyreal/).
 
 ## Install from source
+
 If you do not have **poetry** installed, please head to [poetry installation guide](https://python-poetry.org/docs/#installation)
 and install poetry according to the instructions.\
 Run the following command to make sure poetry is activated. You may need to close and reopen the terminal.
@@ -73,9 +78,10 @@ In this short tutorial we will guide you through a series of steps that will hel
 getting started with **Pyreal**. We will get an explanation for a prediction on whether a
 passenger on the Titanic would have survived.
 
- For a more detailed version of this tutorial, see [our documentation](https://dtail.gitbook.io/pyreal/getting-started/quickstart).
+For a more detailed version of this tutorial, see [our documentation](https://dtail.gitbook.io/pyreal/getting-started/quickstart).
 
 #### Load in the demo data and application
+
 ```
 >>> import pyreal.sample_applications.titanic as titanic
 
@@ -83,14 +89,18 @@ passenger on the Titanic would have survived.
 >>> sample_data = titanic.load_data(n_rows=300)
 
 ```
+
 #### Predict and produce explanation
+
 ```
 >>> predictions = real_app.predict(sample_data)
 
 >>> explanation = real_app.produce_feature_contributions(sample_data)
 
 ```
+
 #### Visualize explanation for one passenger
+
 ```
 passenger_id = 1
 plot_top_contributors(explanation[passenger_id], prediction=predictions[passenger_id], show=False)
@@ -104,12 +114,21 @@ The output will be a bar plot showing the most contributing features, by absolut
 We can see here that the input passenger's predicted chance of survival was greatly reduced
 because of their sex (male) and ticket class (3rd class).
 
+### Troubleshoot
+
+For macOS users, an error regarding `lightgbm` might arise when running the `titanic` tutorial due to lack of lightgbm installation.
+If this occurs, please run the following line in your terminal to install `lightgbm`.
+
+```
+brew install lightgbm
+```
+
 ### Terminology
+
 Pyreal introduces specific terms and naming schemes to refer to different feature spaces and
 transformations. The [Terminology User Guide](https://dtail.gitbook.io/pyreal/developing-applications/developer-terminology-guide) provides an introduction to these terms.
 
 # What's next?
 
 For more details about **Pyreal** and all its possibilities
-and features, please check the [documentation site](
-https://dtail.gitbook.io/pyreal/).
+and features, please check the [documentation site](https://dtail.gitbook.io/pyreal/).
