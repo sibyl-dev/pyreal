@@ -92,20 +92,13 @@ def load_students():
 
 
 def load_model():
-    if os.path.exists(MODEL_FILE):
-        return pickle.load(open(os.path.join(DATA_DIR, "model.pkl"), "rb"))
-    else:
-        transformers = load_transformers()
-        x_orig, y = load_data()
-        x_model = run_transformers(transformers, x_orig)
-        model = LGBMClassifier()
-        model.fit(x_model, y)
+    transformers = load_transformers()
+    x_orig, y = load_data()
+    x_model = run_transformers(transformers, x_orig)
+    model = LGBMClassifier()
+    model.fit(x_model, y)
 
-        if not os.path.isdir(DATA_DIR):
-            os.mkdir(DATA_DIR)
-        with open(MODEL_FILE, "wb") as f:
-            pickle.dump(model, f)
-        return model
+    return model
 
 
 def load_transformers(x=None):

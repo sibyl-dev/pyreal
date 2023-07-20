@@ -124,42 +124,28 @@ def load_data(n_rows=None, include_targets=False):
 
 
 def load_model():
-    if os.path.exists(MODEL_FILE):
-        return pickle.load(open(os.path.join(DATA_DIR, "model.pkl"), "rb"))
-    else:
-        transformers = load_transformers()
-        x_orig, y = load_data(include_targets=True)
-        x_orig = x_orig.drop("Id", axis="columns")
-        x_model = run_transformers(transformers, x_orig)
-        model = Ridge()
-        model.fit(x_model, y)
+    transformers = load_transformers()
+    x_orig, y = load_data(include_targets=True)
+    x_orig = x_orig.drop("Id", axis="columns")
+    x_model = run_transformers(transformers, x_orig)
+    model = Ridge()
+    model.fit(x_model, y)
 
-        if not os.path.isdir(DATA_DIR):
-            os.mkdir(DATA_DIR)
-        with open(MODEL_FILE, "wb") as f:
-            pickle.dump(model, f)
-        return model
+    return model
 
 
 def load_transformers():
-    if os.path.exists(TRANSFORMER_FILE):
-        return pickle.load(open(os.path.join(DATA_DIR, "transformers.pkl"), "rb"))
-    else:
-        x_orig, y = load_data(include_targets=True)
-        x_orig = x_orig.drop("Id", axis="columns")
-        ames_imputer = AmesHousingImputer()
-        x_imputed = fit_transformers(ames_imputer, x_orig)
-        object_columns = x_imputed.select_dtypes(include=["object"]).columns
-        onehotencoder = OneHotEncoder(object_columns)
-        fit_transformers(onehotencoder, x_imputed)
+    x_orig, y = load_data(include_targets=True)
+    x_orig = x_orig.drop("Id", axis="columns")
+    ames_imputer = AmesHousingImputer()
+    x_imputed = fit_transformers(ames_imputer, x_orig)
+    object_columns = x_imputed.select_dtypes(include=["object"]).columns
+    onehotencoder = OneHotEncoder(object_columns)
+    fit_transformers(onehotencoder, x_imputed)
 
-        transformers = [ames_imputer, onehotencoder]
+    transformers = [ames_imputer, onehotencoder]
 
-        if not os.path.isdir(DATA_DIR):
-            os.mkdir(DATA_DIR)
-        with open(TRANSFORMER_FILE, "wb") as f:
-            pickle.dump(transformers, f)
-        return transformers
+    return transformers
 
 
 def load_app():

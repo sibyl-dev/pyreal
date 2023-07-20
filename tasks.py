@@ -8,6 +8,7 @@ from sys import executable
 import os
 
 from pyreal.benchmark import main as benchmark_script
+from pyreal.sample_applications import clean as clean_sample_apps
 
 
 def print_red(s):
@@ -84,6 +85,14 @@ def clean_test(context):
     """
 
     shutil.rmtree(Path(".pytest_cache"), ignore_errors=True)
+
+
+@task
+def clean_sample_applications(context):
+    """
+    Clean the pkl files in sample_applications
+    """
+    clean_sample_apps()
 
 
 @task
