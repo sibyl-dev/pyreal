@@ -13,7 +13,7 @@ Example Based Base
     ExampleBasedBase.fit
     ExampleBasedBase.produce
 
-SimilarExamples
+Similar Examples
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 .. autosummary::
     :toctree: api/
