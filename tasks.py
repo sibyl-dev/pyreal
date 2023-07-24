@@ -92,7 +92,7 @@ def clean_sample_applications(context):
     """
     Clean the pkl files in sample_applications
     """
-    clean_sample_apps()
+    clean_sample_apps(verbose=True)
 
 
 @task
