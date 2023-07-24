@@ -122,6 +122,3 @@ utils/scratch.py
 # Data
 pyreal/benchmark/datasets
 tutorials/ecg/
-
-# Pretrained models
-pyreal/sample_applications/**/*.pkl
