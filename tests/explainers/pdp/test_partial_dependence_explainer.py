@@ -31,9 +31,9 @@ def test_produce_with_renames_with_size(regression_no_transforms_big):
         transformers=transforms,
         interpretable_features=True,
         feature_descriptions=feature_descriptions,
-        training_size=5,
+        training_size=10,
     )
 
     pdp_explanation = pdp.produce().get()
     assert pdp_explanation.feature_names == ["Feature B", "Feature C"]
-    assert pdp_explanation.predictions[0].shape == (100, 100)
+    assert pdp_explanation.predictions[0].shape == (10, 10)
