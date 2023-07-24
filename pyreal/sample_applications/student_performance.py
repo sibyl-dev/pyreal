@@ -1,5 +1,4 @@
 import os
-import pickle
 
 import pandas as pd
 from lightgbm import LGBMClassifier

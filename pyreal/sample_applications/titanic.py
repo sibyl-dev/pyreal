@@ -57,7 +57,7 @@ def load_feature_descriptions():
     }
 
 
-def load_model(save=True, use_saved=True):
+def load_model(save=False, use_saved=False):
     if use_saved and os.path.exists(MODEL_FILE):
         return pickle.load(open(os.path.join(DATA_DIR, "model.pkl"), "rb"))
     else:
@@ -75,7 +75,7 @@ def load_model(save=True, use_saved=True):
         return model
 
 
-def load_transformers(save=True, use_saved=True):
+def load_transformers(save=False, use_saved=False):
     if use_saved and os.path.exists(TRANSFORMER_FILE):
         return pickle.load(open(os.path.join(DATA_DIR, "transformers.pkl"), "rb"))
     else:

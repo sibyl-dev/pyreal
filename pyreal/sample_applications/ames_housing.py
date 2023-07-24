@@ -1,5 +1,4 @@
 import os
-import pickle
 
 import pandas as pd
 from sklearn.linear_model import Ridge
@@ -135,7 +134,7 @@ def load_model():
 
 
 def load_transformers():
-    x_orig, y = load_data(include_targets=True)
+    x_orig = load_data()
     x_orig = x_orig.drop("Id", axis="columns")
     ames_imputer = AmesHousingImputer()
     x_imputed = fit_transformers(ames_imputer, x_orig)
