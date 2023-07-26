@@ -537,7 +537,10 @@ class RealApp:
             prepare_kwargs={"shap_type": shap_type},
         )
         if num_features is not None:
-            return get_top_contributors(exp, n=num_features, select_by=select_by)
+            return {
+                row_id: get_top_contributors(exp[row_id], n=num_features, select_by=select_by)
+                for row_id in exp
+            }
         else:
             return exp
 

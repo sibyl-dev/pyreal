@@ -142,3 +142,15 @@ def test_produce_local_feature_contributions_no_data_on_init(regression_no_trans
     assert list(explanation[0]["Feature Value"]) == list(x_one_dim.iloc[0])
     assert list(explanation[0]["Contribution"]) == [x_one_dim.iloc[0, 0] - expected, 0, 0]
     assert list(explanation[0]["Average/Mode"]) == list(x_one_dim.iloc[0])
+
+
+def test_produce_local_feature_contributions_num(regression_no_transforms):
+    realApp = RealApp(
+        regression_no_transforms["model"],
+        regression_no_transforms["x"],
+        transformers=regression_no_transforms["transformers"],
+    )
+
+    x_one_dim = pd.DataFrame([[2, 10, 10]])
+    explanation = realApp.produce_feature_contributions(x_one_dim, num_features=2, select_by="min")
+    assert explanation[0].shape == (2, 4)
