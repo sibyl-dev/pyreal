@@ -56,7 +56,7 @@ def plot_top_contributors(
             One output DataFrame from RealApp.produce_feature_contributions or
             RealApp.prepare_feature_importance OR FeatureBased explanation object
         select_by (one of "absolute", "max", "min"):
-            Which explanation to plot.
+            Method to use when selecting features.
         n (int):
             Number of features to plot
         transparent (Boolean):
@@ -149,9 +149,9 @@ def plot_top_contributors(
         ]
 
     if transparent:
-        fig, ax = plt.subplots()
+        _, ax = plt.subplots()
     else:
-        fig, ax = plt.subplots(facecolor="w")
+        _, ax = plt.subplots(facecolor="w")
     plt.barh(features[to_plot][::-1], contributions[to_plot][::-1], color=colors)
     plt.title("Contributions by feature", fontsize=18)
     if prediction is not None:
