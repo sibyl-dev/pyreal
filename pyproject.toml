@@ -42,7 +42,7 @@ numpy = "^1.23.3"
 pandas = ">=1.5,<3.0"
 scikit-learn = "^1.1.2"
 numba = "^0.56.2" # Explicit numba (required by shap) forces recent version
-shap = "=0.40.0" # Explicit shap prevents break with newer versions
+shap = "=0.42.1" # Explicit shap prevents break with newer versions
 lime = "^0.2.0.1"
 seaborn = "^0.12.2"
 
