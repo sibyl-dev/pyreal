@@ -19,5 +19,6 @@ and classes in Pyreal
    generic_explainer
    transformer
    explanation_types
+   explanation_utils
    model_utils
    visualize
