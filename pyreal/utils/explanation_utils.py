@@ -1,16 +1,17 @@
-import numpy as np 
+import numpy as np
+
 
 def get_top_contributors(explanation, n=5, select_by="absolute"):
     """
     Extracts the top `n` most important or contributing features from a feature-based explanation.
 
     Args:
-        explanation (DataFrame with an Importance or Contribution column): 
+        explanation (DataFrame with an Importance or Contribution column):
             The explanation to extract from
-        n (int, optional): 
+        n (int, optional):
             Number of features to extract. Defaults to 5.
-        select_by (one of "absolute", "max", "min", optional): 
-            If absolute, extract the highest importance/contribution by absolute value. 
+        select_by (one of "absolute", "max", "min", optional):
+            If absolute, extract the highest importance/contribution by absolute value.
             In max/min, extract the highest/lowest features. Defaults to "absolute".
     """
     if "Contribution" in explanation:
@@ -35,4 +36,3 @@ def get_top_contributors(explanation, n=5, select_by="absolute"):
         )
 
     return explanation.iloc[order[0:n]]
-    

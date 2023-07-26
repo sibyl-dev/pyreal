@@ -199,10 +199,7 @@ def time_series_data():
 
 @pytest.fixture()
 def feature_contribution_explanation():
-    return pd.DataFrame([
-        ["A", 1, 5, 0],
-        ["B", 2, 3, 0],
-        ["C", 3, 0, 0],
-        ["D", 4, -2, 0],
-        ["E", 5, -6, 0]
-    ], columns=["Feature Name", "Feature Value", "Contribution", "Average/Mode"])
+    return pd.DataFrame(
+        [["A", 1, 5, 0], ["B", 2, 3, 0], ["C", 3, 0, 0], ["D", 4, -2, 0], ["E", 5, -6, 0]],
+        columns=["Feature Name", "Feature Value", "Contribution", "Average/Mode"],
+    )
