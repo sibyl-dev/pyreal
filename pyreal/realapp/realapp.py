@@ -487,7 +487,7 @@ class RealApp:
         force_refit=False,
         training_size=None,
         num_features=None,
-        select_by="absolute"
+        select_by="absolute",
     ):
         """
         Produce a feature contribution explanation
@@ -600,7 +600,7 @@ class RealApp:
         force_refit=False,
         training_size=None,
         num_features=None,
-        select_by="absolute"
+        select_by="absolute",
     ):
         """
         Produce a GlobalFeatureImportance explainer

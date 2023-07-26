@@ -10,6 +10,7 @@ from pyreal.types.explanations.feature_based import (
     FeatureContributionExplanation,
     FeatureImportanceExplanation,
 )
+from pyreal.utils import get_top_contributors
 from pyreal.visualize.visualize_config import (
     NEGATIVE_COLOR,
     NEGATIVE_COLOR_LIGHT,
@@ -18,7 +19,6 @@ from pyreal.visualize.visualize_config import (
     POSITIVE_COLOR,
     POSITIVE_COLOR_LIGHT,
 )
-from pyreal.utils import get_top_contributors
 
 
 def _parse_multi_contribution(explanation):
@@ -127,15 +127,11 @@ def plot_top_contributors(
     if contributions.ndim == 2:
         contributions = contributions.iloc[0]
     contributions = contributions.to_numpy()
-    
+
     if not flip_colors:
-        colors = [
-            NEGATIVE_COLOR if (c < 0) else POSITIVE_COLOR for c in contributions[::-1]
-        ]
+        colors = [NEGATIVE_COLOR if (c < 0) else POSITIVE_COLOR for c in contributions[::-1]]
     else:
-        colors = [
-            POSITIVE_COLOR if (c < 0) else NEGATIVE_COLOR for c in contributions[::-1]
-        ]
+        colors = [POSITIVE_COLOR if (c < 0) else NEGATIVE_COLOR for c in contributions[::-1]]
 
     if transparent:
         _, ax = plt.subplots()

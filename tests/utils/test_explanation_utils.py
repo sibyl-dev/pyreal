@@ -29,7 +29,10 @@ def test_get_top_contributors_contributions():
 def test_get_top_contributors_importance():
     exp = pd.DataFrame(
         [["A", 5], ["B", 3], ["C", 0], ["D", -2], ["E", -6]],
-        columns=["Feature Name", "Importance",],
+        columns=[
+            "Feature Name",
+            "Importance",
+        ],
     )
     absolute = explanation_utils.get_top_contributors(exp, n=2, select_by="absolute")
     expected_absolute = exp.iloc[[4, 0], :]
@@ -46,4 +49,3 @@ def test_get_top_contributors_importance():
     min_3 = explanation_utils.get_top_contributors(exp, n=3, select_by="min")
     expected_min_3 = exp.iloc[[4, 3, 2], :]
     assert_frame_equal(min_3, expected_min_3)
-
