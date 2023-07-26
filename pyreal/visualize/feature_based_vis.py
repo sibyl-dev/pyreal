@@ -18,6 +18,7 @@ from pyreal.visualize.visualize_config import (
     POSITIVE_COLOR,
     POSITIVE_COLOR_LIGHT,
 )
+from pyreal.utils import get_top_contributors
 
 
 def _parse_multi_contribution(explanation):
@@ -87,6 +88,8 @@ def plot_top_contributors(
     elif isinstance(explanation, FeatureImportanceExplanation):
         explanation = realapp.format_feature_importance_output(explanation)
 
+    explanation = get_top_contributors(explanation, n=n, select_by=select_by)
+
     features = explanation["Feature Name"].to_numpy()
     if "Feature Value" in explanation:
         values = explanation["Feature Value"].to_numpy()
@@ -124,35 +127,21 @@ def plot_top_contributors(
     if contributions.ndim == 2:
         contributions = contributions.iloc[0]
     contributions = contributions.to_numpy()
-    order = None
-    if select_by == "min":
-        order = np.argsort(contributions)
-    if select_by == "max":
-        order = np.argsort(contributions)[::-1]
-    if select_by == "absolute":
-        order = np.argsort(abs(contributions))[::-1]
-
-    if order is None:
-        raise ValueError(
-            "Invalid select_by option %s, should be one of 'min', 'max', 'absolute'" % select_by
-        )
-
-    to_plot = order[0:n]
-
+    
     if not flip_colors:
         colors = [
-            NEGATIVE_COLOR if (c < 0) else POSITIVE_COLOR for c in contributions[to_plot][::-1]
+            NEGATIVE_COLOR if (c < 0) else POSITIVE_COLOR for c in contributions[::-1]
         ]
     else:
         colors = [
-            POSITIVE_COLOR if (c < 0) else NEGATIVE_COLOR for c in contributions[to_plot][::-1]
+            POSITIVE_COLOR if (c < 0) else NEGATIVE_COLOR for c in contributions[::-1]
         ]
 
     if transparent:
         _, ax = plt.subplots()
     else:
         _, ax = plt.subplots(facecolor="w")
-    plt.barh(features[to_plot][::-1], contributions[to_plot][::-1], color=colors)
+    plt.barh(features[::-1], contributions[::-1], color=colors)
     plt.title("Contributions by feature", fontsize=18)
     if prediction is not None:
         plt.title("Overall prediction: %s" % prediction, fontsize=12)

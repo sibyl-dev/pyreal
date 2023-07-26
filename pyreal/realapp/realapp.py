@@ -7,6 +7,7 @@ from pyreal.explainers import (
     LocalFeatureContribution,
     SimilarExamples,
 )
+from pyreal.utils import get_top_contributors
 
 
 def format_feature_contribution_output(explanation, ids=None):
@@ -485,6 +486,8 @@ class RealApp:
         shap_type=None,
         force_refit=False,
         training_size=None,
+        num_features=None,
+        select_by="absolute"
     ):
         """
         Produce a feature contribution explanation
@@ -507,6 +510,11 @@ class RealApp:
                 already exists
             training_size (int):
                 Number of rows to use in fitting explainer
+            num_features (int):
+                Number of features to include in the explanation. If None, include all features
+            select_by (one of "absolute", "min", "max"):
+                If `num_features` is not None, method to use for selecting which features to show.
+                Not used if num_features is None
 
         Returns:
             One dataframe per id, with each row representing a feature, and four columns:
@@ -515,7 +523,7 @@ class RealApp:
         if algorithm is None:
             algorithm = "shap"
 
-        return self._produce_explanation_helper(
+        exp = self._produce_explanation_helper(
             "lfc",
             algorithm,
             self.prepare_feature_contributions,
@@ -528,6 +536,10 @@ class RealApp:
             training_size=training_size,
             prepare_kwargs={"shap_type": shap_type},
         )
+        if num_features is not None:
+            return get_top_contributors(exp, n=num_features, select_by=select_by)
+        else:
+            return exp
 
     def prepare_feature_importance(
         self,
@@ -587,6 +599,8 @@ class RealApp:
         shap_type=None,
         force_refit=False,
         training_size=None,
+        num_features=None,
+        select_by="absolute"
     ):
         """
         Produce a GlobalFeatureImportance explainer
@@ -607,6 +621,11 @@ class RealApp:
                 already exists
             training_size (int):
                 Number of rows to use in fitting explainer
+            num_features (int):
+                Number of features to include in the explanation. If None, include all features
+            select_by (one of "absolute", "min", "max"):
+                If `num_features` is not None, method to use for selecting which features to show.
+                Not used if num_features is None
 
         Returns:
             DataFrame with a Feature Name column and an Importance column
@@ -614,7 +633,7 @@ class RealApp:
         if algorithm is None:
             algorithm = "shap"
 
-        return self._produce_explanation_helper(
+        exp = self._produce_explanation_helper(
             "gfi",
             algorithm,
             self.prepare_feature_importance,
@@ -626,6 +645,10 @@ class RealApp:
             training_size=training_size,
             prepare_kwargs={"shap_type": shap_type},
         )
+        if num_features is not None:
+            return get_top_contributors(exp, n=num_features, select_by=select_by)
+        else:
+            return exp
 
     def prepare_similar_examples(
         self,
