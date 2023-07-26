@@ -331,6 +331,7 @@ document.write(`
     <span class="n">LocalFeatureContribution</span><span class="p">,</span>
     <span class="n">SimilarExamples</span><span class="p">,</span>
 <span class="p">)</span>
+<span class="kn">from</span> <span class="nn">pyreal.utils</span> <span class="kn">import</span> <span class="n">get_top_contributors</span>
 
 
 <span class="k">def</span> <span class="nf">format_feature_contribution_output</span><span class="p">(</span><span class="n">explanation</span><span class="p">,</span> <span class="n">ids</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -809,6 +810,8 @@ document.write(`
         <span class="n">shap_type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">force_refit</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
         <span class="n">training_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">num_features</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">select_by</span><span class="o">=</span><span class="s2">&quot;absolute&quot;</span><span class="p">,</span>
     <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Produce a feature contribution explanation</span>
@@ -831,6 +834,11 @@ document.write(`
 <span class="sd">                already exists</span>
 <span class="sd">            training_size (int):</span>
 <span class="sd">                Number of rows to use in fitting explainer</span>
+<span class="sd">            num_features (int):</span>
+<span class="sd">                Number of features to include in the explanation. If None, include all features</span>
+<span class="sd">            select_by (one of &quot;absolute&quot;, &quot;min&quot;, &quot;max&quot;):</span>
+<span class="sd">                If `num_features` is not None, method to use for selecting which features to show.</span>
+<span class="sd">                Not used if num_features is None</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            One dataframe per id, with each row representing a feature, and four columns:</span>
@@ -839,7 +847,7 @@ document.write(`
         <span class="k">if</span> <span class="n">algorithm</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">algorithm</span> <span class="o">=</span> <span class="s2">&quot;shap&quot;</span>
 
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_produce_explanation_helper</span><span class="p">(</span>
+        <span class="n">exp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_produce_explanation_helper</span><span class="p">(</span>
             <span class="s2">&quot;lfc&quot;</span><span class="p">,</span>
             <span class="n">algorithm</span><span class="p">,</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">prepare_feature_contributions</span><span class="p">,</span>
@@ -851,7 +859,14 @@ document.write(`
             <span class="n">force_refit</span><span class="o">=</span><span class="n">force_refit</span><span class="p">,</span>
             <span class="n">training_size</span><span class="o">=</span><span class="n">training_size</span><span class="p">,</span>
             <span class="n">prepare_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;shap_type&quot;</span><span class="p">:</span> <span class="n">shap_type</span><span class="p">},</span>
-        <span class="p">)</span></div>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">num_features</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{</span>
+                <span class="n">row_id</span><span class="p">:</span> <span class="n">get_top_contributors</span><span class="p">(</span><span class="n">exp</span><span class="p">[</span><span class="n">row_id</span><span class="p">],</span> <span class="n">n</span><span class="o">=</span><span class="n">num_features</span><span class="p">,</span> <span class="n">select_by</span><span class="o">=</span><span class="n">select_by</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">row_id</span> <span class="ow">in</span> <span class="n">exp</span>
+            <span class="p">}</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">exp</span></div>
 
 <div class="viewcode-block" id="RealApp.prepare_feature_importance"><a class="viewcode-back" href="../../../api_reference/api/pyreal.RealApp.prepare_feature_importance.html#pyreal.RealApp.prepare_feature_importance">[docs]</a>    <span class="k">def</span> <span class="nf">prepare_feature_importance</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -911,6 +926,8 @@ document.write(`
         <span class="n">shap_type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">force_refit</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
         <span class="n">training_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">num_features</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">select_by</span><span class="o">=</span><span class="s2">&quot;absolute&quot;</span><span class="p">,</span>
     <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Produce a GlobalFeatureImportance explainer</span>
@@ -931,6 +948,11 @@ document.write(`
 <span class="sd">                already exists</span>
 <span class="sd">            training_size (int):</span>
 <span class="sd">                Number of rows to use in fitting explainer</span>
+<span class="sd">            num_features (int):</span>
+<span class="sd">                Number of features to include in the explanation. If None, include all features</span>
+<span class="sd">            select_by (one of &quot;absolute&quot;, &quot;min&quot;, &quot;max&quot;):</span>
+<span class="sd">                If `num_features` is not None, method to use for selecting which features to show.</span>
+<span class="sd">                Not used if num_features is None</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            DataFrame with a Feature Name column and an Importance column</span>
@@ -938,7 +960,7 @@ document.write(`
         <span class="k">if</span> <span class="n">algorithm</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">algorithm</span> <span class="o">=</span> <span class="s2">&quot;shap&quot;</span>
 
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_produce_explanation_helper</span><span class="p">(</span>
+        <span class="n">exp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_produce_explanation_helper</span><span class="p">(</span>
             <span class="s2">&quot;gfi&quot;</span><span class="p">,</span>
             <span class="n">algorithm</span><span class="p">,</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">prepare_feature_importance</span><span class="p">,</span>
@@ -949,7 +971,11 @@ document.write(`
             <span class="n">force_refit</span><span class="o">=</span><span class="n">force_refit</span><span class="p">,</span>
             <span class="n">training_size</span><span class="o">=</span><span class="n">training_size</span><span class="p">,</span>
             <span class="n">prepare_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;shap_type&quot;</span><span class="p">:</span> <span class="n">shap_type</span><span class="p">},</span>
-        <span class="p">)</span></div>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">num_features</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">get_top_contributors</span><span class="p">(</span><span class="n">exp</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">num_features</span><span class="p">,</span> <span class="n">select_by</span><span class="o">=</span><span class="n">select_by</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">exp</span></div>
 
 <div class="viewcode-block" id="RealApp.prepare_similar_examples"><a class="viewcode-back" href="../../../api_reference/api/pyreal.RealApp.prepare_similar_examples.html#pyreal.RealApp.prepare_similar_examples">[docs]</a>    <span class="k">def</span> <span class="nf">prepare_similar_examples</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>

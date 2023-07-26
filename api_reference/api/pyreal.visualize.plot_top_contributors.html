@@ -515,12 +515,16 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="pyreal.types.explanations.example_based.SimilarExampleExplanation.validate.html">pyreal.types.explanations.example_based.SimilarExampleExplanation.validate</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../model_utils.html">Model Utils</a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-11"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../explanation_utils.html">Explanation Utils</a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-11"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="pyreal.utils.explanation_utils.get_top_contributors.html">pyreal.utils.explanation_utils.get_top_contributors</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../model_utils.html">Model Utils</a><input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-12"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.utils.model_utils.load_model_from_pickle.html">pyreal.utils.model_utils.load_model_from_pickle</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.utils.model_utils.load_model_from_weights.html">pyreal.utils.model_utils.load_model_from_weights</a></li>
 </ul>
 </li>
-<li class="toctree-l1 current active has-children"><a class="reference internal" href="../visualize.html">Visualization</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-12"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../visualize.html">Visualization</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-13" name="toctree-checkbox-13" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-13"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">pyreal.visualize.plot_top_contributors</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.visualize.plot_tree_explanation.html">pyreal.visualize.plot_tree_explanation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.visualize.swarm_plot.html">pyreal.visualize.swarm_plot</a></li>
@@ -599,7 +603,7 @@ document.write(`
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>explanation</strong> (<em>DataFrame</em><em> or </em><a class="reference internal" href="pyreal.types.explanations.feature_based.FeatureBased.html#pyreal.types.explanations.feature_based.FeatureBased" title="pyreal.types.explanations.feature_based.FeatureBased"><em>FeatureBased</em></a>) – One output DataFrame from RealApp.produce_feature_contributions or
 RealApp.prepare_feature_importance OR FeatureBased explanation object</p></li>
-<li><p><strong>select_by</strong> (<em>one</em><em> of </em><em>&quot;absolute&quot;</em><em>, </em><em>&quot;max&quot;</em><em>, </em><em>&quot;min&quot;</em>) – Which explanation to plot.</p></li>
+<li><p><strong>select_by</strong> (<em>one</em><em> of </em><em>&quot;absolute&quot;</em><em>, </em><em>&quot;max&quot;</em><em>, </em><em>&quot;min&quot;</em>) – Method to use when selecting features.</p></li>
 <li><p><strong>n</strong> (<em>int</em>) – Number of features to plot</p></li>
 <li><p><strong>transparent</strong> (<em>Boolean</em>) – If True, the background of the figure is set to transparent.</p></li>
 <li><p><strong>flip_colors</strong> (<em>Boolean</em>) – If True, make the positive explanation red and negative explanation blue.
