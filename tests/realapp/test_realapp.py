@@ -66,7 +66,7 @@ def test_set_active_model(regression_one_hot, regression_no_transforms):
     assert real_app.get_active_model() is regression_no_transforms["model"]
 
 
-def test_predict(regression_one_hot, regression_no_transforms):
+def test_predict(regression_one_hot):
     real_app = RealApp(
         regression_one_hot["model"],
         regression_one_hot["x"],
