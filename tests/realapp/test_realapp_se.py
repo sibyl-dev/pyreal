@@ -75,8 +75,8 @@ def test_produce_similar_examples_with_standardization(dummy_model):
     )
 
     explanation = real_app.produce_similar_examples(
-        pd.DataFrame([[1, 100]]), n=2, standardize=True
+        pd.Series([1, 100]), n=2, standardize=True
     )
 
-    assert_frame_equal(explanation[0]["X"], x.iloc[[0, 2], :])
-    assert_series_equal(explanation[0]["y"], y.iloc[[0, 2]])
+    assert_frame_equal(explanation["X"], x.iloc[[0, 2], :])
+    assert_series_equal(explanation["y"], y.iloc[[0, 2]])

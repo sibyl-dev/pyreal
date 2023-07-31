@@ -83,10 +83,10 @@ def format_similar_examples_output(explanation, ids=None, series=False):
     result = {}
     if ids is None:
         ids = explanation.get_row_ids()
-    for key, id in enumerate(ids):
+    for key, row_id in enumerate(ids):
         examples = explanation.get_examples(row_id=key)
         targets = explanation.get_targets(row_id=key)
-        result[id] = {"X": examples, "y": targets}
+        result[row_id] = {"X": examples, "y": targets}
     if series:
         return result[next(iter(result))]
     return result
