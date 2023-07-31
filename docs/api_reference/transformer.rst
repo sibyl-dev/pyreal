@@ -14,6 +14,7 @@ Base Transformer
     Transformer.data_transform
     Transformer.transform
     Transformer.fit_transform
+    Transformer.inverse_transform
     Transformer.transform_explanation
 
 Feature Select Transformer
@@ -50,18 +51,21 @@ One-Hot Encoders
     OneHotEncoder.data_transform
     OneHotEncoder.transform
     OneHotEncoder.fit_transform
+    OneHotEncoder.inverse_transform
     OneHotEncoder.transform_explanation
     MappingsOneHotEncoder
     MappingsOneHotEncoder.fit
     MappingsOneHotEncoder.data_transform
     MappingsOneHotEncoder.transform
     MappingsOneHotEncoder.fit_transform
+    MappingsOneHotEncoder.inverse_transform
     MappingsOneHotEncoder.transform_explanation
     MappingsOneHotDecoder
     MappingsOneHotDecoder.fit
     MappingsOneHotDecoder.data_transform
     MappingsOneHotDecoder.transform
     MappingsOneHotDecoder.fit_transform
+    MappingsOneHotDecoder.inverse_transform
     MappingsOneHotDecoder.transform_explanation
     Mappings
     Mappings.generate_mappings
@@ -119,6 +123,7 @@ Wrappers
     DataFrameWrapper.data_transform
     DataFrameWrapper.transform
     DataFrameWrapper.fit_transform
+    DataFrameWrapper.inverse_transform
     DataFrameWrapper.transform_explanation
 
 Time Series Padders

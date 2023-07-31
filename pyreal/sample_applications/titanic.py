@@ -57,8 +57,8 @@ def load_feature_descriptions():
     }
 
 
-def load_model():
-    if os.path.exists(MODEL_FILE):
+def load_model(save=False, use_saved=False):
+    if use_saved and os.path.exists(MODEL_FILE):
         return pickle.load(open(os.path.join(DATA_DIR, "model.pkl"), "rb"))
     else:
         transformers = load_transformers()
@@ -67,15 +67,16 @@ def load_model():
         model = LGBMClassifier()
         model.fit(x_model, y)
 
-        if not os.path.isdir(DATA_DIR):
-            os.mkdir(DATA_DIR)
-        with open(MODEL_FILE, "wb") as f:
-            pickle.dump(model, f)
+        if save:
+            if not os.path.isdir(DATA_DIR):
+                os.mkdir(DATA_DIR)
+            with open(MODEL_FILE, "wb") as f:
+                pickle.dump(model, f)
         return model
 
 
-def load_transformers():
-    if os.path.exists(TRANSFORMER_FILE):
+def load_transformers(save=False, use_saved=False):
+    if use_saved and os.path.exists(TRANSFORMER_FILE):
         return pickle.load(open(os.path.join(DATA_DIR, "transformers.pkl"), "rb"))
     else:
         x_orig, y = load_data(include_targets=True)
@@ -86,10 +87,11 @@ def load_transformers():
         transformers = [column_drop, imputer, one_hot_encoder]
         fit_transformers(transformers, x_orig)
 
-        if not os.path.isdir(DATA_DIR):
-            os.mkdir(DATA_DIR)
-        with open(TRANSFORMER_FILE, "wb") as f:
-            pickle.dump(transformers, f)
+        if save:
+            if not os.path.isdir(DATA_DIR):
+                os.mkdir(DATA_DIR)
+            with open(TRANSFORMER_FILE, "wb") as f:
+                pickle.dump(transformers, f)
         return transformers
 
 

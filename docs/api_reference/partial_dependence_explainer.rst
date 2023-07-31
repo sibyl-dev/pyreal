@@ -1,7 +1,7 @@
 .. _pyreal.partial_dependence_explainer:
 
 Partial Dependence Explainer
-=========================
+=============================
 .. currentmodule:: pyreal.explainers
 
 Partial Dependence Explainer Base

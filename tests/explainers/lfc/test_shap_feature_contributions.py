@@ -46,7 +46,7 @@ def test_produce_shap_regression_no_transforms(regression_no_transforms):
 def helper_produce_shap_regression_no_transforms(explainer, model):
     x_one_dim = pd.DataFrame([[2, 10, 10]], columns=["A", "B", "C"])
     x_multi_dim = pd.DataFrame([[2, 1, 1], [4, 2, 3]], columns=["A", "B", "C"])
-    expected = np.mean(model["y"])[0]
+    expected = np.mean(model["y"])
     contributions = explainer.produce(x_one_dim).get()
     assert x_one_dim.shape == contributions.shape
     assert contributions.iloc[0, 0] == x_one_dim.iloc[0, 0] - expected

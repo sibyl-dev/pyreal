@@ -10,6 +10,7 @@ from pyreal.types.explanations.feature_based import (
     FeatureContributionExplanation,
     FeatureImportanceExplanation,
 )
+from pyreal.utils import get_top_contributors
 from pyreal.visualize.visualize_config import (
     NEGATIVE_COLOR,
     NEGATIVE_COLOR_LIGHT,
@@ -56,7 +57,7 @@ def plot_top_contributors(
             One output DataFrame from RealApp.produce_feature_contributions or
             RealApp.prepare_feature_importance OR FeatureBased explanation object
         select_by (one of "absolute", "max", "min"):
-            Which explanation to plot.
+            Method to use when selecting features.
         n (int):
             Number of features to plot
         transparent (Boolean):
@@ -86,6 +87,8 @@ def plot_top_contributors(
         explanation = explanation[next(iter(explanation))]
     elif isinstance(explanation, FeatureImportanceExplanation):
         explanation = realapp.format_feature_importance_output(explanation)
+
+    explanation = get_top_contributors(explanation, n=n, select_by=select_by)
 
     features = explanation["Feature Name"].to_numpy()
     if "Feature Value" in explanation:
@@ -124,35 +127,17 @@ def plot_top_contributors(
     if contributions.ndim == 2:
         contributions = contributions.iloc[0]
     contributions = contributions.to_numpy()
-    order = None
-    if select_by == "min":
-        order = np.argsort(contributions)
-    if select_by == "max":
-        order = np.argsort(contributions)[::-1]
-    if select_by == "absolute":
-        order = np.argsort(abs(contributions))[::-1]
-
-    if order is None:
-        raise ValueError(
-            "Invalid select_by option %s, should be one of 'min', 'max', 'absolute'" % select_by
-        )
-
-    to_plot = order[0:n]
 
     if not flip_colors:
-        colors = [
-            NEGATIVE_COLOR if (c < 0) else POSITIVE_COLOR for c in contributions[to_plot][::-1]
-        ]
+        colors = [NEGATIVE_COLOR if (c < 0) else POSITIVE_COLOR for c in contributions[::-1]]
     else:
-        colors = [
-            POSITIVE_COLOR if (c < 0) else NEGATIVE_COLOR for c in contributions[to_plot][::-1]
-        ]
+        colors = [POSITIVE_COLOR if (c < 0) else NEGATIVE_COLOR for c in contributions[::-1]]
 
     if transparent:
-        fig, ax = plt.subplots()
+        _, ax = plt.subplots()
     else:
-        fig, ax = plt.subplots(facecolor="w")
-    plt.barh(features[to_plot][::-1], contributions[to_plot][::-1], color=colors)
+        _, ax = plt.subplots(facecolor="w")
+    plt.barh(features[::-1], contributions[::-1], color=colors)
     plt.title("Contributions by feature", fontsize=18)
     if prediction is not None:
         plt.title("Overall prediction: %s" % prediction, fontsize=12)
@@ -395,6 +380,8 @@ def feature_scatter_plot(
     if legend_type == "continuous":
         norm = plt.Normalize(0, 1)
         sm = plt.cm.ScalarMappable(cmap=PALETTE_CMAP, norm=norm)
+        if discrete:
+            plt.xticks(rotation=45, ha="right")
         min_val = predictions.min()
         max_val = predictions.max()
         sm.set_array([])

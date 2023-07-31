@@ -10,7 +10,7 @@ maintainers = [
 
 description = "Library for evaluating and deploying human readable machine learning explanations."
 name = "pyreal"
-version = "0.4.1"
+version = "0.4.4"
 
 license = ""
 
@@ -39,18 +39,15 @@ python = "^3.9, <3.12"
 #Library Dependencies
 matplotlib = "^3.6.0"
 numpy = "^1.24.3"
-pandas = "^1.5.0"
+pandas = ">=1.5,<3.0"
 scikit-learn = "^1.1.2"
 numba = "^0.57.0" # Explicit numba (required by shap) forces recent version
-shap = "=0.40.0" # Explicit shap prevents break with newer versions
+shap = "=0.42.1" # Explicit shap prevents break with newer versions
 lime = "^0.2.0.1"
-
-# Example Dependencies
-lightgbm = {version = "^3.3.2", optional = true}
+seaborn = "^0.12.2"
 
 # Development Requirements
-seaborn = "^0.12.2"
-[tool.poetry.dev-dependencies]
+[tool.poetry.group.dev.dependencies]
 
 # Testing Dependencies
 coverage = ">=6.5.0"
@@ -67,17 +64,16 @@ black = "^23.1.0"
 
 # Documentation Dependencies
 PyYaml = ">=6.0"
-Sphinx = "==5.3.0"
+Sphinx = "==7.0.1"
 argh = ">=0.26.2"
 autodocsumm = ">=0.2.9"
-ipython = ">=8.5.0"
 m2r2 = ">=0.3.3"
 nbsphinx = ">=0.8.8"
 pydata-sphinx-theme = ">=0.10.1"
 
-# Extra Dependency Bundles
-[tool.poetry.extras]
-examples = ["lightgbm"]
+# Tutorial dependencies
+[tool.poetry.group.tutorial.dependencies]
+lightgbm = "^3.3.2"
 
 [tool.black]
 line-length = 99

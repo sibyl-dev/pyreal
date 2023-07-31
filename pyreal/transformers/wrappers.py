@@ -1,3 +1,4 @@
+import numpy as np
 import pandas as pd
 
 from pyreal.transformers import Transformer
@@ -47,3 +48,20 @@ class DataFrameWrapper(Transformer):
         """
         transformed_np = self.wrapped_transformer.transform(x)
         return pd.DataFrame(transformed_np, columns=x.columns, index=x.index)
+
+    def inverse_data_transform(self, x_new):
+        """
+        Inverese transform `x_new` using the wrapped transformer
+        Args:
+            x_new (DataFrame of shape (n_instances, n_transformed_features)):
+                The dataset to inverse transform
+
+        Returns:
+            DataFrame of shape (n_instances, n_features):
+                The dataset after inverse transform
+        """
+        inv_transformed_data = self.wrapped_transformer.inverse_transform(x_new)
+        if isinstance(inv_transformed_data, np.ndarray):
+            return pd.DataFrame(inv_transformed_data, columns=x_new.columns, index=x_new.index)
+        else:
+            return inv_transformed_data

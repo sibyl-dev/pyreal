@@ -6,6 +6,7 @@ import pandas as pd
 import pytest
 from sklearn.linear_model import LinearRegression, LogisticRegression
 
+from pyreal.transformers import Transformer
 from pyreal.transformers.one_hot_encode import OneHotEncoder
 
 
@@ -146,6 +147,25 @@ def regression_one_hot(test_root):
 
 
 @pytest.fixture()
+def regression_one_hot_with_interpret(test_root, regression_one_hot):
+    data = {
+        "model": regression_one_hot["model"],
+        "x": regression_one_hot["x"],
+        "y": regression_one_hot["y"],
+    }
+
+    class InterpretTransformer(Transformer):
+        def data_transform(self, x):
+            return x + 1
+
+    data["transformers"] = [
+        regression_one_hot["transformers"],
+        InterpretTransformer(interpret=True, model=False),
+    ]
+    return data
+
+
+@pytest.fixture()
 def classification_no_transform_tree(test_root):
     x = pd.DataFrame(
         [[1, 1, 1], [2, 2.5, 3], [10, 11, 12], [11, 10.3, 10]], columns=["A", "B", "C"]
@@ -175,3 +195,11 @@ def time_series_data():
     for v in range(n_var):
         nested[f"var_{v}"] = [pd.Series(np3d[i, v, :]) for i in range(n_inst)]
     return {"np3d": np3d, "np2d": np2d, "df3d": df3d, "df2d": df2d, "nested": nested}
+
+
+@pytest.fixture()
+def feature_contribution_explanation():
+    return pd.DataFrame(
+        [["A", 1, 5, 0], ["B", 2, 3, 0], ["C", 3, 0, 0], ["D", 4, -2, 0], ["E", 5, -6, 0]],
+        columns=["Feature Name", "Feature Value", "Contribution", "Average/Mode"],
+    )
