@@ -404,26 +404,28 @@ class RealApp:
         """
         return self.models[self.active_model_id]
 
-    def predict(self, x, model_id=None, as_dict=True):
+    def predict(self, x, model_id=None, as_dict=None):
         """
         Predict on x using the active model or model specified by model_id
 
         Args:
-            x (DataFrame of shape (n_instances, n_features)):
+            x (DataFrame of shape (n_instances, n_features) or Series of len n_features):
                 Data to predict on
             model_id (int or string):
                 Model to use for prediction
             as_dict (Boolean):
                 If False, return predictions as a single Series/List. Otherwise, return
-                in {row_id: pred} format.
+                in {row_id: pred} format. Defaults to True if x is a DataFrame, False otherwise
 
         Returns:
             (model return type)
                 Model prediction on x
         """
+        if as_dict is None:
+            as_dict = x.ndim > 1
         if self.id_column is not None and self.id_column in x:
             ids = x[self.id_column]
-            x = x.drop(columns=self.id_column)
+            x = x.drop(self.id_column, axis=x.ndim - 1)
         else:
             ids = x.index
         if model_id is None:
