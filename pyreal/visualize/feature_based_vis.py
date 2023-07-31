@@ -6,7 +6,7 @@ import pandas as pd
 import seaborn as sns
 
 from pyreal.realapp import realapp
-from pyreal.types.explanations.feature_based import (
+from pyreal.explanation_types.explanations.feature_based import (
     FeatureContributionExplanation,
     FeatureImportanceExplanation,
 )

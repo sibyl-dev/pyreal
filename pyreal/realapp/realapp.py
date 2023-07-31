@@ -312,7 +312,7 @@ class RealApp:
             prepare_kwargs (dict):
                 Additional parameters for explainer init function
             produce_kwargs (dict):
-                Additional paramters for explainer produce function
+                Additional parameters for explainer produce function
 
         Returns:
             Type varies by explanation type
@@ -343,7 +343,7 @@ class RealApp:
 
             if self.id_column is not None and self.id_column in x_orig:
                 ids = x_orig[self.id_column]
-                x_orig = x_orig.drop(columns=self.id_column)
+                x_orig = x_orig.drop(self.id_column, axis=x_orig.ndim - 1)
 
             explanation = explainer.produce(x_orig, **produce_kwargs)
             return format_output_func(explanation, ids)
@@ -493,8 +493,8 @@ class RealApp:
         Produce a feature contribution explanation
 
         Args:
-            x_orig (DataFrame):
-                Input to explain
+            x_orig (DataFrame of shape (n_instances, n_features) or Series of length (n_features)):
+                Input(s) to explain
             model_id (string or int):
                 ID of model to explain
             x_train_orig (DataFrame):
@@ -517,8 +517,9 @@ class RealApp:
                 Not used if num_features is None
 
         Returns:
-            One dataframe per id, with each row representing a feature, and four columns:
-            Feature Name    Feature Value   Contribution    Average/Mode
+            dictionary (if x_orig is DataFrame) or DataFrame (if x_orig is Series)
+                One dataframe per id, with each row representing a feature, and four columns:
+                Feature Name    Feature Value   Contribution    Average/Mode
         """
         if algorithm is None:
             algorithm = "shap"

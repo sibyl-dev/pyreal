@@ -9,7 +9,7 @@ from pyreal.transformers import (
     fit_transformers,
     run_transformers,
 )
-from pyreal.types.explanations.feature_based import FeatureImportanceExplanation
+from pyreal.explanation_types.explanations.feature_based import FeatureImportanceExplanation
 
 
 class TestTransformer(Transformer):

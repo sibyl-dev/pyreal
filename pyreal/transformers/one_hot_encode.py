@@ -5,7 +5,7 @@ import pandas as pd
 from sklearn.preprocessing import OneHotEncoder as SklearnOneHotEncoder
 
 from pyreal.transformers import BreakingTransformError, Transformer
-from pyreal.types.explanations.feature_based import (
+from pyreal.explanation_types.explanations.feature_based import (
     AdditiveFeatureContributionExplanation,
     AdditiveFeatureImportanceExplanation,
 )
