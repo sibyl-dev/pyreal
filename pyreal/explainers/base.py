@@ -6,10 +6,10 @@ import pandas as pd
 from sklearn.base import is_classifier
 from sklearn.metrics import get_scorer
 
+from pyreal.explanation_types.explanations.base import Explanation
 from pyreal.transformers import BreakingTransformError
 from pyreal.transformers import fit_transformers as fit_transformers_func
 from pyreal.transformers import run_transformers
-from pyreal.explanation_types.explanations.base import Explanation
 from pyreal.utils import model_utils
 
 log = logging.getLogger(__name__)
