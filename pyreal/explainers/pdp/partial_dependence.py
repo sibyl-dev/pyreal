@@ -1,7 +1,7 @@
 from sklearn.inspection import partial_dependence
 
 from pyreal.explainers import PartialDependenceExplainerBase
-from pyreal.types.explanations.feature_value_based import PartialDependenceExplanation
+from pyreal.explanation_types.explanations.feature_value_based import PartialDependenceExplanation
 
 
 class PartialDependence(PartialDependenceExplainerBase):

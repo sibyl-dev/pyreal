@@ -3,7 +3,7 @@ import numpy as np
 import seaborn as sns
 from matplotlib.colors import LinearSegmentedColormap
 
-from pyreal.types.explanations.feature_value_based import FeatureValueBased
+from pyreal.explanation_types.explanations.feature_value_based import FeatureValueBased
 from pyreal.visualize.visualize_config import NEGATIVE_COLOR, NEUTRAL_COLOR, POSITIVE_COLOR
 
 

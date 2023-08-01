@@ -2,8 +2,8 @@ import numpy as np
 import pandas as pd
 from pandas.testing import assert_frame_equal
 
+from pyreal.explanation_types.explanations.feature_based import FeatureBased
 from pyreal.transformers import ColumnDropTransformer, FeatureSelectTransformer
-from pyreal.types.explanations.feature_based import FeatureBased
 
 X = pd.DataFrame([[2, 1, 3, 9], [4, 3, 4, 0], [6, 7, 2, 2]], columns=["A", "B", "C", "D"])
 COLUMNS = ["C", "A"]

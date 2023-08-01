@@ -3,8 +3,8 @@ from collections.abc import Sequence
 import numpy as np
 import pandas as pd
 
+from pyreal.explanation_types.explanations.feature_based import FeatureBased
 from pyreal.transformers import BreakingTransformError, Transformer
-from pyreal.types.explanations.feature_based import FeatureBased
 
 
 class FeatureSelectTransformer(Transformer):

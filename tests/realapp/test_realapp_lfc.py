@@ -27,26 +27,26 @@ def test_average_or_mode():
 
 
 def test_prepare_local_feature_contribution(regression_no_transforms):
-    realApp = RealApp(
+    real_app = RealApp(
         regression_no_transforms["model"],
         transformers=regression_no_transforms["transformers"],
     )
     x = pd.DataFrame([[2, 10, 10]])
 
     with pytest.raises(ValueError):
-        realApp.produce_feature_contributions(x)
+        real_app.produce_feature_contributions(x)
 
     # Confirm no error
-    realApp.prepare_feature_contributions(
+    real_app.prepare_feature_contributions(
         x_train_orig=regression_no_transforms["x"], y_train=regression_no_transforms["y"]
     )
 
     # Confirm explainer was prepped and now works without being given data
-    realApp.produce_feature_contributions(x)
+    real_app.produce_feature_contributions(x)
 
 
 def test_prepare_local_feature_contribution_with_id_column(regression_no_transforms):
-    realApp = RealApp(
+    real_app = RealApp(
         regression_no_transforms["model"],
         transformers=regression_no_transforms["transformers"],
         id_column="ID",
@@ -55,34 +55,35 @@ def test_prepare_local_feature_contribution_with_id_column(regression_no_transfo
     x_multi_dim = pd.DataFrame([[4, 1, 1, "a"], [6, 2, 3, "b"]], columns=features + ["ID"])
 
     # Confirm no error
-    realApp.prepare_feature_contributions(
+    real_app.prepare_feature_contributions(
         x_train_orig=x_multi_dim, y_train=regression_no_transforms["y"]
     )
 
     # Confirm explainer was prepped and now works without being given data
-    realApp.produce_feature_contributions(x_multi_dim)
+    real_app.produce_feature_contributions(x_multi_dim)
 
 
 def test_produce_local_feature_contributions(regression_no_transforms):
-    realApp = RealApp(
+    real_app = RealApp(
         regression_no_transforms["model"],
         regression_no_transforms["x"],
         transformers=regression_no_transforms["transformers"],
     )
     features = ["A", "B", "C"]
 
-    x_one_dim = pd.DataFrame([[2, 10, 10]], columns=features)
+    # x_one_dim = pd.DataFrame([[2, 10, 10]], columns=features)
+    x_one_dim = pd.Series([2, 10, 10], index=features)
 
     expected = np.mean(regression_no_transforms["y"])
-    explanation = realApp.produce_feature_contributions(x_one_dim)
+    explanation = real_app.produce_feature_contributions(x_one_dim)
 
-    assert list(explanation[0]["Feature Name"]) == features
-    assert list(explanation[0]["Feature Value"]) == list(x_one_dim.iloc[0])
-    assert list(explanation[0]["Contribution"]) == [x_one_dim.iloc[0, 0] - expected, 0, 0]
-    assert list(explanation[0]["Average/Mode"]) == list(x_one_dim.iloc[0])
+    assert list(explanation["Feature Name"]) == features
+    assert list(explanation["Feature Value"]) == list(x_one_dim)
+    assert list(explanation["Contribution"]) == [x_one_dim.iloc[0] - expected, 0, 0]
+    assert list(explanation["Average/Mode"]) == list(x_one_dim)
 
     x_multi_dim = pd.DataFrame([[2, 1, 1], [4, 2, 3]], columns=features)
-    explanation = realApp.produce_feature_contributions(x_multi_dim)
+    explanation = real_app.produce_feature_contributions(x_multi_dim)
 
     assert list(explanation[0]["Feature Name"]) == features
     assert list(explanation[0]["Feature Value"]) == list(x_multi_dim.iloc[0])
@@ -104,18 +105,24 @@ def test_produce_local_feature_contributions_with_id_column(regression_one_hot):
     )
 
     features = ["A", "B", "C"]
+    x_one_dim = pd.Series([4, 1, 1, "a"], index=features + ["ID"])
+    explanation = real_app.produce_feature_contributions(x_one_dim)
+    explanation_a1 = explanation.sort_values(by="Feature Name", axis=0)
+
     x_multi_dim = pd.DataFrame([[4, 1, 1, "a"], [6, 2, 3, "b"]], columns=features + ["ID"])
 
     explanation = real_app.produce_feature_contributions(x_multi_dim)
 
-    explanation_a = explanation["a"].sort_values(by="Feature Name", axis=0)
+    explanation_a2 = explanation["a"].sort_values(by="Feature Name", axis=0)
     explanation_b = explanation["b"].sort_values(by="Feature Name", axis=0)
 
-    assert list(explanation_a["Feature Name"]) == features
-    assert list(explanation_a["Feature Value"]) == list(x_multi_dim.iloc[0])[:-1]
-    for num in list(explanation_a["Contribution"]):
-        assert abs(num) < 0.001
-    assert list(explanation_a["Average/Mode"]) == [5, 1.5, 2]
+    for explanation_a in [explanation_a1, explanation_a2]:
+        assert list(explanation_a["Feature Name"]) == features
+        assert list(explanation_a["Feature Value"]) == list(x_multi_dim.iloc[0])[:-1]
+        for num in list(explanation_a["Contribution"]):
+            assert abs(num) < 0.001
+    assert list(explanation_a1["Average/Mode"]) == [4, 1, 1]
+    assert list(explanation_a2["Average/Mode"]) == [5, 1.5, 2]
 
     assert list(explanation_b["Feature Name"]) == features
     assert list(explanation_b["Feature Value"]) == list(x_multi_dim.iloc[1])[:-1]
@@ -126,7 +133,7 @@ def test_produce_local_feature_contributions_with_id_column(regression_one_hot):
 
 
 def test_produce_local_feature_contributions_no_data_on_init(regression_no_transforms):
-    realApp = RealApp(
+    real_app = RealApp(
         regression_no_transforms["model"],
         transformers=regression_no_transforms["transformers"],
     )
@@ -134,7 +141,7 @@ def test_produce_local_feature_contributions_no_data_on_init(regression_no_trans
     x_one_dim = pd.DataFrame([[2, 10, 10]], columns=features)
 
     expected = np.mean(regression_no_transforms["y"])
-    explanation = realApp.produce_feature_contributions(
+    explanation = real_app.produce_feature_contributions(
         x_one_dim, x_train_orig=regression_no_transforms["x"]
     )
 
@@ -145,12 +152,14 @@ def test_produce_local_feature_contributions_no_data_on_init(regression_no_trans
 
 
 def test_produce_local_feature_contributions_num(regression_no_transforms):
-    realApp = RealApp(
+    real_app = RealApp(
         regression_no_transforms["model"],
         regression_no_transforms["x"],
         transformers=regression_no_transforms["transformers"],
     )
 
     x_one_dim = pd.DataFrame([[2, 10, 10]])
-    explanation = realApp.produce_feature_contributions(x_one_dim, num_features=2, select_by="min")
+    explanation = real_app.produce_feature_contributions(
+        x_one_dim, num_features=2, select_by="min"
+    )
     assert explanation[0].shape == (2, 4)
