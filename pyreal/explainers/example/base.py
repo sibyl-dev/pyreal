@@ -1,7 +1,8 @@
 from abc import ABC, abstractmethod
 
-from pyreal.explainers import ExplainerBase
 import pandas as pd
+
+from pyreal.explainers import ExplainerBase
 
 
 class ExampleBasedBase(ExplainerBase, ABC):
