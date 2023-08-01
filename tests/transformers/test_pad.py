@@ -2,7 +2,7 @@ import numpy as np
 
 from pyreal.transformers import TimeSeriesPadder
 
-X = np.array([[1, 1], [1], [1, 1, 1]])
+X = [[1, 1], [1], [1, 1, 1]]
 
 
 def test_fit_transform_pad_to_length(transformer_test_data):
