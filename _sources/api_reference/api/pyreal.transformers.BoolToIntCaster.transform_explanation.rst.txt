@@ -1,6 +1,0 @@
-﻿pyreal.transformers.BoolToIntCaster.transform\_explanation
-==========================================================
-
-.. currentmodule:: pyreal.transformers
-
-.. automethod:: BoolToIntCaster.transform_explanation

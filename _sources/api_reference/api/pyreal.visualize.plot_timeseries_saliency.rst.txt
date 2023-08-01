@@ -1,6 +1,0 @@
-﻿pyreal.visualize.plot\_timeseries\_saliency
-===========================================
-
-.. currentmodule:: pyreal.visualize
-
-.. autofunction:: plot_timeseries_saliency

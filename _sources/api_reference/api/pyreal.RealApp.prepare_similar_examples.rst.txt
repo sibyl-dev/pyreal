@@ -1,6 +1,0 @@
-﻿pyreal.RealApp.prepare\_similar\_examples
-=========================================
-
-.. currentmodule:: pyreal
-
-.. automethod:: RealApp.prepare_similar_examples

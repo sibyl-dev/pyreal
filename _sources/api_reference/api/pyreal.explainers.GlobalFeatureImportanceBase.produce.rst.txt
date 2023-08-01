@@ -1,6 +1,0 @@
-﻿pyreal.explainers.GlobalFeatureImportanceBase.produce
-=====================================================
-
-.. currentmodule:: pyreal.explainers
-
-.. automethod:: GlobalFeatureImportanceBase.produce

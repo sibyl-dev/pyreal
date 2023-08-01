@@ -1,6 +1,0 @@
-﻿pyreal.visualize.feature\_scatter\_plot
-=======================================
-
-.. currentmodule:: pyreal.visualize
-
-.. autofunction:: feature_scatter_plot

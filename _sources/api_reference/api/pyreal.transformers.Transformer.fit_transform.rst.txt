@@ -1,6 +1,0 @@
-﻿pyreal.transformers.Transformer.fit\_transform
-==============================================
-
-.. currentmodule:: pyreal.transformers
-
-.. automethod:: Transformer.fit_transform

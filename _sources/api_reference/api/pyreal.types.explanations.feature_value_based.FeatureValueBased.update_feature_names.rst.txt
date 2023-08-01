@@ -1,6 +1,0 @@
-﻿pyreal.types.explanations.feature\_value\_based.FeatureValueBased.update\_feature\_names
-========================================================================================
-
-.. currentmodule:: pyreal.types.explanations.feature_value_based
-
-.. automethod:: FeatureValueBased.update_feature_names

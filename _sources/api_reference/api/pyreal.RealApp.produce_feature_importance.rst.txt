@@ -1,6 +1,0 @@
-﻿pyreal.RealApp.produce\_feature\_importance
-===========================================
-
-.. currentmodule:: pyreal
-
-.. automethod:: RealApp.produce_feature_importance

@@ -1,6 +1,0 @@
-﻿pyreal.RealApp.predict
-======================
-
-.. currentmodule:: pyreal
-
-.. automethod:: RealApp.predict

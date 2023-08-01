@@ -1,6 +1,0 @@
-﻿pyreal.explainers.ShapFeatureContribution.get\_contributions
-============================================================
-
-.. currentmodule:: pyreal.explainers
-
-.. automethod:: ShapFeatureContribution.get_contributions

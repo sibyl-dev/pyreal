@@ -1,6 +1,0 @@
-﻿pyreal.types.explanations.example\_based.ExampleBasedExplanation.validate
-=========================================================================
-
-.. currentmodule:: pyreal.types.explanations.example_based
-
-.. automethod:: ExampleBasedExplanation.validate

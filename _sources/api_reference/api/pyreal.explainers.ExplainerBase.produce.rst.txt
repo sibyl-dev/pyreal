@@ -1,6 +1,0 @@
-﻿pyreal.explainers.ExplainerBase.produce
-=======================================
-
-.. currentmodule:: pyreal.explainers
-
-.. automethod:: ExplainerBase.produce

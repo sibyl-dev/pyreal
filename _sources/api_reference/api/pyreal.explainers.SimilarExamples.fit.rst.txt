@@ -1,6 +1,0 @@
-﻿pyreal.explainers.SimilarExamples.fit
-=====================================
-
-.. currentmodule:: pyreal.explainers
-
-.. automethod:: SimilarExamples.fit

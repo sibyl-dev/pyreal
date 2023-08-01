@@ -1,6 +1,0 @@
-﻿pyreal.utils.explanation\_utils.get\_top\_contributors
-======================================================
-
-.. currentmodule:: pyreal.utils.explanation_utils
-
-.. autofunction:: get_top_contributors

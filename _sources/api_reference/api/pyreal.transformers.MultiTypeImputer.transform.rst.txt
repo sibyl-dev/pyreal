@@ -1,6 +1,0 @@
-﻿pyreal.transformers.MultiTypeImputer.transform
-==============================================
-
-.. currentmodule:: pyreal.transformers
-
-.. automethod:: MultiTypeImputer.transform
