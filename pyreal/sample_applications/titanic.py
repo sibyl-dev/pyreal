@@ -95,8 +95,8 @@ def load_transformers(save=False, use_saved=False):
         return transformers
 
 
-def load_app():
-    x_train_orig, y = load_data(include_targets=True)
+def load_app(n_rows=None):
+    x_train_orig, y = load_data(include_targets=True, n_rows=n_rows)
     model = load_model()
     transformers = load_transformers()
     feature_descriptions = load_feature_descriptions()
