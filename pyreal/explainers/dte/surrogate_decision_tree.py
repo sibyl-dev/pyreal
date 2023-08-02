@@ -2,8 +2,8 @@ import pandas as pd
 from sklearn import tree
 
 from pyreal.explainers import DecisionTreeExplainerBase
-from pyreal.types.explanations.decision_tree import DecisionTreeExplanation
-from pyreal.types.explanations.feature_based import FeatureImportanceExplanation
+from pyreal.explanation_types.explanations.decision_tree import DecisionTreeExplanation
+from pyreal.explanation_types.explanations.feature_based import FeatureImportanceExplanation
 
 
 class SurrogateDecisionTree(DecisionTreeExplainerBase):

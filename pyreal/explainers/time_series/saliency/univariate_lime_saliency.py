@@ -6,7 +6,7 @@ import pandas as pd
 from lime import lime_tabular
 
 from pyreal.explainers.time_series import SaliencyBase
-from pyreal.types.explanations.feature_based import ClassFeatureContributionExplanation
+from pyreal.explanation_types.explanations.feature_based import ClassFeatureContributionExplanation
 
 
 class UnivariateLimeSaliency(SaliencyBase):

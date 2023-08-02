@@ -1,7 +1,7 @@
 from sklearn.inspection import partial_dependence
 
 from pyreal.explainers import PartialDependenceExplainerBase
-from pyreal.types.explanations.feature_value_based import PartialDependenceExplanation
+from pyreal.explanation_types.explanations.feature_value_based import PartialDependenceExplanation
 
 
 class PartialDependence(PartialDependenceExplainerBase):
@@ -35,6 +35,7 @@ class PartialDependence(PartialDependenceExplainerBase):
     ):
         self.features = features
         self.grid_resolution = grid_resolution
+        self.is_fitted = False
         super().__init__(model, x_train_orig, interpretable_features, **kwargs)
 
     def fit(self, x_train_orig=None, y_train=None):
@@ -66,6 +67,7 @@ class PartialDependence(PartialDependenceExplainerBase):
         )
         self.pdp_values = explanation_results["average"]
         self.grid_points = explanation_results["values"]
+        self.is_fitted = True
         return self
 
     def get_pdp(self):
@@ -73,4 +75,6 @@ class PartialDependence(PartialDependenceExplainerBase):
         Produce the partial dependence explanation
 
         """
+        if not self.is_fitted:
+            raise RuntimeError("Must fit explainer before calling produce!")
         return PartialDependenceExplanation(self.features, self.pdp_values, self.grid_points)
