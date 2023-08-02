@@ -7,9 +7,10 @@ from pyreal.explainers import (
     LocalFeatureContribution,
     SimilarExamples,
 )
+from pyreal.utils import get_top_contributors
 
 
-def format_feature_contribution_output(explanation, ids=None):
+def format_feature_contribution_output(explanation, ids=None, series=False):
     """
     Format Pyreal FeatureContributionExplanation objects into Local Feature Contribution outputs
     Args:
@@ -17,10 +18,13 @@ def format_feature_contribution_output(explanation, ids=None):
             Pyreal Explanation object to parse
         ids (list of strings or ints):
             List of row ids
+        series (Boolean):
+            If True, the produce function was passed a series input
 
     Returns:
-        One dataframe per id, with each row representing a feature, and four columns:
-            Feature Name    Feature Value   Contribution    Average/Mode
+        DataFrame (if series), else {"id" -> DataFrame}
+            One dataframe per id, with each row representing a feature, and four columns:
+                Feature Name    Feature Value   Contribution    Average/Mode
     """
     if ids is None:
         ids = explanation.get().index
@@ -41,6 +45,8 @@ def format_feature_contribution_output(explanation, ids=None):
                 "Average/Mode": average_mode.values,
             }
         )
+    if series:
+        return explanation_dict[next(iter(explanation_dict))]
     return explanation_dict
 
 
@@ -58,7 +64,7 @@ def format_feature_importance_output(explanation):
     return pd.DataFrame({"Feature Name": importances.columns, "Importance": importances.squeeze()})
 
 
-def format_similar_examples_output(explanation, ids=None):
+def format_similar_examples_output(explanation, ids=None, series=False):
     """
     Format Pyreal SimilarExamples objects into Similar Examples outputs
     Args:
@@ -66,18 +72,23 @@ def format_similar_examples_output(explanation, ids=None):
             Pyreal Explanation object to parse
         ids (list of strings or ints):
             List of row ids
+        series (Boolean):
+            If True, the produce function was passed a series input
 
     Returns:
-        Dictionary of "id" -> {"X": DataFrame, "y": Series} where X is the examples, ordered from
-        top to bottom by similarity to input and y is the corresponding y values
+        {"X": DataFrame, "y": Series} (if series), else {"id" -> {"X": DataFrame, "y": Series}}
+            X is the examples, ordered from top to bottom by similarity to input and
+            y is the corresponding y values
     """
     result = {}
     if ids is None:
         ids = explanation.get_row_ids()
-    for key, id in enumerate(ids):
+    for key, row_id in enumerate(ids):
         examples = explanation.get_examples(row_id=key)
         targets = explanation.get_targets(row_id=key)
-        result[id] = {"X": examples, "y": targets}
+        result[row_id] = {"X": examples, "y": targets}
+    if series:
+        return result[next(iter(result))]
     return result
 
 
@@ -311,7 +322,7 @@ class RealApp:
             prepare_kwargs (dict):
                 Additional parameters for explainer init function
             produce_kwargs (dict):
-                Additional paramters for explainer produce function
+                Additional parameters for explainer produce function
 
         Returns:
             Type varies by explanation type
@@ -342,10 +353,10 @@ class RealApp:
 
             if self.id_column is not None and self.id_column in x_orig:
                 ids = x_orig[self.id_column]
-                x_orig = x_orig.drop(columns=self.id_column)
+                x_orig = x_orig.drop(self.id_column, axis=x_orig.ndim - 1)
 
             explanation = explainer.produce(x_orig, **produce_kwargs)
-            return format_output_func(explanation, ids)
+            return format_output_func(explanation, ids, series=(x_orig.ndim == 1))
         else:
             explanation = explainer.produce(**produce_kwargs)
             return format_output_func(explanation)
@@ -393,26 +404,28 @@ class RealApp:
         """
         return self.models[self.active_model_id]
 
-    def predict(self, x, model_id=None, as_dict=True):
+    def predict(self, x, model_id=None, as_dict=None):
         """
         Predict on x using the active model or model specified by model_id
 
         Args:
-            x (DataFrame of shape (n_instances, n_features)):
+            x (DataFrame of shape (n_instances, n_features) or Series of len n_features):
                 Data to predict on
             model_id (int or string):
                 Model to use for prediction
             as_dict (Boolean):
                 If False, return predictions as a single Series/List. Otherwise, return
-                in {row_id: pred} format.
+                in {row_id: pred} format. Defaults to True if x is a DataFrame, False otherwise
 
         Returns:
             (model return type)
                 Model prediction on x
         """
+        if as_dict is None:
+            as_dict = x.ndim > 1
         if self.id_column is not None and self.id_column in x:
             ids = x[self.id_column]
-            x = x.drop(columns=self.id_column)
+            x = x.drop(self.id_column, axis=x.ndim - 1)
         else:
             ids = x.index
         if model_id is None:
@@ -485,13 +498,15 @@ class RealApp:
         shap_type=None,
         force_refit=False,
         training_size=None,
+        num_features=None,
+        select_by="absolute",
     ):
         """
         Produce a feature contribution explanation
 
         Args:
-            x_orig (DataFrame):
-                Input to explain
+            x_orig (DataFrame of shape (n_instances, n_features) or Series of length (n_features)):
+                Input(s) to explain
             model_id (string or int):
                 ID of model to explain
             x_train_orig (DataFrame):
@@ -507,15 +522,21 @@ class RealApp:
                 already exists
             training_size (int):
                 Number of rows to use in fitting explainer
+            num_features (int):
+                Number of features to include in the explanation. If None, include all features
+            select_by (one of "absolute", "min", "max"):
+                If `num_features` is not None, method to use for selecting which features to show.
+                Not used if num_features is None
 
         Returns:
-            One dataframe per id, with each row representing a feature, and four columns:
-            Feature Name    Feature Value   Contribution    Average/Mode
+            dictionary (if x_orig is DataFrame) or DataFrame (if x_orig is Series)
+                One dataframe per id, with each row representing a feature, and four columns:
+                Feature Name    Feature Value   Contribution    Average/Mode
         """
         if algorithm is None:
             algorithm = "shap"
 
-        return self._produce_explanation_helper(
+        exp = self._produce_explanation_helper(
             "lfc",
             algorithm,
             self.prepare_feature_contributions,
@@ -528,6 +549,13 @@ class RealApp:
             training_size=training_size,
             prepare_kwargs={"shap_type": shap_type},
         )
+        if num_features is not None:
+            return {
+                row_id: get_top_contributors(exp[row_id], n=num_features, select_by=select_by)
+                for row_id in exp
+            }
+        else:
+            return exp
 
     def prepare_feature_importance(
         self,
@@ -587,6 +615,8 @@ class RealApp:
         shap_type=None,
         force_refit=False,
         training_size=None,
+        num_features=None,
+        select_by="absolute",
     ):
         """
         Produce a GlobalFeatureImportance explainer
@@ -607,6 +637,11 @@ class RealApp:
                 already exists
             training_size (int):
                 Number of rows to use in fitting explainer
+            num_features (int):
+                Number of features to include in the explanation. If None, include all features
+            select_by (one of "absolute", "min", "max"):
+                If `num_features` is not None, method to use for selecting which features to show.
+                Not used if num_features is None
 
         Returns:
             DataFrame with a Feature Name column and an Importance column
@@ -614,7 +649,7 @@ class RealApp:
         if algorithm is None:
             algorithm = "shap"
 
-        return self._produce_explanation_helper(
+        exp = self._produce_explanation_helper(
             "gfi",
             algorithm,
             self.prepare_feature_importance,
@@ -626,6 +661,10 @@ class RealApp:
             training_size=training_size,
             prepare_kwargs={"shap_type": shap_type},
         )
+        if num_features is not None:
+            return get_top_contributors(exp, n=num_features, select_by=select_by)
+        else:
+            return exp
 
     def prepare_similar_examples(
         self,

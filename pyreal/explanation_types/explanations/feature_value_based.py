@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 
-from pyreal.types.explanations.base import Explanation
+from pyreal.explanation_types.explanations.base import Explanation
 
 
 class FeatureValueExplanation:

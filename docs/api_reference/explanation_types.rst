@@ -88,7 +88,7 @@ Decision Tree Explanation Type
     decision_tree.DecisionTreeExplanation.validate
 
 Example Based Explanation Type
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .. autosummary::
     :toctree: api/
 
@@ -97,7 +97,7 @@ Example Based Explanation Type
     example_based.ExampleBasedExplanation.validate
 
 Similar Examples Explanation Type
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .. autosummary::
     :toctree: api/
 

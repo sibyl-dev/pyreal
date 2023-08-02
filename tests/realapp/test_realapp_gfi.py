@@ -88,3 +88,14 @@ def test_produce_global_feature_importance_no_data_on_init(regression_no_transfo
 
     # confirm no bug in explainer caching
     realApp.produce_feature_importance(algorithm="permutation")
+
+
+def test_produce_global_importance_contributions_num(regression_no_transforms):
+    realApp = RealApp(
+        regression_no_transforms["model"],
+        regression_no_transforms["x"],
+        transformers=regression_no_transforms["transformers"],
+    )
+
+    explanation = realApp.produce_feature_importance(num_features=2, select_by="absolute")
+    assert explanation.shape == (2, 2)

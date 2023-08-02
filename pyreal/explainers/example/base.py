@@ -1,5 +1,7 @@
 from abc import ABC, abstractmethod
 
+import pandas as pd
+
 from pyreal.explainers import ExplainerBase
 
 
@@ -51,6 +53,8 @@ class ExampleBasedBase(ExplainerBase, ABC):
             ExampleBased
                 The explanation
         """
+        if isinstance(x_orig, pd.Series):
+            x_orig = x_orig.to_frame().T
         explanation = self.get_explanation(x_orig, n)
         explanation.update_examples(self.transform_to_x_interpret)
         if self.interpretable_features:

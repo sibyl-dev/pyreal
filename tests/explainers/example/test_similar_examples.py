@@ -9,13 +9,15 @@ def test_produce(dummy_model):
     y = pd.Series([0, 1, 0, 1])
 
     explainer = SimilarExamples(model=dummy_model, x_train_orig=x, y_train=y, fit_on_init=True)
-    result = explainer.produce(pd.DataFrame([[0, 1, 0]]), n=2)
-    expected_examples = x.iloc[[2, 0], :]
-    expected_targets = y.iloc[[2, 0]]
-    assert len(result.get_row_ids()) == 1
-    assert result.get_examples(row_id=0).shape[0] == 2
-    assert_frame_equal(result.get_examples(), expected_examples)
-    assert_series_equal(result.get_targets(), expected_targets)
+    result_df = explainer.produce(pd.DataFrame([[0, 1, 0]]), n=2)
+    result_series = explainer.produce(pd.Series([0, 1, 0]), n=2)
+    for result in [result_df, result_series]:
+        expected_examples = x.iloc[[2, 0], :]
+        expected_targets = y.iloc[[2, 0]]
+        assert len(result.get_row_ids()) == 1
+        assert result.get_examples(row_id=0).shape[0] == 2
+        assert_frame_equal(result.get_examples(), expected_examples)
+        assert_series_equal(result.get_targets(), expected_targets)
 
 
 def test_produce_with_transforms(regression_one_hot_with_interpret):

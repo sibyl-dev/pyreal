@@ -2,7 +2,7 @@ from sklearn.exceptions import NotFittedError
 from sklearn.tree import BaseDecisionTree
 from sklearn.utils.validation import check_is_fitted
 
-from pyreal.types.explanations.base import Explanation
+from pyreal.explanation_types.explanations.base import Explanation
 
 
 class DecisionTreeExplanation(Explanation):

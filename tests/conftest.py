@@ -200,3 +200,10 @@ def time_series_data():
 def minmax_scale_data():
     x = [[2, 1, 3, 9], [4, 3, 4, 0], [6, 7, 2, 2]]
     return x
+
+@pytest.fixture()
+def feature_contribution_explanation():
+    return pd.DataFrame(
+        [["A", 1, 5, 0], ["B", 2, 3, 0], ["C", 3, 0, 0], ["D", 4, -2, 0], ["E", 5, -6, 0]],
+        columns=["Feature Name", "Feature Value", "Contribution", "Average/Mode"],
+    )
