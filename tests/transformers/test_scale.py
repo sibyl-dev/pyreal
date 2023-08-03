@@ -1,19 +1,15 @@
-import numpy as np
-import pandas as pd
 from pandas import DataFrame
-from pandas.testing import assert_frame_equal
 from sklearn.preprocessing import MinMaxScaler as SklearnMinMaxScaler
 from sklearn.preprocessing import Normalizer as SklearnNormalizer
 from sklearn.preprocessing import StandardScaler as SklearnStandardScaler
 
 from pyreal.transformers.scale import MinMaxScaler, Normalizer, StandardScaler
-from pyreal.transformers.wrappers import DataFrameWrapper
 
 # MinMaxScaler tests
 data = [[2, 1, 3, 10], [4, 3, 4, 0], [6, 7, 2, 2]]
 columns = ["A", "B", "C", "D"]
 
-# tests!!! they all test whether the MinMaxScaler behaves the same as the SklearnMinMaxScaler
+# test whether pyreal and sklearn scalers behave the same
 
 
 def test_fit_minmax():
@@ -100,7 +96,7 @@ def test_fit_standardscale():
 
     pdData = DataFrame(data)
     standard = StandardScaler()
-    standard.fit(data)
+    standard.fit(pdData)
 
     assert (skStandard.mean_[i] == standard.mean_[i] for i in range(len(skStandard.mean_)))
     assert (skStandard.var_[i] == standard.var_[i] for i in range(len(skStandard.var_)))

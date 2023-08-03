@@ -1,4 +1,3 @@
-import sklearn
 from sklearn.preprocessing import MinMaxScaler as SklearnMinMaxScaler
 from sklearn.preprocessing import Normalizer as SklearnNormalizer
 from sklearn.preprocessing import StandardScaler as SklearnStandardScaler
@@ -13,12 +12,17 @@ class MinMaxScaler:
     """
 
     def __init__(self, feature_range=(0, 1), *, copy=True, clip=False):
-        """initialize a wrapped transformer, then make a DataFrameWrapper for it, then wrap the DataFrameWrapper
+        """initialize a wrapped transformer and DataFrameWrapper, then wrap the DataFrameWrapper
 
         Args:
-            feature_range (tuple (min, max), default=(0, 1)): Desired range of transformed data.
-            copy (bool, default=True): Set to False to perform inplace row normalization and avoid a copy (if the input is already a numpy array).
-            clip (bool, default=False): Set to True to clip transformed values of held-out data to provided feature range.
+            feature_range (tuple (min, max), default=(0, 1)):
+                Desired range of transformed data.
+            copy (bool, default=True):
+                Set to False to perform inplace row normalization and avoid a copy
+                (if the input is already a numpy array).
+            clip (bool, default=False):
+                Set to True to clip transformed values of held-out data
+                to provided feature range.
         """
         self.data_frame_wrapper = DataFrameWrapper(
             SklearnMinMaxScaler(feature_range, copy=copy, clip=clip)
@@ -62,10 +66,13 @@ class Normalizer:
 
         Args:
             norm (str, optional): The norm to use to normalize each non zero sample.
-                                  If norm=’max’ is used, values will be rescaled by the maximum of the absolute values.
+                                  If norm=’max’ is used, values will be rescaled by
+                                  the maximum of the absolute values.
                                   Can take values {‘l1’, ‘l2’, ‘max’}. Defaults to 'l2'.
-            copy (bool, optional): Set to False to perform inplace row normalization and avoid a copy
-                                   (if the input is already a numpy array or a scipy.sparse CSR matrix). Defaults to True.
+            copy (bool, optional):
+                Set to False to perform inplace row normalization and avoid a copy
+                (if the input is already a numpy array or a scipy.sparse CSR matrix).
+                Defaults to True.
         """
         self.data_frame_wrapper = DataFrameWrapper(SklearnNormalizer(norm, copy=copy))
 
@@ -85,13 +92,18 @@ class StandardScaler(Transformer):
         """creates a pyreal StandardScaler
 
         Args:
-            copy (bool, optional): If False, try to avoid a copy and do inplace scaling instead.
-                                   This is not guaranteed to always work inplace;
-                                   e.g. if the data is not a NumPy array or scipy.sparse CSR matrix, a copy may still be returned.
-            with_mean (bool, optional): If True, center the data before scaling.
-                                        This does not work (and will raise an exception) when attempted on sparse matrices,
-                                        because centering them entails building a dense matrix which in common use cases is likely to be too large to fit in memory.
-            with_std (bool, optional): If True, scale the data to unit variance (or equivalently, unit standard deviation).
+            copy (bool, optional):
+                If False, try to avoid a copy and do inplace scaling instead.
+                This is not guaranteed to always work inplace;
+                e.g. if the data is not a NumPy array or scipy.sparse CSR matrix,
+                    a copy may still be returned.
+            with_mean (bool, optional):
+                If True, center the data before scaling.
+                This does not work (and will raise an exception) when attempted on sparse matrices,
+                because centering them entails building a dense matrix which
+                in common use cases is likely to be too large to fit in memory.
+            with_std (bool, optional): If True, scale the data to unit variance
+            (or equivalently, unit standard deviation).
         """
         self.data_frame_wrapper = DataFrameWrapper(
             SklearnStandardScaler(copy=copy, with_mean=with_mean, with_std=with_std)

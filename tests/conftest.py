@@ -196,10 +196,12 @@ def time_series_data():
         nested[f"var_{v}"] = [pd.Series(np3d[i, v, :]) for i in range(n_inst)]
     return {"np3d": np3d, "np2d": np2d, "df3d": df3d, "df2d": df2d, "nested": nested}
 
+
 @pytest.fixture()
 def minmax_scale_data():
     x = [[2, 1, 3, 9], [4, 3, 4, 0], [6, 7, 2, 2]]
     return x
+
 
 @pytest.fixture()
 def feature_contribution_explanation():
