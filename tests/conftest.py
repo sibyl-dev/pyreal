@@ -4,6 +4,7 @@ import pickle
 import numpy as np
 import pandas as pd
 import pytest
+from pandas import DataFrame
 from sklearn.linear_model import LinearRegression, LogisticRegression
 
 from pyreal.transformers import Transformer
@@ -198,9 +199,10 @@ def time_series_data():
 
 
 @pytest.fixture()
-def minmax_scale_data():
+def scale_data():
     x = [[2, 1, 3, 9], [4, 3, 4, 0], [6, 7, 2, 2]]
-    return x
+    pdData = DataFrame(x)
+    return {"ndarray": x, "pandas": pdData}
 
 
 @pytest.fixture()

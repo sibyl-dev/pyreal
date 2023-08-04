@@ -61,4 +61,6 @@ __all__ = [
     "TimeSeriesPadder",
     "BoolToIntCaster",
     "MinMaxScaler",
+    "Normalizer",
+    "StandardScaler",
 ]

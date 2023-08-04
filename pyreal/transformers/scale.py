@@ -8,7 +8,9 @@ from pyreal.transformers.wrappers import DataFrameWrapper
 
 class MinMaxScaler:
     """
-    basically a sklearn MinMaxScaler but maintains DataFrame type
+    Directly implements a sklearn MinMaxScaler into Pyreal.
+    Initializes a Transformer and implements fit(), data_transform(), and inverse_transform().
+
     """
 
     def __init__(self, feature_range=(0, 1), *, copy=True, clip=False):
@@ -31,13 +33,9 @@ class MinMaxScaler:
 
         # attributes
         self.min_ = None
-        self.scale_ = None
         self.data_min_ = None
         self.data_max_ = None
         self.data_range_ = None
-        self.n_features_in_ = None
-        self.n_samples_seen_ = None
-        self.feature_names_in_ = None
 
     # methods
 
