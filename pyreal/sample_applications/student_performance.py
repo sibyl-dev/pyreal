@@ -118,8 +118,8 @@ def load_transformers(x=None):
     return transformers
 
 
-def load_app():
-    x_train_orig, y = load_data()
+def load_app(n_rows=None):
+    x_train_orig, y = load_data(n_rows)
     model = load_model()
     transformers = load_transformers()
     feature_descriptions = load_feature_descriptions()
