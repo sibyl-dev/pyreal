@@ -51,11 +51,11 @@ def test_produce_permutation_regression_transforms(regression_one_hot):
         fit_on_init=True,
     )
 
-    helper_produce_permutation_regression_one_hot(gfi, regression_one_hot)
-    helper_produce_permutation_regression_one_hot(shap, regression_one_hot)
+    helper_produce_permutation_regression_one_hot(gfi)
+    helper_produce_permutation_regression_one_hot(shap)
 
 
-def helper_produce_permutation_regression_one_hot(explainer, model):
+def helper_produce_permutation_regression_one_hot(explainer):
     importances = explainer.produce().get()
     assert importances.shape == (1, 5)
     assert importances["A_2"][0] > 0.0001
