@@ -103,7 +103,7 @@ For a more detailed version of this tutorial, see [our documentation](https://dt
 
 ```
 passenger_id = 1
-plot_top_contributors(explanation[passenger_id], prediction=predictions[passenger_id], show=False)
+feature_bar_plot(explanation[passenger_id], prediction=predictions[passenger_id], show=False)
 
 ```
 

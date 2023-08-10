@@ -36,7 +36,7 @@ def _parse_multi_contribution(explanation):
     return contributions, values
 
 
-def plot_top_contributors(
+def feature_bar_plot(
     explanation,
     select_by="absolute",
     n=5,
@@ -88,6 +88,19 @@ def plot_top_contributors(
     elif isinstance(explanation, FeatureImportanceExplanation):
         explanation = realapp.format_feature_importance_output(explanation)
 
+    if isinstance(explanation, dict):
+        raise ValueError(
+            "Invalid explanation. Expected feature contribution explanation on a single instance"
+            " or feature importance explanation. If you are passing in an explanation from"
+            " RealApp.produce_feature_contributions(), please index to get a single instance, ie"
+            " explanation[0]."
+        )
+    if not isinstance(explanation, pd.DataFrame):
+        raise ValueError(
+            "Invalid explanation type, expected DataFrame or"
+            " FeatureContributionExplanation/FeatureImportanceExplanation object"
+        )
+
     explanation = get_top_contributors(explanation, n=n, select_by=select_by)
 
     features = explanation["Feature Name"].to_numpy()
@@ -117,10 +130,12 @@ def plot_top_contributors(
                     for i in range(len(features))
                 ]
             )
+    are_importances = False
     if "Contribution" in explanation:
         contributions = explanation["Contribution"]
     elif "Importance" in explanation:
         contributions = explanation["Importance"]
+        are_importances = True
     else:
         raise ValueError("Provided DataFrame has neither Contribution nor Importance column")
 
@@ -138,13 +153,20 @@ def plot_top_contributors(
     else:
         _, ax = plt.subplots(facecolor="w")
     plt.barh(features[::-1], contributions[::-1], color=colors)
-    plt.title("Contributions by feature", fontsize=18)
+    if are_importances:
+        title = "Feature Importance Scores"
+    else:
+        title = "Feature Contributions"
+    plt.title(title, fontsize=18)
     if prediction is not None:
         plt.title("Overall prediction: %s" % prediction, fontsize=12)
-        plt.suptitle("Contributions by feature", fontsize=18, y=1)
+        plt.suptitle(title, fontsize=18, y=1)
     if include_axis:
         plt.tick_params(axis="x", which="both", bottom=True, top=False, labelbottom=True)
-        plt.xlabel("Contribution")
+        if are_importances:
+            plt.xlabel("Importance")
+        else:
+            plt.xlabel("Contribution")
     else:
         plt.tick_params(axis="x", which="both", bottom=False, top=False, labelbottom=False)
 
