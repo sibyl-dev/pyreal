@@ -7,7 +7,7 @@ import pytest
 from pyreal import RealApp
 
 
-def test_initalization_one_model(regression_one_hot):
+def test_initialization_one_model(regression_one_hot):
     real_app = RealApp(
         regression_one_hot["model"],
         regression_one_hot["x"],
@@ -16,7 +16,7 @@ def test_initalization_one_model(regression_one_hot):
     assert real_app.get_active_model() is regression_one_hot["model"]
 
 
-def test_initalization_model_list(regression_one_hot, regression_no_transforms):
+def test_initialization_model_list(regression_one_hot, regression_no_transforms):
     real_app = RealApp(
         [regression_one_hot["model"], regression_no_transforms["model"]],
         regression_one_hot["x"],
@@ -25,7 +25,7 @@ def test_initalization_model_list(regression_one_hot, regression_no_transforms):
     assert real_app.get_active_model() is regression_one_hot["model"]
 
 
-def test_initalization_model_dict(regression_one_hot, regression_no_transforms):
+def test_initialization_model_dict(regression_one_hot, regression_no_transforms):
     model_dict = {"id1": regression_one_hot["model"], "id2": regression_no_transforms["model"]}
     real_app = RealApp(
         model_dict, regression_one_hot["x"], transformers=regression_one_hot["transformers"]
@@ -81,6 +81,41 @@ def test_predict(regression_one_hot):
     }
     result = real_app.predict(regression_one_hot["x"])
     assert np.array_equal(result, expected)
+
+    result = real_app.predict(regression_one_hot["x"], as_dict=False)
+    expected = np.array(regression_one_hot["y"]).reshape(-1)
+    assert np.array_equal(result, expected)
+
+
+def test_predict_series(regression_one_hot):
+    real_app = RealApp(
+        regression_one_hot["model"],
+        regression_one_hot["x"],
+        transformers=regression_one_hot["transformers"],
+    )
+
+    expected = np.array(regression_one_hot["y"])[0]
+    result = real_app.predict(regression_one_hot["x"].iloc[0])
+    assert np.array_equal(result, expected)
+
+
+def test_predict_id_column(dummy_model):
+    x = pd.DataFrame([[1, 0], [2, 2]])
+    real_app = RealApp(
+        dummy_model,
+        x,
+        id_column="ID",
+    )
+    features = ["A", "B"]
+    x_multi_dim = pd.DataFrame([[4, 1, "a"], [6, 2, "b"]], columns=features + ["ID"])
+
+    expected = {"a": 5, "b": 8}
+    result = real_app.predict(x_multi_dim)
+    assert np.array_equal(result, expected)
+
+    expected_single = 5
+    result_single = real_app.predict(x_multi_dim.iloc[0])
+    assert expected_single == result_single[0]
 
 
 def test_predict_multiple_models(dummy_models):
