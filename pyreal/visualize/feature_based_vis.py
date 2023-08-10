@@ -39,7 +39,7 @@ def _parse_multi_contribution(explanation):
 def plot_top_contributors(
     explanation,
     select_by="absolute",
-    type="separate",
+    type="multibar",
     n=5,
     transparent=False,
     flip_colors=False,
@@ -59,7 +59,7 @@ def plot_top_contributors(
             RealApp.prepare_feature_importance OR FeatureBased explanation object
         select_by (one of "absolute", "max", "min"):
             Method to use when selecting features.
-        type (one of "multibar", "absolute", or "separate"):
+        type (one of "absolute", or "separate"):
             Type of bar plot to use if multiple entities' contributions are provided.
             If "multibar", show one bar per entity
             If "absolute", sum together the absolute values of all contributions to get an average
@@ -90,9 +90,17 @@ def plot_top_contributors(
     """
     if isinstance(explanation, FeatureContributionExplanation):
         explanation = realapp.format_feature_contribution_output(explanation)
-        explanation = explanation[next(iter(explanation))]
     elif isinstance(explanation, FeatureImportanceExplanation):
         explanation = realapp.format_feature_importance_output(explanation)
+
+    if isinstance(explanation, dict):
+        if type == "separate":
+            pass
+        else:
+            base = explanation[next(iter(explanation))]
+            values = [explanation[key]["Feature Value"] for key in explanation]
+            if type == "absolute":
+                pass
 
     explanation = get_top_contributors(explanation, n=n, select_by=select_by)
 
