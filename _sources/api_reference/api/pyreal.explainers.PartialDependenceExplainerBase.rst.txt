@@ -1,0 +1,37 @@
+﻿pyreal.explainers.PartialDependenceExplainerBase
+================================================
+
+.. currentmodule:: pyreal.explainers
+
+.. autoclass:: PartialDependenceExplainerBase
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~PartialDependenceExplainerBase.__init__
+      ~PartialDependenceExplainerBase.convert_columns_to_interpretable
+      ~PartialDependenceExplainerBase.convert_data_to_interpretable
+      ~PartialDependenceExplainerBase.evaluate_model
+      ~PartialDependenceExplainerBase.evaluate_variation
+      ~PartialDependenceExplainerBase.feature_description
+      ~PartialDependenceExplainerBase.fit
+      ~PartialDependenceExplainerBase.get_pdp
+      ~PartialDependenceExplainerBase.model_predict
+      ~PartialDependenceExplainerBase.model_predict_on_algorithm
+      ~PartialDependenceExplainerBase.produce
+      ~PartialDependenceExplainerBase.transform_explanation
+      ~PartialDependenceExplainerBase.transform_to_x_algorithm
+      ~PartialDependenceExplainerBase.transform_to_x_interpret
+      ~PartialDependenceExplainerBase.transform_to_x_model
+      ~PartialDependenceExplainerBase.transform_x_from_algorithm_to_model
+   
+   
+
+   
+   
+   

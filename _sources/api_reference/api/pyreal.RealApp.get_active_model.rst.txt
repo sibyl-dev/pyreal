@@ -1,0 +1,6 @@
+﻿pyreal.RealApp.get\_active\_model
+=================================
+
+.. currentmodule:: pyreal
+
+.. automethod:: RealApp.get_active_model

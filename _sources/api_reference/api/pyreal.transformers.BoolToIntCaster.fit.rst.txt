@@ -1,0 +1,6 @@
+﻿pyreal.transformers.BoolToIntCaster.fit
+=======================================
+
+.. currentmodule:: pyreal.transformers
+
+.. automethod:: BoolToIntCaster.fit

@@ -1,0 +1,6 @@
+﻿pyreal.visualize.plot\_top\_contributors
+========================================
+
+.. currentmodule:: pyreal.visualize
+
+.. autofunction:: plot_top_contributors

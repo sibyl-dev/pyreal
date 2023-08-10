@@ -1,0 +1,6 @@
+﻿pyreal.transformers.Transformer.inverse\_transform
+==================================================
+
+.. currentmodule:: pyreal.transformers
+
+.. automethod:: Transformer.inverse_transform

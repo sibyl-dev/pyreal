@@ -1,0 +1,44 @@
+﻿pyreal.transformers.MappingsOneHotDecoder
+=========================================
+
+.. currentmodule:: pyreal.transformers
+
+.. autoclass:: MappingsOneHotDecoder
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~MappingsOneHotDecoder.__init__
+      ~MappingsOneHotDecoder.data_transform
+      ~MappingsOneHotDecoder.fit
+      ~MappingsOneHotDecoder.fit_transform
+      ~MappingsOneHotDecoder.helper_transform_explanation_additive
+      ~MappingsOneHotDecoder.inverse_data_transform
+      ~MappingsOneHotDecoder.inverse_transform
+      ~MappingsOneHotDecoder.inverse_transform_explanation
+      ~MappingsOneHotDecoder.inverse_transform_explanation_additive_feature_contribution
+      ~MappingsOneHotDecoder.inverse_transform_explanation_additive_feature_importance
+      ~MappingsOneHotDecoder.inverse_transform_explanation_decision_tree
+      ~MappingsOneHotDecoder.inverse_transform_explanation_feature_based
+      ~MappingsOneHotDecoder.inverse_transform_explanation_feature_contribution
+      ~MappingsOneHotDecoder.inverse_transform_explanation_feature_importance
+      ~MappingsOneHotDecoder.set_flags
+      ~MappingsOneHotDecoder.transform
+      ~MappingsOneHotDecoder.transform_explanation
+      ~MappingsOneHotDecoder.transform_explanation_additive_feature_contribution
+      ~MappingsOneHotDecoder.transform_explanation_additive_feature_importance
+      ~MappingsOneHotDecoder.transform_explanation_decision_tree
+      ~MappingsOneHotDecoder.transform_explanation_feature_based
+      ~MappingsOneHotDecoder.transform_explanation_feature_contribution
+      ~MappingsOneHotDecoder.transform_explanation_feature_importance
+   
+   
+
+   
+   
+   

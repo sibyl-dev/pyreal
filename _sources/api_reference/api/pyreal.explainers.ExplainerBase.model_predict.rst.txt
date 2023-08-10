@@ -1,0 +1,6 @@
+﻿pyreal.explainers.ExplainerBase.model\_predict
+==============================================
+
+.. currentmodule:: pyreal.explainers
+
+.. automethod:: ExplainerBase.model_predict

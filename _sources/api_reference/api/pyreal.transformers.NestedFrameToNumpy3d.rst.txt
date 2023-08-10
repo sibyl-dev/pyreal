@@ -1,0 +1,43 @@
+﻿pyreal.transformers.NestedFrameToNumpy3d
+========================================
+
+.. currentmodule:: pyreal.transformers
+
+.. autoclass:: NestedFrameToNumpy3d
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~NestedFrameToNumpy3d.__init__
+      ~NestedFrameToNumpy3d.data_transform
+      ~NestedFrameToNumpy3d.fit
+      ~NestedFrameToNumpy3d.fit_transform
+      ~NestedFrameToNumpy3d.inverse_data_transform
+      ~NestedFrameToNumpy3d.inverse_transform
+      ~NestedFrameToNumpy3d.inverse_transform_explanation
+      ~NestedFrameToNumpy3d.inverse_transform_explanation_additive_feature_contribution
+      ~NestedFrameToNumpy3d.inverse_transform_explanation_additive_feature_importance
+      ~NestedFrameToNumpy3d.inverse_transform_explanation_decision_tree
+      ~NestedFrameToNumpy3d.inverse_transform_explanation_feature_based
+      ~NestedFrameToNumpy3d.inverse_transform_explanation_feature_contribution
+      ~NestedFrameToNumpy3d.inverse_transform_explanation_feature_importance
+      ~NestedFrameToNumpy3d.set_flags
+      ~NestedFrameToNumpy3d.transform
+      ~NestedFrameToNumpy3d.transform_explanation
+      ~NestedFrameToNumpy3d.transform_explanation_additive_feature_contribution
+      ~NestedFrameToNumpy3d.transform_explanation_additive_feature_importance
+      ~NestedFrameToNumpy3d.transform_explanation_decision_tree
+      ~NestedFrameToNumpy3d.transform_explanation_feature_based
+      ~NestedFrameToNumpy3d.transform_explanation_feature_contribution
+      ~NestedFrameToNumpy3d.transform_explanation_feature_importance
+   
+   
+
+   
+   
+   

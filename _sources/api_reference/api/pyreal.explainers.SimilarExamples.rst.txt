@@ -1,0 +1,37 @@
+﻿pyreal.explainers.SimilarExamples
+=================================
+
+.. currentmodule:: pyreal.explainers
+
+.. autoclass:: SimilarExamples
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~SimilarExamples.__init__
+      ~SimilarExamples.convert_columns_to_interpretable
+      ~SimilarExamples.convert_data_to_interpretable
+      ~SimilarExamples.evaluate_model
+      ~SimilarExamples.evaluate_variation
+      ~SimilarExamples.feature_description
+      ~SimilarExamples.fit
+      ~SimilarExamples.get_explanation
+      ~SimilarExamples.model_predict
+      ~SimilarExamples.model_predict_on_algorithm
+      ~SimilarExamples.produce
+      ~SimilarExamples.transform_explanation
+      ~SimilarExamples.transform_to_x_algorithm
+      ~SimilarExamples.transform_to_x_interpret
+      ~SimilarExamples.transform_to_x_model
+      ~SimilarExamples.transform_x_from_algorithm_to_model
+   
+   
+
+   
+   
+   

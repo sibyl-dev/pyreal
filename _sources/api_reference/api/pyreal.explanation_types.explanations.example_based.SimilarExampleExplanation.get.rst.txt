@@ -1,0 +1,6 @@
+﻿pyreal.explanation\_types.explanations.example\_based.SimilarExampleExplanation.get
+===================================================================================
+
+.. currentmodule:: pyreal.explanation_types.explanations.example_based
+
+.. automethod:: SimilarExampleExplanation.get

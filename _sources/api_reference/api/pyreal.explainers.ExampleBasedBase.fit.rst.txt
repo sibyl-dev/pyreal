@@ -1,0 +1,6 @@
+﻿pyreal.explainers.ExampleBasedBase.fit
+======================================
+
+.. currentmodule:: pyreal.explainers
+
+.. automethod:: ExampleBasedBase.fit

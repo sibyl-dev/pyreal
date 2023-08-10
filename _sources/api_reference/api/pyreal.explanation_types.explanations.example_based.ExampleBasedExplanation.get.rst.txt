@@ -1,0 +1,6 @@
+﻿pyreal.explanation\_types.explanations.example\_based.ExampleBasedExplanation.get
+=================================================================================
+
+.. currentmodule:: pyreal.explanation_types.explanations.example_based
+
+.. automethod:: ExampleBasedExplanation.get

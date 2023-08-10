@@ -1,0 +1,6 @@
+﻿pyreal.explainers.ShapFeatureImportance.fit
+===========================================
+
+.. currentmodule:: pyreal.explainers
+
+.. automethod:: ShapFeatureImportance.fit

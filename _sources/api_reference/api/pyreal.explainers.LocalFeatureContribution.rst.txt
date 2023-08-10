@@ -1,0 +1,37 @@
+﻿pyreal.explainers.LocalFeatureContribution
+==========================================
+
+.. currentmodule:: pyreal.explainers
+
+.. autoclass:: LocalFeatureContribution
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~LocalFeatureContribution.__init__
+      ~LocalFeatureContribution.convert_columns_to_interpretable
+      ~LocalFeatureContribution.convert_data_to_interpretable
+      ~LocalFeatureContribution.evaluate_model
+      ~LocalFeatureContribution.evaluate_variation
+      ~LocalFeatureContribution.feature_description
+      ~LocalFeatureContribution.fit
+      ~LocalFeatureContribution.get_contributions
+      ~LocalFeatureContribution.model_predict
+      ~LocalFeatureContribution.model_predict_on_algorithm
+      ~LocalFeatureContribution.produce
+      ~LocalFeatureContribution.transform_explanation
+      ~LocalFeatureContribution.transform_to_x_algorithm
+      ~LocalFeatureContribution.transform_to_x_interpret
+      ~LocalFeatureContribution.transform_to_x_model
+      ~LocalFeatureContribution.transform_x_from_algorithm_to_model
+   
+   
+
+   
+   
+   

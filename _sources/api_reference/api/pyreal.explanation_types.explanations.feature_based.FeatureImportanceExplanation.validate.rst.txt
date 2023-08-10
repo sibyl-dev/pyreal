@@ -1,0 +1,6 @@
+﻿pyreal.explanation\_types.explanations.feature\_based.FeatureImportanceExplanation.validate
+===========================================================================================
+
+.. currentmodule:: pyreal.explanation_types.explanations.feature_based
+
+.. automethod:: FeatureImportanceExplanation.validate

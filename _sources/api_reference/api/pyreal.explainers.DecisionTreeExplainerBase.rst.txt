@@ -1,0 +1,37 @@
+﻿pyreal.explainers.DecisionTreeExplainerBase
+===========================================
+
+.. currentmodule:: pyreal.explainers
+
+.. autoclass:: DecisionTreeExplainerBase
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~DecisionTreeExplainerBase.__init__
+      ~DecisionTreeExplainerBase.convert_columns_to_interpretable
+      ~DecisionTreeExplainerBase.convert_data_to_interpretable
+      ~DecisionTreeExplainerBase.evaluate_model
+      ~DecisionTreeExplainerBase.evaluate_variation
+      ~DecisionTreeExplainerBase.feature_description
+      ~DecisionTreeExplainerBase.fit
+      ~DecisionTreeExplainerBase.model_predict
+      ~DecisionTreeExplainerBase.model_predict_on_algorithm
+      ~DecisionTreeExplainerBase.produce
+      ~DecisionTreeExplainerBase.return_features
+      ~DecisionTreeExplainerBase.transform_explanation
+      ~DecisionTreeExplainerBase.transform_to_x_algorithm
+      ~DecisionTreeExplainerBase.transform_to_x_interpret
+      ~DecisionTreeExplainerBase.transform_to_x_model
+      ~DecisionTreeExplainerBase.transform_x_from_algorithm_to_model
+   
+   
+
+   
+   
+   
