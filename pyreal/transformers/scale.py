@@ -8,28 +8,26 @@ from pyreal.transformers.wrappers import DataFrameWrapper
 
 class MinMaxScaler:
     """
+
     Directly implements a sklearn MinMaxScaler into Pyreal.
-    Initializes a Transformer and implements fit(), data_transform(), and inverse_transform().
+    Initializes a Transformer.
 
     """
 
-    def __init__(self, feature_range=(0, 1), *, copy=True, clip=False):
-        """initialize a wrapped transformer and DataFrameWrapper, then wrap the DataFrameWrapper
+    def __init__(self, feature_range=(0, 1), *, clip=False):
+        """
+        Initialize a wrapped transformer and DataFrameWrapper, then wrap the DataFrameWrapper
 
         Args:
             feature_range (tuple (min, max), default=(0, 1)):
                 Desired range of transformed data.
-            copy (bool, default=True):
-                Set to False to perform inplace row normalization and avoid a copy
-                (if the input is already a numpy array).
             clip (bool, default=False):
                 Set to True to clip transformed values of held-out data
                 to provided feature range.
         """
         self.data_frame_wrapper = DataFrameWrapper(
-            SklearnMinMaxScaler(feature_range, copy=copy, clip=clip)
+            SklearnMinMaxScaler(feature_range, copy=True, clip=clip)
         )
-        # self.sklearn = self.data_frame_wrapper.wrapped_transformer
 
         # attributes
         self.min_ = None
@@ -37,10 +35,17 @@ class MinMaxScaler:
         self.data_max_ = None
         self.data_range_ = None
 
-    # methods
-
     def fit(self, X, y=None):
-        # computes per-feature min & max (self.data_min_, self.data_max_)
+        """computes per-feature min & max (self.data_min_, self.data_max_)
+
+        Args:
+            X (DataFrame): represents an array to be fitted.
+            y (array): target values. Defaults to None.
+
+        Returns:
+            fitted Transformer
+        """
+
         ret = self.data_frame_wrapper.fit(X, y=y)
         self.min_ = self.data_frame_wrapper.wrapped_transformer.min_
         self.data_min_ = self.data_frame_wrapper.wrapped_transformer.data_min_
@@ -49,74 +54,141 @@ class MinMaxScaler:
         return ret
 
     def fit_transform(self, X, y=None, **fit_params):
+        """Fits and transforms
+
+        Args:
+            X (DataFrame): represents an array to be fitted.
+            y (array): target values. Defaults to None.
+
+        Returns:
+            DataFrame: a fitted and transformed DataFrame
+        """
         return self.data_frame_wrapper.fit_transform(X, y, **fit_params)
 
     def inverse_transform(self, X):
+        """Inverse transform X
+
+        Args:
+            X (DataFrame): the dataset to be inverse transformed
+
+        Returns:
+            DataFrame: the result of inverse transforming X
+        """
         return self.data_frame_wrapper.inverse_transform(X)
 
     def data_transform(self, X):
+        """Transform a dataset
+
+        Args:
+            X (Dataframe): the dataset to be inverse transformed
+
+        Returns:
+            DataFrame: the result of transforming X
+        """
         return self.data_frame_wrapper.transform(X)
 
 
 class Normalizer:
-    def __init__(self, norm="l2", *, copy=True):
-        """_summary_
+    def __init__(self, norm="l2"):
+        """
+        Initialize a wrapped transformer and DataFrameWrapper, then wrap the DataFrameWrapper
 
         Args:
             norm (str, optional): The norm to use to normalize each non zero sample.
                                   If norm=’max’ is used, values will be rescaled by
                                   the maximum of the absolute values.
                                   Can take values {‘l1’, ‘l2’, ‘max’}. Defaults to 'l2'.
-            copy (bool, optional):
-                Set to False to perform inplace row normalization and avoid a copy
-                (if the input is already a numpy array or a scipy.sparse CSR matrix).
-                Defaults to True.
         """
-        self.data_frame_wrapper = DataFrameWrapper(SklearnNormalizer(norm, copy=copy))
+        self.data_frame_wrapper = DataFrameWrapper(SklearnNormalizer(norm, copy=True))
 
-    # write methods
     def fit(self, X, y=None):
+        """Fits a dataset to the transformer
+
+        Args:
+            X (DataFrame): represents an array to be fitted.
+            y (array): target values. Defaults to None.
+
+        Returns:
+            fitted Transformer
+        """
         return self.data_frame_wrapper.fit(X, y=y)
 
     def fit_transform(self, X, y=None, **fit_params):
+        """Fits and transforms
+
+        Args:
+            X (DataFrame): represents an array to be fitted.
+            y (array): target values. Defaults to None.
+
+        Returns:
+            DataFrame: a fitted and transformed DataFrame
+        """
         return self.data_frame_wrapper.fit_transform(X, y, **fit_params)
 
     def data_transform(self, X):
+        """Transform a dataset
+
+        Args:
+            X (Dataframe): the dataset to be inverse transformed
+
+        Returns:
+            DataFrame: the result of transforming X
+        """
         return self.data_frame_wrapper.transform(X)
 
 
 class StandardScaler(Transformer):
-    def __init__(self, *, copy=True, with_mean=True, with_std=True):
-        """creates a pyreal StandardScaler
+    def __init__(self, *, with_mean=True, with_std=True):
+        """
+        Creates a pyreal StandardScaler, and wraps it a DataFrameWrapper,
+        then wraps the DataFrameWrapper
 
         Args:
-            copy (bool, optional):
-                If False, try to avoid a copy and do inplace scaling instead.
-                This is not guaranteed to always work inplace;
-                e.g. if the data is not a NumPy array or scipy.sparse CSR matrix,
-                    a copy may still be returned.
             with_mean (bool, optional):
                 If True, center the data before scaling.
-                This does not work (and will raise an exception) when attempted on sparse matrices,
-                because centering them entails building a dense matrix which
-                in common use cases is likely to be too large to fit in memory.
             with_std (bool, optional): If True, scale the data to unit variance
             (or equivalently, unit standard deviation).
         """
         self.data_frame_wrapper = DataFrameWrapper(
-            SklearnStandardScaler(copy=copy, with_mean=with_mean, with_std=with_std)
+            SklearnStandardScaler(copy=True, with_mean=with_mean, with_std=with_std)
         )
         self.mean_ = None
         self.var_ = None
 
     def fit(self, X, y=None, sample_weight=None):
+        """Fits a dataset to the transformer
+
+        Args:
+            X (DataFrame): represents an array to be fitted.
+            y (array): target values. Defaults to None.
+            sample_weight (array-like shape) weights for each sample. Defaults to NOne.
+
+        Returns:
+            fitted Transformer
+        """
         ret = self.data_frame_wrapper.fit(X, y=y, sample_weight=sample_weight)
         self.mean_ = ret.wrapped_transformer.mean_
         self.var_ = ret.wrapped_transformer.var_
         return ret
 
     def data_transform(self, X):
+        """Transform a dataset
+
+        Args:
+            X (Dataframe): the dataset to be inverse transformed
+
+        Returns:
+            DataFrame: the result of transforming X
+        """
         return self.data_frame_wrapper.transform(X)
 
     def inverse_transform(self, X):
+        """Inverse transform X
+
+        Args:
+            X (DataFrame): the dataset to be inverse transformed
+
+        Returns:
+            DataFrame: the result of inverse transforming X
+        """
         return self.data_frame_wrapper.inverse_transform(X)

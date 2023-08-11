@@ -116,4 +116,4 @@ def test_inverse_transform_standardscale(scale_data):
 
 
 if __name__ == "__main__":
-    test_fit_standardscale()
+    print()
