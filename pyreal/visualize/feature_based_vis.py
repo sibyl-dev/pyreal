@@ -336,9 +336,6 @@ def feature_scatter_plot(
             If True, show the figure
         filename (string or None):
             If not None, save the figure as filename
-
-    Returns:
-
     """
     contributions, values = _parse_multi_contribution(explanation)
 
