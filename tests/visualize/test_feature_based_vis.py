@@ -3,7 +3,7 @@ import pandas as pd
 
 from pyreal import RealApp
 from pyreal.explainers import GlobalFeatureImportance, LocalFeatureContribution
-from pyreal.visualize import feature_bar_plot, swarm_plot, plot_explanation
+from pyreal.visualize import feature_bar_plot, strip_plot, plot_explanation
 
 
 def test_feature_bar_plot_lfc_no_break(regression_no_transforms):
@@ -84,7 +84,7 @@ def test_plot_swarm_lfc_no_break(regression_no_transforms):
     )
     explanation = realApp.produce_feature_contributions(x_multi_dim)
 
-    swarm_plot(explanation, show=False)
+    strip_plot(explanation, show=False)
     plot_explanation(explanation, show=False)
 
 
@@ -103,5 +103,5 @@ def test_swarm_plot_lfc_object_no_break(regression_no_transforms):
         [[2, 10, 10], [2, 10, 10], [2, 2, 2], [1, 1, 1]], columns=["A", "B", "C"]
     )
     explanation = lfc.produce(x_multi_dim)
-    swarm_plot(explanation, show=False)
+    strip_plot(explanation, show=False)
     plot_explanation(explanation, show=False)

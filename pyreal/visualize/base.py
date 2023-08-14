@@ -9,7 +9,7 @@ from pyreal.explanation_types.explanations.feature_value_based import PartialDep
 from pyreal.explanation_types.explanations.base import Explanation
 from pyreal.visualize import (
     feature_bar_plot,
-    swarm_plot,
+    strip_plot,
     feature_scatter_plot,
     partial_dependence_plot,
 )
@@ -40,7 +40,7 @@ def plot_explanation(
     """
     if isinstance(explanation, FeatureContributionExplanation):
         if feature is None:
-            return swarm_plot(explanation, n=num_features, show=show, filename=filename, **kwargs)
+            return strip_plot(explanation, n=num_features, show=show, filename=filename, **kwargs)
         else:
             return feature_scatter_plot(
                 explanation, feature=feature, show=show, filename=filename, **kwargs
@@ -60,12 +60,14 @@ def plot_explanation(
 
     if isinstance(explanation, dict):  # Assume multiple feature contributions
         if feature is None:
-            return swarm_plot(explanation, n=num_features, show=show, filename=filename, **kwargs)
+            return strip_plot(explanation, n=num_features, show=show, filename=filename, **kwargs)
         else:
             return feature_scatter_plot(
                 explanation, feature=feature, show=show, filename=filename, **kwargs
             )
     if isinstance(explanation, pd.DataFrame):  # Assume importance or one-entity contributions
-        return feature_bar_plot(explanation)
+        return feature_bar_plot(
+            explanation, n=num_features, show=show, filename=filename, **kwargs
+        )
 
     raise ValueError("Given an explanation of an unrecognized format.")

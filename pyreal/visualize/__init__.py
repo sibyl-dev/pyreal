@@ -1,6 +1,6 @@
 from pyreal.visualize.feature_based_vis import (
     feature_bar_plot,
-    swarm_plot,
+    strip_plot,
     feature_scatter_plot,
 )
 from pyreal.visualize.partial_dependence_vis import partial_dependence_plot
@@ -14,7 +14,7 @@ from pyreal.visualize.base import plot_explanation
 
 __all__ = [
     "feature_bar_plot",
-    "swarm_plot",
+    "strip_plot",
     "plot_time_series_explanation",
     "plot_shapelet",
     "plot_timeseries_saliency",
