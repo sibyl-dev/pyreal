@@ -3,7 +3,7 @@ import pandas as pd
 
 from pyreal import RealApp
 from pyreal.explainers import GlobalFeatureImportance, LocalFeatureContribution
-from pyreal.visualize import feature_bar_plot, strip_plot, plot_explanation
+from pyreal.visualize import feature_bar_plot, plot_explanation, strip_plot
 
 
 def test_feature_bar_plot_lfc_no_break(regression_no_transforms):
