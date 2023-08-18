@@ -2,8 +2,33 @@ import numpy as np
 
 from pyreal.explainers.example.base import ExampleBasedBase
 from pyreal.explanation_types.explanations.example_based import CounterfactualExplanation
-from scipy.optimize import minimize
-from alibi.explainers import Counterfactual
+from pymoo.optimize import minimize
+from pymoo.algorithms.moo.nsga2 import NSGA2
+from pymoo.core.problem import ElementwiseProblem, Problem
+
+
+def _dist(a, b):
+    return np.sum((b-a)**2)
+
+
+class CFProblem(ElementwiseProblem):
+    def __init__(self, length, model, x_algo, target_prediction):
+        self.model = model
+        self.target_prediction = target_prediction
+        self.x_algo = x_algo.squeeze().values
+        super().__init__(n_var=length,
+                         n_obj=4, xl=np.full(length, -10000), xu=np.full(length, 10000))
+
+    def _evaluate(self, x, out, *args, **kwargs):
+        # Difference between the prediction on x_mod and the target prediction:
+        o1 = np.sum((self.model.predict(x.reshape(1, -1)) - self.target_prediction) ** 2)
+        # Distance between x_mod and the input:
+        o2 = _dist(self.x_algo, x)
+        # Sparsity of changes:
+        o3 = np.sum(self.x_algo != x)
+        # TODO Likelihood of features:
+        o4 = 0
+        out["F"] = [o1, o2, o3, o4]
 
 
 class Counterfactuals(ExampleBasedBase):
@@ -50,20 +75,22 @@ class Counterfactuals(ExampleBasedBase):
         Returns:
             CounterfactualExplanation
         """
-        x_algo = self.transform_to_x_algorithm(x_orig)
+        x_algo = self.transform_to_x_model(x_orig)
+        problem = CFProblem(x_algo.shape[-1], self.model, x_algo, target_prediction)
+        algorithm = NSGA2(pop_size=100)
+        result = minimize(problem, algorithm, ('n_gen', 200), seed=1)
+        print(result.X[0])
+        print(result.F[0])
 
-        def dist(a, b):
-            return np.linalg.norm(a, b)
 
-        def objective_function(x_mod):
-            # Difference between the prediction on x_mod and the target prediction:
-            o1 = (self.model.predict(x_mod) - target_prediction)**2
-            # Distance between x_mod and the input:
-            o2 = dist(x_algo, x_mod)
-            # Sparsity of changes:
-            o3 = np.sum(x_mod != x_algo)
-            # Likelihood of features:
-            
+from pyreal.sample_applications import ames_housing
+
+x_train_orig = ames_housing.load_data(n_rows=100).drop(columns="Id")
+model = ames_housing.load_model()
+transformers = ames_housing.load_transformers()
+
+explainer = Counterfactuals(model, x_train_orig, transformers=transformers)
+explainer.get_explanation(x_train_orig.iloc[0], target_prediction=200000)
 
 
 
