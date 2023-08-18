@@ -9,7 +9,7 @@ Feature Contribution Visualizations
 .. autosummary::
     :toctree: api/
 
-    plot_top_contributors
+    feature_bar_plot
     plot_tree_explanation
     swarm_plot
     feature_scatter_plot
