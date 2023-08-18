@@ -1,0 +1,6 @@
+﻿pyreal.visualize.feature\_bar\_plot
+===================================
+
+.. currentmodule:: pyreal.visualize
+
+.. autofunction:: feature_bar_plot
