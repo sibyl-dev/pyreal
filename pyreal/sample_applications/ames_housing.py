@@ -136,7 +136,7 @@ def load_model():
 def load_transformers():
     x_orig = load_data()
     x_orig = x_orig.drop("Id", axis="columns")
-    ames_imputer = AmesHousingImputer()
+    ames_imputer = AmesHousingImputer(algorithm=True)
     x_imputed = fit_transformers(ames_imputer, x_orig)
     object_columns = x_imputed.select_dtypes(include=["object"]).columns
     onehotencoder = OneHotEncoder(object_columns)
