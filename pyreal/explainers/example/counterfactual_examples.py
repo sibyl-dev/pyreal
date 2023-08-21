@@ -4,7 +4,14 @@ from pyreal.explainers.example.base import ExampleBasedBase
 from pyreal.explanation_types.explanations.example_based import CounterfactualExplanation
 from pymoo.optimize import minimize
 from pymoo.algorithms.moo.nsga2 import NSGA2, RankAndCrowdingSurvival
-from pymoo.core.mixed import MixedVariableGA
+from pymoo.algorithms.moo.nsga3 import NSGA3
+from pymoo.algorithms.moo.dnsga2 import DNSGA2
+from pymoo.core.mixed import (
+    MixedVariableGA,
+    MixedVariableMating,
+    MixedVariableSampling,
+    MixedVariableDuplicateElimination,
+)
 from pymoo.core.problem import ElementwiseProblem, Problem
 from pandas.api.types import is_numeric_dtype, is_bool_dtype, is_integer_dtype
 from pymoo.core import variable
@@ -17,14 +24,14 @@ def _dist(a, b):
 
 
 class CFProblem(ElementwiseProblem):
-    def __init__(self, length, model, x_algo, target_prediction, vars, transform_func):
+    def __init__(self, length, model, x_algo, target_prediction, vars, transform_func, **kwargs):
         self.model = model
         self.target_prediction = target_prediction
         self.column_order = x_algo.columns
         self.x_algo = x_algo.to_numpy()
         self.x_model = transform_func(x_algo).to_numpy()
         self.transform_func = transform_func
-        super().__init__(n_var=length, n_obj=4, vars=vars)
+        super().__init__(n_var=length, n_obj=4, vars=vars, **kwargs)
 
     def _evaluate(self, x, out, *args, **kwargs):
         # try:
@@ -92,7 +99,7 @@ class Counterfactuals(ExampleBasedBase):
                     bounds=(min(x_train_algo[col]) * 1.2, max(x_train_algo[col]) * 1.2)
                 )
             else:
-                self.vars[col] = variable.Choice(options=np.unique(x_train_algo[col]))
+                self.vars[col] = variable.Choice(options=list(np.unique(x_train_algo[col])))
         return self
 
     def get_explanation(self, x_orig, target_prediction, num_examples=3):
@@ -120,8 +127,14 @@ class Counterfactuals(ExampleBasedBase):
             vars=self.vars,
             transform_func=self.transform_x_from_algorithm_to_model,
         )
-        algorithm = MixedVariableGA(pop_size=10, survival=RankAndCrowdingSurvival())
-        result = minimize(problem, algorithm, ("n_gen", 500), seed=1)
+        # algorithm = MixedVariableGA(pop_size=10, survival=RankAndCrowdingSurvival())
+        algorithm = NSGA2(
+            pop_size=30,
+            sampling=MixedVariableSampling(),
+            mating=MixedVariableMating(eliminate_duplicates=MixedVariableDuplicateElimination()),
+            eliminate_duplicates=MixedVariableDuplicateElimination(),
+        )
+        result = minimize(problem, algorithm, ("n_gen", 500), seed=3, verbose=False)
         return pd.DataFrame(list(result.X))[x_algo.columns]
 
 
