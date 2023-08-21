@@ -128,7 +128,7 @@ def load_model():
     x_orig = x_orig.drop("Id", axis="columns")
     x_model = run_transformers(transformers, x_orig)
     model = Ridge()
-    model.fit(x_model, y)
+    model.fit(x_model.to_numpy(), y)
 
     return model
 
@@ -139,7 +139,7 @@ def load_transformers():
     ames_imputer = AmesHousingImputer(algorithm=True)
     x_imputed = fit_transformers(ames_imputer, x_orig)
     object_columns = x_imputed.select_dtypes(include=["object"]).columns
-    onehotencoder = OneHotEncoder(object_columns)
+    onehotencoder = OneHotEncoder(object_columns, algorithm=False)
     fit_transformers(onehotencoder, x_imputed)
 
     transformers = [ames_imputer, onehotencoder]
