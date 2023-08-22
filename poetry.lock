@@ -2809,9 +2809,9 @@ scipy = ">=1.1"
 
 [package.source]
 type = "git"
-url = "https://github.com/anyoptimization/pymoo.git"
-reference = "main"
-resolved_reference = "6fac683d5b9cc8f5c4088e8ad62d01da1cd0a696"
+url = "https://github.com/zyteka/pymoo.git"
+reference = "bugfix"
+resolved_reference = "90c30fc0e6a0a923fb368ad412fa7c5985a337c9"
 
 [[package]]
 name = "pyparsing"
@@ -4105,4 +4105,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.9, <3.12"
-content-hash = "be25b38fe69c8c13b223586de38ad131dcd3f2c15cc3c2b290aee1bbc41b2b4d"
+content-hash = "9deac30d6326afebeffb15c9d3b0bc3b459d4007c0956b6861d7661e9cbfbb07"
