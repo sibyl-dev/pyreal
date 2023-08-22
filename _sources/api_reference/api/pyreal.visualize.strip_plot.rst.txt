@@ -1,6 +1,6 @@
-﻿pyreal.visualize.swarm\_plot
+﻿pyreal.visualize.strip\_plot
 ============================
 
 .. currentmodule:: pyreal.visualize
 
-.. autofunction:: swarm_plot
+.. autofunction:: strip_plot

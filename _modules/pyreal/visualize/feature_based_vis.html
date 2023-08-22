@@ -506,8 +506,8 @@ document.write(`
         <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></div>
 
 
-<div class="viewcode-block" id="swarm_plot"><a class="viewcode-back" href="../../../api_reference/api/pyreal.visualize.swarm_plot.html#pyreal.visualize.swarm_plot">[docs]</a><span class="k">def</span> <span class="nf">swarm_plot</span><span class="p">(</span>
-    <span class="n">explanation</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;swarm&quot;</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">discrete</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+<div class="viewcode-block" id="strip_plot"><a class="viewcode-back" href="../../../api_reference/api/pyreal.visualize.strip_plot.html#pyreal.visualize.strip_plot">[docs]</a><span class="k">def</span> <span class="nf">strip_plot</span><span class="p">(</span>
+    <span class="n">explanation</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;strip&quot;</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">discrete</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Generates a strip plot (type=&quot;strip&quot;) or a swarm plot (type=&quot;swarm&quot;) from a set of feature</span>
@@ -660,9 +660,6 @@ document.write(`
 <span class="sd">            If True, show the figure</span>
 <span class="sd">        filename (string or None):</span>
 <span class="sd">            If not None, save the figure as filename</span>
-
-<span class="sd">    Returns:</span>
-
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">contributions</span><span class="p">,</span> <span class="n">values</span> <span class="o">=</span> <span class="n">_parse_multi_contribution</span><span class="p">(</span><span class="n">explanation</span><span class="p">)</span>
 

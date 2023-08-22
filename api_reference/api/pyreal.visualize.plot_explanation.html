@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>pyreal.visualize.swarm_plot &#8212; Pyreal 0.4.4 documentation</title>
+    <title>pyreal.visualize.plot_explanation &#8212; Pyreal 0.4.4 documentation</title>
   
   
   
@@ -38,12 +38,12 @@
     <script src="../../_static/doctools.js"></script>
     <script src="../../_static/sphinx_highlight.js"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'api_reference/api/pyreal.visualize.swarm_plot';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'api_reference/api/pyreal.visualize.plot_explanation';</script>
     <link rel="icon" href="../../_static/dai-logo-white.ico"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="pyreal.visualize.feature_scatter_plot" href="pyreal.visualize.feature_scatter_plot.html" />
-    <link rel="prev" title="pyreal.visualize.plot_tree_explanation" href="pyreal.visualize.plot_tree_explanation.html" />
+    <link rel="next" title="pyreal.visualize.feature_bar_plot" href="pyreal.visualize.feature_bar_plot.html" />
+    <link rel="prev" title="Visualization" href="../visualize.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -525,9 +525,10 @@ document.write(`
 </ul>
 </li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="../visualize.html">Visualization</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-13" name="toctree-checkbox-13" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-13"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">pyreal.visualize.plot_explanation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.visualize.feature_bar_plot.html">pyreal.visualize.feature_bar_plot</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.visualize.plot_tree_explanation.html">pyreal.visualize.plot_tree_explanation</a></li>
-<li class="toctree-l2 current active"><a class="current reference internal" href="#">pyreal.visualize.swarm_plot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyreal.visualize.strip_plot.html">pyreal.visualize.strip_plot</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.visualize.feature_scatter_plot.html">pyreal.visualize.feature_scatter_plot</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.visualize.plot_timeseries_saliency.html">pyreal.visualize.plot_timeseries_saliency</a></li>
 </ul>
@@ -575,7 +576,7 @@ document.write(`
     
     <li class="breadcrumb-item"><a href="../visualize.html" class="nav-link">Visualization</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page">pyreal.visualize.swarm_plot</li>
+    <li class="breadcrumb-item active" aria-current="page">pyreal.visualize.plot_explanation</li>
   </ul>
 </nav>
 </div>
@@ -592,27 +593,22 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <section id="pyreal-visualize-swarm-plot">
-<h1>pyreal.visualize.swarm_plot<a class="headerlink" href="#pyreal-visualize-swarm-plot" title="Permalink to this heading">#</a></h1>
+  <section id="pyreal-visualize-plot-explanation">
+<h1>pyreal.visualize.plot_explanation<a class="headerlink" href="#pyreal-visualize-plot-explanation" title="Permalink to this heading">#</a></h1>
 <dl class="py function">
-<dt class="sig sig-object py" id="pyreal.visualize.swarm_plot">
-<span class="sig-prename descclassname"><span class="pre">pyreal.visualize.</span></span><span class="sig-name descname"><span class="pre">swarm_plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">explanation</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'swarm'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">discrete</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyreal/visualize/feature_based_vis.html#swarm_plot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyreal.visualize.swarm_plot" title="Permalink to this definition">#</a></dt>
-<dd><p>Generates a strip plot (type=”strip”) or a swarm plot (type=”swarm”) from a set of feature
-contributions.</p>
+<dt class="sig sig-object py" id="pyreal.visualize.plot_explanation">
+<span class="sig-prename descclassname"><span class="pre">pyreal.visualize.</span></span><span class="sig-name descname"><span class="pre">plot_explanation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">explanation</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_features</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyreal/visualize/base.html#plot_explanation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyreal.visualize.plot_explanation" title="Permalink to this definition">#</a></dt>
+<dd><p>Plots a RealApp output or Pyreal explanation using the most appropriate visualization method</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>explanation</strong> (<em>DataFrame</em><em> or </em><a class="reference internal" href="pyreal.explanation_types.explanations.feature_based.FeatureBased.html#pyreal.explanation_types.explanations.feature_based.FeatureBased" title="pyreal.explanation_types.explanations.feature_based.FeatureBased"><em>FeatureBased</em></a>) – One output DataFrame from RealApp.produce_feature_contributions OR
-FeatureContributions explanation object</p></li>
-<li><p><strong>(</strong><strong>String</strong> (<em>type</em>) – The type of plot to generate</p></li>
-<li><p><strong>[</strong><strong>&quot;strip&quot;</strong> (<em>one of</em>) – The type of plot to generate</p></li>
-<li><p><strong>&quot;swarm&quot;</strong><strong>]</strong> – The type of plot to generate</p></li>
-<li><p><strong>n</strong> (<em>int</em>) – Number of features to show</p></li>
-<li><p><strong>discrete</strong> (<em>Boolean</em>) – If true, give discrete legends for each row. Otherwise, give a colorbar legend</p></li>
-<li><p><strong>show</strong> (<em>Boolean</em>) – If True, show the figure</p></li>
-<li><p><strong>filename</strong> (<em>string</em><em> or </em><em>None</em>) – If not None, save the figure as filename</p></li>
-<li><p><strong>legend</strong> (<em>Boolean</em>) – If True, show a colorbar legend</p></li>
-<li><p><strong>**kwargs</strong> – Additional arguments to pass to seaborn.swarmplot or seaborn.stripplot</p></li>
+<li><p><strong>explanation</strong> (<em>Explanation object</em><em> or </em><em>valid RealApp explanation format</em>) – The explanation to plot</p></li>
+<li><p><strong>feature</strong> (<em>string</em>) – If given, generate a plot for this explanation. Currently ignored for all explanation
+types except single entity feature contribution explanations.</p></li>
+<li><p><strong>num_features</strong> (<em>int</em>) – If the plot shows multiple features, the number of features to plot</p></li>
+<li><p><strong>show</strong> (<em>Boolean</em>) – If True, show the plot after generating</p></li>
+<li><p><strong>filename</strong> (<em>string</em>) – If given, save the figure as filename</p></li>
+<li><p><strong>**kwargs</strong> – Additional arguments to pass to the selected plot</p></li>
 </ul>
 </dd>
 </dl>
@@ -632,20 +628,20 @@ FeatureContributions explanation object</p></li>
     <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
-       href="pyreal.visualize.plot_tree_explanation.html"
+       href="../visualize.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">pyreal.visualize.plot_tree_explanation</p>
+        <p class="prev-next-title">Visualization</p>
       </div>
     </a>
     <a class="right-next"
-       href="pyreal.visualize.feature_scatter_plot.html"
+       href="pyreal.visualize.feature_bar_plot.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">pyreal.visualize.feature_scatter_plot</p>
+        <p class="prev-next-title">pyreal.visualize.feature_bar_plot</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -667,13 +663,13 @@ FeatureContributions explanation object</p></li>
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pyreal.visualize.swarm_plot"><code class="docutils literal notranslate"><span class="pre">swarm_plot()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pyreal.visualize.plot_explanation"><code class="docutils literal notranslate"><span class="pre">plot_explanation()</span></code></a></li>
 </ul>
   </nav></div>
 
   <div class="sidebar-secondary-item">
   <div class="tocsection sourcelink">
-    <a href="../../_sources/api_reference/api/pyreal.visualize.swarm_plot.rst.txt">
+    <a href="../../_sources/api_reference/api/pyreal.visualize.plot_explanation.rst.txt">
       <i class="fa-solid fa-file-lines"></i> Show Source
     </a>
   </div>
