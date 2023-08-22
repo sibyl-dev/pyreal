@@ -20,6 +20,7 @@ def plot_explanation(
 ):
     """
     Plots a RealApp output or Pyreal explanation using the most appropriate visualization method
+
     Args:
         explanation (Explanation object or valid RealApp explanation format):
             The explanation to plot
@@ -35,8 +36,6 @@ def plot_explanation(
         **kwargs:
             Additional arguments to pass to the selected plot
 
-    Returns:
-        None
     """
     if isinstance(explanation, FeatureContributionExplanation):
         if feature is None:
