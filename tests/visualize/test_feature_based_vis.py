@@ -3,7 +3,7 @@ import pandas as pd
 
 from pyreal import RealApp
 from pyreal.explainers import GlobalFeatureImportance, LocalFeatureContribution
-from pyreal.visualize import feature_bar_plot, swarm_plot
+from pyreal.visualize import feature_bar_plot, plot_explanation, strip_plot
 
 
 def test_feature_bar_plot_lfc_no_break(regression_no_transforms):
@@ -19,6 +19,7 @@ def test_feature_bar_plot_lfc_no_break(regression_no_transforms):
     explanation = realApp.produce_feature_contributions(x_one_dim)
 
     feature_bar_plot(explanation[next(iter(explanation))], show=False)
+    plot_explanation(explanation[next(iter(explanation))], show=False)
 
 
 def test_feature_bar_plot_gfi_no_break(regression_no_transforms):
@@ -33,6 +34,7 @@ def test_feature_bar_plot_gfi_no_break(regression_no_transforms):
     explanation = realApp.produce_feature_importance()
 
     feature_bar_plot(explanation, show=False)
+    plot_explanation(explanation, show=False)
 
 
 def test_feature_bar_plot_lfc_object_no_break(regression_no_transforms):
@@ -49,6 +51,7 @@ def test_feature_bar_plot_lfc_object_no_break(regression_no_transforms):
     x_one_dim = pd.DataFrame([[2, 10, 10]], columns=["A", "B", "C"])
     explanation = lfc.produce(x_one_dim)
     feature_bar_plot(explanation, show=False)
+    plot_explanation(explanation, show=False)
 
 
 def test_feature_bar_plot_gfi_object_no_break(regression_no_transforms):
@@ -64,6 +67,7 @@ def test_feature_bar_plot_gfi_object_no_break(regression_no_transforms):
 
     explanation = lfc.produce()
     feature_bar_plot(explanation, show=False)
+    plot_explanation(explanation, show=False)
 
 
 def test_plot_swarm_lfc_no_break(regression_no_transforms):
@@ -80,7 +84,8 @@ def test_plot_swarm_lfc_no_break(regression_no_transforms):
     )
     explanation = realApp.produce_feature_contributions(x_multi_dim)
 
-    swarm_plot(explanation, show=False)
+    strip_plot(explanation, show=False)
+    plot_explanation(explanation, show=False)
 
 
 def test_swarm_plot_lfc_object_no_break(regression_no_transforms):
@@ -98,4 +103,5 @@ def test_swarm_plot_lfc_object_no_break(regression_no_transforms):
         [[2, 10, 10], [2, 10, 10], [2, 2, 2], [1, 1, 1]], columns=["A", "B", "C"]
     )
     explanation = lfc.produce(x_multi_dim)
-    swarm_plot(explanation, show=False)
+    strip_plot(explanation, show=False)
+    plot_explanation(explanation, show=False)

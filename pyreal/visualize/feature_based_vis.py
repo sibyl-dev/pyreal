@@ -182,8 +182,8 @@ def feature_bar_plot(
         plt.show()
 
 
-def swarm_plot(
-    explanation, type="swarm", n=5, discrete=False, show=False, filename=None, **kwargs
+def strip_plot(
+    explanation, type="strip", n=5, discrete=False, show=False, filename=None, **kwargs
 ):
     """
     Generates a strip plot (type="strip") or a swarm plot (type="swarm") from a set of feature
@@ -336,9 +336,6 @@ def feature_scatter_plot(
             If True, show the figure
         filename (string or None):
             If not None, save the figure as filename
-
-    Returns:
-
     """
     contributions, values = _parse_multi_contribution(explanation)
 
