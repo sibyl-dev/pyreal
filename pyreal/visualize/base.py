@@ -8,6 +8,7 @@ from pyreal.explanation_types.explanations.feature_based import (
 )
 from pyreal.explanation_types.explanations.feature_value_based import PartialDependenceExplanation
 from pyreal.visualize import (
+    example_table,
     feature_bar_plot,
     feature_scatter_plot,
     partial_dependence_plot,
@@ -82,9 +83,13 @@ def plot_explanation(
     if isinstance(explanation, Explanation):
         raise ValueError("Sorry - the explanation given is not of a type currently supported.")
 
+    if isinstance(explanation, dict) and "X" in explanation:
+        return example_table(explanation)
+
     if isinstance(explanation, dict):  # Assume multiple feature contributions
-        if feature is None:
-            return strip_plot(
+        if "Contribution" in explanation[next(iter(explanation))]:
+            if feature is None:
+                return strip_plot(
                 explanation,
                 num_features=num_features,
                 show=show,
@@ -92,14 +97,20 @@ def plot_explanation(
                 discrete=discrete,
                 **kwargs,
             )
-        else:
-            return feature_scatter_plot(
+            else:
+                return feature_scatter_plot(
                 explanation,
                 feature=feature,
                 show=show,
                 filename=filename,
                 predictions=predictions,
                 **kwargs,
+                )
+        else:
+            raise ValueError(
+                "Unsupported explanation type. If this is an output from an example-based"
+                " explanation, this function only supports taking one row result at a time (ie,"
+                " plot_explanation(example_explanation[0])"
             )
     if isinstance(explanation, pd.DataFrame):  # Assume importance or one-entity contributions
         return feature_bar_plot(

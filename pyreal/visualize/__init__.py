@@ -10,7 +10,9 @@ from pyreal.visualize.time_series_vis import (
     plot_timeseries_saliency,
 )
 from pyreal.visualize.tree_vis import plot_tree_explanation
+from pyreal.visualize.example_based_vis import example_table
 from pyreal.visualize.base import plot_explanation
+
 
 __all__ = [
     "feature_bar_plot",
@@ -21,5 +23,6 @@ __all__ = [
     "plot_tree_explanation",
     "partial_dependence_plot",
     "feature_scatter_plot",
+    "example_table",
     "plot_explanation",
 ]
