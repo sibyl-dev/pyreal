@@ -3,7 +3,7 @@ import numpy as np
 
 def get_top_contributors(explanation, n=5, select_by="absolute"):
     """
-    Extracts the top `n` most important or contributing features from a feature-based explanation.
+    Extracts the top `num_features` most important or contributing features from a feature-based explanation.
 
     Args:
         explanation (DataFrame with an Importance or Contribution column):
