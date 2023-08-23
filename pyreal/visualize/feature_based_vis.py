@@ -101,7 +101,7 @@ def feature_bar_plot(
             " FeatureContributionExplanation/FeatureImportanceExplanation object"
         )
 
-    explanation = get_top_contributors(explanation, n=num_features, select_by=select_by)
+    explanation = get_top_contributors(explanation, num_features=num_features, select_by=select_by)
 
     features = explanation["Feature Name"].to_numpy()
     if "Feature Value" in explanation:
