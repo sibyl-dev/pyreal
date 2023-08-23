@@ -383,6 +383,7 @@ document.write(`
         <span class="n">explanation</span><span class="o">.</span><span class="n">update_examples</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">transform_to_x_interpret</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">interpretable_features</span><span class="p">:</span>
             <span class="n">explanation</span><span class="o">.</span><span class="n">update_examples</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">convert_columns_to_interpretable</span><span class="p">)</span>
+        <span class="n">explanation</span><span class="o">.</span><span class="n">update_values</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">convert_data_to_interpretable</span><span class="p">(</span><span class="n">x_orig</span><span class="p">),</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">explanation</span></div>
 
     <span class="nd">@abstractmethod</span>

@@ -332,6 +332,7 @@ document.write(`
 <span class="p">)</span>
 <span class="kn">from</span> <span class="nn">pyreal.explanation_types.explanations.feature_value_based</span> <span class="kn">import</span> <span class="n">PartialDependenceExplanation</span>
 <span class="kn">from</span> <span class="nn">pyreal.visualize</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">example_table</span><span class="p">,</span>
     <span class="n">feature_bar_plot</span><span class="p">,</span>
     <span class="n">feature_scatter_plot</span><span class="p">,</span>
     <span class="n">partial_dependence_plot</span><span class="p">,</span>
@@ -381,12 +382,24 @@ document.write(`
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">explanation</span><span class="p">,</span> <span class="n">Explanation</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Sorry - the explanation given is not of a type currently supported.&quot;</span><span class="p">)</span>
 
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">explanation</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span> <span class="ow">and</span> <span class="s2">&quot;X&quot;</span> <span class="ow">in</span> <span class="n">explanation</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">example_table</span><span class="p">(</span><span class="n">explanation</span><span class="p">)</span>
+
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">explanation</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>  <span class="c1"># Assume multiple feature contributions</span>
-        <span class="k">if</span> <span class="n">feature</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">strip_plot</span><span class="p">(</span><span class="n">explanation</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">num_features</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="n">show</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="n">filename</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;Contribution&quot;</span> <span class="ow">in</span> <span class="n">explanation</span><span class="p">[</span><span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">explanation</span><span class="p">))]:</span>
+            <span class="k">if</span> <span class="n">feature</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">strip_plot</span><span class="p">(</span>
+                    <span class="n">explanation</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">num_features</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="n">show</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="n">filename</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+                <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">feature_scatter_plot</span><span class="p">(</span>
+                    <span class="n">explanation</span><span class="p">,</span> <span class="n">feature</span><span class="o">=</span><span class="n">feature</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="n">show</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="n">filename</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+                <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">feature_scatter_plot</span><span class="p">(</span>
-                <span class="n">explanation</span><span class="p">,</span> <span class="n">feature</span><span class="o">=</span><span class="n">feature</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="n">show</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="n">filename</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;Unsupported explanation type. If this is an output from an example-based&quot;</span>
+                <span class="s2">&quot; explanation, this function only supports taking one row result at a time (ie,&quot;</span>
+                <span class="s2">&quot; plot_explanation(example_explanation[0])&quot;</span>
             <span class="p">)</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">explanation</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>  <span class="c1"># Assume importance or one-entity contributions</span>
         <span class="k">return</span> <span class="n">feature_bar_plot</span><span class="p">(</span>
