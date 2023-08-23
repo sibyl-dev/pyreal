@@ -785,6 +785,10 @@ class RealApp:
         if algorithm is None:
             algorithm = "nn"
 
+        format_kwargs = dict()
+        if format_y:
+            format_kwargs["y_format_func"] = self.pred_format_func
+
         return self._produce_explanation_helper(
             "se",
             algorithm,
@@ -797,7 +801,7 @@ class RealApp:
             force_refit=force_refit,
             prepare_kwargs={"standardize": standardize},
             produce_kwargs={"n": n},
-            format_kwargs={"y_format_func": self.pred_format_func},
+            format_kwargs=format_kwargs,
         )
 
     def _get_x_train_orig(self, x_train_orig):

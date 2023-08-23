@@ -152,6 +152,18 @@ def test_predict_format(regression_one_hot):
     result = real_app.predict(regression_one_hot["x"])
     assert np.array_equal(result, expected)
 
+    # Test with format=false
+    expected_unformatted = {
+        key: value
+        for (key, value) in zip(
+            regression_one_hot["x"].index,
+            np.array(regression_one_hot["y"]).reshape(-1),
+        )
+    }
+    result = real_app.predict(regression_one_hot["x"], format=False)
+    assert np.array_equal(result, expected_unformatted)
+
+    # Test with as_dict=false
     result = real_app.predict(regression_one_hot["x"], as_dict=False)
     expected = np.array(list(expected.values()))
     assert np.array_equal(result, expected)
