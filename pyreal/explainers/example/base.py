@@ -59,6 +59,7 @@ class ExampleBasedBase(ExplainerBase, ABC):
         explanation.update_examples(self.transform_to_x_interpret)
         if self.interpretable_features:
             explanation.update_examples(self.convert_columns_to_interpretable)
+        explanation.update_values(self.convert_data_to_interpretable(x_orig), inplace=True)
         return explanation
 
     @abstractmethod
