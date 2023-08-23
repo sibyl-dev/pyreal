@@ -76,9 +76,11 @@ def format_similar_examples_output(explanation, ids=None, series=False):
             If True, the produce function was passed a series input
 
     Returns:
-        {"X": DataFrame, "y": Series} (if series), else {"id" -> {"X": DataFrame, "y": Series}}
+        {"X": DataFrame, "y": Series, "Input": Series} (if series),
+                else {"id" -> {"X": DataFrame, "y": Series, "Input": Series}}
             X is the examples, ordered from top to bottom by similarity to input and
             y is the corresponding y values
+            Input is the original input in the same feature space
     """
     result = {}
     if ids is None:
@@ -86,7 +88,11 @@ def format_similar_examples_output(explanation, ids=None, series=False):
     for key, row_id in enumerate(ids):
         examples = explanation.get_examples(row_id=key)
         targets = explanation.get_targets(row_id=key)
-        result[row_id] = {"X": examples, "y": targets}
+        result[row_id] = {
+            "X": examples,
+            "y": targets,
+            "Input": explanation.get_values().iloc[key, :],
+        }
     if series:
         return result[next(iter(result))]
     return result
