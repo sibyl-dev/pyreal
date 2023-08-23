@@ -131,6 +131,37 @@ def test_predict_multiple_models(dummy_models):
     assert np.array_equal(result, expected)
 
 
+def test_predict_format(regression_one_hot):
+    def format_func(pred):
+        return "test%i" % pred
+
+    real_app = RealApp(
+        regression_one_hot["model"],
+        regression_one_hot["x"],
+        transformers=regression_one_hot["transformers"],
+        pred_format_func=format_func,
+    )
+
+    expected = {
+        key: format_func(value)
+        for (key, value) in zip(
+            regression_one_hot["x"].index,
+            np.array(regression_one_hot["y"]).reshape(-1),
+        )
+    }
+    result = real_app.predict(regression_one_hot["x"])
+    assert np.array_equal(result, expected)
+
+    result = real_app.predict(regression_one_hot["x"], as_dict=False)
+    expected = np.array(list(expected.values()))
+    assert np.array_equal(result, expected)
+
+    # Test series input
+    expected = np.array([expected[0]])
+    result = real_app.predict(regression_one_hot["x"].iloc[0])
+    assert np.array_equal(result, expected)
+
+
 def test_realapp_check_size(regression_no_transforms):
     x_large = pd.DataFrame(np.random.randint(0, 100, (1000, 3)))
     y_large = pd.DataFrame(np.random.randint(0, 100, (1000,)))
