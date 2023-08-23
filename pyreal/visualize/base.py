@@ -84,27 +84,27 @@ def plot_explanation(
         raise ValueError("Sorry - the explanation given is not of a type currently supported.")
 
     if isinstance(explanation, dict) and "X" in explanation:
-        return example_table(explanation)
+        return example_table(explanation, **kwargs)
 
     if isinstance(explanation, dict):  # Assume multiple feature contributions
         if "Contribution" in explanation[next(iter(explanation))]:
             if feature is None:
                 return strip_plot(
-                explanation,
-                num_features=num_features,
-                show=show,
-                filename=filename,
-                discrete=discrete,
-                **kwargs,
-            )
+                    explanation,
+                    num_features=num_features,
+                    show=show,
+                    filename=filename,
+                    discrete=discrete,
+                    **kwargs,
+                )
             else:
                 return feature_scatter_plot(
-                explanation,
-                feature=feature,
-                show=show,
-                filename=filename,
-                predictions=predictions,
-                **kwargs,
+                    explanation,
+                    feature=feature,
+                    show=show,
+                    filename=filename,
+                    predictions=predictions,
+                    **kwargs,
                 )
         else:
             raise ValueError(
