@@ -8,11 +8,11 @@ from pyreal.explanation_types.explanations.feature_based import (
 )
 from pyreal.explanation_types.explanations.feature_value_based import PartialDependenceExplanation
 from pyreal.visualize import (
+    example_table,
     feature_bar_plot,
     feature_scatter_plot,
     partial_dependence_plot,
     strip_plot,
-    example_table,
 )
 
 

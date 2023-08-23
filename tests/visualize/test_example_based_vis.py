@@ -1,5 +1,6 @@
-from pyreal import RealApp
 import pandas as pd
+
+from pyreal import RealApp
 from pyreal.visualize import example_table, plot_explanation
 
 
