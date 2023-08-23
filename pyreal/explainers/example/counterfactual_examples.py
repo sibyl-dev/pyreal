@@ -24,14 +24,16 @@ def _dist(a, b):
 
 
 class CFProblem(ElementwiseProblem):
-    def __init__(self, length, model, x_algo, target_prediction, vars, transform_func, **kwargs):
+    def __init__(self, length, model, x_algo, target_prediction, vars, transform_func):
         self.model = model
         self.target_prediction = target_prediction
         self.column_order = x_algo.columns
         self.x_algo = x_algo.to_numpy()
         self.x_model = transform_func(x_algo).to_numpy()
         self.transform_func = transform_func
-        super().__init__(n_var=length, n_obj=4, vars=vars, **kwargs)
+        super().__init__(
+            n_var=length, n_obj=4, vars=vars, xl=np.ones(len(vars)), xu=np.ones(len(vars))
+        )
 
     def _evaluate(self, x, out, *args, **kwargs):
         # try:
