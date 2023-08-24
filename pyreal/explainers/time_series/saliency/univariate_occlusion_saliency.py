@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 
 from pyreal.explainers.time_series import SaliencyBase
-from pyreal.types.explanations.feature_based import (
+from pyreal.explanation_types.explanations.feature_based import (
     ClassFeatureContributionExplanation,
     FeatureContributionExplanation,
 )

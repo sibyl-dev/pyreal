@@ -31,7 +31,7 @@ provide usable explanations in a low-code manner.
 
 ## Requirements
 
-**Pyreal** has been developed and tested on [Python 3.8, 3.9, and 3.10](https://www.python.org/downloads/)
+**Pyreal** has been developed and tested on [Python 3.9, 3.10, and 3.11](https://www.python.org/downloads/)
 The library uses Poetry for package management.
 
 ## Install from PyPI
@@ -103,7 +103,7 @@ For a more detailed version of this tutorial, see [our documentation](https://dt
 
 ```
 passenger_id = 1
-plot_top_contributors(explanation[passenger_id], prediction=predictions[passenger_id], show=False)
+feature_bar_plot(explanation[passenger_id], prediction=predictions[passenger_id], show=False)
 
 ```
 

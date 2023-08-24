@@ -118,8 +118,11 @@ def load_transformers(x=None):
     return transformers
 
 
-def load_app():
-    x_train_orig, y = load_data()
+def load_app(n_rows=None):
+    def format_prediction(prediction):  # Helper to make predictions more readable
+        return "%s (%s)" % (prediction, ["Fail", "Pass"][prediction])
+
+    x_train_orig, y = load_data(n_rows)
     model = load_model()
     transformers = load_transformers()
     feature_descriptions = load_feature_descriptions()
@@ -131,4 +134,5 @@ def load_app():
         transformers=transformers,
         feature_descriptions=feature_descriptions,
         id_column="name",
+        pred_format_func=format_prediction,
     )

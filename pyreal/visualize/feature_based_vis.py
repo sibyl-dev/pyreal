@@ -5,11 +5,12 @@ import numpy as np
 import pandas as pd
 import seaborn as sns
 
-from pyreal.realapp import realapp
-from pyreal.types.explanations.feature_based import (
+from pyreal.explanation_types.explanations.feature_based import (
     FeatureContributionExplanation,
     FeatureImportanceExplanation,
 )
+from pyreal.realapp import realapp
+from pyreal.utils import get_top_contributors
 from pyreal.visualize.visualize_config import (
     NEGATIVE_COLOR,
     NEGATIVE_COLOR_LIGHT,
@@ -35,10 +36,10 @@ def _parse_multi_contribution(explanation):
     return contributions, values
 
 
-def plot_top_contributors(
+def feature_bar_plot(
     explanation,
     select_by="absolute",
-    n=5,
+    num_features=5,
     transparent=False,
     flip_colors=False,
     precision=2,
@@ -56,8 +57,8 @@ def plot_top_contributors(
             One output DataFrame from RealApp.produce_feature_contributions or
             RealApp.prepare_feature_importance OR FeatureBased explanation object
         select_by (one of "absolute", "max", "min"):
-            Which explanation to plot.
-        n (int):
+            Method to use when selecting features.
+        num_features (int):
             Number of features to plot
         transparent (Boolean):
             If True, the background of the figure is set to transparent.
@@ -87,6 +88,21 @@ def plot_top_contributors(
     elif isinstance(explanation, FeatureImportanceExplanation):
         explanation = realapp.format_feature_importance_output(explanation)
 
+    if isinstance(explanation, dict):
+        raise ValueError(
+            "Invalid explanation. Expected feature contribution explanation on a single instance"
+            " or feature importance explanation. If you are passing in an explanation from"
+            " RealApp.produce_feature_contributions(), please index to get a single instance, ie"
+            " explanation[0]."
+        )
+    if not isinstance(explanation, pd.DataFrame):
+        raise ValueError(
+            "Invalid explanation type, expected DataFrame or"
+            " FeatureContributionExplanation/FeatureImportanceExplanation object"
+        )
+
+    explanation = get_top_contributors(explanation, num_features=num_features, select_by=select_by)
+
     features = explanation["Feature Name"].to_numpy()
     if "Feature Value" in explanation:
         values = explanation["Feature Value"].to_numpy()
@@ -114,52 +130,43 @@ def plot_top_contributors(
                     for i in range(len(features))
                 ]
             )
+    are_importances = False
     if "Contribution" in explanation:
         contributions = explanation["Contribution"]
     elif "Importance" in explanation:
         contributions = explanation["Importance"]
+        are_importances = True
     else:
         raise ValueError("Provided DataFrame has neither Contribution nor Importance column")
 
     if contributions.ndim == 2:
         contributions = contributions.iloc[0]
     contributions = contributions.to_numpy()
-    order = None
-    if select_by == "min":
-        order = np.argsort(contributions)
-    if select_by == "max":
-        order = np.argsort(contributions)[::-1]
-    if select_by == "absolute":
-        order = np.argsort(abs(contributions))[::-1]
-
-    if order is None:
-        raise ValueError(
-            "Invalid select_by option %s, should be one of 'min', 'max', 'absolute'" % select_by
-        )
-
-    to_plot = order[0:n]
 
     if not flip_colors:
-        colors = [
-            NEGATIVE_COLOR if (c < 0) else POSITIVE_COLOR for c in contributions[to_plot][::-1]
-        ]
+        colors = [NEGATIVE_COLOR if (c < 0) else POSITIVE_COLOR for c in contributions[::-1]]
     else:
-        colors = [
-            POSITIVE_COLOR if (c < 0) else NEGATIVE_COLOR for c in contributions[to_plot][::-1]
-        ]
+        colors = [POSITIVE_COLOR if (c < 0) else NEGATIVE_COLOR for c in contributions[::-1]]
 
     if transparent:
-        fig, ax = plt.subplots()
+        _, ax = plt.subplots()
     else:
-        fig, ax = plt.subplots(facecolor="w")
-    plt.barh(features[to_plot][::-1], contributions[to_plot][::-1], color=colors)
-    plt.title("Contributions by feature", fontsize=18)
+        _, ax = plt.subplots(facecolor="w")
+    plt.barh(features[::-1], contributions[::-1], color=colors)
+    if are_importances:
+        title = "Feature Importance Scores"
+    else:
+        title = "Feature Contributions"
+    plt.title(title, fontsize=18)
     if prediction is not None:
         plt.title("Overall prediction: %s" % prediction, fontsize=12)
-        plt.suptitle("Contributions by feature", fontsize=18, y=1)
+        plt.suptitle(title, fontsize=18, y=1)
     if include_axis:
         plt.tick_params(axis="x", which="both", bottom=True, top=False, labelbottom=True)
-        plt.xlabel("Contribution")
+        if are_importances:
+            plt.xlabel("Importance")
+        else:
+            plt.xlabel("Contribution")
     else:
         plt.tick_params(axis="x", which="both", bottom=False, top=False, labelbottom=False)
 
@@ -175,8 +182,8 @@ def plot_top_contributors(
         plt.show()
 
 
-def swarm_plot(
-    explanation, type="swarm", n=5, discrete=False, show=False, filename=None, **kwargs
+def strip_plot(
+    explanation, type="strip", num_features=5, discrete=False, show=False, filename=None, **kwargs
 ):
     """
     Generates a strip plot (type="strip") or a swarm plot (type="swarm") from a set of feature
@@ -188,7 +195,7 @@ def swarm_plot(
             FeatureContributions explanation object
         type (String, one of ["strip", "swarm"]:
             The type of plot to generate
-        n (int):
+        num_features (int):
             Number of features to show
         discrete (Boolean):
             If true, give discrete legends for each row. Otherwise, give a colorbar legend
@@ -212,7 +219,7 @@ def swarm_plot(
     else:
         legend = False
 
-    for i in range(n):
+    for i in range(num_features):
         hues = values.iloc[:, order[i : i + 1]]
         hues = hues.melt()["value"]
         num_colors = len(np.unique(hues.astype("str")))
@@ -329,9 +336,6 @@ def feature_scatter_plot(
             If True, show the figure
         filename (string or None):
             If not None, save the figure as filename
-
-    Returns:
-
     """
     contributions, values = _parse_multi_contribution(explanation)
 
