@@ -388,7 +388,7 @@ document.write(`
     <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">&quot;Feature Name&quot;</span><span class="p">:</span> <span class="n">importances</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span> <span class="s2">&quot;Importance&quot;</span><span class="p">:</span> <span class="n">importances</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()})</span>
 
 
-<span class="k">def</span> <span class="nf">format_similar_examples_output</span><span class="p">(</span><span class="n">explanation</span><span class="p">,</span> <span class="n">ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">series</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">format_similar_examples_output</span><span class="p">(</span><span class="n">explanation</span><span class="p">,</span> <span class="n">ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">series</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">y_format_func</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Format Pyreal SimilarExamples objects into Similar Examples outputs</span>
 <span class="sd">    Args:</span>
@@ -398,6 +398,8 @@ document.write(`
 <span class="sd">            List of row ids</span>
 <span class="sd">        series (Boolean):</span>
 <span class="sd">            If True, the produce function was passed a series input</span>
+<span class="sd">        y_format_func (function):</span>
+<span class="sd">            Function to use to format ground truth values</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        {&quot;X&quot;: DataFrame, &quot;y&quot;: Series, &quot;Input&quot;: Series} (if series),</span>
@@ -412,6 +414,8 @@ document.write(`
     <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">row_id</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">ids</span><span class="p">):</span>
         <span class="n">examples</span> <span class="o">=</span> <span class="n">explanation</span><span class="o">.</span><span class="n">get_examples</span><span class="p">(</span><span class="n">row_id</span><span class="o">=</span><span class="n">key</span><span class="p">)</span>
         <span class="n">targets</span> <span class="o">=</span> <span class="n">explanation</span><span class="o">.</span><span class="n">get_targets</span><span class="p">(</span><span class="n">row_id</span><span class="o">=</span><span class="n">key</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">y_format_func</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">targets</span> <span class="o">=</span> <span class="n">targets</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">y_format_func</span><span class="p">)</span>
         <span class="n">result</span><span class="p">[</span><span class="n">row_id</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s2">&quot;X&quot;</span><span class="p">:</span> <span class="n">examples</span><span class="p">,</span>
             <span class="s2">&quot;y&quot;</span><span class="p">:</span> <span class="n">targets</span><span class="p">,</span>
@@ -455,6 +459,7 @@ document.write(`
         <span class="n">active_model_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">classes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">class_descriptions</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">pred_format_func</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">fit_transformers</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
         <span class="n">id_column</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="p">):</span>
@@ -482,6 +487,8 @@ document.write(`
 <span class="sd">            class_descriptions (dict):</span>
 <span class="sd">                Interpretable descriptions of each class</span>
 <span class="sd">                None if model is not a classifier</span>
+<span class="sd">            pred_format_func (function):</span>
+<span class="sd">                Function to format model prediction outputs</span>
 <span class="sd">            fit_transformers (Boolean):</span>
 <span class="sd">                If True, fit the transformers to X_train_orig on initialization</span>
 <span class="sd">            id_column (string or int):</span>
@@ -517,6 +524,7 @@ document.write(`
 
         <span class="bp">self</span><span class="o">.</span><span class="n">classes</span> <span class="o">=</span> <span class="n">classes</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">class_descriptions</span> <span class="o">=</span> <span class="n">class_descriptions</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pred_format_func</span> <span class="o">=</span> <span class="n">pred_format_func</span>
 
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">transformers</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">transformers</span> <span class="o">=</span> <span class="n">transformers</span>
@@ -625,6 +633,7 @@ document.write(`
         <span class="n">training_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">prepare_kwargs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">produce_kwargs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">format_kwargs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Produce an explanation from a specified Explainer</span>
@@ -653,6 +662,8 @@ document.write(`
 <span class="sd">                Additional parameters for explainer init function</span>
 <span class="sd">            produce_kwargs (dict):</span>
 <span class="sd">                Additional parameters for explainer produce function</span>
+<span class="sd">            format_kwargs (dict):</span>
+<span class="sd">                Additional parameters for format function</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            Type varies by explanation type</span>
@@ -665,6 +676,8 @@ document.write(`
             <span class="n">prepare_kwargs</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">if</span> <span class="n">produce_kwargs</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">produce_kwargs</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="n">format_kwargs</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">format_kwargs</span> <span class="o">=</span> <span class="p">{}</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_explainer_exists</span><span class="p">(</span><span class="n">explanation_type_code</span><span class="p">,</span> <span class="n">algorithm</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">force_refit</span><span class="p">:</span>
             <span class="n">explainer</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_explainer</span><span class="p">(</span><span class="n">explanation_type_code</span><span class="p">,</span> <span class="n">algorithm</span><span class="p">)</span>
@@ -686,10 +699,10 @@ document.write(`
                 <span class="n">x_orig</span> <span class="o">=</span> <span class="n">x_orig</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">id_column</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">x_orig</span><span class="o">.</span><span class="n">ndim</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
 
             <span class="n">explanation</span> <span class="o">=</span> <span class="n">explainer</span><span class="o">.</span><span class="n">produce</span><span class="p">(</span><span class="n">x_orig</span><span class="p">,</span> <span class="o">**</span><span class="n">produce_kwargs</span><span class="p">)</span>
-            <span class="k">return</span> <span class="n">format_output_func</span><span class="p">(</span><span class="n">explanation</span><span class="p">,</span> <span class="n">ids</span><span class="p">,</span> <span class="n">series</span><span class="o">=</span><span class="p">(</span><span class="n">x_orig</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">1</span><span class="p">))</span>
+            <span class="k">return</span> <span class="n">format_output_func</span><span class="p">(</span><span class="n">explanation</span><span class="p">,</span> <span class="n">ids</span><span class="p">,</span> <span class="n">series</span><span class="o">=</span><span class="p">(</span><span class="n">x_orig</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">1</span><span class="p">),</span> <span class="o">**</span><span class="n">format_kwargs</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">explanation</span> <span class="o">=</span> <span class="n">explainer</span><span class="o">.</span><span class="n">produce</span><span class="p">(</span><span class="o">**</span><span class="n">produce_kwargs</span><span class="p">)</span>
-            <span class="k">return</span> <span class="n">format_output_func</span><span class="p">(</span><span class="n">explanation</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">format_output_func</span><span class="p">(</span><span class="n">explanation</span><span class="p">,</span> <span class="o">**</span><span class="n">format_kwargs</span><span class="p">)</span>
 
 <div class="viewcode-block" id="RealApp.add_model"><a class="viewcode-back" href="../../../api_reference/api/pyreal.RealApp.add_model.html#pyreal.RealApp.add_model">[docs]</a>    <span class="k">def</span> <span class="nf">add_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">model_id</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -734,7 +747,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">models</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">active_model_id</span><span class="p">]</span></div>
 
-<div class="viewcode-block" id="RealApp.predict"><a class="viewcode-back" href="../../../api_reference/api/pyreal.RealApp.predict.html#pyreal.RealApp.predict">[docs]</a>    <span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">model_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">as_dict</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="RealApp.predict"><a class="viewcode-back" href="../../../api_reference/api/pyreal.RealApp.predict.html#pyreal.RealApp.predict">[docs]</a>    <span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">model_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">as_dict</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Predict on x using the active model or model specified by model_id</span>
 
@@ -746,6 +759,8 @@ document.write(`
 <span class="sd">            as_dict (Boolean):</span>
 <span class="sd">                If False, return predictions as a single Series/List. Otherwise, return</span>
 <span class="sd">                in {row_id: pred} format. Defaults to True if x is a DataFrame, False otherwise</span>
+<span class="sd">            format (Boolean):</span>
+<span class="sd">                If False, do not run the realapp&#39;s format function on this output</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            (model return type)</span>
@@ -763,13 +778,18 @@ document.write(`
 
         <span class="n">preds</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_explainers</span><span class="p">[</span><span class="n">model_id</span><span class="p">]</span><span class="o">.</span><span class="n">model_predict</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">as_dict</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">format</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">pred_format_func</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">pred_format_func</span><span class="p">(</span><span class="n">pred</span><span class="p">)</span> <span class="k">for</span> <span class="n">pred</span> <span class="ow">in</span> <span class="n">preds</span><span class="p">]</span>
             <span class="k">return</span> <span class="n">preds</span>
         <span class="n">preds_dict</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">row_id</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">ids</span><span class="p">):</span>
-            <span class="n">preds_dict</span><span class="p">[</span><span class="n">row_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">preds</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="k">if</span> <span class="nb">format</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">pred_format_func</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">preds_dict</span><span class="p">[</span><span class="n">row_id</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pred_format_func</span><span class="p">(</span><span class="n">preds</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">preds_dict</span><span class="p">[</span><span class="n">row_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">preds</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
         <span class="k">return</span> <span class="n">preds_dict</span></div>
 
-<div class="viewcode-block" id="RealApp.prepare_feature_contributions"><a class="viewcode-back" href="../../../api_reference/api/pyreal.RealApp.prepare_feature_contributions.html#pyreal.RealApp.prepare_feature_contributions">[docs]</a>    <span class="k">def</span> <span class="nf">prepare_feature_contributions</span><span class="p">(</span>
+    <span class="k">def</span> <span class="nf">prepare_feature_contributions</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">x_train_orig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">y_train</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -816,7 +836,7 @@ document.write(`
         <span class="p">)</span>
         <span class="n">explainer</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_x_train_orig</span><span class="p">(</span><span class="n">x_train_orig</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_y_train</span><span class="p">(</span><span class="n">y_train</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_add_explainer</span><span class="p">(</span><span class="s2">&quot;lfc&quot;</span><span class="p">,</span> <span class="n">algorithm</span><span class="p">,</span> <span class="n">explainer</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">explainer</span></div>
+        <span class="k">return</span> <span class="n">explainer</span>
 
 <div class="viewcode-block" id="RealApp.produce_feature_contributions"><a class="viewcode-back" href="../../../api_reference/api/pyreal.RealApp.produce_feature_contributions.html#pyreal.RealApp.produce_feature_contributions">[docs]</a>    <span class="k">def</span> <span class="nf">produce_feature_contributions</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -881,13 +901,15 @@ document.write(`
         <span class="p">)</span>
         <span class="k">if</span> <span class="n">num_features</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="p">{</span>
-                <span class="n">row_id</span><span class="p">:</span> <span class="n">get_top_contributors</span><span class="p">(</span><span class="n">exp</span><span class="p">[</span><span class="n">row_id</span><span class="p">],</span> <span class="n">n</span><span class="o">=</span><span class="n">num_features</span><span class="p">,</span> <span class="n">select_by</span><span class="o">=</span><span class="n">select_by</span><span class="p">)</span>
+                <span class="n">row_id</span><span class="p">:</span> <span class="n">get_top_contributors</span><span class="p">(</span>
+                    <span class="n">exp</span><span class="p">[</span><span class="n">row_id</span><span class="p">],</span> <span class="n">num_features</span><span class="o">=</span><span class="n">num_features</span><span class="p">,</span> <span class="n">select_by</span><span class="o">=</span><span class="n">select_by</span>
+                <span class="p">)</span>
                 <span class="k">for</span> <span class="n">row_id</span> <span class="ow">in</span> <span class="n">exp</span>
             <span class="p">}</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">exp</span></div>
 
-<div class="viewcode-block" id="RealApp.prepare_feature_importance"><a class="viewcode-back" href="../../../api_reference/api/pyreal.RealApp.prepare_feature_importance.html#pyreal.RealApp.prepare_feature_importance">[docs]</a>    <span class="k">def</span> <span class="nf">prepare_feature_importance</span><span class="p">(</span>
+    <span class="k">def</span> <span class="nf">prepare_feature_importance</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">x_train_orig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">y_train</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -934,7 +956,7 @@ document.write(`
         <span class="p">)</span>
         <span class="n">explainer</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_x_train_orig</span><span class="p">(</span><span class="n">x_train_orig</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_y_train</span><span class="p">(</span><span class="n">y_train</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_add_explainer</span><span class="p">(</span><span class="s2">&quot;gfi&quot;</span><span class="p">,</span> <span class="n">algorithm</span><span class="p">,</span> <span class="n">explainer</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">explainer</span></div>
+        <span class="k">return</span> <span class="n">explainer</span>
 
 <div class="viewcode-block" id="RealApp.produce_feature_importance"><a class="viewcode-back" href="../../../api_reference/api/pyreal.RealApp.produce_feature_importance.html#pyreal.RealApp.produce_feature_importance">[docs]</a>    <span class="k">def</span> <span class="nf">produce_feature_importance</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -992,11 +1014,11 @@ document.write(`
             <span class="n">prepare_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;shap_type&quot;</span><span class="p">:</span> <span class="n">shap_type</span><span class="p">},</span>
         <span class="p">)</span>
         <span class="k">if</span> <span class="n">num_features</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">get_top_contributors</span><span class="p">(</span><span class="n">exp</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">num_features</span><span class="p">,</span> <span class="n">select_by</span><span class="o">=</span><span class="n">select_by</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">get_top_contributors</span><span class="p">(</span><span class="n">exp</span><span class="p">,</span> <span class="n">num_features</span><span class="o">=</span><span class="n">num_features</span><span class="p">,</span> <span class="n">select_by</span><span class="o">=</span><span class="n">select_by</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">exp</span></div>
 
-<div class="viewcode-block" id="RealApp.prepare_similar_examples"><a class="viewcode-back" href="../../../api_reference/api/pyreal.RealApp.prepare_similar_examples.html#pyreal.RealApp.prepare_similar_examples">[docs]</a>    <span class="k">def</span> <span class="nf">prepare_similar_examples</span><span class="p">(</span>
+    <span class="k">def</span> <span class="nf">prepare_similar_examples</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">x_train_orig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">y_train</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -1044,7 +1066,7 @@ document.write(`
         <span class="p">)</span>
         <span class="n">explainer</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_x_train_orig</span><span class="p">(</span><span class="n">x_train_orig</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_y_train</span><span class="p">(</span><span class="n">y_train</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_add_explainer</span><span class="p">(</span><span class="s2">&quot;se&quot;</span><span class="p">,</span> <span class="n">algorithm</span><span class="p">,</span> <span class="n">explainer</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">explainer</span></div>
+        <span class="k">return</span> <span class="n">explainer</span>
 
 <div class="viewcode-block" id="RealApp.produce_similar_examples"><a class="viewcode-back" href="../../../api_reference/api/pyreal.RealApp.produce_similar_examples.html#pyreal.RealApp.produce_similar_examples">[docs]</a>    <span class="k">def</span> <span class="nf">produce_similar_examples</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -1054,6 +1076,7 @@ document.write(`
         <span class="n">y_train</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">n</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
         <span class="n">standardize</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">format_y</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
         <span class="n">algorithm</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">force_refit</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="p">):</span>
@@ -1074,6 +1097,8 @@ document.write(`
 <span class="sd">            standardize (Boolean):</span>
 <span class="sd">                If True, standardize data before using it to get similar examples.</span>
 <span class="sd">                Recommended if model-ready data is not already standardized</span>
+<span class="sd">            format_y (Boolean):</span>
+<span class="sd">                If True, format the ground truth y values returned using self.pred_format_func</span>
 <span class="sd">            algorithm (string):</span>
 <span class="sd">                Name of algorithm</span>
 <span class="sd">            force_refit (Boolean):</span>
@@ -1085,6 +1110,10 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">algorithm</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">algorithm</span> <span class="o">=</span> <span class="s2">&quot;nn&quot;</span>
+
+        <span class="n">format_kwargs</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">format_y</span><span class="p">:</span>
+            <span class="n">format_kwargs</span><span class="p">[</span><span class="s2">&quot;y_format_func&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pred_format_func</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_produce_explanation_helper</span><span class="p">(</span>
             <span class="s2">&quot;se&quot;</span><span class="p">,</span>
@@ -1098,6 +1127,7 @@ document.write(`
             <span class="n">force_refit</span><span class="o">=</span><span class="n">force_refit</span><span class="p">,</span>
             <span class="n">prepare_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;standardize&quot;</span><span class="p">:</span> <span class="n">standardize</span><span class="p">},</span>
             <span class="n">produce_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;n&quot;</span><span class="p">:</span> <span class="n">n</span><span class="p">},</span>
+            <span class="n">format_kwargs</span><span class="o">=</span><span class="n">format_kwargs</span><span class="p">,</span>
         <span class="p">)</span></div>
 
     <span class="k">def</span> <span class="nf">_get_x_train_orig</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_train_orig</span><span class="p">):</span>

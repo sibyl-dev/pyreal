@@ -363,7 +363,7 @@ document.write(`
 <div class="viewcode-block" id="feature_bar_plot"><a class="viewcode-back" href="../../../api_reference/api/pyreal.visualize.feature_bar_plot.html#pyreal.visualize.feature_bar_plot">[docs]</a><span class="k">def</span> <span class="nf">feature_bar_plot</span><span class="p">(</span>
     <span class="n">explanation</span><span class="p">,</span>
     <span class="n">select_by</span><span class="o">=</span><span class="s2">&quot;absolute&quot;</span><span class="p">,</span>
-    <span class="n">n</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+    <span class="n">num_features</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
     <span class="n">transparent</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="n">flip_colors</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="n">precision</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
@@ -382,7 +382,7 @@ document.write(`
 <span class="sd">            RealApp.prepare_feature_importance OR FeatureBased explanation object</span>
 <span class="sd">        select_by (one of &quot;absolute&quot;, &quot;max&quot;, &quot;min&quot;):</span>
 <span class="sd">            Method to use when selecting features.</span>
-<span class="sd">        n (int):</span>
+<span class="sd">        num_features (int):</span>
 <span class="sd">            Number of features to plot</span>
 <span class="sd">        transparent (Boolean):</span>
 <span class="sd">            If True, the background of the figure is set to transparent.</span>
@@ -425,7 +425,7 @@ document.write(`
             <span class="s2">&quot; FeatureContributionExplanation/FeatureImportanceExplanation object&quot;</span>
         <span class="p">)</span>
 
-    <span class="n">explanation</span> <span class="o">=</span> <span class="n">get_top_contributors</span><span class="p">(</span><span class="n">explanation</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">n</span><span class="p">,</span> <span class="n">select_by</span><span class="o">=</span><span class="n">select_by</span><span class="p">)</span>
+    <span class="n">explanation</span> <span class="o">=</span> <span class="n">get_top_contributors</span><span class="p">(</span><span class="n">explanation</span><span class="p">,</span> <span class="n">num_features</span><span class="o">=</span><span class="n">num_features</span><span class="p">,</span> <span class="n">select_by</span><span class="o">=</span><span class="n">select_by</span><span class="p">)</span>
 
     <span class="n">features</span> <span class="o">=</span> <span class="n">explanation</span><span class="p">[</span><span class="s2">&quot;Feature Name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
     <span class="k">if</span> <span class="s2">&quot;Feature Value&quot;</span> <span class="ow">in</span> <span class="n">explanation</span><span class="p">:</span>
@@ -507,7 +507,7 @@ document.write(`
 
 
 <div class="viewcode-block" id="strip_plot"><a class="viewcode-back" href="../../../api_reference/api/pyreal.visualize.strip_plot.html#pyreal.visualize.strip_plot">[docs]</a><span class="k">def</span> <span class="nf">strip_plot</span><span class="p">(</span>
-    <span class="n">explanation</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;strip&quot;</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">discrete</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+    <span class="n">explanation</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;strip&quot;</span><span class="p">,</span> <span class="n">num_features</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">discrete</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Generates a strip plot (type=&quot;strip&quot;) or a swarm plot (type=&quot;swarm&quot;) from a set of feature</span>
@@ -519,7 +519,7 @@ document.write(`
 <span class="sd">            FeatureContributions explanation object</span>
 <span class="sd">        type (String, one of [&quot;strip&quot;, &quot;swarm&quot;]:</span>
 <span class="sd">            The type of plot to generate</span>
-<span class="sd">        n (int):</span>
+<span class="sd">        num_features (int):</span>
 <span class="sd">            Number of features to show</span>
 <span class="sd">        discrete (Boolean):</span>
 <span class="sd">            If true, give discrete legends for each row. Otherwise, give a colorbar legend</span>
@@ -543,7 +543,7 @@ document.write(`
     <span class="k">else</span><span class="p">:</span>
         <span class="n">legend</span> <span class="o">=</span> <span class="kc">False</span>
 
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_features</span><span class="p">):</span>
         <span class="n">hues</span> <span class="o">=</span> <span class="n">values</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="n">order</span><span class="p">[</span><span class="n">i</span> <span class="p">:</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]]</span>
         <span class="n">hues</span> <span class="o">=</span> <span class="n">hues</span><span class="o">.</span><span class="n">melt</span><span class="p">()[</span><span class="s2">&quot;value&quot;</span><span class="p">]</span>
         <span class="n">num_colors</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">hues</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;str&quot;</span><span class="p">)))</span>

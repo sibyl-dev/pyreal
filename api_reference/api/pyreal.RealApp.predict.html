@@ -42,7 +42,7 @@
     <link rel="icon" href="../../_static/dai-logo-white.ico"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="pyreal.RealApp.prepare_feature_contributions" href="pyreal.RealApp.prepare_feature_contributions.html" />
+    <link rel="next" title="pyreal.RealApp.produce_feature_contributions" href="pyreal.RealApp.produce_feature_contributions.html" />
     <link rel="prev" title="pyreal.RealApp.get_active_model" href="pyreal.RealApp.get_active_model.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -287,11 +287,8 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="pyreal.RealApp.set_active_model_id.html">pyreal.RealApp.set_active_model_id</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.RealApp.get_active_model.html">pyreal.RealApp.get_active_model</a></li>
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">pyreal.RealApp.predict</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyreal.RealApp.prepare_feature_contributions.html">pyreal.RealApp.prepare_feature_contributions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.RealApp.produce_feature_contributions.html">pyreal.RealApp.produce_feature_contributions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyreal.RealApp.prepare_feature_importance.html">pyreal.RealApp.prepare_feature_importance</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.RealApp.produce_feature_importance.html">pyreal.RealApp.produce_feature_importance</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyreal.RealApp.prepare_similar_examples.html">pyreal.RealApp.prepare_similar_examples</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.RealApp.produce_similar_examples.html">pyreal.RealApp.produce_similar_examples</a></li>
 </ul>
 </li>
@@ -597,7 +594,7 @@ document.write(`
 <h1>pyreal.RealApp.predict<a class="headerlink" href="#pyreal-realapp-predict" title="Permalink to this heading">#</a></h1>
 <dl class="py method">
 <dt class="sig sig-object py" id="pyreal.RealApp.predict">
-<span class="sig-prename descclassname"><span class="pre">RealApp.</span></span><span class="sig-name descname"><span class="pre">predict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">as_dict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyreal/realapp/realapp.html#RealApp.predict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyreal.RealApp.predict" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">RealApp.</span></span><span class="sig-name descname"><span class="pre">predict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">as_dict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">format</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyreal/realapp/realapp.html#RealApp.predict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyreal.RealApp.predict" title="Permalink to this definition">#</a></dt>
 <dd><p>Predict on x using the active model or model specified by model_id</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -606,6 +603,7 @@ document.write(`
 <li><p><strong>model_id</strong> (<em>int</em><em> or </em><em>string</em>) – Model to use for prediction</p></li>
 <li><p><strong>as_dict</strong> (<em>Boolean</em>) – If False, return predictions as a single Series/List. Otherwise, return
 in {row_id: pred} format. Defaults to True if x is a DataFrame, False otherwise</p></li>
+<li><p><strong>format</strong> (<em>Boolean</em>) – If False, do not run the realapp’s format function on this output</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -641,11 +639,11 @@ in {row_id: pred} format. Defaults to True if x is a DataFrame, False otherwise<
       </div>
     </a>
     <a class="right-next"
-       href="pyreal.RealApp.prepare_feature_contributions.html"
+       href="pyreal.RealApp.produce_feature_contributions.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">pyreal.RealApp.prepare_feature_contributions</p>
+        <p class="prev-next-title">pyreal.RealApp.produce_feature_contributions</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>

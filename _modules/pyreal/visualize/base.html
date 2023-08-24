@@ -341,7 +341,14 @@ document.write(`
 
 
 <div class="viewcode-block" id="plot_explanation"><a class="viewcode-back" href="../../../api_reference/api/pyreal.visualize.plot_explanation.html#pyreal.visualize.plot_explanation">[docs]</a><span class="k">def</span> <span class="nf">plot_explanation</span><span class="p">(</span>
-    <span class="n">explanation</span><span class="p">,</span> <span class="n">feature</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">num_features</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+    <span class="n">explanation</span><span class="p">,</span>
+    <span class="n">feature</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">num_features</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+    <span class="n">predictions</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">discrete</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">show</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">filename</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">kwargs</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Plots a RealApp output or Pyreal explanation using the most appropriate visualization method</span>
@@ -354,6 +361,12 @@ document.write(`
 <span class="sd">            types except single entity feature contribution explanations.</span>
 <span class="sd">        num_features (int):</span>
 <span class="sd">            If the plot shows multiple features, the number of features to plot</span>
+<span class="sd">        predictions (numeric, string, or array-like):</span>
+<span class="sd">            Prediction(s) of inputs rows being explained, optionally shown in some visualization</span>
+<span class="sd">            types</span>
+<span class="sd">        discrete (Boolean):</span>
+<span class="sd">            True if features should be plotted as having categorical or discrete values, False if</span>
+<span class="sd">            continuous. Only used for some visualization types.</span>
 <span class="sd">        show (Boolean)</span>
 <span class="sd">            If True, show the plot after generating</span>
 <span class="sd">        filename (string)</span>
@@ -364,14 +377,26 @@ document.write(`
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">explanation</span><span class="p">,</span> <span class="n">FeatureContributionExplanation</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">feature</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">strip_plot</span><span class="p">(</span><span class="n">explanation</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">num_features</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="n">show</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="n">filename</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">strip_plot</span><span class="p">(</span>
+                <span class="n">explanation</span><span class="p">,</span>
+                <span class="n">num_features</span><span class="o">=</span><span class="n">num_features</span><span class="p">,</span>
+                <span class="n">show</span><span class="o">=</span><span class="n">show</span><span class="p">,</span>
+                <span class="n">filename</span><span class="o">=</span><span class="n">filename</span><span class="p">,</span>
+                <span class="n">discrete</span><span class="o">=</span><span class="n">discrete</span><span class="p">,</span>
+                <span class="o">*</span><span class="n">kwargs</span><span class="p">,</span>
+            <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">feature_scatter_plot</span><span class="p">(</span>
-                <span class="n">explanation</span><span class="p">,</span> <span class="n">feature</span><span class="o">=</span><span class="n">feature</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="n">show</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="n">filename</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+                <span class="n">explanation</span><span class="p">,</span>
+                <span class="n">feature</span><span class="o">=</span><span class="n">feature</span><span class="p">,</span>
+                <span class="n">show</span><span class="o">=</span><span class="n">show</span><span class="p">,</span>
+                <span class="n">filename</span><span class="o">=</span><span class="n">filename</span><span class="p">,</span>
+                <span class="n">predictions</span><span class="o">=</span><span class="n">predictions</span><span class="p">,</span>
+                <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
             <span class="p">)</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">explanation</span><span class="p">,</span> <span class="n">FeatureImportanceExplanation</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">feature_bar_plot</span><span class="p">(</span>
-            <span class="n">explanation</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">num_features</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="n">show</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="n">filename</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+            <span class="n">explanation</span><span class="p">,</span> <span class="n">num_features</span><span class="o">=</span><span class="n">num_features</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="n">show</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="n">filename</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
         <span class="p">)</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">explanation</span><span class="p">,</span> <span class="n">PartialDependenceExplanation</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">partial_dependence_plot</span><span class="p">(</span><span class="n">explanation</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="n">show</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="n">filename</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
@@ -383,17 +408,27 @@ document.write(`
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Sorry - the explanation given is not of a type currently supported.&quot;</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">explanation</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span> <span class="ow">and</span> <span class="s2">&quot;X&quot;</span> <span class="ow">in</span> <span class="n">explanation</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">example_table</span><span class="p">(</span><span class="n">explanation</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">example_table</span><span class="p">(</span><span class="n">explanation</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">explanation</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>  <span class="c1"># Assume multiple feature contributions</span>
         <span class="k">if</span> <span class="s2">&quot;Contribution&quot;</span> <span class="ow">in</span> <span class="n">explanation</span><span class="p">[</span><span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">explanation</span><span class="p">))]:</span>
             <span class="k">if</span> <span class="n">feature</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="k">return</span> <span class="n">strip_plot</span><span class="p">(</span>
-                    <span class="n">explanation</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">num_features</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="n">show</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="n">filename</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+                    <span class="n">explanation</span><span class="p">,</span>
+                    <span class="n">num_features</span><span class="o">=</span><span class="n">num_features</span><span class="p">,</span>
+                    <span class="n">show</span><span class="o">=</span><span class="n">show</span><span class="p">,</span>
+                    <span class="n">filename</span><span class="o">=</span><span class="n">filename</span><span class="p">,</span>
+                    <span class="n">discrete</span><span class="o">=</span><span class="n">discrete</span><span class="p">,</span>
+                    <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
                 <span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">return</span> <span class="n">feature_scatter_plot</span><span class="p">(</span>
-                    <span class="n">explanation</span><span class="p">,</span> <span class="n">feature</span><span class="o">=</span><span class="n">feature</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="n">show</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="n">filename</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+                    <span class="n">explanation</span><span class="p">,</span>
+                    <span class="n">feature</span><span class="o">=</span><span class="n">feature</span><span class="p">,</span>
+                    <span class="n">show</span><span class="o">=</span><span class="n">show</span><span class="p">,</span>
+                    <span class="n">filename</span><span class="o">=</span><span class="n">filename</span><span class="p">,</span>
+                    <span class="n">predictions</span><span class="o">=</span><span class="n">predictions</span><span class="p">,</span>
+                    <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
                 <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
@@ -403,7 +438,12 @@ document.write(`
             <span class="p">)</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">explanation</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>  <span class="c1"># Assume importance or one-entity contributions</span>
         <span class="k">return</span> <span class="n">feature_bar_plot</span><span class="p">(</span>
-            <span class="n">explanation</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">num_features</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="n">show</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="n">filename</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+            <span class="n">explanation</span><span class="p">,</span>
+            <span class="n">num_features</span><span class="o">=</span><span class="n">num_features</span><span class="p">,</span>
+            <span class="n">show</span><span class="o">=</span><span class="n">show</span><span class="p">,</span>
+            <span class="n">filename</span><span class="o">=</span><span class="n">filename</span><span class="p">,</span>
+            <span class="n">prediction</span><span class="o">=</span><span class="n">predictions</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
         <span class="p">)</span>
 
     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Given an explanation of an unrecognized format.&quot;</span><span class="p">)</span></div>
