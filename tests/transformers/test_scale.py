@@ -13,19 +13,20 @@ def test_fit_minmax(scale_data):
     min_max.fit(scale_data["pandas"])
 
     # our scaler objects are different types; test the attributes
+    wrapped = min_max.wrapped_transformer.wrapped_transformer
     assert all(
-        [sk_min_max.data_min_[i] == min_max.data_min_[i] for i in range(len(sk_min_max.data_min_))]
+        [sk_min_max.data_min_[i] == wrapped.data_min_[i] for i in range(len(sk_min_max.data_min_))]
     )
     assert all(
-        [sk_min_max.data_max_[i] == min_max.data_max_[i] for i in range(len(sk_min_max.data_max_))]
+        [sk_min_max.data_max_[i] == wrapped.data_max_[i] for i in range(len(sk_min_max.data_max_))]
     )
     assert all(
         [
-            sk_min_max.data_range_[i] == min_max.data_range_[i]
+            sk_min_max.data_range_[i] == wrapped.data_range_[i]
             for i in range(len(sk_min_max.data_range_))
         ]
     )
-    assert all([sk_min_max.min_[i] == min_max.min_[i] for i in range(len(sk_min_max.min_))])
+    assert all([sk_min_max.min_[i] == wrapped.min_[i] for i in range(len(sk_min_max.min_))])
 
 
 def test_inverse_transform_minmax(scale_data):

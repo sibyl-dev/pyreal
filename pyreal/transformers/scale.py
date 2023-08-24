@@ -25,15 +25,9 @@ class MinMaxScaler:
                 Set to True to clip transformed values of held-out data
                 to provided feature range.
         """
-        self.data_frame_wrapper = DataFrameWrapper(
+        self.wrapped_transformer = DataFrameWrapper(
             SklearnMinMaxScaler(feature_range, copy=True, clip=clip)
         )
-
-        # attributes
-        self.min_ = None
-        self.data_min_ = None
-        self.data_max_ = None
-        self.data_range_ = None
 
     def fit(self, X, y=None):
         """computes per-feature min & max (self.data_min_, self.data_max_)
@@ -46,11 +40,7 @@ class MinMaxScaler:
             fitted Transformer
         """
 
-        ret = self.data_frame_wrapper.fit(X, y=y)
-        self.min_ = self.data_frame_wrapper.wrapped_transformer.min_
-        self.data_min_ = self.data_frame_wrapper.wrapped_transformer.data_min_
-        self.data_max_ = self.data_frame_wrapper.wrapped_transformer.data_max_
-        self.data_range_ = self.data_frame_wrapper.wrapped_transformer.data_range_
+        ret = self.wrapped_transformer.fit(X, y=y)
         return ret
 
     def fit_transform(self, X, y=None, **fit_params):
@@ -63,7 +53,7 @@ class MinMaxScaler:
         Returns:
             DataFrame: a fitted and transformed DataFrame
         """
-        return self.data_frame_wrapper.fit_transform(X, y, **fit_params)
+        return self.wrapped_transformer.fit_transform(X, y, **fit_params)
 
     def inverse_transform(self, X):
         """Inverse transform X
@@ -74,7 +64,7 @@ class MinMaxScaler:
         Returns:
             DataFrame: the result of inverse transforming X
         """
-        return self.data_frame_wrapper.inverse_transform(X)
+        return self.wrapped_transformer.inverse_transform(X)
 
     def data_transform(self, X):
         """Transform a dataset
@@ -85,7 +75,7 @@ class MinMaxScaler:
         Returns:
             DataFrame: the result of transforming X
         """
-        return self.data_frame_wrapper.transform(X)
+        return self.wrapped_transformer.transform(X)
 
 
 class Normalizer:
@@ -149,11 +139,9 @@ class StandardScaler(Transformer):
             with_std (bool, optional): If True, scale the data to unit variance
             (or equivalently, unit standard deviation).
         """
-        self.data_frame_wrapper = DataFrameWrapper(
+        self.wrapped_transformer = DataFrameWrapper(
             SklearnStandardScaler(copy=True, with_mean=with_mean, with_std=with_std)
         )
-        self.mean_ = None
-        self.var_ = None
 
     def fit(self, X, y=None, sample_weight=None):
         """Fits a dataset to the transformer
@@ -166,9 +154,7 @@ class StandardScaler(Transformer):
         Returns:
             fitted Transformer
         """
-        ret = self.data_frame_wrapper.fit(X, y=y, sample_weight=sample_weight)
-        self.mean_ = ret.wrapped_transformer.mean_
-        self.var_ = ret.wrapped_transformer.var_
+        ret = self.wrapped_transformer.fit(X, y=y, sample_weight=sample_weight)
         return ret
 
     def data_transform(self, X):
@@ -180,7 +166,7 @@ class StandardScaler(Transformer):
         Returns:
             DataFrame: the result of transforming X
         """
-        return self.data_frame_wrapper.transform(X)
+        return self.wrapped_transformer.transform(X)
 
     def inverse_transform(self, X):
         """Inverse transform X
@@ -191,4 +177,4 @@ class StandardScaler(Transformer):
         Returns:
             DataFrame: the result of inverse transforming X
         """
-        return self.data_frame_wrapper.inverse_transform(X)
+        return self.wrapped_transformer.inverse_transform(X)
