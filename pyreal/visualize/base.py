@@ -17,7 +17,14 @@ from pyreal.visualize import (
 
 
 def plot_explanation(
-    explanation, feature=None, num_features=5, show=False, filename=None, **kwargs
+    explanation,
+    feature=None,
+    num_features=5,
+    predictions=None,
+    discrete=False,
+    show=False,
+    filename=None,
+    **kwargs
 ):
     """
     Plots a RealApp output or Pyreal explanation using the most appropriate visualization method
@@ -30,6 +37,12 @@ def plot_explanation(
             types except single entity feature contribution explanations.
         num_features (int):
             If the plot shows multiple features, the number of features to plot
+        predictions (numeric, string, or array-like):
+            Prediction(s) of inputs rows being explained, optionally shown in some visualization
+            types
+        discrete (Boolean):
+            True if features should be plotted as having categorical or discrete values, False if
+            continuous. Only used for some visualization types.
         show (Boolean)
             If True, show the plot after generating
         filename (string)
@@ -40,14 +53,26 @@ def plot_explanation(
     """
     if isinstance(explanation, FeatureContributionExplanation):
         if feature is None:
-            return strip_plot(explanation, n=num_features, show=show, filename=filename, **kwargs)
+            return strip_plot(
+                explanation,
+                num_features=num_features,
+                show=show,
+                filename=filename,
+                discrete=discrete,
+                *kwargs,
+            )
         else:
             return feature_scatter_plot(
-                explanation, feature=feature, show=show, filename=filename, **kwargs
+                explanation,
+                feature=feature,
+                show=show,
+                filename=filename,
+                predictions=predictions,
+                **kwargs,
             )
     if isinstance(explanation, FeatureImportanceExplanation):
         return feature_bar_plot(
-            explanation, n=num_features, show=show, filename=filename, **kwargs
+            explanation, num_features=num_features, show=show, filename=filename, **kwargs
         )
     if isinstance(explanation, PartialDependenceExplanation):
         return partial_dependence_plot(explanation, show=show, filename=filename, **kwargs)
@@ -59,17 +84,27 @@ def plot_explanation(
         raise ValueError("Sorry - the explanation given is not of a type currently supported.")
 
     if isinstance(explanation, dict) and "X" in explanation:
-        return example_table(explanation)
+        return example_table(explanation, **kwargs)
 
     if isinstance(explanation, dict):  # Assume multiple feature contributions
         if "Contribution" in explanation[next(iter(explanation))]:
             if feature is None:
                 return strip_plot(
-                    explanation, n=num_features, show=show, filename=filename, **kwargs
+                    explanation,
+                    num_features=num_features,
+                    show=show,
+                    filename=filename,
+                    discrete=discrete,
+                    **kwargs,
                 )
             else:
                 return feature_scatter_plot(
-                    explanation, feature=feature, show=show, filename=filename, **kwargs
+                    explanation,
+                    feature=feature,
+                    show=show,
+                    filename=filename,
+                    predictions=predictions,
+                    **kwargs,
                 )
         else:
             raise ValueError(
@@ -79,7 +114,12 @@ def plot_explanation(
             )
     if isinstance(explanation, pd.DataFrame):  # Assume importance or one-entity contributions
         return feature_bar_plot(
-            explanation, n=num_features, show=show, filename=filename, **kwargs
+            explanation,
+            num_features=num_features,
+            show=show,
+            filename=filename,
+            prediction=predictions,
+            **kwargs,
         )
 
     raise ValueError("Given an explanation of an unrecognized format.")
