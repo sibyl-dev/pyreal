@@ -64,7 +64,7 @@ def format_feature_importance_output(explanation):
     return pd.DataFrame({"Feature Name": importances.columns, "Importance": importances.squeeze()})
 
 
-def format_similar_examples_output(explanation, ids=None, series=False):
+def format_similar_examples_output(explanation, ids=None, series=False, y_format_func=None):
     """
     Format Pyreal SimilarExamples objects into Similar Examples outputs
     Args:
@@ -74,11 +74,15 @@ def format_similar_examples_output(explanation, ids=None, series=False):
             List of row ids
         series (Boolean):
             If True, the produce function was passed a series input
+        y_format_func (function):
+            Function to use to format ground truth values
 
     Returns:
-        {"X": DataFrame, "y": Series} (if series), else {"id" -> {"X": DataFrame, "y": Series}}
+        {"X": DataFrame, "y": Series, "Input": Series} (if series),
+                else {"id" -> {"X": DataFrame, "y": Series, "Input": Series}}
             X is the examples, ordered from top to bottom by similarity to input and
             y is the corresponding y values
+            Input is the original input in the same feature space
     """
     result = {}
     if ids is None:
@@ -86,7 +90,13 @@ def format_similar_examples_output(explanation, ids=None, series=False):
     for key, row_id in enumerate(ids):
         examples = explanation.get_examples(row_id=key)
         targets = explanation.get_targets(row_id=key)
-        result[row_id] = {"X": examples, "y": targets}
+        if y_format_func is not None:
+            targets = targets.apply(y_format_func)
+        result[row_id] = {
+            "X": examples,
+            "y": targets,
+            "Input": explanation.get_values().iloc[key, :],
+        }
     if series:
         return result[next(iter(result))]
     return result
@@ -125,6 +135,7 @@ class RealApp:
         active_model_id=None,
         classes=None,
         class_descriptions=None,
+        pred_format_func=None,
         fit_transformers=False,
         id_column=None,
     ):
@@ -152,6 +163,8 @@ class RealApp:
             class_descriptions (dict):
                 Interpretable descriptions of each class
                 None if model is not a classifier
+            pred_format_func (function):
+                Function to format model prediction outputs
             fit_transformers (Boolean):
                 If True, fit the transformers to X_train_orig on initialization
             id_column (string or int):
@@ -187,6 +200,7 @@ class RealApp:
 
         self.classes = classes
         self.class_descriptions = class_descriptions
+        self.pred_format_func = pred_format_func
 
         if isinstance(transformers, list):
             self.transformers = transformers
@@ -295,6 +309,7 @@ class RealApp:
         training_size=None,
         prepare_kwargs=None,
         produce_kwargs=None,
+        format_kwargs=None,
     ):
         """
         Produce an explanation from a specified Explainer
@@ -323,6 +338,8 @@ class RealApp:
                 Additional parameters for explainer init function
             produce_kwargs (dict):
                 Additional parameters for explainer produce function
+            format_kwargs (dict):
+                Additional parameters for format function
 
         Returns:
             Type varies by explanation type
@@ -335,6 +352,8 @@ class RealApp:
             prepare_kwargs = {}
         if produce_kwargs is None:
             produce_kwargs = {}
+        if format_kwargs is None:
+            format_kwargs = {}
 
         if self._explainer_exists(explanation_type_code, algorithm) and not force_refit:
             explainer = self._get_explainer(explanation_type_code, algorithm)
@@ -356,10 +375,10 @@ class RealApp:
                 x_orig = x_orig.drop(self.id_column, axis=x_orig.ndim - 1)
 
             explanation = explainer.produce(x_orig, **produce_kwargs)
-            return format_output_func(explanation, ids, series=(x_orig.ndim == 1))
+            return format_output_func(explanation, ids, series=(x_orig.ndim == 1), **format_kwargs)
         else:
             explanation = explainer.produce(**produce_kwargs)
-            return format_output_func(explanation)
+            return format_output_func(explanation, **format_kwargs)
 
     def add_model(self, model, model_id=None):
         """
@@ -404,7 +423,7 @@ class RealApp:
         """
         return self.models[self.active_model_id]
 
-    def predict(self, x, model_id=None, as_dict=None):
+    def predict(self, x, model_id=None, as_dict=None, format=True):
         """
         Predict on x using the active model or model specified by model_id
 
@@ -416,6 +435,8 @@ class RealApp:
             as_dict (Boolean):
                 If False, return predictions as a single Series/List. Otherwise, return
                 in {row_id: pred} format. Defaults to True if x is a DataFrame, False otherwise
+            format (Boolean):
+                If False, do not run the realapp's format function on this output
 
         Returns:
             (model return type)
@@ -433,10 +454,15 @@ class RealApp:
 
         preds = self.base_explainers[model_id].model_predict(x)
         if not as_dict:
+            if format and self.pred_format_func is not None:
+                return [self.pred_format_func(pred) for pred in preds]
             return preds
         preds_dict = {}
         for i, row_id in enumerate(ids):
-            preds_dict[row_id] = preds[i]
+            if format and self.pred_format_func is not None:
+                preds_dict[row_id] = self.pred_format_func(preds[i])
+            else:
+                preds_dict[row_id] = preds[i]
         return preds_dict
 
     def prepare_feature_contributions(
@@ -551,7 +577,9 @@ class RealApp:
         )
         if num_features is not None:
             return {
-                row_id: get_top_contributors(exp[row_id], n=num_features, select_by=select_by)
+                row_id: get_top_contributors(
+                    exp[row_id], num_features=num_features, select_by=select_by
+                )
                 for row_id in exp
             }
         else:
@@ -662,7 +690,7 @@ class RealApp:
             prepare_kwargs={"shap_type": shap_type},
         )
         if num_features is not None:
-            return get_top_contributors(exp, n=num_features, select_by=select_by)
+            return get_top_contributors(exp, num_features=num_features, select_by=select_by)
         else:
             return exp
 
@@ -724,6 +752,7 @@ class RealApp:
         y_train=None,
         n=3,
         standardize=False,
+        format_y=True,
         algorithm=None,
         force_refit=False,
     ):
@@ -744,6 +773,8 @@ class RealApp:
             standardize (Boolean):
                 If True, standardize data before using it to get similar examples.
                 Recommended if model-ready data is not already standardized
+            format_y (Boolean):
+                If True, format the ground truth y values returned using self.pred_format_func
             algorithm (string):
                 Name of algorithm
             force_refit (Boolean):
@@ -755,6 +786,10 @@ class RealApp:
         """
         if algorithm is None:
             algorithm = "nn"
+
+        format_kwargs = dict()
+        if format_y:
+            format_kwargs["y_format_func"] = self.pred_format_func
 
         return self._produce_explanation_helper(
             "se",
@@ -768,6 +803,7 @@ class RealApp:
             force_refit=force_refit,
             prepare_kwargs={"standardize": standardize},
             produce_kwargs={"n": n},
+            format_kwargs=format_kwargs,
         )
 
     def _get_x_train_orig(self, x_train_orig):

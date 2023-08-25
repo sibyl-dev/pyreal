@@ -9,8 +9,9 @@ Feature Contribution Visualizations
 .. autosummary::
     :toctree: api/
 
+    plot_explanation
     feature_bar_plot
     plot_tree_explanation
-    swarm_plot
+    strip_plot
     feature_scatter_plot
     plot_timeseries_saliency

@@ -39,7 +39,7 @@ def _parse_multi_contribution(explanation):
 def feature_bar_plot(
     explanation,
     select_by="absolute",
-    n=5,
+    num_features=5,
     transparent=False,
     flip_colors=False,
     precision=2,
@@ -58,7 +58,7 @@ def feature_bar_plot(
             RealApp.prepare_feature_importance OR FeatureBased explanation object
         select_by (one of "absolute", "max", "min"):
             Method to use when selecting features.
-        n (int):
+        num_features (int):
             Number of features to plot
         transparent (Boolean):
             If True, the background of the figure is set to transparent.
@@ -101,7 +101,7 @@ def feature_bar_plot(
             " FeatureContributionExplanation/FeatureImportanceExplanation object"
         )
 
-    explanation = get_top_contributors(explanation, n=n, select_by=select_by)
+    explanation = get_top_contributors(explanation, num_features=num_features, select_by=select_by)
 
     features = explanation["Feature Name"].to_numpy()
     if "Feature Value" in explanation:
@@ -182,8 +182,8 @@ def feature_bar_plot(
         plt.show()
 
 
-def swarm_plot(
-    explanation, type="swarm", n=5, discrete=False, show=False, filename=None, **kwargs
+def strip_plot(
+    explanation, type="strip", num_features=5, discrete=False, show=False, filename=None, **kwargs
 ):
     """
     Generates a strip plot (type="strip") or a swarm plot (type="swarm") from a set of feature
@@ -195,7 +195,7 @@ def swarm_plot(
             FeatureContributions explanation object
         type (String, one of ["strip", "swarm"]:
             The type of plot to generate
-        n (int):
+        num_features (int):
             Number of features to show
         discrete (Boolean):
             If true, give discrete legends for each row. Otherwise, give a colorbar legend
@@ -219,7 +219,7 @@ def swarm_plot(
     else:
         legend = False
 
-    for i in range(n):
+    for i in range(num_features):
         hues = values.iloc[:, order[i : i + 1]]
         hues = hues.melt()["value"]
         num_colors = len(np.unique(hues.astype("str")))
@@ -336,9 +336,6 @@ def feature_scatter_plot(
             If True, show the figure
         filename (string or None):
             If not None, save the figure as filename
-
-    Returns:
-
     """
     contributions, values = _parse_multi_contribution(explanation)
 
