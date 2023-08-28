@@ -69,7 +69,9 @@ class SimilarExamples(ExampleBasedBase):
         if self.standardize:
             x = self.standardizer.transform(x)
         inds = self.explainer.query(x, k=n, return_distance=False)
-        explanation = {}
+        examples = {}
+        targets = {}
         for i in range(len(inds)):
-            explanation[i] = (self.x_train_orig.iloc[inds[i], :], self.y_train.iloc[inds[i]])
-        return SimilarExampleExplanation(explanation)
+            examples[i] = self.x_train_orig.iloc[inds[i], :]
+            targets[i] = self.y_train.iloc[inds[i]]
+        return SimilarExampleExplanation((examples, targets))
