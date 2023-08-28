@@ -1,3 +1,5 @@
+import pandas as pd
+
 from pyreal.explanation_types.explanations.base import Explanation, convert_columns_with_dict
 
 
