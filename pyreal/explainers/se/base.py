@@ -5,7 +5,7 @@ import pandas as pd
 from pyreal.explainers import ExplainerBase
 
 
-class ExampleBasedBase(ExplainerBase, ABC):
+class SimilarExamplesBase(ExplainerBase, ABC):
     """
     Base class for Example explainer objects. Abstract class
 
@@ -25,7 +25,7 @@ class ExampleBasedBase(ExplainerBase, ABC):
 
     def __init__(self, model, x_train_orig=None, interpretable_features=True, **kwargs):
         self.interpretable_features = interpretable_features
-        super(ExampleBasedBase, self).__init__(model, x_train_orig, **kwargs)
+        super(SimilarExamplesBase, self).__init__(model, x_train_orig, **kwargs)
 
     @abstractmethod
     def fit(self, x_train_orig=None, y_train=None):

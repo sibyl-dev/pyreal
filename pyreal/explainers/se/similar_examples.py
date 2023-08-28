@@ -1,11 +1,12 @@
 from sklearn.neighbors import KDTree
 from sklearn.preprocessing import StandardScaler
+import pandas as pd
 
-from pyreal.explainers.example.base import ExampleBasedBase
+from pyreal.explainers.se.base import SimilarExamplesBase
 from pyreal.explanation_types.explanations.example_based import SimilarExampleExplanation
 
 
-class SimilarExamples(ExampleBasedBase):
+class SimilarExamples(SimilarExamplesBase):
     """
     SimilarExamples object.
 
@@ -73,5 +74,5 @@ class SimilarExamples(ExampleBasedBase):
         targets = {}
         for i in range(len(inds)):
             examples[i] = self.x_train_orig.iloc[inds[i], :]
-            targets[i] = self.y_train.iloc[inds[i]]
+            targets[i] = pd.Series(self.y_train.iloc[inds[i]].squeeze())
         return SimilarExampleExplanation((examples, targets))

@@ -105,6 +105,8 @@ class SimilarExampleExplanation(ExampleBasedExplanation):
             AssertionException
                 if `self.explanation` is invalid
         """
+        if self.explanation[1] is None:
+            raise AssertionError("Similar example explanations must come with target values.")
         super().validate()
 
 
