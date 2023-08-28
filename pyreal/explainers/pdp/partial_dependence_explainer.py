@@ -31,14 +31,14 @@ class PartialDependenceExplainer(PartialDependenceExplainerBase):
         )
         super(PartialDependenceExplainer, self).__init__(model, x_train_orig, **kwargs)
 
-    def get_pdp(self):
+    def produce_explanation(self, **kwargs):
         """
         Gets the raw explanation
 
         Returns:
             PDP explanation object.
         """
-        return self.base_partial_dependence.get_pdp()
+        return self.base_partial_dependence.produce_explanation()
 
     def fit(self, x_train_orig=None, y_train=None):
         """
