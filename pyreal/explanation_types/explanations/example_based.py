@@ -1,4 +1,4 @@
-from pyreal.explanation_types.explanations.base import Explanation
+from pyreal.explanation_types.explanations.base import Explanation, convert_columns_with_dict
 
 
 class ExampleBasedExplanation(Explanation):
@@ -20,6 +20,12 @@ class ExampleBasedExplanation(Explanation):
                 if `self.explanation` is invalid
         """
         super().validate()
+
+    def apply_feature_descriptions(self, feature_descriptions):
+        def func(df):
+            return convert_columns_with_dict(df, feature_descriptions)
+
+        self.update_examples(func)
 
     def get_explanation_for_row(self, row_id):
         """

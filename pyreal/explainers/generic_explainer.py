@@ -50,6 +50,8 @@ class Explainer(ExplainerBase):
                 self.base_explainer = ShapFeatureContribution(
                     model, x_train_orig, interpretable_features=interpretable_features, **kwargs
                 )
+        elif scope == "testing":  # Only to be used for unit testing purposes
+            self.base_explainer = None
         else:
             raise TypeError("Explainers must be either global or local")
 
@@ -65,7 +67,7 @@ class Explainer(ExplainerBase):
         """
         self.base_explainer.fit(x_train_orig, y_train)
 
-    def produce(self, x_orig=None):
+    def produce_explanation(self, x_orig=None, **kwargs):
         """
         Produce the explanation
 
@@ -88,7 +90,7 @@ class Explainer(ExplainerBase):
                 " produce() with input or change scope to global."
             )
 
-        return self.base_explainer.produce(x_orig)
+        return self.base_explainer.produce_explanation(x_orig)
 
     def evaluate_variation(self, with_fit=False, explanations=None, n_iterations=20, n_rows=10):
         """

@@ -205,19 +205,53 @@ class ExplainerBase(ABC):
         """
         return self
 
-    @abstractmethod
-    def produce(self, x_orig):
+    def produce(self, x_orig, disable_feature_descriptions=False, **kwargs):
         """
         Return the explanation, in the desired form.
 
         Args:
-            x_orig (DataFrame of shape (n_instances, n_features):
+            x_orig (DataFrame of shape (n_instances, n_features) or Series of length (n_features)):
                 Input to explain
+            disable_feature_descriptions (Boolean):
+                If False, do not apply feature descriptions
+            **kwargs:
+                Additional arguments to be used by more specific explainers.
 
         Returns:
-            Type varies by subclass
-                Explanation
+            Explanation
+                A generated interpretable explanation object
         """
+        series = False
+        name = None
+        if x_orig is not None and isinstance(x_orig, pd.Series):
+            name = x_orig.name
+            series = True
+            x_orig = x_orig.to_frame().T
+        explanation = self.produce_explanation(x_orig, **kwargs)  # Explanation object
+        explanation.update_explanation(self.transform_explanation(explanation), inplace=True)
+        if not disable_feature_descriptions:
+            explanation.apply_feature_descriptions(self.feature_descriptions, inplace=True)
+        if series:
+            x_interpret = explanation.get_values().squeeze()
+            x_interpret.name = name
+            explanation.update_values(x_interpret)
+        return explanation
+
+    @abstractmethod
+    def produce_explanation(self, x_orig, **kwargs):
+        """
+        Run the explanation algorithm to produce an explanation
+
+        Args:
+            x_orig (DataFrame of shape (n_instances, n_features)):
+                Input to explain
+            **kwargs:
+                Additional arguments to be used by more specific explainers.
+
+        Returns:
+            A generated explanation object in the algorithm feature space
+        """
+        pass
 
     def transform_to_x_algorithm(self, x_orig):
         """
@@ -287,7 +321,7 @@ class ExplainerBase(ABC):
         in the same feature space as the final explanation
 
         Args:
-            explanation (type varies by subclass):
+            explanation (Explanation):
                 The raw explanation to transform
             x_orig (DataFrame of shape (n_instances, n_features) or None)
                 Data to transform to final space

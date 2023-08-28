@@ -19,74 +19,11 @@ class LocalFeatureContributionsBase(ExplainerBase, ABC):
            Filepath to the pickled model to explain, or model object with .predict() function
         x_train_orig (dataframe of shape (n_instances, x_orig_feature_count)):
            The training set for the explainer
-        interpretable_features (Boolean):
-            If True, return explanations using the interpretable feature descriptions instead of
-            default names
         **kwargs: see base Explainer args
     """
 
-    def __init__(self, model, x_train_orig=None, interpretable_features=True, **kwargs):
-        self.interpretable_features = interpretable_features
+    def __init__(self, model, x_train_orig=None, **kwargs):
         super(LocalFeatureContributionsBase, self).__init__(model, x_train_orig, **kwargs)
-
-    @abstractmethod
-    def fit(self, x_train_orig=None, y_train=None):
-        """
-        Fit this explainer object
-
-        Args:
-            x_train_orig (DataFrame of shape (n_instances, n_features):
-                Training set to fit on, required if not provided on initialization
-            y_train:
-                Targets of training set, required if not provided on initialization
-        """
-
-    def produce(self, x_orig):
-        """
-        Produce the local feature contribution explanation
-
-        Args:
-            x_orig (DataFrame of shape (n_instances, n_features)):
-                Input to explain
-
-        Returns:
-            DataFrame of shape (n_instances, n_features)
-                Contribution of each feature for each instance
-            DataFrame of shape (n_instances, x_orig_feature_count)
-                `x_orig` transformed to the state of the final explanation
-        """
-        series = False
-        name = None
-        if isinstance(x_orig, pd.Series):
-            name = x_orig.name
-            series = True
-            x_orig = x_orig.to_frame().T
-        contributions = self.get_contributions(x_orig)
-        explanation = self.transform_explanation(contributions, x_orig)
-        x_interpret = explanation.get_values()
-        if series:
-            x_interpret = x_interpret.squeeze()
-            x_interpret.name = name
-        contributions = explanation.get()
-        if self.interpretable_features:
-            contributions = self.convert_columns_to_interpretable(contributions)
-            x_interpret = self.convert_columns_to_interpretable(x_interpret)
-        explanation.update_values(x_interpret, inplace=True)
-        explanation.update_explanation(contributions, inplace=True)
-        return explanation
-
-    @abstractmethod
-    def get_contributions(self, x_orig):
-        """
-        Gets the raw explanation.
-        Args:
-            x_orig (DataFrame of shape (n_instances, n_features):
-                Input to explain
-
-        Returns:
-            DataFrame of shape (n_instances, n_features)
-                Contribution of each feature for each instance
-        """
 
     def evaluate_variation(self, with_fit=False, explanations=None, n_iterations=20, n_rows=10):
         """

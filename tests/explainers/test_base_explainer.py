@@ -17,29 +17,18 @@ def breaking_transform(explanation):
 def test_init_invalid_transforms(regression_no_transforms):
     invalid_transform = "invalid"
     with pytest.raises(TypeError):
-        LocalFeatureContribution(
+        Explainer(
             regression_no_transforms["model"],
             regression_no_transforms["x"],
-            m_transformers=invalid_transform,
-        )
-    with pytest.raises(TypeError):
-        LocalFeatureContribution(
-            regression_no_transforms["model"],
-            regression_no_transforms["x"],
-            e_transformers=invalid_transform,
-        )
-    with pytest.raises(TypeError):
-        LocalFeatureContribution(
-            regression_no_transforms["model"],
-            regression_no_transforms["x"],
-            i_transformers=invalid_transform,
+            transformers=invalid_transform,
+            scope="testing",
         )
 
 
 def test_init_invalid_model():
     invalid_model = []
     with pytest.raises(TypeError):
-        LocalFeatureContribution(invalid_model, pd.DataFrame([0]))
+        Explainer(invalid_model, pd.DataFrame([0]), scope="testing")
 
 
 def test_transform_to_functions(regression_one_hot):
@@ -51,10 +40,11 @@ def test_transform_to_functions(regression_one_hot):
 
     regression_one_hot["transformers"].set_flags(model=True, interpret=True)
     feature_select = FeatureSelectTransformer(columns=["B", "A_2"], algorithm=False, model=True)
-    explainer = LocalFeatureContribution(
+    explainer = Explainer(
         regression_one_hot["model"],
         x,
         transformers=[regression_one_hot["transformers"], feature_select],
+        scope="testing",
     )
     result = explainer.transform_to_x_interpret(x)
     assert_frame_equal(result, expected, check_like=True, check_dtype=False)
@@ -70,10 +60,11 @@ def test_transform_to_functions_series(regression_one_hot):
 
     regression_one_hot["transformers"].set_flags(model=True, interpret=True)
     feature_select = FeatureSelectTransformer(columns=["B", "A_2"], algorithm=False, model=True)
-    explainer = LocalFeatureContribution(
+    explainer = Explainer(
         regression_one_hot["model"],
         regression_one_hot["x"],
         transformers=[regression_one_hot["transformers"], feature_select],
+        scope="testing",
     )
     result = explainer.transform_to_x_interpret(x)
     assert_series_equal(result, expected, check_dtype=False)
@@ -92,10 +83,11 @@ def test_transform_x_from_algorithm_to_model(regression_one_hot):
 
     regression_one_hot["transformers"].set_flags(model=True, interpret=True)
     feature_select = FeatureSelectTransformer(columns=["A", "B"], algorithm=False, model=True)
-    explainer = LocalFeatureContribution(
+    explainer = Explainer(
         regression_one_hot["model"],
         regression_one_hot["x"],
         transformers=[regression_one_hot["transformers"], feature_select],
+        scope="testing",
     )
     result = explainer.transform_x_from_algorithm_to_model(x)
     assert_frame_equal(result, expected, check_like=True, check_dtype=False)
@@ -112,11 +104,12 @@ def test_convert_data_to_interpretable(regression_one_hot):
 
     regression_one_hot["transformers"].set_flags(model=True, interpret=True)
     feature_select = FeatureSelectTransformer(columns=["B", "A_2"], algorithm=False, model=True)
-    explainer = LocalFeatureContribution(
+    explainer = Explainer(
         regression_one_hot["model"],
         regression_one_hot["x"],
         transformers=[regression_one_hot["transformers"], feature_select],
         feature_descriptions={"B": "Feature B"},
+        scope="testing",
     )
     result = explainer.convert_data_to_interpretable(x)
     assert_frame_equal(result, expected, check_dtype=False)
@@ -126,16 +119,16 @@ def test_convert_data_to_interpretable(regression_one_hot):
 
 def test_predict_regression(regression_no_transforms, regression_one_hot):
     model = regression_no_transforms
-    explainer = LocalFeatureContribution(
-        model["model"], model["x"], transformers=model["transformers"]
+    explainer = Explainer(
+        model["model"], model["x"], transformers=model["transformers"], scope="testing"
     )
     expected = np.array(model["y"]).reshape(-1)
     result = explainer.model_predict(model["x"])
     assert np.array_equal(result, expected)
 
     model = regression_one_hot
-    explainer = LocalFeatureContribution(
-        model["model"], model["x"], transformers=model["transformers"]
+    explainer = Explainer(
+        model["model"], model["x"], transformers=model["transformers"], scope="testing"
     )
     expected = np.array(model["y"]).reshape(-1)
     result = explainer.model_predict(model["x"])
@@ -144,8 +137,8 @@ def test_predict_regression(regression_no_transforms, regression_one_hot):
 
 def test_predict_classification(classification_no_transforms):
     model = classification_no_transforms
-    explainer = LocalFeatureContribution(
-        model["model"], model["x"], transformers=model["transformers"]
+    explainer = Explainer(
+        model["model"], model["x"], transformers=model["transformers"], scope="testing"
     )
     expected = np.array(model["y"])
     result = explainer.model_predict(model["x"])
@@ -306,14 +299,5 @@ def test_fit_transformer_param(regression_no_transforms):
 def test_no_dataset_on_init(regression_no_transforms):
     x = regression_no_transforms["x"]
     model = regression_no_transforms["model"]
-    explainer = Explainer(model)
+    explainer = Explainer(model, scope="testing")
     assert explainer.x_train_orig is None
-    explainer.fit(x)
-    assert explainer.x_train_orig is None
-
-
-def test_no_dataset_on_init_or_fit_ensure_break(regression_no_transforms):
-    model = regression_no_transforms["model"]
-    explainer = Explainer(model)
-    with pytest.raises(ValueError):
-        explainer.fit()
