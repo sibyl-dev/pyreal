@@ -1,6 +1,6 @@
+import pandas as pd
 from sklearn.neighbors import KDTree
 from sklearn.preprocessing import StandardScaler
-import pandas as pd
 
 from pyreal.explainers.se.base import SimilarExamplesBase
 from pyreal.explanation_types.explanations.example_based import SimilarExampleExplanation
