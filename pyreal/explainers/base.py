@@ -219,7 +219,8 @@ class ExplainerBase(ABC):
 
         Returns:
             Explanation
-                A generated interpretable explanation object
+                A generated interpretable explanation object, including interpretable feature
+                names and values.
         """
         series = False
         name = None
@@ -227,8 +228,7 @@ class ExplainerBase(ABC):
             name = x_orig.name
             series = True
             x_orig = x_orig.to_frame().T
-        explanation = self.produce_explanation(x_orig=x_orig, **kwargs)  # Explanation object
-        explanation_interpret = self.transform_explanation(explanation, x_orig)
+        explanation_interpret = self.produce_explanation_interpret(x_orig=x_orig, **kwargs)
         if not disable_feature_descriptions:
             explanation_interpret.apply_feature_descriptions(self.feature_descriptions)
         if series:
@@ -236,6 +236,23 @@ class ExplainerBase(ABC):
             x_interpret.name = name
             explanation_interpret.update_values(x_interpret)
         return explanation_interpret
+
+    def produce_explanation_interpret(self, x_orig, **kwargs):
+        """
+        Produce an interpretable explanation and corresponding values
+
+        Args:
+             x_orig (DataFrame of shape (n_instances, n_features)):
+                Input to explain
+            **kwargs:
+                 Additional arguments to be used by more specific explainers.
+
+        Returns:
+            Explanation
+                Generated explanation in the interpretable feature space, with values
+        """
+        explanation = self.produce_explanation(x_orig, **kwargs)
+        return self.transform_explanation(explanation, x_orig)
 
     @abstractmethod
     def produce_explanation(self, x_orig, **kwargs):
@@ -249,7 +266,7 @@ class ExplainerBase(ABC):
                 Additional arguments to be used by more specific explainers.
 
         Returns:
-            A generated explanation object in the algorithm feature space
+            A generated explanation object in the algorithm feature space (without values)
         """
         pass
 

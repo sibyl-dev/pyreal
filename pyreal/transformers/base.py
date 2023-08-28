@@ -12,6 +12,10 @@ from pyreal.explanation_types.explanations.feature_based import (
     FeatureContributionExplanation,
     FeatureImportanceExplanation,
 )
+from pyreal.explanation_types.explanations.example_based import (
+    ExampleBasedExplanation,
+    SimilarExampleExplanation,
+)
 
 log = logging.getLogger(__name__)
 
@@ -260,6 +264,11 @@ class Transformer(ABC):
         if isinstance(explanation, DecisionTreeExplanation):
             return self.inverse_transform_explanation_decision_tree(explanation)
 
+        if isinstance(explanation, SimilarExampleExplanation):
+            return self.inverse_transform_explanation_similar_example(explanation)
+        if isinstance(explanation, ExampleBasedExplanation):
+            return self.inverse_transform_explanation_example(explanation)
+
         if isinstance(explanation, Explanation):  # handle generic explanation cases
             return explanation
 
@@ -291,6 +300,11 @@ class Transformer(ABC):
             return self.transform_explanation_feature_importance(explanation)
         if isinstance(explanation, FeatureBased):
             return self.transform_explanation_feature_based(explanation)
+
+        if isinstance(explanation, SimilarExampleExplanation):
+            return self.transform_explanation_similar_example(explanation)
+        if isinstance(explanation, ExampleBasedExplanation):
+            return self.transform_explanation_example(explanation)
 
         if isinstance(explanation, Explanation):
             return explanation
@@ -385,7 +399,7 @@ class Transformer(ABC):
     # noinspection PyMethodMayBeStatic
     def inverse_transform_explanation_decision_tree(self, explanation):
         """
-        Inverse transforms feature-based explanations
+        Inverse transforms decision-tree explanations
 
         Args:
             explanation (DecisionTree):
@@ -398,6 +412,36 @@ class Transformer(ABC):
             self.__class__, "inverse_transform_explanation_decision_tree"
         )
         return explanation
+
+    # noinspection PyMethodMayBeStatic
+    def inverse_transform_explanation_similar_example(self, explanation):
+        """
+        Inverse transforms similar-example-based explanations
+
+        Args:
+            explanation (ExampleBasedExplanation):
+                The explanation to be transformed
+        Returns:
+            DecisionTree:
+                The transformed explanation
+        """
+        return SimilarExampleExplanation(
+            self.inverse_transform_explanation_example(explanation).get()
+        )
+
+    # noinspection PyMethodMayBeStatic
+    def inverse_transform_explanation_example(self, explanation):
+        """
+        Inverse transforms example-based explanations
+
+        Args:
+            explanation (ExampleBasedExplanation):
+                The explanation to be transformed
+        Returns:
+            DecisionTree:
+                The transformed explanation
+        """
+        return ExampleBasedExplanation(self.inverse_data_transform(explanation.get_examples()))
 
     # ============================== TRANSFORM EXPLANATION METHODS ================================
 
@@ -496,3 +540,30 @@ class Transformer(ABC):
         """
         _display_missing_transform_info(self.__class__, "transform_explanation_decision_tree")
         return explanation
+
+    def transform_explanation_similar_example(self, explanation):
+        """
+        Transforms example-based explanations
+
+        Args:
+            explanation (ExampleBasedExplanation):
+                The explanation to be transformed
+        Returns:
+            DecisionTree:
+                The transformed explanation
+        """
+        return SimilarExampleExplanation(self.transform_explanation_example(explanation).get())
+
+    # noinspection PyMethodMayBeStatic
+    def transform_explanation_example(self, explanation):
+        """
+        Transforms example-based explanations
+
+        Args:
+            explanation (ExampleBasedExplanation):
+                The explanation to be transformed
+        Returns:
+            DecisionTree:
+                The transformed explanation
+        """
+        return ExampleBasedExplanation(self.data_transform(explanation.get_examples()))
