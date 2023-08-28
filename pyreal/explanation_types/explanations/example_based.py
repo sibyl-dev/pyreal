@@ -36,13 +36,14 @@ class ExampleBasedExplanation(Explanation):
                 raise AssertionError(
                     "All items in example explanations' example dicts must be DataFrames."
                 )
-        if target_dict is not None and not isinstance(target_dict, dict):
-            raise AssertionError("Example explanation given invalid target dict.")
-        for row_id in target_dict:
-            if not isinstance(target_dict[row_id], pd.Series):
-                raise AssertionError(
-                    "All items in example explanations' target dicts must be Series."
-                )
+        if target_dict is not None:
+            if not isinstance(target_dict, dict):
+                raise AssertionError("Example explanation given invalid target dict.")
+            for row_id in target_dict:
+                if not isinstance(target_dict[row_id], pd.Series):
+                    raise AssertionError(
+                        "All items in example explanations' target dicts must be Series."
+                    )
 
         super().validate()
 
@@ -136,25 +137,6 @@ class CounterfactualExplanation(ExampleBasedExplanation):
         """
         explanation = (explanation, None)
         super().__init__(explanation, values)
-
-    def validate(self):
-        """
-        Validate that `self.explanation` is a valid dict of `DataFrames`
-        Returns:
-            None
-        Raises:
-            AssertionException
-                if `self.explanation` is invalid
-        """
-        super().validate()
-
-
-class CounterfactualExplanation(ExampleBasedExplanation):
-    """
-    A type wrapper for explanations that include most similar rows from the training set.
-
-    Contains a dict of dataframes
-    """
 
     def validate(self):
         """
