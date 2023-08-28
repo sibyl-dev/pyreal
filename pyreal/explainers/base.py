@@ -228,14 +228,14 @@ class ExplainerBase(ABC):
             series = True
             x_orig = x_orig.to_frame().T
         explanation = self.produce_explanation(x_orig, **kwargs)  # Explanation object
-        explanation.update_explanation(self.transform_explanation(explanation), inplace=True)
+        explanation_interpret = self.transform_explanation(explanation)
         if not disable_feature_descriptions:
-            explanation.apply_feature_descriptions(self.feature_descriptions, inplace=True)
+            explanation_interpret.apply_feature_descriptions(self.feature_descriptions)
         if series:
-            x_interpret = explanation.get_values().squeeze()
+            x_interpret = explanation_interpret.get_values().squeeze()
             x_interpret.name = name
-            explanation.update_values(x_interpret)
-        return explanation
+            explanation_interpret.update_values(x_interpret)
+        return explanation_interpret
 
     @abstractmethod
     def produce_explanation(self, x_orig, **kwargs):

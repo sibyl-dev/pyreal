@@ -97,7 +97,7 @@ class Explanation:
 
         Args:
             explanation (object):
-                New explanation
+                New raw explanation
             inplace (Boolean)
                 If True, change the explanation on this object. Otherwise, create a new object
                 identical to this one but with a new explanation
