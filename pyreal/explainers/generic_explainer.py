@@ -23,17 +23,8 @@ class Explainer(ExplainerBase):
         **kwargs: see base Explainer args
     """
 
-    def __init__(
-        self,
-        model,
-        x_train_orig=None,
-        scope="global",
-        e_algorithm="shap",
-        interpretable_features=True,
-        **kwargs
-    ):
+    def __init__(self, model, x_train_orig=None, scope="global", e_algorithm="shap", **kwargs):
         self.scope = scope
-        self.interpretable_features = interpretable_features
         algorithm_list = ["shap"]
 
         super(Explainer, self).__init__(model, x_train_orig, **kwargs)
@@ -42,14 +33,10 @@ class Explainer(ExplainerBase):
             raise ValueError("Invalid algorithm type %s" % e_algorithm)
         if scope == "global":
             if e_algorithm == "shap":
-                self.base_explainer = ShapFeatureImportance(
-                    model, x_train_orig, interpretable_features=interpretable_features, **kwargs
-                )
+                self.base_explainer = ShapFeatureImportance(model, x_train_orig, **kwargs)
         elif scope == "local":
             if e_algorithm == "shap":
-                self.base_explainer = ShapFeatureContribution(
-                    model, x_train_orig, interpretable_features=interpretable_features, **kwargs
-                )
+                self.base_explainer = ShapFeatureContribution(model, x_train_orig, **kwargs)
         elif scope == "testing":  # Only to be used for unit testing purposes
             self.base_explainer = None
         else:

@@ -28,7 +28,7 @@ class SurrogateDecisionTree(DecisionTreeExplainerBase):
     def __init__(self, model, x_train_orig=None, is_classifier=True, max_depth=None, **kwargs):
         self.explainer = None
         self.explainer_input_size = None
-        self.is_classifer = is_classifier
+        self.is_classifier = is_classifier
         self.max_depth = max_depth
         super(SurrogateDecisionTree, self).__init__(model, x_train_orig, **kwargs)
 
@@ -49,7 +49,7 @@ class SurrogateDecisionTree(DecisionTreeExplainerBase):
         m_dataset = self.transform_to_x_model(x_train_orig)
 
         self.explainer_input_size = a_dataset.shape[1]
-        if self.is_classifer:
+        if self.is_classifier:
             self.explainer = tree.DecisionTreeClassifier(max_depth=self.max_depth)
             self.explainer.fit(a_dataset, self.model.predict(m_dataset))
         else:
@@ -57,7 +57,7 @@ class SurrogateDecisionTree(DecisionTreeExplainerBase):
             self.explainer.fit(a_dataset, self.model.predict(m_dataset))
         return self
 
-    def produce(self, x_orig=None):
+    def produce_explanation(self, **kwargs):
         """
         Produce the explanation as a decision tree model.
 
@@ -82,7 +82,7 @@ class SurrogateDecisionTree(DecisionTreeExplainerBase):
         """
         if self.explainer is None:
             raise AttributeError(
-                "Instance has no explainer. Please fit the explainer             before producing"
+                "Instance has no explainer. Please fit the explainer before producing"
                 " explanations."
             )
 
