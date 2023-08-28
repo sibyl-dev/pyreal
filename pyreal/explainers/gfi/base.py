@@ -18,14 +18,10 @@ class GlobalFeatureImportanceBase(ExplainerBase, ABC):
            Filepath to the pickled model to explain, or model object with .predict() function
         x_train_orig (dataframe of shape (n_instances, x_orig_feature_count)):
            The training set for the explainer
-        interpretable_features (Boolean):
-            If True, return explanations using the interpretable feature descriptions instead of
-            default names
         **kwargs: see base Explainer args
     """
 
-    def __init__(self, model, x_train_orig=None, interpretable_features=True, **kwargs):
-        self.interpretable_features = interpretable_features
+    def __init__(self, model, x_train_orig=None, **kwargs):
         self.importance = None
         super(GlobalFeatureImportanceBase, self).__init__(model, x_train_orig, **kwargs)
 

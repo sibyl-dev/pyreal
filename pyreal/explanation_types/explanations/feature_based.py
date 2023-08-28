@@ -22,7 +22,10 @@ class FeatureBased(Explanation):
             raise AssertionError("DataFrame explanations must be of type DataFrame")
 
     def apply_feature_descriptions(self, feature_descriptions):
-        self.explanation = convert_columns_with_dict(self.explanation, feature_descriptions)
+        self.update_explanation(
+            convert_columns_with_dict(self.explanation, feature_descriptions), inplace=True
+        )
+        super().apply_feature_descriptions(feature_descriptions)
 
 
 class FeatureImportanceExplanation(FeatureBased):

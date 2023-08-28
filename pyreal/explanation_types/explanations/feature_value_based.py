@@ -4,7 +4,7 @@ import pandas as pd
 from pyreal.explanation_types.explanations.base import Explanation
 
 
-class FeatureValueExplanation:
+class FeatureValueExplanation(Explanation):
     """
     A wrapper for feature value-based explanations.
 

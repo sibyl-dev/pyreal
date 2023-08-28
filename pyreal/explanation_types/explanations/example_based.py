@@ -26,6 +26,7 @@ class ExampleBasedExplanation(Explanation):
             return convert_columns_with_dict(df, feature_descriptions)
 
         self.update_examples(func)
+        super().apply_feature_descriptions(feature_descriptions)
 
     def get_explanation_for_row(self, row_id):
         """
