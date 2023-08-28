@@ -205,7 +205,7 @@ class ExplainerBase(ABC):
         """
         return self
 
-    def produce(self, x_orig, disable_feature_descriptions=False, **kwargs):
+    def produce(self, x_orig=None, disable_feature_descriptions=False, **kwargs):
         """
         Return the explanation, in the desired form.
 
@@ -227,7 +227,7 @@ class ExplainerBase(ABC):
             name = x_orig.name
             series = True
             x_orig = x_orig.to_frame().T
-        explanation = self.produce_explanation(x_orig, **kwargs)  # Explanation object
+        explanation = self.produce_explanation(x_orig=x_orig, **kwargs)  # Explanation object
         explanation_interpret = self.transform_explanation(explanation)
         if not disable_feature_descriptions:
             explanation_interpret.apply_feature_descriptions(self.feature_descriptions)
