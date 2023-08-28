@@ -5,16 +5,16 @@ import pandas as pd
 
 from pyreal.explanation_types.explanations.base import Explanation
 from pyreal.explanation_types.explanations.decision_tree import DecisionTreeExplanation
+from pyreal.explanation_types.explanations.example_based import (
+    ExampleBasedExplanation,
+    SimilarExampleExplanation,
+)
 from pyreal.explanation_types.explanations.feature_based import (
     AdditiveFeatureContributionExplanation,
     AdditiveFeatureImportanceExplanation,
     FeatureBased,
     FeatureContributionExplanation,
     FeatureImportanceExplanation,
-)
-from pyreal.explanation_types.explanations.example_based import (
-    ExampleBasedExplanation,
-    SimilarExampleExplanation,
 )
 
 log = logging.getLogger(__name__)

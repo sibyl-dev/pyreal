@@ -1,7 +1,6 @@
-from abc import ABC, abstractmethod
+from abc import ABC
 
 import numpy as np
-import pandas as pd
 
 from pyreal.explainers import ExplainerBase
 

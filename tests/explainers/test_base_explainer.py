@@ -297,7 +297,6 @@ def test_fit_transformer_param(regression_no_transforms):
 
 
 def test_no_dataset_on_init(regression_no_transforms):
-    x = regression_no_transforms["x"]
     model = regression_no_transforms["model"]
     explainer = Explainer(model, scope="testing")
     assert explainer.x_train_orig is None

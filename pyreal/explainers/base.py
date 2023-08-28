@@ -251,7 +251,7 @@ class ExplainerBase(ABC):
             Explanation
                 Generated explanation in the interpretable feature space, with values
         """
-        explanation = self.produce_explanation(x_orig, **kwargs)
+        explanation = self.produce_explanation(x_orig=x_orig, **kwargs)
         return self.transform_explanation(explanation, x_orig)
 
     @abstractmethod
