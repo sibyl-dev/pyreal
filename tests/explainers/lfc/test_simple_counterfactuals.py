@@ -70,7 +70,6 @@ def test_produce_simple_regression_transforms(regression_one_hot):
     assert contributions["C"][0] == 0
 
     contributions = explainer.produce(x_multi_dim).get()
-    print(contributions)
     assert x_multi_dim.shape == contributions.shape
     assert contributions["A"][0] <= 2
     assert contributions["A"][0] >= 0.01  # with high probability
@@ -99,7 +98,6 @@ def test_produce_simple_no_dataset_on_init(regression_one_hot):
     assert contributions["C"][0] == 0
 
     contributions = explainer.produce(x_multi_dim).get()
-    print(contributions)
     assert x_multi_dim.shape == contributions.shape
     assert contributions["A"][0] <= 2
     assert contributions["A"][0] >= 0.01  # with high probability

@@ -1,4 +1,4 @@
-from abc import ABC, abstractmethod
+from abc import ABC
 
 import numpy as np
 
@@ -18,62 +18,12 @@ class GlobalFeatureImportanceBase(ExplainerBase, ABC):
            Filepath to the pickled model to explain, or model object with .predict() function
         x_train_orig (dataframe of shape (n_instances, x_orig_feature_count)):
            The training set for the explainer
-        interpretable_features (Boolean):
-            If True, return explanations using the interpretable feature descriptions instead of
-            default names
         **kwargs: see base Explainer args
     """
 
-    def __init__(self, model, x_train_orig=None, interpretable_features=True, **kwargs):
-        self.interpretable_features = interpretable_features
+    def __init__(self, model, x_train_orig=None, **kwargs):
         self.importance = None
         super(GlobalFeatureImportanceBase, self).__init__(model, x_train_orig, **kwargs)
-
-    @abstractmethod
-    def fit(self, x_train_orig=None, y_train=None):
-        """
-        Fit this explainer object
-
-        Args:
-            x_train_orig (DataFrame of shape (n_instances, n_features):
-                Training set to fit on, required if not provided on initialization
-            y_train:
-                Targets of training set, required if not provided on initialization
-        """
-
-    def produce(self, x_orig=None):
-        """
-        Produce the global feature importance explanation
-
-        Args:
-            x_orig (None):
-                Global explanations do not take inputs - dummy to match signature
-
-        Returns:
-            DataFrame of shape (n_features,)
-                Importance of each feature for the model
-        """
-        # Importance for a given model stays constant, so can be saved and re-returned
-        if self.importance is not None:
-            return self.importance
-        explanation = self.get_importance()
-        explanation = self.transform_explanation(explanation)
-        if self.interpretable_features:
-            explanation.update_explanation(
-                self.convert_columns_to_interpretable(explanation.get()), inplace=True
-            )
-        self.importance = explanation
-        return explanation
-
-    @abstractmethod
-    def get_importance(self):
-        """
-        Gets the raw explanation.
-
-        Returns:
-            DataFrame of shape (n_features, )
-                Importance of each feature
-        """
 
     def evaluate_variation(self, with_fit=False, explanations=None, n_iterations=20, n_rows=10):
         """

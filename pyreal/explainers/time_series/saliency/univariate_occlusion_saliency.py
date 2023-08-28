@@ -78,7 +78,7 @@ class UnivariateOcclusionSaliency(SaliencyBase):
         """
         return self
 
-    def get_contributions(self, x_orig):
+    def produce_explanation(self, x_orig):
         """
         Calculate the explanation of each feature in x using occlusion.
         Args:

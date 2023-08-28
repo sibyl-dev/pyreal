@@ -52,17 +52,20 @@ class SimilarExamples(SimilarExamplesBase):
 
         return self
 
-    def get_explanation(self, x_orig, n=5):
+    def produce_explanation_interpret(self, x_orig, disable_feature_descriptions=False, n=5):
         """
         Get the n nearest neighbors to x_orig
 
         Args:
             x_orig (DataFrame of shape (n_instances, n_features)):
                The input to be explained
+            disable_feature_descriptions (Boolean):
+                If False, do not apply feature descriptions
             n (int):
                 Number of neighbors to return
         Returns:
-            SimilarExamples
+            SimilarExamplesExplanation
+                Set of similar examples and their targets
         """
         if self.explainer is None:
             raise AttributeError("Instance has no explainer. Must call fit() before produce()")
@@ -70,9 +73,17 @@ class SimilarExamples(SimilarExamplesBase):
         if self.standardize:
             x = self.standardizer.transform(x)
         inds = self.explainer.query(x, k=n, return_distance=False)
-        examples = {}
-        targets = {}
+        raw_explanation = {}
         for i in range(len(inds)):
-            examples[i] = self.x_train_orig.iloc[inds[i], :]
-            targets[i] = pd.Series(self.y_train.iloc[inds[i]].squeeze())
-        return SimilarExampleExplanation((examples, targets))
+            raw_explanation[i] = (self.x_train_orig.iloc[inds[i], :], self.y_train.iloc[inds[i]])
+        x_interpret = self.transform_to_x_interpret(x_orig)
+        explanation = SimilarExampleExplanation(raw_explanation, x_interpret)
+        explanation.update_examples(self.transform_to_x_interpret)
+        return explanation
+
+    def produce_explanation(self, x_orig, **kwargs):
+        """
+        Unused for similar examples explainers as explanations are directly produced in the
+        interpretable feature space
+        """
+        return None

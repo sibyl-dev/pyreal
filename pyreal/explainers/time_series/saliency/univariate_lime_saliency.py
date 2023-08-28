@@ -91,7 +91,7 @@ class UnivariateLimeSaliency(SaliencyBase):
 
         return self
 
-    def get_contributions(self, x_orig):
+    def produce_explanation(self, x_orig, **kwargs):
         """
         Calculate the explanation of each feature in x using LIME.
         Args:

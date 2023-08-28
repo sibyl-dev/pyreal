@@ -70,10 +70,13 @@ class PartialDependence(PartialDependenceExplainerBase):
         self.is_fitted = True
         return self
 
-    def get_pdp(self):
+    def produce_explanation(self, **kwargs):
         """
         Produce the partial dependence explanation
 
+        Returns:
+            PartialDependenceExplanation
+                The PDP explanation
         """
         if not self.is_fitted:
             raise RuntimeError("Must fit explainer before calling produce!")

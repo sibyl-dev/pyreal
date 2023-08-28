@@ -1,7 +1,5 @@
 from abc import ABC, abstractmethod
 
-import pandas as pd
-
 from pyreal.explainers import ExplainerBase
 
 
@@ -37,43 +35,6 @@ class SimilarExamplesBase(ExplainerBase, ABC):
                 Training set to fit on, required if not provided on initialization
             y_train:
                 Targets of training set, required if not provided on initialization
-        """
-
-    def produce(self, x_orig, n=5):
-        """
-        Produce the example explanation
-
-        Args:
-            x_orig (DataFrame of shape (n_instances, n_features)):
-                Input to explain
-            n (int):
-                Number of examples to return
-
-        Returns:
-            ExampleBased
-                The explanation
-        """
-        if isinstance(x_orig, pd.Series):
-            x_orig = x_orig.to_frame().T
-        explanation = self.get_explanation(x_orig, n)
-        explanation.update_examples(self.transform_to_x_interpret)
-        if self.interpretable_features:
-            explanation.update_examples(self.convert_columns_to_interpretable)
-        explanation.update_values(self.convert_data_to_interpretable(x_orig), inplace=True)
-        return explanation
-
-    @abstractmethod
-    def get_explanation(self, x_orig, n):
-        """
-        Gets the raw explanation.
-        Args:
-            x_orig (DataFrame of shape (n_instances, n_features):
-                Input to explain
-            n (int):
-                Number of examples to return
-
-        Returns:
-            ExampleBased
         """
 
     def evaluate_variation(self, with_fit=False, explanations=None, n_iterations=20, n_rows=10):
