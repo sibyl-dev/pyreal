@@ -228,7 +228,7 @@ class ExplainerBase(ABC):
             series = True
             x_orig = x_orig.to_frame().T
         explanation = self.produce_explanation(x_orig=x_orig, **kwargs)  # Explanation object
-        explanation_interpret = self.transform_explanation(explanation)
+        explanation_interpret = self.transform_explanation(explanation, x_orig)
         if not disable_feature_descriptions:
             explanation_interpret.apply_feature_descriptions(self.feature_descriptions)
         if series:

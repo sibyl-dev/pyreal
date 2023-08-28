@@ -51,7 +51,7 @@ class SimilarExamples(ExampleBasedBase):
 
         return self
 
-    def get_explanation(self, x_orig, n=5):
+    def produce_explanation(self, x_orig, n=5):
         """
         Get the n nearest neighbors to x_orig
 
@@ -61,7 +61,8 @@ class SimilarExamples(ExampleBasedBase):
             n (int):
                 Number of neighbors to return
         Returns:
-            SimilarExamples
+            SimilarExamplesExplanation
+                Set of similar examples and their targets
         """
         if self.explainer is None:
             raise AttributeError("Instance has no explainer. Must call fit() before produce()")
