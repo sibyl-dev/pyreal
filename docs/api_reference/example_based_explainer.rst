@@ -9,9 +9,9 @@ Example Based Base
 .. autosummary::
     :toctree: api/
 
-    ExampleBasedBase
-    ExampleBasedBase.fit
-    ExampleBasedBase.produce
+    SimilarExamplesBase
+    SimilarExamplesBase.fit
+    SimilarExamplesBase.produce
 
 Similar Examples
 ~~~~~~~~~~~~~~~~~~~~~~~~~~

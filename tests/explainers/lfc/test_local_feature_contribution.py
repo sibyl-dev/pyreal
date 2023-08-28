@@ -14,7 +14,6 @@ def test_produce_with_renames(regression_one_hot):
         e_algorithm="shap",
         fit_on_init=True,
         transformers=transforms,
-        interpretable_features=True,
         feature_descriptions=feature_descriptions,
     )
     x_one_dim = pd.DataFrame([[2, 10, 10]], columns=["A", "B", "C"])
@@ -52,7 +51,6 @@ def test_produce_with_renames_with_size(regression_one_hot):
         e_algorithm="shap",
         fit_on_init=True,
         transformers=transforms,
-        interpretable_features=True,
         feature_descriptions=feature_descriptions,
         training_size=2,
     )

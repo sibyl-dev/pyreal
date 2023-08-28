@@ -71,7 +71,7 @@ class DecisionTreeExplainer(DecisionTreeExplainerBase):
         self.base_decision_tree.fit(x_train_orig, y_train)
         return self
 
-    def produce(self, x_orig=None):
+    def produce_explanation(self, **kwargs):
         """
         Returns the decision tree object, either DecisionTreeClassifier or DecisionTreeRegressor
 
