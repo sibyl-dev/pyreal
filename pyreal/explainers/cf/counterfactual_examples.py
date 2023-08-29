@@ -20,7 +20,7 @@ import pandas as pd
 
 
 def _dist(a, b):
-    return np.sum((b - a) ** 2)
+    return np.linalg.norm(b - a)
 
 
 class CFProblem(ElementwiseProblem):
@@ -36,11 +36,7 @@ class CFProblem(ElementwiseProblem):
         )
 
     def _evaluate(self, x, out, *args, **kwargs):
-        # try:
         x = self.transform_func(pd.DataFrame(x, index=[0])[self.column_order])
-        # except:
-        #    out["F"] = [1000000, 10000000, 1000000000, 100000]
-        #    return
         x_np = x.to_numpy()
         # Difference between the prediction on x_mod and the target prediction:
         o1 = np.sum((self.model.predict(x_np) - self.target_prediction) ** 2)
