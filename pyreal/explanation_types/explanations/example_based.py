@@ -126,19 +126,6 @@ class CounterfactualExplanation(ExampleBasedExplanation):
     Contains a dict of dataframes
     """
 
-    def __init__(self, explanation, values=None):
-        """
-        Set the wrapped explanation to `explanation` and values to `values` and validate
-        Args:
-            explanation (object):
-                wrapped explanation
-            values (DataFrame of shape (n_instances, n_features) or None):
-                Values corresponding with the object being explained
-
-        """
-        explanation = (explanation, None)
-        super().__init__(explanation, values)
-
     def validate(self):
         """
         Validate that `self.explanation` is a valid dict of `DataFrames`

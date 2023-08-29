@@ -1,6 +1,8 @@
 import numpy as np
 
 from pyreal.explainers import ExplainerBase
+from pyreal.sample_applications import ames_housing
+import time
 from pyreal.explanation_types.explanations.example_based import CounterfactualExplanation
 from pymoo.optimize import minimize
 from pymoo.algorithms.moo.nsga2 import NSGA2, RankAndCrowdingSurvival
@@ -28,25 +30,23 @@ class CFProblem(ElementwiseProblem):
         self.model = model
         self.target_prediction = target_prediction
         self.column_order = x_algo.columns
-        self.x_algo = x_algo.to_numpy()
+        self.x_algo = x_algo.to_numpy().astype(object)
         self.x_model = transform_func(x_algo).to_numpy()
         self.transform_func = transform_func
-        super().__init__(
-            n_var=length, n_obj=4, vars=vars  # , xl=np.ones(len(vars)), xu=np.ones(len(vars))
-        )
+        super().__init__(n_var=length, n_obj=3, vars=vars)
 
     def _evaluate(self, x, out, *args, **kwargs):
         x = self.transform_func(pd.DataFrame(x, index=[0])[self.column_order])
         x_np = x.to_numpy()
         # Difference between the prediction on x_mod and the target prediction:
-        o1 = np.sum((self.model.predict(x_np) - self.target_prediction) ** 2)
+        o1 = abs(self.model.predict(x_np)[0] - self.target_prediction)
         # Distance between x_mod and the input:
         o2 = _dist(self.x_model, x_np)
         # Sparsity of changes:
         o3 = np.sum(self.x_model != x_np)
         # TODO Likelihood of features:
-        o4 = 0
-        out["F"] = [o1, o2, o3, o4]
+        # o4 = 0
+        out["F"] = [o1, o2, o3]
 
 
 class Counterfactuals(ExplainerBase):
@@ -59,12 +59,20 @@ class Counterfactuals(ExplainerBase):
            Filepath to the pickled model to explain, or model object with .predict() function
         x_train_orig (DataFrame of size (n_instances, n_features)):
             Training set in original form.
+        population_size (int):
+            Population size to use for optimization
+        num_generations (int):
+            Number of generations to use for optimization
         **kwargs: see base Explainer args
     """
 
-    def __init__(self, model, x_train_orig=None, **kwargs):
+    def __init__(
+        self, model, x_train_orig=None, population_size=30, num_generations=500, **kwargs
+    ):
         self.cf = None
         self.vars = None
+        self.population_size = population_size
+        self.num_generations = num_generations
         super(Counterfactuals, self).__init__(model, x_train_orig, **kwargs)
 
     def fit(self, x_train_orig=None, y_train=None):
@@ -78,8 +86,6 @@ class Counterfactuals(ExplainerBase):
                 Targets of training set, required if not provided on initialization
         """
         x_train_algo = self.transform_to_x_algorithm(self._get_x_train_orig(x_train_orig))
-        # self.xl = self.transform_to_x_model(x_train_orig).min(axis=0) * 1.2
-        # self.xu = self.transform_to_x_model(x_train_orig).max(axis=0) * 1.2
 
         self.vars = dict()
         for col in x_train_algo:
@@ -88,13 +94,16 @@ class Counterfactuals(ExplainerBase):
             elif is_integer_dtype(x_train_algo[col]):
                 self.vars[col] = variable.Integer(
                     bounds=(
-                        math.floor(min(x_train_algo[col])),
-                        math.ceil(max(x_train_algo[col])),
+                        math.floor(min(x_train_algo[col]) - 0.1 * abs(min(x_train_algo[col]))),
+                        math.ceil(max(x_train_algo[col]) + 0.1 * abs(max(x_train_algo[col]))),
                     )
                 )
             elif is_numeric_dtype(x_train_algo[col]):
                 self.vars[col] = variable.Real(
-                    bounds=(min(x_train_algo[col]), max(x_train_algo[col]))
+                    bounds=(
+                        min(x_train_algo[col]) - 0.1 * abs(min(x_train_algo[col])),
+                        max(x_train_algo[col]) + 0.1 * abs(max(x_train_algo[col])),
+                    )
                 )
             else:
                 self.vars[col] = variable.Choice(options=list(np.unique(x_train_algo[col])))
@@ -131,18 +140,20 @@ class Counterfactuals(ExplainerBase):
             transform_func=self.transform_x_from_algorithm_to_model,
         )
         algorithm = NSGA2(
-            pop_size=30,
+            pop_size=self.population_size,
             sampling=MixedVariableSampling(),
             mating=MixedVariableMating(eliminate_duplicates=MixedVariableDuplicateElimination()),
             eliminate_duplicates=MixedVariableDuplicateElimination(),
         )
-        result = minimize(problem, algorithm, ("n_gen", 500), seed=3, verbose=False)
-        # TODO: figure out the format of result when multiple rows are passed in and convert to the
-        #    correct dictionary format
-        raw_explanation = {}
-        for i in range(num_examples):
-            raw_explanation[i] = pd.DataFrame(result.X[i], index=[0])[x_algo.columns]
-        return CounterfactualExplanation(raw_explanation)
+        result = minimize(
+            problem, algorithm, termination=("n_gen", self.num_generations), verbose=False
+        )
+        raw_explanation = dict()
+        raw_explanation[0] = pd.DataFrame(list(result.X))[x_algo.columns]
+        order = np.argsort(result.F[:, 0])[0:num_examples]
+        raw_explanation[0] = pd.DataFrame(list(result.X)).iloc[order][x_algo.columns]
+        print(self.model_predict_on_algorithm(raw_explanation[0]))
+        return CounterfactualExplanation((raw_explanation, None))
 
     def evaluate_variation(self, with_fit=False, explanations=None, n_iterations=20, n_rows=10):
         """
@@ -171,16 +182,14 @@ class Counterfactuals(ExplainerBase):
         return 0  # TODO: complete this
 
 
-"""from pyreal.sample_applications import ames_housing
-import time
-
 start = time.time()
 x_train_orig = ames_housing.load_data().drop(columns="Id")
 model = ames_housing.load_model()
 transformers = ames_housing.load_transformers()
 
-explainer = Counterfactuals(model, x_train_orig, transformers=transformers, fit_on_init=True)
+explainer = Counterfactuals(
+    model, x_train_orig, transformers=transformers, fit_on_init=True, population_size=30
+)
 exp = explainer.produce(x_train_orig.iloc[1:2], target_prediction=200000)
 print("Total time:", time.time() - start)
-print(exp.get())
-print(explainer.model_predict(exp.get_examples()))"""
+print(explainer.model_predict(exp.get_examples()))
