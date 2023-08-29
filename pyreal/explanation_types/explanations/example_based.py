@@ -95,6 +95,7 @@ class ExampleBasedExplanation(Explanation):
     def update_examples(self, func):
         for key in self.get()[0]:
             self.get()[0][key] = func(self.get()[0][key])
+        return self.get()
 
 
 class SimilarExampleExplanation(ExampleBasedExplanation):

@@ -92,13 +92,13 @@ class Counterfactuals(ExplainerBase):
             elif is_integer_dtype(x_train_algo[col]):
                 self.vars[col] = variable.Integer(
                     bounds=(
-                        math.floor(min(x_train_algo[col]) * 1.2),
-                        math.ceil(max(x_train_algo[col]) * 1.2),
+                        math.floor(min(x_train_algo[col])),
+                        math.ceil(max(x_train_algo[col])),
                     )
                 )
             elif is_numeric_dtype(x_train_algo[col]):
                 self.vars[col] = variable.Real(
-                    bounds=(min(x_train_algo[col]) * 1.2, max(x_train_algo[col]) * 1.2)
+                    bounds=(min(x_train_algo[col]), max(x_train_algo[col]))
                 )
             else:
                 self.vars[col] = variable.Choice(options=list(np.unique(x_train_algo[col])))
@@ -135,7 +135,7 @@ class Counterfactuals(ExplainerBase):
             transform_func=self.transform_x_from_algorithm_to_model,
         )
         algorithm = NSGA2(
-            pop_size=5,
+            pop_size=30,
             sampling=MixedVariableSampling(),
             mating=MixedVariableMating(eliminate_duplicates=MixedVariableDuplicateElimination()),
             eliminate_duplicates=MixedVariableDuplicateElimination(),
@@ -144,7 +144,6 @@ class Counterfactuals(ExplainerBase):
         # TODO: figure out the format of result when multiple rows are passed in and convert to the
         #    correct dictionary format
         raw_explanation = {}
-        print(result.X)
         for i in range(num_examples):
             raw_explanation[i] = pd.DataFrame(result.X[i], index=[0])[x_algo.columns]
         return CounterfactualExplanation(raw_explanation)
@@ -176,7 +175,7 @@ class Counterfactuals(ExplainerBase):
         return 0  # TODO: complete this
 
 
-from pyreal.sample_applications import ames_housing
+"""from pyreal.sample_applications import ames_housing
 import time
 
 start = time.time()
@@ -187,3 +186,5 @@ transformers = ames_housing.load_transformers()
 explainer = Counterfactuals(model, x_train_orig, transformers=transformers, fit_on_init=True)
 exp = explainer.produce(x_train_orig.iloc[1:2], target_prediction=200000)
 print("Total time:", time.time() - start)
+print(exp.get())
+print(explainer.model_predict(exp.get_examples()))"""

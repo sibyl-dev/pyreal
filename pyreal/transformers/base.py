@@ -219,7 +219,7 @@ class Transformer(ABC):
             DataFrame of shape (n_instances, n_features):
                 The inverse-transformed dataset
         """
-        raise NotImplementedError("Inverse transform is not defined for this Transformer.")
+        raise BreakingTransformError
 
     def inverse_transform(self, x_new):
         """
@@ -441,7 +441,7 @@ class Transformer(ABC):
             DecisionTree:
                 The transformed explanation
         """
-        return ExampleBasedExplanation(self.inverse_data_transform(explanation.get_examples()))
+        return ExampleBasedExplanation(explanation.update_examples(self.inverse_data_transform))
 
     # ============================== TRANSFORM EXPLANATION METHODS ================================
 
@@ -566,4 +566,4 @@ class Transformer(ABC):
             DecisionTree:
                 The transformed explanation
         """
-        return ExampleBasedExplanation(self.data_transform(explanation.get_examples()))
+        return ExampleBasedExplanation(explanation.update_examples(self.data_transform))
