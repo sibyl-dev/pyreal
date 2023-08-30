@@ -341,6 +341,7 @@ def feature_scatter_plot(
 
     contributions = contributions[feature]
     values = values[feature]
+    print(contributions[feature])
 
     if isinstance(predictions, dict):
         predictions = np.array([predictions[i] for i in predictions]).reshape(-1)

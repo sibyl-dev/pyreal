@@ -1,24 +1,25 @@
-import numpy as np
-
-from pyreal.explainers import ExplainerBase
-from pyreal.sample_applications import ames_housing
+import math
 import time
-from pyreal.explanation_types.explanations.example_based import CounterfactualExplanation
-from pymoo.optimize import minimize
+
+import numpy as np
+import pandas as pd
+from pandas.api.types import is_bool_dtype, is_integer_dtype, is_numeric_dtype
+from pymoo.algorithms.moo.dnsga2 import DNSGA2
 from pymoo.algorithms.moo.nsga2 import NSGA2, RankAndCrowdingSurvival
 from pymoo.algorithms.moo.nsga3 import NSGA3
-from pymoo.algorithms.moo.dnsga2 import DNSGA2
+from pymoo.core import variable
 from pymoo.core.mixed import (
+    MixedVariableDuplicateElimination,
     MixedVariableGA,
     MixedVariableMating,
     MixedVariableSampling,
-    MixedVariableDuplicateElimination,
 )
 from pymoo.core.problem import ElementwiseProblem, Problem
-from pandas.api.types import is_numeric_dtype, is_bool_dtype, is_integer_dtype
-from pymoo.core import variable
-import math
-import pandas as pd
+from pymoo.optimize import minimize
+
+from pyreal.explainers import ExplainerBase
+from pyreal.explanation_types.explanations.example_based import CounterfactualExplanation
+from pyreal.sample_applications import ames_housing
 
 
 def _dist(a, b):
@@ -30,6 +31,8 @@ class CFProblem(ElementwiseProblem):
         self.model = model
         self.target_prediction = target_prediction
         self.column_order = x_algo.columns
+        for col in x_algo:
+            vars[col].value = x_algo[col]
         self.x_algo = x_algo.to_numpy().astype(object)
         self.x_model = transform_func(x_algo).to_numpy()
         self.transform_func = transform_func
@@ -96,7 +99,7 @@ class Counterfactuals(ExplainerBase):
                     bounds=(
                         math.floor(min(x_train_algo[col]) - 0.1 * abs(min(x_train_algo[col]))),
                         math.ceil(max(x_train_algo[col]) + 0.1 * abs(max(x_train_algo[col]))),
-                    )
+                    ),
                 )
             elif is_numeric_dtype(x_train_algo[col]):
                 self.vars[col] = variable.Real(
@@ -182,7 +185,7 @@ class Counterfactuals(ExplainerBase):
         return 0  # TODO: complete this
 
 
-start = time.time()
+"""start = time.time()
 x_train_orig = ames_housing.load_data().drop(columns="Id")
 model = ames_housing.load_model()
 transformers = ames_housing.load_transformers()
@@ -192,4 +195,4 @@ explainer = Counterfactuals(
 )
 exp = explainer.produce(x_train_orig.iloc[1:2], target_prediction=200000)
 print("Total time:", time.time() - start)
-print(explainer.model_predict(exp.get_examples()))
+print(explainer.model_predict(exp.get_examples()))"""

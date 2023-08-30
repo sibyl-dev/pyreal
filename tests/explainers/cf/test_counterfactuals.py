@@ -1,8 +1,8 @@
+import numpy as np
 import pandas as pd
 from pandas.testing import assert_frame_equal, assert_series_equal
 
-from pyreal.explainers import Counterfactuals
-import numpy as np
+from pyreal.explainers.cf.counterfactual_examples import Counterfactuals
 
 
 class CFTestModel:
@@ -10,7 +10,7 @@ class CFTestModel:
         return self
 
     def predict(self, x):
-        return x[0, 0] + 3 * x[0, 1]
+        return x[:, 0] + 3 * x[:, 1]
 
 
 def test_produce():
