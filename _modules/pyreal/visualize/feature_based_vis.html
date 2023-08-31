@@ -347,7 +347,7 @@ document.write(`
 
 <span class="k">def</span> <span class="nf">_parse_multi_contribution</span><span class="p">(</span><span class="n">explanation</span><span class="p">):</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">explanation</span><span class="p">,</span> <span class="n">FeatureContributionExplanation</span><span class="p">):</span>
-        <span class="n">contributions</span> <span class="o">=</span> <span class="n">explanation</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="n">contributions</span> <span class="o">=</span> <span class="n">explanation</span><span class="o">.</span><span class="n">get_values</span><span class="p">()</span>
         <span class="n">values</span> <span class="o">=</span> <span class="n">explanation</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">contribution_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">explanation</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s2">&quot;Contribution&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">explanation</span><span class="p">]</span>
@@ -372,6 +372,7 @@ document.write(`
     <span class="n">include_axis</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="n">show</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="n">filename</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">kwargs</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Plot the most contributing features</span>
@@ -401,6 +402,8 @@ document.write(`
 <span class="sd">            Show the figure</span>
 <span class="sd">        filename (string or None):</span>
 <span class="sd">            If not None, save the figure as filename</span>
+<span class="sd">        **kwargs:</span>
+<span class="sd">            Additional parameters to pass into plt.barh</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        pyplot figure</span>
@@ -476,7 +479,7 @@ document.write(`
         <span class="n">_</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">_</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">facecolor</span><span class="o">=</span><span class="s2">&quot;w&quot;</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">barh</span><span class="p">(</span><span class="n">features</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">contributions</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">barh</span><span class="p">(</span><span class="n">features</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">contributions</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">are_importances</span><span class="p">:</span>
         <span class="n">title</span> <span class="o">=</span> <span class="s2">&quot;Feature Importance Scores&quot;</span>
     <span class="k">else</span><span class="p">:</span>
@@ -507,7 +510,16 @@ document.write(`
 
 
 <div class="viewcode-block" id="strip_plot"><a class="viewcode-back" href="../../../api_reference/api/pyreal.visualize.strip_plot.html#pyreal.visualize.strip_plot">[docs]</a><span class="k">def</span> <span class="nf">strip_plot</span><span class="p">(</span>
-    <span class="n">explanation</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;strip&quot;</span><span class="p">,</span> <span class="n">num_features</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">discrete</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+    <span class="n">explanation</span><span class="p">,</span>
+    <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;strip&quot;</span><span class="p">,</span>
+    <span class="n">num_features</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+    <span class="n">discrete</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">show</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">filename</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">marker_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+    <span class="n">palette</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">show_legend</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">kwargs</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Generates a strip plot (type=&quot;strip&quot;) or a swarm plot (type=&quot;swarm&quot;) from a set of feature</span>
@@ -527,8 +539,12 @@ document.write(`
 <span class="sd">            If True, show the figure</span>
 <span class="sd">        filename (string or None):</span>
 <span class="sd">            If not None, save the figure as filename</span>
-<span class="sd">        legend (Boolean):</span>
-<span class="sd">            If True, show a colorbar legend</span>
+<span class="sd">        marker_size (int):</span>
+<span class="sd">            Size of markers to use in plot</span>
+<span class="sd">        palette (seaborn palette name, list, or dict):</span>
+<span class="sd">            Colors to use in the plot. See seaborn.color_palette for more info</span>
+<span class="sd">        show_legend (Boolean):</span>
+<span class="sd">            If False, hide the legend</span>
 <span class="sd">        **kwargs:</span>
 <span class="sd">            Additional arguments to pass to seaborn.swarmplot or seaborn.stripplot</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -538,18 +554,22 @@ document.write(`
     <span class="n">order</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">average_importance</span><span class="p">)[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
     <span class="n">num_cats</span> <span class="o">=</span> <span class="p">[]</span>
 
-    <span class="k">if</span> <span class="n">discrete</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">discrete</span> <span class="ow">and</span> <span class="n">show_legend</span><span class="p">:</span>
         <span class="n">legend</span> <span class="o">=</span> <span class="s2">&quot;brief&quot;</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">legend</span> <span class="o">=</span> <span class="kc">False</span>
-
+    <span class="n">generate_palette</span> <span class="o">=</span> <span class="n">palette</span> <span class="ow">is</span> <span class="kc">None</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_features</span><span class="p">):</span>
         <span class="n">hues</span> <span class="o">=</span> <span class="n">values</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="n">order</span><span class="p">[</span><span class="n">i</span> <span class="p">:</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]]</span>
         <span class="n">hues</span> <span class="o">=</span> <span class="n">hues</span><span class="o">.</span><span class="n">melt</span><span class="p">()[</span><span class="s2">&quot;value&quot;</span><span class="p">]</span>
         <span class="n">num_colors</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">hues</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;str&quot;</span><span class="p">)))</span>
-        <span class="n">palette</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">blend_palette</span><span class="p">(</span>
-            <span class="p">[</span><span class="n">NEGATIVE_COLOR_LIGHT</span><span class="p">,</span> <span class="n">NEUTRAL_COLOR</span><span class="p">,</span> <span class="n">POSITIVE_COLOR_LIGHT</span><span class="p">],</span> <span class="n">n_colors</span><span class="o">=</span><span class="n">num_colors</span>
-        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">generate_palette</span><span class="p">:</span>
+            <span class="n">palette</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">blend_palette</span><span class="p">(</span>
+                <span class="p">[</span><span class="n">NEGATIVE_COLOR_LIGHT</span><span class="p">,</span> <span class="n">NEUTRAL_COLOR</span><span class="p">,</span> <span class="n">POSITIVE_COLOR_LIGHT</span><span class="p">],</span> <span class="n">n_colors</span><span class="o">=</span><span class="n">num_colors</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;size&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="n">marker_size</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;size&quot;</span><span class="p">]</span>
+            <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;size&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">type</span> <span class="o">==</span> <span class="s2">&quot;strip&quot;</span><span class="p">:</span>
             <span class="n">ax</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">stripplot</span><span class="p">(</span>
                 <span class="n">x</span><span class="o">=</span><span class="s2">&quot;value&quot;</span><span class="p">,</span>
@@ -558,7 +578,7 @@ document.write(`
                 <span class="n">data</span><span class="o">=</span><span class="n">contributions</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="n">order</span><span class="p">[</span><span class="n">i</span> <span class="p">:</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]]</span><span class="o">.</span><span class="n">melt</span><span class="p">(),</span>
                 <span class="n">palette</span><span class="o">=</span><span class="n">palette</span><span class="p">,</span>
                 <span class="n">legend</span><span class="o">=</span><span class="n">legend</span><span class="p">,</span>
-                <span class="n">size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+                <span class="n">size</span><span class="o">=</span><span class="n">marker_size</span><span class="p">,</span>
                 <span class="o">**</span><span class="n">kwargs</span>
             <span class="p">)</span>
         <span class="k">elif</span> <span class="nb">type</span> <span class="o">==</span> <span class="s2">&quot;swarm&quot;</span><span class="p">:</span>
@@ -569,7 +589,7 @@ document.write(`
                 <span class="n">data</span><span class="o">=</span><span class="n">contributions</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="n">order</span><span class="p">[</span><span class="n">i</span> <span class="p">:</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]]</span><span class="o">.</span><span class="n">melt</span><span class="p">(),</span>
                 <span class="n">palette</span><span class="o">=</span><span class="n">palette</span><span class="p">,</span>
                 <span class="n">legend</span><span class="o">=</span><span class="n">legend</span><span class="p">,</span>
-                <span class="n">size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+                <span class="n">size</span><span class="o">=</span><span class="n">marker_size</span><span class="p">,</span>
                 <span class="o">**</span><span class="n">kwargs</span>
             <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
@@ -585,54 +605,55 @@ document.write(`
         <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s2">&quot;right&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s2">&quot;left&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
 
-    <span class="n">legends</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">if</span> <span class="n">discrete</span><span class="p">:</span>
-        <span class="n">handles</span><span class="p">,</span> <span class="n">labels</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_legend_handles_labels</span><span class="p">()</span>
-        <span class="n">shift</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">num_cats</span><span class="p">)</span>
-        <span class="n">r</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">num_cats</span><span class="p">)):</span>
-            <span class="k">if</span> <span class="n">num_cats</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mi">5</span><span class="p">:</span>
-                <span class="n">l1</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span>
-                    <span class="n">handles</span><span class="p">[</span><span class="n">r</span> <span class="p">:</span> <span class="n">r</span> <span class="o">+</span> <span class="n">num_cats</span><span class="p">[</span><span class="n">i</span><span class="p">]],</span>
-                    <span class="n">labels</span><span class="p">[</span><span class="n">r</span> <span class="p">:</span> <span class="n">r</span> <span class="o">+</span> <span class="n">num_cats</span><span class="p">[</span><span class="n">i</span><span class="p">]],</span>
-                    <span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span> <span class="o">-</span> <span class="p">(</span><span class="n">i</span> <span class="o">*</span> <span class="n">shift</span><span class="p">)),</span>
-                    <span class="n">loc</span><span class="o">=</span><span class="s2">&quot;upper left&quot;</span><span class="p">,</span>
-                    <span class="n">ncol</span><span class="o">=</span><span class="n">num_cats</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
-                    <span class="n">labelspacing</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span>
-                    <span class="n">columnspacing</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span>
-                    <span class="n">handletextpad</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
-                    <span class="n">frameon</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-                <span class="p">)</span>
-                <span class="n">legends</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">l1</span><span class="p">)</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">step</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">num_cats</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">/</span> <span class="mi">5</span><span class="p">)</span>
-                <span class="n">l1</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span>
-                    <span class="n">handles</span><span class="p">[</span><span class="n">r</span> <span class="p">:</span> <span class="n">r</span> <span class="o">+</span> <span class="n">num_cats</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="p">:</span> <span class="n">step</span><span class="p">],</span>
-                    <span class="n">labels</span><span class="p">[</span><span class="n">r</span> <span class="p">:</span> <span class="n">r</span> <span class="o">+</span> <span class="n">num_cats</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="p">:</span> <span class="n">step</span><span class="p">],</span>
-                    <span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span> <span class="o">-</span> <span class="p">(</span><span class="n">i</span> <span class="o">*</span> <span class="n">shift</span><span class="p">)),</span>
-                    <span class="n">loc</span><span class="o">=</span><span class="s2">&quot;upper left&quot;</span><span class="p">,</span>
-                    <span class="n">ncol</span><span class="o">=</span><span class="n">num_cats</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
-                    <span class="n">labelspacing</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span>
-                    <span class="n">columnspacing</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span>
-                    <span class="n">handletextpad</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
-                    <span class="n">frameon</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-                <span class="p">)</span>
-                <span class="n">legends</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">l1</span><span class="p">)</span>
-            <span class="n">r</span> <span class="o">+=</span> <span class="n">num_cats</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-        <span class="k">for</span> <span class="n">labels</span> <span class="ow">in</span> <span class="n">legends</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
-            <span class="n">ax</span><span class="o">.</span><span class="n">add_artist</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">show_legend</span><span class="p">:</span>
+        <span class="n">legends</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="n">discrete</span><span class="p">:</span>
+            <span class="n">handles</span><span class="p">,</span> <span class="n">labels</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_legend_handles_labels</span><span class="p">()</span>
+            <span class="n">shift</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">num_cats</span><span class="p">)</span>
+            <span class="n">r</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">num_cats</span><span class="p">)):</span>
+                <span class="k">if</span> <span class="n">num_cats</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mi">5</span><span class="p">:</span>
+                    <span class="n">l1</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span>
+                        <span class="n">handles</span><span class="p">[</span><span class="n">r</span> <span class="p">:</span> <span class="n">r</span> <span class="o">+</span> <span class="n">num_cats</span><span class="p">[</span><span class="n">i</span><span class="p">]],</span>
+                        <span class="n">labels</span><span class="p">[</span><span class="n">r</span> <span class="p">:</span> <span class="n">r</span> <span class="o">+</span> <span class="n">num_cats</span><span class="p">[</span><span class="n">i</span><span class="p">]],</span>
+                        <span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span> <span class="o">-</span> <span class="p">(</span><span class="n">i</span> <span class="o">*</span> <span class="n">shift</span><span class="p">)),</span>
+                        <span class="n">loc</span><span class="o">=</span><span class="s2">&quot;upper left&quot;</span><span class="p">,</span>
+                        <span class="n">ncol</span><span class="o">=</span><span class="n">num_cats</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+                        <span class="n">labelspacing</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span>
+                        <span class="n">columnspacing</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span>
+                        <span class="n">handletextpad</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
+                        <span class="n">frameon</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                    <span class="p">)</span>
+                    <span class="n">legends</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">l1</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">step</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">num_cats</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">/</span> <span class="mi">5</span><span class="p">)</span>
+                    <span class="n">l1</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span>
+                        <span class="n">handles</span><span class="p">[</span><span class="n">r</span> <span class="p">:</span> <span class="n">r</span> <span class="o">+</span> <span class="n">num_cats</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="p">:</span> <span class="n">step</span><span class="p">],</span>
+                        <span class="n">labels</span><span class="p">[</span><span class="n">r</span> <span class="p">:</span> <span class="n">r</span> <span class="o">+</span> <span class="n">num_cats</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="p">:</span> <span class="n">step</span><span class="p">],</span>
+                        <span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span> <span class="o">-</span> <span class="p">(</span><span class="n">i</span> <span class="o">*</span> <span class="n">shift</span><span class="p">)),</span>
+                        <span class="n">loc</span><span class="o">=</span><span class="s2">&quot;upper left&quot;</span><span class="p">,</span>
+                        <span class="n">ncol</span><span class="o">=</span><span class="n">num_cats</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+                        <span class="n">labelspacing</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span>
+                        <span class="n">columnspacing</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span>
+                        <span class="n">handletextpad</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
+                        <span class="n">frameon</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                    <span class="p">)</span>
+                    <span class="n">legends</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">l1</span><span class="p">)</span>
+                <span class="n">r</span> <span class="o">+=</span> <span class="n">num_cats</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">labels</span> <span class="ow">in</span> <span class="n">legends</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">add_artist</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span>
 
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
-        <span class="n">norm</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">Normalize</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-        <span class="n">sm</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">ScalarMappable</span><span class="p">(</span><span class="n">cmap</span><span class="o">=</span><span class="n">PALETTE_CMAP</span><span class="p">,</span> <span class="n">norm</span><span class="o">=</span><span class="n">norm</span><span class="p">)</span>
-        <span class="n">sm</span><span class="o">.</span><span class="n">set_array</span><span class="p">([])</span>
-        <span class="n">cbar</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">figure</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">sm</span><span class="p">)</span>
-        <span class="n">cbar</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">get_yaxis</span><span class="p">()</span><span class="o">.</span><span class="n">set_ticks</span><span class="p">([])</span>
-        <span class="n">cbar</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mf">1.5</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">,</span> <span class="s2">&quot;low&quot;</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s2">&quot;left&quot;</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">)</span>
-        <span class="n">cbar</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mf">1.5</span><span class="p">,</span> <span class="mf">0.95</span><span class="p">,</span> <span class="s2">&quot;high&quot;</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s2">&quot;left&quot;</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">)</span>
-        <span class="n">cbar</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Feature Value&quot;</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">270</span><span class="p">)</span>
-        <span class="n">cbar</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">get_yaxis</span><span class="p">()</span><span class="o">.</span><span class="n">labelpad</span> <span class="o">=</span> <span class="mi">15</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
+            <span class="n">norm</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">Normalize</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">sm</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">ScalarMappable</span><span class="p">(</span><span class="n">cmap</span><span class="o">=</span><span class="n">PALETTE_CMAP</span><span class="p">,</span> <span class="n">norm</span><span class="o">=</span><span class="n">norm</span><span class="p">)</span>
+            <span class="n">sm</span><span class="o">.</span><span class="n">set_array</span><span class="p">([])</span>
+            <span class="n">cbar</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">figure</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">sm</span><span class="p">)</span>
+            <span class="n">cbar</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">get_yaxis</span><span class="p">()</span><span class="o">.</span><span class="n">set_ticks</span><span class="p">([])</span>
+            <span class="n">cbar</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mf">1.5</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">,</span> <span class="s2">&quot;low&quot;</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s2">&quot;left&quot;</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">)</span>
+            <span class="n">cbar</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mf">1.5</span><span class="p">,</span> <span class="mf">0.95</span><span class="p">,</span> <span class="s2">&quot;high&quot;</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s2">&quot;left&quot;</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">)</span>
+            <span class="n">cbar</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Feature Value&quot;</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">270</span><span class="p">)</span>
+            <span class="n">cbar</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">get_yaxis</span><span class="p">()</span><span class="o">.</span><span class="n">labelpad</span> <span class="o">=</span> <span class="mi">15</span>
 
     <span class="k">if</span> <span class="n">filename</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">plt</span><span class="o">.</span><span class="n">gcf</span><span class="p">()</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">bbox_extra_artists</span><span class="o">=</span><span class="n">legends</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="s2">&quot;tight&quot;</span><span class="p">)</span>
@@ -641,7 +662,16 @@ document.write(`
 
 
 <div class="viewcode-block" id="feature_scatter_plot"><a class="viewcode-back" href="../../../api_reference/api/pyreal.visualize.feature_scatter_plot.html#pyreal.visualize.feature_scatter_plot">[docs]</a><span class="k">def</span> <span class="nf">feature_scatter_plot</span><span class="p">(</span>
-    <span class="n">explanation</span><span class="p">,</span> <span class="n">feature</span><span class="p">,</span> <span class="n">predictions</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">discrete</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="kc">None</span>
+    <span class="n">explanation</span><span class="p">,</span>
+    <span class="n">feature</span><span class="p">,</span>
+    <span class="n">predictions</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">discrete</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">show</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">filename</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">palette</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">marker_alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+    <span class="n">marker_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">kwargs</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Plot a contribution scatter plot for one feature</span>
@@ -660,6 +690,14 @@ document.write(`
 <span class="sd">            If True, show the figure</span>
 <span class="sd">        filename (string or None):</span>
 <span class="sd">            If not None, save the figure as filename</span>
+<span class="sd">        palette (seaborn palette name, list, or dict):</span>
+<span class="sd">            Colors to use in the plot. See seaborn.color_palette for more info</span>
+<span class="sd">        marker_alpha (float between (0,1]):</span>
+<span class="sd">            Alpha value to use for markers</span>
+<span class="sd">        marker_size (int):</span>
+<span class="sd">            Size to use for markers</span>
+<span class="sd">        **kwargs:</span>
+<span class="sd">            Additional arguments to pass into seaborn.stripplot or seaborn.scatterplot</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">contributions</span><span class="p">,</span> <span class="n">values</span> <span class="o">=</span> <span class="n">_parse_multi_contribution</span><span class="p">(</span><span class="n">explanation</span><span class="p">)</span>
 
@@ -679,9 +717,10 @@ document.write(`
     <span class="p">)</span>
 
     <span class="n">num_colors</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">predictions</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;str&quot;</span><span class="p">)))</span>
-    <span class="n">palette</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">blend_palette</span><span class="p">(</span>
-        <span class="p">[</span><span class="n">NEGATIVE_COLOR_LIGHT</span><span class="p">,</span> <span class="n">NEUTRAL_COLOR</span><span class="p">,</span> <span class="n">POSITIVE_COLOR_LIGHT</span><span class="p">],</span> <span class="n">n_colors</span><span class="o">=</span><span class="n">num_colors</span>
-    <span class="p">)</span>
+    <span class="k">if</span> <span class="n">palette</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">palette</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">blend_palette</span><span class="p">(</span>
+            <span class="p">[</span><span class="n">NEGATIVE_COLOR_LIGHT</span><span class="p">,</span> <span class="n">NEUTRAL_COLOR</span><span class="p">,</span> <span class="n">POSITIVE_COLOR_LIGHT</span><span class="p">],</span> <span class="n">n_colors</span><span class="o">=</span><span class="n">num_colors</span>
+        <span class="p">)</span>
 
     <span class="k">if</span> <span class="p">(</span>
         <span class="n">legend_type</span> <span class="o">!=</span> <span class="s2">&quot;none&quot;</span>
@@ -704,8 +743,10 @@ document.write(`
             <span class="n">hue</span><span class="o">=</span><span class="s2">&quot;Prediction&quot;</span><span class="p">,</span>
             <span class="n">palette</span><span class="o">=</span><span class="n">palette</span><span class="p">,</span>
             <span class="n">legend</span><span class="o">=</span><span class="n">plot_legend</span><span class="p">,</span>
-            <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+            <span class="n">alpha</span><span class="o">=</span><span class="n">marker_alpha</span><span class="p">,</span>
+            <span class="n">size</span><span class="o">=</span><span class="n">marker_size</span><span class="p">,</span>
             <span class="n">zorder</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">kwargs</span>
         <span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">ax</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">scatterplot</span><span class="p">(</span>
@@ -715,7 +756,9 @@ document.write(`
             <span class="n">hue</span><span class="o">=</span><span class="s2">&quot;Prediction&quot;</span><span class="p">,</span>
             <span class="n">palette</span><span class="o">=</span><span class="n">palette</span><span class="p">,</span>
             <span class="n">legend</span><span class="o">=</span><span class="n">plot_legend</span><span class="p">,</span>
-            <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+            <span class="n">alpha</span><span class="o">=</span><span class="n">marker_alpha</span><span class="p">,</span>
+            <span class="n">sizes</span><span class="o">=</span><span class="n">marker_size</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">kwargs</span>
         <span class="p">)</span>
 
     <span class="n">plt</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
