@@ -23,7 +23,7 @@ from pyreal.visualize.visualize_config import (
 
 def _parse_multi_contribution(explanation):
     if isinstance(explanation, FeatureContributionExplanation):
-        contributions = explanation.get()
+        contributions = explanation.get_values()
         values = explanation.get()
     else:
         contribution_list = [explanation[i]["Contribution"] for i in explanation]
@@ -48,6 +48,7 @@ def feature_bar_plot(
     include_axis=True,
     show=False,
     filename=None,
+    **kwargs
 ):
     """
     Plot the most contributing features
@@ -77,6 +78,8 @@ def feature_bar_plot(
             Show the figure
         filename (string or None):
             If not None, save the figure as filename
+        **kwargs:
+            Additional parameters to pass into plt.barh
 
     Returns:
         pyplot figure
@@ -152,7 +155,7 @@ def feature_bar_plot(
         _, ax = plt.subplots()
     else:
         _, ax = plt.subplots(facecolor="w")
-    plt.barh(features[::-1], contributions[::-1], color=colors)
+    plt.barh(features[::-1], contributions[::-1], color=colors, **kwargs)
     if are_importances:
         title = "Feature Importance Scores"
     else:
@@ -183,7 +186,16 @@ def feature_bar_plot(
 
 
 def strip_plot(
-    explanation, type="strip", num_features=5, discrete=False, show=False, filename=None, **kwargs
+    explanation,
+    type="strip",
+    num_features=5,
+    discrete=False,
+    show=False,
+    filename=None,
+    marker_size=3,
+    palette=None,
+    show_legend=True,
+    **kwargs
 ):
     """
     Generates a strip plot (type="strip") or a swarm plot (type="swarm") from a set of feature
@@ -203,8 +215,12 @@ def strip_plot(
             If True, show the figure
         filename (string or None):
             If not None, save the figure as filename
-        legend (Boolean):
-            If True, show a colorbar legend
+        marker_size (int):
+            Size of markers to use in plot
+        palette (seaborn palette name, list, or dict):
+            Colors to use in the plot. See seaborn.color_palette for more info
+        show_legend (Boolean):
+            If False, hide the legend
         **kwargs:
             Additional arguments to pass to seaborn.swarmplot or seaborn.stripplot
     """
@@ -214,18 +230,22 @@ def strip_plot(
     order = np.argsort(average_importance)[::-1]
     num_cats = []
 
-    if discrete:
+    if discrete and show_legend:
         legend = "brief"
     else:
         legend = False
-
+    generate_palette = palette is None
     for i in range(num_features):
         hues = values.iloc[:, order[i : i + 1]]
         hues = hues.melt()["value"]
         num_colors = len(np.unique(hues.astype("str")))
-        palette = sns.blend_palette(
-            [NEGATIVE_COLOR_LIGHT, NEUTRAL_COLOR, POSITIVE_COLOR_LIGHT], n_colors=num_colors
-        )
+        if generate_palette:
+            palette = sns.blend_palette(
+                [NEGATIVE_COLOR_LIGHT, NEUTRAL_COLOR, POSITIVE_COLOR_LIGHT], n_colors=num_colors
+            )
+        if "size" in kwargs:
+            marker_size = kwargs["size"]
+            kwargs.pop("size", None)
         if type == "strip":
             ax = sns.stripplot(
                 x="value",
@@ -234,7 +254,7 @@ def strip_plot(
                 data=contributions.iloc[:, order[i : i + 1]].melt(),
                 palette=palette,
                 legend=legend,
-                size=3,
+                size=marker_size,
                 **kwargs
             )
         elif type == "swarm":
@@ -245,7 +265,7 @@ def strip_plot(
                 data=contributions.iloc[:, order[i : i + 1]].melt(),
                 palette=palette,
                 legend=legend,
-                size=3,
+                size=marker_size,
                 **kwargs
             )
         else:
@@ -261,54 +281,55 @@ def strip_plot(
         ax.spines["right"].set_visible(False)
         ax.spines["left"].set_visible(False)
 
-    legends = []
-    if discrete:
-        handles, labels = ax.get_legend_handles_labels()
-        shift = 1 / len(num_cats)
-        r = 0
-        for i in range(0, len(num_cats)):
-            if num_cats[i] <= 5:
-                l1 = ax.legend(
-                    handles[r : r + num_cats[i]],
-                    labels[r : r + num_cats[i]],
-                    bbox_to_anchor=(1, 1 - (i * shift)),
-                    loc="upper left",
-                    ncol=num_cats[i],
-                    labelspacing=0.2,
-                    columnspacing=0.2,
-                    handletextpad=0.1,
-                    frameon=False,
-                )
-                legends.append(l1)
-            else:
-                step = math.ceil(num_cats[i] / 5)
-                l1 = ax.legend(
-                    handles[r : r + num_cats[i] : step],
-                    labels[r : r + num_cats[i] : step],
-                    bbox_to_anchor=(1, 1 - (i * shift)),
-                    loc="upper left",
-                    ncol=num_cats[i],
-                    labelspacing=0.2,
-                    columnspacing=0.2,
-                    handletextpad=0.1,
-                    frameon=False,
-                )
-                legends.append(l1)
-            r += num_cats[i]
-        for labels in legends[:-1]:
-            ax.add_artist(labels)
+    if show_legend:
+        legends = []
+        if discrete:
+            handles, labels = ax.get_legend_handles_labels()
+            shift = 1 / len(num_cats)
+            r = 0
+            for i in range(0, len(num_cats)):
+                if num_cats[i] <= 5:
+                    l1 = ax.legend(
+                        handles[r : r + num_cats[i]],
+                        labels[r : r + num_cats[i]],
+                        bbox_to_anchor=(1, 1 - (i * shift)),
+                        loc="upper left",
+                        ncol=num_cats[i],
+                        labelspacing=0.2,
+                        columnspacing=0.2,
+                        handletextpad=0.1,
+                        frameon=False,
+                    )
+                    legends.append(l1)
+                else:
+                    step = math.ceil(num_cats[i] / 5)
+                    l1 = ax.legend(
+                        handles[r : r + num_cats[i] : step],
+                        labels[r : r + num_cats[i] : step],
+                        bbox_to_anchor=(1, 1 - (i * shift)),
+                        loc="upper left",
+                        ncol=num_cats[i],
+                        labelspacing=0.2,
+                        columnspacing=0.2,
+                        handletextpad=0.1,
+                        frameon=False,
+                    )
+                    legends.append(l1)
+                r += num_cats[i]
+            for labels in legends[:-1]:
+                ax.add_artist(labels)
 
-    else:
-        ax = plt.gca()
-        norm = plt.Normalize(0, 1)
-        sm = plt.cm.ScalarMappable(cmap=PALETTE_CMAP, norm=norm)
-        sm.set_array([])
-        cbar = ax.figure.colorbar(sm)
-        cbar.ax.get_yaxis().set_ticks([])
-        cbar.ax.text(1.5, 0.05, "low", ha="left", va="center")
-        cbar.ax.text(1.5, 0.95, "high", ha="left", va="center")
-        cbar.ax.set_ylabel("Feature Value", rotation=270)
-        cbar.ax.get_yaxis().labelpad = 15
+        else:
+            ax = plt.gca()
+            norm = plt.Normalize(0, 1)
+            sm = plt.cm.ScalarMappable(cmap=PALETTE_CMAP, norm=norm)
+            sm.set_array([])
+            cbar = ax.figure.colorbar(sm)
+            cbar.ax.get_yaxis().set_ticks([])
+            cbar.ax.text(1.5, 0.05, "low", ha="left", va="center")
+            cbar.ax.text(1.5, 0.95, "high", ha="left", va="center")
+            cbar.ax.set_ylabel("Feature Value", rotation=270)
+            cbar.ax.get_yaxis().labelpad = 15
 
     if filename is not None:
         plt.gcf().savefig(filename, bbox_extra_artists=legends, bbox_inches="tight")
@@ -317,7 +338,16 @@ def strip_plot(
 
 
 def feature_scatter_plot(
-    explanation, feature, predictions=None, discrete=None, show=False, filename=None
+    explanation,
+    feature,
+    predictions=None,
+    discrete=None,
+    show=False,
+    filename=None,
+    palette=None,
+    marker_alpha=0.5,
+    marker_size=3,
+    **kwargs
 ):
     """
     Plot a contribution scatter plot for one feature
@@ -336,6 +366,14 @@ def feature_scatter_plot(
             If True, show the figure
         filename (string or None):
             If not None, save the figure as filename
+        palette (seaborn palette name, list, or dict):
+            Colors to use in the plot. See seaborn.color_palette for more info
+        marker_alpha (float between (0,1]):
+            Alpha value to use for markers
+        marker_size (int):
+            Size to use for markers
+        **kwargs:
+            Additional arguments to pass into seaborn.stripplot or seaborn.scatterplot
     """
     contributions, values = _parse_multi_contribution(explanation)
 
@@ -355,9 +393,10 @@ def feature_scatter_plot(
     )
 
     num_colors = len(np.unique(predictions.astype("str")))
-    palette = sns.blend_palette(
-        [NEGATIVE_COLOR_LIGHT, NEUTRAL_COLOR, POSITIVE_COLOR_LIGHT], n_colors=num_colors
-    )
+    if palette is None:
+        palette = sns.blend_palette(
+            [NEGATIVE_COLOR_LIGHT, NEUTRAL_COLOR, POSITIVE_COLOR_LIGHT], n_colors=num_colors
+        )
 
     if (
         legend_type != "none"
@@ -380,8 +419,10 @@ def feature_scatter_plot(
             hue="Prediction",
             palette=palette,
             legend=plot_legend,
-            alpha=0.5,
+            alpha=marker_alpha,
+            size=marker_size,
             zorder=0,
+            **kwargs
         )
     else:
         ax = sns.scatterplot(
@@ -391,7 +432,9 @@ def feature_scatter_plot(
             hue="Prediction",
             palette=palette,
             legend=plot_legend,
-            alpha=0.5,
+            alpha=marker_alpha,
+            sizes=marker_size,
+            **kwargs
         )
 
     plt.axhline(0, color="black", zorder=0)
