@@ -85,6 +85,7 @@ def test_plot_swarm_lfc_no_break(regression_no_transforms):
     explanation = realApp.produce_feature_contributions(x_multi_dim)
 
     strip_plot(explanation, show=False)
+    strip_plot(explanation, show_legend=False, marker_size=5, size=5, palette="dark")
     plot_explanation(explanation, show=False)
 
 
