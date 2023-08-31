@@ -88,7 +88,7 @@ class ExplainerBase(ABC):
            parameter should be provided.
         x_train_orig (DataFrame of shape (n_instances, x_orig_feature_count)):
            The training set for the explainer. If none, must be provided separately when fitting
-        y_train (DataFrame of shape (n_instances,)):
+        y_train (Series of shape (n_instances,)):
            The y values for the dataset
         e_algorithm (string):
             Algorithm to use, if applicable

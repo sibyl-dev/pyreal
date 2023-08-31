@@ -1,11 +1,12 @@
+import pandas as pd
 from sklearn.neighbors import KDTree
 from sklearn.preprocessing import StandardScaler
 
-from pyreal.explainers.example.base import ExampleBasedBase
+from pyreal.explainers.se.base import SimilarExamplesBase
 from pyreal.explanation_types.explanations.example_based import SimilarExampleExplanation
 
 
-class SimilarExamples(ExampleBasedBase):
+class SimilarExamples(SimilarExamplesBase):
     """
     SimilarExamples object.
 
@@ -36,7 +37,7 @@ class SimilarExamples(ExampleBasedBase):
         Args:
             x_train_orig (DataFrame of shape (n_instances, n_features):
                 Training set to fit on, required if not provided on initialization
-            y_train:
+            y_train (Series of shape (n_features):
                 Targets of training set, required if not provided on initialization
         """
         x_train_orig, y_train = self._get_training_data(x_train_orig, y_train)
@@ -72,11 +73,15 @@ class SimilarExamples(ExampleBasedBase):
         if self.standardize:
             x = self.standardizer.transform(x)
         inds = self.explainer.query(x, k=n, return_distance=False)
-        raw_explanation = {}
+        raw_explanation_x = {}
+        raw_explanation_y = {}
         for i in range(len(inds)):
-            raw_explanation[i] = (self.x_train_orig.iloc[inds[i], :], self.y_train.iloc[inds[i]])
+            raw_explanation_x[i] = self.x_train_orig.iloc[inds[i], :]
+            raw_explanation_y[i] = pd.Series(self.y_train.iloc[inds[i]].squeeze())
         x_interpret = self.transform_to_x_interpret(x_orig)
-        explanation = SimilarExampleExplanation(raw_explanation, x_interpret)
+        explanation = SimilarExampleExplanation(
+            (raw_explanation_x, raw_explanation_y), x_interpret
+        )
         explanation.update_examples(self.transform_to_x_interpret)
         return explanation
 
