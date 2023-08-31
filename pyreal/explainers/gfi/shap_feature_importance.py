@@ -83,12 +83,12 @@ class ShapFeatureImportance(GlobalFeatureImportanceBase):
 
         return self
 
-    def get_importance(self):
+    def produce_explanation(self, **kwargs):
         """
         Calculate the explanation of each feature using SHAP.
 
         Returns:
-            DataFrame of shape (n_features, ):
+            AdditiveFeatureImportanceExplanation:
                  The global importance of each feature
         """
         if self.importance_from_fit is None:
