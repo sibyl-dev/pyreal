@@ -64,7 +64,7 @@ black = "^23.1.0"
 
 # Documentation Dependencies
 PyYaml = ">=6.0"
-Sphinx = "==7.0.1"
+Sphinx = "==7.2.5"
 argh = ">=0.26.2"
 autodocsumm = ">=0.2.9"
 m2r2 = ">=0.3.3"
