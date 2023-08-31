@@ -23,6 +23,8 @@
       ~ExplainerBase.model_predict
       ~ExplainerBase.model_predict_on_algorithm
       ~ExplainerBase.produce
+      ~ExplainerBase.produce_explanation
+      ~ExplainerBase.produce_explanation_interpret
       ~ExplainerBase.transform_explanation
       ~ExplainerBase.transform_to_x_algorithm
       ~ExplainerBase.transform_to_x_interpret

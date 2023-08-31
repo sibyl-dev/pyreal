@@ -20,10 +20,11 @@
       ~GlobalFeatureImportance.evaluate_variation
       ~GlobalFeatureImportance.feature_description
       ~GlobalFeatureImportance.fit
-      ~GlobalFeatureImportance.get_importance
       ~GlobalFeatureImportance.model_predict
       ~GlobalFeatureImportance.model_predict_on_algorithm
       ~GlobalFeatureImportance.produce
+      ~GlobalFeatureImportance.produce_explanation
+      ~GlobalFeatureImportance.produce_explanation_interpret
       ~GlobalFeatureImportance.transform_explanation
       ~GlobalFeatureImportance.transform_to_x_algorithm
       ~GlobalFeatureImportance.transform_to_x_interpret

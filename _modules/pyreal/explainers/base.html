@@ -529,19 +529,70 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
-<div class="viewcode-block" id="ExplainerBase.produce"><a class="viewcode-back" href="../../../api_reference/api/pyreal.explainers.ExplainerBase.produce.html#pyreal.explainers.ExplainerBase.produce">[docs]</a>    <span class="nd">@abstractmethod</span>
-    <span class="k">def</span> <span class="nf">produce</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_orig</span><span class="p">):</span>
+<div class="viewcode-block" id="ExplainerBase.produce"><a class="viewcode-back" href="../../../api_reference/api/pyreal.explainers.ExplainerBase.produce.html#pyreal.explainers.ExplainerBase.produce">[docs]</a>    <span class="k">def</span> <span class="nf">produce</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_orig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">disable_feature_descriptions</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return the explanation, in the desired form.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            x_orig (DataFrame of shape (n_instances, n_features):</span>
+<span class="sd">            x_orig (DataFrame of shape (n_instances, n_features) or Series of length (n_features)):</span>
 <span class="sd">                Input to explain</span>
+<span class="sd">            disable_feature_descriptions (Boolean):</span>
+<span class="sd">                If False, do not apply feature descriptions</span>
+<span class="sd">            **kwargs:</span>
+<span class="sd">                Additional arguments to be used by more specific explainers.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            Type varies by subclass</span>
-<span class="sd">                Explanation</span>
-<span class="sd">        &quot;&quot;&quot;</span></div>
+<span class="sd">            Explanation</span>
+<span class="sd">                A generated interpretable explanation object, including interpretable feature</span>
+<span class="sd">                names and values.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">series</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">x_orig</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x_orig</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">):</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="n">x_orig</span><span class="o">.</span><span class="n">name</span>
+            <span class="n">series</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="n">x_orig</span> <span class="o">=</span> <span class="n">x_orig</span><span class="o">.</span><span class="n">to_frame</span><span class="p">()</span><span class="o">.</span><span class="n">T</span>
+        <span class="n">explanation_interpret</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">produce_explanation_interpret</span><span class="p">(</span><span class="n">x_orig</span><span class="o">=</span><span class="n">x_orig</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">disable_feature_descriptions</span><span class="p">:</span>
+            <span class="n">explanation_interpret</span><span class="o">.</span><span class="n">apply_feature_descriptions</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">feature_descriptions</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">series</span><span class="p">:</span>
+            <span class="n">x_interpret</span> <span class="o">=</span> <span class="n">explanation_interpret</span><span class="o">.</span><span class="n">get_values</span><span class="p">()</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span>
+            <span class="n">x_interpret</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+            <span class="n">explanation_interpret</span><span class="o">.</span><span class="n">update_values</span><span class="p">(</span><span class="n">x_interpret</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">explanation_interpret</span></div>
+
+    <span class="k">def</span> <span class="nf">produce_explanation_interpret</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_orig</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Produce an interpretable explanation and corresponding values</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">             x_orig (DataFrame of shape (n_instances, n_features)):</span>
+<span class="sd">                Input to explain</span>
+<span class="sd">            **kwargs:</span>
+<span class="sd">                 Additional arguments to be used by more specific explainers.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Explanation</span>
+<span class="sd">                Generated explanation in the interpretable feature space, with values</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">explanation</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">produce_explanation</span><span class="p">(</span><span class="n">x_orig</span><span class="o">=</span><span class="n">x_orig</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform_explanation</span><span class="p">(</span><span class="n">explanation</span><span class="p">,</span> <span class="n">x_orig</span><span class="p">)</span>
+
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">produce_explanation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_orig</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Run the explanation algorithm to produce an explanation</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            x_orig (DataFrame of shape (n_instances, n_features)):</span>
+<span class="sd">                Input to explain</span>
+<span class="sd">            **kwargs:</span>
+<span class="sd">                Additional arguments to be used by more specific explainers.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A generated explanation object in the algorithm feature space (without values)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span>
 
 <div class="viewcode-block" id="ExplainerBase.transform_to_x_algorithm"><a class="viewcode-back" href="../../../api_reference/api/pyreal.explainers.ExplainerBase.transform_to_x_algorithm.html#pyreal.explainers.ExplainerBase.transform_to_x_algorithm">[docs]</a>    <span class="k">def</span> <span class="nf">transform_to_x_algorithm</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_orig</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -611,7 +662,7 @@ document.write(`
 <span class="sd">        in the same feature space as the final explanation</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            explanation (type varies by subclass):</span>
+<span class="sd">            explanation (Explanation):</span>
 <span class="sd">                The raw explanation to transform</span>
 <span class="sd">            x_orig (DataFrame of shape (n_instances, n_features) or None)</span>
 <span class="sd">                Data to transform to final space</span>

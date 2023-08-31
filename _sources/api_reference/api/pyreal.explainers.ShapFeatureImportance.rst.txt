@@ -20,10 +20,11 @@
       ~ShapFeatureImportance.evaluate_variation
       ~ShapFeatureImportance.feature_description
       ~ShapFeatureImportance.fit
-      ~ShapFeatureImportance.get_importance
       ~ShapFeatureImportance.model_predict
       ~ShapFeatureImportance.model_predict_on_algorithm
       ~ShapFeatureImportance.produce
+      ~ShapFeatureImportance.produce_explanation
+      ~ShapFeatureImportance.produce_explanation_interpret
       ~ShapFeatureImportance.transform_explanation
       ~ShapFeatureImportance.transform_to_x_algorithm
       ~ShapFeatureImportance.transform_to_x_interpret

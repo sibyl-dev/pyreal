@@ -23,18 +23,22 @@
       ~NestedFrameToNumpy3d.inverse_transform_explanation_additive_feature_contribution
       ~NestedFrameToNumpy3d.inverse_transform_explanation_additive_feature_importance
       ~NestedFrameToNumpy3d.inverse_transform_explanation_decision_tree
+      ~NestedFrameToNumpy3d.inverse_transform_explanation_example
       ~NestedFrameToNumpy3d.inverse_transform_explanation_feature_based
       ~NestedFrameToNumpy3d.inverse_transform_explanation_feature_contribution
       ~NestedFrameToNumpy3d.inverse_transform_explanation_feature_importance
+      ~NestedFrameToNumpy3d.inverse_transform_explanation_similar_example
       ~NestedFrameToNumpy3d.set_flags
       ~NestedFrameToNumpy3d.transform
       ~NestedFrameToNumpy3d.transform_explanation
       ~NestedFrameToNumpy3d.transform_explanation_additive_feature_contribution
       ~NestedFrameToNumpy3d.transform_explanation_additive_feature_importance
       ~NestedFrameToNumpy3d.transform_explanation_decision_tree
+      ~NestedFrameToNumpy3d.transform_explanation_example
       ~NestedFrameToNumpy3d.transform_explanation_feature_based
       ~NestedFrameToNumpy3d.transform_explanation_feature_contribution
       ~NestedFrameToNumpy3d.transform_explanation_feature_importance
+      ~NestedFrameToNumpy3d.transform_explanation_similar_example
    
    
 

@@ -20,10 +20,11 @@
       ~PartialDependenceExplainer.evaluate_variation
       ~PartialDependenceExplainer.feature_description
       ~PartialDependenceExplainer.fit
-      ~PartialDependenceExplainer.get_pdp
       ~PartialDependenceExplainer.model_predict
       ~PartialDependenceExplainer.model_predict_on_algorithm
       ~PartialDependenceExplainer.produce
+      ~PartialDependenceExplainer.produce_explanation
+      ~PartialDependenceExplainer.produce_explanation_interpret
       ~PartialDependenceExplainer.transform_explanation
       ~PartialDependenceExplainer.transform_to_x_algorithm
       ~PartialDependenceExplainer.transform_to_x_interpret

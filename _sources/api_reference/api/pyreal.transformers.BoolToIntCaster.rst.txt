@@ -23,18 +23,22 @@
       ~BoolToIntCaster.inverse_transform_explanation_additive_feature_contribution
       ~BoolToIntCaster.inverse_transform_explanation_additive_feature_importance
       ~BoolToIntCaster.inverse_transform_explanation_decision_tree
+      ~BoolToIntCaster.inverse_transform_explanation_example
       ~BoolToIntCaster.inverse_transform_explanation_feature_based
       ~BoolToIntCaster.inverse_transform_explanation_feature_contribution
       ~BoolToIntCaster.inverse_transform_explanation_feature_importance
+      ~BoolToIntCaster.inverse_transform_explanation_similar_example
       ~BoolToIntCaster.set_flags
       ~BoolToIntCaster.transform
       ~BoolToIntCaster.transform_explanation
       ~BoolToIntCaster.transform_explanation_additive_feature_contribution
       ~BoolToIntCaster.transform_explanation_additive_feature_importance
       ~BoolToIntCaster.transform_explanation_decision_tree
+      ~BoolToIntCaster.transform_explanation_example
       ~BoolToIntCaster.transform_explanation_feature_based
       ~BoolToIntCaster.transform_explanation_feature_contribution
       ~BoolToIntCaster.transform_explanation_feature_importance
+      ~BoolToIntCaster.transform_explanation_similar_example
    
    
 

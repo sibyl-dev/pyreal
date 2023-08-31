@@ -395,13 +395,13 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">base_decision_tree</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x_train_orig</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
-<div class="viewcode-block" id="DecisionTreeExplainer.produce"><a class="viewcode-back" href="../../../../api_reference/api/pyreal.explainers.DecisionTreeExplainer.produce.html#pyreal.explainers.DecisionTreeExplainer.produce">[docs]</a>    <span class="k">def</span> <span class="nf">produce</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_orig</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">produce_explanation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns the decision tree object, either DecisionTreeClassifier or DecisionTreeRegressor</span>
 
 <span class="sd">        x_orig is a dummy param to match signature</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_decision_tree</span><span class="o">.</span><span class="n">produce</span><span class="p">()</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_decision_tree</span><span class="o">.</span><span class="n">produce</span><span class="p">()</span>
 
 <div class="viewcode-block" id="DecisionTreeExplainer.produce_importances"><a class="viewcode-back" href="../../../../api_reference/api/pyreal.explainers.DecisionTreeExplainer.produce_importances.html#pyreal.explainers.DecisionTreeExplainer.produce_importances">[docs]</a>    <span class="k">def</span> <span class="nf">produce_importances</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>

@@ -322,7 +322,7 @@ document.write(`
                 <article class="bd-article" role="main">
                   
   <h1>Source code for pyreal.explainers.gfi.base</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABC</span><span class="p">,</span> <span class="n">abstractmethod</span>
+<span></span><span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABC</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
@@ -342,62 +342,12 @@ document.write(`
 <span class="sd">           Filepath to the pickled model to explain, or model object with .predict() function</span>
 <span class="sd">        x_train_orig (dataframe of shape (n_instances, x_orig_feature_count)):</span>
 <span class="sd">           The training set for the explainer</span>
-<span class="sd">        interpretable_features (Boolean):</span>
-<span class="sd">            If True, return explanations using the interpretable feature descriptions instead of</span>
-<span class="sd">            default names</span>
 <span class="sd">        **kwargs: see base Explainer args</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="GlobalFeatureImportanceBase.__init__"><a class="viewcode-back" href="../../../../api_reference/api/pyreal.explainers.GlobalFeatureImportanceBase.html#pyreal.explainers.GlobalFeatureImportanceBase.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">x_train_orig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">interpretable_features</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">interpretable_features</span> <span class="o">=</span> <span class="n">interpretable_features</span>
+<div class="viewcode-block" id="GlobalFeatureImportanceBase.__init__"><a class="viewcode-back" href="../../../../api_reference/api/pyreal.explainers.GlobalFeatureImportanceBase.html#pyreal.explainers.GlobalFeatureImportanceBase.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">x_train_orig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">importance</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">GlobalFeatureImportanceBase</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">x_train_orig</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="GlobalFeatureImportanceBase.fit"><a class="viewcode-back" href="../../../../api_reference/api/pyreal.explainers.GlobalFeatureImportanceBase.fit.html#pyreal.explainers.GlobalFeatureImportanceBase.fit">[docs]</a>    <span class="nd">@abstractmethod</span>
-    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_train_orig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">y_train</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Fit this explainer object</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            x_train_orig (DataFrame of shape (n_instances, n_features):</span>
-<span class="sd">                Training set to fit on, required if not provided on initialization</span>
-<span class="sd">            y_train:</span>
-<span class="sd">                Targets of training set, required if not provided on initialization</span>
-<span class="sd">        &quot;&quot;&quot;</span></div>
-
-<div class="viewcode-block" id="GlobalFeatureImportanceBase.produce"><a class="viewcode-back" href="../../../../api_reference/api/pyreal.explainers.GlobalFeatureImportanceBase.produce.html#pyreal.explainers.GlobalFeatureImportanceBase.produce">[docs]</a>    <span class="k">def</span> <span class="nf">produce</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_orig</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Produce the global feature importance explanation</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            x_orig (None):</span>
-<span class="sd">                Global explanations do not take inputs - dummy to match signature</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            DataFrame of shape (n_features,)</span>
-<span class="sd">                Importance of each feature for the model</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c1"># Importance for a given model stays constant, so can be saved and re-returned</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">importance</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">importance</span>
-        <span class="n">explanation</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_importance</span><span class="p">()</span>
-        <span class="n">explanation</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform_explanation</span><span class="p">(</span><span class="n">explanation</span><span class="p">)</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">interpretable_features</span><span class="p">:</span>
-            <span class="n">explanation</span><span class="o">.</span><span class="n">update_explanation</span><span class="p">(</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">convert_columns_to_interpretable</span><span class="p">(</span><span class="n">explanation</span><span class="o">.</span><span class="n">get</span><span class="p">()),</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span>
-            <span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">importance</span> <span class="o">=</span> <span class="n">explanation</span>
-        <span class="k">return</span> <span class="n">explanation</span></div>
-
-<div class="viewcode-block" id="GlobalFeatureImportanceBase.get_importance"><a class="viewcode-back" href="../../../../api_reference/api/pyreal.explainers.GlobalFeatureImportanceBase.get_importance.html#pyreal.explainers.GlobalFeatureImportanceBase.get_importance">[docs]</a>    <span class="nd">@abstractmethod</span>
-    <span class="k">def</span> <span class="nf">get_importance</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Gets the raw explanation.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            DataFrame of shape (n_features, )</span>
-<span class="sd">                Importance of each feature</span>
-<span class="sd">        &quot;&quot;&quot;</span></div>
 
     <span class="k">def</span> <span class="nf">evaluate_variation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">with_fit</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">explanations</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">n_iterations</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">n_rows</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>

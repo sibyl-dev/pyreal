@@ -23,18 +23,22 @@
       ~NestedFrameToMultiIndexFrame.inverse_transform_explanation_additive_feature_contribution
       ~NestedFrameToMultiIndexFrame.inverse_transform_explanation_additive_feature_importance
       ~NestedFrameToMultiIndexFrame.inverse_transform_explanation_decision_tree
+      ~NestedFrameToMultiIndexFrame.inverse_transform_explanation_example
       ~NestedFrameToMultiIndexFrame.inverse_transform_explanation_feature_based
       ~NestedFrameToMultiIndexFrame.inverse_transform_explanation_feature_contribution
       ~NestedFrameToMultiIndexFrame.inverse_transform_explanation_feature_importance
+      ~NestedFrameToMultiIndexFrame.inverse_transform_explanation_similar_example
       ~NestedFrameToMultiIndexFrame.set_flags
       ~NestedFrameToMultiIndexFrame.transform
       ~NestedFrameToMultiIndexFrame.transform_explanation
       ~NestedFrameToMultiIndexFrame.transform_explanation_additive_feature_contribution
       ~NestedFrameToMultiIndexFrame.transform_explanation_additive_feature_importance
       ~NestedFrameToMultiIndexFrame.transform_explanation_decision_tree
+      ~NestedFrameToMultiIndexFrame.transform_explanation_example
       ~NestedFrameToMultiIndexFrame.transform_explanation_feature_based
       ~NestedFrameToMultiIndexFrame.transform_explanation_feature_contribution
       ~NestedFrameToMultiIndexFrame.transform_explanation_feature_importance
+      ~NestedFrameToMultiIndexFrame.transform_explanation_similar_example
    
    
 

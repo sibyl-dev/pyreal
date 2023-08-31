@@ -23,18 +23,22 @@
       ~MultiIndexFrameToNumpy3d.inverse_transform_explanation_additive_feature_contribution
       ~MultiIndexFrameToNumpy3d.inverse_transform_explanation_additive_feature_importance
       ~MultiIndexFrameToNumpy3d.inverse_transform_explanation_decision_tree
+      ~MultiIndexFrameToNumpy3d.inverse_transform_explanation_example
       ~MultiIndexFrameToNumpy3d.inverse_transform_explanation_feature_based
       ~MultiIndexFrameToNumpy3d.inverse_transform_explanation_feature_contribution
       ~MultiIndexFrameToNumpy3d.inverse_transform_explanation_feature_importance
+      ~MultiIndexFrameToNumpy3d.inverse_transform_explanation_similar_example
       ~MultiIndexFrameToNumpy3d.set_flags
       ~MultiIndexFrameToNumpy3d.transform
       ~MultiIndexFrameToNumpy3d.transform_explanation
       ~MultiIndexFrameToNumpy3d.transform_explanation_additive_feature_contribution
       ~MultiIndexFrameToNumpy3d.transform_explanation_additive_feature_importance
       ~MultiIndexFrameToNumpy3d.transform_explanation_decision_tree
+      ~MultiIndexFrameToNumpy3d.transform_explanation_example
       ~MultiIndexFrameToNumpy3d.transform_explanation_feature_based
       ~MultiIndexFrameToNumpy3d.transform_explanation_feature_contribution
       ~MultiIndexFrameToNumpy3d.transform_explanation_feature_importance
+      ~MultiIndexFrameToNumpy3d.transform_explanation_similar_example
    
    
 

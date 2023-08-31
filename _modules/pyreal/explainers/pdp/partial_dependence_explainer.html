@@ -355,14 +355,14 @@ document.write(`
         <span class="p">)</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">PartialDependenceExplainer</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">x_train_orig</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="PartialDependenceExplainer.get_pdp"><a class="viewcode-back" href="../../../../api_reference/api/pyreal.explainers.PartialDependenceExplainer.get_pdp.html#pyreal.explainers.PartialDependenceExplainer.get_pdp">[docs]</a>    <span class="k">def</span> <span class="nf">get_pdp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">produce_explanation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Gets the raw explanation</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            PDP explanation object.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_partial_dependence</span><span class="o">.</span><span class="n">get_pdp</span><span class="p">()</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_partial_dependence</span><span class="o">.</span><span class="n">produce_explanation</span><span class="p">()</span>
 
 <div class="viewcode-block" id="PartialDependenceExplainer.fit"><a class="viewcode-back" href="../../../../api_reference/api/pyreal.explainers.PartialDependenceExplainer.fit.html#pyreal.explainers.PartialDependenceExplainer.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_train_orig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">y_train</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>

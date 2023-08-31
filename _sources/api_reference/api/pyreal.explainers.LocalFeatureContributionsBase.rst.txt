@@ -20,10 +20,11 @@
       ~LocalFeatureContributionsBase.evaluate_variation
       ~LocalFeatureContributionsBase.feature_description
       ~LocalFeatureContributionsBase.fit
-      ~LocalFeatureContributionsBase.get_contributions
       ~LocalFeatureContributionsBase.model_predict
       ~LocalFeatureContributionsBase.model_predict_on_algorithm
       ~LocalFeatureContributionsBase.produce
+      ~LocalFeatureContributionsBase.produce_explanation
+      ~LocalFeatureContributionsBase.produce_explanation_interpret
       ~LocalFeatureContributionsBase.transform_explanation
       ~LocalFeatureContributionsBase.transform_to_x_algorithm
       ~LocalFeatureContributionsBase.transform_to_x_interpret

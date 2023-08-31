@@ -20,10 +20,11 @@
       ~SimilarExamples.evaluate_variation
       ~SimilarExamples.feature_description
       ~SimilarExamples.fit
-      ~SimilarExamples.get_explanation
       ~SimilarExamples.model_predict
       ~SimilarExamples.model_predict_on_algorithm
       ~SimilarExamples.produce
+      ~SimilarExamples.produce_explanation
+      ~SimilarExamples.produce_explanation_interpret
       ~SimilarExamples.transform_explanation
       ~SimilarExamples.transform_to_x_algorithm
       ~SimilarExamples.transform_to_x_interpret

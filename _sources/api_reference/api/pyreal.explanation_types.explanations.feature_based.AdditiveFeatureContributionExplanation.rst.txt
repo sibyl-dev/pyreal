@@ -14,6 +14,7 @@
    .. autosummary::
    
       ~AdditiveFeatureContributionExplanation.__init__
+      ~AdditiveFeatureContributionExplanation.apply_feature_descriptions
       ~AdditiveFeatureContributionExplanation.get
       ~AdditiveFeatureContributionExplanation.get_all
       ~AdditiveFeatureContributionExplanation.get_values

@@ -396,7 +396,7 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">base_local_feature_contribution</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x_train_orig</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
-    <span class="k">def</span> <span class="nf">get_contributions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_orig</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">produce_explanation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_orig</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Gets the raw explanation.</span>
 <span class="sd">        Args:</span>
@@ -404,10 +404,10 @@ document.write(`
 <span class="sd">                Input to explain</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            DataFrame of shape (n_instances, n_features)</span>
+<span class="sd">            FeatureContributionExplanation</span>
 <span class="sd">                Contribution of each feature for each instance</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_local_feature_contribution</span><span class="o">.</span><span class="n">get_contributions</span><span class="p">(</span><span class="n">x_orig</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_local_feature_contribution</span><span class="o">.</span><span class="n">produce_explanation</span><span class="p">(</span><span class="n">x_orig</span><span class="p">)</span></div>
 </pre></div>
 
                 </article>

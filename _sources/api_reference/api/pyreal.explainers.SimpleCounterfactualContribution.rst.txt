@@ -20,10 +20,11 @@
       ~SimpleCounterfactualContribution.evaluate_variation
       ~SimpleCounterfactualContribution.feature_description
       ~SimpleCounterfactualContribution.fit
-      ~SimpleCounterfactualContribution.get_contributions
       ~SimpleCounterfactualContribution.model_predict
       ~SimpleCounterfactualContribution.model_predict_on_algorithm
       ~SimpleCounterfactualContribution.produce
+      ~SimpleCounterfactualContribution.produce_explanation
+      ~SimpleCounterfactualContribution.produce_explanation_interpret
       ~SimpleCounterfactualContribution.transform_explanation
       ~SimpleCounterfactualContribution.transform_to_x_algorithm
       ~SimpleCounterfactualContribution.transform_to_x_interpret

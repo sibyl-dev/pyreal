@@ -23,6 +23,8 @@
       ~DecisionTreeExplainerBase.model_predict
       ~DecisionTreeExplainerBase.model_predict_on_algorithm
       ~DecisionTreeExplainerBase.produce
+      ~DecisionTreeExplainerBase.produce_explanation
+      ~DecisionTreeExplainerBase.produce_explanation_interpret
       ~DecisionTreeExplainerBase.return_features
       ~DecisionTreeExplainerBase.transform_explanation
       ~DecisionTreeExplainerBase.transform_to_x_algorithm

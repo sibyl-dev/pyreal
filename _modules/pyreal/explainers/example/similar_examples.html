@@ -375,17 +375,20 @@ document.write(`
 
         <span class="k">return</span> <span class="bp">self</span></div>
 
-    <span class="k">def</span> <span class="nf">get_explanation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_orig</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">produce_explanation_interpret</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_orig</span><span class="p">,</span> <span class="n">disable_feature_descriptions</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get the n nearest neighbors to x_orig</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            x_orig (DataFrame of shape (n_instances, n_features)):</span>
 <span class="sd">               The input to be explained</span>
+<span class="sd">            disable_feature_descriptions (Boolean):</span>
+<span class="sd">                If False, do not apply feature descriptions</span>
 <span class="sd">            n (int):</span>
 <span class="sd">                Number of neighbors to return</span>
 <span class="sd">        Returns:</span>
-<span class="sd">            SimilarExamples</span>
+<span class="sd">            SimilarExamplesExplanation</span>
+<span class="sd">                Set of similar examples and their targets</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">explainer</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s2">&quot;Instance has no explainer. Must call fit() before produce()&quot;</span><span class="p">)</span>
@@ -393,10 +396,20 @@ document.write(`
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">standardize</span><span class="p">:</span>
             <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">standardizer</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
         <span class="n">inds</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">explainer</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="n">n</span><span class="p">,</span> <span class="n">return_distance</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-        <span class="n">explanation</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">raw_explanation</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">inds</span><span class="p">)):</span>
-            <span class="n">explanation</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x_train_orig</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">inds</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="p">:],</span> <span class="bp">self</span><span class="o">.</span><span class="n">y_train</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">inds</span><span class="p">[</span><span class="n">i</span><span class="p">]])</span>
-        <span class="k">return</span> <span class="n">SimilarExampleExplanation</span><span class="p">(</span><span class="n">explanation</span><span class="p">)</span></div>
+            <span class="n">raw_explanation</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x_train_orig</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">inds</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="p">:],</span> <span class="bp">self</span><span class="o">.</span><span class="n">y_train</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">inds</span><span class="p">[</span><span class="n">i</span><span class="p">]])</span>
+        <span class="n">x_interpret</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform_to_x_interpret</span><span class="p">(</span><span class="n">x_orig</span><span class="p">)</span>
+        <span class="n">explanation</span> <span class="o">=</span> <span class="n">SimilarExampleExplanation</span><span class="p">(</span><span class="n">raw_explanation</span><span class="p">,</span> <span class="n">x_interpret</span><span class="p">)</span>
+        <span class="n">explanation</span><span class="o">.</span><span class="n">update_examples</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">transform_to_x_interpret</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">explanation</span>
+
+    <span class="k">def</span> <span class="nf">produce_explanation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_orig</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Unused for similar examples explainers as explanations are directly produced in the</span>
+<span class="sd">        interpretable feature space</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="kc">None</span></div>
 </pre></div>
 
                 </article>

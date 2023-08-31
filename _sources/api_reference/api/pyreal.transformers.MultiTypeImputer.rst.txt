@@ -23,18 +23,22 @@
       ~MultiTypeImputer.inverse_transform_explanation_additive_feature_contribution
       ~MultiTypeImputer.inverse_transform_explanation_additive_feature_importance
       ~MultiTypeImputer.inverse_transform_explanation_decision_tree
+      ~MultiTypeImputer.inverse_transform_explanation_example
       ~MultiTypeImputer.inverse_transform_explanation_feature_based
       ~MultiTypeImputer.inverse_transform_explanation_feature_contribution
       ~MultiTypeImputer.inverse_transform_explanation_feature_importance
+      ~MultiTypeImputer.inverse_transform_explanation_similar_example
       ~MultiTypeImputer.set_flags
       ~MultiTypeImputer.transform
       ~MultiTypeImputer.transform_explanation
       ~MultiTypeImputer.transform_explanation_additive_feature_contribution
       ~MultiTypeImputer.transform_explanation_additive_feature_importance
       ~MultiTypeImputer.transform_explanation_decision_tree
+      ~MultiTypeImputer.transform_explanation_example
       ~MultiTypeImputer.transform_explanation_feature_based
       ~MultiTypeImputer.transform_explanation_feature_contribution
       ~MultiTypeImputer.transform_explanation_feature_importance
+      ~MultiTypeImputer.transform_explanation_similar_example
    
    
 

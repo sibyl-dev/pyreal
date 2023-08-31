@@ -322,7 +322,7 @@ document.write(`
                 <article class="bd-article" role="main">
                   
   <h1>Source code for pyreal.explanation_types.explanations.example_based</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">pyreal.explanation_types.explanations.base</span> <span class="kn">import</span> <span class="n">Explanation</span>
+<span></span><span class="kn">from</span> <span class="nn">pyreal.explanation_types.explanations.base</span> <span class="kn">import</span> <span class="n">Explanation</span><span class="p">,</span> <span class="n">convert_columns_with_dict</span>
 
 
 <div class="viewcode-block" id="ExampleBasedExplanation"><a class="viewcode-back" href="../../../../api_reference/api/pyreal.explanation_types.explanations.example_based.ExampleBasedExplanation.html#pyreal.explanation_types.explanations.example_based.ExampleBasedExplanation">[docs]</a><span class="k">class</span> <span class="nc">ExampleBasedExplanation</span><span class="p">(</span><span class="n">Explanation</span><span class="p">):</span>
@@ -344,6 +344,13 @@ document.write(`
 <span class="sd">                if `self.explanation` is invalid</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">validate</span><span class="p">()</span></div>
+
+    <span class="k">def</span> <span class="nf">apply_feature_descriptions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">feature_descriptions</span><span class="p">):</span>
+        <span class="k">def</span> <span class="nf">func</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">convert_columns_with_dict</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">feature_descriptions</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">update_examples</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">apply_feature_descriptions</span><span class="p">(</span><span class="n">feature_descriptions</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">get_explanation_for_row</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">row_id</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>

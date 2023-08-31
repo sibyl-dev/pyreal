@@ -14,11 +14,11 @@
    .. autosummary::
    
       ~FeatureValueBased.__init__
+      ~FeatureValueBased.apply_feature_descriptions
       ~FeatureValueBased.get
       ~FeatureValueBased.get_all
       ~FeatureValueBased.get_values
       ~FeatureValueBased.update_explanation
-      ~FeatureValueBased.update_feature_names
       ~FeatureValueBased.update_values
       ~FeatureValueBased.validate
       ~FeatureValueBased.validate_values

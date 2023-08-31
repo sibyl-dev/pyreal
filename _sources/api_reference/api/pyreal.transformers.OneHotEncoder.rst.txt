@@ -23,18 +23,22 @@
       ~OneHotEncoder.inverse_transform_explanation_additive_feature_contribution
       ~OneHotEncoder.inverse_transform_explanation_additive_feature_importance
       ~OneHotEncoder.inverse_transform_explanation_decision_tree
+      ~OneHotEncoder.inverse_transform_explanation_example
       ~OneHotEncoder.inverse_transform_explanation_feature_based
       ~OneHotEncoder.inverse_transform_explanation_feature_contribution
       ~OneHotEncoder.inverse_transform_explanation_feature_importance
+      ~OneHotEncoder.inverse_transform_explanation_similar_example
       ~OneHotEncoder.set_flags
       ~OneHotEncoder.transform
       ~OneHotEncoder.transform_explanation
       ~OneHotEncoder.transform_explanation_additive_feature_contribution
       ~OneHotEncoder.transform_explanation_additive_feature_importance
       ~OneHotEncoder.transform_explanation_decision_tree
+      ~OneHotEncoder.transform_explanation_example
       ~OneHotEncoder.transform_explanation_feature_based
       ~OneHotEncoder.transform_explanation_feature_contribution
       ~OneHotEncoder.transform_explanation_feature_importance
+      ~OneHotEncoder.transform_explanation_similar_example
    
    
 

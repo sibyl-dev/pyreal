@@ -325,6 +325,15 @@ document.write(`
 <span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 
 
+<span class="k">def</span> <span class="nf">convert_columns_with_dict</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">conversion_dict</span><span class="p">):</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">df</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">conversion_dict</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">df</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">df</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">conversion_dict</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">df</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">conversion_dict</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="s2">&quot;columns&quot;</span><span class="p">)</span>
+
+
 <div class="viewcode-block" id="Explanation"><a class="viewcode-back" href="../../../../api_reference/api/pyreal.explanation_types.explanations.base.Explanation.html#pyreal.explanation_types.explanations.base.Explanation">[docs]</a><span class="k">class</span> <span class="nc">Explanation</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A type wrapper for outputs from explanation algorithms. Validates that an object is a</span>
@@ -412,7 +421,7 @@ document.write(`
 
 <span class="sd">        Args:</span>
 <span class="sd">            explanation (object):</span>
-<span class="sd">                New explanation</span>
+<span class="sd">                New raw explanation</span>
 <span class="sd">            inplace (Boolean)</span>
 <span class="sd">                If True, change the explanation on this object. Otherwise, create a new object</span>
 <span class="sd">                identical to this one but with a new explanation</span>
@@ -430,6 +439,11 @@ document.write(`
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span><span class="n">explanation</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
 
+    <span class="k">def</span> <span class="nf">apply_feature_descriptions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">feature_descriptions</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">update_values</span><span class="p">(</span>
+            <span class="n">convert_columns_with_dict</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">feature_descriptions</span><span class="p">),</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span>
+        <span class="p">)</span>
+
 <div class="viewcode-block" id="Explanation.validate"><a class="viewcode-back" href="../../../../api_reference/api/pyreal.explanation_types.explanations.base.Explanation.validate.html#pyreal.explanation_types.explanations.base.Explanation.validate">[docs]</a>    <span class="k">def</span> <span class="nf">validate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Validate that `self.explanation` is a valid object of type `Explanation`. If values are not</span>
@@ -444,7 +458,7 @@ document.write(`
 
     <span class="k">def</span> <span class="nf">validate_values</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Validate that self.values are valid values for this Explanation.</span>
+<span class="sd">        Validate that `self.values` are valid values for this Explanation.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            None</span>

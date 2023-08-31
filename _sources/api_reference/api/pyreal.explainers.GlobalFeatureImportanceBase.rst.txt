@@ -20,10 +20,11 @@
       ~GlobalFeatureImportanceBase.evaluate_variation
       ~GlobalFeatureImportanceBase.feature_description
       ~GlobalFeatureImportanceBase.fit
-      ~GlobalFeatureImportanceBase.get_importance
       ~GlobalFeatureImportanceBase.model_predict
       ~GlobalFeatureImportanceBase.model_predict_on_algorithm
       ~GlobalFeatureImportanceBase.produce
+      ~GlobalFeatureImportanceBase.produce_explanation
+      ~GlobalFeatureImportanceBase.produce_explanation_interpret
       ~GlobalFeatureImportanceBase.transform_explanation
       ~GlobalFeatureImportanceBase.transform_to_x_algorithm
       ~GlobalFeatureImportanceBase.transform_to_x_interpret

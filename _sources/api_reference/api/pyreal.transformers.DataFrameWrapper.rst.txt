@@ -23,18 +23,22 @@
       ~DataFrameWrapper.inverse_transform_explanation_additive_feature_contribution
       ~DataFrameWrapper.inverse_transform_explanation_additive_feature_importance
       ~DataFrameWrapper.inverse_transform_explanation_decision_tree
+      ~DataFrameWrapper.inverse_transform_explanation_example
       ~DataFrameWrapper.inverse_transform_explanation_feature_based
       ~DataFrameWrapper.inverse_transform_explanation_feature_contribution
       ~DataFrameWrapper.inverse_transform_explanation_feature_importance
+      ~DataFrameWrapper.inverse_transform_explanation_similar_example
       ~DataFrameWrapper.set_flags
       ~DataFrameWrapper.transform
       ~DataFrameWrapper.transform_explanation
       ~DataFrameWrapper.transform_explanation_additive_feature_contribution
       ~DataFrameWrapper.transform_explanation_additive_feature_importance
       ~DataFrameWrapper.transform_explanation_decision_tree
+      ~DataFrameWrapper.transform_explanation_example
       ~DataFrameWrapper.transform_explanation_feature_based
       ~DataFrameWrapper.transform_explanation_feature_contribution
       ~DataFrameWrapper.transform_explanation_feature_importance
+      ~DataFrameWrapper.transform_explanation_similar_example
    
    
 

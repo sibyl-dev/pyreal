@@ -23,18 +23,22 @@
       ~Transformer.inverse_transform_explanation_additive_feature_contribution
       ~Transformer.inverse_transform_explanation_additive_feature_importance
       ~Transformer.inverse_transform_explanation_decision_tree
+      ~Transformer.inverse_transform_explanation_example
       ~Transformer.inverse_transform_explanation_feature_based
       ~Transformer.inverse_transform_explanation_feature_contribution
       ~Transformer.inverse_transform_explanation_feature_importance
+      ~Transformer.inverse_transform_explanation_similar_example
       ~Transformer.set_flags
       ~Transformer.transform
       ~Transformer.transform_explanation
       ~Transformer.transform_explanation_additive_feature_contribution
       ~Transformer.transform_explanation_additive_feature_importance
       ~Transformer.transform_explanation_decision_tree
+      ~Transformer.transform_explanation_example
       ~Transformer.transform_explanation_feature_based
       ~Transformer.transform_explanation_feature_contribution
       ~Transformer.transform_explanation_feature_importance
+      ~Transformer.transform_explanation_similar_example
    
    
 

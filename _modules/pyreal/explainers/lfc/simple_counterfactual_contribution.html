@@ -375,15 +375,15 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">explainer_input_size</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">x_algo</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
-<div class="viewcode-block" id="SimpleCounterfactualContribution.get_contributions"><a class="viewcode-back" href="../../../../api_reference/api/pyreal.explainers.SimpleCounterfactualContribution.get_contributions.html#pyreal.explainers.SimpleCounterfactualContribution.get_contributions">[docs]</a>    <span class="k">def</span> <span class="nf">get_contributions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_orig</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">produce_explanation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_orig</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Calculate the explanation of each feature in x using the sample counterfactural algorithm.</span>
+<span class="sd">        Calculate the explanation of each feature in x using the sample counterfactual algorithm.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            x_orig (DataFrame of shape (n_instances, n_features)):</span>
 <span class="sd">               The input to be explained</span>
 <span class="sd">        Returns:</span>
-<span class="sd">            DataFrame of shape (n_instances, n_features):</span>
+<span class="sd">           FeatureContributionExplanation</span>
 <span class="sd">                 The contribution of each feature</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform_to_x_algorithm</span><span class="p">(</span><span class="n">x_orig</span><span class="p">)</span>
@@ -403,7 +403,7 @@ document.write(`
                 <span class="n">pred_new</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_predict_on_algorithm</span><span class="p">(</span><span class="n">x_copy</span><span class="p">)</span>
                 <span class="n">total_abs_change</span> <span class="o">+=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">pred_new</span> <span class="o">-</span> <span class="n">pred_orig</span><span class="p">)</span>
             <span class="n">contributions</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">total_abs_change</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_iterations</span>
-        <span class="k">return</span> <span class="n">FeatureContributionExplanation</span><span class="p">(</span><span class="n">contributions</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="n">FeatureContributionExplanation</span><span class="p">(</span><span class="n">contributions</span><span class="p">)</span></div>
 </pre></div>
 
                 </article>

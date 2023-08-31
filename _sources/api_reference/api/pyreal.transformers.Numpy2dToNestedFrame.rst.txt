@@ -23,18 +23,22 @@
       ~Numpy2dToNestedFrame.inverse_transform_explanation_additive_feature_contribution
       ~Numpy2dToNestedFrame.inverse_transform_explanation_additive_feature_importance
       ~Numpy2dToNestedFrame.inverse_transform_explanation_decision_tree
+      ~Numpy2dToNestedFrame.inverse_transform_explanation_example
       ~Numpy2dToNestedFrame.inverse_transform_explanation_feature_based
       ~Numpy2dToNestedFrame.inverse_transform_explanation_feature_contribution
       ~Numpy2dToNestedFrame.inverse_transform_explanation_feature_importance
+      ~Numpy2dToNestedFrame.inverse_transform_explanation_similar_example
       ~Numpy2dToNestedFrame.set_flags
       ~Numpy2dToNestedFrame.transform
       ~Numpy2dToNestedFrame.transform_explanation
       ~Numpy2dToNestedFrame.transform_explanation_additive_feature_contribution
       ~Numpy2dToNestedFrame.transform_explanation_additive_feature_importance
       ~Numpy2dToNestedFrame.transform_explanation_decision_tree
+      ~Numpy2dToNestedFrame.transform_explanation_example
       ~Numpy2dToNestedFrame.transform_explanation_feature_based
       ~Numpy2dToNestedFrame.transform_explanation_feature_contribution
       ~Numpy2dToNestedFrame.transform_explanation_feature_importance
+      ~Numpy2dToNestedFrame.transform_explanation_similar_example
    
    
 

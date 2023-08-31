@@ -20,10 +20,11 @@
       ~ExampleBasedBase.evaluate_variation
       ~ExampleBasedBase.feature_description
       ~ExampleBasedBase.fit
-      ~ExampleBasedBase.get_explanation
       ~ExampleBasedBase.model_predict
       ~ExampleBasedBase.model_predict_on_algorithm
       ~ExampleBasedBase.produce
+      ~ExampleBasedBase.produce_explanation
+      ~ExampleBasedBase.produce_explanation_interpret
       ~ExampleBasedBase.transform_explanation
       ~ExampleBasedBase.transform_to_x_algorithm
       ~ExampleBasedBase.transform_to_x_interpret

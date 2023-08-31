@@ -23,6 +23,8 @@
       ~SurrogateDecisionTree.model_predict
       ~SurrogateDecisionTree.model_predict_on_algorithm
       ~SurrogateDecisionTree.produce
+      ~SurrogateDecisionTree.produce_explanation
+      ~SurrogateDecisionTree.produce_explanation_interpret
       ~SurrogateDecisionTree.produce_importances
       ~SurrogateDecisionTree.return_features
       ~SurrogateDecisionTree.transform_explanation

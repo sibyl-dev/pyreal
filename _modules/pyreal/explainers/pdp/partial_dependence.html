@@ -394,14 +394,17 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">is_fitted</span> <span class="o">=</span> <span class="kc">True</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
-<div class="viewcode-block" id="PartialDependence.get_pdp"><a class="viewcode-back" href="../../../../api_reference/api/pyreal.explainers.PartialDependence.get_pdp.html#pyreal.explainers.PartialDependence.get_pdp">[docs]</a>    <span class="k">def</span> <span class="nf">get_pdp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">produce_explanation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Produce the partial dependence explanation</span>
 
+<span class="sd">        Returns:</span>
+<span class="sd">            PartialDependenceExplanation</span>
+<span class="sd">                The PDP explanation</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_fitted</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;Must fit explainer before calling produce!&quot;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">PartialDependenceExplanation</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">features</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">pdp_values</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid_points</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="n">PartialDependenceExplanation</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">features</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">pdp_values</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid_points</span><span class="p">)</span></div>
 </pre></div>
 
                 </article>

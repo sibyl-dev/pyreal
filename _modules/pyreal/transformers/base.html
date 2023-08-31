@@ -329,6 +329,10 @@ document.write(`
 
 <span class="kn">from</span> <span class="nn">pyreal.explanation_types.explanations.base</span> <span class="kn">import</span> <span class="n">Explanation</span>
 <span class="kn">from</span> <span class="nn">pyreal.explanation_types.explanations.decision_tree</span> <span class="kn">import</span> <span class="n">DecisionTreeExplanation</span>
+<span class="kn">from</span> <span class="nn">pyreal.explanation_types.explanations.example_based</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">ExampleBasedExplanation</span><span class="p">,</span>
+    <span class="n">SimilarExampleExplanation</span><span class="p">,</span>
+<span class="p">)</span>
 <span class="kn">from</span> <span class="nn">pyreal.explanation_types.explanations.feature_based</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">AdditiveFeatureContributionExplanation</span><span class="p">,</span>
     <span class="n">AdditiveFeatureImportanceExplanation</span><span class="p">,</span>
@@ -584,6 +588,11 @@ document.write(`
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">explanation</span><span class="p">,</span> <span class="n">DecisionTreeExplanation</span><span class="p">):</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">inverse_transform_explanation_decision_tree</span><span class="p">(</span><span class="n">explanation</span><span class="p">)</span>
 
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">explanation</span><span class="p">,</span> <span class="n">SimilarExampleExplanation</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">inverse_transform_explanation_similar_example</span><span class="p">(</span><span class="n">explanation</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">explanation</span><span class="p">,</span> <span class="n">ExampleBasedExplanation</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">inverse_transform_explanation_example</span><span class="p">(</span><span class="n">explanation</span><span class="p">)</span>
+
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">explanation</span><span class="p">,</span> <span class="n">Explanation</span><span class="p">):</span>  <span class="c1"># handle generic explanation cases</span>
             <span class="k">return</span> <span class="n">explanation</span>
 
@@ -615,6 +624,11 @@ document.write(`
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform_explanation_feature_importance</span><span class="p">(</span><span class="n">explanation</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">explanation</span><span class="p">,</span> <span class="n">FeatureBased</span><span class="p">):</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform_explanation_feature_based</span><span class="p">(</span><span class="n">explanation</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">explanation</span><span class="p">,</span> <span class="n">SimilarExampleExplanation</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform_explanation_similar_example</span><span class="p">(</span><span class="n">explanation</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">explanation</span><span class="p">,</span> <span class="n">ExampleBasedExplanation</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform_explanation_example</span><span class="p">(</span><span class="n">explanation</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">explanation</span><span class="p">,</span> <span class="n">Explanation</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">explanation</span>
@@ -709,7 +723,7 @@ document.write(`
     <span class="c1"># noinspection PyMethodMayBeStatic</span>
     <span class="k">def</span> <span class="nf">inverse_transform_explanation_decision_tree</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">explanation</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Inverse transforms feature-based explanations</span>
+<span class="sd">        Inverse transforms decision-tree explanations</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            explanation (DecisionTree):</span>
@@ -722,6 +736,36 @@ document.write(`
             <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">,</span> <span class="s2">&quot;inverse_transform_explanation_decision_tree&quot;</span>
         <span class="p">)</span>
         <span class="k">return</span> <span class="n">explanation</span>
+
+    <span class="c1"># noinspection PyMethodMayBeStatic</span>
+    <span class="k">def</span> <span class="nf">inverse_transform_explanation_similar_example</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">explanation</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Inverse transforms similar-example-based explanations</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            explanation (ExampleBasedExplanation):</span>
+<span class="sd">                The explanation to be transformed</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            DecisionTree:</span>
+<span class="sd">                The transformed explanation</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">SimilarExampleExplanation</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">inverse_transform_explanation_example</span><span class="p">(</span><span class="n">explanation</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="p">)</span>
+
+    <span class="c1"># noinspection PyMethodMayBeStatic</span>
+    <span class="k">def</span> <span class="nf">inverse_transform_explanation_example</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">explanation</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Inverse transforms example-based explanations</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            explanation (ExampleBasedExplanation):</span>
+<span class="sd">                The explanation to be transformed</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            DecisionTree:</span>
+<span class="sd">                The transformed explanation</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">ExampleBasedExplanation</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inverse_data_transform</span><span class="p">(</span><span class="n">explanation</span><span class="o">.</span><span class="n">get_examples</span><span class="p">()))</span>
 
     <span class="c1"># ============================== TRANSFORM EXPLANATION METHODS ================================</span>
 
@@ -819,7 +863,34 @@ document.write(`
 <span class="sd">                The transformed explanation</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">_display_missing_transform_info</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">,</span> <span class="s2">&quot;transform_explanation_decision_tree&quot;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">explanation</span></div>
+        <span class="k">return</span> <span class="n">explanation</span>
+
+    <span class="k">def</span> <span class="nf">transform_explanation_similar_example</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">explanation</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Transforms example-based explanations</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            explanation (ExampleBasedExplanation):</span>
+<span class="sd">                The explanation to be transformed</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            DecisionTree:</span>
+<span class="sd">                The transformed explanation</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">SimilarExampleExplanation</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">transform_explanation_example</span><span class="p">(</span><span class="n">explanation</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
+
+    <span class="c1"># noinspection PyMethodMayBeStatic</span>
+    <span class="k">def</span> <span class="nf">transform_explanation_example</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">explanation</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Transforms example-based explanations</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            explanation (ExampleBasedExplanation):</span>
+<span class="sd">                The explanation to be transformed</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            DecisionTree:</span>
+<span class="sd">                The transformed explanation</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">ExampleBasedExplanation</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data_transform</span><span class="p">(</span><span class="n">explanation</span><span class="o">.</span><span class="n">get_examples</span><span class="p">()))</span></div>
 </pre></div>
 
                 </article>

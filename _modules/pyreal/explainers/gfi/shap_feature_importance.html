@@ -407,17 +407,17 @@ document.write(`
 
         <span class="k">return</span> <span class="bp">self</span></div>
 
-<div class="viewcode-block" id="ShapFeatureImportance.get_importance"><a class="viewcode-back" href="../../../../api_reference/api/pyreal.explainers.ShapFeatureImportance.get_importance.html#pyreal.explainers.ShapFeatureImportance.get_importance">[docs]</a>    <span class="k">def</span> <span class="nf">get_importance</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">produce_explanation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Calculate the explanation of each feature using SHAP.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            DataFrame of shape (n_features, ):</span>
+<span class="sd">            AdditiveFeatureImportanceExplanation:</span>
 <span class="sd">                 The global importance of each feature</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">importance_from_fit</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;Must fit explainer before calling produce!&quot;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">AdditiveFeatureImportanceExplanation</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">importance_from_fit</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="n">AdditiveFeatureImportanceExplanation</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">importance_from_fit</span><span class="p">)</span></div>
 </pre></div>
 
                 </article>

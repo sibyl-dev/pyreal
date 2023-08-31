@@ -43,7 +43,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="pyreal.explainers.ExampleBasedBase" href="api/pyreal.explainers.ExampleBasedBase.html" />
-    <link rel="prev" title="pyreal.explainers.PartialDependence.get_pdp" href="api/pyreal.explainers.PartialDependence.get_pdp.html" />
+    <link rel="prev" title="pyreal.explainers.PartialDependence.produce" href="api/pyreal.explainers.PartialDependence.produce.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -308,36 +308,30 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="api/pyreal.explainers.LocalFeatureContributionsBase.html">pyreal.explainers.LocalFeatureContributionsBase</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/pyreal.explainers.LocalFeatureContributionsBase.fit.html">pyreal.explainers.LocalFeatureContributionsBase.fit</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/pyreal.explainers.LocalFeatureContributionsBase.produce.html">pyreal.explainers.LocalFeatureContributionsBase.produce</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api/pyreal.explainers.LocalFeatureContributionsBase.get_contributions.html">pyreal.explainers.LocalFeatureContributionsBase.get_contributions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/pyreal.explainers.LocalFeatureContribution.html">pyreal.explainers.LocalFeatureContribution</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/pyreal.explainers.LocalFeatureContribution.fit.html">pyreal.explainers.LocalFeatureContribution.fit</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/pyreal.explainers.LocalFeatureContribution.produce.html">pyreal.explainers.LocalFeatureContribution.produce</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/pyreal.explainers.ShapFeatureContribution.html">pyreal.explainers.ShapFeatureContribution</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/pyreal.explainers.ShapFeatureContribution.fit.html">pyreal.explainers.ShapFeatureContribution.fit</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/pyreal.explainers.ShapFeatureContribution.produce.html">pyreal.explainers.ShapFeatureContribution.produce</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api/pyreal.explainers.ShapFeatureContribution.get_contributions.html">pyreal.explainers.ShapFeatureContribution.get_contributions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/pyreal.explainers.SimpleCounterfactualContribution.html">pyreal.explainers.SimpleCounterfactualContribution</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/pyreal.explainers.SimpleCounterfactualContribution.fit.html">pyreal.explainers.SimpleCounterfactualContribution.fit</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/pyreal.explainers.SimpleCounterfactualContribution.produce.html">pyreal.explainers.SimpleCounterfactualContribution.produce</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api/pyreal.explainers.SimpleCounterfactualContribution.get_contributions.html">pyreal.explainers.SimpleCounterfactualContribution.get_contributions</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="global_feature_importance.html">Global Feature Importance</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="api/pyreal.explainers.GlobalFeatureImportanceBase.html">pyreal.explainers.GlobalFeatureImportanceBase</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/pyreal.explainers.GlobalFeatureImportanceBase.fit.html">pyreal.explainers.GlobalFeatureImportanceBase.fit</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/pyreal.explainers.GlobalFeatureImportanceBase.produce.html">pyreal.explainers.GlobalFeatureImportanceBase.produce</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api/pyreal.explainers.GlobalFeatureImportanceBase.get_importance.html">pyreal.explainers.GlobalFeatureImportanceBase.get_importance</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/pyreal.explainers.GlobalFeatureImportance.html">pyreal.explainers.GlobalFeatureImportance</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/pyreal.explainers.GlobalFeatureImportance.fit.html">pyreal.explainers.GlobalFeatureImportance.fit</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/pyreal.explainers.GlobalFeatureImportance.produce.html">pyreal.explainers.GlobalFeatureImportance.produce</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/pyreal.explainers.ShapFeatureImportance.html">pyreal.explainers.ShapFeatureImportance</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/pyreal.explainers.ShapFeatureImportance.fit.html">pyreal.explainers.ShapFeatureImportance.fit</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/pyreal.explainers.ShapFeatureImportance.produce.html">pyreal.explainers.ShapFeatureImportance.produce</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api/pyreal.explainers.ShapFeatureImportance.get_importance.html">pyreal.explainers.ShapFeatureImportance.get_importance</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/pyreal.explainers.PermutationFeatureImportance.html">pyreal.explainers.PermutationFeatureImportance</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/pyreal.explainers.PermutationFeatureImportance.fit.html">pyreal.explainers.PermutationFeatureImportance.fit</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/pyreal.explainers.PermutationFeatureImportance.produce.html">pyreal.explainers.PermutationFeatureImportance.produce</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api/pyreal.explainers.PermutationFeatureImportance.get_importance.html">pyreal.explainers.PermutationFeatureImportance.get_importance</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="decision_tree_explainer.html">Decision Tree Explainer</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -359,15 +353,12 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="api/pyreal.explainers.PartialDependenceExplainerBase.html">pyreal.explainers.PartialDependenceExplainerBase</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/pyreal.explainers.PartialDependenceExplainerBase.fit.html">pyreal.explainers.PartialDependenceExplainerBase.fit</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/pyreal.explainers.PartialDependenceExplainerBase.produce.html">pyreal.explainers.PartialDependenceExplainerBase.produce</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api/pyreal.explainers.PartialDependenceExplainerBase.get_pdp.html">pyreal.explainers.PartialDependenceExplainerBase.get_pdp</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/pyreal.explainers.PartialDependenceExplainer.html">pyreal.explainers.PartialDependenceExplainer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/pyreal.explainers.PartialDependenceExplainer.fit.html">pyreal.explainers.PartialDependenceExplainer.fit</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/pyreal.explainers.PartialDependenceExplainer.produce.html">pyreal.explainers.PartialDependenceExplainer.produce</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api/pyreal.explainers.PartialDependenceExplainer.get_pdp.html">pyreal.explainers.PartialDependenceExplainer.get_pdp</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/pyreal.explainers.PartialDependence.html">pyreal.explainers.PartialDependence</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/pyreal.explainers.PartialDependence.fit.html">pyreal.explainers.PartialDependence.fit</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/pyreal.explainers.PartialDependence.produce.html">pyreal.explainers.PartialDependence.produce</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api/pyreal.explainers.PartialDependence.get_pdp.html">pyreal.explainers.PartialDependence.get_pdp</a></li>
 </ul>
 </li>
 <li class="toctree-l1 current active has-children"><a class="current reference internal" href="#">Example Based</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -496,11 +487,9 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="api/pyreal.explanation_types.explanations.feature_value_based.FeatureValueBased.html">pyreal.explanation_types.explanations.feature_value_based.FeatureValueBased</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/pyreal.explanation_types.explanations.feature_value_based.FeatureValueBased.get.html">pyreal.explanation_types.explanations.feature_value_based.FeatureValueBased.get</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/pyreal.explanation_types.explanations.feature_value_based.FeatureValueBased.validate.html">pyreal.explanation_types.explanations.feature_value_based.FeatureValueBased.validate</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api/pyreal.explanation_types.explanations.feature_value_based.FeatureValueBased.update_feature_names.html">pyreal.explanation_types.explanations.feature_value_based.FeatureValueBased.update_feature_names</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/pyreal.explanation_types.explanations.feature_value_based.PartialDependenceExplanation.html">pyreal.explanation_types.explanations.feature_value_based.PartialDependenceExplanation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/pyreal.explanation_types.explanations.feature_value_based.PartialDependenceExplanation.get.html">pyreal.explanation_types.explanations.feature_value_based.PartialDependenceExplanation.get</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/pyreal.explanation_types.explanations.feature_value_based.PartialDependenceExplanation.validate.html">pyreal.explanation_types.explanations.feature_value_based.PartialDependenceExplanation.validate</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api/pyreal.explanation_types.explanations.feature_value_based.PartialDependenceExplanation.update_feature_names.html">pyreal.explanation_types.explanations.feature_value_based.PartialDependenceExplanation.update_feature_names</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/pyreal.explanation_types.explanations.decision_tree.DecisionTreeExplanation.html">pyreal.explanation_types.explanations.decision_tree.DecisionTreeExplanation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/pyreal.explanation_types.explanations.decision_tree.DecisionTreeExplanation.get.html">pyreal.explanation_types.explanations.decision_tree.DecisionTreeExplanation.get</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/pyreal.explanation_types.explanations.decision_tree.DecisionTreeExplanation.validate.html">pyreal.explanation_types.explanations.decision_tree.DecisionTreeExplanation.validate</a></li>
@@ -599,8 +588,8 @@ document.write(`
 <tr class="row-even"><td><p><a class="reference internal" href="api/pyreal.explainers.ExampleBasedBase.fit.html#pyreal.explainers.ExampleBasedBase.fit" title="pyreal.explainers.ExampleBasedBase.fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ExampleBasedBase.fit</span></code></a>([x_train_orig, y_train])</p></td>
 <td><p>Fit this explainer object</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/pyreal.explainers.ExampleBasedBase.produce.html#pyreal.explainers.ExampleBasedBase.produce" title="pyreal.explainers.ExampleBasedBase.produce"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ExampleBasedBase.produce</span></code></a>(x_orig[, n])</p></td>
-<td><p>Produce the example explanation</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/pyreal.explainers.ExampleBasedBase.produce.html#pyreal.explainers.ExampleBasedBase.produce" title="pyreal.explainers.ExampleBasedBase.produce"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ExampleBasedBase.produce</span></code></a>([x_orig, ...])</p></td>
+<td><p>Return the explanation, in the desired form.</p></td>
 </tr>
 </tbody>
 </table>
@@ -615,8 +604,8 @@ document.write(`
 <tr class="row-even"><td><p><a class="reference internal" href="api/pyreal.explainers.SimilarExamples.fit.html#pyreal.explainers.SimilarExamples.fit" title="pyreal.explainers.SimilarExamples.fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SimilarExamples.fit</span></code></a>([x_train_orig, y_train])</p></td>
 <td><p>Fit the explainer</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/pyreal.explainers.SimilarExamples.produce.html#pyreal.explainers.SimilarExamples.produce" title="pyreal.explainers.SimilarExamples.produce"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SimilarExamples.produce</span></code></a>(x_orig[, n])</p></td>
-<td><p>Produce the example explanation</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/pyreal.explainers.SimilarExamples.produce.html#pyreal.explainers.SimilarExamples.produce" title="pyreal.explainers.SimilarExamples.produce"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SimilarExamples.produce</span></code></a>([x_orig, ...])</p></td>
+<td><p>Return the explanation, in the desired form.</p></td>
 </tr>
 </tbody>
 </table>
@@ -635,12 +624,12 @@ document.write(`
     <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
-       href="api/pyreal.explainers.PartialDependence.get_pdp.html"
+       href="api/pyreal.explainers.PartialDependence.produce.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">pyreal.explainers.PartialDependence.get_pdp</p>
+        <p class="prev-next-title">pyreal.explainers.PartialDependence.produce</p>
       </div>
     </a>
     <a class="right-next"

@@ -23,18 +23,22 @@
       ~Numpy2dToMultiIndexFrame.inverse_transform_explanation_additive_feature_contribution
       ~Numpy2dToMultiIndexFrame.inverse_transform_explanation_additive_feature_importance
       ~Numpy2dToMultiIndexFrame.inverse_transform_explanation_decision_tree
+      ~Numpy2dToMultiIndexFrame.inverse_transform_explanation_example
       ~Numpy2dToMultiIndexFrame.inverse_transform_explanation_feature_based
       ~Numpy2dToMultiIndexFrame.inverse_transform_explanation_feature_contribution
       ~Numpy2dToMultiIndexFrame.inverse_transform_explanation_feature_importance
+      ~Numpy2dToMultiIndexFrame.inverse_transform_explanation_similar_example
       ~Numpy2dToMultiIndexFrame.set_flags
       ~Numpy2dToMultiIndexFrame.transform
       ~Numpy2dToMultiIndexFrame.transform_explanation
       ~Numpy2dToMultiIndexFrame.transform_explanation_additive_feature_contribution
       ~Numpy2dToMultiIndexFrame.transform_explanation_additive_feature_importance
       ~Numpy2dToMultiIndexFrame.transform_explanation_decision_tree
+      ~Numpy2dToMultiIndexFrame.transform_explanation_example
       ~Numpy2dToMultiIndexFrame.transform_explanation_feature_based
       ~Numpy2dToMultiIndexFrame.transform_explanation_feature_contribution
       ~Numpy2dToMultiIndexFrame.transform_explanation_feature_importance
+      ~Numpy2dToMultiIndexFrame.transform_explanation_similar_example
    
    
 

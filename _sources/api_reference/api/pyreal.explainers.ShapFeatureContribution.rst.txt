@@ -20,10 +20,11 @@
       ~ShapFeatureContribution.evaluate_variation
       ~ShapFeatureContribution.feature_description
       ~ShapFeatureContribution.fit
-      ~ShapFeatureContribution.get_contributions
       ~ShapFeatureContribution.model_predict
       ~ShapFeatureContribution.model_predict_on_algorithm
       ~ShapFeatureContribution.produce
+      ~ShapFeatureContribution.produce_explanation
+      ~ShapFeatureContribution.produce_explanation_interpret
       ~ShapFeatureContribution.transform_explanation
       ~ShapFeatureContribution.transform_to_x_algorithm
       ~ShapFeatureContribution.transform_to_x_interpret

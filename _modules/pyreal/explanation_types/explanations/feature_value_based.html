@@ -328,7 +328,7 @@ document.write(`
 <span class="kn">from</span> <span class="nn">pyreal.explanation_types.explanations.base</span> <span class="kn">import</span> <span class="n">Explanation</span>
 
 
-<span class="k">class</span> <span class="nc">FeatureValueExplanation</span><span class="p">:</span>
+<span class="k">class</span> <span class="nc">FeatureValueExplanation</span><span class="p">(</span><span class="n">Explanation</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A wrapper for feature value-based explanations.</span>
 
@@ -347,7 +347,7 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">predictions</span> <span class="o">=</span> <span class="n">predictions</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">grid</span> <span class="o">=</span> <span class="n">grid</span>
 
-    <span class="k">def</span> <span class="nf">rename_features</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">feature_descriptions</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">apply_feature_descriptions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">feature_descriptions</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">feature_descriptions</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">feature</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">feature_names</span><span class="p">):</span>
                 <span class="k">if</span> <span class="n">feature</span> <span class="ow">in</span> <span class="n">feature_descriptions</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
@@ -393,13 +393,12 @@ document.write(`
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">explanation</span><span class="o">.</span><span class="n">feature_names</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">explanation</span><span class="o">.</span><span class="n">grid</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span><span class="s2">&quot;The values of feature grids must match the number of features.&quot;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="FeatureValueBased.update_feature_names"><a class="viewcode-back" href="../../../../api_reference/api/pyreal.explanation_types.explanations.feature_value_based.FeatureValueBased.update_feature_names.html#pyreal.explanation_types.explanations.feature_value_based.FeatureValueBased.update_feature_names">[docs]</a>    <span class="k">def</span> <span class="nf">update_feature_names</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">feature_descriptions</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">apply_feature_descriptions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">feature_descriptions</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Wrapper method for renaming features.</span>
 <span class="sd">        Validates explanation after renaming.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">explanation</span><span class="o">.</span><span class="n">rename_features</span><span class="p">(</span><span class="n">feature_descriptions</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">validate</span><span class="p">()</span></div></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">explanation</span><span class="o">.</span><span class="n">apply_feature_descriptions</span><span class="p">(</span><span class="n">feature_descriptions</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="PartialDependenceExplanation"><a class="viewcode-back" href="../../../../api_reference/api/pyreal.explanation_types.explanations.feature_value_based.PartialDependenceExplanation.html#pyreal.explanation_types.explanations.feature_value_based.PartialDependenceExplanation">[docs]</a><span class="k">class</span> <span class="nc">PartialDependenceExplanation</span><span class="p">(</span><span class="n">FeatureValueBased</span><span class="p">):</span>

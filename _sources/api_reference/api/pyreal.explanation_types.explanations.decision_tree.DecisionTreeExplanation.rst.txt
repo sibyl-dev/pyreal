@@ -14,6 +14,7 @@
    .. autosummary::
    
       ~DecisionTreeExplanation.__init__
+      ~DecisionTreeExplanation.apply_feature_descriptions
       ~DecisionTreeExplanation.get
       ~DecisionTreeExplanation.get_all
       ~DecisionTreeExplanation.get_values
