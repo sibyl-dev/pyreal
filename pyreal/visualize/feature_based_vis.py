@@ -234,12 +234,12 @@ def strip_plot(
         legend = "brief"
     else:
         legend = False
-
+    generate_palette = palette is None
     for i in range(num_features):
         hues = values.iloc[:, order[i : i + 1]]
         hues = hues.melt()["value"]
         num_colors = len(np.unique(hues.astype("str")))
-        if palette is None:
+        if generate_palette:
             palette = sns.blend_palette(
                 [NEGATIVE_COLOR_LIGHT, NEUTRAL_COLOR, POSITIVE_COLOR_LIGHT], n_colors=num_colors
             )
