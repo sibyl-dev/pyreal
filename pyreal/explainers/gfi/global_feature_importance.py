@@ -72,12 +72,12 @@ class GlobalFeatureImportance(GlobalFeatureImportanceBase):
         self.base_global_feature_importance.fit(x_train_orig, y_train)
         return self
 
-    def get_importance(self):
+    def produce_explanation(self, **kwargs):
         """
         Gets the raw explanation.
 
         Returns:
-            DataFrame of shape (n_instances, n_features)
-                Contribution of each feature for each instance
+            FeatureImportanceExplainer
+                Importance of each feature
         """
-        return self.base_global_feature_importance.get_importance()
+        return self.base_global_feature_importance.produce_explanation()

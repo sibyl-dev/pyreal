@@ -1,6 +1,15 @@
 import pandas as pd
 
 
+def convert_columns_with_dict(df, conversion_dict):
+    if (df is None) or (conversion_dict is None):
+        return df
+    elif isinstance(df, pd.Series):
+        return df.rename(conversion_dict)
+    else:
+        return df.rename(conversion_dict, axis="columns")
+
+
 class Explanation:
     """
     A type wrapper for outputs from explanation algorithms. Validates that an object is a
@@ -88,7 +97,7 @@ class Explanation:
 
         Args:
             explanation (object):
-                New explanation
+                New raw explanation
             inplace (Boolean)
                 If True, change the explanation on this object. Otherwise, create a new object
                 identical to this one but with a new explanation
@@ -106,6 +115,11 @@ class Explanation:
         else:
             return self.__class__(explanation, self.values)
 
+    def apply_feature_descriptions(self, feature_descriptions):
+        self.update_values(
+            convert_columns_with_dict(self.values, feature_descriptions), inplace=True
+        )
+
     def validate(self):
         """
         Validate that `self.explanation` is a valid object of type `Explanation`. If values are not
@@ -120,7 +134,7 @@ class Explanation:
 
     def validate_values(self):
         """
-        Validate that self.values are valid values for this Explanation.
+        Validate that `self.values` are valid values for this Explanation.
 
         Returns:
             None

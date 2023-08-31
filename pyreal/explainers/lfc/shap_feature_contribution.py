@@ -64,7 +64,7 @@ class ShapFeatureContribution(LocalFeatureContributionsBase):
             self.explainer = ShapExplainer(self.model, dataset)  # SHAP will pick an algorithm
         return self
 
-    def get_contributions(self, x_orig):
+    def produce_explanation(self, x_orig, **kwargs):
         """
         Calculate the explanation of each feature in x using SHAP.
 
@@ -72,8 +72,8 @@ class ShapFeatureContribution(LocalFeatureContributionsBase):
             x_orig (DataFrame of shape (n_instances, n_features)):
                The input to be explained
         Returns:
-            DataFrame of shape (n_instances, n_features):
-                 The contribution of each feature
+            AdditiveFeatureContributionExplanation
+                 A explanation object containing the contribution of each feature for each instance
         """
         if self.explainer is None:
             raise AttributeError("Instance has no explainer. Must call fit() before produce()")

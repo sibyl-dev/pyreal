@@ -11,7 +11,6 @@ def test_produce_with_renames(regression_no_transforms):
         x_train_orig=model["x"],
         fit_on_init=True,
         transformers=transforms,
-        interpretable_features=True,
         feature_descriptions=feature_descriptions,
     )
 
@@ -29,7 +28,6 @@ def test_produce_with_renames_with_size(regression_no_transforms_big):
         x_train_orig=model["x"],
         fit_on_init=True,
         transformers=transforms,
-        interpretable_features=True,
         feature_descriptions=feature_descriptions,
         training_size=10,
     )
