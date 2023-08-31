@@ -18,7 +18,6 @@
       ~SimilarExampleExplanation.get
       ~SimilarExampleExplanation.get_all
       ~SimilarExampleExplanation.get_examples
-      ~SimilarExampleExplanation.get_explanation_for_row
       ~SimilarExampleExplanation.get_row_ids
       ~SimilarExampleExplanation.get_targets
       ~SimilarExampleExplanation.get_values

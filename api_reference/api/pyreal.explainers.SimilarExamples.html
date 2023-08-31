@@ -43,7 +43,7 @@
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="pyreal.explainers.SimilarExamples.fit" href="pyreal.explainers.SimilarExamples.fit.html" />
-    <link rel="prev" title="pyreal.explainers.ExampleBasedBase.produce" href="pyreal.explainers.ExampleBasedBase.produce.html" />
+    <link rel="prev" title="pyreal.explainers.SimilarExamplesBase.produce" href="pyreal.explainers.SimilarExamplesBase.produce.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -362,9 +362,9 @@ document.write(`
 </ul>
 </li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="../example_based_explainer.html">Example Based</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="pyreal.explainers.ExampleBasedBase.html">pyreal.explainers.ExampleBasedBase</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyreal.explainers.ExampleBasedBase.fit.html">pyreal.explainers.ExampleBasedBase.fit</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyreal.explainers.ExampleBasedBase.produce.html">pyreal.explainers.ExampleBasedBase.produce</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyreal.explainers.SimilarExamplesBase.html">pyreal.explainers.SimilarExamplesBase</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyreal.explainers.SimilarExamplesBase.fit.html">pyreal.explainers.SimilarExamplesBase.fit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyreal.explainers.SimilarExamplesBase.produce.html">pyreal.explainers.SimilarExamplesBase.produce</a></li>
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">pyreal.explainers.SimilarExamples</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.explainers.SimilarExamples.fit.html">pyreal.explainers.SimilarExamples.fit</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.explainers.SimilarExamples.produce.html">pyreal.explainers.SimilarExamples.produce</a></li>
@@ -583,7 +583,7 @@ document.write(`
 <h1>pyreal.explainers.SimilarExamples<a class="headerlink" href="#pyreal-explainers-similarexamples" title="Permalink to this heading">#</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="pyreal.explainers.SimilarExamples">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyreal.explainers.</span></span><span class="sig-name descname"><span class="pre">SimilarExamples</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_train_orig</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">standardize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyreal/explainers/example/similar_examples.html#SimilarExamples"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyreal.explainers.SimilarExamples" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyreal.explainers.</span></span><span class="sig-name descname"><span class="pre">SimilarExamples</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_train_orig</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">standardize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyreal/explainers/se/similar_examples.html#SimilarExamples"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyreal.explainers.SimilarExamples" title="Permalink to this definition">#</a></dt>
 <dd><p>SimilarExamples object.</p>
 <p>A SimilarExamples object gets feature explanation using the Nearest Neighbors algorithm</p>
 <p>SimilarExamples explainers expect data to be entirely numeric</p>
@@ -599,7 +599,7 @@ document.write(`
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="pyreal.explainers.SimilarExamples.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_train_orig</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">standardize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyreal/explainers/example/similar_examples.html#SimilarExamples.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyreal.explainers.SimilarExamples.__init__" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_train_orig</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">standardize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyreal/explainers/se/similar_examples.html#SimilarExamples.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyreal.explainers.SimilarExamples.__init__" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <p class="rubric">Methods</p>
@@ -674,12 +674,12 @@ document.write(`
     <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
-       href="pyreal.explainers.ExampleBasedBase.produce.html"
+       href="pyreal.explainers.SimilarExamplesBase.produce.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">pyreal.explainers.ExampleBasedBase.produce</p>
+        <p class="prev-next-title">pyreal.explainers.SimilarExamplesBase.produce</p>
       </div>
     </a>
     <a class="right-next"

@@ -322,16 +322,19 @@ document.write(`
                 <article class="bd-article" role="main">
                   
   <h1>Source code for pyreal.explanation_types.explanations.example_based</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">pyreal.explanation_types.explanations.base</span> <span class="kn">import</span> <span class="n">Explanation</span><span class="p">,</span> <span class="n">convert_columns_with_dict</span>
+<span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="kn">from</span> <span class="nn">pyreal.explanation_types.explanations.base</span> <span class="kn">import</span> <span class="n">Explanation</span><span class="p">,</span> <span class="n">convert_columns_with_dict</span>
 
 
 <div class="viewcode-block" id="ExampleBasedExplanation"><a class="viewcode-back" href="../../../../api_reference/api/pyreal.explanation_types.explanations.example_based.ExampleBasedExplanation.html#pyreal.explanation_types.explanations.example_based.ExampleBasedExplanation">[docs]</a><span class="k">class</span> <span class="nc">ExampleBasedExplanation</span><span class="p">(</span><span class="n">Explanation</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A type wrapper for example-based type outputs from explanation algorithms.</span>
 
-<span class="sd">    Example-based types include dictionary linking input rows to a tuple of (DataFrame, Series),</span>
-<span class="sd">    where the DataFrame is the set of examples for the corresponding row and the Series is the</span>
-<span class="sd">    corresponding y values. The DataFrame/Series row order wil depend on the specific input type.</span>
+<span class="sd">    Example-based types include dictionary linking input rows to DataFrames, and optionally</span>
+<span class="sd">     a second dictionary linking the same input rows to Series, where the DataFrames are examples</span>
+<span class="sd">     (X) for the corresponding row and the Series are the corresponding target (y) values.</span>
+<span class="sd">     The row order wil depend on the specific input type.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="ExampleBasedExplanation.validate"><a class="viewcode-back" href="../../../../api_reference/api/pyreal.explanation_types.explanations.example_based.ExampleBasedExplanation.validate.html#pyreal.explanation_types.explanations.example_based.ExampleBasedExplanation.validate">[docs]</a>    <span class="k">def</span> <span class="nf">validate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -343,6 +346,28 @@ document.write(`
 <span class="sd">            AssertionException</span>
 <span class="sd">                if `self.explanation` is invalid</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">example_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">explanation</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">target_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">explanation</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span>
+                <span class="s2">&quot;Example explanations expect a tuple of example-dictionary and target-dictionary&quot;</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">example_dict</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span><span class="s2">&quot;Example explanations must contain a dictionary of DataFrames&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">row_id</span> <span class="ow">in</span> <span class="n">example_dict</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">example_dict</span><span class="p">[</span><span class="n">row_id</span><span class="p">],</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span>
+                    <span class="s2">&quot;All items in example explanations&#39; example dicts must be DataFrames.&quot;</span>
+                <span class="p">)</span>
+        <span class="k">if</span> <span class="n">target_dict</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">target_dict</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span><span class="s2">&quot;Example explanation given invalid target dict.&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">row_id</span> <span class="ow">in</span> <span class="n">target_dict</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">target_dict</span><span class="p">[</span><span class="n">row_id</span><span class="p">],</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span>
+                    <span class="s2">&quot;All items in example explanations&#39; target dicts must be Series.&quot;</span>
+                <span class="p">)</span>
+
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">validate</span><span class="p">()</span></div>
 
     <span class="k">def</span> <span class="nf">apply_feature_descriptions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">feature_descriptions</span><span class="p">):</span>
@@ -351,18 +376,6 @@ document.write(`
 
         <span class="bp">self</span><span class="o">.</span><span class="n">update_examples</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">apply_feature_descriptions</span><span class="p">(</span><span class="n">feature_descriptions</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">get_explanation_for_row</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">row_id</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Get the example explanation generated for the given row_id</span>
-<span class="sd">        Args:</span>
-<span class="sd">            row_id:</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            A tuple of (DataFrame, Series)</span>
-<span class="sd">                The examples and corresponding targets for this example</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">()[</span><span class="n">row_id</span><span class="p">]</span>
 
     <span class="k">def</span> <span class="nf">get_examples</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">row_id</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">rank</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -377,8 +390,8 @@ document.write(`
 <span class="sd">                Examples for the chosen row_id</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">rank</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">()[</span><span class="n">row_id</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">()[</span><span class="n">row_id</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">rank</span><span class="p">]</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">()[</span><span class="mi">0</span><span class="p">][</span><span class="n">row_id</span><span class="p">]</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">()[</span><span class="mi">0</span><span class="p">][</span><span class="n">row_id</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">rank</span><span class="p">]</span>
 
     <span class="k">def</span> <span class="nf">get_targets</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">row_id</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">rank</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -393,18 +406,18 @@ document.write(`
 <span class="sd">                targets for the chosen row_id</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">rank</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">()[</span><span class="n">row_id</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">()[</span><span class="n">row_id</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">rank</span><span class="p">]</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">()[</span><span class="mi">1</span><span class="p">][</span><span class="n">row_id</span><span class="p">]</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">()[</span><span class="mi">1</span><span class="p">][</span><span class="n">row_id</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">rank</span><span class="p">]</span>
 
     <span class="k">def</span> <span class="nf">get_row_ids</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return all row_ids held by this explanation</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="nf">update_examples</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">):</span>
-        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">():</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">()[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">func</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">()[</span><span class="n">key</span><span class="p">][</span><span class="mi">0</span><span class="p">]),</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">()[</span><span class="n">key</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span></div>
+        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">()[</span><span class="mi">0</span><span class="p">]:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">()[</span><span class="mi">0</span><span class="p">][</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">()[</span><span class="mi">0</span><span class="p">][</span><span class="n">key</span><span class="p">])</span></div>
 
 
 <div class="viewcode-block" id="SimilarExampleExplanation"><a class="viewcode-back" href="../../../../api_reference/api/pyreal.explanation_types.explanations.example_based.SimilarExampleExplanation.html#pyreal.explanation_types.explanations.example_based.SimilarExampleExplanation">[docs]</a><span class="k">class</span> <span class="nc">SimilarExampleExplanation</span><span class="p">(</span><span class="n">ExampleBasedExplanation</span><span class="p">):</span>
@@ -423,7 +436,41 @@ document.write(`
 <span class="sd">            AssertionException</span>
 <span class="sd">                if `self.explanation` is invalid</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">explanation</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span><span class="s2">&quot;Similar example explanations must come with target values.&quot;</span><span class="p">)</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">validate</span><span class="p">()</span></div></div>
+
+
+<span class="k">class</span> <span class="nc">CounterfactualExplanation</span><span class="p">(</span><span class="n">ExampleBasedExplanation</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A type wrapper for explanations that include most similar rows from the training set.</span>
+
+<span class="sd">    Contains a dict of dataframes</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">explanation</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set the wrapped explanation to `explanation` and values to `values` and validate</span>
+<span class="sd">        Args:</span>
+<span class="sd">            explanation (object):</span>
+<span class="sd">                wrapped explanation</span>
+<span class="sd">            values (DataFrame of shape (n_instances, n_features) or None):</span>
+<span class="sd">                Values corresponding with the object being explained</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">explanation</span> <span class="o">=</span> <span class="p">(</span><span class="n">explanation</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">explanation</span><span class="p">,</span> <span class="n">values</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">validate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Validate that `self.explanation` is a valid dict of `DataFrames`</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            None</span>
+<span class="sd">        Raises:</span>
+<span class="sd">            AssertionException</span>
+<span class="sd">                if `self.explanation` is invalid</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">validate</span><span class="p">()</span>
 </pre></div>
 
                 </article>

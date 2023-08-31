@@ -1,0 +1,6 @@
+﻿pyreal.explainers.SimilarExamplesBase.produce
+=============================================
+
+.. currentmodule:: pyreal.explainers
+
+.. automethod:: SimilarExamplesBase.produce

@@ -362,9 +362,9 @@ document.write(`
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../example_based_explainer.html">Example Based</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="pyreal.explainers.ExampleBasedBase.html">pyreal.explainers.ExampleBasedBase</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyreal.explainers.ExampleBasedBase.fit.html">pyreal.explainers.ExampleBasedBase.fit</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyreal.explainers.ExampleBasedBase.produce.html">pyreal.explainers.ExampleBasedBase.produce</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyreal.explainers.SimilarExamplesBase.html">pyreal.explainers.SimilarExamplesBase</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyreal.explainers.SimilarExamplesBase.fit.html">pyreal.explainers.SimilarExamplesBase.fit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyreal.explainers.SimilarExamplesBase.produce.html">pyreal.explainers.SimilarExamplesBase.produce</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.explainers.SimilarExamples.html">pyreal.explainers.SimilarExamples</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.explainers.SimilarExamples.fit.html">pyreal.explainers.SimilarExamples.fit</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.explainers.SimilarExamples.produce.html">pyreal.explainers.SimilarExamples.produce</a></li>
@@ -585,9 +585,12 @@ document.write(`
 <dt class="sig sig-object py" id="pyreal.explanation_types.explanations.example_based.ExampleBasedExplanation">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyreal.explanation_types.explanations.example_based.</span></span><span class="sig-name descname"><span class="pre">ExampleBasedExplanation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">explanation</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">values</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyreal/explanation_types/explanations/example_based.html#ExampleBasedExplanation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyreal.explanation_types.explanations.example_based.ExampleBasedExplanation" title="Permalink to this definition">#</a></dt>
 <dd><p>A type wrapper for example-based type outputs from explanation algorithms.</p>
-<p>Example-based types include dictionary linking input rows to a tuple of (DataFrame, Series),
-where the DataFrame is the set of examples for the corresponding row and the Series is the
-corresponding y values. The DataFrame/Series row order wil depend on the specific input type.</p>
+<dl class="simple">
+<dt>Example-based types include dictionary linking input rows to DataFrames, and optionally</dt><dd><p>a second dictionary linking the same input rows to Series, where the DataFrames are examples
+(X) for the corresponding row and the Series are the corresponding target (y) values.
+The row order wil depend on the specific input type.</p>
+</dd>
+</dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="pyreal.explanation_types.explanations.example_based.ExampleBasedExplanation.__init__">
 <span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">explanation</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">values</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyreal.explanation_types.explanations.example_based.ExampleBasedExplanation.__init__" title="Permalink to this definition">#</a></dt>
@@ -616,31 +619,28 @@ corresponding y values. The DataFrame/Series row order wil depend on the specifi
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_examples</span></code>([row_id, rank])</p></td>
 <td><p>Get the example in rank-th position for the given row_id. :param row_id: ID of row to get explanation of. :type row_id: int :param rank: Which example to return (ie, rank=0 returns the first example generated). If none, return all examples :type rank: int.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_explanation_for_row</span></code>(row_id)</p></td>
-<td><p>Get the example explanation generated for the given row_id :param row_id:</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_row_ids</span></code>()</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_row_ids</span></code>()</p></td>
 <td><p>Return all row_ids held by this explanation</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_targets</span></code>([row_id, rank])</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_targets</span></code>([row_id, rank])</p></td>
 <td><p>Get the targets in rank-th position for the given row_id. :param row_id: ID of row to get explanation of. :type row_id: int :param rank: Which example to return (ie, rank=0 returns the first example generated). If none, return all examples :type rank: int.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_values</span></code>()</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_values</span></code>()</p></td>
 <td><p>Return the values associated with the explanation</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">update_examples</span></code>(func)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">update_examples</span></code>(func)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">update_explanation</span></code>(explanation[, inplace])</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">update_explanation</span></code>(explanation[, inplace])</p></td>
 <td><p>Updates this objects explanation, and validates</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">update_values</span></code>(values[, inplace])</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">update_values</span></code>(values[, inplace])</p></td>
 <td><p>Updates this objects values, and validates</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="pyreal.explanation_types.explanations.example_based.ExampleBasedExplanation.validate.html#pyreal.explanation_types.explanations.example_based.ExampleBasedExplanation.validate" title="pyreal.explanation_types.explanations.example_based.ExampleBasedExplanation.validate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">validate</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="pyreal.explanation_types.explanations.example_based.ExampleBasedExplanation.validate.html#pyreal.explanation_types.explanations.example_based.ExampleBasedExplanation.validate" title="pyreal.explanation_types.explanations.example_based.ExampleBasedExplanation.validate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">validate</span></code></a>()</p></td>
 <td><p>Validate that <cite>self.explanation</cite> is of the expected format.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">validate_values</span></code>()</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">validate_values</span></code>()</p></td>
 <td><p>Validate that <cite>self.values</cite> are valid values for this Explanation.</p></td>
 </tr>
 </tbody>

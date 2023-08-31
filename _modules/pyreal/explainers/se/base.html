@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pyreal.explainers.example.similar_examples &#8212; Pyreal 0.4.5 documentation</title>
+    <title>pyreal.explainers.se.base &#8212; Pyreal 0.4.5 documentation</title>
   
   
   
@@ -37,7 +37,7 @@
     <script src="../../../../_static/doctools.js"></script>
     <script src="../../../../_static/sphinx_highlight.js"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/pyreal/explainers/example/similar_examples';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/pyreal/explainers/se/base';</script>
     <link rel="icon" href="../../../../_static/dai-logo-white.ico"/>
     <link rel="index" title="Index" href="../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../search.html" />
@@ -304,7 +304,7 @@ document.write(`
     
     <li class="breadcrumb-item"><a href="../../../index.html" class="nav-link">Module code</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page">pyreal.explainers.example.similar_examples</li>
+    <li class="breadcrumb-item active" aria-current="page">pyreal.explainers.se.base</li>
   </ul>
 </nav>
 </div>
@@ -321,95 +321,71 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <h1>Source code for pyreal.explainers.example.similar_examples</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">sklearn.neighbors</span> <span class="kn">import</span> <span class="n">KDTree</span>
-<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">StandardScaler</span>
+  <h1>Source code for pyreal.explainers.se.base</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABC</span><span class="p">,</span> <span class="n">abstractmethod</span>
 
-<span class="kn">from</span> <span class="nn">pyreal.explainers.example.base</span> <span class="kn">import</span> <span class="n">ExampleBasedBase</span>
-<span class="kn">from</span> <span class="nn">pyreal.explanation_types.explanations.example_based</span> <span class="kn">import</span> <span class="n">SimilarExampleExplanation</span>
+<span class="kn">from</span> <span class="nn">pyreal.explainers</span> <span class="kn">import</span> <span class="n">ExplainerBase</span>
 
 
-<div class="viewcode-block" id="SimilarExamples"><a class="viewcode-back" href="../../../../api_reference/api/pyreal.explainers.SimilarExamples.html#pyreal.explainers.SimilarExamples">[docs]</a><span class="k">class</span> <span class="nc">SimilarExamples</span><span class="p">(</span><span class="n">ExampleBasedBase</span><span class="p">):</span>
+<div class="viewcode-block" id="SimilarExamplesBase"><a class="viewcode-back" href="../../../../api_reference/api/pyreal.explainers.SimilarExamplesBase.html#pyreal.explainers.SimilarExamplesBase">[docs]</a><span class="k">class</span> <span class="nc">SimilarExamplesBase</span><span class="p">(</span><span class="n">ExplainerBase</span><span class="p">,</span> <span class="n">ABC</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    SimilarExamples object.</span>
+<span class="sd">    Base class for Example explainer objects. Abstract class</span>
 
-<span class="sd">    A SimilarExamples object gets feature explanation using the Nearest Neighbors algorithm</span>
-
-<span class="sd">    SimilarExamples explainers expect data to be entirely numeric</span>
+<span class="sd">    Example explainers explain a model or prediction by providing some kind of representative</span>
+<span class="sd">    example output.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        model (string filepath or model object):</span>
 <span class="sd">           Filepath to the pickled model to explain, or model object with .predict() function</span>
-<span class="sd">        x_train_orig (DataFrame of size (n_instances, n_features)):</span>
-<span class="sd">            Training set in original form.</span>
-<span class="sd">        standardize (Boolean):</span>
-<span class="sd">            If True, standardize the data when selected similar examples</span>
+<span class="sd">        x_train_orig (dataframe of shape (n_instances, x_orig_feature_count)):</span>
+<span class="sd">           The training set for the explainer</span>
+<span class="sd">        interpretable_features (Boolean):</span>
+<span class="sd">            If True, return explanations using the interpretable feature descriptions instead of</span>
+<span class="sd">            default names</span>
 <span class="sd">        **kwargs: see base Explainer args</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="SimilarExamples.__init__"><a class="viewcode-back" href="../../../../api_reference/api/pyreal.explainers.SimilarExamples.html#pyreal.explainers.SimilarExamples.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">x_train_orig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">standardize</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">explainer</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">standardize</span> <span class="o">=</span> <span class="n">standardize</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">standardizer</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">SimilarExamples</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">x_train_orig</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+<div class="viewcode-block" id="SimilarExamplesBase.__init__"><a class="viewcode-back" href="../../../../api_reference/api/pyreal.explainers.SimilarExamplesBase.html#pyreal.explainers.SimilarExamplesBase.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">x_train_orig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">interpretable_features</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">interpretable_features</span> <span class="o">=</span> <span class="n">interpretable_features</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">SimilarExamplesBase</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">x_train_orig</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="SimilarExamples.fit"><a class="viewcode-back" href="../../../../api_reference/api/pyreal.explainers.SimilarExamples.fit.html#pyreal.explainers.SimilarExamples.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_train_orig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">y_train</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="SimilarExamplesBase.fit"><a class="viewcode-back" href="../../../../api_reference/api/pyreal.explainers.SimilarExamplesBase.fit.html#pyreal.explainers.SimilarExamplesBase.fit">[docs]</a>    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_train_orig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">y_train</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Fit the explainer</span>
+<span class="sd">        Fit this explainer object</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            x_train_orig (DataFrame of shape (n_instances, n_features):</span>
 <span class="sd">                Training set to fit on, required if not provided on initialization</span>
 <span class="sd">            y_train:</span>
 <span class="sd">                Targets of training set, required if not provided on initialization</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">x_train_orig</span><span class="p">,</span> <span class="n">y_train</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_training_data</span><span class="p">(</span><span class="n">x_train_orig</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="sd">        &quot;&quot;&quot;</span></div>
 
-        <span class="n">dataset</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform_to_x_algorithm</span><span class="p">(</span><span class="n">x_train_orig</span><span class="p">)</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">standardize</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">standardizer</span> <span class="o">=</span> <span class="n">StandardScaler</span><span class="p">()</span>
-            <span class="n">dataset</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">standardizer</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">dataset</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">explainer</span> <span class="o">=</span> <span class="n">KDTree</span><span class="p">(</span><span class="n">dataset</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">y_train</span> <span class="o">=</span> <span class="n">y_train</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">x_train_orig</span> <span class="o">=</span> <span class="n">x_train_orig</span>
-
-        <span class="k">return</span> <span class="bp">self</span></div>
-
-    <span class="k">def</span> <span class="nf">produce_explanation_interpret</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_orig</span><span class="p">,</span> <span class="n">disable_feature_descriptions</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">evaluate_variation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">with_fit</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">explanations</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">n_iterations</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">n_rows</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Get the n nearest neighbors to x_orig</span>
+<span class="sd">        Evaluate the variation of the explanations generated by this Explainer.</span>
+<span class="sd">        A variation of 0 means this explainer is expected to generate the exact same explanation</span>
+<span class="sd">        given the same model and input. Variation is always non-negative, and can be arbitrarily</span>
+<span class="sd">        high.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            x_orig (DataFrame of shape (n_instances, n_features)):</span>
-<span class="sd">               The input to be explained</span>
-<span class="sd">            disable_feature_descriptions (Boolean):</span>
-<span class="sd">                If False, do not apply feature descriptions</span>
-<span class="sd">            n (int):</span>
-<span class="sd">                Number of neighbors to return</span>
-<span class="sd">        Returns:</span>
-<span class="sd">            SimilarExamplesExplanation</span>
-<span class="sd">                Set of similar examples and their targets</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">explainer</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s2">&quot;Instance has no explainer. Must call fit() before produce()&quot;</span><span class="p">)</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform_to_x_algorithm</span><span class="p">(</span><span class="n">x_orig</span><span class="p">)</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">standardize</span><span class="p">:</span>
-            <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">standardizer</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-        <span class="n">inds</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">explainer</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="n">n</span><span class="p">,</span> <span class="n">return_distance</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-        <span class="n">raw_explanation</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">inds</span><span class="p">)):</span>
-            <span class="n">raw_explanation</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x_train_orig</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">inds</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="p">:],</span> <span class="bp">self</span><span class="o">.</span><span class="n">y_train</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">inds</span><span class="p">[</span><span class="n">i</span><span class="p">]])</span>
-        <span class="n">x_interpret</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform_to_x_interpret</span><span class="p">(</span><span class="n">x_orig</span><span class="p">)</span>
-        <span class="n">explanation</span> <span class="o">=</span> <span class="n">SimilarExampleExplanation</span><span class="p">(</span><span class="n">raw_explanation</span><span class="p">,</span> <span class="n">x_interpret</span><span class="p">)</span>
-        <span class="n">explanation</span><span class="o">.</span><span class="n">update_examples</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">transform_to_x_interpret</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">explanation</span>
+<span class="sd">            with_fit (Boolean):</span>
+<span class="sd">                If True, evaluate the variation in explanations including the fit (fit each time</span>
+<span class="sd">                before running). If False, evaluate the variation in explanations of a pre-fit</span>
+<span class="sd">                Explainer.</span>
+<span class="sd">            explanations (None or List of DataFrames of shape (n_instances, n_features)):</span>
+<span class="sd">                If provided, run the variation check on the precomputed list of explanations</span>
+<span class="sd">                instead of generating</span>
+<span class="sd">            n_iterations (int):</span>
+<span class="sd">                Number of explanations to generate to evaluation variation</span>
+<span class="sd">            n_rows (int):</span>
+<span class="sd">                Number of rows of dataset to generate explanations on</span>
 
-    <span class="k">def</span> <span class="nf">produce_explanation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_orig</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Unused for similar examples explainers as explanations are directly produced in the</span>
-<span class="sd">        interpretable feature space</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            float</span>
+<span class="sd">                The variation of this Explainer&#39;s explanations</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="kc">None</span></div>
+        <span class="k">return</span> <span class="mi">0</span>  <span class="c1"># TODO: complete this</span></div>
 </pre></div>
 
                 </article>

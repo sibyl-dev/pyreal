@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>pyreal.explainers.ExampleBasedBase.produce &#8212; Pyreal 0.4.5 documentation</title>
+    <title>pyreal.explainers.SimilarExamplesBase.fit &#8212; Pyreal 0.4.5 documentation</title>
   
   
   
@@ -38,12 +38,12 @@
     <script src="../../_static/doctools.js"></script>
     <script src="../../_static/sphinx_highlight.js"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'api_reference/api/pyreal.explainers.ExampleBasedBase.produce';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'api_reference/api/pyreal.explainers.SimilarExamplesBase.fit';</script>
     <link rel="icon" href="../../_static/dai-logo-white.ico"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="pyreal.explainers.SimilarExamples" href="pyreal.explainers.SimilarExamples.html" />
-    <link rel="prev" title="pyreal.explainers.ExampleBasedBase.fit" href="pyreal.explainers.ExampleBasedBase.fit.html" />
+    <link rel="next" title="pyreal.explainers.SimilarExamplesBase.produce" href="pyreal.explainers.SimilarExamplesBase.produce.html" />
+    <link rel="prev" title="pyreal.explainers.SimilarExamplesBase" href="pyreal.explainers.SimilarExamplesBase.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -362,9 +362,9 @@ document.write(`
 </ul>
 </li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="../example_based_explainer.html">Example Based</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="pyreal.explainers.ExampleBasedBase.html">pyreal.explainers.ExampleBasedBase</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyreal.explainers.ExampleBasedBase.fit.html">pyreal.explainers.ExampleBasedBase.fit</a></li>
-<li class="toctree-l2 current active"><a class="current reference internal" href="#">pyreal.explainers.ExampleBasedBase.produce</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyreal.explainers.SimilarExamplesBase.html">pyreal.explainers.SimilarExamplesBase</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">pyreal.explainers.SimilarExamplesBase.fit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyreal.explainers.SimilarExamplesBase.produce.html">pyreal.explainers.SimilarExamplesBase.produce</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.explainers.SimilarExamples.html">pyreal.explainers.SimilarExamples</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.explainers.SimilarExamples.fit.html">pyreal.explainers.SimilarExamples.fit</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.explainers.SimilarExamples.produce.html">pyreal.explainers.SimilarExamples.produce</a></li>
@@ -562,7 +562,7 @@ document.write(`
     
     <li class="breadcrumb-item"><a href="../example_based_explainer.html" class="nav-link">Example Based</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page">pyreal.explainers.ExampleBasedBase.produce</li>
+    <li class="breadcrumb-item active" aria-current="page">pyreal.explainers.SimilarExamplesBase.fit</li>
   </ul>
 </nav>
 </div>
@@ -579,27 +579,18 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <section id="pyreal-explainers-examplebasedbase-produce">
-<h1>pyreal.explainers.ExampleBasedBase.produce<a class="headerlink" href="#pyreal-explainers-examplebasedbase-produce" title="Permalink to this heading">#</a></h1>
+  <section id="pyreal-explainers-similarexamplesbase-fit">
+<h1>pyreal.explainers.SimilarExamplesBase.fit<a class="headerlink" href="#pyreal-explainers-similarexamplesbase-fit" title="Permalink to this heading">#</a></h1>
 <dl class="py method">
-<dt class="sig sig-object py" id="pyreal.explainers.ExampleBasedBase.produce">
-<span class="sig-prename descclassname"><span class="pre">ExampleBasedBase.</span></span><span class="sig-name descname"><span class="pre">produce</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_orig</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">disable_feature_descriptions</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyreal.explainers.ExampleBasedBase.produce" title="Permalink to this definition">#</a></dt>
-<dd><p>Return the explanation, in the desired form.</p>
+<dt class="sig sig-object py" id="pyreal.explainers.SimilarExamplesBase.fit">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">SimilarExamplesBase.</span></span><span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_train_orig</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_train</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyreal/explainers/se/base.html#SimilarExamplesBase.fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyreal.explainers.SimilarExamplesBase.fit" title="Permalink to this definition">#</a></dt>
+<dd><p>Fit this explainer object</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>x_orig</strong> (<em>DataFrame</em><em> of </em><em>shape</em><em> (</em><em>n_instances</em><em>, </em><em>n_features</em><em>) or </em><em>Series</em><em> of </em><em>length</em><em> (</em><em>n_features</em><em>)</em>) – Input to explain</p></li>
-<li><p><strong>disable_feature_descriptions</strong> (<em>Boolean</em>) – If False, do not apply feature descriptions</p></li>
-<li><p><strong>**kwargs</strong> – Additional arguments to be used by more specific explainers.</p></li>
+<li><p><strong>x_train_orig</strong> (<em>DataFrame</em><em> of </em><em>shape</em><em> (</em><em>n_instances</em><em>, </em><em>n_features</em>) – Training set to fit on, required if not provided on initialization</p></li>
+<li><p><strong>y_train</strong> – Targets of training set, required if not provided on initialization</p></li>
 </ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><dl class="simple">
-<dt>Explanation</dt><dd><p>A generated interpretable explanation object, including interpretable feature
-names and values.</p>
-</dd>
-</dl>
-</p>
 </dd>
 </dl>
 </dd></dl>
@@ -618,20 +609,20 @@ names and values.</p>
     <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
-       href="pyreal.explainers.ExampleBasedBase.fit.html"
+       href="pyreal.explainers.SimilarExamplesBase.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">pyreal.explainers.ExampleBasedBase.fit</p>
+        <p class="prev-next-title">pyreal.explainers.SimilarExamplesBase</p>
       </div>
     </a>
     <a class="right-next"
-       href="pyreal.explainers.SimilarExamples.html"
+       href="pyreal.explainers.SimilarExamplesBase.produce.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">pyreal.explainers.SimilarExamples</p>
+        <p class="prev-next-title">pyreal.explainers.SimilarExamplesBase.produce</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -653,13 +644,13 @@ names and values.</p>
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pyreal.explainers.ExampleBasedBase.produce"><code class="docutils literal notranslate"><span class="pre">ExampleBasedBase.produce()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pyreal.explainers.SimilarExamplesBase.fit"><code class="docutils literal notranslate"><span class="pre">SimilarExamplesBase.fit()</span></code></a></li>
 </ul>
   </nav></div>
 
   <div class="sidebar-secondary-item">
   <div class="tocsection sourcelink">
-    <a href="../../_sources/api_reference/api/pyreal.explainers.ExampleBasedBase.produce.rst.txt">
+    <a href="../../_sources/api_reference/api/pyreal.explainers.SimilarExamplesBase.fit.rst.txt">
       <i class="fa-solid fa-file-lines"></i> Show Source
     </a>
   </div>
