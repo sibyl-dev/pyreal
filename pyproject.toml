@@ -73,7 +73,7 @@ pydata-sphinx-theme = ">=0.10.1"
 
 # Tutorial dependencies
 [tool.poetry.group.tutorial.dependencies]
-lightgbm = "^3.3.2"
+lightgbm = ">=3.3.2,<5.0.0"
 
 [tool.black]
 line-length = 99
