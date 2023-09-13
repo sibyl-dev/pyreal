@@ -368,14 +368,17 @@ class RealApp:
             )
 
         if x_orig is not None:
+            series = x_orig.ndim == 1
             ids = None
 
             if self.id_column is not None and self.id_column in x_orig:
                 ids = x_orig[self.id_column]
+                if series:  # If x was a series, ids will now be a scaler
+                    ids = [ids]
                 x_orig = x_orig.drop(self.id_column, axis=x_orig.ndim - 1)
 
             explanation = explainer.produce(x_orig, **produce_kwargs)
-            return format_output_func(explanation, ids, series=(x_orig.ndim == 1), **format_kwargs)
+            return format_output_func(explanation, ids, series=series, **format_kwargs)
         else:
             explanation = explainer.produce(**produce_kwargs)
             return format_output_func(explanation, **format_kwargs)

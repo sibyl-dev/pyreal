@@ -105,7 +105,7 @@ def test_produce_local_feature_contributions_with_id_column(regression_one_hot):
     )
 
     features = ["A", "B", "C"]
-    x_one_dim = pd.Series([4, 1, 1, "a"], index=features + ["ID"])
+    x_one_dim = pd.Series([4, 1, 1, "ab"], index=features + ["ID"])
     explanation = real_app.produce_feature_contributions(x_one_dim)
     explanation_a1 = explanation.sort_values(by="Feature Name", axis=0)
 
