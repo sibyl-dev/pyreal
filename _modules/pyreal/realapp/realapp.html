@@ -537,7 +537,7 @@ document.write(`
             <span class="c1"># Hacky way of fitting transformers, may want to clean up later</span>
             <span class="n">Explainer</span><span class="p">(</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">models</span><span class="p">[</span><span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">models</span><span class="p">))],</span>
-                <span class="n">X_train_orig</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">X_train_orig</span><span class="p">,</span>
                 <span class="n">transformers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">transformers</span><span class="p">,</span>
                 <span class="n">fit_transformers</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
             <span class="p">)</span>
@@ -692,14 +692,17 @@ document.write(`
             <span class="p">)</span>
 
         <span class="k">if</span> <span class="n">x_orig</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">series</span> <span class="o">=</span> <span class="n">x_orig</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">1</span>
             <span class="n">ids</span> <span class="o">=</span> <span class="kc">None</span>
 
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">id_column</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">id_column</span> <span class="ow">in</span> <span class="n">x_orig</span><span class="p">:</span>
                 <span class="n">ids</span> <span class="o">=</span> <span class="n">x_orig</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">id_column</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">series</span><span class="p">:</span>  <span class="c1"># If x was a series, ids will now be a scaler</span>
+                    <span class="n">ids</span> <span class="o">=</span> <span class="p">[</span><span class="n">ids</span><span class="p">]</span>
                 <span class="n">x_orig</span> <span class="o">=</span> <span class="n">x_orig</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">id_column</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">x_orig</span><span class="o">.</span><span class="n">ndim</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
 
             <span class="n">explanation</span> <span class="o">=</span> <span class="n">explainer</span><span class="o">.</span><span class="n">produce</span><span class="p">(</span><span class="n">x_orig</span><span class="p">,</span> <span class="o">**</span><span class="n">produce_kwargs</span><span class="p">)</span>
-            <span class="k">return</span> <span class="n">format_output_func</span><span class="p">(</span><span class="n">explanation</span><span class="p">,</span> <span class="n">ids</span><span class="p">,</span> <span class="n">series</span><span class="o">=</span><span class="p">(</span><span class="n">x_orig</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">1</span><span class="p">),</span> <span class="o">**</span><span class="n">format_kwargs</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">format_output_func</span><span class="p">(</span><span class="n">explanation</span><span class="p">,</span> <span class="n">ids</span><span class="p">,</span> <span class="n">series</span><span class="o">=</span><span class="n">series</span><span class="p">,</span> <span class="o">**</span><span class="n">format_kwargs</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">explanation</span> <span class="o">=</span> <span class="n">explainer</span><span class="o">.</span><span class="n">produce</span><span class="p">(</span><span class="o">**</span><span class="n">produce_kwargs</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">format_output_func</span><span class="p">(</span><span class="n">explanation</span><span class="p">,</span> <span class="o">**</span><span class="n">format_kwargs</span><span class="p">)</span>
