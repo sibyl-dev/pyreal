@@ -3,8 +3,10 @@ import pickle
 import numpy as np
 import pandas as pd
 import pytest
+from pandas.testing import assert_index_equal
 
 from pyreal import RealApp
+from pyreal.transformers import Transformer
 
 
 def test_initialization_one_model(regression_one_hot):
@@ -195,3 +197,25 @@ def test_no_dataset_on_init_or_fit_ensure_break(regression_no_transforms):
         explainer.produce_feature_contributions(x)
     with pytest.raises(ValueError):
         explainer.prepare_feature_importance()
+
+
+def test_fit_transformers(dummy_model):
+    class DummyTransformer(Transformer):
+        def __init__(self, **kwargs):
+            self.columns = None
+            super().__init__(**kwargs)
+
+        def fit(self, x):
+            self.columns = x.columns
+
+        def data_transform(self, x):
+            return x
+
+    x = pd.DataFrame([[1, 2, "ab"], [1, 2, ["bc"]]], columns=["A", "B", "ID"])
+    transformer = DummyTransformer()
+    RealApp(dummy_model, x, transformers=transformer, fit_transformers=True)
+    assert_index_equal(transformer.columns, x.columns)
+
+    transformer = DummyTransformer()
+    RealApp(dummy_model, x, transformers=transformer, fit_transformers=True, id_column="ID")
+    assert_index_equal(transformer.columns, x.drop(columns="ID").columns)
