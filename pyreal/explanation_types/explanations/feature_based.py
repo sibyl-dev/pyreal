@@ -1,6 +1,6 @@
 import pandas as pd
 
-from pyreal.explanation_types.explanations.base import Explanation
+from pyreal.explanation_types.explanations.base import Explanation, convert_columns_with_dict
 
 
 class FeatureBased(Explanation):
@@ -20,6 +20,12 @@ class FeatureBased(Explanation):
         super().validate()
         if not isinstance(self.explanation, pd.DataFrame):
             raise AssertionError("DataFrame explanations must be of type DataFrame")
+
+    def apply_feature_descriptions(self, feature_descriptions):
+        self.update_explanation(
+            convert_columns_with_dict(self.explanation, feature_descriptions), inplace=True
+        )
+        super().apply_feature_descriptions(feature_descriptions)
 
 
 class FeatureImportanceExplanation(FeatureBased):

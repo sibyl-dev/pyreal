@@ -51,15 +51,15 @@ class SimpleCounterfactualContribution(LocalFeatureContributionsBase):
         self.explainer_input_size = self.x_algo.shape[1]
         return self
 
-    def get_contributions(self, x_orig):
+    def produce_explanation(self, x_orig):
         """
-        Calculate the explanation of each feature in x using the sample counterfactural algorithm.
+        Calculate the explanation of each feature in x using the sample counterfactual algorithm.
 
         Args:
             x_orig (DataFrame of shape (n_instances, n_features)):
                The input to be explained
         Returns:
-            DataFrame of shape (n_instances, n_features):
+           FeatureContributionExplanation
                  The contribution of each feature
         """
         x = self.transform_to_x_algorithm(x_orig)

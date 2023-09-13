@@ -13,7 +13,6 @@ def test_produce_with_renames(regression_one_hot):
         e_algorithm="shap",
         fit_on_init=True,
         transformers=transforms,
-        interpretable_features=True,
         feature_descriptions=feature_descriptions,
     )
 
@@ -33,7 +32,6 @@ def test_produce_no_dataset_on_init(regression_one_hot):
         model=model["model"],
         e_algorithm="shap",
         transformers=transforms,
-        interpretable_features=True,
         feature_descriptions=feature_descriptions,
     )
     gfi.fit(x)

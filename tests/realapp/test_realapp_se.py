@@ -16,12 +16,12 @@ def test_produce_similar_examples(regression_one_hot_with_interpret):
         id_column="ID",
     )
 
-    explanation = real_app.produce_similar_examples(
-        pd.DataFrame([["id1", 6, 7, 9], ["id2", 2, 1, 1]], columns=["ID", "A", "B", "C"]), n=2
-    )
+    input_rows = pd.DataFrame([["id1", 6, 7, 9], ["id2", 2, 1, 1]], columns=["ID", "A", "B", "C"])
+    explanation = real_app.produce_similar_examples(input_rows, n=2)
     assert "id1" in explanation
     assert_frame_equal(explanation["id1"]["X"], x.iloc[[2, 1], :] + 1)
     assert_series_equal(explanation["id1"]["y"], y.iloc[[2, 1]])
+    assert_series_equal(explanation["id1"]["Input"], input_rows.iloc[0, 1:] + 1, check_dtype=False)
 
     assert "id2" in explanation
     assert_frame_equal(explanation["id2"]["X"], x.iloc[[3, 0], :] + 1)
@@ -78,3 +78,25 @@ def test_produce_similar_examples_with_standardization(dummy_model):
 
     assert_frame_equal(explanation["X"], x.iloc[[0, 2], :])
     assert_series_equal(explanation["y"], y.iloc[[0, 2]])
+
+
+def test_produce_similar_examples_with_format_func(regression_one_hot_with_interpret):
+    def format_func(pred):
+        return "test%i" % pred
+
+    x = pd.DataFrame([[2, 0, 0], [6, 6, 6], [6, 7, 8], [2, 0, 1]], columns=["A", "B", "C"])
+    y = pd.Series([1, 0, 0, 1])
+    real_app = RealApp(
+        regression_one_hot_with_interpret["model"],
+        X_train_orig=x,
+        y_train=y,
+        transformers=regression_one_hot_with_interpret["transformers"],
+        id_column="ID",
+        pred_format_func=format_func,
+    )
+
+    input_rows = pd.DataFrame([["id1", 6, 7, 9], ["id2", 2, 1, 1]], columns=["ID", "A", "B", "C"])
+    explanation = real_app.produce_similar_examples(input_rows, n=2)
+    assert_series_equal(explanation["id1"]["y"], y.iloc[[2, 1]].apply(format_func))
+    explanation = real_app.produce_similar_examples(input_rows, n=2, format_y=False)
+    assert_series_equal(explanation["id1"]["y"], y.iloc[[2, 1]])

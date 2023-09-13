@@ -245,5 +245,4 @@ def helper_produce_shap_classification_no_transforms_with_size(explainer):
     assert x_one_dim.shape == contributions.shape
 
     contributions = explainer.produce(x_multi_dim).get()
-    print(contributions)
     assert x_multi_dim.shape == contributions.shape

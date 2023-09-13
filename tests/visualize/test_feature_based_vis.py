@@ -3,10 +3,10 @@ import pandas as pd
 
 from pyreal import RealApp
 from pyreal.explainers import GlobalFeatureImportance, LocalFeatureContribution
-from pyreal.visualize import plot_top_contributors, swarm_plot
+from pyreal.visualize import feature_bar_plot, plot_explanation, strip_plot
 
 
-def test_plot_top_contributors_lfc_no_break(regression_no_transforms):
+def test_feature_bar_plot_lfc_no_break(regression_no_transforms):
     matplotlib.use("Agg")
 
     realApp = RealApp(
@@ -18,10 +18,11 @@ def test_plot_top_contributors_lfc_no_break(regression_no_transforms):
     x_one_dim = pd.DataFrame([[2, 10, 10]], columns=["A", "B", "C"])
     explanation = realApp.produce_feature_contributions(x_one_dim)
 
-    plot_top_contributors(explanation[next(iter(explanation))], show=False)
+    feature_bar_plot(explanation[next(iter(explanation))], show=False)
+    plot_explanation(explanation[next(iter(explanation))], show=False)
 
 
-def test_plot_top_contributors_gfi_no_break(regression_no_transforms):
+def test_feature_bar_plot_gfi_no_break(regression_no_transforms):
     matplotlib.use("Agg")
 
     realApp = RealApp(
@@ -32,10 +33,11 @@ def test_plot_top_contributors_gfi_no_break(regression_no_transforms):
 
     explanation = realApp.produce_feature_importance()
 
-    plot_top_contributors(explanation, show=False)
+    feature_bar_plot(explanation, show=False)
+    plot_explanation(explanation, show=False)
 
 
-def test_plot_top_contributors_lfc_object_no_break(regression_no_transforms):
+def test_feature_bar_plot_lfc_object_no_break(regression_no_transforms):
     matplotlib.use("Agg")
 
     lfc = LocalFeatureContribution(
@@ -48,10 +50,11 @@ def test_plot_top_contributors_lfc_object_no_break(regression_no_transforms):
 
     x_one_dim = pd.DataFrame([[2, 10, 10]], columns=["A", "B", "C"])
     explanation = lfc.produce(x_one_dim)
-    plot_top_contributors(explanation, show=False)
+    feature_bar_plot(explanation, show=False)
+    plot_explanation(explanation, show=False)
 
 
-def test_plot_top_contributors_gfi_object_no_break(regression_no_transforms):
+def test_feature_bar_plot_gfi_object_no_break(regression_no_transforms):
     matplotlib.use("Agg")
 
     lfc = GlobalFeatureImportance(
@@ -63,7 +66,8 @@ def test_plot_top_contributors_gfi_object_no_break(regression_no_transforms):
     )
 
     explanation = lfc.produce()
-    plot_top_contributors(explanation, show=False)
+    feature_bar_plot(explanation, show=False)
+    plot_explanation(explanation, show=False)
 
 
 def test_plot_swarm_lfc_no_break(regression_no_transforms):
@@ -80,7 +84,9 @@ def test_plot_swarm_lfc_no_break(regression_no_transforms):
     )
     explanation = realApp.produce_feature_contributions(x_multi_dim)
 
-    swarm_plot(explanation, show=False)
+    strip_plot(explanation, show=False)
+    strip_plot(explanation, show_legend=False, marker_size=5, size=5, palette="dark")
+    plot_explanation(explanation, show=False)
 
 
 def test_swarm_plot_lfc_object_no_break(regression_no_transforms):
@@ -98,4 +104,5 @@ def test_swarm_plot_lfc_object_no_break(regression_no_transforms):
         [[2, 10, 10], [2, 10, 10], [2, 2, 2], [1, 1, 1]], columns=["A", "B", "C"]
     )
     explanation = lfc.produce(x_multi_dim)
-    swarm_plot(explanation, show=False)
+    strip_plot(explanation, show=False)
+    plot_explanation(explanation, show=False)
