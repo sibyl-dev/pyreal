@@ -213,7 +213,7 @@ class RealApp:
             # Hacky way of fitting transformers, may want to clean up later
             Explainer(
                 self.models[next(iter(self.models))],
-                X_train_orig,
+                self.X_train_orig,
                 transformers=self.transformers,
                 fit_transformers=True,
             )
