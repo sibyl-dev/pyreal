@@ -6,7 +6,7 @@ from pyreal.transformers import Transformer
 from pyreal.transformers.wrappers import DataFrameWrapper
 
 
-class MinMaxScaler:
+class MinMaxScaler(Transformer):
     """
 
     Directly implements a sklearn MinMaxScaler into Pyreal.
@@ -14,7 +14,7 @@ class MinMaxScaler:
 
     """
 
-    def __init__(self, feature_range=(0, 1), *, clip=False):
+    def __init__(self, feature_range=(0, 1), clip=False, **kwargs):
         """
         Initialize a wrapped transformer and DataFrameWrapper, then wrap the DataFrameWrapper
 
@@ -28,6 +28,7 @@ class MinMaxScaler:
         self.wrapped_transformer = DataFrameWrapper(
             SklearnMinMaxScaler(feature_range, copy=True, clip=clip)
         )
+        super().__init__(*kwargs)
 
     def fit(self, X, y=None):
         """computes per-feature min & max (self.data_min_, self.data_max_)
@@ -78,8 +79,8 @@ class MinMaxScaler:
         return self.wrapped_transformer.transform(X)
 
 
-class Normalizer:
-    def __init__(self, norm="l2"):
+class Normalizer(Transformer):
+    def __init__(self, norm="l2", **kwargs):
         """
         Initialize a wrapped transformer and DataFrameWrapper, then wrap the DataFrameWrapper
 
@@ -90,6 +91,7 @@ class Normalizer:
                                   Can take values {‘l1’, ‘l2’, ‘max’}. Defaults to 'l2'.
         """
         self.data_frame_wrapper = DataFrameWrapper(SklearnNormalizer(norm, copy=True))
+        super().__init__(**kwargs)
 
     def fit(self, X, y=None):
         """Fits a dataset to the transformer
@@ -128,7 +130,7 @@ class Normalizer:
 
 
 class StandardScaler(Transformer):
-    def __init__(self, *, with_mean=True, with_std=True):
+    def __init__(self, *, with_mean=True, with_std=True, **kwargs):
         """
         Creates a pyreal StandardScaler, and wraps it a DataFrameWrapper,
         then wraps the DataFrameWrapper
@@ -142,6 +144,7 @@ class StandardScaler(Transformer):
         self.wrapped_transformer = DataFrameWrapper(
             SklearnStandardScaler(copy=True, with_mean=with_mean, with_std=with_std)
         )
+        super().__init__(**kwargs)
 
     def fit(self, X, y=None, sample_weight=None):
         """Fits a dataset to the transformer
