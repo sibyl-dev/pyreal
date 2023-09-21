@@ -347,8 +347,8 @@ document.write(`
 
 <span class="k">def</span> <span class="nf">_parse_multi_contribution</span><span class="p">(</span><span class="n">explanation</span><span class="p">):</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">explanation</span><span class="p">,</span> <span class="n">FeatureContributionExplanation</span><span class="p">):</span>
-        <span class="n">contributions</span> <span class="o">=</span> <span class="n">explanation</span><span class="o">.</span><span class="n">get_values</span><span class="p">()</span>
-        <span class="n">values</span> <span class="o">=</span> <span class="n">explanation</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="n">contributions</span> <span class="o">=</span> <span class="n">explanation</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="n">values</span> <span class="o">=</span> <span class="n">explanation</span><span class="o">.</span><span class="n">get_values</span><span class="p">()</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">contribution_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">explanation</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s2">&quot;Contribution&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">explanation</span><span class="p">]</span>
         <span class="n">value_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">explanation</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s2">&quot;Feature Value&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">explanation</span><span class="p">]</span>
