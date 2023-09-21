@@ -23,8 +23,8 @@ from pyreal.visualize.visualize_config import (
 
 def _parse_multi_contribution(explanation):
     if isinstance(explanation, FeatureContributionExplanation):
-        contributions = explanation.get_values()
-        values = explanation.get()
+        contributions = explanation.get()
+        values = explanation.get_values()
     else:
         contribution_list = [explanation[i]["Contribution"] for i in explanation]
         value_list = [explanation[i]["Feature Value"] for i in explanation]
