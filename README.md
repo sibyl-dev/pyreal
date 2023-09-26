@@ -18,7 +18,7 @@
 Library for generating useful and usable machine learning explanations.
 
 -   License: MIT
--   Documentation: https://pyreal.gitbook.io/pyreal
+-   Documentation: [https://pyreal.gitbook.io/pyreal](https://dtail.gitbook.io/pyreal/)
 -   API Documentation: https://sibyl-ml.dev/pyreal/api_reference/index.html
 -   Homepage: https://sibyl-ml.dev/
 
