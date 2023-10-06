@@ -94,7 +94,7 @@ def classification_no_transforms(test_root):
     y = pd.Series([1, 1, 3])
     model_no_transforms = LogisticRegression()
     model_no_transforms.fit(x, pd.Series([1, 2, 3]))
-    model_no_transforms.coef_ = np.array([[0, 1, 0], [0, 1, 0], [0, 0, 1]])
+    model_no_transforms.coef_ = np.array([[0.0, 1.0, 0.0], [0.0, 1.0, 0.0], [0.0, 0.0, 1.0]])
     model_no_transforms.intercept_ = np.array([0])
     model_no_transforms_filename = os.path.join(test_root, "data", "model_no_transforms.pkl")
     with open(model_no_transforms_filename, "wb") as f:
@@ -106,6 +106,7 @@ def classification_no_transforms(test_root):
         "x": x,
         "y": y,
         "classes": np.arange(1, 4),
+        "coefs": model_no_transforms.coef_,
     }
 
 
@@ -115,7 +116,7 @@ def binary_classification_no_transforms(test_root):
     y = pd.Series([1, 1, 0])
     model_no_transforms = LogisticRegression()
     model_no_transforms.fit(x, pd.Series([1, 2, 3]))
-    model_no_transforms.coef_ = np.array([[0, 1, 0], [0, 1, 0], [0, 0, 1]])
+    model_no_transforms.coef_ = np.array([[0.0, 1.0, 0.0], [0.0, 1.0, 0.0], [0.0, 0.0, 1.0]])
     model_no_transforms.intercept_ = np.array([0])
     model_no_transforms_filename = os.path.join(test_root, "data", "model_no_transforms.pkl")
     with open(model_no_transforms_filename, "wb") as f:

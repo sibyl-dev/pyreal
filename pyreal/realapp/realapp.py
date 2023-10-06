@@ -468,6 +468,49 @@ class RealApp:
                 preds_dict[row_id] = preds[i]
         return preds_dict
 
+    def predict_proba(self, x, model_id=None, as_dict=None, format=True):
+        """
+        Return the predicted probabilities of x using the active model or
+        model specified by model_id, only if the model has a predict_proba method
+
+        Args:
+            x (DataFrame of shape (n_instances, n_features) or Series of len n_features):
+                Data to predict on
+            model_id (int or string):
+                Model to use for prediction
+            as_dict (Boolean):
+                If False, return predictions as a single Series/List. Otherwise, return
+                in {row_id: pred} format. Defaults to True if x is a DataFrame, False otherwise
+            format (Boolean):
+                If False, do not run the realapp's format function on this output
+
+        Returns:
+            (model return type)
+                Model prediction on x in terms of probability
+        """
+        if as_dict is None:
+            as_dict = x.ndim > 1
+        if self.id_column is not None and self.id_column in x:
+            ids = x[self.id_column]
+            x = x.drop(self.id_column, axis=x.ndim - 1)
+        else:
+            ids = x.index
+        if model_id is None:
+            model_id = self.active_model_id
+
+        preds = self.base_explainers[model_id].model_predict_proba(x)
+        if not as_dict:
+            if format and self.pred_format_func is not None:
+                return [self.pred_format_func(pred) for pred in preds]
+            return preds
+        preds_dict = {}
+        for i, row_id in enumerate(ids):
+            if format and self.pred_format_func is not None:
+                preds_dict[row_id] = self.pred_format_func(preds[i])
+            else:
+                preds_dict[row_id] = preds[i]
+        return preds_dict
+
     def prepare_feature_contributions(
         self,
         x_train_orig=None,
