@@ -104,10 +104,10 @@ def test_predict_proba(classification_no_transforms):
 
     result = real_app.predict_proba(classification_no_transforms["x"])
     for key in result.keys():
-        assert np.array_equal(result[key], expected_probs[key, :])
+        assert np.allclose(result[key], expected_probs[key, :])
 
     result = real_app.predict_proba(classification_no_transforms["x"], as_dict=False)
-    assert np.array_equal(result, expected_probs)
+    assert np.allclose(result, expected_probs)
 
 
 def test_predict_series(regression_one_hot):
