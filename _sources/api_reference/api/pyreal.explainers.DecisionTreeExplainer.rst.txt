@@ -22,6 +22,7 @@
       ~DecisionTreeExplainer.fit
       ~DecisionTreeExplainer.model_predict
       ~DecisionTreeExplainer.model_predict_on_algorithm
+      ~DecisionTreeExplainer.model_predict_proba
       ~DecisionTreeExplainer.produce
       ~DecisionTreeExplainer.produce_explanation
       ~DecisionTreeExplainer.produce_explanation_interpret

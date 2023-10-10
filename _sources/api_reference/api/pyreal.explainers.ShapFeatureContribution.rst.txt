@@ -22,6 +22,7 @@
       ~ShapFeatureContribution.fit
       ~ShapFeatureContribution.model_predict
       ~ShapFeatureContribution.model_predict_on_algorithm
+      ~ShapFeatureContribution.model_predict_proba
       ~ShapFeatureContribution.produce
       ~ShapFeatureContribution.produce_explanation
       ~ShapFeatureContribution.produce_explanation_interpret

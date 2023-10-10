@@ -22,6 +22,7 @@
       ~PartialDependenceExplainerBase.fit
       ~PartialDependenceExplainerBase.model_predict
       ~PartialDependenceExplainerBase.model_predict_on_algorithm
+      ~PartialDependenceExplainerBase.model_predict_proba
       ~PartialDependenceExplainerBase.produce
       ~PartialDependenceExplainerBase.produce_explanation
       ~PartialDependenceExplainerBase.produce_explanation_interpret

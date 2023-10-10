@@ -22,6 +22,7 @@
       ~GlobalFeatureImportance.fit
       ~GlobalFeatureImportance.model_predict
       ~GlobalFeatureImportance.model_predict_on_algorithm
+      ~GlobalFeatureImportance.model_predict_proba
       ~GlobalFeatureImportance.produce
       ~GlobalFeatureImportance.produce_explanation
       ~GlobalFeatureImportance.produce_explanation_interpret

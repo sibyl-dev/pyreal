@@ -635,28 +635,31 @@ default names</p></li>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">model_predict_on_algorithm</span></code>(x_algorithm)</p></td>
 <td><p>Predict on x_algorithm using the model and return the result</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="pyreal.explainers.Explainer.produce.html#pyreal.explainers.Explainer.produce" title="pyreal.explainers.Explainer.produce"><code class="xref py py-obj docutils literal notranslate"><span class="pre">produce</span></code></a>([x_orig, disable_feature_descriptions])</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">model_predict_proba</span></code>(x_orig)</p></td>
+<td><p>Return the output probabilities of each class for x_orig</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="pyreal.explainers.Explainer.produce.html#pyreal.explainers.Explainer.produce" title="pyreal.explainers.Explainer.produce"><code class="xref py py-obj docutils literal notranslate"><span class="pre">produce</span></code></a>([x_orig, disable_feature_descriptions])</p></td>
 <td><p>Return the explanation, in the desired form.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">produce_explanation</span></code>([x_orig])</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">produce_explanation</span></code>([x_orig])</p></td>
 <td><p>Produce the explanation</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">produce_explanation_interpret</span></code>(x_orig, **kwargs)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">produce_explanation_interpret</span></code>(x_orig, **kwargs)</p></td>
 <td><p>Produce an interpretable explanation and corresponding values</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_explanation</span></code>(explanation[, x_orig])</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_explanation</span></code>(explanation[, x_orig])</p></td>
 <td><p>Transform the explanation into its interpretable form, by running the e_transformer's &quot;inverse_transform_explanation&quot; and i_transformers &quot;transform_explanation&quot; functions.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_to_x_algorithm</span></code>(x_orig)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_to_x_algorithm</span></code>(x_orig)</p></td>
 <td><p>Transform x_orig to x_algorithm, using the algorithm transformers</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_to_x_interpret</span></code>(x_orig)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_to_x_interpret</span></code>(x_orig)</p></td>
 <td><p>Transform x_orig to x_interpret, using the interpret transformers :param x_orig: Original input :type x_orig: DataFrame of shape (n_instances, x_orig_feature_count) or Series</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_to_x_model</span></code>(x_orig)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_to_x_model</span></code>(x_orig)</p></td>
 <td><p>Transform x_orig to x_model, using the model transformers</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_x_from_algorithm_to_model</span></code>(x_algorithm)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_x_from_algorithm_to_model</span></code>(x_algorithm)</p></td>
 <td><p>Transform x_algorithm to x_model, using the model transformers</p></td>
 </tr>
 </tbody>

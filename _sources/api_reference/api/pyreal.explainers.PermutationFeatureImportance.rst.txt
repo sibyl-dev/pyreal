@@ -22,6 +22,7 @@
       ~PermutationFeatureImportance.fit
       ~PermutationFeatureImportance.model_predict
       ~PermutationFeatureImportance.model_predict_on_algorithm
+      ~PermutationFeatureImportance.model_predict_proba
       ~PermutationFeatureImportance.produce
       ~PermutationFeatureImportance.produce_explanation
       ~PermutationFeatureImportance.produce_explanation_interpret

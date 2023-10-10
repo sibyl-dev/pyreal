@@ -792,6 +792,49 @@ document.write(`
                 <span class="n">preds_dict</span><span class="p">[</span><span class="n">row_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">preds</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
         <span class="k">return</span> <span class="n">preds_dict</span></div>
 
+    <span class="k">def</span> <span class="nf">predict_proba</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">model_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">as_dict</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the predicted probabilities of x using the active model or</span>
+<span class="sd">        model specified by model_id, only if the model has a predict_proba method</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            x (DataFrame of shape (n_instances, n_features) or Series of len n_features):</span>
+<span class="sd">                Data to predict on</span>
+<span class="sd">            model_id (int or string):</span>
+<span class="sd">                Model to use for prediction</span>
+<span class="sd">            as_dict (Boolean):</span>
+<span class="sd">                If False, return predictions as a single Series/List. Otherwise, return</span>
+<span class="sd">                in {row_id: pred} format. Defaults to True if x is a DataFrame, False otherwise</span>
+<span class="sd">            format (Boolean):</span>
+<span class="sd">                If False, do not run the realapp&#39;s format function on this output</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            (model return type)</span>
+<span class="sd">                Model prediction on x in terms of probability</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">as_dict</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">as_dict</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">ndim</span> <span class="o">&gt;</span> <span class="mi">1</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">id_column</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">id_column</span> <span class="ow">in</span> <span class="n">x</span><span class="p">:</span>
+            <span class="n">ids</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">id_column</span><span class="p">]</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">id_column</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">ndim</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">ids</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">index</span>
+        <span class="k">if</span> <span class="n">model_id</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">model_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">active_model_id</span>
+
+        <span class="n">preds</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_explainers</span><span class="p">[</span><span class="n">model_id</span><span class="p">]</span><span class="o">.</span><span class="n">model_predict_proba</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">as_dict</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">format</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">pred_format_func</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">pred_format_func</span><span class="p">(</span><span class="n">pred</span><span class="p">)</span> <span class="k">for</span> <span class="n">pred</span> <span class="ow">in</span> <span class="n">preds</span><span class="p">]</span>
+            <span class="k">return</span> <span class="n">preds</span>
+        <span class="n">preds_dict</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">row_id</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">ids</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">format</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">pred_format_func</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">preds_dict</span><span class="p">[</span><span class="n">row_id</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pred_format_func</span><span class="p">(</span><span class="n">preds</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">preds_dict</span><span class="p">[</span><span class="n">row_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">preds</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">preds_dict</span>
+
     <span class="k">def</span> <span class="nf">prepare_feature_contributions</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">x_train_orig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>

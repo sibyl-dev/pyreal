@@ -22,6 +22,7 @@
       ~SurrogateDecisionTree.fit
       ~SurrogateDecisionTree.model_predict
       ~SurrogateDecisionTree.model_predict_on_algorithm
+      ~SurrogateDecisionTree.model_predict_proba
       ~SurrogateDecisionTree.produce
       ~SurrogateDecisionTree.produce_explanation
       ~SurrogateDecisionTree.produce_explanation_interpret

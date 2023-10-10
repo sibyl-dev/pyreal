@@ -22,6 +22,7 @@
       ~LocalFeatureContributionsBase.fit
       ~LocalFeatureContributionsBase.model_predict
       ~LocalFeatureContributionsBase.model_predict_on_algorithm
+      ~LocalFeatureContributionsBase.model_predict_proba
       ~LocalFeatureContributionsBase.produce
       ~LocalFeatureContributionsBase.produce_explanation
       ~LocalFeatureContributionsBase.produce_explanation_interpret

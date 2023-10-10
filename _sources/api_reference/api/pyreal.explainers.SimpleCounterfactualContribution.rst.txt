@@ -22,6 +22,7 @@
       ~SimpleCounterfactualContribution.fit
       ~SimpleCounterfactualContribution.model_predict
       ~SimpleCounterfactualContribution.model_predict_on_algorithm
+      ~SimpleCounterfactualContribution.model_predict_proba
       ~SimpleCounterfactualContribution.produce
       ~SimpleCounterfactualContribution.produce_explanation
       ~SimpleCounterfactualContribution.produce_explanation_interpret

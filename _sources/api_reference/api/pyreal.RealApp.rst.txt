@@ -17,6 +17,7 @@
       ~RealApp.add_model
       ~RealApp.get_active_model
       ~RealApp.predict
+      ~RealApp.predict_proba
       ~RealApp.prepare_feature_contributions
       ~RealApp.prepare_feature_importance
       ~RealApp.prepare_similar_examples

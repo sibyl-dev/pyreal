@@ -22,6 +22,7 @@
       ~ExplainerBase.fit
       ~ExplainerBase.model_predict
       ~ExplainerBase.model_predict_on_algorithm
+      ~ExplainerBase.model_predict_proba
       ~ExplainerBase.produce
       ~ExplainerBase.produce_explanation
       ~ExplainerBase.produce_explanation_interpret

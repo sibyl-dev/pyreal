@@ -22,6 +22,7 @@
       ~SimilarExamplesBase.fit
       ~SimilarExamplesBase.model_predict
       ~SimilarExamplesBase.model_predict_on_algorithm
+      ~SimilarExamplesBase.model_predict_proba
       ~SimilarExamplesBase.produce
       ~SimilarExamplesBase.produce_explanation
       ~SimilarExamplesBase.produce_explanation_interpret

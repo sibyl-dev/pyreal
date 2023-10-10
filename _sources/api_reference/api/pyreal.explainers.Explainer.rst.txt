@@ -22,6 +22,7 @@
       ~Explainer.fit
       ~Explainer.model_predict
       ~Explainer.model_predict_on_algorithm
+      ~Explainer.model_predict_proba
       ~Explainer.produce
       ~Explainer.produce_explanation
       ~Explainer.produce_explanation_interpret
