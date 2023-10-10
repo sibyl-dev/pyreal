@@ -417,6 +417,25 @@ class ExplainerBase(ABC):
         x_model = self.transform_to_x_model(x_orig)
         return self.model.predict(x_model)
 
+    def model_predict_proba(self, x_orig):
+        """
+        Return the output probabilities of each class for x_orig
+
+        Args:
+            x_orig (DataFrame of shape (n_instances, x_orig_feature_count)):
+                Data to predict on
+
+        Returns:
+            DataFrame of shape (n_instances, n_classes)
+                Model output probabilities on x_orig
+        """
+        if not hasattr(self.model, "predict_proba"):
+            raise AttributeError("Model does not have a predict_proba method.")
+        if x_orig.ndim == 1:
+            x_orig = x_orig.to_frame().T
+        x_model = self.transform_to_x_model(x_orig)
+        return self.model.predict_proba(x_model)
+
     def model_predict_on_algorithm(self, x_algorithm):
         """
         Predict on x_algorithm using the model and return the result

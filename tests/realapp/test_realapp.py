@@ -89,6 +89,27 @@ def test_predict(regression_one_hot):
     assert np.array_equal(result, expected)
 
 
+def test_predict_proba(classification_no_transforms):
+    real_app = RealApp(
+        classification_no_transforms["model"],
+        classification_no_transforms["x"],
+        transformers=classification_no_transforms["transformers"],
+        classes=classification_no_transforms["classes"],
+    )
+
+    quantity = (
+        classification_no_transforms["coefs"].T @ classification_no_transforms["x"].to_numpy()
+    )
+    expected_probs = np.exp(quantity) / np.sum(np.exp(quantity), axis=1, keepdims=True)
+
+    result = real_app.predict_proba(classification_no_transforms["x"])
+    for key in result.keys():
+        assert np.allclose(result[key], expected_probs[key, :])
+
+    result = real_app.predict_proba(classification_no_transforms["x"], as_dict=False)
+    assert np.allclose(result, expected_probs)
+
+
 def test_predict_series(regression_one_hot):
     real_app = RealApp(
         regression_one_hot["model"],
