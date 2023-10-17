@@ -58,7 +58,7 @@ pytest-cov = ">=4.0.0"
 nbmake = "^1.4.1"
 
 # Style Dependencies
-flake8 = "^5.0.4"
+flake8 = ">=5.0.4,<7.0.0"
 isort = "^5.11.4"
 black = "^23.1.0"
 
