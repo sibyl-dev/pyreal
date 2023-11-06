@@ -1,6 +1,0 @@
-﻿pyreal.explanation\_types.explanations.base.Explanation.validate
-================================================================
-
-.. currentmodule:: pyreal.explanation_types.explanations.base
-
-.. automethod:: Explanation.validate

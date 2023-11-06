@@ -1,0 +1,6 @@
+﻿pyreal.explanation\_types.feature\_based.FeatureBased.get
+=========================================================
+
+.. currentmodule:: pyreal.explanation_types.feature_based
+
+.. automethod:: FeatureBased.get

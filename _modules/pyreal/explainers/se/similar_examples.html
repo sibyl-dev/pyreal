@@ -327,8 +327,8 @@ document.write(`
 <span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">StandardScaler</span>
 
 <span class="kn">from</span> <span class="nn">pyreal.explainers.se.base</span> <span class="kn">import</span> <span class="n">SimilarExamplesBase</span>
-<span class="kn">from</span> <span class="nn">pyreal.explanation_types.explanations.base</span> <span class="kn">import</span> <span class="n">convert_columns_with_dict</span>
-<span class="kn">from</span> <span class="nn">pyreal.explanation_types.explanations.example_based</span> <span class="kn">import</span> <span class="n">SimilarExampleExplanation</span>
+<span class="kn">from</span> <span class="nn">pyreal.explanation_types</span> <span class="kn">import</span> <span class="n">SimilarExampleExplanation</span>
+<span class="kn">from</span> <span class="nn">pyreal.explanation_types.base</span> <span class="kn">import</span> <span class="n">convert_columns_with_dict</span>
 
 
 <div class="viewcode-block" id="SimilarExamples"><a class="viewcode-back" href="../../../../api_reference/api/pyreal.explainers.SimilarExamples.html#pyreal.explainers.SimilarExamples">[docs]</a><span class="k">class</span> <span class="nc">SimilarExamples</span><span class="p">(</span><span class="n">SimilarExamplesBase</span><span class="p">):</span>

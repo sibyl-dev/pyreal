@@ -1,0 +1,30 @@
+﻿pyreal.explanation\_types.feature\_value\_based.FeatureValueBased
+=================================================================
+
+.. currentmodule:: pyreal.explanation_types.feature_value_based
+
+.. autoclass:: FeatureValueBased
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~FeatureValueBased.__init__
+      ~FeatureValueBased.apply_feature_descriptions
+      ~FeatureValueBased.get
+      ~FeatureValueBased.get_all
+      ~FeatureValueBased.get_values
+      ~FeatureValueBased.update_explanation
+      ~FeatureValueBased.update_values
+      ~FeatureValueBased.validate
+      ~FeatureValueBased.validate_values
+   
+   
+
+   
+   
+   

@@ -327,13 +327,13 @@ document.write(`
 
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 
-<span class="kn">from</span> <span class="nn">pyreal.explanation_types.explanations.base</span> <span class="kn">import</span> <span class="n">Explanation</span>
-<span class="kn">from</span> <span class="nn">pyreal.explanation_types.explanations.decision_tree</span> <span class="kn">import</span> <span class="n">DecisionTreeExplanation</span>
-<span class="kn">from</span> <span class="nn">pyreal.explanation_types.explanations.example_based</span> <span class="kn">import</span> <span class="p">(</span>
+<span class="kn">from</span> <span class="nn">pyreal.explanation_types.base</span> <span class="kn">import</span> <span class="n">Explanation</span>
+<span class="kn">from</span> <span class="nn">pyreal.explanation_types.decision_tree</span> <span class="kn">import</span> <span class="n">DecisionTreeExplanation</span>
+<span class="kn">from</span> <span class="nn">pyreal.explanation_types.example_based</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">ExampleBasedExplanation</span><span class="p">,</span>
     <span class="n">SimilarExampleExplanation</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">pyreal.explanation_types.explanations.feature_based</span> <span class="kn">import</span> <span class="p">(</span>
+<span class="kn">from</span> <span class="nn">pyreal.explanation_types.feature_based</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">AdditiveFeatureContributionExplanation</span><span class="p">,</span>
     <span class="n">AdditiveFeatureImportanceExplanation</span><span class="p">,</span>
     <span class="n">FeatureBased</span><span class="p">,</span>

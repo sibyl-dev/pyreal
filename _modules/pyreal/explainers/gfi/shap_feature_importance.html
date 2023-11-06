@@ -328,9 +328,7 @@ document.write(`
 <span class="kn">from</span> <span class="nn">shap</span> <span class="kn">import</span> <span class="n">KernelExplainer</span><span class="p">,</span> <span class="n">LinearExplainer</span><span class="p">,</span> <span class="n">TreeExplainer</span>
 
 <span class="kn">from</span> <span class="nn">pyreal.explainers</span> <span class="kn">import</span> <span class="n">GlobalFeatureImportanceBase</span>
-<span class="kn">from</span> <span class="nn">pyreal.explanation_types.explanations.feature_based</span> <span class="kn">import</span> <span class="p">(</span>
-    <span class="n">AdditiveFeatureImportanceExplanation</span><span class="p">,</span>
-<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">pyreal.explanation_types</span> <span class="kn">import</span> <span class="n">AdditiveFeatureImportanceExplanation</span>
 
 
 <div class="viewcode-block" id="ShapFeatureImportance"><a class="viewcode-back" href="../../../../api_reference/api/pyreal.explainers.ShapFeatureImportance.html#pyreal.explainers.ShapFeatureImportance">[docs]</a><span class="k">class</span> <span class="nc">ShapFeatureImportance</span><span class="p">(</span><span class="n">GlobalFeatureImportanceBase</span><span class="p">):</span>

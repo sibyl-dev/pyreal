@@ -1,0 +1,6 @@
+﻿pyreal.explanation\_types.feature\_based.AdditiveFeatureContributionExplanation.get
+===================================================================================
+
+.. currentmodule:: pyreal.explanation_types.feature_based
+
+.. automethod:: AdditiveFeatureContributionExplanation.get

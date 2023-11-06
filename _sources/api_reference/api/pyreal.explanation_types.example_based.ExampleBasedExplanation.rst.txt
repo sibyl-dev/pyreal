@@ -1,0 +1,34 @@
+﻿pyreal.explanation\_types.example\_based.ExampleBasedExplanation
+================================================================
+
+.. currentmodule:: pyreal.explanation_types.example_based
+
+.. autoclass:: ExampleBasedExplanation
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~ExampleBasedExplanation.__init__
+      ~ExampleBasedExplanation.apply_feature_descriptions
+      ~ExampleBasedExplanation.get
+      ~ExampleBasedExplanation.get_all
+      ~ExampleBasedExplanation.get_examples
+      ~ExampleBasedExplanation.get_row_ids
+      ~ExampleBasedExplanation.get_targets
+      ~ExampleBasedExplanation.get_values
+      ~ExampleBasedExplanation.update_examples
+      ~ExampleBasedExplanation.update_explanation
+      ~ExampleBasedExplanation.update_values
+      ~ExampleBasedExplanation.validate
+      ~ExampleBasedExplanation.validate_values
+   
+   
+
+   
+   
+   
