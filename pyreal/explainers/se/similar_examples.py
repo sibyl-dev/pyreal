@@ -3,6 +3,7 @@ from sklearn.neighbors import KDTree
 from sklearn.preprocessing import StandardScaler
 
 from pyreal.explainers.se.base import SimilarExamplesBase
+from pyreal.explanation_types.explanations.base import convert_columns_with_dict
 from pyreal.explanation_types.explanations.example_based import SimilarExampleExplanation
 
 
@@ -28,6 +29,8 @@ class SimilarExamples(SimilarExamplesBase):
         self.explainer = None
         self.standardize = standardize
         self.standardizer = None
+        self.x_train_interpret = None
+        self.x_train_interpret_features = None
         super(SimilarExamples, self).__init__(model, x_train_orig, **kwargs)
 
     def fit(self, x_train_orig=None, y_train=None):
@@ -48,8 +51,10 @@ class SimilarExamples(SimilarExamplesBase):
             dataset = self.standardizer.fit_transform(dataset)
         self.explainer = KDTree(dataset)
         self.y_train = y_train
-        self.x_train_orig = x_train_orig
-
+        self.x_train_interpret = self.transform_to_x_interpret(x_train_orig)
+        self.x_train_interpret_features = convert_columns_with_dict(
+            self.x_train_interpret, self.feature_descriptions
+        )
         return self
 
     def produce_explanation_interpret(self, x_orig, disable_feature_descriptions=False, n=5):
@@ -69,6 +74,9 @@ class SimilarExamples(SimilarExamplesBase):
         """
         if self.explainer is None:
             raise AttributeError("Instance has no explainer. Must call fit() before produce()")
+        x_train_interpret = self.x_train_interpret_features
+        if disable_feature_descriptions:  # Running this here for optimization
+            x_train_interpret = self.x_train_interpret
         x = self.transform_to_x_algorithm(x_orig)
         if self.standardize:
             x = self.standardizer.transform(x)
@@ -76,13 +84,12 @@ class SimilarExamples(SimilarExamplesBase):
         raw_explanation_x = {}
         raw_explanation_y = {}
         for i in range(len(inds)):
-            raw_explanation_x[i] = self.x_train_orig.iloc[inds[i], :]
+            raw_explanation_x[i] = x_train_interpret.iloc[inds[i], :]
             raw_explanation_y[i] = pd.Series(self.y_train.iloc[inds[i]].squeeze())
         x_interpret = self.transform_to_x_interpret(x_orig)
         explanation = SimilarExampleExplanation(
             (raw_explanation_x, raw_explanation_y), x_interpret
         )
-        explanation.update_examples(self.transform_to_x_interpret)
         return explanation
 
     def produce_explanation(self, x_orig, **kwargs):
