@@ -213,7 +213,7 @@ class RealApp:
             # Hacky way of fitting transformers, may want to clean up later
             Explainer(
                 self.models[next(iter(self.models))],
-                X_train_orig,
+                self.X_train_orig,
                 transformers=self.transformers,
                 fit_transformers=True,
             )
@@ -368,14 +368,17 @@ class RealApp:
             )
 
         if x_orig is not None:
+            series = x_orig.ndim == 1
             ids = None
 
             if self.id_column is not None and self.id_column in x_orig:
                 ids = x_orig[self.id_column]
+                if series:  # If x was a series, ids will now be a scaler
+                    ids = [ids]
                 x_orig = x_orig.drop(self.id_column, axis=x_orig.ndim - 1)
 
             explanation = explainer.produce(x_orig, **produce_kwargs)
-            return format_output_func(explanation, ids, series=(x_orig.ndim == 1), **format_kwargs)
+            return format_output_func(explanation, ids, series=series, **format_kwargs)
         else:
             explanation = explainer.produce(**produce_kwargs)
             return format_output_func(explanation, **format_kwargs)
@@ -453,6 +456,49 @@ class RealApp:
             model_id = self.active_model_id
 
         preds = self.base_explainers[model_id].model_predict(x)
+        if not as_dict:
+            if format and self.pred_format_func is not None:
+                return [self.pred_format_func(pred) for pred in preds]
+            return preds
+        preds_dict = {}
+        for i, row_id in enumerate(ids):
+            if format and self.pred_format_func is not None:
+                preds_dict[row_id] = self.pred_format_func(preds[i])
+            else:
+                preds_dict[row_id] = preds[i]
+        return preds_dict
+
+    def predict_proba(self, x, model_id=None, as_dict=None, format=True):
+        """
+        Return the predicted probabilities of x using the active model or
+        model specified by model_id, only if the model has a predict_proba method
+
+        Args:
+            x (DataFrame of shape (n_instances, n_features) or Series of len n_features):
+                Data to predict on
+            model_id (int or string):
+                Model to use for prediction
+            as_dict (Boolean):
+                If False, return predictions as a single Series/List. Otherwise, return
+                in {row_id: pred} format. Defaults to True if x is a DataFrame, False otherwise
+            format (Boolean):
+                If False, do not run the realapp's format function on this output
+
+        Returns:
+            (model return type)
+                Model prediction on x in terms of probability
+        """
+        if as_dict is None:
+            as_dict = x.ndim > 1
+        if self.id_column is not None and self.id_column in x:
+            ids = x[self.id_column]
+            x = x.drop(self.id_column, axis=x.ndim - 1)
+        else:
+            ids = x.index
+        if model_id is None:
+            model_id = self.active_model_id
+
+        preds = self.base_explainers[model_id].model_predict_proba(x)
         if not as_dict:
             if format and self.pred_format_func is not None:
                 return [self.pred_format_func(pred) for pred in preds]

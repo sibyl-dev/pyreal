@@ -30,6 +30,7 @@ from pyreal.transformers.time_series_formatter import (
 from pyreal.transformers.wrappers import DataFrameWrapper
 from pyreal.transformers.pad import TimeSeriesPadder
 from pyreal.transformers.type_cast import BoolToIntCaster
+from pyreal.transformers.scale import MinMaxScaler, StandardScaler, Normalizer
 
 __all__ = [
     "Transformer",
@@ -59,4 +60,7 @@ __all__ = [
     "Pandas2dToMultiIndexFrame",
     "TimeSeriesPadder",
     "BoolToIntCaster",
+    "MinMaxScaler",
+    "Normalizer",
+    "StandardScaler",
 ]

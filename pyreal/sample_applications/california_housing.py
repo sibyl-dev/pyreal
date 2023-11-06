@@ -16,13 +16,15 @@ def load_feature_descriptions():
         "longitude": "Longitude",
         "latitude": "Latitude",
         "housing_median_age": "Median house age",
-        "total_rooms": "Total Number of Rooms",
-        "total_bedrooms": "Total Number of Bedrooms",
+        "total_rooms": "Total # of Rooms",
+        "total_bedrooms": "Total # of Bedrooms",
         "population": "Population",
         "households": "Number of Households",
         "median_income": "Median Income",
         "ocean_proximity": "Proximity to Ocean",
         "neighborhood": "Neighborhood",
+        "average_bedrooms": "Average # of Bedrooms Per Household",
+        "average_rooms": "Average # of Rooms Per Household",
     }
 
 

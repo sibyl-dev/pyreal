@@ -72,7 +72,7 @@ class LocalFeatureContribution(LocalFeatureContributionsBase):
         self.base_local_feature_contribution.fit(x_train_orig, y_train)
         return self
 
-    def get_contributions(self, x_orig):
+    def produce_explanation(self, x_orig, **kwargs):
         """
         Gets the raw explanation.
         Args:
@@ -80,7 +80,7 @@ class LocalFeatureContribution(LocalFeatureContributionsBase):
                 Input to explain
 
         Returns:
-            DataFrame of shape (n_instances, n_features)
+            FeatureContributionExplanation
                 Contribution of each feature for each instance
         """
-        return self.base_local_feature_contribution.get_contributions(x_orig)
+        return self.base_local_feature_contribution.produce_explanation(x_orig)

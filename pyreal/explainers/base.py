@@ -88,7 +88,7 @@ class ExplainerBase(ABC):
            parameter should be provided.
         x_train_orig (DataFrame of shape (n_instances, x_orig_feature_count)):
            The training set for the explainer. If none, must be provided separately when fitting
-        y_train (DataFrame of shape (n_instances,)):
+        y_train (Series of shape (n_instances,)):
            The y values for the dataset
         e_algorithm (string):
             Algorithm to use, if applicable
@@ -205,19 +205,70 @@ class ExplainerBase(ABC):
         """
         return self
 
-    @abstractmethod
-    def produce(self, x_orig):
+    def produce(self, x_orig=None, disable_feature_descriptions=False, **kwargs):
         """
         Return the explanation, in the desired form.
 
         Args:
-            x_orig (DataFrame of shape (n_instances, n_features):
+            x_orig (DataFrame of shape (n_instances, n_features) or Series of length (n_features)):
                 Input to explain
+            disable_feature_descriptions (Boolean):
+                If False, do not apply feature descriptions
+            **kwargs:
+                Additional arguments to be used by more specific explainers.
 
         Returns:
-            Type varies by subclass
-                Explanation
+            Explanation
+                A generated interpretable explanation object, including interpretable feature
+                names and values.
         """
+        series = False
+        name = None
+        if x_orig is not None and isinstance(x_orig, pd.Series):
+            name = x_orig.name
+            series = True
+            x_orig = x_orig.to_frame().T
+        explanation_interpret = self.produce_explanation_interpret(x_orig=x_orig, **kwargs)
+        if not disable_feature_descriptions:
+            explanation_interpret.apply_feature_descriptions(self.feature_descriptions)
+        if series:
+            x_interpret = explanation_interpret.get_values().squeeze()
+            x_interpret.name = name
+            explanation_interpret.update_values(x_interpret)
+        return explanation_interpret
+
+    def produce_explanation_interpret(self, x_orig, **kwargs):
+        """
+        Produce an interpretable explanation and corresponding values
+
+        Args:
+             x_orig (DataFrame of shape (n_instances, n_features)):
+                Input to explain
+            **kwargs:
+                 Additional arguments to be used by more specific explainers.
+
+        Returns:
+            Explanation
+                Generated explanation in the interpretable feature space, with values
+        """
+        explanation = self.produce_explanation(x_orig=x_orig, **kwargs)
+        return self.transform_explanation(explanation, x_orig)
+
+    @abstractmethod
+    def produce_explanation(self, x_orig, **kwargs):
+        """
+        Run the explanation algorithm to produce an explanation
+
+        Args:
+            x_orig (DataFrame of shape (n_instances, n_features)):
+                Input to explain
+            **kwargs:
+                Additional arguments to be used by more specific explainers.
+
+        Returns:
+            A generated explanation object in the algorithm feature space (without values)
+        """
+        pass
 
     def transform_to_x_algorithm(self, x_orig):
         """
@@ -287,7 +338,7 @@ class ExplainerBase(ABC):
         in the same feature space as the final explanation
 
         Args:
-            explanation (type varies by subclass):
+            explanation (Explanation):
                 The raw explanation to transform
             x_orig (DataFrame of shape (n_instances, n_features) or None)
                 Data to transform to final space
@@ -365,6 +416,25 @@ class ExplainerBase(ABC):
             x_orig = x_orig.to_frame().T
         x_model = self.transform_to_x_model(x_orig)
         return self.model.predict(x_model)
+
+    def model_predict_proba(self, x_orig):
+        """
+        Return the output probabilities of each class for x_orig
+
+        Args:
+            x_orig (DataFrame of shape (n_instances, x_orig_feature_count)):
+                Data to predict on
+
+        Returns:
+            DataFrame of shape (n_instances, n_classes)
+                Model output probabilities on x_orig
+        """
+        if not hasattr(self.model, "predict_proba"):
+            raise AttributeError("Model does not have a predict_proba method.")
+        if x_orig.ndim == 1:
+            x_orig = x_orig.to_frame().T
+        x_model = self.transform_to_x_model(x_orig)
+        return self.model.predict_proba(x_model)
 
     def model_predict_on_algorithm(self, x_algorithm):
         """

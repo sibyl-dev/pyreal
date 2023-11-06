@@ -4,7 +4,7 @@ import pandas as pd
 from pyreal.explanation_types.explanations.base import Explanation
 
 
-class FeatureValueExplanation:
+class FeatureValueExplanation(Explanation):
     """
     A wrapper for feature value-based explanations.
 
@@ -23,7 +23,7 @@ class FeatureValueExplanation:
         self.predictions = predictions
         self.grid = grid
 
-    def rename_features(self, feature_descriptions):
+    def apply_feature_descriptions(self, feature_descriptions):
         if feature_descriptions is not None:
             for i, feature in enumerate(self.feature_names):
                 if feature in feature_descriptions.keys():
@@ -69,13 +69,12 @@ class FeatureValueBased(Explanation):
         if len(self.explanation.feature_names) != len(self.explanation.grid):
             raise AssertionError("The values of feature grids must match the number of features.")
 
-    def update_feature_names(self, feature_descriptions):
+    def apply_feature_descriptions(self, feature_descriptions):
         """
         Wrapper method for renaming features.
         Validates explanation after renaming.
         """
-        self.explanation.rename_features(feature_descriptions)
-        self.validate()
+        self.explanation.apply_feature_descriptions(feature_descriptions)
 
 
 class PartialDependenceExplanation(FeatureValueBased):

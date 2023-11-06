@@ -37,19 +37,6 @@ class DecisionTreeExplainerBase(ExplainerBase, ABC):
                 Targets of training set, required if not provided on initialization
         """
 
-    @abstractmethod
-    def produce(self, x_orig=None):
-        """
-        Produce the decision tree explanation
-
-        Args:
-            x_orig (None):
-                Decision tree explanations do not take inputs - dummy to match signature
-
-        Returns:
-            A decision tree model
-        """
-
     def return_features(self):
         """
         Returns the (interpreted) features of the dataset.

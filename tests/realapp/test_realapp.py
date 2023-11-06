@@ -3,8 +3,10 @@ import pickle
 import numpy as np
 import pandas as pd
 import pytest
+from pandas.testing import assert_index_equal
 
 from pyreal import RealApp
+from pyreal.transformers import Transformer
 
 
 def test_initialization_one_model(regression_one_hot):
@@ -85,6 +87,27 @@ def test_predict(regression_one_hot):
     result = real_app.predict(regression_one_hot["x"], as_dict=False)
     expected = np.array(regression_one_hot["y"]).reshape(-1)
     assert np.array_equal(result, expected)
+
+
+def test_predict_proba(classification_no_transforms):
+    real_app = RealApp(
+        classification_no_transforms["model"],
+        classification_no_transforms["x"],
+        transformers=classification_no_transforms["transformers"],
+        classes=classification_no_transforms["classes"],
+    )
+
+    quantity = (
+        classification_no_transforms["coefs"].T @ classification_no_transforms["x"].to_numpy()
+    )
+    expected_probs = np.exp(quantity) / np.sum(np.exp(quantity), axis=1, keepdims=True)
+
+    result = real_app.predict_proba(classification_no_transforms["x"])
+    for key in result.keys():
+        assert np.allclose(result[key], expected_probs[key, :])
+
+    result = real_app.predict_proba(classification_no_transforms["x"], as_dict=False)
+    assert np.allclose(result, expected_probs)
 
 
 def test_predict_series(regression_one_hot):
@@ -195,3 +218,25 @@ def test_no_dataset_on_init_or_fit_ensure_break(regression_no_transforms):
         explainer.produce_feature_contributions(x)
     with pytest.raises(ValueError):
         explainer.prepare_feature_importance()
+
+
+def test_fit_transformers(dummy_model):
+    class DummyTransformer(Transformer):
+        def __init__(self, **kwargs):
+            self.columns = None
+            super().__init__(**kwargs)
+
+        def fit(self, x):
+            self.columns = x.columns
+
+        def data_transform(self, x):
+            return x
+
+    x = pd.DataFrame([[1, 2, "ab"], [1, 2, ["bc"]]], columns=["A", "B", "ID"])
+    transformer = DummyTransformer()
+    RealApp(dummy_model, x, transformers=transformer, fit_transformers=True)
+    assert_index_equal(transformer.columns, x.columns)
+
+    transformer = DummyTransformer()
+    RealApp(dummy_model, x, transformers=transformer, fit_transformers=True, id_column="ID")
+    assert_index_equal(transformer.columns, x.drop(columns="ID").columns)

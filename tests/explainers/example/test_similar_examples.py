@@ -1,7 +1,7 @@
 import pandas as pd
 from pandas.testing import assert_frame_equal, assert_series_equal
 
-from pyreal.explainers.example.similar_examples import SimilarExamples
+from pyreal.explainers.se.similar_examples import SimilarExamples
 
 
 def test_produce(dummy_model):

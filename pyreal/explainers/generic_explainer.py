@@ -23,17 +23,8 @@ class Explainer(ExplainerBase):
         **kwargs: see base Explainer args
     """
 
-    def __init__(
-        self,
-        model,
-        x_train_orig=None,
-        scope="global",
-        e_algorithm="shap",
-        interpretable_features=True,
-        **kwargs
-    ):
+    def __init__(self, model, x_train_orig=None, scope="global", e_algorithm="shap", **kwargs):
         self.scope = scope
-        self.interpretable_features = interpretable_features
         algorithm_list = ["shap"]
 
         super(Explainer, self).__init__(model, x_train_orig, **kwargs)
@@ -42,14 +33,12 @@ class Explainer(ExplainerBase):
             raise ValueError("Invalid algorithm type %s" % e_algorithm)
         if scope == "global":
             if e_algorithm == "shap":
-                self.base_explainer = ShapFeatureImportance(
-                    model, x_train_orig, interpretable_features=interpretable_features, **kwargs
-                )
+                self.base_explainer = ShapFeatureImportance(model, x_train_orig, **kwargs)
         elif scope == "local":
             if e_algorithm == "shap":
-                self.base_explainer = ShapFeatureContribution(
-                    model, x_train_orig, interpretable_features=interpretable_features, **kwargs
-                )
+                self.base_explainer = ShapFeatureContribution(model, x_train_orig, **kwargs)
+        elif scope == "testing":  # Only to be used for unit testing purposes
+            self.base_explainer = None
         else:
             raise TypeError("Explainers must be either global or local")
 
@@ -65,7 +54,7 @@ class Explainer(ExplainerBase):
         """
         self.base_explainer.fit(x_train_orig, y_train)
 
-    def produce(self, x_orig=None):
+    def produce_explanation(self, x_orig=None, **kwargs):
         """
         Produce the explanation
 
@@ -88,7 +77,7 @@ class Explainer(ExplainerBase):
                 " produce() with input or change scope to global."
             )
 
-        return self.base_explainer.produce(x_orig)
+        return self.base_explainer.produce_explanation(x_orig)
 
     def evaluate_variation(self, with_fit=False, explanations=None, n_iterations=20, n_rows=10):
         """
