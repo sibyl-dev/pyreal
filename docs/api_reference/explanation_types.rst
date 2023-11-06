@@ -66,7 +66,6 @@ Feature Value Based Explanation Type
     feature_value_based.FeatureValueBased
     feature_value_based.FeatureValueBased.get
     feature_value_based.FeatureValueBased.validate
-    feature_value_based.FeatureValueBased.update_feature_names
 
 Partial Dependence Explanation Type
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -76,7 +75,6 @@ Partial Dependence Explanation Type
     feature_value_based.PartialDependenceExplanation
     feature_value_based.PartialDependenceExplanation.get
     feature_value_based.PartialDependenceExplanation.validate
-    feature_value_based.PartialDependenceExplanation.update_feature_names
 
 Decision Tree Explanation Type
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

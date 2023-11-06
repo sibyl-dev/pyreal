@@ -116,6 +116,15 @@ class Explanation:
             return self.__class__(explanation, self.values)
 
     def apply_feature_descriptions(self, feature_descriptions):
+        """
+        Apply feature descriptions to explanation and values
+
+        Args:
+            feature_descriptions (dict):
+                Dictionary mapping feature names to interpretable descriptions
+        Returns:
+            None
+        """
         self.update_values(
             convert_columns_with_dict(self.values, feature_descriptions), inplace=True
         )

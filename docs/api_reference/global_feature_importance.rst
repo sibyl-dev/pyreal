@@ -12,7 +12,6 @@ Global Feature Importance Base
     GlobalFeatureImportanceBase
     GlobalFeatureImportanceBase.fit
     GlobalFeatureImportanceBase.produce
-    GlobalFeatureImportanceBase.get_importance
 
 Global Feature Importance
 ~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -31,7 +30,6 @@ SHAP Feature Importance Explainer
     ShapFeatureImportance
     ShapFeatureImportance.fit
     ShapFeatureImportance.produce
-    ShapFeatureImportance.get_importance
 
 Permutation Feature Importance Explainer
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -41,5 +39,4 @@ Permutation Feature Importance Explainer
     PermutationFeatureImportance
     PermutationFeatureImportance.fit
     PermutationFeatureImportance.produce
-    PermutationFeatureImportance.get_importance
 

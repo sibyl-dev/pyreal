@@ -466,37 +466,6 @@ class ExplainerBase(ABC):
         """
         return self.feature_descriptions[feature_name]
 
-    def convert_columns_to_interpretable(self, df):
-        """
-        Returns df with columns (or index, for series) converted to the interpretable descriptions
-
-        Args:
-            df (DataFrame):
-
-        Returns:
-            string
-                 Description of feature
-        """
-        if self.feature_descriptions is None:
-            return df
-
-        if isinstance(df, pd.Series):
-            return df.rename(self.feature_descriptions)
-        return df.rename(self.feature_descriptions, axis="columns")
-
-    def convert_data_to_interpretable(self, x_orig):
-        """
-        Convert data in its original form to an interpretable form, with interpretable features
-        Args:
-            x_orig (DataFrame of shape (n_instances, n_features) or Series):
-                Input data to convert
-
-        Returns:
-            DataFrame of shape (n_instances, x_interpret_feature_count)
-                Transformed, interpretable data
-        """
-        return self.convert_columns_to_interpretable(self.transform_to_x_interpret(x_orig))
-
     def evaluate_model(self, scorer, x_orig=None, y=None):
         """
         Evaluate the model using a chosen scorer algorithm.

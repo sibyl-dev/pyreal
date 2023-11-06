@@ -47,6 +47,16 @@ class ExampleBasedExplanation(Explanation):
         super().validate()
 
     def apply_feature_descriptions(self, feature_descriptions):
+        """
+        Apply feature descriptions to examples
+
+        Args:
+            feature_descriptions (dict):
+                Dictionary mapping feature names to interpretable descriptions
+        Returns:
+            None
+        """
+
         def func(df):
             return convert_columns_with_dict(df, feature_descriptions)
 
@@ -92,6 +102,14 @@ class ExampleBasedExplanation(Explanation):
         return self.get()[0].keys()
 
     def update_examples(self, func):
+        """
+        Update every example using the provided function
+        Args:
+            func (function):
+                Function to apply to every example
+        Returns:
+            None
+        """
         for key in self.get()[0]:
             self.get()[0][key] = func(self.get()[0][key])
 
@@ -115,6 +133,19 @@ class SimilarExampleExplanation(ExampleBasedExplanation):
         if self.explanation[1] is None:
             raise AssertionError("Similar example explanations must come with target values.")
         super().validate()
+
+    def apply_feature_descriptions(self, feature_descriptions):
+        """
+        No-op because feature descriptions are applied at produce time for similar examples
+        explanation, to improve performance
+
+        Args:
+            feature_descriptions:
+
+        Returns:
+            None
+        """
+        super().apply_feature_descriptions(feature_descriptions)
 
 
 class CounterfactualExplanation(ExampleBasedExplanation):
