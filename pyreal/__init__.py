@@ -6,7 +6,7 @@ from pyreal.realapp.realapp import RealApp
 
 __author__ = "MIT Data To AI Lab"
 __email__ = "dailabmit@gmail.com"
-__version__ = "0.4.5"
+__version__ = "0.4.6"
 
 
 __all__ = [

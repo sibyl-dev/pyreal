@@ -46,13 +46,7 @@ class DecisionTreeExplainerBase(ExplainerBase, ABC):
             `interpretable_features` is set to true.
         """
         x_algorithm = self.transform_to_x_algorithm(self.x_train_orig_subset)
-
-        if self.interpretable_features:
-            features = self.convert_columns_to_interpretable(x_algorithm).columns
-        else:
-            features = x_algorithm.columns
-
-        return features
+        return x_algorithm.columns
 
     def evaluate_variation(self, with_fit=False, explanations=None, n_iterations=20, n_rows=10):
         """

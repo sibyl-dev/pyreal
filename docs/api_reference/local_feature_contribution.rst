@@ -12,7 +12,6 @@ Local Feature Contribution Base
     LocalFeatureContributionsBase
     LocalFeatureContributionsBase.fit
     LocalFeatureContributionsBase.produce
-    LocalFeatureContributionsBase.get_contributions
 
 Local Feature Contribution
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -31,7 +30,6 @@ SHAP Feature Contribution Explainer
     ShapFeatureContribution
     ShapFeatureContribution.fit
     ShapFeatureContribution.produce
-    ShapFeatureContribution.get_contributions
 
 Simple Counterfactual Contribution Explainer
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -41,4 +39,3 @@ Simple Counterfactual Contribution Explainer
     SimpleCounterfactualContribution
     SimpleCounterfactualContribution.fit
     SimpleCounterfactualContribution.produce
-    SimpleCounterfactualContribution.get_contributions

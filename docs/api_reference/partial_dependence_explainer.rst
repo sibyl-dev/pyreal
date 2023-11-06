@@ -12,7 +12,6 @@ Partial Dependence Explainer Base
     PartialDependenceExplainerBase
     PartialDependenceExplainerBase.fit
     PartialDependenceExplainerBase.produce
-    PartialDependenceExplainerBase.get_pdp
 
 Partial Dependence Explainer
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -22,7 +21,6 @@ Partial Dependence Explainer
     PartialDependenceExplainer
     PartialDependenceExplainer.fit
     PartialDependenceExplainer.produce
-    PartialDependenceExplainer.get_pdp
 
 Partial Dependence
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -32,5 +30,4 @@ Partial Dependence
     PartialDependence
     PartialDependence.fit
     PartialDependence.produce
-    PartialDependence.get_pdp
 

@@ -95,28 +95,6 @@ def test_transform_x_from_algorithm_to_model(regression_one_hot):
     assert_series_equal(result_series, expected_series, check_dtype=False)
 
 
-def test_convert_data_to_interpretable(regression_one_hot):
-    x = pd.DataFrame([[2, 1, 3]], columns=["A", "B", "C"])
-    expected = pd.DataFrame([[1, 3, 1, 0, 0]], columns=["Feature B", "C", "A_2", "A_4", "A_6"])
-
-    x_series = pd.Series([2, 1, 3], index=["A", "B", "C"])
-    expected_series = pd.Series([1, 3, 1, 0, 0], index=["Feature B", "C", "A_2", "A_4", "A_6"])
-
-    regression_one_hot["transformers"].set_flags(model=True, interpret=True)
-    feature_select = FeatureSelectTransformer(columns=["B", "A_2"], algorithm=False, model=True)
-    explainer = Explainer(
-        regression_one_hot["model"],
-        regression_one_hot["x"],
-        transformers=[regression_one_hot["transformers"], feature_select],
-        feature_descriptions={"B": "Feature B"},
-        scope="testing",
-    )
-    result = explainer.convert_data_to_interpretable(x)
-    assert_frame_equal(result, expected, check_dtype=False)
-    result_series = explainer.convert_data_to_interpretable(x_series)
-    assert_series_equal(result_series, expected_series, check_dtype=False)
-
-
 def test_predict_regression(regression_no_transforms, regression_one_hot):
     model = regression_no_transforms
     explainer = Explainer(
