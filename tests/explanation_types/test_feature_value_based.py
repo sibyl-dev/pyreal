@@ -1,6 +1,7 @@
 import numpy as np
 import pytest
-from explanation_types.feature_value_based import (
+
+from pyreal.explanation_types.feature_value_based import (
     FeatureValueExplanation,
     PartialDependenceExplanation,
 )

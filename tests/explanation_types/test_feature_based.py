@@ -1,6 +1,7 @@
 import pandas as pd
 import pytest
-from explanation_types.feature_based import (
+
+from pyreal.explanation_types import (
     AdditiveFeatureContributionExplanation,
     AdditiveFeatureImportanceExplanation,
     FeatureBased,

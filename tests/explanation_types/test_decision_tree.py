@@ -1,6 +1,7 @@
 import pytest
-from explanation_types.decision_tree import DecisionTreeExplanation
 from sklearn.tree import DecisionTreeClassifier
+
+from pyreal.explanation_types import DecisionTreeExplanation
 
 
 def test_decision_tree_explanation():
