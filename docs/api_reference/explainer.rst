@@ -17,4 +17,3 @@ Explainer Base
     ExplainerBase.transform_to_x_interpret
     ExplainerBase.model_predict
     ExplainerBase.feature_description
-    ExplainerBase.convert_data_to_interpretable
