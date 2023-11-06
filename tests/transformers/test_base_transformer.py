@@ -1,7 +1,7 @@
 import pandas as pd
-from pyreal.explanation_types import FeatureImportanceExplanation
 from pandas.testing import assert_frame_equal
 
+from pyreal.explanation_types import FeatureImportanceExplanation
 from pyreal.transformers import (
     FeatureSelectTransformer,
     OneHotEncoder,

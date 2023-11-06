@@ -1,10 +1,10 @@
 import numpy as np
 import pandas as pd
 import pytest
-from pyreal.explanation_types import AdditiveFeatureContributionExplanation
 from pandas.testing import assert_frame_equal, assert_series_equal
 
 from pyreal.explainers import Explainer, LocalFeatureContribution
+from pyreal.explanation_types import AdditiveFeatureContributionExplanation
 from pyreal.transformers import BreakingTransformError, FeatureSelectTransformer, Transformer
 
 
