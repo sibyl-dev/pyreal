@@ -322,13 +322,29 @@ document.write(`
                 <article class="bd-article" role="main">
                   
   <h1>Source code for pyreal.explainers.se.similar_examples</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span></span><span class="kn">import</span> <span class="nn">faiss</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">from</span> <span class="nn">sklearn.neighbors</span> <span class="kn">import</span> <span class="n">KDTree</span>
 <span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">StandardScaler</span>
 
 <span class="kn">from</span> <span class="nn">pyreal.explainers.se.base</span> <span class="kn">import</span> <span class="n">SimilarExamplesBase</span>
 <span class="kn">from</span> <span class="nn">pyreal.explanation_types</span> <span class="kn">import</span> <span class="n">SimilarExampleExplanation</span>
 <span class="kn">from</span> <span class="nn">pyreal.explanation_types.base</span> <span class="kn">import</span> <span class="n">convert_columns_with_dict</span>
+
+
+<span class="c1"># From:</span>
+<span class="c1"># towardsdatascience.com/make-knn-300-times-faster-than-scikit-learns-in-20-lines-5e29d74e76bb</span>
+<span class="k">class</span> <span class="nc">FaissKNeighbors</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">faiss</span><span class="o">.</span><span class="n">IndexFlatL2</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">return_distance</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="n">distances</span><span class="p">,</span> <span class="n">indices</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">),</span> <span class="n">k</span><span class="o">=</span><span class="n">k</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">return_distance</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">distances</span><span class="p">,</span> <span class="n">indices</span>
+        <span class="k">return</span> <span class="n">indices</span>
 
 
 <div class="viewcode-block" id="SimilarExamples"><a class="viewcode-back" href="../../../../api_reference/api/pyreal.explainers.SimilarExamples.html#pyreal.explainers.SimilarExamples">[docs]</a><span class="k">class</span> <span class="nc">SimilarExamples</span><span class="p">(</span><span class="n">SimilarExamplesBase</span><span class="p">):</span>
@@ -346,15 +362,19 @@ document.write(`
 <span class="sd">            Training set in original form.</span>
 <span class="sd">        standardize (Boolean):</span>
 <span class="sd">            If True, standardize the data when selected similar examples</span>
+<span class="sd">        fast (Boolean):</span>
+<span class="sd">            If True, use a faster algorithm to compute the neighbors. Set to False if having</span>
+<span class="sd">            trouble with faiss library</span>
 <span class="sd">        **kwargs: see base Explainer args</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="SimilarExamples.__init__"><a class="viewcode-back" href="../../../../api_reference/api/pyreal.explainers.SimilarExamples.html#pyreal.explainers.SimilarExamples.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">x_train_orig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">standardize</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="SimilarExamples.__init__"><a class="viewcode-back" href="../../../../api_reference/api/pyreal.explainers.SimilarExamples.html#pyreal.explainers.SimilarExamples.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">x_train_orig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">standardize</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">fast</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">explainer</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">standardize</span> <span class="o">=</span> <span class="n">standardize</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">standardizer</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">x_train_interpret</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">x_train_interpret_features</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fast</span> <span class="o">=</span> <span class="n">fast</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">SimilarExamples</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">x_train_orig</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="SimilarExamples.fit"><a class="viewcode-back" href="../../../../api_reference/api/pyreal.explainers.SimilarExamples.fit.html#pyreal.explainers.SimilarExamples.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_train_orig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">y_train</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -373,7 +393,11 @@ document.write(`
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">standardize</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">standardizer</span> <span class="o">=</span> <span class="n">StandardScaler</span><span class="p">()</span>
             <span class="n">dataset</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">standardizer</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">dataset</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">explainer</span> <span class="o">=</span> <span class="n">KDTree</span><span class="p">(</span><span class="n">dataset</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">fast</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">explainer</span> <span class="o">=</span> <span class="n">FaissKNeighbors</span><span class="p">(</span><span class="n">dataset</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">explainer</span> <span class="o">=</span> <span class="n">KDTree</span><span class="p">(</span><span class="n">dataset</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">y_train</span> <span class="o">=</span> <span class="n">y_train</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">x_train_interpret</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform_to_x_interpret</span><span class="p">(</span><span class="n">x_train_orig</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">x_train_interpret_features</span> <span class="o">=</span> <span class="n">convert_columns_with_dict</span><span class="p">(</span>
@@ -381,7 +405,9 @@ document.write(`
         <span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
-    <span class="k">def</span> <span class="nf">produce_explanation_interpret</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_orig</span><span class="p">,</span> <span class="n">disable_feature_descriptions</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">produce_explanation_interpret</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">x_orig</span><span class="p">,</span> <span class="n">disable_feature_descriptions</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">num_examples</span><span class="o">=</span><span class="mi">5</span>
+    <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get the n nearest neighbors to x_orig</span>
 
@@ -390,7 +416,7 @@ document.write(`
 <span class="sd">               The input to be explained</span>
 <span class="sd">            disable_feature_descriptions (Boolean):</span>
 <span class="sd">                If False, do not apply feature descriptions</span>
-<span class="sd">            n (int):</span>
+<span class="sd">            num_examples (int):</span>
 <span class="sd">                Number of neighbors to return</span>
 <span class="sd">        Returns:</span>
 <span class="sd">            SimilarExamplesExplanation</span>
@@ -404,7 +430,7 @@ document.write(`
         <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform_to_x_algorithm</span><span class="p">(</span><span class="n">x_orig</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">standardize</span><span class="p">:</span>
             <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">standardizer</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-        <span class="n">inds</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">explainer</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="n">n</span><span class="p">,</span> <span class="n">return_distance</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">inds</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">explainer</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="n">num_examples</span><span class="p">,</span> <span class="n">return_distance</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
         <span class="n">raw_explanation_x</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="n">raw_explanation_y</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">inds</span><span class="p">)):</span>

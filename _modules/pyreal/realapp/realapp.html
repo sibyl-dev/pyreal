@@ -1072,6 +1072,7 @@ document.write(`
         <span class="n">algorithm</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">training_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">standardize</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">fast</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Initialize and fit a nearest neighbor explainer</span>
@@ -1090,6 +1091,9 @@ document.write(`
 <span class="sd">            standardize (Boolean):</span>
 <span class="sd">                If True, standardize data before using it to get similar examples.</span>
 <span class="sd">                Recommended if model-ready data is not already standardized</span>
+<span class="sd">            fast (Boolean):</span>
+<span class="sd">                If True, use a faster algorithm for getting similar examples (disable if faiss</span>
+<span class="sd">                dependency not available)</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            A fit SimilarExamples explainer</span>
@@ -1109,6 +1113,7 @@ document.write(`
             <span class="n">class_descriptions</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">class_descriptions</span><span class="p">,</span>
             <span class="n">training_size</span><span class="o">=</span><span class="n">training_size</span><span class="p">,</span>
             <span class="n">standardize</span><span class="o">=</span><span class="n">standardize</span><span class="p">,</span>
+            <span class="n">fast</span><span class="o">=</span><span class="n">fast</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="n">explainer</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_x_train_orig</span><span class="p">(</span><span class="n">x_train_orig</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_y_train</span><span class="p">(</span><span class="n">y_train</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_add_explainer</span><span class="p">(</span><span class="s2">&quot;se&quot;</span><span class="p">,</span> <span class="n">algorithm</span><span class="p">,</span> <span class="n">explainer</span><span class="p">)</span>
@@ -1120,8 +1125,9 @@ document.write(`
         <span class="n">model_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">x_train_orig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">y_train</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-        <span class="n">n</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+        <span class="n">num_examples</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
         <span class="n">standardize</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">fast</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
         <span class="n">format_y</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
         <span class="n">algorithm</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">force_refit</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
@@ -1138,11 +1144,14 @@ document.write(`
 <span class="sd">                Data to fit on, if not provided during initialization</span>
 <span class="sd">            y_train (DataFrame or Series):</span>
 <span class="sd">                Training targets to fit on, if not provided during initialization</span>
-<span class="sd">            n (int):</span>
+<span class="sd">            num_examples (int):</span>
 <span class="sd">                Number of similar examples to return</span>
 <span class="sd">            standardize (Boolean):</span>
 <span class="sd">                If True, standardize data before using it to get similar examples.</span>
 <span class="sd">                Recommended if model-ready data is not already standardized</span>
+<span class="sd">            fast (Boolean):</span>
+<span class="sd">                If True, use a faster algorithm for generating similar examples. Disable if</span>
+<span class="sd">                faiss is not available</span>
 <span class="sd">            format_y (Boolean):</span>
 <span class="sd">                If True, format the ground truth y values returned using self.pred_format_func</span>
 <span class="sd">            algorithm (string):</span>
@@ -1171,8 +1180,8 @@ document.write(`
             <span class="n">x_train_orig</span><span class="o">=</span><span class="n">x_train_orig</span><span class="p">,</span>
             <span class="n">y_train</span><span class="o">=</span><span class="n">y_train</span><span class="p">,</span>
             <span class="n">force_refit</span><span class="o">=</span><span class="n">force_refit</span><span class="p">,</span>
-            <span class="n">prepare_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;standardize&quot;</span><span class="p">:</span> <span class="n">standardize</span><span class="p">},</span>
-            <span class="n">produce_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;n&quot;</span><span class="p">:</span> <span class="n">n</span><span class="p">},</span>
+            <span class="n">prepare_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;standardize&quot;</span><span class="p">:</span> <span class="n">standardize</span><span class="p">,</span> <span class="s2">&quot;fast&quot;</span><span class="p">:</span> <span class="n">fast</span><span class="p">},</span>
+            <span class="n">produce_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;num_examples&quot;</span><span class="p">:</span> <span class="n">num_examples</span><span class="p">},</span>
             <span class="n">format_kwargs</span><span class="o">=</span><span class="n">format_kwargs</span><span class="p">,</span>
         <span class="p">)</span></div>
 
