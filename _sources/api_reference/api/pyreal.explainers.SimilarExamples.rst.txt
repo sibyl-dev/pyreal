@@ -14,8 +14,6 @@
    .. autosummary::
    
       ~SimilarExamples.__init__
-      ~SimilarExamples.convert_columns_to_interpretable
-      ~SimilarExamples.convert_data_to_interpretable
       ~SimilarExamples.evaluate_model
       ~SimilarExamples.evaluate_variation
       ~SimilarExamples.feature_description

@@ -14,8 +14,6 @@
    .. autosummary::
    
       ~PartialDependenceExplainerBase.__init__
-      ~PartialDependenceExplainerBase.convert_columns_to_interpretable
-      ~PartialDependenceExplainerBase.convert_data_to_interpretable
       ~PartialDependenceExplainerBase.evaluate_model
       ~PartialDependenceExplainerBase.evaluate_variation
       ~PartialDependenceExplainerBase.feature_description

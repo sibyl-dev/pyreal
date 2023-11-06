@@ -14,8 +14,6 @@
    .. autosummary::
    
       ~SurrogateDecisionTree.__init__
-      ~SurrogateDecisionTree.convert_columns_to_interpretable
-      ~SurrogateDecisionTree.convert_data_to_interpretable
       ~SurrogateDecisionTree.evaluate_model
       ~SurrogateDecisionTree.evaluate_variation
       ~SurrogateDecisionTree.feature_description

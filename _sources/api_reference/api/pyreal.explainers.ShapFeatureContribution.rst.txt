@@ -14,8 +14,6 @@
    .. autosummary::
    
       ~ShapFeatureContribution.__init__
-      ~ShapFeatureContribution.convert_columns_to_interpretable
-      ~ShapFeatureContribution.convert_data_to_interpretable
       ~ShapFeatureContribution.evaluate_model
       ~ShapFeatureContribution.evaluate_variation
       ~ShapFeatureContribution.feature_description

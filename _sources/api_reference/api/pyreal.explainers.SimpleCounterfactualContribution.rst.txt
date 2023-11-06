@@ -14,8 +14,6 @@
    .. autosummary::
    
       ~SimpleCounterfactualContribution.__init__
-      ~SimpleCounterfactualContribution.convert_columns_to_interpretable
-      ~SimpleCounterfactualContribution.convert_data_to_interpretable
       ~SimpleCounterfactualContribution.evaluate_model
       ~SimpleCounterfactualContribution.evaluate_variation
       ~SimpleCounterfactualContribution.feature_description

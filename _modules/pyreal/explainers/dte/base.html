@@ -370,13 +370,7 @@ document.write(`
 <span class="sd">            `interpretable_features` is set to true.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">x_algorithm</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform_to_x_algorithm</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x_train_orig_subset</span><span class="p">)</span>
-
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">interpretable_features</span><span class="p">:</span>
-            <span class="n">features</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">convert_columns_to_interpretable</span><span class="p">(</span><span class="n">x_algorithm</span><span class="p">)</span><span class="o">.</span><span class="n">columns</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">features</span> <span class="o">=</span> <span class="n">x_algorithm</span><span class="o">.</span><span class="n">columns</span>
-
-        <span class="k">return</span> <span class="n">features</span></div>
+        <span class="k">return</span> <span class="n">x_algorithm</span><span class="o">.</span><span class="n">columns</span></div>
 
     <span class="k">def</span> <span class="nf">evaluate_variation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">with_fit</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">explanations</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">n_iterations</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">n_rows</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>

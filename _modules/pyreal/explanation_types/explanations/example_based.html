@@ -371,6 +371,16 @@ document.write(`
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">validate</span><span class="p">()</span></div>
 
     <span class="k">def</span> <span class="nf">apply_feature_descriptions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">feature_descriptions</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Apply feature descriptions to examples</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            feature_descriptions (dict):</span>
+<span class="sd">                Dictionary mapping feature names to interpretable descriptions</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
         <span class="k">def</span> <span class="nf">func</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">convert_columns_with_dict</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">feature_descriptions</span><span class="p">)</span>
 
@@ -416,6 +426,14 @@ document.write(`
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="nf">update_examples</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Update every example using the provided function</span>
+<span class="sd">        Args:</span>
+<span class="sd">            func (function):</span>
+<span class="sd">                Function to apply to every example</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">()[</span><span class="mi">0</span><span class="p">]:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">()[</span><span class="mi">0</span><span class="p">][</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">()[</span><span class="mi">0</span><span class="p">][</span><span class="n">key</span><span class="p">])</span></div>
 
@@ -438,7 +456,20 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">explanation</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span><span class="s2">&quot;Similar example explanations must come with target values.&quot;</span><span class="p">)</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">validate</span><span class="p">()</span></div></div>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">validate</span><span class="p">()</span></div>
+
+    <span class="k">def</span> <span class="nf">apply_feature_descriptions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">feature_descriptions</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        No-op because feature descriptions are applied at produce time for similar examples</span>
+<span class="sd">        explanation, to improve performance</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            feature_descriptions:</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">apply_feature_descriptions</span><span class="p">(</span><span class="n">feature_descriptions</span><span class="p">)</span></div>
 
 
 <span class="k">class</span> <span class="nc">CounterfactualExplanation</span><span class="p">(</span><span class="n">ExampleBasedExplanation</span><span class="p">):</span>

@@ -301,7 +301,6 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="pyreal.explainers.ExplainerBase.transform_to_x_interpret.html">pyreal.explainers.ExplainerBase.transform_to_x_interpret</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.explainers.ExplainerBase.model_predict.html">pyreal.explainers.ExplainerBase.model_predict</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.explainers.ExplainerBase.feature_description.html">pyreal.explainers.ExplainerBase.feature_description</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyreal.explainers.ExplainerBase.convert_data_to_interpretable.html">pyreal.explainers.ExplainerBase.convert_data_to_interpretable</a></li>
 </ul>
 </li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="../local_feature_contribution.html">Local Feature Contribution</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
@@ -610,12 +609,6 @@ type</p></li>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#pyreal.explainers.LocalFeatureContribution.__init__" title="pyreal.explainers.LocalFeatureContribution.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(model[, x_train_orig, e_algorithm, ...])</p></td>
 <td><p></p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">convert_columns_to_interpretable</span></code>(df)</p></td>
-<td><p>Returns df with columns (or index, for series) converted to the interpretable descriptions</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">convert_data_to_interpretable</span></code>(x_orig)</p></td>
-<td><p>Convert data in its original form to an interpretable form, with interpretable features :param x_orig: Input data to convert :type x_orig: DataFrame of shape (n_instances, n_features) or Series</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">evaluate_model</span></code>(scorer[, x_orig, y])</p></td>
 <td><p>Evaluate the model using a chosen scorer algorithm.</p></td>

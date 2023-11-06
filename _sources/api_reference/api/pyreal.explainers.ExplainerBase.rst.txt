@@ -14,8 +14,6 @@
    .. autosummary::
    
       ~ExplainerBase.__init__
-      ~ExplainerBase.convert_columns_to_interpretable
-      ~ExplainerBase.convert_data_to_interpretable
       ~ExplainerBase.evaluate_model
       ~ExplainerBase.evaluate_variation
       ~ExplainerBase.feature_description

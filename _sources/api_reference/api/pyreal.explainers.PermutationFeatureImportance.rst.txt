@@ -14,8 +14,6 @@
    .. autosummary::
    
       ~PermutationFeatureImportance.__init__
-      ~PermutationFeatureImportance.convert_columns_to_interpretable
-      ~PermutationFeatureImportance.convert_data_to_interpretable
       ~PermutationFeatureImportance.evaluate_model
       ~PermutationFeatureImportance.evaluate_variation
       ~PermutationFeatureImportance.feature_description

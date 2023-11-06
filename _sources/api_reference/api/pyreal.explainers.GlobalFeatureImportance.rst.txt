@@ -14,8 +14,6 @@
    .. autosummary::
    
       ~GlobalFeatureImportance.__init__
-      ~GlobalFeatureImportance.convert_columns_to_interpretable
-      ~GlobalFeatureImportance.convert_data_to_interpretable
       ~GlobalFeatureImportance.evaluate_model
       ~GlobalFeatureImportance.evaluate_variation
       ~GlobalFeatureImportance.feature_description

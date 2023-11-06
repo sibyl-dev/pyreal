@@ -301,7 +301,6 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="pyreal.explainers.ExplainerBase.transform_to_x_interpret.html">pyreal.explainers.ExplainerBase.transform_to_x_interpret</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.explainers.ExplainerBase.model_predict.html">pyreal.explainers.ExplainerBase.model_predict</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.explainers.ExplainerBase.feature_description.html">pyreal.explainers.ExplainerBase.feature_description</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyreal.explainers.ExplainerBase.convert_data_to_interpretable.html">pyreal.explainers.ExplainerBase.convert_data_to_interpretable</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../local_feature_contribution.html">Local Feature Contribution</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -603,7 +602,7 @@ document.write(`
 <td><p>Set the wrapped explanation to <cite>explanation</cite> and values to <cite>values</cite> and validate :param explanation: wrapped explanation :type explanation: object :param values: Values corresponding with the object being explained :type values: DataFrame of shape (n_instances, n_features) or None</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">apply_feature_descriptions</span></code>(feature_descriptions)</p></td>
-<td><p></p></td>
+<td><p>No-op because feature descriptions are applied at produce time for similar examples explanation, to improve performance</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="pyreal.explanation_types.explanations.example_based.SimilarExampleExplanation.get.html#pyreal.explanation_types.explanations.example_based.SimilarExampleExplanation.get" title="pyreal.explanation_types.explanations.example_based.SimilarExampleExplanation.get"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get</span></code></a>()</p></td>
 <td><p>Get the explanation wrapped by this type :returns:</p></td>
@@ -624,7 +623,7 @@ document.write(`
 <td><p>Return the values associated with the explanation</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">update_examples</span></code>(func)</p></td>
-<td><p></p></td>
+<td><p>Update every example using the provided function :param func: Function to apply to every example :type func: function</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">update_explanation</span></code>(explanation[, inplace])</p></td>
 <td><p>Updates this objects explanation, and validates</p></td>

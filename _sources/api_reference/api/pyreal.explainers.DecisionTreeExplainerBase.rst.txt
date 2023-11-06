@@ -14,8 +14,6 @@
    .. autosummary::
    
       ~DecisionTreeExplainerBase.__init__
-      ~DecisionTreeExplainerBase.convert_columns_to_interpretable
-      ~DecisionTreeExplainerBase.convert_data_to_interpretable
       ~DecisionTreeExplainerBase.evaluate_model
       ~DecisionTreeExplainerBase.evaluate_variation
       ~DecisionTreeExplainerBase.feature_description
