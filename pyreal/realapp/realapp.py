@@ -748,6 +748,7 @@ class RealApp:
         algorithm=None,
         training_size=None,
         standardize=False,
+        fast=True,
     ):
         """
         Initialize and fit a nearest neighbor explainer
@@ -766,6 +767,9 @@ class RealApp:
             standardize (Boolean):
                 If True, standardize data before using it to get similar examples.
                 Recommended if model-ready data is not already standardized
+            fast (Boolean):
+                If True, use a faster algorithm for getting similar examples (disable if faiss
+                dependency not available)
 
         Returns:
             A fit SimilarExamples explainer
@@ -785,6 +789,7 @@ class RealApp:
             class_descriptions=self.class_descriptions,
             training_size=training_size,
             standardize=standardize,
+            fast=fast,
         )
         explainer.fit(self._get_x_train_orig(x_train_orig), self._get_y_train(y_train))
         self._add_explainer("se", algorithm, explainer)
@@ -796,8 +801,9 @@ class RealApp:
         model_id=None,
         x_train_orig=None,
         y_train=None,
-        n=3,
+        num_examples=3,
         standardize=False,
+        fast=True,
         format_y=True,
         algorithm=None,
         force_refit=False,
@@ -814,11 +820,14 @@ class RealApp:
                 Data to fit on, if not provided during initialization
             y_train (DataFrame or Series):
                 Training targets to fit on, if not provided during initialization
-            n (int):
+            num_examples (int):
                 Number of similar examples to return
             standardize (Boolean):
                 If True, standardize data before using it to get similar examples.
                 Recommended if model-ready data is not already standardized
+            fast (Boolean):
+                If True, use a faster algorithm for generating similar examples. Disable if
+                faiss is not available
             format_y (Boolean):
                 If True, format the ground truth y values returned using self.pred_format_func
             algorithm (string):
@@ -847,8 +856,8 @@ class RealApp:
             x_train_orig=x_train_orig,
             y_train=y_train,
             force_refit=force_refit,
-            prepare_kwargs={"standardize": standardize},
-            produce_kwargs={"n": n},
+            prepare_kwargs={"standardize": standardize, "fast": fast},
+            produce_kwargs={"num_examples": num_examples},
             format_kwargs=format_kwargs,
         )
 

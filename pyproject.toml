@@ -47,6 +47,7 @@ lime = "^0.2.0.1"
 seaborn = "^0.12.2"
 
 # Development Requirements
+faiss-cpu = "^1.7.4"
 [tool.poetry.group.dev.dependencies]
 
 # Testing Dependencies

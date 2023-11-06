@@ -17,7 +17,7 @@ def test_produce_similar_examples(regression_one_hot_with_interpret):
     )
 
     input_rows = pd.DataFrame([["id1", 6, 7, 9], ["id2", 2, 1, 1]], columns=["ID", "A", "B", "C"])
-    explanation = real_app.produce_similar_examples(input_rows, n=2)
+    explanation = real_app.produce_similar_examples(input_rows, num_examples=2)
     assert "id1" in explanation
     assert_frame_equal(explanation["id1"]["X"], x.iloc[[2, 1], :] + 1)
     assert_series_equal(explanation["id1"]["y"], y.iloc[[2, 1]])
@@ -62,7 +62,7 @@ def test_prepare_similar_examples_with_id_column(regression_no_transforms):
     real_app.prepare_similar_examples(x_train_orig=x_multi_dim, y_train=pd.Series([0, 1, 1]))
 
     # Confirm explainer was prepped and now works without being given data
-    real_app.produce_similar_examples(x_multi_dim, n=1)
+    real_app.produce_similar_examples(x_multi_dim, num_examples=1)
 
 
 def test_produce_similar_examples_with_standardization(dummy_model):
@@ -74,7 +74,9 @@ def test_produce_similar_examples_with_standardization(dummy_model):
         y_train=y,
     )
 
-    explanation = real_app.produce_similar_examples(pd.Series([1, 100]), n=2, standardize=True)
+    explanation = real_app.produce_similar_examples(
+        pd.Series([1, 100]), num_examples=2, standardize=True
+    )
 
     assert_frame_equal(explanation["X"], x.iloc[[0, 2], :])
     assert_series_equal(explanation["y"], y.iloc[[0, 2]])
@@ -96,7 +98,7 @@ def test_produce_similar_examples_with_format_func(regression_one_hot_with_inter
     )
 
     input_rows = pd.DataFrame([["id1", 6, 7, 9], ["id2", 2, 1, 1]], columns=["ID", "A", "B", "C"])
-    explanation = real_app.produce_similar_examples(input_rows, n=2)
+    explanation = real_app.produce_similar_examples(input_rows, num_examples=2)
     assert_series_equal(explanation["id1"]["y"], y.iloc[[2, 1]].apply(format_func))
-    explanation = real_app.produce_similar_examples(input_rows, n=2, format_y=False)
+    explanation = real_app.produce_similar_examples(input_rows, num_examples=2, format_y=False)
     assert_series_equal(explanation["id1"]["y"], y.iloc[[2, 1]])
