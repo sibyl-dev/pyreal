@@ -1,7 +1,7 @@
 import pandas as pd
 import pytest
 
-from pyreal.explanation_types.explanations.base import Explanation
+from pyreal.explanation_types import Explanation
 
 
 class BaseExplanation:

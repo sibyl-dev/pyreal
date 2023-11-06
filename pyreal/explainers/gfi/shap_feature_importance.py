@@ -4,9 +4,7 @@ from shap import Explainer as ShapExplainer
 from shap import KernelExplainer, LinearExplainer, TreeExplainer
 
 from pyreal.explainers import GlobalFeatureImportanceBase
-from pyreal.explanation_types.explanations.feature_based import (
-    AdditiveFeatureImportanceExplanation,
-)
+from pyreal.explanation_types import AdditiveFeatureImportanceExplanation
 
 
 class ShapFeatureImportance(GlobalFeatureImportanceBase):

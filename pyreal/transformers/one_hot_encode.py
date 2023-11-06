@@ -4,7 +4,7 @@ import numpy as np
 import pandas as pd
 from sklearn.preprocessing import OneHotEncoder as SklearnOneHotEncoder
 
-from pyreal.explanation_types.explanations.feature_based import (
+from pyreal.explanation_types import (
     AdditiveFeatureContributionExplanation,
     AdditiveFeatureImportanceExplanation,
 )

@@ -1,6 +1,6 @@
 import pandas as pd
 
-from pyreal.explanation_types.explanations.base import Explanation, convert_columns_with_dict
+from pyreal.explanation_types.base import Explanation, convert_columns_with_dict
 
 
 class ExampleBasedExplanation(Explanation):
