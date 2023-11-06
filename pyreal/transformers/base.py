@@ -3,13 +3,13 @@ from abc import ABC, abstractmethod
 
 import pandas as pd
 
-from pyreal.explanation_types.explanations.base import Explanation
-from pyreal.explanation_types.explanations.decision_tree import DecisionTreeExplanation
-from pyreal.explanation_types.explanations.example_based import (
+from pyreal.explanation_types.base import Explanation
+from pyreal.explanation_types.decision_tree import DecisionTreeExplanation
+from pyreal.explanation_types.example_based import (
     ExampleBasedExplanation,
     SimilarExampleExplanation,
 )
-from pyreal.explanation_types.explanations.feature_based import (
+from pyreal.explanation_types.feature_based import (
     AdditiveFeatureContributionExplanation,
     AdditiveFeatureImportanceExplanation,
     FeatureBased,

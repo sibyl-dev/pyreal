@@ -1,6 +1,6 @@
 import pandas as pd
 
-from pyreal.explanation_types.explanations.base import Explanation
+from pyreal.explanation_types import Explanation
 
 
 class TimeSeriesSaliency(Explanation):
