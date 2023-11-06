@@ -1,6 +1,6 @@
 import numpy as np
 import pandas as pd
-from explanation_types.feature_based import FeatureBased
+from pyreal.explanation_types import FeatureBased
 from pandas.testing import assert_frame_equal
 
 from pyreal.transformers import ColumnDropTransformer, FeatureSelectTransformer

@@ -1,5 +1,5 @@
 import pandas as pd
-from explanation_types.feature_based import FeatureImportanceExplanation
+from pyreal.explanation_types import FeatureImportanceExplanation
 from pandas.testing import assert_frame_equal
 
 from pyreal.transformers import (

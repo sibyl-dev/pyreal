@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 import pytest
-from explanation_types.feature_based import AdditiveFeatureContributionExplanation
+from pyreal.explanation_types import AdditiveFeatureContributionExplanation
 from pandas.testing import assert_frame_equal, assert_series_equal
 
 from pyreal.explainers import Explainer, LocalFeatureContribution
