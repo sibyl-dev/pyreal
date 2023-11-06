@@ -796,7 +796,7 @@ class RealApp:
         model_id=None,
         x_train_orig=None,
         y_train=None,
-        n=3,
+        num_examples=3,
         standardize=False,
         format_y=True,
         algorithm=None,
@@ -814,7 +814,7 @@ class RealApp:
                 Data to fit on, if not provided during initialization
             y_train (DataFrame or Series):
                 Training targets to fit on, if not provided during initialization
-            n (int):
+            num_examples (int):
                 Number of similar examples to return
             standardize (Boolean):
                 If True, standardize data before using it to get similar examples.
@@ -848,7 +848,7 @@ class RealApp:
             y_train=y_train,
             force_refit=force_refit,
             prepare_kwargs={"standardize": standardize},
-            produce_kwargs={"n": n},
+            produce_kwargs={"n": num_examples},
             format_kwargs=format_kwargs,
         )
 

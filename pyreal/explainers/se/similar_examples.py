@@ -6,6 +6,23 @@ from pyreal.explainers.se.base import SimilarExamplesBase
 from pyreal.explanation_types import SimilarExampleExplanation
 from pyreal.explanation_types.base import convert_columns_with_dict
 
+import faiss
+import numpy as np
+
+
+# From:
+# towardsdatascience.com/make-knn-300-times-faster-than-scikit-learns-in-20-lines-5e29d74e76bb
+class FaissKNeighbors:
+    def __init__(self, X):
+        self.index = faiss.IndexFlatL2(X.shape[1])
+        self.index.add(X.astype(np.float32))
+
+    def query(self, x, k, return_distance=False):
+        distances, indices = self.index.search(x.astype(np.float32), k=k)
+        if return_distance:
+            return distances, indices
+        return indices
+
 
 class SimilarExamples(SimilarExamplesBase):
     """
@@ -22,15 +39,19 @@ class SimilarExamples(SimilarExamplesBase):
             Training set in original form.
         standardize (Boolean):
             If True, standardize the data when selected similar examples
+        fast (Boolean):
+            If True, use a faster algorithm to compute the neighbors. Set to False if having
+            trouble with faiss library
         **kwargs: see base Explainer args
     """
 
-    def __init__(self, model, x_train_orig=None, standardize=False, **kwargs):
+    def __init__(self, model, x_train_orig=None, standardize=False, fast=True, **kwargs):
         self.explainer = None
         self.standardize = standardize
         self.standardizer = None
         self.x_train_interpret = None
         self.x_train_interpret_features = None
+        self.fast = fast
         super(SimilarExamples, self).__init__(model, x_train_orig, **kwargs)
 
     def fit(self, x_train_orig=None, y_train=None):
@@ -49,7 +70,11 @@ class SimilarExamples(SimilarExamplesBase):
         if self.standardize:
             self.standardizer = StandardScaler()
             dataset = self.standardizer.fit_transform(dataset)
-        self.explainer = KDTree(dataset)
+
+        if self.fast:
+            self.explainer = FaissKNeighbors(dataset)
+        else:
+            self.explainer = KDTree(dataset)
         self.y_train = y_train
         self.x_train_interpret = self.transform_to_x_interpret(x_train_orig)
         self.x_train_interpret_features = convert_columns_with_dict(
