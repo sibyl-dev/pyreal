@@ -5,10 +5,7 @@ import numpy as np
 import pandas as pd
 import seaborn as sns
 
-from pyreal.explanation_types.explanations.feature_based import (
-    FeatureContributionExplanation,
-    FeatureImportanceExplanation,
-)
+from pyreal.explanation_types import FeatureContributionExplanation, FeatureImportanceExplanation
 from pyreal.realapp import realapp
 from pyreal.utils import get_top_contributors
 from pyreal.visualize.visualize_config import (

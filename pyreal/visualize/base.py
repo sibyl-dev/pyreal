@@ -1,12 +1,12 @@
 import pandas as pd
 
-from pyreal.explanation_types.explanations.base import Explanation
-from pyreal.explanation_types.explanations.decision_tree import DecisionTreeExplanation
-from pyreal.explanation_types.explanations.feature_based import (
+from pyreal.explanation_types import (
+    DecisionTreeExplanation,
+    Explanation,
     FeatureContributionExplanation,
     FeatureImportanceExplanation,
+    PartialDependenceExplanation,
 )
-from pyreal.explanation_types.explanations.feature_value_based import PartialDependenceExplanation
 from pyreal.visualize import (
     example_table,
     feature_bar_plot,

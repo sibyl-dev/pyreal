@@ -3,7 +3,7 @@ from sklearn.neighbors import KDTree
 from sklearn.preprocessing import StandardScaler
 
 from pyreal.explainers.se.base import SimilarExamplesBase
-from pyreal.explanation_types.explanations.example_based import SimilarExampleExplanation
+from pyreal.explanation_types import SimilarExampleExplanation
 
 
 class SimilarExamples(SimilarExamplesBase):

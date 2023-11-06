@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 
 from pyreal.explainers import LocalFeatureContributionsBase
-from pyreal.explanation_types.explanations.feature_based import FeatureContributionExplanation
+from pyreal.explanation_types import FeatureContributionExplanation
 
 
 class SimpleCounterfactualContribution(LocalFeatureContributionsBase):

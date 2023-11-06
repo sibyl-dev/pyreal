@@ -2,7 +2,7 @@
 
 Explanation Type
 =========================
-.. currentmodule:: pyreal.explanation_types.explanations
+.. currentmodule:: pyreal.explanation_types
 
 Explanation Type
 ~~~~~~~~~~~~~~~~~
