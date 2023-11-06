@@ -857,7 +857,7 @@ class RealApp:
             y_train=y_train,
             force_refit=force_refit,
             prepare_kwargs={"standardize": standardize, "fast": fast},
-            produce_kwargs={"n": num_examples},
+            produce_kwargs={"num_examples": num_examples},
             format_kwargs=format_kwargs,
         )
 

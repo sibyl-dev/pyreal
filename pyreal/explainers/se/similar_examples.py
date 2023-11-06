@@ -1,3 +1,5 @@
+import faiss
+import numpy as np
 import pandas as pd
 from sklearn.neighbors import KDTree
 from sklearn.preprocessing import StandardScaler
@@ -5,9 +7,6 @@ from sklearn.preprocessing import StandardScaler
 from pyreal.explainers.se.base import SimilarExamplesBase
 from pyreal.explanation_types import SimilarExampleExplanation
 from pyreal.explanation_types.base import convert_columns_with_dict
-
-import faiss
-import numpy as np
 
 
 # From:
@@ -82,7 +81,9 @@ class SimilarExamples(SimilarExamplesBase):
         )
         return self
 
-    def produce_explanation_interpret(self, x_orig, disable_feature_descriptions=False, n=5):
+    def produce_explanation_interpret(
+        self, x_orig, disable_feature_descriptions=False, num_examples=5
+    ):
         """
         Get the n nearest neighbors to x_orig
 
@@ -91,7 +92,7 @@ class SimilarExamples(SimilarExamplesBase):
                The input to be explained
             disable_feature_descriptions (Boolean):
                 If False, do not apply feature descriptions
-            n (int):
+            num_examples (int):
                 Number of neighbors to return
         Returns:
             SimilarExamplesExplanation
@@ -105,7 +106,7 @@ class SimilarExamples(SimilarExamplesBase):
         x = self.transform_to_x_algorithm(x_orig)
         if self.standardize:
             x = self.standardizer.transform(x)
-        inds = self.explainer.query(x, k=n, return_distance=False)
+        inds = self.explainer.query(x, k=num_examples, return_distance=False)
         raw_explanation_x = {}
         raw_explanation_y = {}
         for i in range(len(inds)):

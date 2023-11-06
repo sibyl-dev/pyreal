@@ -1,8 +1,8 @@
 import pandas as pd
+import pytest
 from pandas.testing import assert_frame_equal, assert_series_equal
 
 from pyreal.explainers.se.similar_examples import SimilarExamples
-import pytest
 
 
 @pytest.mark.parametrize("fast", [False, True])
@@ -13,8 +13,8 @@ def test_produce(dummy_model, fast):
     explainer = SimilarExamples(
         model=dummy_model, x_train_orig=x, y_train=y, fit_on_init=True, fast=fast
     )
-    result_df = explainer.produce(pd.DataFrame([[0, 1, 0]]), n=2)
-    result_series = explainer.produce(pd.Series([0, 1, 0]), n=2)
+    result_df = explainer.produce(pd.DataFrame([[0, 1, 0]]), num_examples=2)
+    result_series = explainer.produce(pd.Series([0, 1, 0]), num_examples=2)
     for result in [result_df, result_series]:
         expected_examples = x.iloc[[2, 0], :]
         expected_targets = y.iloc[[2, 0]]
@@ -37,7 +37,7 @@ def test_produce_with_transforms(regression_one_hot_with_interpret, fast):
         feature_descriptions={"A": "Feature A"},
         fast=fast,
     )
-    result = explainer.produce(pd.DataFrame([[2, 1, 4]], columns=["A", "B", "C"]), n=1)
+    result = explainer.produce(pd.DataFrame([[2, 1, 4]], columns=["A", "B", "C"]), num_examples=1)
     expected_examples = pd.DataFrame([((x.iloc[0, :]) + 1).rename({"A": "Feature A"})])
     expected_targets = pd.Series([y.iloc[0]])
 
@@ -60,7 +60,9 @@ def test_produce_multiple_with_transforms(regression_one_hot_with_interpret, fas
         feature_descriptions={"A": "Feature A"},
         fast=fast,
     )
-    result = explainer.produce(pd.DataFrame([[2, 1, 4], [6, 7, 9]], columns=["A", "B", "C"]), n=2)
+    result = explainer.produce(
+        pd.DataFrame([[2, 1, 4], [6, 7, 9]], columns=["A", "B", "C"]), num_examples=2
+    )
     expected_examples_1 = (x.iloc[[0, 1], :] + 1).rename(columns={"A": "Feature A"})
     expected_targets_1 = y.iloc[[0, 1]]
 
@@ -85,7 +87,7 @@ def test_produce_with_standardize(dummy_model, fast):
     explainer = SimilarExamples(
         model=dummy_model, x_train_orig=x, y_train=y, fit_on_init=True, standardize=True, fast=fast
     )
-    result = explainer.produce(pd.DataFrame([[1, 100]]), n=2)
+    result = explainer.produce(pd.DataFrame([[1, 100]]), num_examples=2)
     expected_examples = x.iloc[[0, 2], :]
     expected_targets = y.iloc[[0, 2]]
 
