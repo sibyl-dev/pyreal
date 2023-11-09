@@ -58,5 +58,7 @@ class LatLongToPlace(Transformer):
         x[self.result_column] = places
         return x.drop(columns=[self.latitude_column, self.longitude_column])
 
-    def transform_explanation_additive_feature_contribution(self, explanation):
-        return explanation
+    def transform_explanation_feature_based(self, explanation):
+        return explanation.combine_columns(
+            [self.latitude_column, self.longitude_column], self.result_column
+        )
