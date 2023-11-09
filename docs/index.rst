@@ -9,7 +9,7 @@ Pyreal Documentation
 ===============================
 
 -  License: MIT
--  Documentation: https://pyreal.gitbook.io/pyreal
+-  Documentation: https://dtail.gitbook.io/pyreal/
 -  Github: https://github.com/sibyl-dev/pyreal
 
 Overview

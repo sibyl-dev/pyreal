@@ -3091,6 +3091,20 @@ socks = ["PySocks (>=1.5.6,!=1.5.7)"]
 use-chardet-on-py3 = ["chardet (>=3.0.2,<6)"]
 
 [[package]]
+name = "reverse-geocoder"
+version = "1.5.1"
+description = "Fast, offline reverse geocoder"
+optional = false
+python-versions = "*"
+files = [
+    {file = "reverse_geocoder-1.5.1.tar.gz", hash = "sha256:2a2e781b5f69376d922b78fe8978f1350c84fce0ddb07e02c834ecf98b57c75c"},
+]
+
+[package.dependencies]
+numpy = ">=1.11.0"
+scipy = ">=0.17.1"
+
+[[package]]
 name = "rfc3339-validator"
 version = "0.1.4"
 description = "A pure python RFC3339 validator"
@@ -3917,4 +3931,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.9, <3.12"
-content-hash = "6d1a027e9a2b440d429db9ca4efedf0305f6e36a21e6253cbfef416c0d555197"
+content-hash = "635976039b7d162eb01398d5b3a9dcbc2bc4483a18ff84a62ae9a9b6158ee615"

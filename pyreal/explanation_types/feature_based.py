@@ -36,6 +36,21 @@ class FeatureBased(Explanation):
         )
         super().apply_feature_descriptions(feature_descriptions)
 
+    def combine_columns(self, columns, new_column):
+        """
+        Combine the values for columns into a new column, if appropriate
+        Args:
+            columns (list of strings):
+                Columns to sum
+            new_column (string):
+                Name of new column
+        Returns:
+            New updated explanation
+        """
+        # Unless the explanation is additive, there is no guarantee these columns can be
+        #   meaningfully added, so we just return the original explanation
+        return type(self)(self.explanation)
+
 
 class FeatureImportanceExplanation(FeatureBased):
     """
@@ -77,6 +92,22 @@ class AdditiveFeatureImportanceExplanation(FeatureImportanceExplanation):
                 if `self.explanation` is invalid
         """
         super().validate()
+
+    def combine_columns(self, columns, new_column):
+        """
+        Combine the values for columns into a new column, if appropriate
+        Args:
+            columns (list of strings):
+                Columns to sum
+            new_column (string):
+                Name of new column
+        Returns:
+            New updated explanation
+        """
+        summed_contribution = self.explanation[columns].sum(axis=1)
+        new_explanation = self.explanation.drop(columns, axis="columns")
+        new_explanation[new_column] = summed_contribution
+        return type(self)(new_explanation)
 
 
 class FeatureContributionExplanation(FeatureBased):
@@ -136,6 +167,22 @@ class AdditiveFeatureContributionExplanation(FeatureContributionExplanation):
                 if `self.explanation` is invalid
         """
         super().validate()
+
+    def combine_columns(self, columns, new_column):
+        """
+        Combine the values for columns into a new column, if appropriate
+        Args:
+            columns (list of strings):
+                Columns to sum
+            new_column (string):
+                Name of new column
+        Returns:
+            New updated explanation
+        """
+        summed_contribution = self.explanation[columns].sum(axis=1)
+        new_explanation = self.explanation.drop(columns, axis="columns")
+        new_explanation[new_column] = summed_contribution
+        return type(self)(new_explanation)
 
 
 class ClassFeatureContributionExplanation(FeatureBased):

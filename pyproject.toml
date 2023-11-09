@@ -48,6 +48,7 @@ seaborn = "^0.12.2"
 
 # Development Requirements
 faiss-cpu = "^1.7.4"
+reverse-geocoder = "^1.5.1"
 [tool.poetry.group.dev.dependencies]
 
 # Testing Dependencies
