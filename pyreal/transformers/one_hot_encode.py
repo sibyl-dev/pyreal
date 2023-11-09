@@ -13,6 +13,17 @@ from pyreal.transformers import BreakingTransformError, Transformer
 log = logging.getLogger(__name__)
 
 
+def _helper_transform_explanation_additive_with_mappings(self, wrapped_explanation, mappings):
+    if wrapped_explanation.ndim == 1:
+        wrapped_explanation = wrapped_explanation.reshape(1, -1)
+    for original_feature in mappings.categorical_to_one_hot.keys():
+        encoded_features = mappings.categorical_to_one_hot[original_feature].keys()
+        summed_contribution = wrapped_explanation[encoded_features].sum(axis=1)
+        wrapped_explanation = wrapped_explanation.drop(encoded_features, axis="columns")
+        wrapped_explanation[original_feature] = summed_contribution
+    return wrapped_explanation
+
+
 def _generate_one_hot_to_categorical(categorical_to_one_hot):
     one_hot_to_categorical = {}
     for cf in categorical_to_one_hot:
@@ -192,9 +203,7 @@ class OneHotEncoder(Transformer):
             AdditiveFeatureContributionExplanation:
                 The transformed explanation
         """
-        return AdditiveFeatureContributionExplanation(
-            self._helper_summed_values(explanation.get())
-        )
+        return explanation.update_explanation(self._helper_summed_values(explanation.get()))
 
     def inverse_transform_explanation_additive_feature_importance(self, explanation):
         """
@@ -209,7 +218,7 @@ class OneHotEncoder(Transformer):
             AdditiveFeatureImportanceExplanation:
                 The transformed explanation
         """
-        return AdditiveFeatureImportanceExplanation(self._helper_summed_values(explanation.get()))
+        return explanation.update_explanation(self._helper_summed_values(explanation.get()))
 
     def inverse_transform_explanation_feature_based(self, explanation):
         """
@@ -376,15 +385,14 @@ class MappingsOneHotEncoder(Transformer):
         return pd.DataFrame(cat_data)
 
     def inverse_transform_explanation_additive_feature_contribution(self, explanation):
-        explanation = pd.DataFrame(explanation.get())
-        if explanation.ndim == 1:
-            explanation = explanation.reshape(1, -1)
-        for original_feature in self.mappings.categorical_to_one_hot.keys():
-            encoded_features = self.mappings.categorical_to_one_hot[original_feature].keys()
-            summed_contribution = explanation[encoded_features].sum(axis=1)
-            explanation = explanation.drop(encoded_features, axis="columns")
-            explanation[original_feature] = summed_contribution
-        return AdditiveFeatureContributionExplanation(explanation)
+        return explanation.update_explanation(
+            _helper_transform_explanation_additive_with_mappings(explanation, self.mappings)
+        )
+
+    def inverse_transform_explanation_additive_feature_importance(self, explanation):
+        return explanation.update_explanation(
+            _helper_transform_explanation_additive_with_mappings(explanation, self.mappings)
+        )
 
 
 class MappingsOneHotDecoder(Transformer):
@@ -469,8 +477,9 @@ class MappingsOneHotDecoder(Transformer):
             AdditiveFeatureContributionExplanation:
                 The transformed explanation
         """
-        explanation = self.helper_transform_explanation_additive(explanation)
-        return AdditiveFeatureContributionExplanation(explanation)
+        return explanation.update_explanation(
+            _helper_transform_explanation_additive_with_mappings(explanation, self.mappings)
+        )
 
     def transform_explanation_additive_feature_importance(self, explanation):
         """
@@ -484,16 +493,6 @@ class MappingsOneHotDecoder(Transformer):
             AdditiveFeatureImportanceExplanation:
                 The transformed explanation
         """
-        explanation = self.helper_transform_explanation_additive(explanation)
-        return AdditiveFeatureImportanceExplanation(explanation)
-
-    def helper_transform_explanation_additive(self, explanation):
-        explanation = pd.DataFrame(explanation.get())
-        if explanation.ndim == 1:
-            explanation = explanation.reshape(1, -1)
-        for original_feature in self.mappings.categorical_to_one_hot.keys():
-            encoded_features = self.mappings.categorical_to_one_hot[original_feature].keys()
-            summed_contribution = explanation[encoded_features].sum(axis=1)
-            explanation = explanation.drop(encoded_features, axis="columns")
-            explanation[original_feature] = summed_contribution
-        return explanation
+        return explanation.update_explanation(
+            _helper_transform_explanation_additive_with_mappings(explanation, self.mappings)
+        )
