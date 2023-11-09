@@ -84,7 +84,7 @@ class FeatureSelectTransformer(Transformer):
                 The transformed explanation
 
         """
-        return FeatureBased(explanation.get()[self.columns])
+        return explanation.update_explanation(explanation.get()[self.columns])
 
     def transform_explanation_decision_tree(self, explanation):
         """
@@ -149,7 +149,7 @@ class ColumnDropTransformer(Transformer):
         explanation_df = explanation.get()
         for col in self.dropped_columns:
             explanation_df[col] = 0
-        return FeatureBased(explanation_df[self.column_order])
+        return explanation.update_explanation(explanation_df[self.column_order])
 
     def transform_explanation_feature_based(self, explanation):
         """
@@ -163,7 +163,7 @@ class ColumnDropTransformer(Transformer):
                 The transformed explanation
 
         """
-        return FeatureBased(explanation.get().drop(self.dropped_columns, axis=1))
+        return explanation.update_explanation(explanation.get().drop(self.dropped_columns, axis=1))
 
     def transform_explanation_decision_tree(self, explanation):
         """

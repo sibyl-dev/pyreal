@@ -49,7 +49,7 @@ class FeatureBased(Explanation):
         """
         # Unless the explanation is additive, there is no guarantee these columns can be
         #   meaningfully added, so we just return the original explanation
-        return type(self)(self.explanation)
+        return self
 
 
 class FeatureImportanceExplanation(FeatureBased):
@@ -107,7 +107,7 @@ class AdditiveFeatureImportanceExplanation(FeatureImportanceExplanation):
         summed_contribution = self.explanation[columns].sum(axis=1)
         new_explanation = self.explanation.drop(columns, axis="columns")
         new_explanation[new_column] = summed_contribution
-        return type(self)(new_explanation)
+        return self.update_explanation(new_explanation)
 
 
 class FeatureContributionExplanation(FeatureBased):
@@ -182,7 +182,7 @@ class AdditiveFeatureContributionExplanation(FeatureContributionExplanation):
         summed_contribution = self.explanation[columns].sum(axis=1)
         new_explanation = self.explanation.drop(columns, axis="columns")
         new_explanation[new_column] = summed_contribution
-        return type(self)(new_explanation)
+        return self.update_explanation(new_explanation)
 
 
 class ClassFeatureContributionExplanation(FeatureBased):

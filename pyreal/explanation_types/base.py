@@ -91,13 +91,33 @@ class Explanation:
         else:
             return self.__class__(self.explanation, values)
 
-    def update_explanation(self, explanation, inplace=False):
+    def update_explanation(self, new_explanation, inplace=False):
         """
-        Updates this objects explanation, and validates
+        Sets this object's explanation to the new value
 
         Args:
-            explanation (object):
-                New raw explanation
+            new_explanation (object):
+                New explanation
+            inplace (Boolean):
+                If True, change the explanation on this object. Otherwise, create a new object
+                identical to this one but with a new explanation
+        """
+        if inplace:
+            self.explanation = new_explanation
+            self.validate()
+            if self.values is not None:
+                self.validate_values()
+            return self
+        else:
+            return self.__class__(new_explanation, self.values)
+
+    '''def update_explanation(self, func, inplace=False):
+        """
+        Updates this object's explanation using func, and validates
+
+        Args:
+            func (function):
+                Function to apply to explanation
             inplace (Boolean)
                 If True, change the explanation on this object. Otherwise, create a new object
                 identical to this one but with a new explanation
@@ -106,6 +126,7 @@ class Explanation:
             Explanation
                 `self` if `inplace=True`, else the new Explanation object.
         """
+        explanation = func(self.explanation)
         if inplace:
             self.explanation = explanation
             self.validate()
@@ -113,7 +134,7 @@ class Explanation:
                 self.validate_values()
             return self
         else:
-            return self.__class__(explanation, self.values)
+            return self.__class__(explanation, self.values)'''
 
     def apply_feature_descriptions(self, feature_descriptions):
         """
