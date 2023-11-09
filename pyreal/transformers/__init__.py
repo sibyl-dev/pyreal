@@ -31,6 +31,7 @@ from pyreal.transformers.wrappers import DataFrameWrapper
 from pyreal.transformers.pad import TimeSeriesPadder
 from pyreal.transformers.type_cast import BoolToIntCaster
 from pyreal.transformers.scale import MinMaxScaler, StandardScaler, Normalizer
+from pyreal.transformers.geo import LatLongToPlace
 
 __all__ = [
     "Transformer",
@@ -63,4 +64,5 @@ __all__ = [
     "MinMaxScaler",
     "Normalizer",
     "StandardScaler",
+    "LatLongToPlace",
 ]
