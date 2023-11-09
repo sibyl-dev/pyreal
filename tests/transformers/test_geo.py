@@ -1,7 +1,8 @@
 import pandas as pd
-from pyreal.transformers import LatLongToPlace
 from pandas.testing import assert_frame_equal
+
 from pyreal.explanation_types import AdditiveFeatureContributionExplanation
+from pyreal.transformers import LatLongToPlace
 
 
 def test_latlongtoplace_data_transform():
