@@ -15,6 +15,7 @@
    
       ~FeatureContributionExplanation.__init__
       ~FeatureContributionExplanation.apply_feature_descriptions
+      ~FeatureContributionExplanation.combine_columns
       ~FeatureContributionExplanation.get
       ~FeatureContributionExplanation.get_all
       ~FeatureContributionExplanation.get_values

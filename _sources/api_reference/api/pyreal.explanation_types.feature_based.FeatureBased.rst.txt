@@ -15,6 +15,7 @@
    
       ~FeatureBased.__init__
       ~FeatureBased.apply_feature_descriptions
+      ~FeatureBased.combine_columns
       ~FeatureBased.get
       ~FeatureBased.get_all
       ~FeatureBased.get_values

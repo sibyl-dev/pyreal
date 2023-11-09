@@ -1,0 +1,6 @@
+﻿pyreal.transformers.LatLongToPlace.data\_transform
+==================================================
+
+.. currentmodule:: pyreal.transformers
+
+.. automethod:: LatLongToPlace.data_transform

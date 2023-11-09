@@ -1,0 +1,6 @@
+﻿pyreal.transformers.LatLongToPlace.fit\_transform
+=================================================
+
+.. currentmodule:: pyreal.transformers
+
+.. automethod:: LatLongToPlace.fit_transform

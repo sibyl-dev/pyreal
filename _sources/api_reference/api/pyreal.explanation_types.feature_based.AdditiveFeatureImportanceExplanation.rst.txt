@@ -15,6 +15,7 @@
    
       ~AdditiveFeatureImportanceExplanation.__init__
       ~AdditiveFeatureImportanceExplanation.apply_feature_descriptions
+      ~AdditiveFeatureImportanceExplanation.combine_columns
       ~AdditiveFeatureImportanceExplanation.get
       ~AdditiveFeatureImportanceExplanation.get_all
       ~AdditiveFeatureImportanceExplanation.get_values

@@ -558,7 +558,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">inverse_data_transform</span><span class="p">(</span><span class="n">x_new</span><span class="p">)</span></div>
 
-    <span class="k">def</span> <span class="nf">inverse_transform_explanation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">explanation</span><span class="p">):</span>
+<div class="viewcode-block" id="Transformer.inverse_transform_explanation"><a class="viewcode-back" href="../../../api_reference/api/pyreal.transformers.Transformer.inverse_transform_explanation.html#pyreal.transformers.Transformer.inverse_transform_explanation">[docs]</a>    <span class="k">def</span> <span class="nf">inverse_transform_explanation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">explanation</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Transforms the explanation from the second feature space handled by this transformer</span>
 <span class="sd">        to the first.</span>
@@ -596,7 +596,7 @@ document.write(`
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">explanation</span><span class="p">,</span> <span class="n">Explanation</span><span class="p">):</span>  <span class="c1"># handle generic explanation cases</span>
             <span class="k">return</span> <span class="n">explanation</span>
 
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Invalid explanation types </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">explanation</span><span class="o">.</span><span class="vm">__class__</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Invalid explanation types </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">explanation</span><span class="o">.</span><span class="vm">__class__</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Transformer.transform_explanation"><a class="viewcode-back" href="../../../api_reference/api/pyreal.transformers.Transformer.transform_explanation.html#pyreal.transformers.Transformer.transform_explanation">[docs]</a>    <span class="k">def</span> <span class="nf">transform_explanation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">explanation</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>

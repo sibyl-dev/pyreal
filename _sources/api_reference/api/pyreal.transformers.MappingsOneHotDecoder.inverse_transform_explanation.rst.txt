@@ -1,0 +1,6 @@
+﻿pyreal.transformers.MappingsOneHotDecoder.inverse\_transform\_explanation
+=========================================================================
+
+.. currentmodule:: pyreal.transformers
+
+.. automethod:: MappingsOneHotDecoder.inverse_transform_explanation

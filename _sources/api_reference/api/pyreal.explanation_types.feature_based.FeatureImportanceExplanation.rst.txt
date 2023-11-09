@@ -15,6 +15,7 @@
    
       ~FeatureImportanceExplanation.__init__
       ~FeatureImportanceExplanation.apply_feature_descriptions
+      ~FeatureImportanceExplanation.combine_columns
       ~FeatureImportanceExplanation.get
       ~FeatureImportanceExplanation.get_all
       ~FeatureImportanceExplanation.get_values

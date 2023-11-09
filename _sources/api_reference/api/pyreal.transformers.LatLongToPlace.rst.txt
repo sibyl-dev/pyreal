@@ -1,0 +1,47 @@
+﻿pyreal.transformers.LatLongToPlace
+==================================
+
+.. currentmodule:: pyreal.transformers
+
+.. autoclass:: LatLongToPlace
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~LatLongToPlace.__init__
+      ~LatLongToPlace.data_transform
+      ~LatLongToPlace.fit
+      ~LatLongToPlace.fit_transform
+      ~LatLongToPlace.inverse_data_transform
+      ~LatLongToPlace.inverse_transform
+      ~LatLongToPlace.inverse_transform_explanation
+      ~LatLongToPlace.inverse_transform_explanation_additive_feature_contribution
+      ~LatLongToPlace.inverse_transform_explanation_additive_feature_importance
+      ~LatLongToPlace.inverse_transform_explanation_decision_tree
+      ~LatLongToPlace.inverse_transform_explanation_example
+      ~LatLongToPlace.inverse_transform_explanation_feature_based
+      ~LatLongToPlace.inverse_transform_explanation_feature_contribution
+      ~LatLongToPlace.inverse_transform_explanation_feature_importance
+      ~LatLongToPlace.inverse_transform_explanation_similar_example
+      ~LatLongToPlace.set_flags
+      ~LatLongToPlace.transform
+      ~LatLongToPlace.transform_explanation
+      ~LatLongToPlace.transform_explanation_additive_feature_contribution
+      ~LatLongToPlace.transform_explanation_additive_feature_importance
+      ~LatLongToPlace.transform_explanation_decision_tree
+      ~LatLongToPlace.transform_explanation_example
+      ~LatLongToPlace.transform_explanation_feature_based
+      ~LatLongToPlace.transform_explanation_feature_contribution
+      ~LatLongToPlace.transform_explanation_feature_importance
+      ~LatLongToPlace.transform_explanation_similar_example
+   
+   
+
+   
+   
+   
