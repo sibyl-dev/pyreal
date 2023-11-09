@@ -75,6 +75,8 @@ class SimilarExamples(SimilarExamplesBase):
         else:
             self.explainer = KDTree(dataset)
         self.y_train = y_train
+
+        # Storing two datasets here is not ideal, but speeds things up
         self.x_train_interpret = self.transform_to_x_interpret(x_train_orig)
         self.x_train_interpret_features = convert_columns_with_dict(
             self.x_train_interpret, self.feature_descriptions
