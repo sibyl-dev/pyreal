@@ -70,7 +70,7 @@ class FeatureSelectTransformer(Transformer):
         explanation_df = explanation.get()
         for col in self.dropped_columns:
             explanation_df[col] = 0
-        return FeatureBased(explanation_df[self.column_order])
+        return explanation.update_explanation(explanation_df[self.column_order])
 
     def transform_explanation_feature_based(self, explanation):
         """

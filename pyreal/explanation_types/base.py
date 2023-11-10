@@ -111,31 +111,6 @@ class Explanation:
         else:
             return self.__class__(new_explanation, self.values)
 
-    '''def update_explanation(self, func, inplace=False):
-        """
-        Updates this object's explanation using func, and validates
-
-        Args:
-            func (function):
-                Function to apply to explanation
-            inplace (Boolean)
-                If True, change the explanation on this object. Otherwise, create a new object
-                identical to this one but with a new explanation
-
-        Returns:
-            Explanation
-                `self` if `inplace=True`, else the new Explanation object.
-        """
-        explanation = func(self.explanation)
-        if inplace:
-            self.explanation = explanation
-            self.validate()
-            if self.values is not None:
-                self.validate_values()
-            return self
-        else:
-            return self.__class__(explanation, self.values)'''
-
     def apply_feature_descriptions(self, feature_descriptions):
         """
         Apply feature descriptions to explanation and values
