@@ -109,7 +109,7 @@ class Explanation:
                 self.validate_values()
             return self
         else:
-            return self.__class__(new_explanation, self.values)
+            return self.__class__(new_explanation)
 
     def apply_feature_descriptions(self, feature_descriptions):
         """
