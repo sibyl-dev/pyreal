@@ -2,6 +2,7 @@ import logging
 
 import numpy as np
 import pandas as pd
+import re
 from sklearn.preprocessing import OneHotEncoder as SklearnOneHotEncoder
 
 from pyreal.transformers import BreakingTransformError, Transformer
@@ -119,7 +120,7 @@ class OneHotEncoder(Transformer):
             columns (dataframe column label type or list of dataframe column label type):
                 Label of column to select, or an ordered list of column labels to select
         """
-        self.ohe = SklearnOneHotEncoder(sparse_output=False)
+        self.ohe = SklearnOneHotEncoder(sparse_output=False).set_output(transform="pandas")
         if columns is not None and not isinstance(columns, (list, tuple, np.ndarray, pd.Index)):
             columns = [columns]
         self.columns = columns
@@ -161,9 +162,7 @@ class OneHotEncoder(Transformer):
         if not self.fitted:
             raise RuntimeError("Must fit one hot encoder before transforming")
         x_to_encode = x[self.columns]
-        index = x_to_encode.index
         x_cat_ohe = self.ohe.transform(x_to_encode)
-        x_cat_ohe = pd.DataFrame(x_cat_ohe, columns=self.onehot_columns, index=index)
         return pd.concat([x.drop(self.columns, axis="columns"), x_cat_ohe], axis=1)
 
     def inverse_data_transform(self, x_new):
@@ -299,9 +298,14 @@ class OneHotEncoder(Transformer):
         if explanation.ndim == 1:
             explanation = explanation.reshape(1, -1)
         encoded_columns = self.ohe.get_feature_names_out(self.columns)
+        longest_first = sorted(self.orig_columns, key=len, reverse=True)
+        regex = r"(" + "|".join(map(re.escape, longest_first)) + ")"
         summed_contribution = (
             explanation[encoded_columns]
-            .groupby(explanation[encoded_columns].columns.str.split("_").str[0], axis=1)
+            .groupby(
+                explanation[encoded_columns].columns.str.extract(regex, expand=False),
+                axis=1,
+            )
             .sum()
         )
         explanation = explanation.drop(columns=encoded_columns)
