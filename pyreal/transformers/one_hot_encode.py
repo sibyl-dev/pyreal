@@ -296,17 +296,16 @@ class OneHotEncoder(Transformer):
         Returns:
             the values summed together for all features involved in the one-hot encoding
         """
-        explanation = pd.DataFrame(explanation)
         if explanation.ndim == 1:
             explanation = explanation.reshape(1, -1)
         encoded_columns = self.ohe.get_feature_names_out(self.columns)
-        for original_feature in self.columns:
-            encoded_features = [
-                item for item in encoded_columns if item.startswith(original_feature + "_")
-            ]
-            summed_contribution = explanation[encoded_features].sum(axis=1)
-            explanation = explanation.drop(encoded_features, axis="columns")
-            explanation[original_feature] = summed_contribution
+        summed_contribution = (
+            explanation[encoded_columns]
+            .groupby(explanation[encoded_columns].columns.str.split("_").str[0], axis=1)
+            .sum()
+        )
+        explanation = explanation.drop(columns=encoded_columns)
+        explanation = pd.concat([explanation, summed_contribution], axis=1)
         return explanation
 
 
