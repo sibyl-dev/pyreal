@@ -17,6 +17,7 @@
       ~PartialDependenceExplanation.apply_feature_descriptions
       ~PartialDependenceExplanation.get
       ~PartialDependenceExplanation.get_all
+      ~PartialDependenceExplanation.get_explanation
       ~PartialDependenceExplanation.get_values
       ~PartialDependenceExplanation.update_explanation
       ~PartialDependenceExplanation.update_values

@@ -623,24 +623,27 @@ document.write(`
 <td><p>Combine the values for columns into a new column, if appropriate :param columns: Columns to sum :type columns: list of strings :param new_column: Name of new column :type new_column: string</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="pyreal.explanation_types.feature_based.FeatureBased.get.html#pyreal.explanation_types.feature_based.FeatureBased.get" title="pyreal.explanation_types.feature_based.FeatureBased.get"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get</span></code></a>()</p></td>
-<td><p>Get the explanation wrapped by this type :returns:</p></td>
+<td><p>Get the explanation wrapped by this type.</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_all</span></code>()</p></td>
 <td><p>Get the explanation and wrapped values as a tuple.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_values</span></code>()</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_explanation</span></code>()</p></td>
+<td><p>Get the explanation wrapped by this type</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_values</span></code>()</p></td>
 <td><p>Return the values associated with the explanation</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">update_explanation</span></code>(explanation[, inplace])</p></td>
-<td><p>Updates this objects explanation, and validates</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">update_explanation</span></code>(new_explanation[, ...])</p></td>
+<td><p>Sets this object's explanation to the new value.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">update_values</span></code>(values[, inplace])</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">update_values</span></code>(values[, inplace])</p></td>
 <td><p>Updates this objects values, and validates</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="pyreal.explanation_types.feature_based.FeatureBased.validate.html#pyreal.explanation_types.feature_based.FeatureBased.validate" title="pyreal.explanation_types.feature_based.FeatureBased.validate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">validate</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="pyreal.explanation_types.feature_based.FeatureBased.validate.html#pyreal.explanation_types.feature_based.FeatureBased.validate" title="pyreal.explanation_types.feature_based.FeatureBased.validate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">validate</span></code></a>()</p></td>
 <td><p>Validate that <cite>self.explanation</cite> is a valid <cite>DataFrame</cite> :returns: None</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">validate_values</span></code>()</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">validate_values</span></code>()</p></td>
 <td><p>Validate that <cite>self.values</cite> are valid values for this Explanation.</p></td>
 </tr>
 </tbody>

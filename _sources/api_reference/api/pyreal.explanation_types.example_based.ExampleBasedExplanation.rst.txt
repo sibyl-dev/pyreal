@@ -18,6 +18,7 @@
       ~ExampleBasedExplanation.get
       ~ExampleBasedExplanation.get_all
       ~ExampleBasedExplanation.get_examples
+      ~ExampleBasedExplanation.get_explanation
       ~ExampleBasedExplanation.get_row_ids
       ~ExampleBasedExplanation.get_targets
       ~ExampleBasedExplanation.get_values

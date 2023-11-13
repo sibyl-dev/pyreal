@@ -18,6 +18,7 @@
       ~FeatureBased.combine_columns
       ~FeatureBased.get
       ~FeatureBased.get_all
+      ~FeatureBased.get_explanation
       ~FeatureBased.get_values
       ~FeatureBased.update_explanation
       ~FeatureBased.update_values

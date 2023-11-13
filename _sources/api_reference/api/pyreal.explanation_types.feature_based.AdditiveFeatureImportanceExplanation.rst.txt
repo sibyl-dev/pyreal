@@ -18,6 +18,7 @@
       ~AdditiveFeatureImportanceExplanation.combine_columns
       ~AdditiveFeatureImportanceExplanation.get
       ~AdditiveFeatureImportanceExplanation.get_all
+      ~AdditiveFeatureImportanceExplanation.get_explanation
       ~AdditiveFeatureImportanceExplanation.get_values
       ~AdditiveFeatureImportanceExplanation.update_explanation
       ~AdditiveFeatureImportanceExplanation.update_values

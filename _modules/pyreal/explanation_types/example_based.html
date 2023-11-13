@@ -425,17 +425,31 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
 
-    <span class="k">def</span> <span class="nf">update_examples</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">update_examples</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Update every example using the provided function</span>
 <span class="sd">        Args:</span>
 <span class="sd">            func (function):</span>
 <span class="sd">                Function to apply to every example</span>
+<span class="sd">            inplace (Boolean):</span>
+<span class="sd">                If True, change the explanation on this object. Otherwise, create a new object</span>
+<span class="sd">                identical to this one but with a new explanation</span>
+
 <span class="sd">        Returns:</span>
-<span class="sd">            None</span>
+<span class="sd">            Explanation</span>
+<span class="sd">                `self` if `inplace=True`, else the new Explanation object.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">examples</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">()[</span><span class="mi">0</span><span class="p">]:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">()[</span><span class="mi">0</span><span class="p">][</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">()[</span><span class="mi">0</span><span class="p">][</span><span class="n">key</span><span class="p">])</span></div>
+            <span class="k">if</span> <span class="n">inplace</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">()[</span><span class="mi">0</span><span class="p">][</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">()[</span><span class="mi">0</span><span class="p">][</span><span class="n">key</span><span class="p">])</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">examples</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">()[</span><span class="mi">0</span><span class="p">][</span><span class="n">key</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">inplace</span><span class="p">:</span>
+            <span class="n">explanation</span> <span class="o">=</span> <span class="p">(</span><span class="n">examples</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">()[</span><span class="mi">1</span><span class="p">])</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span><span class="n">explanation</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span></div>
 
 
 <div class="viewcode-block" id="SimilarExampleExplanation"><a class="viewcode-back" href="../../../api_reference/api/pyreal.explanation_types.example_based.SimilarExampleExplanation.html#pyreal.explanation_types.example_based.SimilarExampleExplanation">[docs]</a><span class="k">class</span> <span class="nc">SimilarExampleExplanation</span><span class="p">(</span><span class="n">ExampleBasedExplanation</span><span class="p">):</span>

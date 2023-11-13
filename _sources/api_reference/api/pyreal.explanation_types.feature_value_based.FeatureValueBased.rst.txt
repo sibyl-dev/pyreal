@@ -17,6 +17,7 @@
       ~FeatureValueBased.apply_feature_descriptions
       ~FeatureValueBased.get
       ~FeatureValueBased.get_all
+      ~FeatureValueBased.get_explanation
       ~FeatureValueBased.get_values
       ~FeatureValueBased.update_explanation
       ~FeatureValueBased.update_values

@@ -17,7 +17,6 @@
       ~MappingsOneHotDecoder.data_transform
       ~MappingsOneHotDecoder.fit
       ~MappingsOneHotDecoder.fit_transform
-      ~MappingsOneHotDecoder.helper_transform_explanation_additive
       ~MappingsOneHotDecoder.inverse_data_transform
       ~MappingsOneHotDecoder.inverse_transform
       ~MappingsOneHotDecoder.inverse_transform_explanation

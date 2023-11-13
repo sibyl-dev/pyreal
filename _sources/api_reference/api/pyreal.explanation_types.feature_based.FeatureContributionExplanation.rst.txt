@@ -18,6 +18,7 @@
       ~FeatureContributionExplanation.combine_columns
       ~FeatureContributionExplanation.get
       ~FeatureContributionExplanation.get_all
+      ~FeatureContributionExplanation.get_explanation
       ~FeatureContributionExplanation.get_values
       ~FeatureContributionExplanation.update_explanation
       ~FeatureContributionExplanation.update_values

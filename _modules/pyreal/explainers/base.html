@@ -655,10 +655,11 @@ document.write(`
 
     <span class="k">def</span> <span class="nf">transform_explanation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">explanation</span><span class="p">,</span> <span class="n">x_orig</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Transform the explanation into its interpretable form, by running the e_transformer&#39;s</span>
-<span class="sd">        &quot;inverse_transform_explanation&quot; and i_transformers &quot;transform_explanation&quot; functions.</span>
-<span class="sd">        If an `x_orig` is provided, also convert `x_orig` with the same</span>
-<span class="sd">        transformers. This function will result in `values` in the Explanation object</span>
+<span class="sd">        Transform the explanation into its interpretable form, by running the algorithm</span>
+<span class="sd">        transformer&#39;s &quot;inverse_transform_explanation&quot; and interpretable transformers</span>
+<span class="sd">        &quot;transform_explanation&quot; functions.</span>
+<span class="sd">        If an `x_orig` is provided, or the explanation has values, also convert `x_orig` with the</span>
+<span class="sd">        same transformers. This function will result in `values` in the Explanation object</span>
 <span class="sd">        in the same feature space as the final explanation</span>
 
 <span class="sd">        Args:</span>
@@ -673,6 +674,10 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">explanation</span><span class="p">,</span> <span class="n">Explanation</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;explanation is not a valid Explanation object&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">explanation</span><span class="o">.</span><span class="n">values</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">x_orig</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">x_orig</span> <span class="o">=</span> <span class="n">explanation</span><span class="o">.</span><span class="n">values</span>
+            <span class="n">explanation</span><span class="o">.</span><span class="n">values</span> <span class="o">=</span> <span class="kc">None</span>
 
         <span class="n">convert_x</span> <span class="o">=</span> <span class="n">x_orig</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">return_original_explanation</span><span class="p">:</span>

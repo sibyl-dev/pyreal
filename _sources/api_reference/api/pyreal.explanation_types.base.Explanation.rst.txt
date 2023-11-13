@@ -17,6 +17,7 @@
       ~Explanation.apply_feature_descriptions
       ~Explanation.get
       ~Explanation.get_all
+      ~Explanation.get_explanation
       ~Explanation.get_values
       ~Explanation.update_explanation
       ~Explanation.update_values

@@ -17,6 +17,7 @@
       ~DecisionTreeExplanation.apply_feature_descriptions
       ~DecisionTreeExplanation.get
       ~DecisionTreeExplanation.get_all
+      ~DecisionTreeExplanation.get_explanation
       ~DecisionTreeExplanation.get_values
       ~DecisionTreeExplanation.update_explanation
       ~DecisionTreeExplanation.update_values

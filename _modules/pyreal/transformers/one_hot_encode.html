@@ -328,13 +328,20 @@ document.write(`
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">OneHotEncoder</span> <span class="k">as</span> <span class="n">SklearnOneHotEncoder</span>
 
-<span class="kn">from</span> <span class="nn">pyreal.explanation_types</span> <span class="kn">import</span> <span class="p">(</span>
-    <span class="n">AdditiveFeatureContributionExplanation</span><span class="p">,</span>
-    <span class="n">AdditiveFeatureImportanceExplanation</span><span class="p">,</span>
-<span class="p">)</span>
 <span class="kn">from</span> <span class="nn">pyreal.transformers</span> <span class="kn">import</span> <span class="n">BreakingTransformError</span><span class="p">,</span> <span class="n">Transformer</span>
 
 <span class="n">log</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_helper_transform_explanation_additive_with_mappings</span><span class="p">(</span><span class="n">wrapped_explanation</span><span class="p">,</span> <span class="n">mappings</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">wrapped_explanation</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">wrapped_explanation</span> <span class="o">=</span> <span class="n">wrapped_explanation</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">original_feature</span> <span class="ow">in</span> <span class="n">mappings</span><span class="o">.</span><span class="n">categorical_to_one_hot</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="n">encoded_features</span> <span class="o">=</span> <span class="n">mappings</span><span class="o">.</span><span class="n">categorical_to_one_hot</span><span class="p">[</span><span class="n">original_feature</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+        <span class="n">summed_contribution</span> <span class="o">=</span> <span class="n">wrapped_explanation</span><span class="p">[</span><span class="n">encoded_features</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">wrapped_explanation</span> <span class="o">=</span> <span class="n">wrapped_explanation</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">encoded_features</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="s2">&quot;columns&quot;</span><span class="p">)</span>
+        <span class="n">wrapped_explanation</span><span class="p">[</span><span class="n">original_feature</span><span class="p">]</span> <span class="o">=</span> <span class="n">summed_contribution</span>
+    <span class="k">return</span> <span class="n">wrapped_explanation</span>
 
 
 <span class="k">def</span> <span class="nf">_generate_one_hot_to_categorical</span><span class="p">(</span><span class="n">categorical_to_one_hot</span><span class="p">):</span>
@@ -516,9 +523,7 @@ document.write(`
 <span class="sd">            AdditiveFeatureContributionExplanation:</span>
 <span class="sd">                The transformed explanation</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">AdditiveFeatureContributionExplanation</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_helper_summed_values</span><span class="p">(</span><span class="n">explanation</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
-        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">explanation</span><span class="o">.</span><span class="n">update_explanation</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_helper_summed_values</span><span class="p">(</span><span class="n">explanation</span><span class="o">.</span><span class="n">get</span><span class="p">()))</span>
 
     <span class="k">def</span> <span class="nf">inverse_transform_explanation_additive_feature_importance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">explanation</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -533,7 +538,7 @@ document.write(`
 <span class="sd">            AdditiveFeatureImportanceExplanation:</span>
 <span class="sd">                The transformed explanation</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">AdditiveFeatureImportanceExplanation</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_helper_summed_values</span><span class="p">(</span><span class="n">explanation</span><span class="o">.</span><span class="n">get</span><span class="p">()))</span>
+        <span class="k">return</span> <span class="n">explanation</span><span class="o">.</span><span class="n">update_explanation</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_helper_summed_values</span><span class="p">(</span><span class="n">explanation</span><span class="o">.</span><span class="n">get</span><span class="p">()))</span>
 
     <span class="k">def</span> <span class="nf">inverse_transform_explanation_feature_based</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">explanation</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -700,15 +705,14 @@ document.write(`
         <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">cat_data</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">inverse_transform_explanation_additive_feature_contribution</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">explanation</span><span class="p">):</span>
-        <span class="n">explanation</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">explanation</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
-        <span class="k">if</span> <span class="n">explanation</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="n">explanation</span> <span class="o">=</span> <span class="n">explanation</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">original_feature</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">mappings</span><span class="o">.</span><span class="n">categorical_to_one_hot</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-            <span class="n">encoded_features</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mappings</span><span class="o">.</span><span class="n">categorical_to_one_hot</span><span class="p">[</span><span class="n">original_feature</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
-            <span class="n">summed_contribution</span> <span class="o">=</span> <span class="n">explanation</span><span class="p">[</span><span class="n">encoded_features</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-            <span class="n">explanation</span> <span class="o">=</span> <span class="n">explanation</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">encoded_features</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="s2">&quot;columns&quot;</span><span class="p">)</span>
-            <span class="n">explanation</span><span class="p">[</span><span class="n">original_feature</span><span class="p">]</span> <span class="o">=</span> <span class="n">summed_contribution</span>
-        <span class="k">return</span> <span class="n">AdditiveFeatureContributionExplanation</span><span class="p">(</span><span class="n">explanation</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">explanation</span><span class="o">.</span><span class="n">update_explanation</span><span class="p">(</span>
+            <span class="n">_helper_transform_explanation_additive_with_mappings</span><span class="p">(</span><span class="n">explanation</span><span class="o">.</span><span class="n">get</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">mappings</span><span class="p">)</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">inverse_transform_explanation_additive_feature_importance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">explanation</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">explanation</span><span class="o">.</span><span class="n">update_explanation</span><span class="p">(</span>
+            <span class="n">_helper_transform_explanation_additive_with_mappings</span><span class="p">(</span><span class="n">explanation</span><span class="o">.</span><span class="n">get</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">mappings</span><span class="p">)</span>
+        <span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="MappingsOneHotDecoder"><a class="viewcode-back" href="../../../api_reference/api/pyreal.transformers.MappingsOneHotDecoder.html#pyreal.transformers.MappingsOneHotDecoder">[docs]</a><span class="k">class</span> <span class="nc">MappingsOneHotDecoder</span><span class="p">(</span><span class="n">Transformer</span><span class="p">):</span>
@@ -793,8 +797,9 @@ document.write(`
 <span class="sd">            AdditiveFeatureContributionExplanation:</span>
 <span class="sd">                The transformed explanation</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">explanation</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">helper_transform_explanation_additive</span><span class="p">(</span><span class="n">explanation</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">AdditiveFeatureContributionExplanation</span><span class="p">(</span><span class="n">explanation</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">explanation</span><span class="o">.</span><span class="n">update_explanation</span><span class="p">(</span>
+            <span class="n">_helper_transform_explanation_additive_with_mappings</span><span class="p">(</span><span class="n">explanation</span><span class="o">.</span><span class="n">get</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">mappings</span><span class="p">)</span>
+        <span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">transform_explanation_additive_feature_importance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">explanation</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -808,19 +813,9 @@ document.write(`
 <span class="sd">            AdditiveFeatureImportanceExplanation:</span>
 <span class="sd">                The transformed explanation</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">explanation</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">helper_transform_explanation_additive</span><span class="p">(</span><span class="n">explanation</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">AdditiveFeatureImportanceExplanation</span><span class="p">(</span><span class="n">explanation</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">helper_transform_explanation_additive</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">explanation</span><span class="p">):</span>
-        <span class="n">explanation</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">explanation</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
-        <span class="k">if</span> <span class="n">explanation</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="n">explanation</span> <span class="o">=</span> <span class="n">explanation</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">original_feature</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">mappings</span><span class="o">.</span><span class="n">categorical_to_one_hot</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-            <span class="n">encoded_features</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mappings</span><span class="o">.</span><span class="n">categorical_to_one_hot</span><span class="p">[</span><span class="n">original_feature</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
-            <span class="n">summed_contribution</span> <span class="o">=</span> <span class="n">explanation</span><span class="p">[</span><span class="n">encoded_features</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-            <span class="n">explanation</span> <span class="o">=</span> <span class="n">explanation</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">encoded_features</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="s2">&quot;columns&quot;</span><span class="p">)</span>
-            <span class="n">explanation</span><span class="p">[</span><span class="n">original_feature</span><span class="p">]</span> <span class="o">=</span> <span class="n">summed_contribution</span>
-        <span class="k">return</span> <span class="n">explanation</span></div>
+        <span class="k">return</span> <span class="n">explanation</span><span class="o">.</span><span class="n">update_explanation</span><span class="p">(</span>
+            <span class="n">_helper_transform_explanation_additive_with_mappings</span><span class="p">(</span><span class="n">explanation</span><span class="o">.</span><span class="n">get</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">mappings</span><span class="p">)</span>
+        <span class="p">)</span></div>
 </pre></div>
 
                 </article>

@@ -621,7 +621,7 @@ document.write(`
 <td><p>No-op because feature descriptions are applied at produce time for similar examples explanation, to improve performance</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="pyreal.explanation_types.example_based.SimilarExampleExplanation.get.html#pyreal.explanation_types.example_based.SimilarExampleExplanation.get" title="pyreal.explanation_types.example_based.SimilarExampleExplanation.get"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get</span></code></a>()</p></td>
-<td><p>Get the explanation wrapped by this type :returns:</p></td>
+<td><p>Get the explanation wrapped by this type.</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_all</span></code>()</p></td>
 <td><p>Get the explanation and wrapped values as a tuple.</p></td>
@@ -629,28 +629,31 @@ document.write(`
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_examples</span></code>([row_id, rank])</p></td>
 <td><p>Get the example in rank-th position for the given row_id. :param row_id: ID of row to get explanation of. :type row_id: int :param rank: Which example to return (ie, rank=0 returns the first example generated). If none, return all examples :type rank: int.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_row_ids</span></code>()</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_explanation</span></code>()</p></td>
+<td><p>Get the explanation wrapped by this type</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_row_ids</span></code>()</p></td>
 <td><p>Return all row_ids held by this explanation</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_targets</span></code>([row_id, rank])</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_targets</span></code>([row_id, rank])</p></td>
 <td><p>Get the targets in rank-th position for the given row_id. :param row_id: ID of row to get explanation of. :type row_id: int :param rank: Which example to return (ie, rank=0 returns the first example generated). If none, return all examples :type rank: int.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_values</span></code>()</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_values</span></code>()</p></td>
 <td><p>Return the values associated with the explanation</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">update_examples</span></code>(func)</p></td>
-<td><p>Update every example using the provided function :param func: Function to apply to every example :type func: function</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">update_examples</span></code>(func[, inplace])</p></td>
+<td><p>Update every example using the provided function :param func: Function to apply to every example :type func: function :param inplace: If True, change the explanation on this object. Otherwise, create a new object                 identical to this one but with a new explanation :type inplace: Boolean.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">update_explanation</span></code>(explanation[, inplace])</p></td>
-<td><p>Updates this objects explanation, and validates</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">update_explanation</span></code>(new_explanation[, ...])</p></td>
+<td><p>Sets this object's explanation to the new value.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">update_values</span></code>(values[, inplace])</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">update_values</span></code>(values[, inplace])</p></td>
 <td><p>Updates this objects values, and validates</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="pyreal.explanation_types.example_based.SimilarExampleExplanation.validate.html#pyreal.explanation_types.example_based.SimilarExampleExplanation.validate" title="pyreal.explanation_types.example_based.SimilarExampleExplanation.validate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">validate</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="pyreal.explanation_types.example_based.SimilarExampleExplanation.validate.html#pyreal.explanation_types.example_based.SimilarExampleExplanation.validate" title="pyreal.explanation_types.example_based.SimilarExampleExplanation.validate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">validate</span></code></a>()</p></td>
 <td><p>Validate that <cite>self.explanation</cite> is a valid dict of <cite>DataFrames</cite> :returns: None</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">validate_values</span></code>()</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">validate_values</span></code>()</p></td>
 <td><p>Validate that <cite>self.values</cite> are valid values for this Explanation.</p></td>
 </tr>
 </tbody>

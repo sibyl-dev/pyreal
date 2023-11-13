@@ -373,7 +373,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># Unless the explanation is additive, there is no guarantee these columns can be</span>
         <span class="c1">#   meaningfully added, so we just return the original explanation</span>
-        <span class="k">return</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)(</span><span class="bp">self</span><span class="o">.</span><span class="n">explanation</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span></div>
 
 
 <div class="viewcode-block" id="FeatureImportanceExplanation"><a class="viewcode-back" href="../../../api_reference/api/pyreal.explanation_types.feature_based.FeatureImportanceExplanation.html#pyreal.explanation_types.feature_based.FeatureImportanceExplanation">[docs]</a><span class="k">class</span> <span class="nc">FeatureImportanceExplanation</span><span class="p">(</span><span class="n">FeatureBased</span><span class="p">):</span>
@@ -431,7 +431,7 @@ document.write(`
         <span class="n">summed_contribution</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">explanation</span><span class="p">[</span><span class="n">columns</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
         <span class="n">new_explanation</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">explanation</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="s2">&quot;columns&quot;</span><span class="p">)</span>
         <span class="n">new_explanation</span><span class="p">[</span><span class="n">new_column</span><span class="p">]</span> <span class="o">=</span> <span class="n">summed_contribution</span>
-        <span class="k">return</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)(</span><span class="n">new_explanation</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">update_explanation</span><span class="p">(</span><span class="n">new_explanation</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="FeatureContributionExplanation"><a class="viewcode-back" href="../../../api_reference/api/pyreal.explanation_types.feature_based.FeatureContributionExplanation.html#pyreal.explanation_types.feature_based.FeatureContributionExplanation">[docs]</a><span class="k">class</span> <span class="nc">FeatureContributionExplanation</span><span class="p">(</span><span class="n">FeatureBased</span><span class="p">):</span>
@@ -506,7 +506,7 @@ document.write(`
         <span class="n">summed_contribution</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">explanation</span><span class="p">[</span><span class="n">columns</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
         <span class="n">new_explanation</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">explanation</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="s2">&quot;columns&quot;</span><span class="p">)</span>
         <span class="n">new_explanation</span><span class="p">[</span><span class="n">new_column</span><span class="p">]</span> <span class="o">=</span> <span class="n">summed_contribution</span>
-        <span class="k">return</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)(</span><span class="n">new_explanation</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">update_explanation</span><span class="p">(</span><span class="n">new_explanation</span><span class="p">)</span></div>
 
 
 <span class="k">class</span> <span class="nc">ClassFeatureContributionExplanation</span><span class="p">(</span><span class="n">FeatureBased</span><span class="p">):</span>

@@ -410,7 +410,7 @@ document.write(`
 
 
 <span class="k">def</span> <span class="nf">_display_missing_transform_info</span><span class="p">(</span><span class="n">transformer_name</span><span class="p">,</span> <span class="n">function_name</span><span class="p">):</span>
-    <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
         <span class="s2">&quot;Transformer </span><span class="si">%s</span><span class="s2"> does not have an implemented </span><span class="si">%s</span><span class="s2"> function. &quot;</span>
         <span class="s2">&quot;Defaulting to no change in explanation. If this causes a break,&quot;</span>
         <span class="s2">&quot;you may want to add a interpret=False flag to this transformer or redefine this &quot;</span>
@@ -419,7 +419,7 @@ document.write(`
 
 
 <span class="k">def</span> <span class="nf">_display_missing_transform_info_inverse</span><span class="p">(</span><span class="n">transformer_name</span><span class="p">,</span> <span class="n">function_name</span><span class="p">):</span>
-    <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
         <span class="s2">&quot;Transformer </span><span class="si">%s</span><span class="s2"> does not have an implemented </span><span class="si">%s</span><span class="s2"> function. &quot;</span>
         <span class="s2">&quot;Defaulting to no change in explanation. If this causes a break,&quot;</span>
         <span class="s2">&quot;you may want to add an interpret=True flag to this transformer or redefine this &quot;</span>
@@ -650,9 +650,7 @@ document.write(`
 <span class="sd">            AdditiveFeatureContributionExplanation:</span>
 <span class="sd">                The transformed explanation</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">AdditiveFeatureContributionExplanation</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">inverse_transform_explanation_feature_contribution</span><span class="p">(</span><span class="n">explanation</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
-        <span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">inverse_transform_explanation_feature_contribution</span><span class="p">(</span><span class="n">explanation</span><span class="p">)</span>
 
     <span class="c1"># noinspection PyMethodMayBeStatic</span>
     <span class="k">def</span> <span class="nf">inverse_transform_explanation_additive_feature_importance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">explanation</span><span class="p">):</span>
@@ -667,9 +665,7 @@ document.write(`
 <span class="sd">            AdditiveFeatureImportanceExplanation:</span>
 <span class="sd">                The transformed explanation</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">AdditiveFeatureImportanceExplanation</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">inverse_transform_explanation_feature_importance</span><span class="p">(</span><span class="n">explanation</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
-        <span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">inverse_transform_explanation_feature_importance</span><span class="p">(</span><span class="n">explanation</span><span class="p">)</span>
 
     <span class="c1"># noinspection PyMethodMayBeStatic</span>
     <span class="k">def</span> <span class="nf">inverse_transform_explanation_feature_contribution</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">explanation</span><span class="p">):</span>
@@ -683,9 +679,7 @@ document.write(`
 <span class="sd">            FeatureContributionExplanation:</span>
 <span class="sd">                The transformed explanation</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">FeatureContributionExplanation</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">inverse_transform_explanation_feature_based</span><span class="p">(</span><span class="n">explanation</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
-        <span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">inverse_transform_explanation_feature_based</span><span class="p">(</span><span class="n">explanation</span><span class="p">)</span>
 
     <span class="c1"># noinspection PyMethodMayBeStatic</span>
     <span class="k">def</span> <span class="nf">inverse_transform_explanation_feature_importance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">explanation</span><span class="p">):</span>
@@ -699,9 +693,7 @@ document.write(`
 <span class="sd">            FeatureImportanceExplanation:</span>
 <span class="sd">                The transformed explanation</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">FeatureImportanceExplanation</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">inverse_transform_explanation_feature_based</span><span class="p">(</span><span class="n">explanation</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
-        <span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">inverse_transform_explanation_feature_based</span><span class="p">(</span><span class="n">explanation</span><span class="p">)</span>
 
     <span class="c1"># noinspection PyMethodMayBeStatic</span>
     <span class="k">def</span> <span class="nf">inverse_transform_explanation_feature_based</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">explanation</span><span class="p">):</span>
@@ -749,9 +741,7 @@ document.write(`
 <span class="sd">            DecisionTree:</span>
 <span class="sd">                The transformed explanation</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">SimilarExampleExplanation</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">inverse_transform_explanation_example</span><span class="p">(</span><span class="n">explanation</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
-        <span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">inverse_transform_explanation_example</span><span class="p">(</span><span class="n">explanation</span><span class="p">)</span>
 
     <span class="c1"># noinspection PyMethodMayBeStatic</span>
     <span class="k">def</span> <span class="nf">inverse_transform_explanation_example</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">explanation</span><span class="p">):</span>
@@ -765,7 +755,7 @@ document.write(`
 <span class="sd">            DecisionTree:</span>
 <span class="sd">                The transformed explanation</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">ExampleBasedExplanation</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inverse_data_transform</span><span class="p">(</span><span class="n">explanation</span><span class="o">.</span><span class="n">get_examples</span><span class="p">()))</span>
+        <span class="k">return</span> <span class="n">explanation</span><span class="o">.</span><span class="n">update_examples</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inverse_data_transform</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
     <span class="c1"># ============================== TRANSFORM EXPLANATION METHODS ================================</span>
 
@@ -782,9 +772,7 @@ document.write(`
 <span class="sd">            AdditiveFeatureContributionExplanation:</span>
 <span class="sd">                The transformed explanation</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">AdditiveFeatureContributionExplanation</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">transform_explanation_feature_contribution</span><span class="p">(</span><span class="n">explanation</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
-        <span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform_explanation_feature_contribution</span><span class="p">(</span><span class="n">explanation</span><span class="p">)</span>
 
     <span class="c1"># noinspection PyMethodMayBeStatic</span>
     <span class="k">def</span> <span class="nf">transform_explanation_additive_feature_importance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">explanation</span><span class="p">):</span>
@@ -799,9 +787,7 @@ document.write(`
 <span class="sd">            AdditiveFeatureImportanceExplanation:</span>
 <span class="sd">                The transformed explanation</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">AdditiveFeatureImportanceExplanation</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">transform_explanation_feature_importance</span><span class="p">(</span><span class="n">explanation</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
-        <span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform_explanation_feature_importance</span><span class="p">(</span><span class="n">explanation</span><span class="p">)</span>
 
     <span class="c1"># noinspection PyMethodMayBeStatic</span>
     <span class="k">def</span> <span class="nf">transform_explanation_feature_contribution</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">explanation</span><span class="p">):</span>
@@ -815,9 +801,7 @@ document.write(`
 <span class="sd">            FeatureContributionExplanation:</span>
 <span class="sd">                The transformed explanation</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">FeatureContributionExplanation</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">transform_explanation_feature_based</span><span class="p">(</span><span class="n">explanation</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
-        <span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform_explanation_feature_based</span><span class="p">(</span><span class="n">explanation</span><span class="p">)</span>
 
     <span class="c1"># noinspection PyMethodMayBeStatic</span>
     <span class="k">def</span> <span class="nf">transform_explanation_feature_importance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">explanation</span><span class="p">):</span>
@@ -831,9 +815,7 @@ document.write(`
 <span class="sd">            FeatureImportanceExplanation:</span>
 <span class="sd">                The transformed explanation</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">FeatureImportanceExplanation</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">transform_explanation_feature_based</span><span class="p">(</span><span class="n">explanation</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
-        <span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform_explanation_feature_based</span><span class="p">(</span><span class="n">explanation</span><span class="p">)</span>
 
     <span class="c1"># noinspection PyMethodMayBeStatic</span>
     <span class="k">def</span> <span class="nf">transform_explanation_feature_based</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">explanation</span><span class="p">):</span>
@@ -876,7 +858,7 @@ document.write(`
 <span class="sd">            DecisionTree:</span>
 <span class="sd">                The transformed explanation</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">SimilarExampleExplanation</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">transform_explanation_example</span><span class="p">(</span><span class="n">explanation</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform_explanation_example</span><span class="p">(</span><span class="n">explanation</span><span class="p">)</span>
 
     <span class="c1"># noinspection PyMethodMayBeStatic</span>
     <span class="k">def</span> <span class="nf">transform_explanation_example</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">explanation</span><span class="p">):</span>
@@ -890,7 +872,7 @@ document.write(`
 <span class="sd">            DecisionTree:</span>
 <span class="sd">                The transformed explanation</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">ExampleBasedExplanation</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data_transform</span><span class="p">(</span><span class="n">explanation</span><span class="o">.</span><span class="n">get_examples</span><span class="p">()))</span></div>
+        <span class="k">return</span> <span class="n">explanation</span><span class="o">.</span><span class="n">update_examples</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inverse_data_transform</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
 </pre></div>
 
                 </article>
