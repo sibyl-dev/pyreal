@@ -101,17 +101,31 @@ class ExampleBasedExplanation(Explanation):
         """
         return self.get()[0].keys()
 
-    def update_examples(self, func):
+    def update_examples(self, func, inplace=False):
         """
         Update every example using the provided function
         Args:
             func (function):
                 Function to apply to every example
+            inplace (Boolean):
+                If True, change the explanation on this object. Otherwise, create a new object
+                identical to this one but with a new explanation
+
         Returns:
-            None
+            Explanation
+                `self` if `inplace=True`, else the new Explanation object.
         """
+        examples = {}
         for key in self.get()[0]:
-            self.get()[0][key] = func(self.get()[0][key])
+            if inplace:
+                self.get()[0][key] = func(self.get()[0][key])
+            else:
+                examples[key] = func(self.get()[0][key])
+        if inplace:
+            explanation = (examples, self.get()[1])
+            return self.__class__(explanation, self.values)
+        else:
+            return self
 
 
 class SimilarExampleExplanation(ExampleBasedExplanation):

@@ -63,15 +63,34 @@ def test_update_explanation():
 
     explanation = Explanation(orig_explanation, orig_values)
 
-    assert explanation.get() is orig_explanation
-
     explanation.update_explanation(new_explanation, inplace=True)
     assert explanation.get() is new_explanation
+    assert explanation.get_values() is orig_values
 
-    explanation_2 = explanation.update_explanation(new_explanation_2)
+    explanation_2 = explanation.update_explanation(new_explanation_2, inplace=False)
     assert explanation_2.get() is new_explanation_2
-    assert explanation_2.get_values() is orig_values
     assert explanation.get() is new_explanation
+
+
+"""def test_update_explanation():
+    def func(x):
+        x.a += 1
+        return x
+
+    orig_explanation = BaseExplanation(5)
+    orig_values = pd.DataFrame([1])
+
+    explanation = Explanation(orig_explanation, orig_values)
+
+    explanation.update_explanation(func, inplace=True)
+    assert explanation.get().a == 6
+    assert explanation.get_values() is orig_values
+
+    explanation2 = explanation.update_explanation(func, inplace=False)
+    assert explanation.get().a == 5
+    assert explanation.get_values() is orig_values
+    assert explanation2.get().a == 6
+    assert explanation2.get_values() == orig_values"""
 
 
 def test_get_all():

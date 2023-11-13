@@ -264,12 +264,14 @@ def test_fit_transformer_param(regression_no_transforms):
         fit_transformers=True,
     )
 
-    explanation = pd.DataFrame([[1, 2, 3, 4], [1, 2, 3, 4]], columns=["A", "B", "C", "D"])
-    explanation = AdditiveFeatureContributionExplanation(explanation, explanation.copy())
+    df = pd.DataFrame([[1, 2, 3, 4], [1, 2, 3, 4]], columns=["A", "B", "C", "D"])
+    explanation = AdditiveFeatureContributionExplanation(df, values=df)
 
-    transform_explanation = explainer.transform_explanation(explanation).get()
+    transform_explanation = explainer.transform_explanation(explanation)
     expected_explanation = pd.DataFrame([[0], [0]], columns=["C"])
-    assert_frame_equal(transform_explanation, expected_explanation)
+    expected_values = pd.DataFrame([[3], [3]], columns=["C"])
+    assert_frame_equal(transform_explanation.get(), expected_explanation)
+    assert_frame_equal(transform_explanation.get_values(), expected_values)
 
 
 def test_no_dataset_on_init(regression_no_transforms):
