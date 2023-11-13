@@ -102,10 +102,9 @@ class Explanation:
         else:
             return self.__class__(self.explanation, values)
 
-    def update_explanation(self, new_explanation, inplace=False):
+    def update_explanation(self, new_explanation, inplace=False, persist_values=True):
         """
-        Sets this object's explanation to the new value. Does not persist values in inplace=False
-        to avoid having incompatible values and explanations.
+        Sets this object's explanation to the new value.
 
         Args:
             new_explanation (object):
@@ -113,15 +112,23 @@ class Explanation:
             inplace (Boolean):
                 If True, change the explanation on this object. Otherwise, create a new object
                 identical to this one but with a new explanation
+            persist_values (Boolean):
+                If False, remove values from the updated explanation, ie. if the new explanation
+                will not be compatible with values
         """
         if inplace:
             self.explanation = new_explanation
+            if not persist_values:
+                self.values = None
             self.validate()
             if self.values is not None:
                 self.validate_values()
             return self
         else:
-            return self.__class__(new_explanation)
+            if persist_values:
+                return self.__class__(new_explanation, self.values)
+            else:
+                return self.__class__(new_explanation)
 
     def apply_feature_descriptions(self, feature_descriptions):
         """

@@ -331,10 +331,11 @@ class ExplainerBase(ABC):
 
     def transform_explanation(self, explanation, x_orig=None):
         """
-        Transform the explanation into its interpretable form, by running the e_transformer's
-        "inverse_transform_explanation" and i_transformers "transform_explanation" functions.
-        If an `x_orig` is provided, also convert `x_orig` with the same
-        transformers. This function will result in `values` in the Explanation object
+        Transform the explanation into its interpretable form, by running the algorithm
+        transformer's "inverse_transform_explanation" and interpretable transformers
+        "transform_explanation" functions.
+        If an `x_orig` is provided, or the explanation has values, also convert `x_orig` with the
+        same transformers. This function will result in `values` in the Explanation object
         in the same feature space as the final explanation
 
         Args:
@@ -349,6 +350,10 @@ class ExplainerBase(ABC):
         """
         if not isinstance(explanation, Explanation):
             raise ValueError("explanation is not a valid Explanation object")
+
+        if explanation.values is not None and x_orig is None:
+            x_orig = explanation.values
+            explanation.values = None
 
         convert_x = x_orig is not None
         if self.return_original_explanation:
