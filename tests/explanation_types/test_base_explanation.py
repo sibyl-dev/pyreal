@@ -69,7 +69,6 @@ def test_update_explanation():
 
     explanation_2 = explanation.update_explanation(new_explanation_2, inplace=False)
     assert explanation_2.get() is new_explanation_2
-    assert explanation_2.get_values() is orig_values
     assert explanation.get() is new_explanation
 
 

@@ -104,7 +104,8 @@ class Explanation:
 
     def update_explanation(self, new_explanation, inplace=False):
         """
-        Sets this object's explanation to the new value
+        Sets this object's explanation to the new value. Does not persist values in inplace=False
+        to avoid having incompatible values and explanations.
 
         Args:
             new_explanation (object):
