@@ -4,10 +4,6 @@ import numpy as np
 import pandas as pd
 from sklearn.preprocessing import OneHotEncoder as SklearnOneHotEncoder
 
-from pyreal.explanation_types import (
-    AdditiveFeatureContributionExplanation,
-    AdditiveFeatureImportanceExplanation,
-)
 from pyreal.transformers import BreakingTransformError, Transformer
 
 log = logging.getLogger(__name__)

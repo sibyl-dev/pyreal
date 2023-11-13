@@ -3,7 +3,6 @@ from collections.abc import Sequence
 import numpy as np
 import pandas as pd
 
-from pyreal.explanation_types import FeatureBased
 from pyreal.transformers import BreakingTransformError, Transformer
 
 
