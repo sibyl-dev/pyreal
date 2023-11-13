@@ -13,7 +13,7 @@ from pyreal.transformers import BreakingTransformError, Transformer
 log = logging.getLogger(__name__)
 
 
-def _helper_transform_explanation_additive_with_mappings(self, wrapped_explanation, mappings):
+def _helper_transform_explanation_additive_with_mappings(wrapped_explanation, mappings):
     if wrapped_explanation.ndim == 1:
         wrapped_explanation = wrapped_explanation.reshape(1, -1)
     for original_feature in mappings.categorical_to_one_hot.keys():
@@ -386,12 +386,12 @@ class MappingsOneHotEncoder(Transformer):
 
     def inverse_transform_explanation_additive_feature_contribution(self, explanation):
         return explanation.update_explanation(
-            _helper_transform_explanation_additive_with_mappings(explanation, self.mappings)
+            _helper_transform_explanation_additive_with_mappings(explanation.get(), self.mappings)
         )
 
     def inverse_transform_explanation_additive_feature_importance(self, explanation):
         return explanation.update_explanation(
-            _helper_transform_explanation_additive_with_mappings(explanation, self.mappings)
+            _helper_transform_explanation_additive_with_mappings(explanation.get(), self.mappings)
         )
 
 
@@ -478,7 +478,7 @@ class MappingsOneHotDecoder(Transformer):
                 The transformed explanation
         """
         return explanation.update_explanation(
-            _helper_transform_explanation_additive_with_mappings(explanation, self.mappings)
+            _helper_transform_explanation_additive_with_mappings(explanation.get(), self.mappings)
         )
 
     def transform_explanation_additive_feature_importance(self, explanation):
@@ -494,5 +494,5 @@ class MappingsOneHotDecoder(Transformer):
                 The transformed explanation
         """
         return explanation.update_explanation(
-            _helper_transform_explanation_additive_with_mappings(explanation, self.mappings)
+            _helper_transform_explanation_additive_with_mappings(explanation.get(), self.mappings)
         )
