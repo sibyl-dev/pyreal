@@ -10,7 +10,7 @@ from pyreal.explainers import (
 from pyreal.utils import get_top_contributors
 
 
-def format_feature_contribution_output(explanation, ids=None, series=False):
+def format_feature_contribution_output(explanation, ids=None, series=False, optimized=False):
     """
     Format Pyreal FeatureContributionExplanation objects into Local Feature Contribution outputs
     Args:
@@ -20,12 +20,17 @@ def format_feature_contribution_output(explanation, ids=None, series=False):
             List of row ids
         series (Boolean):
             If True, the produce function was passed a series input
+        optimized (Boolean)
+            If True, return in a simple DataFrame format
 
     Returns:
         DataFrame (if series), else {"id" -> DataFrame}
             One dataframe per id, with each row representing a feature, and four columns:
                 Feature Name    Feature Value   Contribution    Average/Mode
+        if optimized: DataFrame, with one row per instance and one column per feature
     """
+    if optimized:
+        return explanation.get()
     if ids is None:
         ids = explanation.get().index
     average_mode = _get_average_or_mode(explanation.get_values())
@@ -50,21 +55,28 @@ def format_feature_contribution_output(explanation, ids=None, series=False):
     return explanation_dict
 
 
-def format_feature_importance_output(explanation):
+def format_feature_importance_output(explanation, optimized=False):
     """
     Format Pyreal FeatureImportanceExplanation objects into Global Feature Importance outputs
     Args:
         explanation (FeatureImportanceExplanation):
             Pyreal Explanation object to parse
+        optimized (Boolean):
+            If True, return in a simple DataFrame format
 
     Returns:
-        DataFrame with a Feature Name column and an Importance column
+        DataFrame with a Feature Name column and an Importance column (if not optimized),
+        else a single row DataFrame with one column per feature
     """
     importances = explanation.get()
+    if optimized:
+        return importances
     return pd.DataFrame({"Feature Name": importances.columns, "Importance": importances.squeeze()})
 
 
-def format_similar_examples_output(explanation, ids=None, series=False, y_format_func=None):
+def format_similar_examples_output(
+    explanation, ids=None, series=False, y_format_func=None, optimized=False
+):
     """
     Format Pyreal SimilarExamples objects into Similar Examples outputs
     Args:
@@ -76,6 +88,9 @@ def format_similar_examples_output(explanation, ids=None, series=False, y_format
             If True, the produce function was passed a series input
         y_format_func (function):
             Function to use to format ground truth values
+                optimized (Boolean)
+        optimized (Boolean):
+            Current a no-op, included for consistency
 
     Returns:
         {"X": DataFrame, "y": Series, "Input": Series} (if series),
@@ -301,6 +316,7 @@ class RealApp:
         algorithm,
         prepare_explainer_func,
         format_output_func,
+        format_output=True,
         x_train_orig=None,
         y_train=None,
         x_orig=None,
@@ -323,6 +339,9 @@ class RealApp:
                 Function that initializes and fits the appropriate explainer
             format_output_func (function):
                 Function that formats Explanation objects into the appropriate output format
+            format_output (Boolean):
+                If False, return output in simple format. Formatted outputs are more usable
+                but take longer to generate.
             x_train_orig (DataFrame of shape (n_instances, n_features)):
                 Training data, if not provided at initialization.
             y_train (DataFrame or Series):
@@ -378,10 +397,12 @@ class RealApp:
                 x_orig = x_orig.drop(self.id_column, axis=x_orig.ndim - 1)
 
             explanation = explainer.produce(x_orig, **produce_kwargs)
-            return format_output_func(explanation, ids, series=series, **format_kwargs)
+            return format_output_func(
+                explanation, ids, optimized=not format_output, series=series, **format_kwargs
+            )
         else:
             explanation = explainer.produce(**produce_kwargs)
-            return format_output_func(explanation, **format_kwargs)
+            return format_output_func(explanation, optimized=not format_output, **format_kwargs)
 
     def add_model(self, model, model_id=None):
         """
@@ -567,6 +588,7 @@ class RealApp:
         x_train_orig=None,
         y_train=None,
         algorithm=None,
+        format_output=True,
         shap_type=None,
         force_refit=False,
         training_size=None,
@@ -587,6 +609,9 @@ class RealApp:
                 Training targets to fit on, if not provided during initialization
             algorithm (string):
                 Name of algorithm
+            format_output (Boolean):
+                If False, return output as a single DataFrame. Formatted outputs are more usable
+                but take longer to generate.
             shap_type (string):
                 If algorithm="shap", type of SHAP explainer to use
             force_refit (Boolean):
@@ -616,6 +641,7 @@ class RealApp:
             x_train_orig=x_train_orig,
             y_train=y_train,
             x_orig=x_orig,
+            format_output=format_output,
             model_id=model_id,
             force_refit=force_refit,
             training_size=training_size,
@@ -686,6 +712,7 @@ class RealApp:
         x_train_orig=None,
         y_train=None,
         algorithm=None,
+        format_output=True,
         shap_type=None,
         force_refit=False,
         training_size=None,
@@ -704,6 +731,9 @@ class RealApp:
                 Training targets to fit on, if not provided during initialization
             algorithm (string):
                 Name of algorithm
+            format_output (Boolean):
+                If False, return output as a single DataFrame. Formatted outputs are more usable
+                but take longer to generate.
             shap_type (string):
                 If algorithm="shap", type of SHAP explainer to use
             force_refit (Boolean):
@@ -731,6 +761,7 @@ class RealApp:
             model_id=model_id,
             x_train_orig=x_train_orig,
             y_train=y_train,
+            format_output=format_output,
             force_refit=force_refit,
             training_size=training_size,
             prepare_kwargs={"shap_type": shap_type},
@@ -801,6 +832,7 @@ class RealApp:
         model_id=None,
         x_train_orig=None,
         y_train=None,
+        format_output=True,
         num_examples=3,
         standardize=False,
         fast=True,
@@ -820,6 +852,8 @@ class RealApp:
                 Data to fit on, if not provided during initialization
             y_train (DataFrame or Series):
                 Training targets to fit on, if not provided during initialization
+            format_output (Boolean):
+                No functionality, included for consistency
             num_examples (int):
                 Number of similar examples to return
             standardize (Boolean):
@@ -855,6 +889,7 @@ class RealApp:
             model_id=model_id,
             x_train_orig=x_train_orig,
             y_train=y_train,
+            format_output=format_output,
             force_refit=force_refit,
             prepare_kwargs={"standardize": standardize, "fast": fast},
             produce_kwargs={"num_examples": num_examples},
