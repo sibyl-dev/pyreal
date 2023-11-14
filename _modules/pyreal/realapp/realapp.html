@@ -334,7 +334,7 @@ document.write(`
 <span class="kn">from</span> <span class="nn">pyreal.utils</span> <span class="kn">import</span> <span class="n">get_top_contributors</span>
 
 
-<span class="k">def</span> <span class="nf">format_feature_contribution_output</span><span class="p">(</span><span class="n">explanation</span><span class="p">,</span> <span class="n">ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">series</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">format_feature_contribution_output</span><span class="p">(</span><span class="n">explanation</span><span class="p">,</span> <span class="n">ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">series</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">optimized</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Format Pyreal FeatureContributionExplanation objects into Local Feature Contribution outputs</span>
 <span class="sd">    Args:</span>
@@ -344,12 +344,17 @@ document.write(`
 <span class="sd">            List of row ids</span>
 <span class="sd">        series (Boolean):</span>
 <span class="sd">            If True, the produce function was passed a series input</span>
+<span class="sd">        optimized (Boolean)</span>
+<span class="sd">            If True, return in a simple DataFrame format</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        DataFrame (if series), else {&quot;id&quot; -&gt; DataFrame}</span>
 <span class="sd">            One dataframe per id, with each row representing a feature, and four columns:</span>
 <span class="sd">                Feature Name    Feature Value   Contribution    Average/Mode</span>
+<span class="sd">        if optimized: DataFrame, with one row per instance and one column per feature</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">optimized</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">explanation</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
     <span class="k">if</span> <span class="n">ids</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">ids</span> <span class="o">=</span> <span class="n">explanation</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">index</span>
     <span class="n">average_mode</span> <span class="o">=</span> <span class="n">_get_average_or_mode</span><span class="p">(</span><span class="n">explanation</span><span class="o">.</span><span class="n">get_values</span><span class="p">())</span>
@@ -374,21 +379,28 @@ document.write(`
     <span class="k">return</span> <span class="n">explanation_dict</span>
 
 
-<span class="k">def</span> <span class="nf">format_feature_importance_output</span><span class="p">(</span><span class="n">explanation</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">format_feature_importance_output</span><span class="p">(</span><span class="n">explanation</span><span class="p">,</span> <span class="n">optimized</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Format Pyreal FeatureImportanceExplanation objects into Global Feature Importance outputs</span>
 <span class="sd">    Args:</span>
 <span class="sd">        explanation (FeatureImportanceExplanation):</span>
 <span class="sd">            Pyreal Explanation object to parse</span>
+<span class="sd">        optimized (Boolean):</span>
+<span class="sd">            If True, return in a simple DataFrame format</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        DataFrame with a Feature Name column and an Importance column</span>
+<span class="sd">        DataFrame with a Feature Name column and an Importance column (if not optimized),</span>
+<span class="sd">        else a single row DataFrame with one column per feature</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">importances</span> <span class="o">=</span> <span class="n">explanation</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">optimized</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">importances</span>
     <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">&quot;Feature Name&quot;</span><span class="p">:</span> <span class="n">importances</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span> <span class="s2">&quot;Importance&quot;</span><span class="p">:</span> <span class="n">importances</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()})</span>
 
 
-<span class="k">def</span> <span class="nf">format_similar_examples_output</span><span class="p">(</span><span class="n">explanation</span><span class="p">,</span> <span class="n">ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">series</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">y_format_func</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">format_similar_examples_output</span><span class="p">(</span>
+    <span class="n">explanation</span><span class="p">,</span> <span class="n">ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">series</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">y_format_func</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">optimized</span><span class="o">=</span><span class="kc">False</span>
+<span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Format Pyreal SimilarExamples objects into Similar Examples outputs</span>
 <span class="sd">    Args:</span>
@@ -400,6 +412,9 @@ document.write(`
 <span class="sd">            If True, the produce function was passed a series input</span>
 <span class="sd">        y_format_func (function):</span>
 <span class="sd">            Function to use to format ground truth values</span>
+<span class="sd">                optimized (Boolean)</span>
+<span class="sd">        optimized (Boolean):</span>
+<span class="sd">            Current a no-op, included for consistency</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        {&quot;X&quot;: DataFrame, &quot;y&quot;: Series, &quot;Input&quot;: Series} (if series),</span>
@@ -625,6 +640,7 @@ document.write(`
         <span class="n">algorithm</span><span class="p">,</span>
         <span class="n">prepare_explainer_func</span><span class="p">,</span>
         <span class="n">format_output_func</span><span class="p">,</span>
+        <span class="n">format_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
         <span class="n">x_train_orig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">y_train</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">x_orig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -647,6 +663,9 @@ document.write(`
 <span class="sd">                Function that initializes and fits the appropriate explainer</span>
 <span class="sd">            format_output_func (function):</span>
 <span class="sd">                Function that formats Explanation objects into the appropriate output format</span>
+<span class="sd">            format_output (Boolean):</span>
+<span class="sd">                If False, return output in simple format. Formatted outputs are more usable</span>
+<span class="sd">                but take longer to generate.</span>
 <span class="sd">            x_train_orig (DataFrame of shape (n_instances, n_features)):</span>
 <span class="sd">                Training data, if not provided at initialization.</span>
 <span class="sd">            y_train (DataFrame or Series):</span>
@@ -702,10 +721,12 @@ document.write(`
                 <span class="n">x_orig</span> <span class="o">=</span> <span class="n">x_orig</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">id_column</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">x_orig</span><span class="o">.</span><span class="n">ndim</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
 
             <span class="n">explanation</span> <span class="o">=</span> <span class="n">explainer</span><span class="o">.</span><span class="n">produce</span><span class="p">(</span><span class="n">x_orig</span><span class="p">,</span> <span class="o">**</span><span class="n">produce_kwargs</span><span class="p">)</span>
-            <span class="k">return</span> <span class="n">format_output_func</span><span class="p">(</span><span class="n">explanation</span><span class="p">,</span> <span class="n">ids</span><span class="p">,</span> <span class="n">series</span><span class="o">=</span><span class="n">series</span><span class="p">,</span> <span class="o">**</span><span class="n">format_kwargs</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">format_output_func</span><span class="p">(</span>
+                <span class="n">explanation</span><span class="p">,</span> <span class="n">ids</span><span class="p">,</span> <span class="n">optimized</span><span class="o">=</span><span class="ow">not</span> <span class="n">format_output</span><span class="p">,</span> <span class="n">series</span><span class="o">=</span><span class="n">series</span><span class="p">,</span> <span class="o">**</span><span class="n">format_kwargs</span>
+            <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">explanation</span> <span class="o">=</span> <span class="n">explainer</span><span class="o">.</span><span class="n">produce</span><span class="p">(</span><span class="o">**</span><span class="n">produce_kwargs</span><span class="p">)</span>
-            <span class="k">return</span> <span class="n">format_output_func</span><span class="p">(</span><span class="n">explanation</span><span class="p">,</span> <span class="o">**</span><span class="n">format_kwargs</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">format_output_func</span><span class="p">(</span><span class="n">explanation</span><span class="p">,</span> <span class="n">optimized</span><span class="o">=</span><span class="ow">not</span> <span class="n">format_output</span><span class="p">,</span> <span class="o">**</span><span class="n">format_kwargs</span><span class="p">)</span>
 
 <div class="viewcode-block" id="RealApp.add_model"><a class="viewcode-back" href="../../../api_reference/api/pyreal.RealApp.add_model.html#pyreal.RealApp.add_model">[docs]</a>    <span class="k">def</span> <span class="nf">add_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">model_id</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -891,6 +912,7 @@ document.write(`
         <span class="n">x_train_orig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">y_train</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">algorithm</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">format_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
         <span class="n">shap_type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">force_refit</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
         <span class="n">training_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -911,6 +933,9 @@ document.write(`
 <span class="sd">                Training targets to fit on, if not provided during initialization</span>
 <span class="sd">            algorithm (string):</span>
 <span class="sd">                Name of algorithm</span>
+<span class="sd">            format_output (Boolean):</span>
+<span class="sd">                If False, return output as a single DataFrame. Formatted outputs are more usable</span>
+<span class="sd">                but take longer to generate.</span>
 <span class="sd">            shap_type (string):</span>
 <span class="sd">                If algorithm=&quot;shap&quot;, type of SHAP explainer to use</span>
 <span class="sd">            force_refit (Boolean):</span>
@@ -940,6 +965,7 @@ document.write(`
             <span class="n">x_train_orig</span><span class="o">=</span><span class="n">x_train_orig</span><span class="p">,</span>
             <span class="n">y_train</span><span class="o">=</span><span class="n">y_train</span><span class="p">,</span>
             <span class="n">x_orig</span><span class="o">=</span><span class="n">x_orig</span><span class="p">,</span>
+            <span class="n">format_output</span><span class="o">=</span><span class="n">format_output</span><span class="p">,</span>
             <span class="n">model_id</span><span class="o">=</span><span class="n">model_id</span><span class="p">,</span>
             <span class="n">force_refit</span><span class="o">=</span><span class="n">force_refit</span><span class="p">,</span>
             <span class="n">training_size</span><span class="o">=</span><span class="n">training_size</span><span class="p">,</span>
@@ -1010,6 +1036,7 @@ document.write(`
         <span class="n">x_train_orig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">y_train</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">algorithm</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">format_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
         <span class="n">shap_type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">force_refit</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
         <span class="n">training_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -1028,6 +1055,9 @@ document.write(`
 <span class="sd">                Training targets to fit on, if not provided during initialization</span>
 <span class="sd">            algorithm (string):</span>
 <span class="sd">                Name of algorithm</span>
+<span class="sd">            format_output (Boolean):</span>
+<span class="sd">                If False, return output as a single DataFrame. Formatted outputs are more usable</span>
+<span class="sd">                but take longer to generate.</span>
 <span class="sd">            shap_type (string):</span>
 <span class="sd">                If algorithm=&quot;shap&quot;, type of SHAP explainer to use</span>
 <span class="sd">            force_refit (Boolean):</span>
@@ -1055,6 +1085,7 @@ document.write(`
             <span class="n">model_id</span><span class="o">=</span><span class="n">model_id</span><span class="p">,</span>
             <span class="n">x_train_orig</span><span class="o">=</span><span class="n">x_train_orig</span><span class="p">,</span>
             <span class="n">y_train</span><span class="o">=</span><span class="n">y_train</span><span class="p">,</span>
+            <span class="n">format_output</span><span class="o">=</span><span class="n">format_output</span><span class="p">,</span>
             <span class="n">force_refit</span><span class="o">=</span><span class="n">force_refit</span><span class="p">,</span>
             <span class="n">training_size</span><span class="o">=</span><span class="n">training_size</span><span class="p">,</span>
             <span class="n">prepare_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;shap_type&quot;</span><span class="p">:</span> <span class="n">shap_type</span><span class="p">},</span>
@@ -1125,6 +1156,7 @@ document.write(`
         <span class="n">model_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">x_train_orig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">y_train</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">format_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
         <span class="n">num_examples</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
         <span class="n">standardize</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
         <span class="n">fast</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
@@ -1144,6 +1176,8 @@ document.write(`
 <span class="sd">                Data to fit on, if not provided during initialization</span>
 <span class="sd">            y_train (DataFrame or Series):</span>
 <span class="sd">                Training targets to fit on, if not provided during initialization</span>
+<span class="sd">            format_output (Boolean):</span>
+<span class="sd">                No functionality, included for consistency</span>
 <span class="sd">            num_examples (int):</span>
 <span class="sd">                Number of similar examples to return</span>
 <span class="sd">            standardize (Boolean):</span>
@@ -1179,6 +1213,7 @@ document.write(`
             <span class="n">model_id</span><span class="o">=</span><span class="n">model_id</span><span class="p">,</span>
             <span class="n">x_train_orig</span><span class="o">=</span><span class="n">x_train_orig</span><span class="p">,</span>
             <span class="n">y_train</span><span class="o">=</span><span class="n">y_train</span><span class="p">,</span>
+            <span class="n">format_output</span><span class="o">=</span><span class="n">format_output</span><span class="p">,</span>
             <span class="n">force_refit</span><span class="o">=</span><span class="n">force_refit</span><span class="p">,</span>
             <span class="n">prepare_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;standardize&quot;</span><span class="p">:</span> <span class="n">standardize</span><span class="p">,</span> <span class="s2">&quot;fast&quot;</span><span class="p">:</span> <span class="n">fast</span><span class="p">},</span>
             <span class="n">produce_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;num_examples&quot;</span><span class="p">:</span> <span class="n">num_examples</span><span class="p">},</span>
