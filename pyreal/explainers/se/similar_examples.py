@@ -76,11 +76,7 @@ class SimilarExamples(SimilarExamplesBase):
             self.explainer = KDTree(dataset)
         self.y_train = y_train
 
-        # Storing two datasets here is not ideal, but speeds things up
         self.x_train_interpret = self.transform_to_x_interpret(x_train_orig)
-        self.x_train_interpret_features = convert_columns_with_dict(
-            self.x_train_interpret, self.feature_descriptions
-        )
         return self
 
     def produce_explanation_interpret(
@@ -102,8 +98,11 @@ class SimilarExamples(SimilarExamplesBase):
         """
         if self.explainer is None:
             raise AttributeError("Instance has no explainer. Must call fit() before produce()")
-        x_train_interpret = self.x_train_interpret_features
-        if disable_feature_descriptions:  # Running this here for optimization
+        if not disable_feature_descriptions:  # Running this here for optimization
+            x_train_interpret = convert_columns_with_dict(
+                self.x_train_interpret, self.feature_descriptions
+            )
+        else:
             x_train_interpret = self.x_train_interpret
         x = self.transform_to_x_algorithm(x_orig)
         if self.standardize:

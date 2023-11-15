@@ -44,7 +44,7 @@ scikit-learn = "^1.1.2"
 numba = "^0.57.0" # Explicit numba (required by shap) forces recent version
 shap = "=0.42.1" # Explicit shap prevents break with newer versions
 lime = "^0.2.0.1"
-seaborn = "^0.12.2"
+seaborn = "^0.13.0"
 
 # Development Requirements
 faiss-cpu = "^1.7.4"
