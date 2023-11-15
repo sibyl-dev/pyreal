@@ -400,11 +400,7 @@ document.write(`
             <span class="bp">self</span><span class="o">.</span><span class="n">explainer</span> <span class="o">=</span> <span class="n">KDTree</span><span class="p">(</span><span class="n">dataset</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">y_train</span> <span class="o">=</span> <span class="n">y_train</span>
 
-        <span class="c1"># Storing two datasets here is not ideal, but speeds things up</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">x_train_interpret</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform_to_x_interpret</span><span class="p">(</span><span class="n">x_train_orig</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">x_train_interpret_features</span> <span class="o">=</span> <span class="n">convert_columns_with_dict</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">x_train_interpret</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">feature_descriptions</span>
-        <span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
     <span class="k">def</span> <span class="nf">produce_explanation_interpret</span><span class="p">(</span>
@@ -426,8 +422,11 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">explainer</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s2">&quot;Instance has no explainer. Must call fit() before produce()&quot;</span><span class="p">)</span>
-        <span class="n">x_train_interpret</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">x_train_interpret_features</span>
-        <span class="k">if</span> <span class="n">disable_feature_descriptions</span><span class="p">:</span>  <span class="c1"># Running this here for optimization</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">disable_feature_descriptions</span><span class="p">:</span>  <span class="c1"># Running this here for optimization</span>
+            <span class="n">x_train_interpret</span> <span class="o">=</span> <span class="n">convert_columns_with_dict</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">x_train_interpret</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">feature_descriptions</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
             <span class="n">x_train_interpret</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">x_train_interpret</span>
         <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform_to_x_algorithm</span><span class="p">(</span><span class="n">x_orig</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">standardize</span><span class="p">:</span>
