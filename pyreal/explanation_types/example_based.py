@@ -60,7 +60,9 @@ class ExampleBasedExplanation(Explanation):
         def func(df):
             return convert_columns_with_dict(df, feature_descriptions)
 
-        self.update_examples(func)
+        # Similar examples apply descriptions at produce for optimizations
+        if not isinstance(self, SimilarExampleExplanation):
+            self.update_examples(func)
         super().apply_feature_descriptions(feature_descriptions)
 
     def get_examples(self, row_id=0, rank=None):
