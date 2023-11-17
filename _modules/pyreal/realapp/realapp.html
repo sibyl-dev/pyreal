@@ -354,7 +354,7 @@ document.write(`
 <span class="sd">        if optimized: DataFrame, with one row per instance and one column per feature</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">optimized</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">explanation</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">explanation</span><span class="o">.</span><span class="n">get</span><span class="p">(),</span> <span class="n">explanation</span><span class="o">.</span><span class="n">get_values</span><span class="p">()</span>
     <span class="k">if</span> <span class="n">ids</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">ids</span> <span class="o">=</span> <span class="n">explanation</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">index</span>
     <span class="n">average_mode</span> <span class="o">=</span> <span class="n">_get_average_or_mode</span><span class="p">(</span><span class="n">explanation</span><span class="o">.</span><span class="n">get_values</span><span class="p">())</span>
