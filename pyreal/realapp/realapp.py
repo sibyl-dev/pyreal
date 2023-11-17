@@ -29,10 +29,10 @@ def format_feature_contribution_output(explanation, ids=None, series=False, opti
                 Feature Name    Feature Value   Contribution    Average/Mode
         if optimized: DataFrame, with one row per instance and one column per feature
     """
-    if optimized:
-        return explanation.get(), explanation.get_values()
     if ids is None:
         ids = explanation.get().index
+    if optimized:
+        return explanation.get().set_index(ids), explanation.get_values().set_index(ids)
     average_mode = _get_average_or_mode(explanation.get_values())
     explanation_dict = {}
     for i, row_id in enumerate(ids):
