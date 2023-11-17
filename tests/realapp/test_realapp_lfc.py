@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 import pytest
-from pandas.testing import assert_series_equal
+from pandas.testing import assert_frame_equal, assert_series_equal
 
 from pyreal import RealApp
 from pyreal.realapp.realapp import _get_average_or_mode
@@ -96,7 +96,9 @@ def test_produce_local_feature_contributions(regression_no_transforms):
     assert list(explanation[1]["Average/Mode"]) == [3, 1.5, 2]
 
 
-def test_produce_local_feature_contributions_no_format(regression_no_transforms):
+def test_produce_local_feature_contributions_no_format(
+    regression_no_transforms, regression_one_hot
+):
     real_app = RealApp(
         regression_no_transforms["model"],
         regression_no_transforms["x"],
@@ -107,12 +109,23 @@ def test_produce_local_feature_contributions_no_format(regression_no_transforms)
     x_multi_dim = pd.DataFrame([[2, 1, 1], [4, 2, 3]], columns=features)
 
     expected = np.mean(regression_no_transforms["y"])
-    explanation = real_app.produce_feature_contributions(x_multi_dim, format_output=False)
+    explanation, values = real_app.produce_feature_contributions(x_multi_dim, format_output=False)
     assert explanation.shape == x_multi_dim.shape
 
     assert_series_equal(explanation["A"], x_multi_dim["A"] - expected)
     assert (explanation["B"] == 0).all()
     assert (explanation["C"] == 0).all()
+
+    assert_frame_equal(values, x_multi_dim)
+
+    real_app = RealApp(
+        regression_one_hot["model"],
+        regression_one_hot["x"],
+        transformers=regression_one_hot["transformers"],
+    )
+
+    _, values = real_app.produce_feature_contributions(x_multi_dim, format_output=False)
+    assert_frame_equal(values, x_multi_dim)
 
 
 def test_produce_local_feature_contributions_with_id_column(regression_one_hot):
