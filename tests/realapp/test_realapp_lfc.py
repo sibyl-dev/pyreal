@@ -103,21 +103,27 @@ def test_produce_local_feature_contributions_no_format(
         regression_no_transforms["model"],
         regression_no_transforms["x"],
         transformers=regression_no_transforms["transformers"],
+        id_column="ID",
     )
     features = ["A", "B", "C"]
 
-    x_multi_dim = pd.DataFrame([[2, 1, 1], [4, 2, 3]], columns=features)
+    x_multi_dim = pd.DataFrame([[2, 1, 1, "a"], [4, 2, 3, "b"]], columns=features + ["ID"])
 
     expected = np.mean(regression_no_transforms["y"])
     explanation, values = real_app.produce_feature_contributions(x_multi_dim, format_output=False)
-    assert explanation.shape == x_multi_dim.shape
+    assert explanation.shape == x_multi_dim.drop(columns="ID").shape
+    assert list(x_multi_dim["ID"]) == list(explanation.index)
 
-    assert_series_equal(explanation["A"], x_multi_dim["A"] - expected)
+    assert_series_equal(
+        explanation["A"], x_multi_dim["A"] - expected, check_index=False, check_index_type=False
+    )
     assert (explanation["B"] == 0).all()
     assert (explanation["C"] == 0).all()
 
-    assert_frame_equal(values, x_multi_dim)
+    assert_frame_equal(values, x_multi_dim.set_index("ID"))
+    assert list(x_multi_dim["ID"]) == list(values.index)
 
+    x_multi_dim = pd.DataFrame([[2, 1, 1], [4, 2, 3]], columns=features)
     real_app = RealApp(
         regression_one_hot["model"],
         regression_one_hot["x"],
