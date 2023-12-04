@@ -1,5 +1,6 @@
 import pandas as pd
 import pytest
+from pandas.testing import assert_index_equal
 
 from pyreal import RealApp
 
@@ -61,6 +62,20 @@ def test_produce_global_feature_importance(regression_no_transforms):
 
     # confirm no bug in explainer caching
     realApp.produce_feature_importance(algorithm="permutation")
+
+
+def test_produce_global_feature_importance_no_format(regression_no_transforms):
+    realApp = RealApp(
+        regression_no_transforms["model"],
+        regression_no_transforms["x"],
+        y_train=regression_no_transforms["y"],
+        transformers=regression_no_transforms["transformers"],
+    )
+
+    explanation = realApp.produce_feature_importance(format_output=False)
+    assert explanation.shape == (1, regression_no_transforms["x"].shape[1])
+    assert_index_equal(explanation.columns, regression_no_transforms["x"].columns)
+    assert list(explanation.iloc[0]) == [4 / 3, 0, 0]
 
 
 def test_produce_global_feature_importance_no_data_on_init(regression_no_transforms):

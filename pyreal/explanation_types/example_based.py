@@ -1,6 +1,6 @@
 import pandas as pd
 
-from pyreal.explanation_types.explanations.base import Explanation, convert_columns_with_dict
+from pyreal.explanation_types.base import Explanation, convert_columns_with_dict
 
 
 class ExampleBasedExplanation(Explanation):
@@ -47,10 +47,22 @@ class ExampleBasedExplanation(Explanation):
         super().validate()
 
     def apply_feature_descriptions(self, feature_descriptions):
+        """
+        Apply feature descriptions to examples
+
+        Args:
+            feature_descriptions (dict):
+                Dictionary mapping feature names to interpretable descriptions
+        Returns:
+            None
+        """
+
         def func(df):
             return convert_columns_with_dict(df, feature_descriptions)
 
-        self.update_examples(func)
+        # Similar examples apply descriptions at produce for optimizations
+        if not isinstance(self, SimilarExampleExplanation):
+            self.update_examples(func)
         super().apply_feature_descriptions(feature_descriptions)
 
     def get_examples(self, row_id=0, rank=None):
@@ -91,9 +103,31 @@ class ExampleBasedExplanation(Explanation):
         """
         return self.get()[0].keys()
 
-    def update_examples(self, func):
+    def update_examples(self, func, inplace=False):
+        """
+        Update every example using the provided function
+        Args:
+            func (function):
+                Function to apply to every example
+            inplace (Boolean):
+                If True, change the explanation on this object. Otherwise, create a new object
+                identical to this one but with a new explanation
+
+        Returns:
+            Explanation
+                `self` if `inplace=True`, else the new Explanation object.
+        """
+        examples = {}
         for key in self.get()[0]:
-            self.get()[0][key] = func(self.get()[0][key])
+            if inplace:
+                self.get()[0][key] = func(self.get()[0][key])
+            else:
+                examples[key] = func(self.get()[0][key])
+        if inplace:
+            explanation = (examples, self.get()[1])
+            return self.__class__(explanation, self.values)
+        else:
+            return self
 
 
 class SimilarExampleExplanation(ExampleBasedExplanation):
@@ -115,6 +149,19 @@ class SimilarExampleExplanation(ExampleBasedExplanation):
         if self.explanation[1] is None:
             raise AssertionError("Similar example explanations must come with target values.")
         super().validate()
+
+    def apply_feature_descriptions(self, feature_descriptions):
+        """
+        No-op because feature descriptions are applied at produce time for similar examples
+        explanation, to improve performance
+
+        Args:
+            feature_descriptions:
+
+        Returns:
+            None
+        """
+        super().apply_feature_descriptions(feature_descriptions)
 
 
 class CounterfactualExplanation(ExampleBasedExplanation):

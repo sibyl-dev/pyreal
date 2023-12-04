@@ -3,13 +3,13 @@ from abc import ABC, abstractmethod
 
 import pandas as pd
 
-from pyreal.explanation_types.explanations.base import Explanation
-from pyreal.explanation_types.explanations.decision_tree import DecisionTreeExplanation
-from pyreal.explanation_types.explanations.example_based import (
+from pyreal.explanation_types.base import Explanation
+from pyreal.explanation_types.decision_tree import DecisionTreeExplanation
+from pyreal.explanation_types.example_based import (
     ExampleBasedExplanation,
     SimilarExampleExplanation,
 )
-from pyreal.explanation_types.explanations.feature_based import (
+from pyreal.explanation_types.feature_based import (
     AdditiveFeatureContributionExplanation,
     AdditiveFeatureImportanceExplanation,
     FeatureBased,
@@ -86,7 +86,7 @@ def run_transformers(transformers, x):
 
 
 def _display_missing_transform_info(transformer_name, function_name):
-    log.info(
+    log.debug(
         "Transformer %s does not have an implemented %s function. "
         "Defaulting to no change in explanation. If this causes a break,"
         "you may want to add a interpret=False flag to this transformer or redefine this "
@@ -95,7 +95,7 @@ def _display_missing_transform_info(transformer_name, function_name):
 
 
 def _display_missing_transform_info_inverse(transformer_name, function_name):
-    log.info(
+    log.debug(
         "Transformer %s does not have an implemented %s function. "
         "Defaulting to no change in explanation. If this causes a break,"
         "you may want to add an interpret=True flag to this transformer or redefine this "
@@ -326,9 +326,7 @@ class Transformer(ABC):
             AdditiveFeatureContributionExplanation:
                 The transformed explanation
         """
-        return AdditiveFeatureContributionExplanation(
-            self.inverse_transform_explanation_feature_contribution(explanation).get()
-        )
+        return self.inverse_transform_explanation_feature_contribution(explanation)
 
     # noinspection PyMethodMayBeStatic
     def inverse_transform_explanation_additive_feature_importance(self, explanation):
@@ -343,9 +341,7 @@ class Transformer(ABC):
             AdditiveFeatureImportanceExplanation:
                 The transformed explanation
         """
-        return AdditiveFeatureImportanceExplanation(
-            self.inverse_transform_explanation_feature_importance(explanation).get()
-        )
+        return self.inverse_transform_explanation_feature_importance(explanation)
 
     # noinspection PyMethodMayBeStatic
     def inverse_transform_explanation_feature_contribution(self, explanation):
@@ -359,9 +355,7 @@ class Transformer(ABC):
             FeatureContributionExplanation:
                 The transformed explanation
         """
-        return FeatureContributionExplanation(
-            self.inverse_transform_explanation_feature_based(explanation).get()
-        )
+        return self.inverse_transform_explanation_feature_based(explanation)
 
     # noinspection PyMethodMayBeStatic
     def inverse_transform_explanation_feature_importance(self, explanation):
@@ -375,9 +369,7 @@ class Transformer(ABC):
             FeatureImportanceExplanation:
                 The transformed explanation
         """
-        return FeatureImportanceExplanation(
-            self.inverse_transform_explanation_feature_based(explanation).get()
-        )
+        return self.inverse_transform_explanation_feature_based(explanation)
 
     # noinspection PyMethodMayBeStatic
     def inverse_transform_explanation_feature_based(self, explanation):
@@ -425,9 +417,7 @@ class Transformer(ABC):
             DecisionTree:
                 The transformed explanation
         """
-        return SimilarExampleExplanation(
-            self.inverse_transform_explanation_example(explanation).get()
-        )
+        return self.inverse_transform_explanation_example(explanation)
 
     # noinspection PyMethodMayBeStatic
     def inverse_transform_explanation_example(self, explanation):
@@ -441,7 +431,7 @@ class Transformer(ABC):
             DecisionTree:
                 The transformed explanation
         """
-        return ExampleBasedExplanation(self.inverse_data_transform(explanation.get_examples()))
+        return explanation.update_examples(self.inverse_data_transform, inplace=False)
 
     # ============================== TRANSFORM EXPLANATION METHODS ================================
 
@@ -458,9 +448,7 @@ class Transformer(ABC):
             AdditiveFeatureContributionExplanation:
                 The transformed explanation
         """
-        return AdditiveFeatureContributionExplanation(
-            self.transform_explanation_feature_contribution(explanation).get()
-        )
+        return self.transform_explanation_feature_contribution(explanation)
 
     # noinspection PyMethodMayBeStatic
     def transform_explanation_additive_feature_importance(self, explanation):
@@ -475,9 +463,7 @@ class Transformer(ABC):
             AdditiveFeatureImportanceExplanation:
                 The transformed explanation
         """
-        return AdditiveFeatureImportanceExplanation(
-            self.transform_explanation_feature_importance(explanation).get()
-        )
+        return self.transform_explanation_feature_importance(explanation)
 
     # noinspection PyMethodMayBeStatic
     def transform_explanation_feature_contribution(self, explanation):
@@ -491,9 +477,7 @@ class Transformer(ABC):
             FeatureContributionExplanation:
                 The transformed explanation
         """
-        return FeatureContributionExplanation(
-            self.transform_explanation_feature_based(explanation).get()
-        )
+        return self.transform_explanation_feature_based(explanation)
 
     # noinspection PyMethodMayBeStatic
     def transform_explanation_feature_importance(self, explanation):
@@ -507,9 +491,7 @@ class Transformer(ABC):
             FeatureImportanceExplanation:
                 The transformed explanation
         """
-        return FeatureImportanceExplanation(
-            self.transform_explanation_feature_based(explanation).get()
-        )
+        return self.transform_explanation_feature_based(explanation)
 
     # noinspection PyMethodMayBeStatic
     def transform_explanation_feature_based(self, explanation):
@@ -552,7 +534,7 @@ class Transformer(ABC):
             DecisionTree:
                 The transformed explanation
         """
-        return SimilarExampleExplanation(self.transform_explanation_example(explanation).get())
+        return self.transform_explanation_example(explanation)
 
     # noinspection PyMethodMayBeStatic
     def transform_explanation_example(self, explanation):
@@ -566,4 +548,4 @@ class Transformer(ABC):
             DecisionTree:
                 The transformed explanation
         """
-        return ExampleBasedExplanation(self.data_transform(explanation.get_examples()))
+        return explanation.update_examples(self.inverse_data_transform, inplace=False)

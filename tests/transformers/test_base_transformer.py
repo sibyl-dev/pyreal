@@ -1,7 +1,7 @@
 import pandas as pd
 from pandas.testing import assert_frame_equal
 
-from pyreal.explanation_types.explanations.feature_based import FeatureImportanceExplanation
+from pyreal.explanation_types import FeatureImportanceExplanation
 from pyreal.transformers import (
     FeatureSelectTransformer,
     OneHotEncoder,
@@ -18,13 +18,15 @@ class TestTransformer(Transformer):
 
     # noinspection PyMethodMayBeStatic
     def transform_explanation_feature_based(self, explanation):
-        explanation.get().iloc[0, 0] = "A"
-        return explanation
+        new_explanation = explanation.get().copy()
+        new_explanation.iloc[0, 0] = "A"
+        return explanation.update_explanation(new_explanation)
 
     # noinspection PyMethodMayBeStatic
     def inverse_transform_explanation_feature_based(self, explanation):
-        explanation.get().iloc[0, 1] = "B"
-        return explanation
+        new_explanation = explanation.get().copy()
+        new_explanation.iloc[0, 1] = "B"
+        return explanation.update_explanation(new_explanation)
 
 
 def test_fit_run_transformers():
@@ -59,7 +61,7 @@ def test_explanation_transform_transfer():
 
     result2 = test_transformer.inverse_transform_explanation(explanation)
     assert result2.__class__ == FeatureImportanceExplanation
-    assert_frame_equal(result2.get(), pd.DataFrame([["A", "B"]]))
+    assert_frame_equal(result2.get(), pd.DataFrame([["1", "B"]]))
 
 
 def test_fit_returns_self():

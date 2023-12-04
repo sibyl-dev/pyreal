@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
 import pytest
+from pandas.testing import assert_frame_equal, assert_series_equal
 
 from pyreal import RealApp
 from pyreal.realapp.realapp import _get_average_or_mode
@@ -71,7 +72,6 @@ def test_produce_local_feature_contributions(regression_no_transforms):
     )
     features = ["A", "B", "C"]
 
-    # x_one_dim = pd.DataFrame([[2, 10, 10]], columns=features)
     x_one_dim = pd.Series([2, 10, 10], index=features)
 
     expected = np.mean(regression_no_transforms["y"])
@@ -94,6 +94,44 @@ def test_produce_local_feature_contributions(regression_no_transforms):
     assert list(explanation[1]["Feature Value"]) == list(x_multi_dim.iloc[1])
     assert list(explanation[1]["Contribution"]) == [x_multi_dim.iloc[1, 0] - expected, 0, 0]
     assert list(explanation[1]["Average/Mode"]) == [3, 1.5, 2]
+
+
+def test_produce_local_feature_contributions_no_format(
+    regression_no_transforms, regression_one_hot
+):
+    real_app = RealApp(
+        regression_no_transforms["model"],
+        regression_no_transforms["x"],
+        transformers=regression_no_transforms["transformers"],
+        id_column="ID",
+    )
+    features = ["A", "B", "C"]
+
+    x_multi_dim = pd.DataFrame([[2, 1, 1, "a"], [4, 2, 3, "b"]], columns=features + ["ID"])
+
+    expected = np.mean(regression_no_transforms["y"])
+    explanation, values = real_app.produce_feature_contributions(x_multi_dim, format_output=False)
+    assert explanation.shape == x_multi_dim.drop(columns="ID").shape
+    assert list(x_multi_dim["ID"]) == list(explanation.index)
+
+    assert_series_equal(
+        explanation["A"], x_multi_dim["A"] - expected, check_index=False, check_index_type=False
+    )
+    assert (explanation["B"] == 0).all()
+    assert (explanation["C"] == 0).all()
+
+    assert_frame_equal(values, x_multi_dim.set_index("ID"))
+    assert list(x_multi_dim["ID"]) == list(values.index)
+
+    x_multi_dim = pd.DataFrame([[2, 1, 1], [4, 2, 3]], columns=features)
+    real_app = RealApp(
+        regression_one_hot["model"],
+        regression_one_hot["x"],
+        transformers=regression_one_hot["transformers"],
+    )
+
+    _, values = real_app.produce_feature_contributions(x_multi_dim, format_output=False)
+    assert_frame_equal(values, x_multi_dim)
 
 
 def test_produce_local_feature_contributions_with_id_column(regression_one_hot):

@@ -10,7 +10,7 @@ maintainers = [
 
 description = "Library for evaluating and deploying human readable machine learning explanations."
 name = "pyreal"
-version = "0.4.6"
+version = "0.4.7"
 
 license = ""
 
@@ -44,9 +44,11 @@ scikit-learn = "^1.1.2"
 numba = "^0.57.0" # Explicit numba (required by shap) forces recent version
 shap = "=0.42.1" # Explicit shap prevents break with newer versions
 lime = "^0.2.0.1"
-seaborn = "^0.12.2"
+seaborn = "^0.13.0"
 
 # Development Requirements
+faiss-cpu = "^1.7.4"
+reverse-geocoder = "^1.5.1"
 [tool.poetry.group.dev.dependencies]
 
 # Testing Dependencies

@@ -6,7 +6,7 @@ import pandas as pd
 from sklearn.base import is_classifier
 from sklearn.metrics import get_scorer
 
-from pyreal.explanation_types.explanations.base import Explanation
+from pyreal.explanation_types import Explanation
 from pyreal.transformers import BreakingTransformError
 from pyreal.transformers import fit_transformers as fit_transformers_func
 from pyreal.transformers import run_transformers
@@ -331,10 +331,11 @@ class ExplainerBase(ABC):
 
     def transform_explanation(self, explanation, x_orig=None):
         """
-        Transform the explanation into its interpretable form, by running the e_transformer's
-        "inverse_transform_explanation" and i_transformers "transform_explanation" functions.
-        If an `x_orig` is provided, also convert `x_orig` with the same
-        transformers. This function will result in `values` in the Explanation object
+        Transform the explanation into its interpretable form, by running the algorithm
+        transformer's "inverse_transform_explanation" and interpretable transformers
+        "transform_explanation" functions.
+        If an `x_orig` is provided, or the explanation has values, also convert `x_orig` with the
+        same transformers. This function will result in `values` in the Explanation object
         in the same feature space as the final explanation
 
         Args:
@@ -349,6 +350,10 @@ class ExplainerBase(ABC):
         """
         if not isinstance(explanation, Explanation):
             raise ValueError("explanation is not a valid Explanation object")
+
+        if explanation.values is not None and x_orig is None:
+            x_orig = explanation.values
+            explanation.values = None
 
         convert_x = x_orig is not None
         if self.return_original_explanation:
@@ -465,37 +470,6 @@ class ExplainerBase(ABC):
                  Description of feature
         """
         return self.feature_descriptions[feature_name]
-
-    def convert_columns_to_interpretable(self, df):
-        """
-        Returns df with columns (or index, for series) converted to the interpretable descriptions
-
-        Args:
-            df (DataFrame):
-
-        Returns:
-            string
-                 Description of feature
-        """
-        if self.feature_descriptions is None:
-            return df
-
-        if isinstance(df, pd.Series):
-            return df.rename(self.feature_descriptions)
-        return df.rename(self.feature_descriptions, axis="columns")
-
-    def convert_data_to_interpretable(self, x_orig):
-        """
-        Convert data in its original form to an interpretable form, with interpretable features
-        Args:
-            x_orig (DataFrame of shape (n_instances, n_features) or Series):
-                Input data to convert
-
-        Returns:
-            DataFrame of shape (n_instances, x_interpret_feature_count)
-                Transformed, interpretable data
-        """
-        return self.convert_columns_to_interpretable(self.transform_to_x_interpret(x_orig))
 
     def evaluate_model(self, scorer, x_orig=None, y=None):
         """

@@ -16,6 +16,7 @@ Base Transformer
     Transformer.fit_transform
     Transformer.inverse_transform
     Transformer.transform_explanation
+    Transformer.inverse_transform_explanation
 
 Feature Select Transformer
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -28,6 +29,7 @@ Feature Select Transformer
     FeatureSelectTransformer.transform
     FeatureSelectTransformer.fit_transform
     FeatureSelectTransformer.transform_explanation
+    FeatureSelectTransformer.inverse_transform_explanation
 
 Imputers
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -40,6 +42,7 @@ Imputers
     MultiTypeImputer.transform
     MultiTypeImputer.fit_transform
     MultiTypeImputer.transform_explanation
+    MultiTypeImputer.inverse_transform_explanation
 
 One-Hot Encoders
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -53,6 +56,7 @@ One-Hot Encoders
     OneHotEncoder.fit_transform
     OneHotEncoder.inverse_transform
     OneHotEncoder.transform_explanation
+    OneHotEncoder.inverse_transform_explanation
     MappingsOneHotEncoder
     MappingsOneHotEncoder.fit
     MappingsOneHotEncoder.data_transform
@@ -60,6 +64,7 @@ One-Hot Encoders
     MappingsOneHotEncoder.fit_transform
     MappingsOneHotEncoder.inverse_transform
     MappingsOneHotEncoder.transform_explanation
+    MappingsOneHotEncoder.inverse_transform_explanation
     MappingsOneHotDecoder
     MappingsOneHotDecoder.fit
     MappingsOneHotDecoder.data_transform
@@ -67,6 +72,7 @@ One-Hot Encoders
     MappingsOneHotDecoder.fit_transform
     MappingsOneHotDecoder.inverse_transform
     MappingsOneHotDecoder.transform_explanation
+    MappingsOneHotDecoder.inverse_transform_explanation
     Mappings
     Mappings.generate_mappings
 
@@ -112,6 +118,7 @@ Type Casters
     BoolToIntCaster.transform
     BoolToIntCaster.fit_transform
     BoolToIntCaster.transform_explanation
+    BoolToIntCaster.inverse_transform_explanation
 
 Wrappers
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -125,6 +132,7 @@ Wrappers
     DataFrameWrapper.fit_transform
     DataFrameWrapper.inverse_transform
     DataFrameWrapper.transform_explanation
+    DataFrameWrapper.inverse_transform_explanation
 
 Time Series Padders
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -137,4 +145,18 @@ Time Series Padders
     TimeSeriesPadder.transform
     TimeSeriesPadder.fit_transform
     TimeSeriesPadder.transform_explanation
+    TimeSeriesPadder.inverse_transform_explanation
+
+Geo Transformers
+~~~~~~~~~~~~~~~~~~~~
+.. autosummary::
+    :toctree: api/
+
+    LatLongToPlace
+    LatLongToPlace.fit
+    LatLongToPlace.data_transform
+    LatLongToPlace.transform
+    LatLongToPlace.fit_transform
+    LatLongToPlace.transform_explanation
+    LatLongToPlace.inverse_transform_explanation
 

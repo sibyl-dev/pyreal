@@ -37,7 +37,18 @@ class Explanation:
 
     def get(self):
         """
+        Get the explanation wrapped by this type. Alternative to get_explanation
+
+        Returns:
+            object
+                wrapped explanation object
+        """
+        return self.get_explanation()
+
+    def get_explanation(self):
+        """
         Get the explanation wrapped by this type
+
         Returns:
             object
                 wrapped explanation object
@@ -91,31 +102,44 @@ class Explanation:
         else:
             return self.__class__(self.explanation, values)
 
-    def update_explanation(self, explanation, inplace=False):
+    def update_explanation(self, new_explanation, inplace=False, persist_values=True):
         """
-        Updates this objects explanation, and validates
+        Sets this object's explanation to the new value.
 
         Args:
-            explanation (object):
-                New raw explanation
-            inplace (Boolean)
+            new_explanation (object):
+                New explanation
+            inplace (Boolean):
                 If True, change the explanation on this object. Otherwise, create a new object
                 identical to this one but with a new explanation
-
-        Returns:
-            Explanation
-                `self` if `inplace=True`, else the new Explanation object.
+            persist_values (Boolean):
+                If False, remove values from the updated explanation, ie. if the new explanation
+                will not be compatible with values
         """
         if inplace:
-            self.explanation = explanation
+            self.explanation = new_explanation
+            if not persist_values:
+                self.values = None
             self.validate()
             if self.values is not None:
                 self.validate_values()
             return self
         else:
-            return self.__class__(explanation, self.values)
+            if persist_values:
+                return self.__class__(new_explanation, self.values)
+            else:
+                return self.__class__(new_explanation)
 
     def apply_feature_descriptions(self, feature_descriptions):
+        """
+        Apply feature descriptions to explanation and values
+
+        Args:
+            feature_descriptions (dict):
+                Dictionary mapping feature names to interpretable descriptions
+        Returns:
+            None
+        """
         self.update_values(
             convert_columns_with_dict(self.values, feature_descriptions), inplace=True
         )
