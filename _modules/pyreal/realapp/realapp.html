@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pyreal.realapp.realapp &#8212; Pyreal 0.4.6 documentation</title>
+    <title>pyreal.realapp.realapp &#8212; Pyreal 0.4.7 documentation</title>
   
   
   
@@ -456,7 +456,6 @@ document.write(`
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">==</span> <span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>  <span class="c1"># all columns are numeric</span>
         <span class="k">return</span> <span class="n">s</span>
     <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">((</span><span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">mode</span><span class="p">()</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">s</span><span class="p">))</span>
-    <span class="c1"># return df.drop(s.index, axis=1).mode().iloc[0].append(s)</span>
 
 
 <div class="viewcode-block" id="RealApp"><a class="viewcode-back" href="../../../api_reference/api/pyreal.RealApp.html#pyreal.RealApp">[docs]</a><span class="k">class</span> <span class="nc">RealApp</span><span class="p">:</span>
