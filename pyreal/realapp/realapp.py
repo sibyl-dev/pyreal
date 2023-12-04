@@ -132,7 +132,6 @@ def _get_average_or_mode(df):
     if len(s) == df.shape[1]:  # all columns are numeric
         return s
     return pd.concat((df.drop(s.index, axis=1).mode().iloc[0], s))
-    # return df.drop(s.index, axis=1).mode().iloc[0].append(s)
 
 
 class RealApp:
