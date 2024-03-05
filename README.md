@@ -7,24 +7,33 @@
 
 [![PyPI Shield](https://img.shields.io/pypi/v/pyreal.svg)](https://pypi.python.org/pypi/pyreal)
 ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/pyreal)
+[![PyPI - Downloads](https://img.shields.io/pypi/dm/pyreal)](https://pypi.python.org/pypi/pyreal)
 [![Build Action Status](https://github.com/DAI-Lab/pyreal/workflows/Test%20CI/badge.svg)](https://github.com/DAI-Lab/pyreal/actions)
-[![Downloads](https://pepy.tech/badge/pyreal)](https://pepy.tech/project/pyreal)
+[![Static Badge](https://img.shields.io/badge/slack-sibyl-purple?logo=slack)](https://join.slack.com/t/sibyl-ml/shared_invite/zt-2dyfwbgo7-2ALinuT2KDZpsVJ4rntJuA)
 <!--[![Travis CI Shield](https://travis-ci.org/DAI-Lab/pyreal.svg?branch=stable)](https://travis-ci.org/DAI-Lab/pyreal)-->
 <!--[![Coverage Status](https://codecov.io/gh/DAI-Lab/pyreal/branch/stable/graph/badge.svg)](https://codecov.io/gh/DAI-Lab/pyreal)-->
 
 # Pyreal
 
-Library for generating useful and usable machine learning explanations.
+An easier approach to understanding your model's predictions.
 
--   License: MIT
--   Documentation: [https://pyreal.gitbook.io/pyreal](https://dtail.gitbook.io/pyreal/)
--   API Documentation: https://sibyl-ml.dev/pyreal/api_reference/index.html
--   Homepage: https://sibyl-ml.dev/
+| Important Links                               |                                                                      |
+| --------------------------------------------- | -------------------------------------------------------------------- |
+| :book: **[Documentation]**                    | Quickstarts, User and Development Guides, and API Reference.         |
+| :star: **[Tutorials]**                        | Checkout our notebooks                                               |
+| :scroll: **[License]**                        | The repository is published under the MIT License.                   |
+| :computer: **[Website]**                      | Check out the Sibyl Project Website for more information.            |
+
+[Website]: https://sibyl-ml.dev/
+[Documentation]: https://dtail.gitbook.io/pyreal/
+[Tutorials]: https://github.com/sibyl-dev/pyreal/tree/dev/tutorials
+[License]: https://github.com/sibyl-dev/pyreal/blob/dev/LICENSE
+[Community]: https://join.slack.com/t/sibyl-ml/shared_invite/zt-2dyfwbgo7-2ALinuT2KDZpsVJ4rntJuA
 
 # Overview
 
-**Pyreal** wraps the complete machine learning explainability pipeline into RealApp objects, which seamlessly
-provide usable explanations in a low-code manner.
+**Pyreal** gives you easy-to-understand explanations of your machine learning models in a low-code manner. 
+Pyreal wraps full ML pipelines in a RealApp object that makes it easy to use, understand, and interact with your ML model — regardless of your ML expertise.
 
 # Install
 
@@ -113,21 +122,6 @@ The output will be a bar plot showing the most contributing features, by absolut
 We can see here that the input passenger's predicted chance of survival was greatly reduced
 because of their sex (male) and ticket class (3rd class).
 
-### Troubleshoot
+# Next Steps
 
-For macOS users, an error regarding `lightgbm` might arise when running the `titanic` tutorial due to lack of lightgbm installation.
-If this occurs, please run the following line in your terminal to install `lightgbm`.
-
-```
-brew install lightgbm
-```
-
-### Terminology
-
-Pyreal introduces specific terms and naming schemes to refer to different feature spaces and
-transformations. The [Terminology User Guide](https://dtail.gitbook.io/pyreal/developing-applications/developer-terminology-guide) provides an introduction to these terms.
-
-# What's next?
-
-For more details about **Pyreal** and all its possibilities
-and features, please check the [documentation site](https://dtail.gitbook.io/pyreal/).
+For more information on using **Pyreal** for your use case, head over to the full [documentation site](https://dtail.gitbook.io/pyreal/getting-started/next-steps).
