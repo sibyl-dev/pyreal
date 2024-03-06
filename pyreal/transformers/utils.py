@@ -2,15 +2,18 @@ from sklearn.preprocessing import OneHotEncoder as SklearnOneHotEncoder
 from sklearn.compose import ColumnTransformer
 
 from pyreal.transformers import OneHotEncoder, ColumnDropTransformer
-from pyreal.transformers import Transformer
+from pyreal.transformers import Transformer, fit_transformers
 from sklearn.pipeline import Pipeline as SklearnPipeline
 
 
-def sklearn_pipeline_to_pyreal(pipeline, verbose=0):
+def sklearn_pipeline_to_pyreal_transformers(pipeline, X_train=None, verbose=0):
     """
     Convert a sklearn pipeline to a Pyreal pipeline
     Args:
-        pipeline (sklearn.pipeline.Pipeline): The pipeline to convert
+        pipeline (sklearn.pipeline.Pipeline or list of sklearn transformers):
+            The pipeline/transformers to convert
+        X_train (pandas.DataFrame): The data to fit the transformers to. If None, transformers
+            will not be fitted and may need to be manually fitted before use
         verbose (int): The verbosity level. 0 for no output, 1 for detailed output
     Returns:
         list of pyreal.transformers: The Pyreal pipeline
@@ -27,11 +30,14 @@ def sklearn_pipeline_to_pyreal(pipeline, verbose=0):
     pyreal_pipeline = []
 
     def process_pipeline(step, columns=None):
-        if isinstance(step, SklearnPipeline):
+        if isinstance(step, list):
+            for substep in step:
+                process_pipeline(substep, columns)
+        elif isinstance(step, SklearnPipeline):
             for _, substep in step.steps:
                 process_pipeline(substep, columns)
         elif isinstance(step, ColumnTransformer):
-            for _, substep, subcolumns in step.transformers:
+            for _, substep, subcolumns in step.transformers_:
                 process_pipeline(substep, subcolumns)
         elif step == "drop":
             pyreal_pipeline.append(ColumnDropTransformer(columns=columns))
@@ -47,4 +53,6 @@ def sklearn_pipeline_to_pyreal(pipeline, verbose=0):
             log(step, columns)
 
     process_pipeline(pipeline)
+    if X_train is not None:
+        fit_transformers(pyreal_pipeline, X_train)
     return pyreal_pipeline

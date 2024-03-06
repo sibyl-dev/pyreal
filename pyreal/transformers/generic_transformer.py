@@ -11,7 +11,7 @@ class Transformer(TransformerBase):
 
     def __init__(self, wrapped_transformer, columns=None, **kwargs):
         self.wrapped_transformer = wrapped_transformer
-        self.columns = None
+        self.columns = columns
         super().__init__(**kwargs)
 
     def fit(self, x, **params):
