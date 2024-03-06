@@ -8,10 +8,7 @@ from pyreal.transformers.wrappers import DataFrameWrapper
 
 class MinMaxScaler(Transformer):
     """
-
-    Directly implements a sklearn MinMaxScaler into Pyreal.
-    Initializes a Transformer.
-
+    Scales numeric features within a given range
     """
 
     def __init__(self, feature_range=(0, 1), clip=False, **kwargs):
@@ -80,9 +77,13 @@ class MinMaxScaler(Transformer):
 
 
 class Normalizer(Transformer):
+    """
+    Normalizes numeric features using the l1, l2, or max norm
+    """
+
     def __init__(self, norm="l2", **kwargs):
         """
-        Initialize a wrapped transformer and DataFrameWrapper, then wrap the DataFrameWrapper
+        Initialize the transformer
 
         Args:
             norm (str, optional): The norm to use to normalize each non zero sample.
@@ -130,6 +131,10 @@ class Normalizer(Transformer):
 
 
 class StandardScaler(Transformer):
+    """
+    Standardizes numeric features to mean=0 and variance=1
+    """
+
     def __init__(self, *, with_mean=True, with_std=True, **kwargs):
         """
         Creates a pyreal StandardScaler, and wraps it a DataFrameWrapper,
