@@ -8,6 +8,7 @@ from pyreal.explainers import (
     SimilarExamples,
 )
 from pyreal.utils import get_top_contributors
+from pyreal.transformers import sklearn_pipeline_to_pyreal_transformers
 
 
 def format_feature_contribution_output(explanation, ids=None, series=False, optimized=False):
@@ -893,6 +894,55 @@ class RealApp:
             prepare_kwargs={"standardize": standardize, "fast": fast},
             produce_kwargs={"num_examples": num_examples},
             format_kwargs=format_kwargs,
+        )
+
+    @staticmethod
+    def from_sklearn(
+        pipeline=None, model=None, transformers=None, X_train=None, y_train=None, **kwargs
+    ):
+        """
+        Create a RealApp from a sklearn pipeline or model and transformers.
+        Must provide one of:
+            - just pipeline
+            - just model
+            - model and transformers
+
+        Args:
+            pipeline (sklearn.pipeline.Pipeline):
+                Sklearn pipeline to convert. The final step of the pipeline must be a model.
+            model (sklearn model):
+                Sklearn model to use. Ignored if pipeline is not None
+            transformers (list of sklearn transformers):
+                List of sklearn transformers to use. Ignored if pipeline is not None
+            X_train (DataFrame):
+                Training data to fit transformers and explanations to. May be required if
+                transformers are not fitted or must be recreated. If not provided, must be
+                provided when preparing and using realapp explainers.
+            y_train (DataFrame or Series):
+                Training targets to fit transformers and explanations to. If not provided, must be
+                provided when preparing and using realapp explainers.
+            **kwargs:
+                Additional arguments to pass to RealApp constructor.
+
+        Returns:
+            RealApp
+                Newly created RealApp object
+        """
+        if pipeline is None and model is None and transformers is None:
+            raise ValueError("Must provide either pipeline or model")
+
+        pyreal_transformers = []
+        if pipeline is not None:
+            model = pipeline.steps[-1][1]
+            pyreal_transformers = sklearn_pipeline_to_pyreal_transformers(pipeline, X_train)
+        elif transformers is not None:
+            pyreal_transformers = sklearn_pipeline_to_pyreal_transformers(transformers, X_train)
+        return RealApp(
+            models=model,
+            transformers=pyreal_transformers,
+            X_train_orig=X_train,
+            y_train=y_train,
+            **kwargs
         )
 
     def _get_x_train_orig(self, x_train_orig):
