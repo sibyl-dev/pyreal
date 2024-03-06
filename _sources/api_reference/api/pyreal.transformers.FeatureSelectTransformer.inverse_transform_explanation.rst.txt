@@ -1,6 +1,0 @@
-﻿pyreal.transformers.FeatureSelectTransformer.inverse\_transform\_explanation
-============================================================================
-
-.. currentmodule:: pyreal.transformers
-
-.. automethod:: FeatureSelectTransformer.inverse_transform_explanation

@@ -1,6 +1,0 @@
-﻿pyreal.explanation\_types.feature\_based.AdditiveFeatureImportanceExplanation.get
-=================================================================================
-
-.. currentmodule:: pyreal.explanation_types.feature_based
-
-.. automethod:: AdditiveFeatureImportanceExplanation.get

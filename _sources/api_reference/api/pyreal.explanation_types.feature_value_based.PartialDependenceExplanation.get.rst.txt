@@ -1,6 +1,0 @@
-﻿pyreal.explanation\_types.feature\_value\_based.PartialDependenceExplanation.get
-================================================================================
-
-.. currentmodule:: pyreal.explanation_types.feature_value_based
-
-.. automethod:: PartialDependenceExplanation.get

@@ -1,0 +1,6 @@
+﻿pyreal.explanation\_types.base.Explanation.apply\_feature\_descriptions
+=======================================================================
+
+.. currentmodule:: pyreal.explanation_types.base
+
+.. automethod:: Explanation.apply_feature_descriptions

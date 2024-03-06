@@ -1,0 +1,47 @@
+﻿pyreal.transformers.Normalizer
+==============================
+
+.. currentmodule:: pyreal.transformers
+
+.. autoclass:: Normalizer
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~Normalizer.__init__
+      ~Normalizer.data_transform
+      ~Normalizer.fit
+      ~Normalizer.fit_transform
+      ~Normalizer.inverse_data_transform
+      ~Normalizer.inverse_transform
+      ~Normalizer.inverse_transform_explanation
+      ~Normalizer.inverse_transform_explanation_additive_feature_contribution
+      ~Normalizer.inverse_transform_explanation_additive_feature_importance
+      ~Normalizer.inverse_transform_explanation_decision_tree
+      ~Normalizer.inverse_transform_explanation_example
+      ~Normalizer.inverse_transform_explanation_feature_based
+      ~Normalizer.inverse_transform_explanation_feature_contribution
+      ~Normalizer.inverse_transform_explanation_feature_importance
+      ~Normalizer.inverse_transform_explanation_similar_example
+      ~Normalizer.set_flags
+      ~Normalizer.transform
+      ~Normalizer.transform_explanation
+      ~Normalizer.transform_explanation_additive_feature_contribution
+      ~Normalizer.transform_explanation_additive_feature_importance
+      ~Normalizer.transform_explanation_decision_tree
+      ~Normalizer.transform_explanation_example
+      ~Normalizer.transform_explanation_feature_based
+      ~Normalizer.transform_explanation_feature_contribution
+      ~Normalizer.transform_explanation_feature_importance
+      ~Normalizer.transform_explanation_similar_example
+   
+   
+
+   
+   
+   

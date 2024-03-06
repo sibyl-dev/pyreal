@@ -328,6 +328,10 @@ document.write(`
 
 
 <div class="viewcode-block" id="LatLongToPlace"><a class="viewcode-back" href="../../../api_reference/api/pyreal.transformers.LatLongToPlace.html#pyreal.transformers.LatLongToPlace">[docs]</a><span class="k">class</span> <span class="nc">LatLongToPlace</span><span class="p">(</span><span class="n">Transformer</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Converts latitude and longitude columns to neighborhood, city, or state/country names.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
 <div class="viewcode-block" id="LatLongToPlace.__init__"><a class="viewcode-back" href="../../../api_reference/api/pyreal.transformers.LatLongToPlace.html#pyreal.transformers.LatLongToPlace.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">level</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
@@ -365,7 +369,7 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">result_column</span> <span class="o">=</span> <span class="n">result_column</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="LatLongToPlace.data_transform"><a class="viewcode-back" href="../../../api_reference/api/pyreal.transformers.LatLongToPlace.data_transform.html#pyreal.transformers.LatLongToPlace.data_transform">[docs]</a>    <span class="k">def</span> <span class="nf">data_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">data_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">latitude_column</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">x</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
                 <span class="s2">&quot;Configured latitude column (</span><span class="si">%s</span><span class="s2">) not present in x&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">latitude_column</span>
@@ -380,7 +384,7 @@ document.write(`
         <span class="n">results</span> <span class="o">=</span> <span class="n">rg</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">coordinates</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
         <span class="n">places</span> <span class="o">=</span> <span class="p">[</span><span class="n">result</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">level</span><span class="p">]</span> <span class="k">for</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">results</span><span class="p">]</span>
         <span class="n">x</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">result_column</span><span class="p">]</span> <span class="o">=</span> <span class="n">places</span>
-        <span class="k">return</span> <span class="n">x</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">latitude_column</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">longitude_column</span><span class="p">])</span></div>
+        <span class="k">return</span> <span class="n">x</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">latitude_column</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">longitude_column</span><span class="p">])</span>
 
     <span class="k">def</span> <span class="nf">transform_explanation_feature_based</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">explanation</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">explanation</span><span class="o">.</span><span class="n">combine_columns</span><span class="p">(</span>

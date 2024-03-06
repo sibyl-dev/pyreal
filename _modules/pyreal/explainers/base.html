@@ -594,7 +594,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">pass</span>
 
-<div class="viewcode-block" id="ExplainerBase.transform_to_x_algorithm"><a class="viewcode-back" href="../../../api_reference/api/pyreal.explainers.ExplainerBase.transform_to_x_algorithm.html#pyreal.explainers.ExplainerBase.transform_to_x_algorithm">[docs]</a>    <span class="k">def</span> <span class="nf">transform_to_x_algorithm</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_orig</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">transform_to_x_algorithm</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_orig</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Transform x_orig to x_algorithm, using the algorithm transformers</span>
 
@@ -607,9 +607,9 @@ document.write(`
 <span class="sd">                x_orig converted to explainable form</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">a_transformers</span> <span class="o">=</span> <span class="n">_get_transformers</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">transformers</span><span class="p">,</span> <span class="n">algorithm</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">run_transformers</span><span class="p">(</span><span class="n">a_transformers</span><span class="p">,</span> <span class="n">x_orig</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">run_transformers</span><span class="p">(</span><span class="n">a_transformers</span><span class="p">,</span> <span class="n">x_orig</span><span class="p">)</span>
 
-<div class="viewcode-block" id="ExplainerBase.transform_to_x_model"><a class="viewcode-back" href="../../../api_reference/api/pyreal.explainers.ExplainerBase.transform_to_x_model.html#pyreal.explainers.ExplainerBase.transform_to_x_model">[docs]</a>    <span class="k">def</span> <span class="nf">transform_to_x_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_orig</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">transform_to_x_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_orig</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Transform x_orig to x_model, using the model transformers</span>
 
@@ -622,7 +622,7 @@ document.write(`
 <span class="sd">                x_orig converted to model-ready form</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">m_transformers</span> <span class="o">=</span> <span class="n">_get_transformers</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">transformers</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">run_transformers</span><span class="p">(</span><span class="n">m_transformers</span><span class="p">,</span> <span class="n">x_orig</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">run_transformers</span><span class="p">(</span><span class="n">m_transformers</span><span class="p">,</span> <span class="n">x_orig</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">transform_x_from_algorithm_to_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_algorithm</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -639,7 +639,7 @@ document.write(`
         <span class="n">m_transformers</span> <span class="o">=</span> <span class="n">_get_transformers</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">transformers</span><span class="p">,</span> <span class="n">algorithm</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">run_transformers</span><span class="p">(</span><span class="n">m_transformers</span><span class="p">,</span> <span class="n">x_algorithm</span><span class="p">)</span>
 
-<div class="viewcode-block" id="ExplainerBase.transform_to_x_interpret"><a class="viewcode-back" href="../../../api_reference/api/pyreal.explainers.ExplainerBase.transform_to_x_interpret.html#pyreal.explainers.ExplainerBase.transform_to_x_interpret">[docs]</a>    <span class="k">def</span> <span class="nf">transform_to_x_interpret</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_orig</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">transform_to_x_interpret</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_orig</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Transform x_orig to x_interpret, using the interpret transformers</span>
 <span class="sd">        Args:</span>
@@ -651,7 +651,7 @@ document.write(`
 <span class="sd">                x_orig converted to interpretable form</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">i_transformers</span> <span class="o">=</span> <span class="n">_get_transformers</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">transformers</span><span class="p">,</span> <span class="n">interpret</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">run_transformers</span><span class="p">(</span><span class="n">i_transformers</span><span class="p">,</span> <span class="n">x_orig</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">run_transformers</span><span class="p">(</span><span class="n">i_transformers</span><span class="p">,</span> <span class="n">x_orig</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">transform_explanation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">explanation</span><span class="p">,</span> <span class="n">x_orig</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -782,7 +782,7 @@ document.write(`
         <span class="n">x_model</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform_x_from_algorithm_to_model</span><span class="p">(</span><span class="n">x_algorithm</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">x_model</span><span class="p">)</span>
 
-<div class="viewcode-block" id="ExplainerBase.feature_description"><a class="viewcode-back" href="../../../api_reference/api/pyreal.explainers.ExplainerBase.feature_description.html#pyreal.explainers.ExplainerBase.feature_description">[docs]</a>    <span class="k">def</span> <span class="nf">feature_description</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">feature_name</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">feature_description</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">feature_name</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns the interpretable description associated with a feature</span>
 
@@ -793,7 +793,7 @@ document.write(`
 <span class="sd">            string</span>
 <span class="sd">                 Description of feature</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">feature_descriptions</span><span class="p">[</span><span class="n">feature_name</span><span class="p">]</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">feature_descriptions</span><span class="p">[</span><span class="n">feature_name</span><span class="p">]</span>
 
     <span class="k">def</span> <span class="nf">evaluate_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scorer</span><span class="p">,</span> <span class="n">x_orig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>

@@ -1,6 +1,0 @@
-﻿pyreal.explainers.PartialDependenceExplainerBase.produce
-========================================================
-
-.. currentmodule:: pyreal.explainers
-
-.. automethod:: PartialDependenceExplainerBase.produce

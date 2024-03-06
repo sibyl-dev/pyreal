@@ -12,8 +12,53 @@ Explainer Base
     ExplainerBase
     ExplainerBase.fit
     ExplainerBase.produce
-    ExplainerBase.transform_to_x_algorithm
-    ExplainerBase.transform_to_x_model
-    ExplainerBase.transform_to_x_interpret
     ExplainerBase.model_predict
-    ExplainerBase.feature_description
+
+Local Feature Contributions
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.. autosummary::
+    :toctree: api/
+
+    LocalFeatureContribution
+    LocalFeatureContribution.fit
+    LocalFeatureContribution.produce
+
+Global Feature Importance
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.. autosummary::
+    :toctree: api/
+
+    GlobalFeatureImportance
+    GlobalFeatureImportance.fit
+    GlobalFeatureImportance.produce
+
+Decision Tree Explainer
+~~~~~~~~~~~~~~~~~~~~~~~~
+.. autosummary::
+    :toctree: api/
+
+    DecisionTreeExplainer
+    DecisionTreeExplainer.fit
+    DecisionTreeExplainer.produce
+
+Partial Dependence Explainer
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.. autosummary::
+    :toctree: api/
+
+    PartialDependenceExplainer
+    PartialDependenceExplainer.fit
+    PartialDependenceExplainer.produce
+
+Similiar Examples
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.. autosummary::
+    :toctree: api/
+
+    SimilarExamples
+    SimilarExamples.fit
+    SimilarExamples.produce
+
+
+
+

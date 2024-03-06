@@ -1,6 +1,0 @@
-﻿pyreal.transformers.MappingsOneHotEncoder.inverse\_transform
-============================================================
-
-.. currentmodule:: pyreal.transformers
-
-.. automethod:: MappingsOneHotEncoder.inverse_transform

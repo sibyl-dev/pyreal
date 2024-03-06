@@ -1,0 +1,47 @@
+﻿pyreal.transformers.StandardScaler
+==================================
+
+.. currentmodule:: pyreal.transformers
+
+.. autoclass:: StandardScaler
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~StandardScaler.__init__
+      ~StandardScaler.data_transform
+      ~StandardScaler.fit
+      ~StandardScaler.fit_transform
+      ~StandardScaler.inverse_data_transform
+      ~StandardScaler.inverse_transform
+      ~StandardScaler.inverse_transform_explanation
+      ~StandardScaler.inverse_transform_explanation_additive_feature_contribution
+      ~StandardScaler.inverse_transform_explanation_additive_feature_importance
+      ~StandardScaler.inverse_transform_explanation_decision_tree
+      ~StandardScaler.inverse_transform_explanation_example
+      ~StandardScaler.inverse_transform_explanation_feature_based
+      ~StandardScaler.inverse_transform_explanation_feature_contribution
+      ~StandardScaler.inverse_transform_explanation_feature_importance
+      ~StandardScaler.inverse_transform_explanation_similar_example
+      ~StandardScaler.set_flags
+      ~StandardScaler.transform
+      ~StandardScaler.transform_explanation
+      ~StandardScaler.transform_explanation_additive_feature_contribution
+      ~StandardScaler.transform_explanation_additive_feature_importance
+      ~StandardScaler.transform_explanation_decision_tree
+      ~StandardScaler.transform_explanation_example
+      ~StandardScaler.transform_explanation_feature_based
+      ~StandardScaler.transform_explanation_feature_contribution
+      ~StandardScaler.transform_explanation_feature_importance
+      ~StandardScaler.transform_explanation_similar_example
+   
+   
+
+   
+   
+   

@@ -379,8 +379,8 @@ document.write(`
     <span class="k">return</span> <span class="n">categorical_to_one_hot</span>
 
 
-<div class="viewcode-block" id="Mappings"><a class="viewcode-back" href="../../../api_reference/api/pyreal.transformers.Mappings.html#pyreal.transformers.Mappings">[docs]</a><span class="k">class</span> <span class="nc">Mappings</span><span class="p">:</span>
-<div class="viewcode-block" id="Mappings.__init__"><a class="viewcode-back" href="../../../api_reference/api/pyreal.transformers.Mappings.html#pyreal.transformers.Mappings.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">categorical_to_one_hot</span><span class="p">,</span> <span class="n">one_hot_to_categorical</span><span class="p">):</span>
+<span class="k">class</span> <span class="nc">Mappings</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">categorical_to_one_hot</span><span class="p">,</span> <span class="n">one_hot_to_categorical</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Initialize a new mappings object</span>
 <span class="sd">        For common use, use Mappings.generate_mapping()</span>
@@ -393,7 +393,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">categorical_to_one_hot</span> <span class="o">=</span> <span class="n">categorical_to_one_hot</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">one_hot_to_categorical</span> <span class="o">=</span> <span class="n">one_hot_to_categorical</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">one_hot_to_categorical</span> <span class="o">=</span> <span class="n">one_hot_to_categorical</span>
 
 <div class="viewcode-block" id="Mappings.generate_mappings"><a class="viewcode-back" href="../../../api_reference/api/pyreal.transformers.Mappings.generate_mappings.html#pyreal.transformers.Mappings.generate_mappings">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">generate_mappings</span><span class="p">(</span>
@@ -428,7 +428,7 @@ document.write(`
             <span class="n">categorical_to_one_hot</span> <span class="o">=</span> <span class="n">_generate_from_df</span><span class="p">(</span><span class="n">dataframe</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">Mappings</span><span class="p">(</span>
                 <span class="n">categorical_to_one_hot</span><span class="p">,</span> <span class="n">_generate_one_hot_to_categorical</span><span class="p">(</span><span class="n">categorical_to_one_hot</span><span class="p">)</span>
-            <span class="p">)</span></div></div>
+            <span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="OneHotEncoder"><a class="viewcode-back" href="../../../api_reference/api/pyreal.transformers.OneHotEncoder.html#pyreal.transformers.OneHotEncoder">[docs]</a><span class="k">class</span> <span class="nc">OneHotEncoder</span><span class="p">(</span><span class="n">Transformer</span><span class="p">):</span>
@@ -452,7 +452,7 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">onehot_columns</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="OneHotEncoder.fit"><a class="viewcode-back" href="../../../api_reference/api/pyreal.transformers.OneHotEncoder.fit.html#pyreal.transformers.OneHotEncoder.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="o">**</span><span class="n">params</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="o">**</span><span class="n">params</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Fit this transformer to data</span>
 
@@ -469,9 +469,9 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">orig_columns</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">columns</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ohe</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">])</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">onehot_columns</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ohe</span><span class="o">.</span><span class="n">get_feature_names_out</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
-        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 
-<div class="viewcode-block" id="OneHotEncoder.data_transform"><a class="viewcode-back" href="../../../api_reference/api/pyreal.transformers.OneHotEncoder.data_transform.html#pyreal.transformers.OneHotEncoder.data_transform">[docs]</a>    <span class="k">def</span> <span class="nf">data_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">data_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        One-hot encode `x`.</span>
 <span class="sd">        Args:</span>
@@ -487,7 +487,7 @@ document.write(`
             <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;Must fit one hot encoder before transforming&quot;</span><span class="p">)</span>
         <span class="n">x_to_encode</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">]</span>
         <span class="n">x_cat_ohe</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ohe</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">x_to_encode</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">x</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="s2">&quot;columns&quot;</span><span class="p">),</span> <span class="n">x_cat_ohe</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">x</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="s2">&quot;columns&quot;</span><span class="p">),</span> <span class="n">x_cat_ohe</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">inverse_data_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_new</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -654,7 +654,7 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">mappings</span> <span class="o">=</span> <span class="n">mappings</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="MappingsOneHotEncoder.data_transform"><a class="viewcode-back" href="../../../api_reference/api/pyreal.transformers.MappingsOneHotEncoder.data_transform.html#pyreal.transformers.MappingsOneHotEncoder.data_transform">[docs]</a>    <span class="k">def</span> <span class="nf">data_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">data_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        One-hot encode `x`.</span>
 <span class="sd">        Args:</span>
@@ -677,7 +677,7 @@ document.write(`
                 <span class="k">for</span> <span class="n">ohe_feature</span> <span class="ow">in</span> <span class="n">ohe_feature_dict</span><span class="p">:</span>
                     <span class="n">ohe_data</span><span class="p">[</span><span class="n">ohe_feature</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">num_rows</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
                     <span class="n">ohe_data</span><span class="p">[</span><span class="n">ohe_feature</span><span class="p">][</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">values</span> <span class="o">==</span> <span class="n">ohe_feature_dict</span><span class="p">[</span><span class="n">ohe_feature</span><span class="p">])]</span> <span class="o">=</span> <span class="kc">True</span>
-        <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">ohe_data</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">ohe_data</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">inverse_data_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_onehot</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -735,7 +735,7 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">mappings</span> <span class="o">=</span> <span class="n">mappings</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="MappingsOneHotDecoder.data_transform"><a class="viewcode-back" href="../../../api_reference/api/pyreal.transformers.MappingsOneHotDecoder.data_transform.html#pyreal.transformers.MappingsOneHotDecoder.data_transform">[docs]</a>    <span class="k">def</span> <span class="nf">data_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">data_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        One-hot decode `x`.</span>
 <span class="sd">        Args:</span>
@@ -761,7 +761,7 @@ document.write(`
                 <span class="n">cat_data</span><span class="p">[</span><span class="n">new_name</span><span class="p">][</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mappings</span><span class="o">.</span><span class="n">one_hot_to_categorical</span><span class="p">[</span>
                     <span class="n">col</span>
                 <span class="p">][</span><span class="mi">1</span><span class="p">]</span>
-        <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">cat_data</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">cat_data</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">inverse_data_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_cat</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>

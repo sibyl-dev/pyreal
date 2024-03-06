@@ -1,6 +1,0 @@
-﻿pyreal.transformers.LatLongToPlace.transform\_explanation
-=========================================================
-
-.. currentmodule:: pyreal.transformers
-
-.. automethod:: LatLongToPlace.transform_explanation

@@ -1,6 +1,0 @@
-﻿pyreal.transformers.DataFrameWrapper.inverse\_transform\_explanation
-====================================================================
-
-.. currentmodule:: pyreal.transformers
-
-.. automethod:: DataFrameWrapper.inverse_transform_explanation

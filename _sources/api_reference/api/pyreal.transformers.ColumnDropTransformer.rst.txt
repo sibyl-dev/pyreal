@@ -1,0 +1,47 @@
+﻿pyreal.transformers.ColumnDropTransformer
+=========================================
+
+.. currentmodule:: pyreal.transformers
+
+.. autoclass:: ColumnDropTransformer
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~ColumnDropTransformer.__init__
+      ~ColumnDropTransformer.data_transform
+      ~ColumnDropTransformer.fit
+      ~ColumnDropTransformer.fit_transform
+      ~ColumnDropTransformer.inverse_data_transform
+      ~ColumnDropTransformer.inverse_transform
+      ~ColumnDropTransformer.inverse_transform_explanation
+      ~ColumnDropTransformer.inverse_transform_explanation_additive_feature_contribution
+      ~ColumnDropTransformer.inverse_transform_explanation_additive_feature_importance
+      ~ColumnDropTransformer.inverse_transform_explanation_decision_tree
+      ~ColumnDropTransformer.inverse_transform_explanation_example
+      ~ColumnDropTransformer.inverse_transform_explanation_feature_based
+      ~ColumnDropTransformer.inverse_transform_explanation_feature_contribution
+      ~ColumnDropTransformer.inverse_transform_explanation_feature_importance
+      ~ColumnDropTransformer.inverse_transform_explanation_similar_example
+      ~ColumnDropTransformer.set_flags
+      ~ColumnDropTransformer.transform
+      ~ColumnDropTransformer.transform_explanation
+      ~ColumnDropTransformer.transform_explanation_additive_feature_contribution
+      ~ColumnDropTransformer.transform_explanation_additive_feature_importance
+      ~ColumnDropTransformer.transform_explanation_decision_tree
+      ~ColumnDropTransformer.transform_explanation_example
+      ~ColumnDropTransformer.transform_explanation_feature_based
+      ~ColumnDropTransformer.transform_explanation_feature_contribution
+      ~ColumnDropTransformer.transform_explanation_feature_importance
+      ~ColumnDropTransformer.transform_explanation_similar_example
+   
+   
+
+   
+   
+   

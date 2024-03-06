@@ -363,7 +363,7 @@ document.write(`
         <span class="n">explanation</span> <span class="o">=</span> <span class="n">FeatureValueExplanation</span><span class="p">(</span><span class="n">feature_names</span><span class="p">,</span> <span class="n">predictions</span><span class="p">,</span> <span class="n">grid</span><span class="p">)</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">explanation</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="FeatureValueBased.validate"><a class="viewcode-back" href="../../../api_reference/api/pyreal.explanation_types.feature_value_based.FeatureValueBased.validate.html#pyreal.explanation_types.feature_value_based.FeatureValueBased.validate">[docs]</a>    <span class="k">def</span> <span class="nf">validate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">validate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Validate that `self.explanation` is a valid `FeatureValueExplanation`</span>
 <span class="sd">        Returns:</span>
@@ -391,7 +391,7 @@ document.write(`
             <span class="p">)</span>
 
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">explanation</span><span class="o">.</span><span class="n">feature_names</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">explanation</span><span class="o">.</span><span class="n">grid</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span><span class="s2">&quot;The values of feature grids must match the number of features.&quot;</span><span class="p">)</span></div>
+            <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span><span class="s2">&quot;The values of feature grids must match the number of features.&quot;</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">apply_feature_descriptions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">feature_descriptions</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -402,7 +402,7 @@ document.write(`
 
 
 <div class="viewcode-block" id="PartialDependenceExplanation"><a class="viewcode-back" href="../../../api_reference/api/pyreal.explanation_types.feature_value_based.PartialDependenceExplanation.html#pyreal.explanation_types.feature_value_based.PartialDependenceExplanation">[docs]</a><span class="k">class</span> <span class="nc">PartialDependenceExplanation</span><span class="p">(</span><span class="n">FeatureValueBased</span><span class="p">):</span>
-<div class="viewcode-block" id="PartialDependenceExplanation.validate"><a class="viewcode-back" href="../../../api_reference/api/pyreal.explanation_types.feature_value_based.PartialDependenceExplanation.validate.html#pyreal.explanation_types.feature_value_based.PartialDependenceExplanation.validate">[docs]</a>    <span class="k">def</span> <span class="nf">validate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">validate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Validate that `self.explanation` is a valid `FeatureValueExplanation`</span>
 <span class="sd">        Returns:</span>
@@ -411,7 +411,7 @@ document.write(`
 <span class="sd">            AssertionException</span>
 <span class="sd">                if `self.explanation` is invalid</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">validate</span><span class="p">()</span></div></div>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">validate</span><span class="p">()</span></div>
 </pre></div>
 
                 </article>

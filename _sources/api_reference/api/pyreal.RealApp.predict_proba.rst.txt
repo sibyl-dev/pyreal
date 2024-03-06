@@ -1,0 +1,6 @@
+﻿pyreal.RealApp.predict\_proba
+=============================
+
+.. currentmodule:: pyreal
+
+.. automethod:: RealApp.predict_proba

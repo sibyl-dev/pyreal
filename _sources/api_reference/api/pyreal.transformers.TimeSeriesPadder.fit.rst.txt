@@ -1,6 +1,0 @@
-﻿pyreal.transformers.TimeSeriesPadder.fit
-========================================
-
-.. currentmodule:: pyreal.transformers
-
-.. automethod:: TimeSeriesPadder.fit

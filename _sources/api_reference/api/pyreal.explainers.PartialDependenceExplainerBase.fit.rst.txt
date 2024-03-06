@@ -1,6 +1,0 @@
-﻿pyreal.explainers.PartialDependenceExplainerBase.fit
-====================================================
-
-.. currentmodule:: pyreal.explainers
-
-.. automethod:: PartialDependenceExplainerBase.fit

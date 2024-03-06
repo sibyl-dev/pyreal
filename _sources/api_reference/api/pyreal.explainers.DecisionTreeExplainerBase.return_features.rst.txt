@@ -1,6 +1,0 @@
-﻿pyreal.explainers.DecisionTreeExplainerBase.return\_features
-============================================================
-
-.. currentmodule:: pyreal.explainers
-
-.. automethod:: DecisionTreeExplainerBase.return_features

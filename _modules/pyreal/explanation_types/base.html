@@ -369,7 +369,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_explanation</span><span class="p">()</span></div>
 
-    <span class="k">def</span> <span class="nf">get_explanation</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Explanation.get_explanation"><a class="viewcode-back" href="../../../api_reference/api/pyreal.explanation_types.base.Explanation.get_explanation.html#pyreal.explanation_types.base.Explanation.get_explanation">[docs]</a>    <span class="k">def</span> <span class="nf">get_explanation</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get the explanation wrapped by this type</span>
 
@@ -377,7 +377,7 @@ document.write(`
 <span class="sd">            object</span>
 <span class="sd">                wrapped explanation object</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">explanation</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">explanation</span></div>
 
     <span class="k">def</span> <span class="nf">get_all</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -390,7 +390,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">explanation</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">values</span>
 
-    <span class="k">def</span> <span class="nf">get_values</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Explanation.get_values"><a class="viewcode-back" href="../../../api_reference/api/pyreal.explanation_types.base.Explanation.get_values.html#pyreal.explanation_types.base.Explanation.get_values">[docs]</a>    <span class="k">def</span> <span class="nf">get_values</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return the values associated with the explanation</span>
 
@@ -398,9 +398,9 @@ document.write(`
 <span class="sd">            DataFrame of shape (n_instances, n_features)</span>
 <span class="sd">                The values associated with this explanation</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">values</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">values</span></div>
 
-    <span class="k">def</span> <span class="nf">update_values</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">values</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="Explanation.update_values"><a class="viewcode-back" href="../../../api_reference/api/pyreal.explanation_types.base.Explanation.update_values.html#pyreal.explanation_types.base.Explanation.update_values">[docs]</a>    <span class="k">def</span> <span class="nf">update_values</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">values</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Updates this objects values, and validates</span>
 
@@ -424,9 +424,9 @@ document.write(`
                 <span class="bp">self</span><span class="o">.</span><span class="n">validate_values</span><span class="p">()</span>
             <span class="k">return</span> <span class="bp">self</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">explanation</span><span class="p">,</span> <span class="n">values</span><span class="p">)</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">explanation</span><span class="p">,</span> <span class="n">values</span><span class="p">)</span></div>
 
-    <span class="k">def</span> <span class="nf">update_explanation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_explanation</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">persist_values</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<div class="viewcode-block" id="Explanation.update_explanation"><a class="viewcode-back" href="../../../api_reference/api/pyreal.explanation_types.base.Explanation.update_explanation.html#pyreal.explanation_types.base.Explanation.update_explanation">[docs]</a>    <span class="k">def</span> <span class="nf">update_explanation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_explanation</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">persist_values</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Sets this object&#39;s explanation to the new value.</span>
 
@@ -452,9 +452,9 @@ document.write(`
             <span class="k">if</span> <span class="n">persist_values</span><span class="p">:</span>
                 <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span><span class="n">new_explanation</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span><span class="n">new_explanation</span><span class="p">)</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span><span class="n">new_explanation</span><span class="p">)</span></div>
 
-    <span class="k">def</span> <span class="nf">apply_feature_descriptions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">feature_descriptions</span><span class="p">):</span>
+<div class="viewcode-block" id="Explanation.apply_feature_descriptions"><a class="viewcode-back" href="../../../api_reference/api/pyreal.explanation_types.base.Explanation.apply_feature_descriptions.html#pyreal.explanation_types.base.Explanation.apply_feature_descriptions">[docs]</a>    <span class="k">def</span> <span class="nf">apply_feature_descriptions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">feature_descriptions</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Apply feature descriptions to explanation and values</span>
 
@@ -466,7 +466,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">update_values</span><span class="p">(</span>
             <span class="n">convert_columns_with_dict</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">feature_descriptions</span><span class="p">),</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span>
-        <span class="p">)</span>
+        <span class="p">)</span></div>
 
 <div class="viewcode-block" id="Explanation.validate"><a class="viewcode-back" href="../../../api_reference/api/pyreal.explanation_types.base.Explanation.validate.html#pyreal.explanation_types.base.Explanation.validate">[docs]</a>    <span class="k">def</span> <span class="nf">validate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -480,7 +480,7 @@ document.write(`
 <span class="sd">                if `self.explanation` or `self.values` is invalid</span>
 <span class="sd">        &quot;&quot;&quot;</span></div>
 
-    <span class="k">def</span> <span class="nf">validate_values</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Explanation.validate_values"><a class="viewcode-back" href="../../../api_reference/api/pyreal.explanation_types.base.Explanation.validate_values.html#pyreal.explanation_types.base.Explanation.validate_values">[docs]</a>    <span class="k">def</span> <span class="nf">validate_values</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Validate that `self.values` are valid values for this Explanation.</span>
 
@@ -491,7 +491,7 @@ document.write(`
 <span class="sd">                if `self.values` is invalid</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span><span class="s2">&quot;values must be of type DataFrame&quot;</span><span class="p">)</span></div>
+            <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span><span class="s2">&quot;values must be of type DataFrame&quot;</span><span class="p">)</span></div></div>
 </pre></div>
 
                 </article>

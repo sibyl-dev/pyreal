@@ -812,7 +812,7 @@ document.write(`
                 <span class="n">preds_dict</span><span class="p">[</span><span class="n">row_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">preds</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
         <span class="k">return</span> <span class="n">preds_dict</span></div>
 
-    <span class="k">def</span> <span class="nf">predict_proba</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">model_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">as_dict</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<div class="viewcode-block" id="RealApp.predict_proba"><a class="viewcode-back" href="../../../api_reference/api/pyreal.RealApp.predict_proba.html#pyreal.RealApp.predict_proba">[docs]</a>    <span class="k">def</span> <span class="nf">predict_proba</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">model_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">as_dict</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return the predicted probabilities of x using the active model or</span>
 <span class="sd">        model specified by model_id, only if the model has a predict_proba method</span>
@@ -853,9 +853,9 @@ document.write(`
                 <span class="n">preds_dict</span><span class="p">[</span><span class="n">row_id</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pred_format_func</span><span class="p">(</span><span class="n">preds</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">preds_dict</span><span class="p">[</span><span class="n">row_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">preds</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-        <span class="k">return</span> <span class="n">preds_dict</span>
+        <span class="k">return</span> <span class="n">preds_dict</span></div>
 
-    <span class="k">def</span> <span class="nf">prepare_feature_contributions</span><span class="p">(</span>
+<div class="viewcode-block" id="RealApp.prepare_feature_contributions"><a class="viewcode-back" href="../../../api_reference/api/pyreal.RealApp.prepare_feature_contributions.html#pyreal.RealApp.prepare_feature_contributions">[docs]</a>    <span class="k">def</span> <span class="nf">prepare_feature_contributions</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">x_train_orig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">y_train</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -902,7 +902,7 @@ document.write(`
         <span class="p">)</span>
         <span class="n">explainer</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_x_train_orig</span><span class="p">(</span><span class="n">x_train_orig</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_y_train</span><span class="p">(</span><span class="n">y_train</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_add_explainer</span><span class="p">(</span><span class="s2">&quot;lfc&quot;</span><span class="p">,</span> <span class="n">algorithm</span><span class="p">,</span> <span class="n">explainer</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">explainer</span>
+        <span class="k">return</span> <span class="n">explainer</span></div>
 
 <div class="viewcode-block" id="RealApp.produce_feature_contributions"><a class="viewcode-back" href="../../../api_reference/api/pyreal.RealApp.produce_feature_contributions.html#pyreal.RealApp.produce_feature_contributions">[docs]</a>    <span class="k">def</span> <span class="nf">produce_feature_contributions</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -980,7 +980,7 @@ document.write(`
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">exp</span></div>
 
-    <span class="k">def</span> <span class="nf">prepare_feature_importance</span><span class="p">(</span>
+<div class="viewcode-block" id="RealApp.prepare_feature_importance"><a class="viewcode-back" href="../../../api_reference/api/pyreal.RealApp.prepare_feature_importance.html#pyreal.RealApp.prepare_feature_importance">[docs]</a>    <span class="k">def</span> <span class="nf">prepare_feature_importance</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">x_train_orig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">y_train</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -1027,7 +1027,7 @@ document.write(`
         <span class="p">)</span>
         <span class="n">explainer</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_x_train_orig</span><span class="p">(</span><span class="n">x_train_orig</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_y_train</span><span class="p">(</span><span class="n">y_train</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_add_explainer</span><span class="p">(</span><span class="s2">&quot;gfi&quot;</span><span class="p">,</span> <span class="n">algorithm</span><span class="p">,</span> <span class="n">explainer</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">explainer</span>
+        <span class="k">return</span> <span class="n">explainer</span></div>
 
 <div class="viewcode-block" id="RealApp.produce_feature_importance"><a class="viewcode-back" href="../../../api_reference/api/pyreal.RealApp.produce_feature_importance.html#pyreal.RealApp.produce_feature_importance">[docs]</a>    <span class="k">def</span> <span class="nf">produce_feature_importance</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -1094,7 +1094,7 @@ document.write(`
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">exp</span></div>
 
-    <span class="k">def</span> <span class="nf">prepare_similar_examples</span><span class="p">(</span>
+<div class="viewcode-block" id="RealApp.prepare_similar_examples"><a class="viewcode-back" href="../../../api_reference/api/pyreal.RealApp.prepare_similar_examples.html#pyreal.RealApp.prepare_similar_examples">[docs]</a>    <span class="k">def</span> <span class="nf">prepare_similar_examples</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">x_train_orig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">y_train</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -1147,7 +1147,7 @@ document.write(`
         <span class="p">)</span>
         <span class="n">explainer</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_x_train_orig</span><span class="p">(</span><span class="n">x_train_orig</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_y_train</span><span class="p">(</span><span class="n">y_train</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_add_explainer</span><span class="p">(</span><span class="s2">&quot;se&quot;</span><span class="p">,</span> <span class="n">algorithm</span><span class="p">,</span> <span class="n">explainer</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">explainer</span>
+        <span class="k">return</span> <span class="n">explainer</span></div>
 
 <div class="viewcode-block" id="RealApp.produce_similar_examples"><a class="viewcode-back" href="../../../api_reference/api/pyreal.RealApp.produce_similar_examples.html#pyreal.RealApp.produce_similar_examples">[docs]</a>    <span class="k">def</span> <span class="nf">produce_similar_examples</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>

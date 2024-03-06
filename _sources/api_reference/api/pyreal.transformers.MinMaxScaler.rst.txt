@@ -1,0 +1,47 @@
+﻿pyreal.transformers.MinMaxScaler
+================================
+
+.. currentmodule:: pyreal.transformers
+
+.. autoclass:: MinMaxScaler
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~MinMaxScaler.__init__
+      ~MinMaxScaler.data_transform
+      ~MinMaxScaler.fit
+      ~MinMaxScaler.fit_transform
+      ~MinMaxScaler.inverse_data_transform
+      ~MinMaxScaler.inverse_transform
+      ~MinMaxScaler.inverse_transform_explanation
+      ~MinMaxScaler.inverse_transform_explanation_additive_feature_contribution
+      ~MinMaxScaler.inverse_transform_explanation_additive_feature_importance
+      ~MinMaxScaler.inverse_transform_explanation_decision_tree
+      ~MinMaxScaler.inverse_transform_explanation_example
+      ~MinMaxScaler.inverse_transform_explanation_feature_based
+      ~MinMaxScaler.inverse_transform_explanation_feature_contribution
+      ~MinMaxScaler.inverse_transform_explanation_feature_importance
+      ~MinMaxScaler.inverse_transform_explanation_similar_example
+      ~MinMaxScaler.set_flags
+      ~MinMaxScaler.transform
+      ~MinMaxScaler.transform_explanation
+      ~MinMaxScaler.transform_explanation_additive_feature_contribution
+      ~MinMaxScaler.transform_explanation_additive_feature_importance
+      ~MinMaxScaler.transform_explanation_decision_tree
+      ~MinMaxScaler.transform_explanation_example
+      ~MinMaxScaler.transform_explanation_feature_based
+      ~MinMaxScaler.transform_explanation_feature_contribution
+      ~MinMaxScaler.transform_explanation_feature_importance
+      ~MinMaxScaler.transform_explanation_similar_example
+   
+   
+
+   
+   
+   

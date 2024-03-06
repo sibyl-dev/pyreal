@@ -332,7 +332,7 @@ document.write(`
 <span class="sd">    A type wrapper for feature-based DataFrame type outputs from explanation algorithms.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="FeatureBased.validate"><a class="viewcode-back" href="../../../api_reference/api/pyreal.explanation_types.feature_based.FeatureBased.validate.html#pyreal.explanation_types.feature_based.FeatureBased.validate">[docs]</a>    <span class="k">def</span> <span class="nf">validate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">validate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Validate that `self.explanation` is a valid `DataFrame`</span>
 <span class="sd">        Returns:</span>
@@ -343,7 +343,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">validate</span><span class="p">()</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">explanation</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span><span class="s2">&quot;DataFrame explanations must be of type DataFrame&quot;</span><span class="p">)</span></div>
+            <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span><span class="s2">&quot;DataFrame explanations must be of type DataFrame&quot;</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">apply_feature_descriptions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">feature_descriptions</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -383,7 +383,7 @@ document.write(`
 <span class="sd">    representing that feature&#39;s overall importance to the model&#39;s prediction.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="FeatureImportanceExplanation.validate"><a class="viewcode-back" href="../../../api_reference/api/pyreal.explanation_types.feature_based.FeatureImportanceExplanation.validate.html#pyreal.explanation_types.feature_based.FeatureImportanceExplanation.validate">[docs]</a>    <span class="k">def</span> <span class="nf">validate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">validate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Validate that `self.explanation` is a valid single-row `DataFrame`</span>
 <span class="sd">        Returns:</span>
@@ -394,7 +394,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">validate</span><span class="p">()</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">explanation</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span><span class="s2">&quot;Global Feature Importance Explanations can have only one row&quot;</span><span class="p">)</span></div></div>
+            <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span><span class="s2">&quot;Global Feature Importance Explanations can have only one row&quot;</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="AdditiveFeatureImportanceExplanation"><a class="viewcode-back" href="../../../api_reference/api/pyreal.explanation_types.feature_based.AdditiveFeatureImportanceExplanation.html#pyreal.explanation_types.feature_based.AdditiveFeatureImportanceExplanation">[docs]</a><span class="k">class</span> <span class="nc">AdditiveFeatureImportanceExplanation</span><span class="p">(</span><span class="n">FeatureImportanceExplanation</span><span class="p">):</span>
@@ -406,7 +406,7 @@ document.write(`
 <span class="sd">    feature B = combined importance of feature A and B`)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="AdditiveFeatureImportanceExplanation.validate"><a class="viewcode-back" href="../../../api_reference/api/pyreal.explanation_types.feature_based.AdditiveFeatureImportanceExplanation.validate.html#pyreal.explanation_types.feature_based.AdditiveFeatureImportanceExplanation.validate">[docs]</a>    <span class="k">def</span> <span class="nf">validate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">validate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Validate that `self.explanation` is a valid single-row `DataFrame`</span>
 <span class="sd">        Returns:</span>
@@ -415,7 +415,7 @@ document.write(`
 <span class="sd">            AssertionException</span>
 <span class="sd">                if `self.explanation` is invalid</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">validate</span><span class="p">()</span></div>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">validate</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="nf">combine_columns</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">columns</span><span class="p">,</span> <span class="n">new_column</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -442,7 +442,7 @@ document.write(`
 <span class="sd">    for this instance.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="FeatureContributionExplanation.validate"><a class="viewcode-back" href="../../../api_reference/api/pyreal.explanation_types.feature_based.FeatureContributionExplanation.validate.html#pyreal.explanation_types.feature_based.FeatureContributionExplanation.validate">[docs]</a>    <span class="k">def</span> <span class="nf">validate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">validate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Validate that `self.explanation` is a valid `DataFrame`</span>
 <span class="sd">        Returns:</span>
@@ -451,7 +451,7 @@ document.write(`
 <span class="sd">            AssertionException</span>
 <span class="sd">                if `self.explanation` is invalid</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">validate</span><span class="p">()</span></div>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">validate</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="nf">validate_values</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -481,7 +481,7 @@ document.write(`
 <span class="sd">    combined contribution of feature A and B`)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="AdditiveFeatureContributionExplanation.validate"><a class="viewcode-back" href="../../../api_reference/api/pyreal.explanation_types.feature_based.AdditiveFeatureContributionExplanation.validate.html#pyreal.explanation_types.feature_based.AdditiveFeatureContributionExplanation.validate">[docs]</a>    <span class="k">def</span> <span class="nf">validate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">validate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Validate that `self.explanation` is a valid `DataFrame`</span>
 <span class="sd">        Returns:</span>
@@ -490,7 +490,7 @@ document.write(`
 <span class="sd">            AssertionException</span>
 <span class="sd">                if `self.explanation` is invalid</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">validate</span><span class="p">()</span></div>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">validate</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="nf">combine_columns</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">columns</span><span class="p">,</span> <span class="n">new_column</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
