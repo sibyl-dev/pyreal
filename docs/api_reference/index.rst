@@ -11,12 +11,6 @@ and classes in Pyreal
 
    realapp
    explainer
-   local_feature_contribution
-   global_feature_importance
-   decision_tree_explainer
-   partial_dependence_explainer
-   example_based_explainer
-   generic_explainer
    transformer
    explanation_types
    explanation_utils
