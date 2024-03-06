@@ -1,9 +1,8 @@
-from sklearn.preprocessing import OneHotEncoder as SklearnOneHotEncoder
 from sklearn.compose import ColumnTransformer
-
-from pyreal.transformers import OneHotEncoder, ColumnDropTransformer
-from pyreal.transformers import Transformer, fit_transformers
 from sklearn.pipeline import Pipeline as SklearnPipeline
+from sklearn.preprocessing import OneHotEncoder as SklearnOneHotEncoder
+
+from pyreal.transformers import ColumnDropTransformer, OneHotEncoder, Transformer, fit_transformers
 
 
 def sklearn_pipeline_to_pyreal_transformers(pipeline, X_train=None, verbose=0):

@@ -7,8 +7,8 @@ from pyreal.explainers import (
     LocalFeatureContribution,
     SimilarExamples,
 )
-from pyreal.utils import get_top_contributors
 from pyreal.transformers import sklearn_pipeline_to_pyreal_transformers
+from pyreal.utils import get_top_contributors
 
 
 def format_feature_contribution_output(explanation, ids=None, series=False, optimized=False):
