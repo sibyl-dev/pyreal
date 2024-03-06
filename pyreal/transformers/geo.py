@@ -4,6 +4,10 @@ from pyreal.transformers import Transformer
 
 
 class LatLongToPlace(Transformer):
+    """
+    Converts latitude and longitude columns to neighborhood, city, or state/country names.
+    """
+
     def __init__(
         self,
         level=0,
