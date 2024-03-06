@@ -1,9 +1,9 @@
 from sklearn.preprocessing import OneHotEncoder as SklearnOneHotEncoder
 from sklearn.compose import ColumnTransformer
 
-from pyreal.transformers import OneHotEncoder
+from pyreal.transformers import OneHotEncoder, ColumnDropTransformer
 from pyreal.transformers import Transformer
-from sklearn.pipeline import Pipeline
+from sklearn.pipeline import Pipeline as SklearnPipeline
 
 
 def sklearn_pipeline_to_pyreal(pipeline, verbose=0):
@@ -15,30 +15,36 @@ def sklearn_pipeline_to_pyreal(pipeline, verbose=0):
     Returns:
         list of pyreal.transformers: The Pyreal pipeline
     """
+
+    def log(transformer, columns):
+        if not verbose:
+            return
+        if columns is not None:
+            print(f"Adding {transformer} for columns {columns}")
+        else:
+            print(f"Adding {transformer}")
+
     pyreal_pipeline = []
-    for _, step in pipeline.steps:
-        if not hasattr(step, "transform"):
+
+    def process_pipeline(step, columns=None):
+        if isinstance(step, SklearnPipeline):
+            for _, substep in step.steps:
+                process_pipeline(substep, columns)
+        elif isinstance(step, ColumnTransformer):
+            for _, substep, subcolumns in step.transformers:
+                process_pipeline(substep, subcolumns)
+        elif step == "drop":
+            pyreal_pipeline.append(ColumnDropTransformer(columns=columns))
+            log("ColumnDropTransformer", columns)
+        elif isinstance(step, SklearnOneHotEncoder):
+            pyreal_pipeline.append(OneHotEncoder(columns=columns))
+            log("OneHotEncoder", columns)
+        elif not hasattr(step, "transform"):
             if verbose:
                 print(f"Skipping step {step} as it does not appear to be a transformer")
-            continue
-        if isinstance(step, ColumnTransformer):
-            for _, transformer, columns in step.transformers:
-                if isinstance(transformer, SklearnOneHotEncoder):
-                    pyreal_pipeline.append(OneHotEncoder(columns=columns))
-                    if verbose:
-                        print(f"Adding OneHotEncoder for columns {columns}")
-                else:
-                    pyreal_pipeline.append(
-                        Transformer(wrapped_transformer=transformer, columns=columns)
-                    )
-                    if verbose:
-                        print(f"Adding transformer {transformer} for columns {columns}")
-        elif isinstance(step, SklearnOneHotEncoder):
-            pyreal_pipeline.append(OneHotEncoder())
-            if verbose:
-                print(f"Adding OneHotEncoder")
         else:
-            pyreal_pipeline.append(Transformer(wrapped_transformer=step))
-            if verbose:
-                print(f"Adding transformer {step}")
+            pyreal_pipeline.append(Transformer(wrapped_transformer=step, columns=columns))
+            log(step, columns)
+
+    process_pipeline(pipeline)
     return pyreal_pipeline
