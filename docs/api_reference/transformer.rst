@@ -3,160 +3,115 @@
 Transformer
 ==============
 .. currentmodule:: pyreal.transformers
-
-Base Transformer
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.. autosummary::
-    :toctree: api/
+.. toctree::
+   :maxdepth: 1
+   :glob:
 
     Transformer
-    Transformer.fit
-    Transformer.data_transform
-    Transformer.transform
-    Transformer.fit_transform
-    Transformer.inverse_transform
-    Transformer.transform_explanation
-    Transformer.inverse_transform_explanation
+    FeatureSelectTransformer
+    ColumnDropTransformer
+    MinMaxScaler
+    StandardScaler
+    Normalizer
+    MultiTypeImputer
+    OneHotEncoder
+    MappingsOneHotEncoder
+    MappingsOneHotDecoder
+    Mappings
+    MultiIndexFrameToNestedFrame
+    MultiIndexFrameToNumpy2d
+    MultiIndexFrameToNumpy3d
+    NestedFrameToMultiIndexFrame
+    NestedFrameToNumpy3d
+    Numpy2dToMultiIndexFrame
+    Numpy2dToNestedFrame
+    Numpy3dToMultiIndexFrame
+    Numpy3dToNestedFrame
+    Pandas2dToMultiIndexFrame
+    BoolToIntCaster
+    DataFrameWrapper
+    TimeSeriesPadder
+    LatLongToPlace
+
+
+Transformer
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.. autoclass:: Transformer
+    :members: fit, data_transform, transform, fit_transform, inverse_transform, transform_explanation, inverse_transform_explanation
 
 Feature Select Transformer
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.. autosummary::
-    :toctree: api/
+.. autoclass:: FeatureSelectTransformer
+    :members: fit, data_transform, fit_transform
+.. autoclass:: ColumnDropTransformer
+    :members: fit, data_transform, fit_transform
 
-    FeatureSelectTransformer
-    FeatureSelectTransformer.fit
-    FeatureSelectTransformer.data_transform
-    FeatureSelectTransformer.transform
-    FeatureSelectTransformer.fit_transform
-    FeatureSelectTransformer.transform_explanation
-    FeatureSelectTransformer.inverse_transform_explanation
+Scalers
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.. autoclass:: MinMaxScaler
+    :members: fit, data_transform, fit_transform
+.. autoclass:: StandardScaler
+    :members: fit, data_transform, fit_transform
+.. autoclass:: Normalizer
+    :members: fit, data_transform, fit_transform
 
 Imputers
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.. autosummary::
-    :toctree: api/
-
-    MultiTypeImputer
-    MultiTypeImputer.fit
-    MultiTypeImputer.data_transform
-    MultiTypeImputer.transform
-    MultiTypeImputer.fit_transform
-    MultiTypeImputer.transform_explanation
-    MultiTypeImputer.inverse_transform_explanation
+.. autoclass:: MultiTypeImputer
+    :members: fit, data_transform, fit_transform
 
 One-Hot Encoders
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.. autosummary::
-    :toctree: api/
-
-    OneHotEncoder
-    OneHotEncoder.fit
-    OneHotEncoder.data_transform
-    OneHotEncoder.transform
-    OneHotEncoder.fit_transform
-    OneHotEncoder.inverse_transform
-    OneHotEncoder.transform_explanation
-    OneHotEncoder.inverse_transform_explanation
-    MappingsOneHotEncoder
-    MappingsOneHotEncoder.fit
-    MappingsOneHotEncoder.data_transform
-    MappingsOneHotEncoder.transform
-    MappingsOneHotEncoder.fit_transform
-    MappingsOneHotEncoder.inverse_transform
-    MappingsOneHotEncoder.transform_explanation
-    MappingsOneHotEncoder.inverse_transform_explanation
-    MappingsOneHotDecoder
-    MappingsOneHotDecoder.fit
-    MappingsOneHotDecoder.data_transform
-    MappingsOneHotDecoder.transform
-    MappingsOneHotDecoder.fit_transform
-    MappingsOneHotDecoder.inverse_transform
-    MappingsOneHotDecoder.transform_explanation
-    MappingsOneHotDecoder.inverse_transform_explanation
-    Mappings
-    Mappings.generate_mappings
+.. autoclass:: OneHotEncoder
+    :members: fit, data_transform, fit_transform
+.. autoclass:: MappingsOneHotEncoder
+    :members: fit, data_transform, fit_transform
+.. autoclass:: MappingsOneHotDecoder
+    :members: fit, data_transform, fit_transform
+.. autoclass:: Mappings
+    :members: generate_mappings
 
 Time-Series Formatters
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.. autosummary::
-    :toctree: api/
-
-    MultiIndexFrameToNestedFrame
-    MultiIndexFrameToNestedFrame.data_transform
-    MultiIndexFrameToNumpy2d
-    MultiIndexFrameToNumpy2d.data_transform
-    MultiIndexFrameToNumpy3d
-    MultiIndexFrameToNumpy3d.data_transform
-    NestedFrameToMultiIndexFrame
-    NestedFrameToMultiIndexFrame.fit
-    NestedFrameToMultiIndexFrame.data_transform
-    NestedFrameToNumpy3d
-    NestedFrameToNumpy3d.data_transform
-    Numpy2dToMultiIndexFrame
-    Numpy2dToMultiIndexFrame.fit
-    Numpy2dToMultiIndexFrame.data_transform
-    Numpy2dToNestedFrame
-    Numpy2dToNestedFrame.fit
-    Numpy2dToNestedFrame.data_transform
-    Numpy3dToMultiIndexFrame
-    Numpy3dToMultiIndexFrame.fit
-    Numpy3dToMultiIndexFrame.data_transform
-    Numpy3dToNestedFrame
-    Numpy3dToNestedFrame.data_transform
-    Pandas2dToMultiIndexFrame
-    Pandas2dToMultiIndexFrame.fit
-    Pandas2dToMultiIndexFrame.data_transform
+.. autoclass:: MultiIndexFrameToNestedFrame
+    :members: fit, data_transform, fit_transform
+.. autoclass:: MultiIndexFrameToNumpy2d
+    :members: fit, data_transform, fit_transform
+.. autoclass:: MultiIndexFrameToNumpy3d
+    :members: fit, data_transform, fit_transform
+.. autoclass:: NestedFrameToMultiIndexFrame
+    :members: fit, data_transform, fit_transform
+.. autoclass:: NestedFrameToNumpy3d
+    :members: fit, data_transform, fit_transform
+.. autoclass:: Numpy2dToMultiIndexFrame
+    :members: fit, data_transform, fit_transform
+.. autoclass:: Numpy2dToNestedFrame
+    :members: fit, data_transform, fit_transform
+.. autoclass:: Numpy3dToMultiIndexFrame
+    :members: fit, data_transform, fit_transform
+.. autoclass:: Numpy3dToNestedFrame
+    :members: fit, data_transform, fit_transform
+.. autoclass:: Pandas2dToMultiIndexFrame
+    :members: fit, data_transform, fit_transform
 
 Type Casters
 ~~~~~~~~~~~~~~~~~~~~~
-.. autosummary::
-    :toctree: api/
+.. autoclass:: BoolToIntCaster
+    :members: fit, data_transform, fit_transform
 
-    BoolToIntCaster
-    BoolToIntCaster.fit
-    BoolToIntCaster.data_transform
-    BoolToIntCaster.transform
-    BoolToIntCaster.fit_transform
-    BoolToIntCaster.transform_explanation
-    BoolToIntCaster.inverse_transform_explanation
 
 Wrappers
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.. autosummary::
-    :toctree: api/
-
-    DataFrameWrapper
-    DataFrameWrapper.fit
-    DataFrameWrapper.data_transform
-    DataFrameWrapper.transform
-    DataFrameWrapper.fit_transform
-    DataFrameWrapper.inverse_transform
-    DataFrameWrapper.transform_explanation
-    DataFrameWrapper.inverse_transform_explanation
+.. autoclass:: DataFrameWrapper
+    :members: fit, data_transform, fit_transform
 
 Time Series Padders
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.. autosummary::
-    :toctree: api/
-
-    TimeSeriesPadder
-    TimeSeriesPadder.fit
-    TimeSeriesPadder.data_transform
-    TimeSeriesPadder.transform
-    TimeSeriesPadder.fit_transform
-    TimeSeriesPadder.transform_explanation
-    TimeSeriesPadder.inverse_transform_explanation
+.. autoclass:: TimeSeriesPadder
+    :members: fit, data_transform, fit_transform
 
 Geo Transformers
 ~~~~~~~~~~~~~~~~~~~~
-.. autosummary::
-    :toctree: api/
-
-    LatLongToPlace
-    LatLongToPlace.fit
-    LatLongToPlace.data_transform
-    LatLongToPlace.transform
-    LatLongToPlace.fit_transform
-    LatLongToPlace.transform_explanation
-    LatLongToPlace.inverse_transform_explanation
+.. autoclass:: LatLongToPlace
+    :members: fit, data_transform, fit_transform
 
