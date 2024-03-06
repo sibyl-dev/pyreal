@@ -34,7 +34,7 @@ def fit_transformers(transformers, x):
     transformer has a fit function and if so, calls it. Returns the data after being transformed
     by the final transformer.
     Args:
-        transformers (Transformer or list of Transformers):
+        transformers (TransformerBase or list of Transformers):
             List of transformers to fit, in order
         x (DataFrame of shape (n_instances, n_features)):
             Dataset to fit on.
@@ -59,7 +59,7 @@ def run_transformers(transformers, x):
     Run a series of transformers on x_orig
 
     Args:
-        transformers (Transformer or list of Transformers):
+        transformers (TransformerBase or list of Transformers):
             List of transformers to fit, in order
         x (DataFrame of shape (n_instances, n_features)):
             Dataset to transform
@@ -103,7 +103,7 @@ def _display_missing_transform_info_inverse(transformer_name, function_name):
     )
 
 
-class Transformer(ABC):
+class TransformerBase(ABC):
     """
     An abstract base class for Transformers. Transformers transform data from a first feature space
     to a second, and explanations from the second back to the first.

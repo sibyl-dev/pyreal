@@ -2,11 +2,11 @@ from sklearn.preprocessing import MinMaxScaler as SklearnMinMaxScaler
 from sklearn.preprocessing import Normalizer as SklearnNormalizer
 from sklearn.preprocessing import StandardScaler as SklearnStandardScaler
 
-from pyreal.transformers import Transformer
+from pyreal.transformers import TransformerBase
 from pyreal.transformers.wrappers import DataFrameWrapper
 
 
-class MinMaxScaler(Transformer):
+class MinMaxScaler(TransformerBase):
     """
     Scales numeric features within a given range
     """
@@ -76,7 +76,7 @@ class MinMaxScaler(Transformer):
         return self.wrapped_transformer.transform(X)
 
 
-class Normalizer(Transformer):
+class Normalizer(TransformerBase):
     """
     Normalizes numeric features using the l1, l2, or max norm
     """
@@ -130,7 +130,7 @@ class Normalizer(Transformer):
         return self.data_frame_wrapper.transform(X)
 
 
-class StandardScaler(Transformer):
+class StandardScaler(TransformerBase):
     """
     Standardizes numeric features to mean=0 and variance=1
     """
