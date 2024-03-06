@@ -898,7 +898,13 @@ class RealApp:
 
     @staticmethod
     def from_sklearn(
-        pipeline=None, model=None, transformers=None, X_train=None, y_train=None, **kwargs
+        pipeline=None,
+        model=None,
+        transformers=None,
+        X_train=None,
+        y_train=None,
+        verbose=0,
+        **kwargs
     ):
         """
         Create a RealApp from a sklearn pipeline or model and transformers.
@@ -921,6 +927,8 @@ class RealApp:
             y_train (DataFrame or Series):
                 Training targets to fit transformers and explanations to. If not provided, must be
                 provided when preparing and using realapp explainers.
+            verbose (int):
+                Verbosity level. If 0, no output. If 1, detailed output
             **kwargs:
                 Additional arguments to pass to RealApp constructor.
 
@@ -934,9 +942,13 @@ class RealApp:
         pyreal_transformers = []
         if pipeline is not None:
             model = pipeline.steps[-1][1]
-            pyreal_transformers = sklearn_pipeline_to_pyreal_transformers(pipeline, X_train)
+            pyreal_transformers = sklearn_pipeline_to_pyreal_transformers(
+                pipeline, X_train, verbose=verbose
+            )
         elif transformers is not None:
-            pyreal_transformers = sklearn_pipeline_to_pyreal_transformers(transformers, X_train)
+            pyreal_transformers = sklearn_pipeline_to_pyreal_transformers(
+                transformers, X_train, verbose=verbose
+            )
         return RealApp(
             models=model,
             transformers=pyreal_transformers,
