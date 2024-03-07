@@ -36,8 +36,12 @@ def sklearn_pipeline_to_pyreal_transformers(pipeline, X_train=None, verbose=0):
             for _, substep in step.steps:
                 process_pipeline(substep, columns)
         elif isinstance(step, ColumnTransformer):
-            for _, substep, subcolumns in step.transformers_:
-                process_pipeline(substep, subcolumns)
+            if hasattr(step, "transformers_"):  # This ColumnTransformer has been fitted
+                for _, substep, subcolumns in step.transformers_:
+                    process_pipeline(substep, subcolumns)
+            else:
+                for _, substep, subcolumns in step.transformers:
+                    process_pipeline(substep, subcolumns)
         elif step == "drop":
             pyreal_pipeline.append(ColumnDropTransformer(columns=columns))
             log("ColumnDropTransformer", columns)

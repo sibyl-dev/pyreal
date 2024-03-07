@@ -1,8 +1,7 @@
 import pandas as pd
+import pytest
 
 from pyreal.transformers.generic_transformer import Transformer
-
-import pytest
 
 
 class SomeTransformer:
@@ -67,7 +66,7 @@ def test_transform_with_columns_dataframe():
 def test_fit_returns_self():
     transformer = Transformer(wrapped_transformer=SomeTransformer())
     result = transformer.fit(pd.DataFrame([1]))
-    assert result == transformer
+    assert result is transformer
 
 
 def test_from_transform_function_pandas():
@@ -88,5 +87,21 @@ def test_from_transform_function_numpy():
     transformer = Transformer.from_transform_function(transform_func)
     data_to_transform = pd.DataFrame([[1, 1, 1], [2, 1, 1]], columns=["A", "B", "C"])
     expected = pd.DataFrame([[2, 2, 2], [3, 2, 2]], columns=["A", "B", "C"])
+    result = transformer.transform(data_to_transform)
+    pd.testing.assert_frame_equal(result, expected)
+
+
+def test_wrapping_transformer_without_fit():
+    class TransformerWithoutFit:
+        def transform(self, x):
+            return x + 1
+
+    transformer = Transformer(wrapped_transformer=TransformerWithoutFit())
+    data_to_transform = pd.DataFrame([[1, 1, 1], [2, 1, 1]], columns=["A", "B", "C"])
+    fit_data = pd.DataFrame([[1, 1, 1]], columns=["A", "B", "C"])
+    expected = pd.DataFrame([[2, 2, 2], [3, 2, 2]], columns=["A", "B", "C"])
+    fit_result = transformer.fit(fit_data)
+    assert fit_result is transformer
+    assert transformer.fitted
     result = transformer.transform(data_to_transform)
     pd.testing.assert_frame_equal(result, expected)

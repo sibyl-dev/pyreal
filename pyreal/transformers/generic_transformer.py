@@ -15,10 +15,11 @@ class Transformer(TransformerBase):
         super().__init__(**kwargs)
 
     def fit(self, x, **params):
-        if self.columns is None:
-            self.wrapped_transformer.fit(x, **params)
-        else:
-            self.wrapped_transformer.fit(x[self.columns], **params)
+        if hasattr(self.wrapped_transformer, "fit"):
+            if self.columns is None:
+                self.wrapped_transformer.fit(x, **params)
+            else:
+                self.wrapped_transformer.fit(x[self.columns], **params)
         return super().fit(x)
 
     def data_transform(self, x):

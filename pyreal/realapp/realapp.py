@@ -939,6 +939,9 @@ class RealApp:
         if pipeline is None and model is None and transformers is None:
             raise ValueError("Must provide either pipeline or model")
 
+        if pipeline is not None and not hasattr(pipeline, "steps"):
+            raise ValueError("pipeline must be a valid sklearn pipeline")
+
         pyreal_transformers = []
         if pipeline is not None:
             model = pipeline.steps[-1][1]
