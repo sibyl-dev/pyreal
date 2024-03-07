@@ -68,3 +68,25 @@ def test_fit_returns_self():
     transformer = Transformer(wrapped_transformer=SomeTransformer())
     result = transformer.fit(pd.DataFrame([1]))
     assert result == transformer
+
+
+def test_from_transform_function_pandas():
+    def transform_func(x):
+        return x + 1
+
+    transformer = Transformer.from_transform_function(transform_func)
+    data_to_transform = pd.DataFrame([[1, 1, 1], [2, 1, 1]], columns=["A", "B", "C"])
+    expected = pd.DataFrame([[2, 2, 2], [3, 2, 2]], columns=["A", "B", "C"])
+    result = transformer.transform(data_to_transform)
+    pd.testing.assert_frame_equal(result, expected)
+
+
+def test_from_transform_function_numpy():
+    def transform_func(x):
+        return x.to_numpy() + 1
+
+    transformer = Transformer.from_transform_function(transform_func)
+    data_to_transform = pd.DataFrame([[1, 1, 1], [2, 1, 1]], columns=["A", "B", "C"])
+    expected = pd.DataFrame([[2, 2, 2], [3, 2, 2]], columns=["A", "B", "C"])
+    result = transformer.transform(data_to_transform)
+    pd.testing.assert_frame_equal(result, expected)
