@@ -16,7 +16,7 @@
 
 ***
 
-* [⚙ Developing Applications](developing-applications/README.md)
+* [⚙️ Developing Applications](developing-applications/README.md)
   * [Developer Terminology Guide](developing-applications/developer-terminology-guide.md)
   * [Feature Space Pipeline](developing-applications/feature-space-pipeline.md)
   * [Working with Transformers](developing-applications/working-with-transformers.md)
@@ -24,7 +24,7 @@
 
 ## Developer Guides
 
-* [☺ Contributing to Pyreal](developer-guides/contributing-to-pyreal/README.md)
+* [☺️ Contributing to Pyreal](developer-guides/contributing-to-pyreal/README.md)
   * [Types of Contributions](developer-guides/contributing-to-pyreal/types-of-contributions.md)
   * [Making Contributions](developer-guides/contributing-to-pyreal/making-contributions.md)
   * [Pull Request Guidelines](developer-guides/contributing-to-pyreal/pull-request-guidelines.md)
@@ -45,4 +45,4 @@
 
 * [📚 API Documentation](https://sibyl-ml.dev/pyreal/api\_reference/index.html)
 * [🔧 Issues](https://github.com/sibyl-dev/pyreal/issues)
-* [⚖ License](https://github.com/sibyl-dev/pyreal/blob/dev/LICENSE)
+* [⚖️ License](https://github.com/sibyl-dev/pyreal/blob/dev/LICENSE)
