@@ -21,3 +21,4 @@ RealApp
     RealApp.produce_feature_importance
     RealApp.prepare_similar_examples
     RealApp.produce_similar_examples
+    RealApp.from_sklearn

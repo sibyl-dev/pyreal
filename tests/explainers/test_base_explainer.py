@@ -5,7 +5,7 @@ from pandas.testing import assert_frame_equal, assert_series_equal
 
 from pyreal.explainers import Explainer, LocalFeatureContribution
 from pyreal.explanation_types import AdditiveFeatureContributionExplanation
-from pyreal.transformers import BreakingTransformError, FeatureSelectTransformer, Transformer
+from pyreal.transformers import BreakingTransformError, FeatureSelectTransformer, TransformerBase
 
 
 def breaking_transform(explanation):
@@ -189,7 +189,7 @@ def test_transform_explanation(regression_no_transforms):
 
 
 def test_transform_x_with_produce(regression_no_transforms):
-    class SubtractTransformer(Transformer):
+    class SubtractTransformer(TransformerBase):
         def __init__(self, n, **kwargs):
             self.n = n
             super().__init__(**kwargs)

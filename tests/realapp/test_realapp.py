@@ -6,7 +6,7 @@ import pytest
 from pandas.testing import assert_index_equal
 
 from pyreal import RealApp
-from pyreal.transformers import Transformer
+from pyreal.transformers import TransformerBase
 
 
 def test_initialization_one_model(regression_one_hot):
@@ -221,7 +221,7 @@ def test_no_dataset_on_init_or_fit_ensure_break(regression_no_transforms):
 
 
 def test_fit_transformers(dummy_model):
-    class DummyTransformer(Transformer):
+    class DummyTransformer(TransformerBase):
         def __init__(self, **kwargs):
             self.columns = None
             super().__init__(**kwargs)

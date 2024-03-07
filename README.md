@@ -34,7 +34,7 @@ An easier approach to understanding your model's predictions.
 
 # Overview
 
-**Pyreal** gives you easy-to-understand explanations of your machine learning models in a low-code manner. 
+**Pyreal** gives you easy-to-understand explanations of your machine learning models in a low-code manner.
 Pyreal wraps full ML pipelines in a RealApp object that makes it easy to use, understand, and interact with your ML model — regardless of your ML expertise.
 
 # Install
@@ -84,34 +84,33 @@ for more details about this process.
 
 # Quickstart
 
-In this short tutorial we will guide you through a series of steps that will help you
-getting started with **Pyreal**. We will get an explanation for a prediction on whether a
-passenger on the Titanic would have survived.
+In this short tutorial we will guide you through some steps to get your started with **Pyreal**.
+We will use a RealApp object to get predictions and explanations on whether a passenger on the Titanic would have survived.
 
 For a more detailed version of this tutorial, see [our documentation](https://dtail.gitbook.io/pyreal/getting-started/quickstart).
 
 #### Load in the demo data and application
 
-```
->>> import pyreal.sample_applications.titanic as titanic
+```python
+import pyreal.sample_applications.titanic as titanic
 
->>> real_app = titanic.load_app()
->>> sample_data = titanic.load_data(n_rows=300)
+real_app = titanic.load_app()
+sample_data = titanic.load_data(n_rows=300)
 
 ```
 
 #### Predict and produce explanation
 
-```
->>> predictions = real_app.predict(sample_data)
+```python
+predictions = real_app.predict(sample_data)
 
->>> explanation = real_app.produce_feature_contributions(sample_data)
+explanation = real_app.produce_feature_contributions(sample_data)
 
 ```
 
 #### Visualize explanation for one passenger
 
-```
+```python
 passenger_id = 1
 feature_bar_plot(explanation[passenger_id], prediction=predictions[passenger_id], show=False)
 
@@ -123,6 +122,20 @@ The output will be a bar plot showing the most contributing features, by absolut
 
 We can see here that the input passenger's predicted chance of survival was greatly reduced
 because of their sex (male) and ticket class (3rd class).
+
+### Migrating your application to Pyreal
+To create a RealApp object for your own application,
+see our [migration tutorial](https://github.com/sibyl-dev/pyreal/blob/dev/tutorials/migrating_to_pyreal.ipynb).
+
+For basic applications built on `sklearn` pipelines, you may be able to simply use:
+```python
+from pyreal import RealApp
+
+pipeline = # YOUR SKLEARN PIPELINE
+X_train, y_train = # YOUR TRAINING DATA
+
+real_app = RealApp.from_sklearn(pipeline, X_train=X_train, y_train=y_train)
+```
 
 # Next Steps
 

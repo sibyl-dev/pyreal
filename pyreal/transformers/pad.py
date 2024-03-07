@@ -1,10 +1,10 @@
 import numpy as np
 import pandas as pd
 
-from pyreal.transformers import Transformer
+from pyreal.transformers import TransformerBase
 
 
-class TimeSeriesPadder(Transformer):
+class TimeSeriesPadder(TransformerBase):
     """
     A transformer that pads and truncates variable-length time series to equal lengths
     """

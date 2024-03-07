@@ -1,10 +1,10 @@
 import numpy as np
 import pandas as pd
 
-from pyreal.transformers import Transformer
+from pyreal.transformers import TransformerBase
 
 
-class MultiTypeImputer(Transformer):
+class MultiTypeImputer(TransformerBase):
     """
     Imputes a data set, handling columns of different types. Imputes numeric columns with the mean,
     and categorical columns with the mode value.

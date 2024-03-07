@@ -7,7 +7,7 @@ import pytest
 from pandas import DataFrame
 from sklearn.linear_model import LinearRegression, LogisticRegression
 
-from pyreal.transformers import Transformer
+from pyreal.transformers import TransformerBase
 from pyreal.transformers.one_hot_encode import OneHotEncoder
 
 
@@ -156,7 +156,7 @@ def regression_one_hot_with_interpret(test_root, regression_one_hot):
         "y": regression_one_hot["y"],
     }
 
-    class InterpretTransformer(Transformer):
+    class InterpretTransformer(TransformerBase):
         def data_transform(self, x):
             return x + 1
 

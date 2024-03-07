@@ -3,10 +3,10 @@ from collections.abc import Sequence
 import numpy as np
 import pandas as pd
 
-from pyreal.transformers import BreakingTransformError, Transformer
+from pyreal.transformers import BreakingTransformError, TransformerBase
 
 
-class FeatureSelectTransformer(Transformer):
+class FeatureSelectTransformer(TransformerBase):
     """
     A transformer that selects and re-orders features to match the model's inputs
     """
@@ -100,7 +100,7 @@ class FeatureSelectTransformer(Transformer):
         raise BreakingTransformError
 
 
-class ColumnDropTransformer(Transformer):
+class ColumnDropTransformer(TransformerBase):
     """
     A transformer that drops a set of columns from the data
     """

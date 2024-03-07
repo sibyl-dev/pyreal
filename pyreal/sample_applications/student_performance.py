@@ -8,7 +8,7 @@ from pyreal import RealApp
 from pyreal.transformers import (
     DataFrameWrapper,
     OneHotEncoder,
-    Transformer,
+    TransformerBase,
     fit_transformers,
     run_transformers,
 )
@@ -20,7 +20,7 @@ MODEL_FILE = os.path.join(DATA_DIR, "model.pkl")
 TRANSFORMER_FILE = os.path.join(DATA_DIR, "transformers.pkl")
 
 
-class BooleanEncoder(Transformer):
+class BooleanEncoder(TransformerBase):
     def __init__(self, cols, **kwargs):
         self.cols = cols
         super().__init__(**kwargs)

@@ -1,6 +1,6 @@
 from pyreal.transformers.base import (
     BreakingTransformError,
-    Transformer,
+    TransformerBase,
     fit_transformers,
     run_transformers,
 )
@@ -32,9 +32,11 @@ from pyreal.transformers.pad import TimeSeriesPadder
 from pyreal.transformers.type_cast import BoolToIntCaster
 from pyreal.transformers.scale import MinMaxScaler, StandardScaler, Normalizer
 from pyreal.transformers.geo import LatLongToPlace
+from pyreal.transformers.generic_transformer import Transformer
+from pyreal.transformers.utils import sklearn_pipeline_to_pyreal_transformers
 
 __all__ = [
-    "Transformer",
+    "TransformerBase",
     "fit_transformers",
     "run_transformers",
     "DimensionAdder",
@@ -65,4 +67,6 @@ __all__ = [
     "Normalizer",
     "StandardScaler",
     "LatLongToPlace",
+    "sklearn_pipeline_to_pyreal_transformers",
+    "Transformer",
 ]

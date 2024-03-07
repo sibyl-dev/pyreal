@@ -4,7 +4,7 @@ import pandas as pd
 from sklearn.linear_model import Ridge
 
 from pyreal import RealApp
-from pyreal.transformers import OneHotEncoder, Transformer, fit_transformers, run_transformers
+from pyreal.transformers import OneHotEncoder, TransformerBase, fit_transformers, run_transformers
 
 DATA_DIR = os.path.join(os.path.dirname(__file__), "data_ames_housing")
 DATA_FILE = os.path.join(DATA_DIR, "data.csv")
@@ -13,7 +13,7 @@ DESCRIPTION_FILE = os.path.join(DATA_DIR, "feature_descriptions.csv")
 TRANSFORMER_FILE = os.path.join(DATA_DIR, "transformers.pkl")
 
 
-class AmesHousingImputer(Transformer):
+class AmesHousingImputer(TransformerBase):
     def data_transform(self, x):
         x_transform = x.copy()
         # Alley : data description says NA means "no alley access"

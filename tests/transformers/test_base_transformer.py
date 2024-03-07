@@ -5,14 +5,14 @@ from pyreal.explanation_types import FeatureImportanceExplanation
 from pyreal.transformers import (
     FeatureSelectTransformer,
     OneHotEncoder,
-    Transformer,
+    TransformerBase,
     base,
     fit_transformers,
     run_transformers,
 )
 
 
-class TestTransformer(Transformer):
+class TestTransformer(TransformerBase):
     def data_transform(self, x):
         return x
 
