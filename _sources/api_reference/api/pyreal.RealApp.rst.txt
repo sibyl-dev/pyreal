@@ -15,6 +15,7 @@
    
       ~RealApp.__init__
       ~RealApp.add_model
+      ~RealApp.from_sklearn
       ~RealApp.get_active_model
       ~RealApp.predict
       ~RealApp.predict_proba

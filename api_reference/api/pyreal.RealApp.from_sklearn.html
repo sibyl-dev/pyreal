@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>pyreal.explanation_types.feature_based.AdditiveFeatureContributionExplanation &#8212; Pyreal 0.4.7 documentation</title>
+    <title>pyreal.RealApp.from_sklearn &#8212; Pyreal 0.4.7 documentation</title>
   
   
   
@@ -38,12 +38,12 @@
     <script src="../../_static/doctools.js"></script>
     <script src="../../_static/sphinx_highlight.js"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'api_reference/api/pyreal.explanation_types.feature_based.AdditiveFeatureContributionExplanation';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'api_reference/api/pyreal.RealApp.from_sklearn';</script>
     <link rel="icon" href="../../_static/dai-logo-white.ico"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="pyreal.explanation_types.feature_value_based.FeatureValueBased" href="pyreal.explanation_types.feature_value_based.FeatureValueBased.html" />
-    <link rel="prev" title="pyreal.explanation_types.feature_based.FeatureContributionExplanation" href="pyreal.explanation_types.feature_based.FeatureContributionExplanation.html" />
+    <link rel="next" title="Explainer" href="../explainer.html" />
+    <link rel="prev" title="pyreal.RealApp.produce_similar_examples" href="pyreal.RealApp.produce_similar_examples.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -281,7 +281,7 @@ document.write(`
      aria-label="Section Navigation">
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
   <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
-<li class="toctree-l1 has-children"><a class="reference internal" href="../realapp.html">RealApp</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../realapp.html">RealApp</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="pyreal.RealApp.html">pyreal.RealApp</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.RealApp.add_model.html">pyreal.RealApp.add_model</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.RealApp.set_active_model_id.html">pyreal.RealApp.set_active_model_id</a></li>
@@ -294,7 +294,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="pyreal.RealApp.produce_feature_importance.html">pyreal.RealApp.produce_feature_importance</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.RealApp.prepare_similar_examples.html">pyreal.RealApp.prepare_similar_examples</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.RealApp.produce_similar_examples.html">pyreal.RealApp.produce_similar_examples</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyreal.RealApp.from_sklearn.html">pyreal.RealApp.from_sklearn</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">pyreal.RealApp.from_sklearn</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../explainer.html">Explainer</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -347,7 +347,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="pyreal.transformers.LatLongToPlace.html">pyreal.transformers.LatLongToPlace</a></li>
 </ul>
 </li>
-<li class="toctree-l1 current active has-children"><a class="reference internal" href="../explanation_types.html">Explanation Type</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../explanation_types.html">Explanation Type</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.explanation_types.base.Explanation.html">pyreal.explanation_types.base.Explanation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.explanation_types.base.Explanation.get.html">pyreal.explanation_types.base.Explanation.get</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.explanation_types.base.Explanation.get_explanation.html">pyreal.explanation_types.base.Explanation.get_explanation</a></li>
@@ -361,7 +361,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="pyreal.explanation_types.feature_based.FeatureImportanceExplanation.html">pyreal.explanation_types.feature_based.FeatureImportanceExplanation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.explanation_types.feature_based.AdditiveFeatureImportanceExplanation.html">pyreal.explanation_types.feature_based.AdditiveFeatureImportanceExplanation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.explanation_types.feature_based.FeatureContributionExplanation.html">pyreal.explanation_types.feature_based.FeatureContributionExplanation</a></li>
-<li class="toctree-l2 current active"><a class="current reference internal" href="#">pyreal.explanation_types.feature_based.AdditiveFeatureContributionExplanation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyreal.explanation_types.feature_based.AdditiveFeatureContributionExplanation.html">pyreal.explanation_types.feature_based.AdditiveFeatureContributionExplanation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.explanation_types.feature_value_based.FeatureValueBased.html">pyreal.explanation_types.feature_value_based.FeatureValueBased</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.explanation_types.feature_value_based.PartialDependenceExplanation.html">pyreal.explanation_types.feature_value_based.PartialDependenceExplanation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.explanation_types.decision_tree.DecisionTreeExplanation.html">pyreal.explanation_types.decision_tree.DecisionTreeExplanation</a></li>
@@ -428,9 +428,9 @@ document.write(`
     <li class="breadcrumb-item"><a href="../index.html" class="nav-link">API Reference</a></li>
     
     
-    <li class="breadcrumb-item"><a href="../explanation_types.html" class="nav-link">Explanation Type</a></li>
+    <li class="breadcrumb-item"><a href="../realapp.html" class="nav-link">RealApp</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page">pyreal.explanation_types.feature_based.AdditiveFeatureContributionExplanation</li>
+    <li class="breadcrumb-item active" aria-current="page">pyreal.RealApp.from_sklearn</li>
   </ul>
 </nav>
 </div>
@@ -447,65 +447,43 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <section id="pyreal-explanation-types-feature-based-additivefeaturecontributionexplanation">
-<h1>pyreal.explanation_types.feature_based.AdditiveFeatureContributionExplanation<a class="headerlink" href="#pyreal-explanation-types-feature-based-additivefeaturecontributionexplanation" title="Permalink to this heading">#</a></h1>
-<dl class="py class">
-<dt class="sig sig-object py" id="pyreal.explanation_types.feature_based.AdditiveFeatureContributionExplanation">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyreal.explanation_types.feature_based.</span></span><span class="sig-name descname"><span class="pre">AdditiveFeatureContributionExplanation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">explanation</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">values</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyreal/explanation_types/feature_based.html#AdditiveFeatureContributionExplanation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyreal.explanation_types.feature_based.AdditiveFeatureContributionExplanation" title="Permalink to this definition">#</a></dt>
-<dd><p>A type wrapper for local feature contribution DataFrame type outputs from explanation
-algorithms. Local feature contribution explanations give one numeric value per instance
-per feature, representing that feature’s contribution to the model’s prediction
-for this instance. Contribution values can be added together with meaningful effect
-(ie.,  <cite>contribution of feature A + contribution of feature B =
-combined contribution of feature A and B</cite>)</p>
+  <section id="pyreal-realapp-from-sklearn">
+<h1>pyreal.RealApp.from_sklearn<a class="headerlink" href="#pyreal-realapp-from-sklearn" title="Permalink to this heading">#</a></h1>
 <dl class="py method">
-<dt class="sig sig-object py" id="pyreal.explanation_types.feature_based.AdditiveFeatureContributionExplanation.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">explanation</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">values</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyreal.explanation_types.feature_based.AdditiveFeatureContributionExplanation.__init__" title="Permalink to this definition">#</a></dt>
-<dd><p>Set the wrapped explanation to <cite>explanation</cite> and values to <cite>values</cite> and validate
-:param explanation: wrapped explanation
-:type explanation: object
-:param values: Values corresponding with the object being explained
-:type values: DataFrame of shape (n_instances, n_features) or None</p>
-</dd></dl>
-
-<p class="rubric">Methods</p>
-<table class="autosummary longtable table autosummary">
-<tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#pyreal.explanation_types.feature_based.AdditiveFeatureContributionExplanation.__init__" title="pyreal.explanation_types.feature_based.AdditiveFeatureContributionExplanation.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(explanation[, values])</p></td>
-<td><p>Set the wrapped explanation to <cite>explanation</cite> and values to <cite>values</cite> and validate :param explanation: wrapped explanation :type explanation: object :param values: Values corresponding with the object being explained :type values: DataFrame of shape (n_instances, n_features) or None</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">apply_feature_descriptions</span></code>(feature_descriptions)</p></td>
-<td><p>Apply feature descriptions to explanation</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">combine_columns</span></code>(columns, new_column)</p></td>
-<td><p>Combine the values for columns into a new column, if appropriate :param columns: Columns to sum :type columns: list of strings :param new_column: Name of new column :type new_column: string</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get</span></code>()</p></td>
-<td><p>Get the explanation wrapped by this type.</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_all</span></code>()</p></td>
-<td><p>Get the explanation and wrapped values as a tuple.</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_explanation</span></code>()</p></td>
-<td><p>Get the explanation wrapped by this type</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_values</span></code>()</p></td>
-<td><p>Return the values associated with the explanation</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">update_explanation</span></code>(new_explanation[, ...])</p></td>
-<td><p>Sets this object's explanation to the new value.</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">update_values</span></code>(values[, inplace])</p></td>
-<td><p>Updates this objects values, and validates</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">validate</span></code>()</p></td>
-<td><p>Validate that <cite>self.explanation</cite> is a valid <cite>DataFrame</cite> :returns: None</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">validate_values</span></code>()</p></td>
-<td><p>Validate that self.values are valid values for this Explanation.</p></td>
-</tr>
-</tbody>
-</table>
+<dt class="sig sig-object py" id="pyreal.RealApp.from_sklearn">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">RealApp.</span></span><span class="sig-name descname"><span class="pre">from_sklearn</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pipeline</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transformers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_train</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_train</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyreal/realapp/realapp.html#RealApp.from_sklearn"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyreal.RealApp.from_sklearn" title="Permalink to this definition">#</a></dt>
+<dd><p>Create a RealApp from a sklearn pipeline or model and transformers.
+Must provide one of:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>just pipeline</p></li>
+<li><p>just model</p></li>
+<li><p>model and transformers</p></li>
+</ul>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pipeline</strong> (<em>sklearn.pipeline.Pipeline</em>) – Sklearn pipeline to convert. The final step of the pipeline must be a model.</p></li>
+<li><p><strong>model</strong> (<em>sklearn model</em>) – Sklearn model to use. Ignored if pipeline is not None</p></li>
+<li><p><strong>transformers</strong> (<em>list</em><em> of </em><em>sklearn transformers</em>) – List of sklearn transformers to use. Ignored if pipeline is not None</p></li>
+<li><p><strong>X_train</strong> (<em>DataFrame</em>) – Training data to fit transformers and explanations to. May be required if
+transformers are not fitted or must be recreated. If not provided, must be
+provided when preparing and using realapp explainers.</p></li>
+<li><p><strong>y_train</strong> (<em>DataFrame</em><em> or </em><em>Series</em>) – Training targets to fit transformers and explanations to. If not provided, must be
+provided when preparing and using realapp explainers.</p></li>
+<li><p><strong>verbose</strong> (<em>int</em>) – Verbosity level. If 0, no output. If 1, detailed output</p></li>
+<li><p><strong>**kwargs</strong> – Additional arguments to pass to RealApp constructor.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>RealApp</dt><dd><p>Newly created RealApp object</p>
+</dd>
+</dl>
+</p>
+</dd>
+</dl>
 </dd></dl>
 
 </section>
@@ -522,20 +500,20 @@ combined contribution of feature A and B</cite>)</p>
     <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
-       href="pyreal.explanation_types.feature_based.FeatureContributionExplanation.html"
+       href="pyreal.RealApp.produce_similar_examples.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">pyreal.explanation_types.feature_based.FeatureContributionExplanation</p>
+        <p class="prev-next-title">pyreal.RealApp.produce_similar_examples</p>
       </div>
     </a>
     <a class="right-next"
-       href="pyreal.explanation_types.feature_value_based.FeatureValueBased.html"
+       href="../explainer.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">pyreal.explanation_types.feature_value_based.FeatureValueBased</p>
+        <p class="prev-next-title">Explainer</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -557,16 +535,13 @@ combined contribution of feature A and B</cite>)</p>
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pyreal.explanation_types.feature_based.AdditiveFeatureContributionExplanation"><code class="docutils literal notranslate"><span class="pre">AdditiveFeatureContributionExplanation</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyreal.explanation_types.feature_based.AdditiveFeatureContributionExplanation.__init__"><code class="docutils literal notranslate"><span class="pre">AdditiveFeatureContributionExplanation.__init__()</span></code></a></li>
-</ul>
-</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pyreal.RealApp.from_sklearn"><code class="docutils literal notranslate"><span class="pre">RealApp.from_sklearn()</span></code></a></li>
 </ul>
   </nav></div>
 
   <div class="sidebar-secondary-item">
   <div class="tocsection sourcelink">
-    <a href="../../_sources/api_reference/api/pyreal.explanation_types.feature_based.AdditiveFeatureContributionExplanation.rst.txt">
+    <a href="../../_sources/api_reference/api/pyreal.RealApp.from_sklearn.rst.txt">
       <i class="fa-solid fa-file-lines"></i> Show Source
     </a>
   </div>

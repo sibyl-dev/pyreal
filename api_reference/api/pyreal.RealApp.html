@@ -294,6 +294,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="pyreal.RealApp.produce_feature_importance.html">pyreal.RealApp.produce_feature_importance</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.RealApp.prepare_similar_examples.html">pyreal.RealApp.prepare_similar_examples</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.RealApp.produce_similar_examples.html">pyreal.RealApp.produce_similar_examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyreal.RealApp.from_sklearn.html">pyreal.RealApp.from_sklearn</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../explainer.html">Explainer</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -494,34 +495,37 @@ None if model is not a classifier</p></li>
 <tr class="row-even"><td><p><a class="reference internal" href="pyreal.RealApp.add_model.html#pyreal.RealApp.add_model" title="pyreal.RealApp.add_model"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_model</span></code></a>(model[, model_id])</p></td>
 <td><p>Add a model</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="pyreal.RealApp.get_active_model.html#pyreal.RealApp.get_active_model" title="pyreal.RealApp.get_active_model"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_active_model</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="pyreal.RealApp.from_sklearn.html#pyreal.RealApp.from_sklearn" title="pyreal.RealApp.from_sklearn"><code class="xref py py-obj docutils literal notranslate"><span class="pre">from_sklearn</span></code></a>([pipeline, model, ...])</p></td>
+<td><p>Create a RealApp from a sklearn pipeline or model and transformers. Must provide one of:     - just pipeline     - just model     - model and transformers.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="pyreal.RealApp.get_active_model.html#pyreal.RealApp.get_active_model" title="pyreal.RealApp.get_active_model"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_active_model</span></code></a>()</p></td>
 <td><p>Return the active model</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="pyreal.RealApp.predict.html#pyreal.RealApp.predict" title="pyreal.RealApp.predict"><code class="xref py py-obj docutils literal notranslate"><span class="pre">predict</span></code></a>(x[, model_id, as_dict, format])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="pyreal.RealApp.predict.html#pyreal.RealApp.predict" title="pyreal.RealApp.predict"><code class="xref py py-obj docutils literal notranslate"><span class="pre">predict</span></code></a>(x[, model_id, as_dict, format])</p></td>
 <td><p>Predict on x using the active model or model specified by model_id</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="pyreal.RealApp.predict_proba.html#pyreal.RealApp.predict_proba" title="pyreal.RealApp.predict_proba"><code class="xref py py-obj docutils literal notranslate"><span class="pre">predict_proba</span></code></a>(x[, model_id, as_dict, format])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="pyreal.RealApp.predict_proba.html#pyreal.RealApp.predict_proba" title="pyreal.RealApp.predict_proba"><code class="xref py py-obj docutils literal notranslate"><span class="pre">predict_proba</span></code></a>(x[, model_id, as_dict, format])</p></td>
 <td><p>Return the predicted probabilities of x using the active model or model specified by model_id, only if the model has a predict_proba method</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="pyreal.RealApp.prepare_feature_contributions.html#pyreal.RealApp.prepare_feature_contributions" title="pyreal.RealApp.prepare_feature_contributions"><code class="xref py py-obj docutils literal notranslate"><span class="pre">prepare_feature_contributions</span></code></a>([...])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="pyreal.RealApp.prepare_feature_contributions.html#pyreal.RealApp.prepare_feature_contributions" title="pyreal.RealApp.prepare_feature_contributions"><code class="xref py py-obj docutils literal notranslate"><span class="pre">prepare_feature_contributions</span></code></a>([...])</p></td>
 <td><p>Initialize and fit a local feature contribution explainer</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="pyreal.RealApp.prepare_feature_importance.html#pyreal.RealApp.prepare_feature_importance" title="pyreal.RealApp.prepare_feature_importance"><code class="xref py py-obj docutils literal notranslate"><span class="pre">prepare_feature_importance</span></code></a>([x_train_orig, ...])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="pyreal.RealApp.prepare_feature_importance.html#pyreal.RealApp.prepare_feature_importance" title="pyreal.RealApp.prepare_feature_importance"><code class="xref py py-obj docutils literal notranslate"><span class="pre">prepare_feature_importance</span></code></a>([x_train_orig, ...])</p></td>
 <td><p>Initialize and fit a global feature importance explainer</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="pyreal.RealApp.prepare_similar_examples.html#pyreal.RealApp.prepare_similar_examples" title="pyreal.RealApp.prepare_similar_examples"><code class="xref py py-obj docutils literal notranslate"><span class="pre">prepare_similar_examples</span></code></a>([x_train_orig, ...])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="pyreal.RealApp.prepare_similar_examples.html#pyreal.RealApp.prepare_similar_examples" title="pyreal.RealApp.prepare_similar_examples"><code class="xref py py-obj docutils literal notranslate"><span class="pre">prepare_similar_examples</span></code></a>([x_train_orig, ...])</p></td>
 <td><p>Initialize and fit a nearest neighbor explainer</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="pyreal.RealApp.produce_feature_contributions.html#pyreal.RealApp.produce_feature_contributions" title="pyreal.RealApp.produce_feature_contributions"><code class="xref py py-obj docutils literal notranslate"><span class="pre">produce_feature_contributions</span></code></a>(x_orig[, ...])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="pyreal.RealApp.produce_feature_contributions.html#pyreal.RealApp.produce_feature_contributions" title="pyreal.RealApp.produce_feature_contributions"><code class="xref py py-obj docutils literal notranslate"><span class="pre">produce_feature_contributions</span></code></a>(x_orig[, ...])</p></td>
 <td><p>Produce a feature contribution explanation</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="pyreal.RealApp.produce_feature_importance.html#pyreal.RealApp.produce_feature_importance" title="pyreal.RealApp.produce_feature_importance"><code class="xref py py-obj docutils literal notranslate"><span class="pre">produce_feature_importance</span></code></a>([model_id, ...])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="pyreal.RealApp.produce_feature_importance.html#pyreal.RealApp.produce_feature_importance" title="pyreal.RealApp.produce_feature_importance"><code class="xref py py-obj docutils literal notranslate"><span class="pre">produce_feature_importance</span></code></a>([model_id, ...])</p></td>
 <td><p>Produce a GlobalFeatureImportance explainer</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="pyreal.RealApp.produce_similar_examples.html#pyreal.RealApp.produce_similar_examples" title="pyreal.RealApp.produce_similar_examples"><code class="xref py py-obj docutils literal notranslate"><span class="pre">produce_similar_examples</span></code></a>(x_orig[, model_id, ...])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="pyreal.RealApp.produce_similar_examples.html#pyreal.RealApp.produce_similar_examples" title="pyreal.RealApp.produce_similar_examples"><code class="xref py py-obj docutils literal notranslate"><span class="pre">produce_similar_examples</span></code></a>(x_orig[, model_id, ...])</p></td>
 <td><p>Produce a SimilarExamples explainer</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="pyreal.RealApp.set_active_model_id.html#pyreal.RealApp.set_active_model_id" title="pyreal.RealApp.set_active_model_id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_active_model_id</span></code></a>(active_model_id)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="pyreal.RealApp.set_active_model_id.html#pyreal.RealApp.set_active_model_id" title="pyreal.RealApp.set_active_model_id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_active_model_id</span></code></a>(active_model_id)</p></td>
 <td><p>Set a new active model</p></td>
 </tr>
 </tbody>

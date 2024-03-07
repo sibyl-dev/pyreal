@@ -17,6 +17,7 @@
       ~Transformer.data_transform
       ~Transformer.fit
       ~Transformer.fit_transform
+      ~Transformer.from_transform_function
       ~Transformer.inverse_data_transform
       ~Transformer.inverse_transform
       ~Transformer.inverse_transform_explanation

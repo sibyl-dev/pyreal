@@ -325,12 +325,13 @@ document.write(`
 <span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 
-<span class="kn">from</span> <span class="nn">pyreal.transformers</span> <span class="kn">import</span> <span class="n">Transformer</span>
+<span class="kn">from</span> <span class="nn">pyreal.transformers</span> <span class="kn">import</span> <span class="n">TransformerBase</span>
 
 
-<div class="viewcode-block" id="DataFrameWrapper"><a class="viewcode-back" href="../../../api_reference/api/pyreal.transformers.DataFrameWrapper.html#pyreal.transformers.DataFrameWrapper">[docs]</a><span class="k">class</span> <span class="nc">DataFrameWrapper</span><span class="p">(</span><span class="n">Transformer</span><span class="p">):</span>
+<div class="viewcode-block" id="DataFrameWrapper"><a class="viewcode-back" href="../../../api_reference/api/pyreal.transformers.DataFrameWrapper.html#pyreal.transformers.DataFrameWrapper">[docs]</a><span class="k">class</span> <span class="nc">DataFrameWrapper</span><span class="p">(</span><span class="n">TransformerBase</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Allows use of standard sklearn transformers while maintaining DataFrame type.</span>
+<span class="sd">    Same functionality as Transformer (kept for backwards compatibility).</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="DataFrameWrapper.__init__"><a class="viewcode-back" href="../../../api_reference/api/pyreal.transformers.DataFrameWrapper.html#pyreal.transformers.DataFrameWrapper.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">wrapped_transformer</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
@@ -375,7 +376,7 @@ document.write(`
 
     <span class="k">def</span> <span class="nf">inverse_data_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_new</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Inverese transform `x_new` using the wrapped transformer</span>
+<span class="sd">        Inverse transform `x_new` using the wrapped transformer</span>
 <span class="sd">        Args:</span>
 <span class="sd">            x_new (DataFrame of shape (n_instances, n_transformed_features)):</span>
 <span class="sd">                The dataset to inverse transform</span>

@@ -294,6 +294,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="pyreal.RealApp.produce_feature_importance.html">pyreal.RealApp.produce_feature_importance</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.RealApp.prepare_similar_examples.html">pyreal.RealApp.prepare_similar_examples</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.RealApp.produce_similar_examples.html">pyreal.RealApp.produce_similar_examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyreal.RealApp.from_sklearn.html">pyreal.RealApp.from_sklearn</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../explainer.html">Explainer</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -451,7 +452,8 @@ document.write(`
 <dl class="py class">
 <dt class="sig sig-object py" id="pyreal.transformers.DataFrameWrapper">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyreal.transformers.</span></span><span class="sig-name descname"><span class="pre">DataFrameWrapper</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">wrapped_transformer</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyreal/transformers/wrappers.html#DataFrameWrapper"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyreal.transformers.DataFrameWrapper" title="Permalink to this definition">#</a></dt>
-<dd><p>Allows use of standard sklearn transformers while maintaining DataFrame type.</p>
+<dd><p>Allows use of standard sklearn transformers while maintaining DataFrame type.
+Same functionality as Transformer (kept for backwards compatibility).</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="pyreal.transformers.DataFrameWrapper.__init__">
 <span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">wrapped_transformer</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyreal/transformers/wrappers.html#DataFrameWrapper.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyreal.transformers.DataFrameWrapper.__init__" title="Permalink to this definition">#</a></dt>
@@ -479,7 +481,7 @@ document.write(`
 <td><p>Fits this transformer to data and then transforms the same data</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">inverse_data_transform</span></code>(x_new)</p></td>
-<td><p>Inverese transform <cite>x_new</cite> using the wrapped transformer :param x_new: The dataset to inverse transform :type x_new: DataFrame of shape (n_instances, n_transformed_features)</p></td>
+<td><p>Inverse transform <cite>x_new</cite> using the wrapped transformer :param x_new: The dataset to inverse transform :type x_new: DataFrame of shape (n_instances, n_transformed_features)</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">inverse_transform</span></code>(x_new)</p></td>
 <td><p>Transforms data <cite>x_new</cite> from new feature space back into the original feature space.</p></td>

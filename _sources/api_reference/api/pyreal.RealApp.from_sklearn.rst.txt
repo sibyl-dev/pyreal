@@ -1,0 +1,6 @@
+﻿pyreal.RealApp.from\_sklearn
+============================
+
+.. currentmodule:: pyreal
+
+.. automethod:: RealApp.from_sklearn

@@ -294,6 +294,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="pyreal.RealApp.produce_feature_importance.html">pyreal.RealApp.produce_feature_importance</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.RealApp.prepare_similar_examples.html">pyreal.RealApp.prepare_similar_examples</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.RealApp.produce_similar_examples.html">pyreal.RealApp.produce_similar_examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyreal.RealApp.from_sklearn.html">pyreal.RealApp.from_sklearn</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../explainer.html">Explainer</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -450,12 +451,12 @@ document.write(`
 <h1>pyreal.transformers.Transformer<a class="headerlink" href="#pyreal-transformers-transformer" title="Permalink to this heading">#</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="pyreal.transformers.Transformer">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyreal.transformers.</span></span><span class="sig-name descname"><span class="pre">Transformer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interpret</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">algorithm</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyreal/transformers/base.html#Transformer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyreal.transformers.Transformer" title="Permalink to this definition">#</a></dt>
-<dd><p>An abstract base class for Transformers. Transformers transform data from a first feature space
-to a second, and explanations from the second back to the first.</p>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyreal.transformers.</span></span><span class="sig-name descname"><span class="pre">Transformer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">wrapped_transformer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">columns</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyreal/transformers/generic_transformer.html#Transformer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyreal.transformers.Transformer" title="Permalink to this definition">#</a></dt>
+<dd><p>Wrap any transformer with a .fit() and .transform() method for use with Pyreal.
+Will convert outputs to DataFrames as needed.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="pyreal.transformers.Transformer.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interpret</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">algorithm</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyreal/transformers/base.html#Transformer.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyreal.transformers.Transformer.__init__" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">wrapped_transformer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">columns</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyreal/transformers/generic_transformer.html#Transformer.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyreal.transformers.Transformer.__init__" title="Permalink to this definition">#</a></dt>
 <dd><p>Set this Transformer’s flags.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -475,7 +476,7 @@ if the model flag is False</p></li>
 <p class="rubric">Methods</p>
 <table class="autosummary longtable table autosummary">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#pyreal.transformers.Transformer.__init__" title="pyreal.transformers.Transformer.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>([model, interpret, algorithm])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pyreal.transformers.Transformer.__init__" title="pyreal.transformers.Transformer.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(wrapped_transformer[, columns])</p></td>
 <td><p>Set this Transformer's flags.</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">data_transform</span></code>(x)</p></td>
@@ -487,70 +488,73 @@ if the model flag is False</p></li>
 <tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit_transform</span></code>(x, **fit_params)</p></td>
 <td><p>Fits this transformer to data and then transforms the same data</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">inverse_data_transform</span></code>(x_new)</p></td>
-<td><p>Wrapper for inverse_data_transform.</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">inverse_transform</span></code>(x_new)</p></td>
-<td><p>Transforms data <cite>x_new</cite> from new feature space back into the original feature space.</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">inverse_transform_explanation</span></code>(explanation)</p></td>
-<td><p>Transforms the explanation from the second feature space handled by this transformer to the first.</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">inverse_transform_explanation_additive_feature_contribution</span></code>(...)</p></td>
-<td><p>Inverse transforms additive feature contribution explanations</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">inverse_transform_explanation_additive_feature_importance</span></code>(...)</p></td>
-<td><p>Inverse transforms additive feature importance explanations</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">inverse_transform_explanation_decision_tree</span></code>(...)</p></td>
-<td><p>Inverse transforms decision-tree explanations</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">inverse_transform_explanation_example</span></code>(...)</p></td>
-<td><p>Inverse transforms example-based explanations</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">inverse_transform_explanation_feature_based</span></code>(...)</p></td>
-<td><p>Inverse transforms feature-based explanations</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">inverse_transform_explanation_feature_contribution</span></code>(...)</p></td>
-<td><p>Inverse transforms feature contribution explanations</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">inverse_transform_explanation_feature_importance</span></code>(...)</p></td>
-<td><p>Inverse transforms feature importance explanations</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">inverse_transform_explanation_similar_example</span></code>(...)</p></td>
-<td><p>Inverse transforms similar-example-based explanations</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_flags</span></code>([model, interpret, algorithm])</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">from_transform_function</span></code>(transform_func)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform</span></code>(x)</p></td>
-<td><p>Wrapper for data_transform.</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">inverse_data_transform</span></code>(x_new)</p></td>
+<td><p>Wrapper for inverse_data_transform.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_explanation</span></code>(explanation)</p></td>
-<td><p>Transforms the explanation from the first feature space handled by this transformer to the second.</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">inverse_transform</span></code>(x_new)</p></td>
+<td><p>Transforms data <cite>x_new</cite> from new feature space back into the original feature space.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_explanation_additive_feature_contribution</span></code>(...)</p></td>
-<td><p>Transforms additive feature contribution explanations</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">inverse_transform_explanation</span></code>(explanation)</p></td>
+<td><p>Transforms the explanation from the second feature space handled by this transformer to the first.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_explanation_additive_feature_importance</span></code>(...)</p></td>
-<td><p>Transforms additive feature importance explanations</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">inverse_transform_explanation_additive_feature_contribution</span></code>(...)</p></td>
+<td><p>Inverse transforms additive feature contribution explanations</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_explanation_decision_tree</span></code>(explanation)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">inverse_transform_explanation_additive_feature_importance</span></code>(...)</p></td>
+<td><p>Inverse transforms additive feature importance explanations</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">inverse_transform_explanation_decision_tree</span></code>(...)</p></td>
+<td><p>Inverse transforms decision-tree explanations</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">inverse_transform_explanation_example</span></code>(...)</p></td>
+<td><p>Inverse transforms example-based explanations</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">inverse_transform_explanation_feature_based</span></code>(...)</p></td>
 <td><p>Inverse transforms feature-based explanations</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_explanation_example</span></code>(explanation)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">inverse_transform_explanation_feature_contribution</span></code>(...)</p></td>
+<td><p>Inverse transforms feature contribution explanations</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">inverse_transform_explanation_feature_importance</span></code>(...)</p></td>
+<td><p>Inverse transforms feature importance explanations</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">inverse_transform_explanation_similar_example</span></code>(...)</p></td>
+<td><p>Inverse transforms similar-example-based explanations</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_flags</span></code>([model, interpret, algorithm])</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform</span></code>(x)</p></td>
+<td><p>Wrapper for data_transform.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_explanation</span></code>(explanation)</p></td>
+<td><p>Transforms the explanation from the first feature space handled by this transformer to the second.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_explanation_additive_feature_contribution</span></code>(...)</p></td>
+<td><p>Transforms additive feature contribution explanations</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_explanation_additive_feature_importance</span></code>(...)</p></td>
+<td><p>Transforms additive feature importance explanations</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_explanation_decision_tree</span></code>(explanation)</p></td>
+<td><p>Inverse transforms feature-based explanations</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_explanation_example</span></code>(explanation)</p></td>
 <td><p>Transforms example-based explanations</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_explanation_feature_based</span></code>(explanation)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_explanation_feature_based</span></code>(explanation)</p></td>
 <td><p>Transforms feature-based explanations</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_explanation_feature_contribution</span></code>(...)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_explanation_feature_contribution</span></code>(...)</p></td>
 <td><p>Transforms feature contribution explanations</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_explanation_feature_importance</span></code>(...)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_explanation_feature_importance</span></code>(...)</p></td>
 <td><p>Transforms feature importance explanations</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_explanation_similar_example</span></code>(...)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_explanation_similar_example</span></code>(...)</p></td>
 <td><p>Transforms example-based explanations</p></td>
 </tr>
 </tbody>

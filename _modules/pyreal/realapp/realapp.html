@@ -331,6 +331,7 @@ document.write(`
     <span class="n">LocalFeatureContribution</span><span class="p">,</span>
     <span class="n">SimilarExamples</span><span class="p">,</span>
 <span class="p">)</span>
+<span class="kn">from</span> <span class="nn">pyreal.transformers</span> <span class="kn">import</span> <span class="n">sklearn_pipeline_to_pyreal_transformers</span>
 <span class="kn">from</span> <span class="nn">pyreal.utils</span> <span class="kn">import</span> <span class="n">get_top_contributors</span>
 
 
@@ -1217,6 +1218,70 @@ document.write(`
             <span class="n">prepare_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;standardize&quot;</span><span class="p">:</span> <span class="n">standardize</span><span class="p">,</span> <span class="s2">&quot;fast&quot;</span><span class="p">:</span> <span class="n">fast</span><span class="p">},</span>
             <span class="n">produce_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;num_examples&quot;</span><span class="p">:</span> <span class="n">num_examples</span><span class="p">},</span>
             <span class="n">format_kwargs</span><span class="o">=</span><span class="n">format_kwargs</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="RealApp.from_sklearn"><a class="viewcode-back" href="../../../api_reference/api/pyreal.RealApp.from_sklearn.html#pyreal.RealApp.from_sklearn">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">from_sklearn</span><span class="p">(</span>
+        <span class="n">pipeline</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">model</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">transformers</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">X_train</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">y_train</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create a RealApp from a sklearn pipeline or model and transformers.</span>
+<span class="sd">        Must provide one of:</span>
+<span class="sd">            - just pipeline</span>
+<span class="sd">            - just model</span>
+<span class="sd">            - model and transformers</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            pipeline (sklearn.pipeline.Pipeline):</span>
+<span class="sd">                Sklearn pipeline to convert. The final step of the pipeline must be a model.</span>
+<span class="sd">            model (sklearn model):</span>
+<span class="sd">                Sklearn model to use. Ignored if pipeline is not None</span>
+<span class="sd">            transformers (list of sklearn transformers):</span>
+<span class="sd">                List of sklearn transformers to use. Ignored if pipeline is not None</span>
+<span class="sd">            X_train (DataFrame):</span>
+<span class="sd">                Training data to fit transformers and explanations to. May be required if</span>
+<span class="sd">                transformers are not fitted or must be recreated. If not provided, must be</span>
+<span class="sd">                provided when preparing and using realapp explainers.</span>
+<span class="sd">            y_train (DataFrame or Series):</span>
+<span class="sd">                Training targets to fit transformers and explanations to. If not provided, must be</span>
+<span class="sd">                provided when preparing and using realapp explainers.</span>
+<span class="sd">            verbose (int):</span>
+<span class="sd">                Verbosity level. If 0, no output. If 1, detailed output</span>
+<span class="sd">            **kwargs:</span>
+<span class="sd">                Additional arguments to pass to RealApp constructor.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            RealApp</span>
+<span class="sd">                Newly created RealApp object</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">pipeline</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">model</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">transformers</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Must provide either pipeline or model&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">pipeline</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">pipeline</span><span class="p">,</span> <span class="s2">&quot;steps&quot;</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;pipeline must be a valid sklearn pipeline&quot;</span><span class="p">)</span>
+
+        <span class="n">pyreal_transformers</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="n">pipeline</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">model</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">steps</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">pyreal_transformers</span> <span class="o">=</span> <span class="n">sklearn_pipeline_to_pyreal_transformers</span><span class="p">(</span>
+                <span class="n">pipeline</span><span class="p">,</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span>
+            <span class="p">)</span>
+        <span class="k">elif</span> <span class="n">transformers</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">pyreal_transformers</span> <span class="o">=</span> <span class="n">sklearn_pipeline_to_pyreal_transformers</span><span class="p">(</span>
+                <span class="n">transformers</span><span class="p">,</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="n">RealApp</span><span class="p">(</span>
+            <span class="n">models</span><span class="o">=</span><span class="n">model</span><span class="p">,</span>
+            <span class="n">transformers</span><span class="o">=</span><span class="n">pyreal_transformers</span><span class="p">,</span>
+            <span class="n">X_train_orig</span><span class="o">=</span><span class="n">X_train</span><span class="p">,</span>
+            <span class="n">y_train</span><span class="o">=</span><span class="n">y_train</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">kwargs</span>
         <span class="p">)</span></div>
 
     <span class="k">def</span> <span class="nf">_get_x_train_orig</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_train_orig</span><span class="p">):</span>

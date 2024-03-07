@@ -327,10 +327,10 @@ document.write(`
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 
-<span class="kn">from</span> <span class="nn">pyreal.transformers</span> <span class="kn">import</span> <span class="n">BreakingTransformError</span><span class="p">,</span> <span class="n">Transformer</span>
+<span class="kn">from</span> <span class="nn">pyreal.transformers</span> <span class="kn">import</span> <span class="n">BreakingTransformError</span><span class="p">,</span> <span class="n">TransformerBase</span>
 
 
-<div class="viewcode-block" id="FeatureSelectTransformer"><a class="viewcode-back" href="../../../api_reference/api/pyreal.transformers.FeatureSelectTransformer.html#pyreal.transformers.FeatureSelectTransformer">[docs]</a><span class="k">class</span> <span class="nc">FeatureSelectTransformer</span><span class="p">(</span><span class="n">Transformer</span><span class="p">):</span>
+<div class="viewcode-block" id="FeatureSelectTransformer"><a class="viewcode-back" href="../../../api_reference/api/pyreal.transformers.FeatureSelectTransformer.html#pyreal.transformers.FeatureSelectTransformer">[docs]</a><span class="k">class</span> <span class="nc">FeatureSelectTransformer</span><span class="p">(</span><span class="n">TransformerBase</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A transformer that selects and re-orders features to match the model&#39;s inputs</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -424,7 +424,7 @@ document.write(`
         <span class="k">raise</span> <span class="n">BreakingTransformError</span></div>
 
 
-<div class="viewcode-block" id="ColumnDropTransformer"><a class="viewcode-back" href="../../../api_reference/api/pyreal.transformers.ColumnDropTransformer.html#pyreal.transformers.ColumnDropTransformer">[docs]</a><span class="k">class</span> <span class="nc">ColumnDropTransformer</span><span class="p">(</span><span class="n">Transformer</span><span class="p">):</span>
+<div class="viewcode-block" id="ColumnDropTransformer"><a class="viewcode-back" href="../../../api_reference/api/pyreal.transformers.ColumnDropTransformer.html#pyreal.transformers.ColumnDropTransformer">[docs]</a><span class="k">class</span> <span class="nc">ColumnDropTransformer</span><span class="p">(</span><span class="n">TransformerBase</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A transformer that drops a set of columns from the data</span>
 <span class="sd">    &quot;&quot;&quot;</span>
