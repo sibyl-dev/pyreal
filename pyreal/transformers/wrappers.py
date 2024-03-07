@@ -7,6 +7,7 @@ from pyreal.transformers import TransformerBase
 class DataFrameWrapper(TransformerBase):
     """
     Allows use of standard sklearn transformers while maintaining DataFrame type.
+    Same functionality as Transformer (kept for backwards compatibility).
     """
 
     def __init__(self, wrapped_transformer, **kwargs):
