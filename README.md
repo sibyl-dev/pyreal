@@ -19,16 +19,18 @@ An easier approach to understanding your model's predictions.
 
 | Important Links                               |                                                                      |
 | --------------------------------------------- | -------------------------------------------------------------------- |
-| :book: **[Documentation]**                    | Quickstarts, User and Development Guides, and API Reference.         |
+| :book: **[Documentation]**                    | Quickstarts and user guides                                          |
+| :memo: **[API Reference]**                    | Endpoint usage and details                                           |
 | :star: **[Tutorials]**                        | Checkout our notebooks                                               |
-| :scroll: **[License]**                        | The repository is published under the MIT License.                   |
-| :computer: **[Website]**                      | Check out the Sibyl Project Website for more information.            |
+| :scroll: **[License]**                        | The repository is published under the MIT License                    |
+| :computer: **[Website]**                      | Check out the Sibyl Project Website for more information             |
 
 [Website]: https://sibyl-ml.dev/
 [Documentation]: https://dtail.gitbook.io/pyreal/
 [Tutorials]: https://github.com/sibyl-dev/pyreal/tree/dev/tutorials
 [License]: https://github.com/sibyl-dev/pyreal/blob/dev/LICENSE
 [Community]: https://join.slack.com/t/sibyl-ml/shared_invite/zt-2dyfwbgo7-2ALinuT2KDZpsVJ4rntJuA
+[API Reference]: https://sibyl-ml.dev/pyreal/api_reference/index.html
 
 # Overview
 
