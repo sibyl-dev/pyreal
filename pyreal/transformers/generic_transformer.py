@@ -44,9 +44,9 @@ class Transformer(TransformerBase):
             return x_new
 
     @staticmethod
-    def function_to_transformer(transform_func):
-        class WrappedTransformer(Transformer):
-            def transform(self, x):
+    def from_transform_function(transform_func):
+        class WrappedTransformer(TransformerBase):
+            def data_transform(self, x):
                 return transform_func(x)
 
-        return Transformer(wrapped_transformer=WrappedTransformer())
+        return Transformer(WrappedTransformer())
