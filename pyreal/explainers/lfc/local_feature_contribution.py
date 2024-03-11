@@ -84,3 +84,40 @@ class LocalFeatureContribution(LocalFeatureContributionsBase):
                 Contribution of each feature for each instance
         """
         return self.base_local_feature_contribution.produce_explanation(x_orig)
+
+    def produce_narrative_explanation(self, x_orig, num_features=None, **kwargs):
+        """
+        Produces an explanation in narrative (natural-language) form.
+        Args:
+            x_orig (DataFrame of shape (n_instances, n_features):
+                Input to explain
+            num_features (int):
+                Number of features to include in the explanation. If None, all features will be
+                included
+
+        Returns:
+            FeatureContributionExplanation
+                Contribution of each feature for each instance
+        """
+        self.narrify(
+            self.base_local_feature_contribution.produce(x_orig), num_features=num_features
+        )
+
+    @staticmethod
+    def narrify(explanation, num_features=None):
+        """
+        Generate a narrative explanation from a feature contribution explanation
+        Args:
+            explanation (LocalFeatureContributionExplanation):
+                Feature contribution explanations. Each row represents an instance, and each
+                column a feature.
+            num_features (int):
+                Number of features to include in the explanation. If None, all features will be
+                included
+
+        Returns:
+            DataFrame of shape (n_instances, n_features)
+                Narrative explanation
+        """
+        top = explanation.get_top_features(num_features=num_features)
+        

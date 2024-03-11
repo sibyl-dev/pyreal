@@ -207,7 +207,7 @@ class ExplainerBase(ABC):
 
     def produce(self, x_orig=None, disable_feature_descriptions=False, **kwargs):
         """
-        Return the explanation, in the desired form.
+        Return the explanation, in the interpretable feature space with feature descriptions applied.
 
         Args:
             x_orig (DataFrame of shape (n_instances, n_features) or Series of length (n_features)):

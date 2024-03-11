@@ -153,6 +153,7 @@ class RealApp:
         pred_format_func=None,
         fit_transformers=False,
         id_column=None,
+        openai_key=None,
     ):
         """
         Initialize a RealApp object
@@ -184,6 +185,8 @@ class RealApp:
                 If True, fit the transformers to X_train_orig on initialization
             id_column (string or int):
                 Name of column that contains item ids in input data
+            openai_key (string):
+                OpenAI API key, required if generating GPT narrative explanations.
         """
         self.expect_model_id = False
         if isinstance(models, dict):
@@ -241,6 +244,8 @@ class RealApp:
 
         self.explainers = {}  # Dictionary of dictionaries:
         # {"explanation_type": {"algorithm":Explainer} }
+
+        self.openai_key = openai_key
 
     def _make_base_explainer(self, model):
         """
