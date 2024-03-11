@@ -119,5 +119,13 @@ class LocalFeatureContribution(LocalFeatureContributionsBase):
             DataFrame of shape (n_instances, n_features)
                 Narrative explanation
         """
-        top = explanation.get_top_features(num_features=num_features)
-        
+        explanation = explanation.get_top_features(num_features=num_features)
+        for row in explanation:
+            print(parse_explanation_for_llm(row))
+
+
+def parse_explanation_for_llm(explanation):
+    strings = []
+    for feature, contribution, value in zip(explanation[0].index, explanation[0], explanation[1]):
+        strings.append(f"({feature}, {contribution}, {value})")
+    return ", ".join(strings)
