@@ -1,6 +1,5 @@
 import numpy as np
 import pandas as pd
-from openai import OpenAI
 
 from pyreal.explainers import LocalFeatureContribution
 
