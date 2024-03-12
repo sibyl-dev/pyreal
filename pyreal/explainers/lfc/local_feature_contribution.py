@@ -88,11 +88,11 @@ class LocalFeatureContribution(LocalFeatureContributionsBase):
     def produce_narrative_explanation(
         self,
         x_orig,
-        num_features=None,
+        num_features=5,
         llm_model="gpt3.5",
         detail_level="high",
         context_description="",
-        max_tokens=100,
+        max_tokens=200,
         temperature=0.5,
     ):
         """
@@ -145,7 +145,7 @@ class LocalFeatureContribution(LocalFeatureContributionsBase):
         llm_model="gpt3.5",
         detail_level="high",
         context_description="",
-        max_tokens=100,
+        max_tokens=200,
         temperature=0.5,
     ):
         """
@@ -231,6 +231,6 @@ class LocalFeatureContribution(LocalFeatureContributionsBase):
 
 def parse_explanation_for_llm(explanation):
     strings = []
-    for feature, contribution, value in zip(explanation[0].index, explanation[0], explanation[1]):
-        strings.append(f"({feature}, {contribution}, {value})")
+    for feature, value, contribution in zip(explanation[0].index, explanation[1], explanation[0]):
+        strings.append(f"({feature}, {value}, {contribution})")
     return ", ".join(strings)

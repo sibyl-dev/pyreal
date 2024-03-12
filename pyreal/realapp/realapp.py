@@ -707,12 +707,12 @@ class RealApp:
         shap_type=None,
         force_refit=False,
         training_size=None,
-        num_features=None,
+        num_features=5,
         select_by="absolute",
         llm_model="gpt3.5",
         detail_level="high",
         context_description=None,
-        max_tokens=100,
+        max_tokens=200,
         temperature=0.5,
     ):
         """
@@ -790,6 +790,7 @@ class RealApp:
                 "num_features": num_features,
                 "context_description": context_description,
             },
+            narrative=True,
         )
         return exp
 
