@@ -327,6 +327,7 @@ document.write(`
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">openai</span> <span class="kn">import</span> <span class="n">OpenAI</span>
 <span class="kn">from</span> <span class="nn">sklearn.base</span> <span class="kn">import</span> <span class="n">is_classifier</span>
 <span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">get_scorer</span>
 
@@ -401,46 +402,6 @@ document.write(`
 
 
 <div class="viewcode-block" id="ExplainerBase"><a class="viewcode-back" href="../../../api_reference/api/pyreal.explainers.ExplainerBase.html#pyreal.explainers.ExplainerBase">[docs]</a><span class="k">class</span> <span class="nc">ExplainerBase</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Generic ExplainerBase object</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">        model (string filepath or model object):</span>
-<span class="sd">           Filepath to the pickled model to explain, or model object with .predict() function</span>
-<span class="sd">           model.predict() should return a single value prediction for each input</span>
-<span class="sd">           Classification models should return the index or class. If the latter, the `classes`</span>
-<span class="sd">           parameter should be provided.</span>
-<span class="sd">        x_train_orig (DataFrame of shape (n_instances, x_orig_feature_count)):</span>
-<span class="sd">           The training set for the explainer. If none, must be provided separately when fitting</span>
-<span class="sd">        y_train (Series of shape (n_instances,)):</span>
-<span class="sd">           The y values for the dataset</span>
-<span class="sd">        e_algorithm (string):</span>
-<span class="sd">            Algorithm to use, if applicable</span>
-<span class="sd">        feature_descriptions (dict):</span>
-<span class="sd">           Interpretable descriptions of each feature</span>
-<span class="sd">        classes (array):</span>
-<span class="sd">            List of class names returned by the model, in the order that the internal model</span>
-<span class="sd">            considers them if applicable.</span>
-<span class="sd">            Can be automatically extracted if model is an sklearn classifier</span>
-<span class="sd">            None if model is not a classifier</span>
-<span class="sd">        class_descriptions (dict):</span>
-<span class="sd">            Interpretable descriptions of each class</span>
-<span class="sd">            None if model is not a classifier</span>
-<span class="sd">        transformers (transformer object or list of transformer objects):</span>
-<span class="sd">           Transformer(s) used by the Explainer.</span>
-<span class="sd">        fit_on_init (Boolean):</span>
-<span class="sd">           If True, fit the explainer on initiation.</span>
-<span class="sd">           If False, self.fit() must be manually called before produce() is called</span>
-<span class="sd">        training_size (Integer):</span>
-<span class="sd">            If given this value, sample a training set with size of this value</span>
-<span class="sd">            from x_train_orig and use it to train the explainer instead of the</span>
-<span class="sd">            entire x_train_orig.</span>
-<span class="sd">        return_original_explanation (Boolean):</span>
-<span class="sd">            If True, return the explanation originally generated without any transformations</span>
-<span class="sd">        fit_transformers (Boolean):</span>
-<span class="sd">            If True, fit transformers on x_train_orig. Requires x_train_orig not be None</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
 <div class="viewcode-block" id="ExplainerBase.__init__"><a class="viewcode-back" href="../../../api_reference/api/pyreal.explainers.ExplainerBase.html#pyreal.explainers.ExplainerBase.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">model</span><span class="p">,</span>
@@ -455,7 +416,55 @@ document.write(`
         <span class="n">training_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">return_original_explanation</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
         <span class="n">fit_transformers</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">openai_api_key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">openai_client</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Generic ExplainerBase object</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            model (string filepath or model object):</span>
+<span class="sd">               Filepath to the pickled model to explain, or model object with .predict() function</span>
+<span class="sd">               model.predict() should return a single value prediction for each input</span>
+<span class="sd">               Classification models should return the index or class. If the latter, the `classes`</span>
+<span class="sd">               parameter should be provided.</span>
+<span class="sd">            x_train_orig (DataFrame of shape (n_instances, x_orig_feature_count)):</span>
+<span class="sd">               The training set for the explainer. If none, must be provided separately</span>
+<span class="sd">               when fitting</span>
+<span class="sd">            y_train (Series of shape (n_instances,)):</span>
+<span class="sd">               The y values for the dataset</span>
+<span class="sd">            e_algorithm (string):</span>
+<span class="sd">                Algorithm to use, if applicable</span>
+<span class="sd">            feature_descriptions (dict):</span>
+<span class="sd">               Interpretable descriptions of each feature</span>
+<span class="sd">            classes (array):</span>
+<span class="sd">                List of class names returned by the model, in the order that the internal model</span>
+<span class="sd">                considers them if applicable.</span>
+<span class="sd">                Can be automatically extracted if model is an sklearn classifier</span>
+<span class="sd">                None if model is not a classifier</span>
+<span class="sd">            class_descriptions (dict):</span>
+<span class="sd">                Interpretable descriptions of each class</span>
+<span class="sd">                None if model is not a classifier</span>
+<span class="sd">            transformers (transformer object or list of transformer objects):</span>
+<span class="sd">               Transformer(s) used by the Explainer.</span>
+<span class="sd">            fit_on_init (Boolean):</span>
+<span class="sd">               If True, fit the explainer on initiation.</span>
+<span class="sd">               If False, self.fit() must be manually called before produce() is called</span>
+<span class="sd">            training_size (Integer):</span>
+<span class="sd">                If given this value, sample a training set with size of this value</span>
+<span class="sd">                from x_train_orig and use it to train the explainer instead of the</span>
+<span class="sd">                entire x_train_orig.</span>
+<span class="sd">            return_original_explanation (Boolean):</span>
+<span class="sd">                If True, return the explanation originally generated without any transformations</span>
+<span class="sd">            fit_transformers (Boolean):</span>
+<span class="sd">                If True, fit transformers on x_train_orig. Requires x_train_orig not be None</span>
+<span class="sd">            openai_api_key (string):</span>
+<span class="sd">                OpenAI API key. Required for GPT narrative explanations, unless openai client</span>
+<span class="sd">                is provided</span>
+<span class="sd">            openai_client (openai.Client):</span>
+<span class="sd">                OpenAI client object, with API key already set. If provided, openai_api_key is</span>
+<span class="sd">                ignored</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">model_utils</span><span class="o">.</span><span class="n">load_model_from_pickle</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
@@ -515,7 +524,14 @@ document.write(`
         <span class="k">if</span> <span class="n">fit_on_init</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">x_train_orig</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="k">raise</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span></div>
+            <span class="bp">self</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">openai_client</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">openai_client</span> <span class="o">=</span> <span class="n">openai_client</span>
+        <span class="k">elif</span> <span class="n">openai_api_key</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">openai_client</span> <span class="o">=</span> <span class="n">OpenAI</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="n">openai_api_key</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">openai_client</span> <span class="o">=</span> <span class="kc">None</span></div>
 
 <div class="viewcode-block" id="ExplainerBase.fit"><a class="viewcode-back" href="../../../api_reference/api/pyreal.explainers.ExplainerBase.fit.html#pyreal.explainers.ExplainerBase.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_train_orig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">y_train</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -531,7 +547,8 @@ document.write(`
 
 <div class="viewcode-block" id="ExplainerBase.produce"><a class="viewcode-back" href="../../../api_reference/api/pyreal.explainers.ExplainerBase.produce.html#pyreal.explainers.ExplainerBase.produce">[docs]</a>    <span class="k">def</span> <span class="nf">produce</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_orig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">disable_feature_descriptions</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Return the explanation, in the desired form.</span>
+<span class="sd">        Return the explanation, in the interpretable feature space with feature descriptions</span>
+<span class="sd">        applied.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            x_orig (DataFrame of shape (n_instances, n_features) or Series of length (n_features)):</span>

@@ -451,13 +451,13 @@ document.write(`
 <table class="autosummary longtable table autosummary">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="api/pyreal.explainers.ExplainerBase.html#pyreal.explainers.ExplainerBase" title="pyreal.explainers.ExplainerBase"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ExplainerBase</span></code></a>(model[, x_train_orig, ...])</p></td>
-<td><p>Generic ExplainerBase object</p></td>
+<td><p></p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="api/pyreal.explainers.ExplainerBase.fit.html#pyreal.explainers.ExplainerBase.fit" title="pyreal.explainers.ExplainerBase.fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ExplainerBase.fit</span></code></a>([x_train_orig, y_train])</p></td>
 <td><p>Fit this explainer object.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="api/pyreal.explainers.ExplainerBase.produce.html#pyreal.explainers.ExplainerBase.produce" title="pyreal.explainers.ExplainerBase.produce"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ExplainerBase.produce</span></code></a>([x_orig, ...])</p></td>
-<td><p>Return the explanation, in the desired form.</p></td>
+<td><p>Return the explanation, in the interpretable feature space with feature descriptions applied.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="api/pyreal.explainers.ExplainerBase.model_predict.html#pyreal.explainers.ExplainerBase.model_predict" title="pyreal.explainers.ExplainerBase.model_predict"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ExplainerBase.model_predict</span></code></a>(x_orig)</p></td>
 <td><p>Predict on x_orig using the model and return the result</p></td>
@@ -476,7 +476,7 @@ document.write(`
 <td><p>Fit this explainer object</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="api/pyreal.explainers.LocalFeatureContribution.produce.html#pyreal.explainers.LocalFeatureContribution.produce" title="pyreal.explainers.LocalFeatureContribution.produce"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LocalFeatureContribution.produce</span></code></a>([x_orig, ...])</p></td>
-<td><p>Return the explanation, in the desired form.</p></td>
+<td><p>Return the explanation, in the interpretable feature space with feature descriptions applied.</p></td>
 </tr>
 </tbody>
 </table>
@@ -492,7 +492,7 @@ document.write(`
 <td><p>Fit this explainer object</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="api/pyreal.explainers.GlobalFeatureImportance.produce.html#pyreal.explainers.GlobalFeatureImportance.produce" title="pyreal.explainers.GlobalFeatureImportance.produce"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GlobalFeatureImportance.produce</span></code></a>([x_orig, ...])</p></td>
-<td><p>Return the explanation, in the desired form.</p></td>
+<td><p>Return the explanation, in the interpretable feature space with feature descriptions applied.</p></td>
 </tr>
 </tbody>
 </table>
@@ -508,7 +508,7 @@ document.write(`
 <td><p>Fit this explainer object</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="api/pyreal.explainers.DecisionTreeExplainer.produce.html#pyreal.explainers.DecisionTreeExplainer.produce" title="pyreal.explainers.DecisionTreeExplainer.produce"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DecisionTreeExplainer.produce</span></code></a>([x_orig, ...])</p></td>
-<td><p>Return the explanation, in the desired form.</p></td>
+<td><p>Return the explanation, in the interpretable feature space with feature descriptions applied.</p></td>
 </tr>
 </tbody>
 </table>
@@ -524,7 +524,7 @@ document.write(`
 <td><p>Fit this explainer object</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="api/pyreal.explainers.PartialDependenceExplainer.produce.html#pyreal.explainers.PartialDependenceExplainer.produce" title="pyreal.explainers.PartialDependenceExplainer.produce"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PartialDependenceExplainer.produce</span></code></a>([x_orig, ...])</p></td>
-<td><p>Return the explanation, in the desired form.</p></td>
+<td><p>Return the explanation, in the interpretable feature space with feature descriptions applied.</p></td>
 </tr>
 </tbody>
 </table>
@@ -540,7 +540,7 @@ document.write(`
 <td><p>Fit the explainer</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="api/pyreal.explainers.SimilarExamples.produce.html#pyreal.explainers.SimilarExamples.produce" title="pyreal.explainers.SimilarExamples.produce"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SimilarExamples.produce</span></code></a>([x_orig, ...])</p></td>
-<td><p>Return the explanation, in the desired form.</p></td>
+<td><p>Return the explanation, in the interpretable feature space with feature descriptions applied.</p></td>
 </tr>
 </tbody>
 </table>

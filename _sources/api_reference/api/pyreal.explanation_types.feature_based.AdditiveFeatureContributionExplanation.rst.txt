@@ -19,6 +19,7 @@
       ~AdditiveFeatureContributionExplanation.get
       ~AdditiveFeatureContributionExplanation.get_all
       ~AdditiveFeatureContributionExplanation.get_explanation
+      ~AdditiveFeatureContributionExplanation.get_top_features
       ~AdditiveFeatureContributionExplanation.get_values
       ~AdditiveFeatureContributionExplanation.update_explanation
       ~AdditiveFeatureContributionExplanation.update_values

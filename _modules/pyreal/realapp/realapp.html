@@ -324,6 +324,7 @@ document.write(`
   <h1>Source code for pyreal.realapp.realapp</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">openai</span> <span class="kn">import</span> <span class="n">OpenAI</span>
 
 <span class="kn">from</span> <span class="nn">pyreal.explainers</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">Explainer</span><span class="p">,</span>
@@ -477,6 +478,9 @@ document.write(`
         <span class="n">pred_format_func</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">fit_transformers</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
         <span class="n">id_column</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">openai_api_key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">openai_client</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">context_description</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
     <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Initialize a RealApp object</span>
@@ -508,6 +512,16 @@ document.write(`
 <span class="sd">                If True, fit the transformers to X_train_orig on initialization</span>
 <span class="sd">            id_column (string or int):</span>
 <span class="sd">                Name of column that contains item ids in input data</span>
+<span class="sd">            openai_api_key (string):</span>
+<span class="sd">                OpenAI API key. Required for GPT narrative explanations, unless openai client</span>
+<span class="sd">                is provided</span>
+<span class="sd">            openai_client (openai.Client):</span>
+<span class="sd">                OpenAI client object, with API key already set. If provided, openai_api_key is</span>
+<span class="sd">                ignored</span>
+<span class="sd">            context_description (string):</span>
+<span class="sd">                Description of the model&#39;s prediction task, in sentence format. This is used by</span>
+<span class="sd">                LLM model for narrative explanations.</span>
+<span class="sd">                For example: &quot;The model predicts the price of houses.&quot;</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">expect_model_id</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">models</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
@@ -548,6 +562,13 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">transformers</span> <span class="o">=</span> <span class="n">transformers</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">feature_descriptions</span> <span class="o">=</span> <span class="n">feature_descriptions</span>
 
+        <span class="k">if</span> <span class="n">openai_client</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">openai_client</span> <span class="o">=</span> <span class="n">openai_client</span>
+        <span class="k">elif</span> <span class="n">openai_api_key</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">openai_client</span> <span class="o">=</span> <span class="n">OpenAI</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="n">openai_api_key</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">openai_client</span> <span class="o">=</span> <span class="kc">None</span>
+
         <span class="k">if</span> <span class="n">fit_transformers</span><span class="p">:</span>
             <span class="c1"># Hacky way of fitting transformers, may want to clean up later</span>
             <span class="n">Explainer</span><span class="p">(</span>
@@ -563,8 +584,12 @@ document.write(`
             <span class="n">model_id</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_make_base_explainer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">models</span><span class="p">[</span><span class="n">model_id</span><span class="p">])</span> <span class="k">for</span> <span class="n">model_id</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">models</span>
         <span class="p">}</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">explainers</span> <span class="o">=</span> <span class="p">{}</span>  <span class="c1"># Dictionary of dictionaries:</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">explainers</span> <span class="o">=</span> <span class="p">{}</span>  <span class="c1"># Dictionary of dictionaries:</span>
         <span class="c1"># {&quot;explanation_type&quot;: {&quot;algorithm&quot;:Explainer} }</span>
+
+        <span class="k">if</span> <span class="n">context_description</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">context_description</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">context_description</span> <span class="o">=</span> <span class="n">context_description</span></div>
 
     <span class="k">def</span> <span class="nf">_make_base_explainer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -650,6 +675,7 @@ document.write(`
         <span class="n">prepare_kwargs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">produce_kwargs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">format_kwargs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">narrative</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Produce an explanation from a specified Explainer</span>
@@ -683,6 +709,8 @@ document.write(`
 <span class="sd">                Additional parameters for explainer produce function</span>
 <span class="sd">            format_kwargs (dict):</span>
 <span class="sd">                Additional parameters for format function</span>
+<span class="sd">            narrative (Boolean):</span>
+<span class="sd">                If True, use explainer&#39;s produce_narrative_explanation() function</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            Type varies by explanation type</span>
@@ -710,6 +738,9 @@ document.write(`
                 <span class="o">**</span><span class="n">prepare_kwargs</span>
             <span class="p">)</span>
 
+        <span class="k">if</span> <span class="n">narrative</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">explainer</span><span class="p">,</span> <span class="s2">&quot;produce_narrative_explanation&quot;</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;narrative explanations not supported for this explainer&quot;</span><span class="p">)</span>
+
         <span class="k">if</span> <span class="n">x_orig</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">series</span> <span class="o">=</span> <span class="n">x_orig</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">1</span>
             <span class="n">ids</span> <span class="o">=</span> <span class="kc">None</span>
@@ -720,13 +751,21 @@ document.write(`
                     <span class="n">ids</span> <span class="o">=</span> <span class="p">[</span><span class="n">ids</span><span class="p">]</span>
                 <span class="n">x_orig</span> <span class="o">=</span> <span class="n">x_orig</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">id_column</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">x_orig</span><span class="o">.</span><span class="n">ndim</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
 
-            <span class="n">explanation</span> <span class="o">=</span> <span class="n">explainer</span><span class="o">.</span><span class="n">produce</span><span class="p">(</span><span class="n">x_orig</span><span class="p">,</span> <span class="o">**</span><span class="n">produce_kwargs</span><span class="p">)</span>
-            <span class="k">return</span> <span class="n">format_output_func</span><span class="p">(</span>
-                <span class="n">explanation</span><span class="p">,</span> <span class="n">ids</span><span class="p">,</span> <span class="n">optimized</span><span class="o">=</span><span class="ow">not</span> <span class="n">format_output</span><span class="p">,</span> <span class="n">series</span><span class="o">=</span><span class="n">series</span><span class="p">,</span> <span class="o">**</span><span class="n">format_kwargs</span>
-            <span class="p">)</span>
+            <span class="k">if</span> <span class="n">narrative</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">explainer</span><span class="o">.</span><span class="n">produce_narrative_explanation</span><span class="p">(</span><span class="n">x_orig</span><span class="p">,</span> <span class="o">**</span><span class="n">produce_kwargs</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">explanation</span> <span class="o">=</span> <span class="n">explainer</span><span class="o">.</span><span class="n">produce</span><span class="p">(</span><span class="n">x_orig</span><span class="p">,</span> <span class="o">**</span><span class="n">produce_kwargs</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">format_output_func</span><span class="p">(</span>
+                    <span class="n">explanation</span><span class="p">,</span> <span class="n">ids</span><span class="p">,</span> <span class="n">optimized</span><span class="o">=</span><span class="ow">not</span> <span class="n">format_output</span><span class="p">,</span> <span class="n">series</span><span class="o">=</span><span class="n">series</span><span class="p">,</span> <span class="o">**</span><span class="n">format_kwargs</span>
+                <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">explanation</span> <span class="o">=</span> <span class="n">explainer</span><span class="o">.</span><span class="n">produce</span><span class="p">(</span><span class="o">**</span><span class="n">produce_kwargs</span><span class="p">)</span>
-            <span class="k">return</span> <span class="n">format_output_func</span><span class="p">(</span><span class="n">explanation</span><span class="p">,</span> <span class="n">optimized</span><span class="o">=</span><span class="ow">not</span> <span class="n">format_output</span><span class="p">,</span> <span class="o">**</span><span class="n">format_kwargs</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">narrative</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">explainer</span><span class="o">.</span><span class="n">produce_narrative_explanation</span><span class="p">(</span><span class="o">**</span><span class="n">produce_kwargs</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">explanation</span> <span class="o">=</span> <span class="n">explainer</span><span class="o">.</span><span class="n">produce</span><span class="p">(</span><span class="o">**</span><span class="n">produce_kwargs</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">format_output_func</span><span class="p">(</span>
+                    <span class="n">explanation</span><span class="p">,</span> <span class="n">optimized</span><span class="o">=</span><span class="ow">not</span> <span class="n">format_output</span><span class="p">,</span> <span class="o">**</span><span class="n">format_kwargs</span>
+                <span class="p">)</span>
 
 <div class="viewcode-block" id="RealApp.add_model"><a class="viewcode-back" href="../../../api_reference/api/pyreal.RealApp.add_model.html#pyreal.RealApp.add_model">[docs]</a>    <span class="k">def</span> <span class="nf">add_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">model_id</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -900,6 +939,7 @@ document.write(`
             <span class="n">classes</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">classes</span><span class="p">,</span>
             <span class="n">class_descriptions</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">class_descriptions</span><span class="p">,</span>
             <span class="n">training_size</span><span class="o">=</span><span class="n">training_size</span><span class="p">,</span>
+            <span class="n">openai_client</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">openai_client</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="n">explainer</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_x_train_orig</span><span class="p">(</span><span class="n">x_train_orig</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_y_train</span><span class="p">(</span><span class="n">y_train</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_add_explainer</span><span class="p">(</span><span class="s2">&quot;lfc&quot;</span><span class="p">,</span> <span class="n">algorithm</span><span class="p">,</span> <span class="n">explainer</span><span class="p">)</span>
@@ -981,6 +1021,103 @@ document.write(`
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">exp</span></div>
 
+    <span class="k">def</span> <span class="nf">produce_narrative_feature_contributions</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">x_orig</span><span class="p">,</span>
+        <span class="n">model_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">x_train_orig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">y_train</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">algorithm</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">shap_type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">force_refit</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">training_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">num_features</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+        <span class="n">select_by</span><span class="o">=</span><span class="s2">&quot;absolute&quot;</span><span class="p">,</span>
+        <span class="n">llm_model</span><span class="o">=</span><span class="s2">&quot;gpt3.5&quot;</span><span class="p">,</span>
+        <span class="n">detail_level</span><span class="o">=</span><span class="s2">&quot;high&quot;</span><span class="p">,</span>
+        <span class="n">context_description</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">max_tokens</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span>
+        <span class="n">temperature</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Produce a feature contribution explanation, formatted in natural language sentence</span>
+<span class="sd">        format using LLMs.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            x_orig (DataFrame of shape (n_instances, n_features) or Series of length (n_features)):</span>
+<span class="sd">                Input(s) to explain</span>
+<span class="sd">            model_id (string or int):</span>
+<span class="sd">                ID of model to explain</span>
+<span class="sd">            x_train_orig (DataFrame):</span>
+<span class="sd">                Data to fit on, if not provided during initialization</span>
+<span class="sd">            y_train (DataFrame or Series):</span>
+<span class="sd">                Training targets to fit on, if not provided during initialization</span>
+<span class="sd">            algorithm (string):</span>
+<span class="sd">                Name of algorithm</span>
+<span class="sd">            shap_type (string):</span>
+<span class="sd">                If algorithm=&quot;shap&quot;, type of SHAP explainer to use</span>
+<span class="sd">            force_refit (Boolean):</span>
+<span class="sd">                If True, initialize and fit a new explainer even if the appropriate explainer</span>
+<span class="sd">                already exists</span>
+<span class="sd">            training_size (int):</span>
+<span class="sd">                Number of rows to use in fitting explainer</span>
+<span class="sd">            num_features (int):</span>
+<span class="sd">                Number of features to include in the explanation. If None, include all features</span>
+<span class="sd">            select_by (one of &quot;absolute&quot;, &quot;min&quot;, &quot;max&quot;):</span>
+<span class="sd">                If `num_features` is not None, method to use for selecting which features to show.</span>
+<span class="sd">                Not used if num_features is None</span>
+<span class="sd">            llm_model (string):</span>
+<span class="sd">                One of [&quot;gpt3.5&quot;, &quot;gpt4&quot;]. LLM model to use to generate the explanation.</span>
+<span class="sd">                GPT4 may provide better results, but is more expensive.</span>
+<span class="sd">            detail_level (string):</span>
+<span class="sd">                One of [&quot;high&quot;, &quot;low&quot;]. Level of detail to include in the explanation.</span>
+<span class="sd">                High detail should include precise contribution values. Low detail</span>
+<span class="sd">                will include only basic information about features used.</span>
+<span class="sd">            context_description (string):</span>
+<span class="sd">                Description of the model&#39;s prediction task, in sentence format. This will be</span>
+<span class="sd">                passed to the LLM and may help produce more accurate explanations.</span>
+<span class="sd">                For example: &quot;The model predicts the price of houses.&quot;</span>
+<span class="sd">            max_tokens (int):</span>
+<span class="sd">                Maximum number of tokens to use in the explanation</span>
+<span class="sd">            temperature (float):</span>
+<span class="sd">                LLM Temperature to use. Values closer to 1 will produce more creative values.</span>
+<span class="sd">                Values closer to 0 will produce more consistent or conservative explanations.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            dictionary (if x_orig is DataFrame) or DataFrame (if x_orig is Series)</span>
+<span class="sd">                One dataframe per id, with each row representing a feature, and four columns:</span>
+<span class="sd">                Feature Name    Feature Value   Contribution    Average/Mode</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">algorithm</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">algorithm</span> <span class="o">=</span> <span class="s2">&quot;shap&quot;</span>
+
+        <span class="k">if</span> <span class="n">context_description</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">context_description</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">context_description</span>
+
+        <span class="n">exp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_produce_explanation_helper</span><span class="p">(</span>
+            <span class="s2">&quot;lfc&quot;</span><span class="p">,</span>
+            <span class="n">algorithm</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">prepare_feature_contributions</span><span class="p">,</span>
+            <span class="n">format_feature_contribution_output</span><span class="p">,</span>
+            <span class="n">x_train_orig</span><span class="o">=</span><span class="n">x_train_orig</span><span class="p">,</span>
+            <span class="n">y_train</span><span class="o">=</span><span class="n">y_train</span><span class="p">,</span>
+            <span class="n">x_orig</span><span class="o">=</span><span class="n">x_orig</span><span class="p">,</span>
+            <span class="n">model_id</span><span class="o">=</span><span class="n">model_id</span><span class="p">,</span>
+            <span class="n">force_refit</span><span class="o">=</span><span class="n">force_refit</span><span class="p">,</span>
+            <span class="n">training_size</span><span class="o">=</span><span class="n">training_size</span><span class="p">,</span>
+            <span class="n">prepare_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;shap_type&quot;</span><span class="p">:</span> <span class="n">shap_type</span><span class="p">},</span>
+            <span class="n">produce_kwargs</span><span class="o">=</span><span class="p">{</span>
+                <span class="s2">&quot;llm_model&quot;</span><span class="p">:</span> <span class="n">llm_model</span><span class="p">,</span>
+                <span class="s2">&quot;detail_level&quot;</span><span class="p">:</span> <span class="n">detail_level</span><span class="p">,</span>
+                <span class="s2">&quot;max_tokens&quot;</span><span class="p">:</span> <span class="n">max_tokens</span><span class="p">,</span>
+                <span class="s2">&quot;temperature&quot;</span><span class="p">:</span> <span class="n">temperature</span><span class="p">,</span>
+                <span class="s2">&quot;num_features&quot;</span><span class="p">:</span> <span class="n">num_features</span><span class="p">,</span>
+                <span class="s2">&quot;context_description&quot;</span><span class="p">:</span> <span class="n">context_description</span><span class="p">,</span>
+            <span class="p">},</span>
+            <span class="n">narrative</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">exp</span>
+
 <div class="viewcode-block" id="RealApp.prepare_feature_importance"><a class="viewcode-back" href="../../../api_reference/api/pyreal.RealApp.prepare_feature_importance.html#pyreal.RealApp.prepare_feature_importance">[docs]</a>    <span class="k">def</span> <span class="nf">prepare_feature_importance</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">x_train_orig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -1025,6 +1162,7 @@ document.write(`
             <span class="n">class_descriptions</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">class_descriptions</span><span class="p">,</span>
             <span class="n">shap_type</span><span class="o">=</span><span class="n">shap_type</span><span class="p">,</span>
             <span class="n">training_size</span><span class="o">=</span><span class="n">training_size</span><span class="p">,</span>
+            <span class="n">openai_client</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">openai_client</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="n">explainer</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_x_train_orig</span><span class="p">(</span><span class="n">x_train_orig</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_y_train</span><span class="p">(</span><span class="n">y_train</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_add_explainer</span><span class="p">(</span><span class="s2">&quot;gfi&quot;</span><span class="p">,</span> <span class="n">algorithm</span><span class="p">,</span> <span class="n">explainer</span><span class="p">)</span>

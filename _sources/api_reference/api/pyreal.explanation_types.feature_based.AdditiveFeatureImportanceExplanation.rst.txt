@@ -19,6 +19,7 @@
       ~AdditiveFeatureImportanceExplanation.get
       ~AdditiveFeatureImportanceExplanation.get_all
       ~AdditiveFeatureImportanceExplanation.get_explanation
+      ~AdditiveFeatureImportanceExplanation.get_top_features
       ~AdditiveFeatureImportanceExplanation.get_values
       ~AdditiveFeatureImportanceExplanation.update_explanation
       ~AdditiveFeatureImportanceExplanation.update_values
