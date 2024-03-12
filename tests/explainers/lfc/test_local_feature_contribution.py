@@ -2,6 +2,7 @@ import numpy as np
 import pandas as pd
 
 from pyreal.explainers import LocalFeatureContribution
+from openai import OpenAI
 
 
 def test_produce_with_renames(regression_one_hot):
@@ -75,3 +76,23 @@ def test_evaluate_variation_with_size(classification_no_transforms):
     # Assert no crash. Values analyzed through benchmarking
     lfc.evaluate_variation(with_fit=False, n_iterations=5)
     lfc.evaluate_variation(with_fit=True, n_iterations=5)
+
+
+def test_produce_narrative_explanation(regression_one_hot, mock_openai_client):
+    lfc = LocalFeatureContribution(
+        model=regression_one_hot["model"],
+        x_train_orig=regression_one_hot["x"],
+        e_algorithm="shap",
+        fit_on_init=True,
+        transformers=regression_one_hot["transformers"],
+        openai_client=mock_openai_client["client"],
+    )
+
+    x_one_dim = pd.DataFrame([[2, 10, 10]], columns=["A", "B", "C"])
+    explanation = lfc.produce_narrative_explanation(x_one_dim)
+    assert explanation[0] == mock_openai_client["response"]
+
+    x_multi_dim = pd.DataFrame([[2, 10, 10], [2, 11, 11]], columns=["A", "B", "C"])
+    explanation = lfc.produce_narrative_explanation(x_multi_dim)
+    assert explanation[0] == mock_openai_client["response"]
+    assert explanation[1] == mock_openai_client["response"]

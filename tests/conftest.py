@@ -212,3 +212,24 @@ def feature_contribution_explanation():
         [["A", 1, 5, 0], ["B", 2, 3, 0], ["C", 3, 0, 0], ["D", 4, -2, 0], ["E", 5, -6, 0]],
         columns=["Feature Name", "Feature Value", "Contribution", "Average/Mode"],
     )
+
+
+@pytest.fixture()
+def mock_openai_client(mocker):
+    class MockResponse:
+        def __init__(self, content):
+            self.choices = [MockMessage(content)]
+
+    class MockMessage:
+        def __init__(self, content):
+            self.message = MockContent(content)
+
+    class MockContent:
+        def __init__(self, content):
+            self.content = content
+
+    test_narrative_exp = "the model predicts because A"
+    mock_response = MockResponse(test_narrative_exp)
+    client = mocker.MagicMock()
+    client.chat.completions.create.return_value = mock_response
+    return {"client": client, "response": test_narrative_exp}
