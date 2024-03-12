@@ -86,7 +86,14 @@ class LocalFeatureContribution(LocalFeatureContributionsBase):
         return self.base_local_feature_contribution.produce_explanation(x_orig)
 
     def produce_narrative_explanation(
-        self, x_orig, num_features=None, max_tokens=100, temperature=0.5
+        self,
+        x_orig,
+        num_features=None,
+        llm_model="gpt3.5",
+        detail_level="high",
+        context_description="",
+        max_tokens=100,
+        temperature=0.5,
     ):
         """
         Produces an explanation in narrative (natural-language) form.
@@ -96,6 +103,17 @@ class LocalFeatureContribution(LocalFeatureContributionsBase):
             num_features (int):
                 Number of features to include in the explanation. If None, all features will be
                 included
+            llm_model (string):
+                One of ["gpt3.5", "gpt4"]. LLM model to use to generate the explanation.
+                GPT4 may provide better results, but is more expensive.
+            detail_level (string):
+                One of ["high", "low"]. Level of detail to include in the explanation.
+                High detail should include precise contribution values. Low detail
+                will include only basic information about features used.
+            context_description (string):
+                Description of the model's prediction task, in sentence format. This will be
+                passed to the LLM and may help produce more accurate explanations.
+                For example: "The model predicts the price of houses."
             max_tokens (int):
                 Maximum number of tokens to use in the explanation
             temperature (float):
@@ -108,16 +126,28 @@ class LocalFeatureContribution(LocalFeatureContributionsBase):
         """
         if self.openai_client is None:
             raise ValueError("OpenAI API key not set")
-        self.narrify(
+        return self.narrify(
             self.openai_client,
             self.base_local_feature_contribution.produce(x_orig),
             num_features=num_features,
             max_tokens=max_tokens,
             temperature=temperature,
+            llm_model=llm_model,
+            detail_level=detail_level,
+            context_description=context_description,
         )
 
     @staticmethod
-    def narrify(openai_client, explanation, num_features=None, max_tokens=100, temperature=0.5):
+    def narrify(
+        openai_client,
+        explanation,
+        num_features=None,
+        llm_model="gpt3.5",
+        detail_level="high",
+        context_description="",
+        max_tokens=100,
+        temperature=0.5,
+    ):
         """
         Generate a narrative explanation from a feature contribution explanation
         Args:
@@ -129,6 +159,17 @@ class LocalFeatureContribution(LocalFeatureContributionsBase):
             num_features (int):
                 Number of features to include in the explanation. If None, all features will be
                 included
+            llm_model (string):
+                One of ["gpt3.5", "gpt4"]. LLM model to use to generate the explanation.
+                GPT4 may provide better results, but is more expensive.
+            detail_level (string):
+                One of ["high", "low"]. Level of detail to include in the explanation.
+                High detail should include precise contribution values. Low detail
+                will include only basic information about features used.
+            context_description (string):
+                Description of the model's prediction task, in sentence format. This will be
+                passed to the LLM and may help produce more accurate explanations.
+                For example: "The model predicts the price of houses."
             max_tokens (int):
                 Maximum number of tokens to use in the explanation
             temperature (float):
@@ -139,15 +180,38 @@ class LocalFeatureContribution(LocalFeatureContributionsBase):
             DataFrame of shape (n_instances, n_features)
                 Narrative explanation
         """
-        model = "gpt-3.5-turbo-0125"  # TODO: add options for different models
+        if llm_model == "gpt3.5":
+            model = "gpt-3.5-turbo-0125"
+        elif llm_model == "gpt4":
+            model = "gpt-4-0125-preview"
+        else:
+            raise ValueError(
+                "Invalid LLM model %s. Expected one of ['gpt3.5', 'gpt4']" % llm_model
+            )
+        if context_description is None:
+            context_description = ""
+        if context_description:
+            context_description = context_description.strip()
+            if not context_description.endswith("."):
+                context_description += "."
         prompt = (
             "You are helping users who do not have experience working with ML understand an ML"
-            " model's predictions. I will give you feature contribution explanations, generated"
-            " using SHAP, in (feature, feature_value, contribution, average_feature_value) format."
-            " Convert the explanations in simple narratives. Do not use more tokens than"
-            " necessary. Make your answers sound as natural as possible, as though said in"
-            " conversation."
+            f" model's predictions. {context_description} I will give you feature contribution"
+            " explanations, generated using SHAP, in (feature, feature_value, contribution )"
+            " format. Convert the explanations into simple narratives. Do not use more tokens"
+            " than necessary. Make your answers sound very natural, as if said in conversation. "
         )
+        if detail_level == "low":
+            prompt += (
+                "Keep the explanations simple and easy to understand. Do not include exact"
+                " contribution values. "
+            )
+        elif detail_level == "high":
+            prompt += "Include all exact contribution values in your response. "
+        else:
+            raise ValueError(
+                "Invalid detail_level %s. Expected one of ['high', 'low']" % detail_level
+            )
         explanation = explanation.get_top_features(num_features=num_features)
         narrative_explanations = []
         for row in explanation:
