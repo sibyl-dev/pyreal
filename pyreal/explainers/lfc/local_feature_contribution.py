@@ -85,7 +85,9 @@ class LocalFeatureContribution(LocalFeatureContributionsBase):
         """
         return self.base_local_feature_contribution.produce_explanation(x_orig)
 
-    def produce_narrative_explanation(self, x_orig, num_features=None, **kwargs):
+    def produce_narrative_explanation(
+        self, x_orig, num_features=None, max_tokens=100, temperature=0.5
+    ):
         """
         Produces an explanation in narrative (natural-language) form.
         Args:
@@ -94,34 +96,73 @@ class LocalFeatureContribution(LocalFeatureContributionsBase):
             num_features (int):
                 Number of features to include in the explanation. If None, all features will be
                 included
+            max_tokens (int):
+                Maximum number of tokens to use in the explanation
+            temperature (float):
+                LLM Temperature to use. Values closer to 1 will produce more creative values.
+                Values closer to 0 will produce more consistent or conservative explanations.
 
         Returns:
-            FeatureContributionExplanation
-                Contribution of each feature for each instance
+            list of strings of length n_instances
+                Narrative version of feature contribution explanation, one item per instance
         """
+        if self.openai_client is None:
+            raise ValueError("OpenAI API key not set")
         self.narrify(
-            self.base_local_feature_contribution.produce(x_orig), num_features=num_features
+            self.openai_client,
+            self.base_local_feature_contribution.produce(x_orig),
+            num_features=num_features,
+            max_tokens=max_tokens,
+            temperature=temperature,
         )
 
     @staticmethod
-    def narrify(explanation, num_features=None):
+    def narrify(openai_client, explanation, num_features=None, max_tokens=100, temperature=0.5):
         """
         Generate a narrative explanation from a feature contribution explanation
         Args:
+            openai_client (OpenAI API client):
+                OpenAI API client, with API key set
             explanation (LocalFeatureContributionExplanation):
                 Feature contribution explanations. Each row represents an instance, and each
                 column a feature.
             num_features (int):
                 Number of features to include in the explanation. If None, all features will be
                 included
+            max_tokens (int):
+                Maximum number of tokens to use in the explanation
+            temperature (float):
+                LLM Temperature to use. Values closer to 1 will produce more creative values.
+                Values closer to 0 will produce more consistent or conservative explanations.
 
         Returns:
             DataFrame of shape (n_instances, n_features)
                 Narrative explanation
         """
+        model = "gpt-3.5-turbo-0125"  # TODO: add options for different models
+        prompt = (
+            "You are helping users who do not have experience working with ML understand an ML"
+            " model's predictions. I will give you feature contribution explanations, generated"
+            " using SHAP, in (feature, feature_value, contribution, average_feature_value) format."
+            " Convert the explanations in simple narratives. Do not use more tokens than"
+            " necessary. Make your answers sound as natural as possible, as though said in"
+            " conversation."
+        )
         explanation = explanation.get_top_features(num_features=num_features)
+        narrative_explanations = []
         for row in explanation:
-            print(parse_explanation_for_llm(row))
+            parsed_explanation = parse_explanation_for_llm(row)
+            response = openai_client.chat.completions.create(
+                model=model,
+                messages=[
+                    {"role": "system", "content": prompt},
+                    {"role": "user", "content": parsed_explanation},
+                ],
+                max_tokens=max_tokens,
+                temperature=temperature,
+            )
+            narrative_explanations.append(response.choices[0].message.content)
+        return narrative_explanations
 
 
 def parse_explanation_for_llm(explanation):

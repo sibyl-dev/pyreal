@@ -12,6 +12,8 @@ from pyreal.transformers import fit_transformers as fit_transformers_func
 from pyreal.transformers import run_transformers
 from pyreal.utils import model_utils
 
+from openai import OpenAI
+
 log = logging.getLogger(__name__)
 
 
@@ -92,6 +94,7 @@ class ExplainerBase(ABC):
         return_original_explanation=False,
         fit_transformers=False,
         openai_api_key=None,
+        openai_client=None,
     ):
         """
         Generic ExplainerBase object
@@ -132,7 +135,11 @@ class ExplainerBase(ABC):
             fit_transformers (Boolean):
                 If True, fit transformers on x_train_orig. Requires x_train_orig not be None
             openai_api_key (string):
-                OpenAI API key, required for GPT narrative explanations.
+                OpenAI API key. Required for GPT narrative explanations, unless openai client
+                is provided
+            openai_client (openai.Client):
+                OpenAI client object, with API key already set. If provided, openai_api_key is
+                ignored
         """
         if isinstance(model, str):
             self.model = model_utils.load_model_from_pickle(model)
@@ -195,7 +202,12 @@ class ExplainerBase(ABC):
                 raise
             self.fit()
 
-        self.openai_api_key = openai_api_key
+        if openai_client is not None:
+            self.openai_client = openai_client
+        elif openai_api_key is not None:
+            self.openai_client = OpenAI(api_key=openai_api_key)
+        else:
+            self.openai_client = None
 
     def fit(self, x_train_orig=None, y_train=None):
         """
