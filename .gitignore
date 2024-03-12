@@ -122,3 +122,6 @@ utils/scratch.py
 # Data
 pyreal/benchmark/datasets
 tutorials/ecg/
+
+# Testing stuff
+passwords.yml

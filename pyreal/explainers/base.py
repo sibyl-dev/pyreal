@@ -3,6 +3,7 @@ from abc import ABC, abstractmethod
 
 import numpy as np
 import pandas as pd
+from openai import OpenAI
 from sklearn.base import is_classifier
 from sklearn.metrics import get_scorer
 
@@ -77,46 +78,6 @@ def _get_transformers(transformers, algorithm=None, model=None, interpret=None):
 
 
 class ExplainerBase(ABC):
-    """
-    Generic ExplainerBase object
-
-    Args:
-        model (string filepath or model object):
-           Filepath to the pickled model to explain, or model object with .predict() function
-           model.predict() should return a single value prediction for each input
-           Classification models should return the index or class. If the latter, the `classes`
-           parameter should be provided.
-        x_train_orig (DataFrame of shape (n_instances, x_orig_feature_count)):
-           The training set for the explainer. If none, must be provided separately when fitting
-        y_train (Series of shape (n_instances,)):
-           The y values for the dataset
-        e_algorithm (string):
-            Algorithm to use, if applicable
-        feature_descriptions (dict):
-           Interpretable descriptions of each feature
-        classes (array):
-            List of class names returned by the model, in the order that the internal model
-            considers them if applicable.
-            Can be automatically extracted if model is an sklearn classifier
-            None if model is not a classifier
-        class_descriptions (dict):
-            Interpretable descriptions of each class
-            None if model is not a classifier
-        transformers (transformer object or list of transformer objects):
-           Transformer(s) used by the Explainer.
-        fit_on_init (Boolean):
-           If True, fit the explainer on initiation.
-           If False, self.fit() must be manually called before produce() is called
-        training_size (Integer):
-            If given this value, sample a training set with size of this value
-            from x_train_orig and use it to train the explainer instead of the
-            entire x_train_orig.
-        return_original_explanation (Boolean):
-            If True, return the explanation originally generated without any transformations
-        fit_transformers (Boolean):
-            If True, fit transformers on x_train_orig. Requires x_train_orig not be None
-    """
-
     def __init__(
         self,
         model,
@@ -131,7 +92,55 @@ class ExplainerBase(ABC):
         training_size=None,
         return_original_explanation=False,
         fit_transformers=False,
+        openai_api_key=None,
+        openai_client=None,
     ):
+        """
+        Generic ExplainerBase object
+
+        Args:
+            model (string filepath or model object):
+               Filepath to the pickled model to explain, or model object with .predict() function
+               model.predict() should return a single value prediction for each input
+               Classification models should return the index or class. If the latter, the `classes`
+               parameter should be provided.
+            x_train_orig (DataFrame of shape (n_instances, x_orig_feature_count)):
+               The training set for the explainer. If none, must be provided separately
+               when fitting
+            y_train (Series of shape (n_instances,)):
+               The y values for the dataset
+            e_algorithm (string):
+                Algorithm to use, if applicable
+            feature_descriptions (dict):
+               Interpretable descriptions of each feature
+            classes (array):
+                List of class names returned by the model, in the order that the internal model
+                considers them if applicable.
+                Can be automatically extracted if model is an sklearn classifier
+                None if model is not a classifier
+            class_descriptions (dict):
+                Interpretable descriptions of each class
+                None if model is not a classifier
+            transformers (transformer object or list of transformer objects):
+               Transformer(s) used by the Explainer.
+            fit_on_init (Boolean):
+               If True, fit the explainer on initiation.
+               If False, self.fit() must be manually called before produce() is called
+            training_size (Integer):
+                If given this value, sample a training set with size of this value
+                from x_train_orig and use it to train the explainer instead of the
+                entire x_train_orig.
+            return_original_explanation (Boolean):
+                If True, return the explanation originally generated without any transformations
+            fit_transformers (Boolean):
+                If True, fit transformers on x_train_orig. Requires x_train_orig not be None
+            openai_api_key (string):
+                OpenAI API key. Required for GPT narrative explanations, unless openai client
+                is provided
+            openai_client (openai.Client):
+                OpenAI client object, with API key already set. If provided, openai_api_key is
+                ignored
+        """
         if isinstance(model, str):
             self.model = model_utils.load_model_from_pickle(model)
         else:
@@ -193,6 +202,13 @@ class ExplainerBase(ABC):
                 raise
             self.fit()
 
+        if openai_client is not None:
+            self.openai_client = openai_client
+        elif openai_api_key is not None:
+            self.openai_client = OpenAI(api_key=openai_api_key)
+        else:
+            self.openai_client = None
+
     def fit(self, x_train_orig=None, y_train=None):
         """
         Fit this explainer object.
@@ -207,7 +223,8 @@ class ExplainerBase(ABC):
 
     def produce(self, x_orig=None, disable_feature_descriptions=False, **kwargs):
         """
-        Return the explanation, in the desired form.
+        Return the explanation, in the interpretable feature space with feature descriptions
+        applied.
 
         Args:
             x_orig (DataFrame of shape (n_instances, n_features) or Series of length (n_features)):
