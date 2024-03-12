@@ -1,7 +1,7 @@
+import numpy as np
 import pandas as pd
 
 from pyreal.explanation_types.base import Explanation, convert_columns_with_dict
-import numpy as np
 
 
 class FeatureBased(Explanation):

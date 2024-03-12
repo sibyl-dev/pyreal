@@ -3,6 +3,7 @@ from abc import ABC, abstractmethod
 
 import numpy as np
 import pandas as pd
+from openai import OpenAI
 from sklearn.base import is_classifier
 from sklearn.metrics import get_scorer
 
@@ -11,8 +12,6 @@ from pyreal.transformers import BreakingTransformError
 from pyreal.transformers import fit_transformers as fit_transformers_func
 from pyreal.transformers import run_transformers
 from pyreal.utils import model_utils
-
-from openai import OpenAI
 
 log = logging.getLogger(__name__)
 
@@ -106,7 +105,8 @@ class ExplainerBase(ABC):
                Classification models should return the index or class. If the latter, the `classes`
                parameter should be provided.
             x_train_orig (DataFrame of shape (n_instances, x_orig_feature_count)):
-               The training set for the explainer. If none, must be provided separately when fitting
+               The training set for the explainer. If none, must be provided separately
+               when fitting
             y_train (Series of shape (n_instances,)):
                The y values for the dataset
             e_algorithm (string):
@@ -223,7 +223,8 @@ class ExplainerBase(ABC):
 
     def produce(self, x_orig=None, disable_feature_descriptions=False, **kwargs):
         """
-        Return the explanation, in the interpretable feature space with feature descriptions applied.
+        Return the explanation, in the interpretable feature space with feature descriptions
+        applied.
 
         Args:
             x_orig (DataFrame of shape (n_instances, n_features) or Series of length (n_features)):

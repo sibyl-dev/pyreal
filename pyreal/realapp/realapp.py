@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+from openai import OpenAI
 
 from pyreal.explainers import (
     Explainer,
@@ -9,7 +10,6 @@ from pyreal.explainers import (
 )
 from pyreal.transformers import sklearn_pipeline_to_pyreal_transformers
 from pyreal.utils import get_top_contributors
-from openai import OpenAI
 
 
 def format_feature_contribution_output(explanation, ids=None, series=False, optimized=False):

@@ -1,8 +1,8 @@
 import numpy as np
 import pandas as pd
+from openai import OpenAI
 
 from pyreal.explainers import LocalFeatureContribution
-from openai import OpenAI
 
 
 def test_produce_with_renames(regression_one_hot):
