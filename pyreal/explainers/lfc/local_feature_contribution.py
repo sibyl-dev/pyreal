@@ -137,6 +137,54 @@ class LocalFeatureContribution(LocalFeatureContributionsBase):
             context_description=context_description,
         )
 
+    def train_llm(
+        self, x_train=None, live=True, provide_examples=False, num_inputs=5, num_features=3
+    ):
+        """
+        Run the training process for the LLM model used to generate narrative feature
+        contribution explanations.
+
+        Args:
+            x_train (DataFrame of shape (n_instances, n_features)):
+                Training set to take sample inputs from. If None, the training set must be provided
+                to the explainer at initialization.
+            live (Boolean):
+                If True, run the training process through CLI input/outputs. If False,
+                this function will generate a shell training file that will need to be filled out
+                and added to the RealApp manually.
+            provide_examples (Boolean):
+                If True, generate a base example of explanations at each step. This may make
+                the process faster, but will incur costs to your OpenAI API account.
+            num_inputs (int):
+                Number of inputs to request.
+            num_features (int):
+                Number of features to include per explanation. If None, all features will be
+                included
+
+        Returns:
+            None
+        """
+        if not live:
+            raise NotImplementedError("Non-interactive training not yet implemented")
+        if provide_examples and self.openai_client is None:
+            raise ValueError(
+                "OpenAI API key or client must be provided to provide examples during training"
+            )
+        x_train = self._get_x_train_orig(x_train)
+        explanation = self.produce(x_train).get_top_features(num_features=num_features)
+        narratives = []
+        if num_inputs >= len(explanation):
+            print("Warning: not enough inputs provided for training. Using all inputs")
+            num_inputs = len(explanation)
+        print("For each of the following inputs, please provide an appropriate narrative version.")
+        for i in range(num_inputs):
+            parsed_explanation = parse_explanation_for_llm(explanation[i])
+            print(f"Input {i+1}: {parsed_explanation}")
+            if provide_examples:
+                print(self.narrify(explanation[i]))
+            narratives.append(input("Narrative explanation:"))
+        print(f"Training complete. Training data: {narratives}")
+
     @staticmethod
     def narrify(
         openai_client,
