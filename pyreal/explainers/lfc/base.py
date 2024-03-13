@@ -128,7 +128,7 @@ class LocalFeatureContributionsBase(ExplainerBase, ABC):
             live (Boolean):
                 If True, run the training process through CLI input/outputs. If False,
                 this function will generate a shell training file that will need to be filled out
-                and added to the RealApp manually.
+                and added to the RealApp manually. Currently only live training is supported.
             provide_examples (Boolean):
                 If True, generate a base example of explanations at each step. This may make
                 the process faster, but will incur costs to your OpenAI API account.
@@ -139,7 +139,8 @@ class LocalFeatureContributionsBase(ExplainerBase, ABC):
                 included
 
         Returns:
-            None
+            list of (explanation, narrative) pairs
+                The generated training data
         """
         if not live:
             raise NotImplementedError("Non-interactive training not yet implemented")
@@ -180,12 +181,19 @@ class LocalFeatureContributionsBase(ExplainerBase, ABC):
             print(f"Training complete. Training data: {narratives}")
         else:
             print("Training data not saved.")
+        return narratives
 
     def clear_llm_training_data(self):
         """
         Remove few-shot training examples from the explainer
         """
         self.llm_training_data = None
+
+    def set_llm_training_data(self, training_data):
+        """
+        Manually set llm training data
+        """
+        self.llm_training_data = training_data
 
     @staticmethod
     def narrify(
