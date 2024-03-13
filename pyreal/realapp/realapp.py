@@ -434,7 +434,9 @@ class RealApp:
                 x_orig = x_orig.drop(self.id_column, axis=x_orig.ndim - 1)
 
             if narrative:
-                return explainer.produce_narrative_explanation(x_orig, **produce_kwargs)
+                return explainer.produce_narrative_explanation(
+                    x_orig, openai_client=self.openai_client, **produce_kwargs
+                )
             else:
                 explanation = explainer.produce(x_orig, **produce_kwargs)
                 return format_output_func(
@@ -844,7 +846,6 @@ class RealApp:
             class_descriptions=self.class_descriptions,
             shap_type=shap_type,
             training_size=training_size,
-            openai_client=self.openai_client,
         )
         explainer.fit(self._get_x_train_orig(x_train_orig), self._get_y_train(y_train))
         self._add_explainer("gfi", algorithm, explainer)
@@ -1084,6 +1085,25 @@ class RealApp:
                 )
             else:
                 lfc_explainers[algorithm].set_llm_training_data(training_data=training_data)
+
+    def set_openai_client(self, openai_client=None, openai_api_key=None):
+        """
+        Set the openai client for this RealApp.
+        One of openai_client or openai_api_key must be provided.
+
+        Args:
+            openai_client (openai.Client):
+                OpenAI client object, with API key already set. If provided, openai_api_key is
+                ignored
+            openai_api_key (string):
+                OpenAI API key. If provided, create a new API client.
+        """
+        if openai_client is not None:
+            self.openai_client = openai_client
+        elif openai_api_key is not None:
+            self.openai_client = OpenAI(api_key=openai_api_key)
+        else:
+            raise ValueError("Must provide openai_client or openai_api_key")
 
     @staticmethod
     def from_sklearn(

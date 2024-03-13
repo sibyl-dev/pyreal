@@ -69,6 +69,7 @@ class LocalFeatureContributionsBase(ExplainerBase, ABC):
         context_description="",
         max_tokens=200,
         temperature=0.5,
+        openai_client=None,
     ):
         """
         Produces an explanation in narrative (natural-language) form.
@@ -94,16 +95,21 @@ class LocalFeatureContributionsBase(ExplainerBase, ABC):
             temperature (float):
                 LLM Temperature to use. Values closer to 1 will produce more creative values.
                 Values closer to 0 will produce more consistent or conservative explanations.
+            openai_client (OpenAI API client):
+                OpenAI API client, with API key set. If None, the API key must be provided to the
+                explainer at initialization.
 
         Returns:
             list of strings of length n_instances
                 Narrative version of feature contribution explanation, one item per instance
         """
-        if self.openai_client is None:
-            raise ValueError("OpenAI API key not set")
+        if openai_client is None:
+            if self.openai_client is None:
+                raise ValueError("OpenAI API key or client must be provided to produce narrative")
+            openai_client = self.openai_client
 
         return self.narrify(
-            self.openai_client,
+            openai_client,
             self.produce(x_orig),
             num_features=num_features,
             max_tokens=max_tokens,

@@ -1,8 +1,10 @@
-from pyreal.sample_applications import ames_housing
-from pyreal.explainers import LocalFeatureContribution
-from pyreal import RealApp
-import yaml
 import os
+
+import yaml
+
+from pyreal import RealApp
+from pyreal.explainers import LocalFeatureContribution
+from pyreal.sample_applications import ames_housing
 
 print("starting")
 X_train, y_train = ames_housing.load_data(include_targets=True)
