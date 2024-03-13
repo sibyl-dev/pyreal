@@ -168,3 +168,6 @@ class Explanation:
         """
         if not isinstance(self.values, pd.DataFrame) and not isinstance(self.values, pd.Series):
             raise AssertionError("values must be of type DataFrame")
+
+    def __getitem__(self, item):
+        return self.__class__(self.explanation[item], self.values[item])

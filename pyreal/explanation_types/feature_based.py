@@ -60,13 +60,19 @@ class FeatureBased(Explanation):
                 Top features
         """
         results = []
-        for i, row in self.explanation.iterrows():
+        for i in range(self.explanation.shape[0]):
+            row = self.explanation.iloc[i]
             order = np.argsort(abs(row.to_numpy()))[::-1][:num_features]
             if self.values is not None:
                 results.append((row.iloc[order], self.values.iloc[i][row.iloc[order].index]))
             else:
                 results.append(row.iloc[order])
         return results
+
+    def __getitem__(self, item):
+        return self.__class__(
+            self.explanation.iloc[item : item + 1], self.values.iloc[item : item + 1]
+        )
 
 
 class FeatureImportanceExplanation(FeatureBased):
