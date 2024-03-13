@@ -20,7 +20,7 @@ lfc = LocalFeatureContribution(
     openai_api_key=openai_api_key,
     fit_on_init=True,
 )
-lfc.train_llm()
+lfc.train_llm(num_inputs=2)
 
 """app = RealApp(
     ames_housing.load_model(),
