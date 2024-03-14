@@ -5,33 +5,34 @@
 ## Getting Started
 
 * [💻 Installation](getting-started/installation.md)
-* [🚀 Quickstart](getting-started/quickstart.md)
-* [👣 Next Steps](getting-started/next-steps.md)
+* [🚀 Quickstart](getting-started/quickstart/README.md)
+  * [Sample application](getting-started/quickstart/sample-application.md)
+  * [Your own application](getting-started/quickstart/your-own-application.md)
+* [🍎 Tutorials and Demos](getting-started/tutorials-and-demos.md)
+* [📚 API Documentation](https://sibyl-ml.dev/pyreal/api\_reference/index.html)
 
 ## User Guides
 
-* [💡 Understanding Explanations](user-guides/understanding-explanations.md)
-* [📊 Generating Explanations](user-guides/generating-explanations/README.md)
-  * [Visualizing Explanations](user-guides/generating-explanations/visualizing-explanations.md)
-
-***
-
-* [⚙️ Developing Applications](developing-applications/README.md)
-  * [Developer Terminology Guide](developing-applications/developer-terminology-guide.md)
-  * [Feature Space Pipeline](developing-applications/feature-space-pipeline.md)
-  * [Working with Transformers](developing-applications/working-with-transformers.md)
-* [🍎 Other Tutorials](other-tutorials.md)
+* [Data Preparation and Modelling](user-guides/data-preparation-and-modelling.md)
+* [Introduction to explanations](user-guides/introduction-to-explanations.md)
+* [Creating new applications (RealApps)](user-guides/creating-new-applications-realapps.md)
+* [Using applications (RealApps)](user-guides/using-applications-realapps/README.md)
+  * [Visualizing Explanations](user-guides/using-applications-realapps/visualizing-explanations.md)
+  * [Narrative explanations with LLMs](user-guides/using-applications-realapps/narrative-explanations-with-llms.md)
 
 ## Developer Guides
 
-* [☺️ Contributing to Pyreal](developer-guides/contributing-to-pyreal/README.md)
-  * [Types of Contributions](developer-guides/contributing-to-pyreal/types-of-contributions.md)
-  * [Making Contributions](developer-guides/contributing-to-pyreal/making-contributions.md)
-  * [Pull Request Guidelines](developer-guides/contributing-to-pyreal/pull-request-guidelines.md)
-  * [Code Style Guide](developer-guides/contributing-to-pyreal/code-style-guide.md)
-  * [Unit Testing Guidelines](developer-guides/contributing-to-pyreal/unit-testing-guidelines.md)
-  * [Benchmarking Guidelines](developer-guides/contributing-to-pyreal/benchmarking-guidelines.md)
-  * [Release Workflow](developer-guides/contributing-to-pyreal/release-workflow.md)
+* [Terminology guide](developer-guides/terminology-guide.md)
+* [Pyreal pipeline](developer-guides/pyreal-pipeline.md)
+* [Creating new transformers](developer-guides/creating-new-transformers.md)
+* [Contributor Guide](developer-guides/contributor-guide/README.md)
+  * [Types of Contributions](developer-guides/contributor-guide/types-of-contributions.md)
+  * [Making Contributions](developer-guides/contributor-guide/making-contributions.md)
+  * [Pull Request Guidelines](developer-guides/contributor-guide/pull-request-guidelines.md)
+  * [Code Style Guide](developer-guides/contributor-guide/code-style-guide.md)
+  * [Unit Testing Guidelines](developer-guides/contributor-guide/unit-testing-guidelines.md)
+  * [Benchmarking Guidelines](developer-guides/contributor-guide/benchmarking-guidelines.md)
+  * [Release Workflow](developer-guides/contributor-guide/release-workflow.md)
 
 ## Glossaries
 

@@ -1,14 +1,14 @@
 ---
-description: A short tutorial on getting started generating Pyreal explanations
+description: Short tutorials on getting started generating Pyreal explanations
 ---
 
-# 🚀 Quickstart
+# Sample application
 
 ### Your First Explanation
 
 In this tutorial, we will walk through getting an explanation using a pre-made `RealApp` object on the Titanic dataset. We will explain why a specific passenger is predicted to have survived the sinking of the Titanic.
 
-We start by loading in the pre-made `RealApp` object. In the next section, we will introduce the process of making this object.
+We start by loading in the pre-made `RealApp` object.
 
 ```python
 import pyreal.sample_applications.titanic as titanic
@@ -36,7 +36,7 @@ plot_top_contributors(explanation[passenger_id],
                       prediction=predictions[passenger_id])
 ```
 
-<figure><img src="../.gitbook/assets/titanic.png" alt=""><figcaption><p>Feature contributions for passenger 1 in the Titanic Dataset. Blue bars indicate and increased prediction of survival, red bars indicate a decreased prediction of survival.</p></figcaption></figure>
+<figure><img src="../../.gitbook/assets/titanic.png" alt=""><figcaption><p>Feature contributions for passenger 1 in the Titanic Dataset. Blue bars indicate and increased prediction of survival, red bars indicate a decreased prediction of survival.</p></figcaption></figure>
 
 We can see here that the fact that this passenger was female and in first class most significantly increased her predicted chance of survival.
 
@@ -44,9 +44,9 @@ We can see here that the fact that this passenger was female and in first class 
 
 To make a RealApp object for a new application to generate explanations, you will need:
 
-1. The trained model
+1. A trained model. This can be any object with a `.predict()` function that takes an input and outputs a prediction, such as an sklearn estimator or a pytorch neural network.
 2. The training data and targets (in their original format)
-3. The relevant transformers (see the [transformer guide](../developing-applications/working-with-transformers.md) in the developing applications documentation)
+3. Any data transformers that prepare the data for predictions, and possibly additional transformers that make the data easier to understand. The [Data Preparation and Modelling](../../user-guides/data-preparation-and-modelling.md) guides give more details on selecting these transformers.
 4. Optionally, a dictionary of default feature names to more descriptive feature strings
 
 ```python
@@ -72,8 +72,7 @@ With this information, we can create a RealApp object:
 
 <strong>realApp = RealApp(model, x_orig, y_orig=y,
 </strong>                  transformers=transformers,
-                  feature_descriptions=feature_descriptions,
-                  )
+                  feature_descriptions=feature_descriptions)
 </code></pre>
 
 We can now generate and visualize explanations as above:
@@ -83,7 +82,7 @@ explanation = real_app.produce_local_feature_contributions(sample_data)
 swarm_plot(explanation, type="strip")
 ```
 
-<figure><img src="../.gitbook/assets/titanic_swarm.png" alt=""><figcaption><p>Overall summary of feature contributions for all rows in the sample dataset. Points further to the right indicate an increased prediction of survival from those feature values.</p></figcaption></figure>
+<figure><img src="../../.gitbook/assets/titanic_swarm.png" alt=""><figcaption><p>Overall summary of feature contributions for all rows in the sample dataset. Points further to the right indicate an increased prediction of survival from those feature values.</p></figcaption></figure>
 
 
 

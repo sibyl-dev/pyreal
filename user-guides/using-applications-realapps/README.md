@@ -1,4 +1,4 @@
-# 📊 Generating Explanations
+# Using applications (RealApps)
 
 Explanations can be generated using the `RealApp` class's `.produce()` functions using the name of the explanation type you desire.
 

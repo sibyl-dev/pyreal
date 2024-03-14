@@ -1,4 +1,4 @@
-# 💡 Understanding Explanations
+# Introduction to explanations
 
 Pyreal offers a variety of explanation types to help you better understand your model's predictions. In this guide, we introduce you to a few common explanation types, and how to understand their outputs.
 
