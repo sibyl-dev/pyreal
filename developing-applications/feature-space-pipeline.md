@@ -2,7 +2,7 @@
 description: Understanding the Pyreal process
 ---
 
-# Feature Space Pipeline
+# Pyreal pipeline
 
 To generate interpretable explanationl, Pyreal follows a specific transformation pipeline:
 
