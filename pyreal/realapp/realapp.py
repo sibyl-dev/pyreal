@@ -119,6 +119,12 @@ def format_similar_examples_output(
     return result
 
 
+def format_narratives(narratives, ids, series=False, optimized=False):
+    if optimized or series:
+        return narratives
+    return {row_id: narr for row_id, narr in zip(ids, narratives)}
+
+
 def _get_average_or_mode(df):
     """
     Gets the average of numeric features and the mode of categorical features
@@ -319,7 +325,7 @@ class RealApp:
             self.explainers[explanation_type] = {}
         self.explainers[explanation_type][algorithm] = explainer
 
-    def _get_explainer(self, explanation_type, algorithm):
+    def _get_explainer(self, explanation_type, algorithm=None):
         """
         Get the requested explainer
 
@@ -327,12 +333,18 @@ class RealApp:
             explanation_type (string):
                 Code for explanation_type
             algorithm (string):
-                Name of algorithm
+                Name of algorithm. If None, return all valid explainer of the requested type.
 
         Returns:
-            Explainer
-                The requested explainer
+            Explainer or False
+                The requested explainer, of False if not yet fitted
         """
+        if explanation_type not in self.explainers:
+            return False
+        if algorithm is None:
+            return self.explainers[explanation_type]
+        if algorithm not in self.explainers[explanation_type]:
+            return False
         return self.explainers[explanation_type][algorithm]
 
     def _produce_explanation_helper(
@@ -428,7 +440,18 @@ class RealApp:
                 x_orig = x_orig.drop(self.id_column, axis=x_orig.ndim - 1)
 
             if narrative:
-                return explainer.produce_narrative_explanation(x_orig, **produce_kwargs)
+                narratives = explainer.produce_narrative_explanation(
+                    x_orig, openai_client=self.openai_client, **produce_kwargs
+                )
+                if ids is None:
+                    ids = x_orig.index
+                return format_narratives(
+                    narratives,
+                    ids=ids,
+                    series=series,
+                    optimized=not format_output,
+                    **format_kwargs
+                )
             else:
                 explanation = explainer.produce(x_orig, **produce_kwargs)
                 return format_output_func(
@@ -707,6 +730,7 @@ class RealApp:
         shap_type=None,
         force_refit=False,
         training_size=None,
+        format_output=True,
         num_features=5,
         select_by="absolute",
         llm_model="gpt3.5",
@@ -737,6 +761,9 @@ class RealApp:
                 already exists
             training_size (int):
                 Number of rows to use in fitting explainer
+            format_output (bool):
+                If False, return output as a single list of narratives. Formatted outputs are more
+                usable, but formatting may slow down runtimes on larger inputs
             num_features (int):
                 Number of features to include in the explanation. If None, include all features
             select_by (one of "absolute", "min", "max"):
@@ -781,6 +808,7 @@ class RealApp:
             model_id=model_id,
             force_refit=force_refit,
             training_size=training_size,
+            format_output=format_output,
             prepare_kwargs={"shap_type": shap_type},
             produce_kwargs={
                 "llm_model": llm_model,
@@ -838,7 +866,6 @@ class RealApp:
             class_descriptions=self.class_descriptions,
             shap_type=shap_type,
             training_size=training_size,
-            openai_client=self.openai_client,
         )
         explainer.fit(self._get_x_train_orig(x_train_orig), self._get_y_train(y_train))
         self._add_explainer("gfi", algorithm, explainer)
@@ -1033,6 +1060,70 @@ class RealApp:
             produce_kwargs={"num_examples": num_examples},
             format_kwargs=format_kwargs,
         )
+
+    def train_feature_contribution_llm(
+        self, x_train_orig=None, live=True, provide_examples=False, num_inputs=5, num_features=3
+    ):
+        """
+        Run the training process for the LLM model used to generate narrative feature
+        contribution explanations.
+
+        Args:
+            x_train_orig (DataFrame of shape (n_instances, n_features)):
+                Training set to take sample inputs from. If None, the training set must be provided
+                to the explainer at initialization.
+            live (Boolean):
+                If True, run the training process through CLI input/outputs. If False,
+                this function will generate a shell training file that will need to be filled out
+                and added to the RealApp manually. Currently only live training is supported.
+            provide_examples (Boolean):
+                If True, generate a base example of explanations at each step. This may make
+                the process faster, but will incur costs to your OpenAI API account.
+            num_inputs (int):
+                Number of inputs to request.
+            num_features (int):
+                Number of features to include per explanation. If None, all features will be
+                included
+
+        Returns:
+            list of (explanation, narrative) pairs
+                The generated training data
+        """
+        lfc_explainers = self._get_explainer("lfc")
+        if not lfc_explainers:
+            self.prepare_feature_contributions(x_train_orig=x_train_orig, algorithm="shap")
+            lfc_explainers = self._get_explainer("lfc")
+        training_data = None
+        for i, algorithm in enumerate(lfc_explainers):
+            if i == 0:
+                training_data = lfc_explainers[algorithm].train_llm(
+                    x_train=self._get_x_train_orig(x_train_orig),
+                    live=live,
+                    provide_examples=provide_examples,
+                    num_inputs=num_inputs,
+                    num_features=num_features,
+                )
+            else:
+                lfc_explainers[algorithm].set_llm_training_data(training_data=training_data)
+
+    def set_openai_client(self, openai_client=None, openai_api_key=None):
+        """
+        Set the openai client for this RealApp.
+        One of openai_client or openai_api_key must be provided.
+
+        Args:
+            openai_client (openai.Client):
+                OpenAI client object, with API key already set. If provided, openai_api_key is
+                ignored
+            openai_api_key (string):
+                OpenAI API key. If provided, create a new API client.
+        """
+        if openai_client is not None:
+            self.openai_client = openai_client
+        elif openai_api_key is not None:
+            self.openai_client = OpenAI(api_key=openai_api_key)
+        else:
+            raise ValueError("Must provide openai_client or openai_api_key")
 
     @staticmethod
     def from_sklearn(
