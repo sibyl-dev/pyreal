@@ -14,6 +14,7 @@
    .. autosummary::
    
       ~LocalFeatureContribution.__init__
+      ~LocalFeatureContribution.clear_llm_training_data
       ~LocalFeatureContribution.evaluate_model
       ~LocalFeatureContribution.evaluate_variation
       ~LocalFeatureContribution.feature_description
@@ -26,6 +27,8 @@
       ~LocalFeatureContribution.produce_explanation
       ~LocalFeatureContribution.produce_explanation_interpret
       ~LocalFeatureContribution.produce_narrative_explanation
+      ~LocalFeatureContribution.set_llm_training_data
+      ~LocalFeatureContribution.train_llm
       ~LocalFeatureContribution.transform_explanation
       ~LocalFeatureContribution.transform_to_x_algorithm
       ~LocalFeatureContribution.transform_to_x_interpret

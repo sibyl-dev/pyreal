@@ -27,6 +27,8 @@
       ~RealApp.produce_narrative_feature_contributions
       ~RealApp.produce_similar_examples
       ~RealApp.set_active_model_id
+      ~RealApp.set_openai_client
+      ~RealApp.train_feature_contribution_llm
    
    
 
