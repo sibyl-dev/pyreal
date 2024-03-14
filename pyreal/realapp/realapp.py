@@ -119,6 +119,12 @@ def format_similar_examples_output(
     return result
 
 
+def format_narratives(narratives, ids, series=False, optimized=False):
+    if optimized or series:
+        return narratives
+    return {row_id: narr for row_id, narr in zip(ids, narratives)}
+
+
 def _get_average_or_mode(df):
     """
     Gets the average of numeric features and the mode of categorical features
@@ -434,8 +440,17 @@ class RealApp:
                 x_orig = x_orig.drop(self.id_column, axis=x_orig.ndim - 1)
 
             if narrative:
-                return explainer.produce_narrative_explanation(
+                narratives = explainer.produce_narrative_explanation(
                     x_orig, openai_client=self.openai_client, **produce_kwargs
+                )
+                if ids is None:
+                    ids = x_orig.index
+                return format_narratives(
+                    narratives,
+                    ids=ids,
+                    series=series,
+                    optimized=not format_output,
+                    **format_kwargs
                 )
             else:
                 explanation = explainer.produce(x_orig, **produce_kwargs)
@@ -715,6 +730,7 @@ class RealApp:
         shap_type=None,
         force_refit=False,
         training_size=None,
+        format_output=True,
         num_features=5,
         select_by="absolute",
         llm_model="gpt3.5",
@@ -745,6 +761,9 @@ class RealApp:
                 already exists
             training_size (int):
                 Number of rows to use in fitting explainer
+            format_output (bool):
+                If False, return output as a single list of narratives. Formatted outputs are more
+                usable, but formatting may slow down runtimes on larger inputs
             num_features (int):
                 Number of features to include in the explanation. If None, include all features
             select_by (one of "absolute", "min", "max"):
@@ -789,6 +808,7 @@ class RealApp:
             model_id=model_id,
             force_refit=force_refit,
             training_size=training_size,
+            format_output=format_output,
             prepare_kwargs={"shap_type": shap_type},
             produce_kwargs={
                 "llm_model": llm_model,
