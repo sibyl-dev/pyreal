@@ -290,6 +290,8 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="pyreal.RealApp.predict_proba.html">pyreal.RealApp.predict_proba</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.RealApp.prepare_feature_contributions.html">pyreal.RealApp.prepare_feature_contributions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.RealApp.produce_feature_contributions.html">pyreal.RealApp.produce_feature_contributions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyreal.RealApp.produce_narrative_feature_contributions.html">pyreal.RealApp.produce_narrative_feature_contributions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyreal.RealApp.train_feature_contribution_llm.html">pyreal.RealApp.train_feature_contribution_llm</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.RealApp.prepare_feature_importance.html">pyreal.RealApp.prepare_feature_importance</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.RealApp.produce_feature_importance.html">pyreal.RealApp.produce_feature_importance</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.RealApp.prepare_similar_examples.html">pyreal.RealApp.prepare_similar_examples</a></li>
@@ -529,7 +531,7 @@ For example: “The model predicts the price of houses.”</p></li>
 <tr class="row-odd"><td><p><a class="reference internal" href="pyreal.RealApp.produce_feature_importance.html#pyreal.RealApp.produce_feature_importance" title="pyreal.RealApp.produce_feature_importance"><code class="xref py py-obj docutils literal notranslate"><span class="pre">produce_feature_importance</span></code></a>([model_id, ...])</p></td>
 <td><p>Produce a GlobalFeatureImportance explainer</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">produce_narrative_feature_contributions</span></code>(x_orig)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="pyreal.RealApp.produce_narrative_feature_contributions.html#pyreal.RealApp.produce_narrative_feature_contributions" title="pyreal.RealApp.produce_narrative_feature_contributions"><code class="xref py py-obj docutils literal notranslate"><span class="pre">produce_narrative_feature_contributions</span></code></a>(x_orig)</p></td>
 <td><p>Produce a feature contribution explanation, formatted in natural language sentence format using LLMs.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="pyreal.RealApp.produce_similar_examples.html#pyreal.RealApp.produce_similar_examples" title="pyreal.RealApp.produce_similar_examples"><code class="xref py py-obj docutils literal notranslate"><span class="pre">produce_similar_examples</span></code></a>(x_orig[, model_id, ...])</p></td>
@@ -541,7 +543,7 @@ For example: “The model predicts the price of houses.”</p></li>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_openai_client</span></code>([openai_client, ...])</p></td>
 <td><p>Set the openai client for this RealApp.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">train_feature_contribution_llm</span></code>([...])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="pyreal.RealApp.train_feature_contribution_llm.html#pyreal.RealApp.train_feature_contribution_llm" title="pyreal.RealApp.train_feature_contribution_llm"><code class="xref py py-obj docutils literal notranslate"><span class="pre">train_feature_contribution_llm</span></code></a>([...])</p></td>
 <td><p>Run the training process for the LLM model used to generate narrative feature contribution explanations.</p></td>
 </tr>
 </tbody>

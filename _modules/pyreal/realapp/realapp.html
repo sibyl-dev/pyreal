@@ -1044,7 +1044,7 @@ document.write(`
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">exp</span></div>
 
-    <span class="k">def</span> <span class="nf">produce_narrative_feature_contributions</span><span class="p">(</span>
+<div class="viewcode-block" id="RealApp.produce_narrative_feature_contributions"><a class="viewcode-back" href="../../../api_reference/api/pyreal.RealApp.produce_narrative_feature_contributions.html#pyreal.RealApp.produce_narrative_feature_contributions">[docs]</a>    <span class="k">def</span> <span class="nf">produce_narrative_feature_contributions</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">x_orig</span><span class="p">,</span>
         <span class="n">model_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -1144,7 +1144,7 @@ document.write(`
             <span class="p">},</span>
             <span class="n">narrative</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
         <span class="p">)</span>
-        <span class="k">return</span> <span class="n">exp</span>
+        <span class="k">return</span> <span class="n">exp</span></div>
 
 <div class="viewcode-block" id="RealApp.prepare_feature_importance"><a class="viewcode-back" href="../../../api_reference/api/pyreal.RealApp.prepare_feature_importance.html#pyreal.RealApp.prepare_feature_importance">[docs]</a>    <span class="k">def</span> <span class="nf">prepare_feature_importance</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -1385,7 +1385,7 @@ document.write(`
             <span class="n">format_kwargs</span><span class="o">=</span><span class="n">format_kwargs</span><span class="p">,</span>
         <span class="p">)</span></div>
 
-    <span class="k">def</span> <span class="nf">train_feature_contribution_llm</span><span class="p">(</span>
+<div class="viewcode-block" id="RealApp.train_feature_contribution_llm"><a class="viewcode-back" href="../../../api_reference/api/pyreal.RealApp.train_feature_contribution_llm.html#pyreal.RealApp.train_feature_contribution_llm">[docs]</a>    <span class="k">def</span> <span class="nf">train_feature_contribution_llm</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">x_train_orig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">live</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">provide_examples</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">num_inputs</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">num_features</span><span class="o">=</span><span class="mi">3</span>
     <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -1428,7 +1428,7 @@ document.write(`
                     <span class="n">num_features</span><span class="o">=</span><span class="n">num_features</span><span class="p">,</span>
                 <span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">lfc_explainers</span><span class="p">[</span><span class="n">algorithm</span><span class="p">]</span><span class="o">.</span><span class="n">set_llm_training_data</span><span class="p">(</span><span class="n">training_data</span><span class="o">=</span><span class="n">training_data</span><span class="p">)</span>
+                <span class="n">lfc_explainers</span><span class="p">[</span><span class="n">algorithm</span><span class="p">]</span><span class="o">.</span><span class="n">set_llm_training_data</span><span class="p">(</span><span class="n">training_data</span><span class="o">=</span><span class="n">training_data</span><span class="p">)</span></div>
 
     <span class="k">def</span> <span class="nf">set_openai_client</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">openai_client</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">openai_api_key</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>

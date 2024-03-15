@@ -17,6 +17,8 @@ RealApp
     RealApp.predict_proba
     RealApp.prepare_feature_contributions
     RealApp.produce_feature_contributions
+    RealApp.produce_narrative_feature_contributions
+    RealApp.train_feature_contribution_llm
     RealApp.prepare_feature_importance
     RealApp.produce_feature_importance
     RealApp.prepare_similar_examples

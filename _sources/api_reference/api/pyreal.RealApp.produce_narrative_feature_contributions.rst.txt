@@ -1,0 +1,6 @@
+﻿pyreal.RealApp.produce\_narrative\_feature\_contributions
+=========================================================
+
+.. currentmodule:: pyreal
+
+.. automethod:: RealApp.produce_narrative_feature_contributions

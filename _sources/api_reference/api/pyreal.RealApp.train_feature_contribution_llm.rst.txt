@@ -1,0 +1,6 @@
+﻿pyreal.RealApp.train\_feature\_contribution\_llm
+================================================
+
+.. currentmodule:: pyreal
+
+.. automethod:: RealApp.train_feature_contribution_llm
