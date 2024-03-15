@@ -1,7 +1,7 @@
-from pyreal.transformers import Transformer
+from pyreal.transformers import TransformerBase
 
 
-class BoolToIntCaster(Transformer):
+class BoolToIntCaster(TransformerBase):
     def data_transform(self, x):
         """
         Transform booleans to integers

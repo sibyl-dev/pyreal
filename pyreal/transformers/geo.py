@@ -1,9 +1,13 @@
 import reverse_geocoder as rg
 
-from pyreal.transformers import Transformer
+from pyreal.transformers import TransformerBase
 
 
-class LatLongToPlace(Transformer):
+class LatLongToPlace(TransformerBase):
+    """
+    Converts latitude and longitude columns to neighborhood, city, or state/country names.
+    """
+
     def __init__(
         self,
         level=0,

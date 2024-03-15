@@ -4,19 +4,12 @@ Transformer
 ==============
 .. currentmodule:: pyreal.transformers
 
-Base Transformer
+Transformer
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .. autosummary::
     :toctree: api/
 
     Transformer
-    Transformer.fit
-    Transformer.data_transform
-    Transformer.transform
-    Transformer.fit_transform
-    Transformer.inverse_transform
-    Transformer.transform_explanation
-    Transformer.inverse_transform_explanation
 
 Feature Select Transformer
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -24,12 +17,16 @@ Feature Select Transformer
     :toctree: api/
 
     FeatureSelectTransformer
-    FeatureSelectTransformer.fit
-    FeatureSelectTransformer.data_transform
-    FeatureSelectTransformer.transform
-    FeatureSelectTransformer.fit_transform
-    FeatureSelectTransformer.transform_explanation
-    FeatureSelectTransformer.inverse_transform_explanation
+    ColumnDropTransformer
+
+Scalers
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.. autosummary::
+    :toctree: api/
+
+    MinMaxScaler
+    StandardScaler
+    Normalizer
 
 Imputers
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -37,12 +34,6 @@ Imputers
     :toctree: api/
 
     MultiTypeImputer
-    MultiTypeImputer.fit
-    MultiTypeImputer.data_transform
-    MultiTypeImputer.transform
-    MultiTypeImputer.fit_transform
-    MultiTypeImputer.transform_explanation
-    MultiTypeImputer.inverse_transform_explanation
 
 One-Hot Encoders
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -50,30 +41,8 @@ One-Hot Encoders
     :toctree: api/
 
     OneHotEncoder
-    OneHotEncoder.fit
-    OneHotEncoder.data_transform
-    OneHotEncoder.transform
-    OneHotEncoder.fit_transform
-    OneHotEncoder.inverse_transform
-    OneHotEncoder.transform_explanation
-    OneHotEncoder.inverse_transform_explanation
     MappingsOneHotEncoder
-    MappingsOneHotEncoder.fit
-    MappingsOneHotEncoder.data_transform
-    MappingsOneHotEncoder.transform
-    MappingsOneHotEncoder.fit_transform
-    MappingsOneHotEncoder.inverse_transform
-    MappingsOneHotEncoder.transform_explanation
-    MappingsOneHotEncoder.inverse_transform_explanation
     MappingsOneHotDecoder
-    MappingsOneHotDecoder.fit
-    MappingsOneHotDecoder.data_transform
-    MappingsOneHotDecoder.transform
-    MappingsOneHotDecoder.fit_transform
-    MappingsOneHotDecoder.inverse_transform
-    MappingsOneHotDecoder.transform_explanation
-    MappingsOneHotDecoder.inverse_transform_explanation
-    Mappings
     Mappings.generate_mappings
 
 Time-Series Formatters
@@ -82,30 +51,15 @@ Time-Series Formatters
     :toctree: api/
 
     MultiIndexFrameToNestedFrame
-    MultiIndexFrameToNestedFrame.data_transform
     MultiIndexFrameToNumpy2d
-    MultiIndexFrameToNumpy2d.data_transform
     MultiIndexFrameToNumpy3d
-    MultiIndexFrameToNumpy3d.data_transform
     NestedFrameToMultiIndexFrame
-    NestedFrameToMultiIndexFrame.fit
-    NestedFrameToMultiIndexFrame.data_transform
     NestedFrameToNumpy3d
-    NestedFrameToNumpy3d.data_transform
     Numpy2dToMultiIndexFrame
-    Numpy2dToMultiIndexFrame.fit
-    Numpy2dToMultiIndexFrame.data_transform
     Numpy2dToNestedFrame
-    Numpy2dToNestedFrame.fit
-    Numpy2dToNestedFrame.data_transform
     Numpy3dToMultiIndexFrame
-    Numpy3dToMultiIndexFrame.fit
-    Numpy3dToMultiIndexFrame.data_transform
     Numpy3dToNestedFrame
-    Numpy3dToNestedFrame.data_transform
     Pandas2dToMultiIndexFrame
-    Pandas2dToMultiIndexFrame.fit
-    Pandas2dToMultiIndexFrame.data_transform
 
 Type Casters
 ~~~~~~~~~~~~~~~~~~~~~
@@ -113,12 +67,6 @@ Type Casters
     :toctree: api/
 
     BoolToIntCaster
-    BoolToIntCaster.fit
-    BoolToIntCaster.data_transform
-    BoolToIntCaster.transform
-    BoolToIntCaster.fit_transform
-    BoolToIntCaster.transform_explanation
-    BoolToIntCaster.inverse_transform_explanation
 
 Wrappers
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -126,13 +74,6 @@ Wrappers
     :toctree: api/
 
     DataFrameWrapper
-    DataFrameWrapper.fit
-    DataFrameWrapper.data_transform
-    DataFrameWrapper.transform
-    DataFrameWrapper.fit_transform
-    DataFrameWrapper.inverse_transform
-    DataFrameWrapper.transform_explanation
-    DataFrameWrapper.inverse_transform_explanation
 
 Time Series Padders
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -140,12 +81,6 @@ Time Series Padders
     :toctree: api/
 
     TimeSeriesPadder
-    TimeSeriesPadder.fit
-    TimeSeriesPadder.data_transform
-    TimeSeriesPadder.transform
-    TimeSeriesPadder.fit_transform
-    TimeSeriesPadder.transform_explanation
-    TimeSeriesPadder.inverse_transform_explanation
 
 Geo Transformers
 ~~~~~~~~~~~~~~~~~~~~
@@ -153,10 +88,4 @@ Geo Transformers
     :toctree: api/
 
     LatLongToPlace
-    LatLongToPlace.fit
-    LatLongToPlace.data_transform
-    LatLongToPlace.transform
-    LatLongToPlace.fit_transform
-    LatLongToPlace.transform_explanation
-    LatLongToPlace.inverse_transform_explanation
 

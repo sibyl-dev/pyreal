@@ -5,7 +5,7 @@ import numpy as np
 import pandas as pd
 from sklearn.preprocessing import OneHotEncoder as SklearnOneHotEncoder
 
-from pyreal.transformers import BreakingTransformError, Transformer
+from pyreal.transformers import BreakingTransformError, TransformerBase
 
 log = logging.getLogger(__name__)
 
@@ -107,7 +107,7 @@ class Mappings:
             )
 
 
-class OneHotEncoder(Transformer):
+class OneHotEncoder(TransformerBase):
     """
     One-hot encodes categorical feature values
     """
@@ -313,7 +313,7 @@ class OneHotEncoder(Transformer):
         return explanation
 
 
-class MappingsOneHotEncoder(Transformer):
+class MappingsOneHotEncoder(TransformerBase):
     """
     Converts data from categorical form to one-hot-encoded, with feature names based on a
     mappings object which includes two dictionaries
@@ -394,7 +394,7 @@ class MappingsOneHotEncoder(Transformer):
         )
 
 
-class MappingsOneHotDecoder(Transformer):
+class MappingsOneHotDecoder(TransformerBase):
     """
     Converts data from one-hot encoded form to categorical, with feature names based on a
     mappings object which includes two dictionaries

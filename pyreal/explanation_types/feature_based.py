@@ -1,3 +1,4 @@
+import numpy as np
 import pandas as pd
 
 from pyreal.explanation_types.base import Explanation, convert_columns_with_dict
@@ -50,6 +51,28 @@ class FeatureBased(Explanation):
         # Unless the explanation is additive, there is no guarantee these columns can be
         #   meaningfully added, so we just return the original explanation
         return self
+
+    def get_top_features(self, num_features=5, select_by="absolute"):
+        """
+        Get the top features from the explanation
+        Returns:
+            DataFrame
+                Top features
+        """
+        results = []
+        for i in range(self.explanation.shape[0]):
+            row = self.explanation.iloc[i]
+            order = np.argsort(abs(row.to_numpy()))[::-1][:num_features]
+            if self.values is not None:
+                results.append((row.iloc[order], self.values.iloc[i][row.iloc[order].index]))
+            else:
+                results.append(row.iloc[order])
+        return results
+
+    def __getitem__(self, item):
+        return self.__class__(
+            self.explanation.iloc[item : item + 1], self.values.iloc[item : item + 1]
+        )
 
 
 class FeatureImportanceExplanation(FeatureBased):

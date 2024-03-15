@@ -4,11 +4,11 @@
 import numpy as np
 import pandas as pd
 
-from pyreal.transformers import Transformer
+from pyreal.transformers import TransformerBase
 from pyreal.transformers.time_series_formatter import MultiIndexFrameToNumpy3d, is_valid_dataframe
 
 
-class SAXTransformer(Transformer):
+class SAXTransformer(TransformerBase):
     """
     Symbolic Aggregate approXimation.
 

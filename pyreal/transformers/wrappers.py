@@ -1,12 +1,13 @@
 import numpy as np
 import pandas as pd
 
-from pyreal.transformers import Transformer
+from pyreal.transformers import TransformerBase
 
 
-class DataFrameWrapper(Transformer):
+class DataFrameWrapper(TransformerBase):
     """
     Allows use of standard sklearn transformers while maintaining DataFrame type.
+    Same functionality as Transformer (kept for backwards compatibility).
     """
 
     def __init__(self, wrapped_transformer, **kwargs):
@@ -51,7 +52,7 @@ class DataFrameWrapper(Transformer):
 
     def inverse_data_transform(self, x_new):
         """
-        Inverese transform `x_new` using the wrapped transformer
+        Inverse transform `x_new` using the wrapped transformer
         Args:
             x_new (DataFrame of shape (n_instances, n_transformed_features)):
                 The dataset to inverse transform

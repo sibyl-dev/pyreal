@@ -75,3 +75,70 @@ def test_evaluate_variation_with_size(classification_no_transforms):
     # Assert no crash. Values analyzed through benchmarking
     lfc.evaluate_variation(with_fit=False, n_iterations=5)
     lfc.evaluate_variation(with_fit=True, n_iterations=5)
+
+
+def test_produce_narrative_explanation(regression_one_hot, mock_openai_client):
+    lfc = LocalFeatureContribution(
+        model=regression_one_hot["model"],
+        x_train_orig=regression_one_hot["x"],
+        e_algorithm="shap",
+        fit_on_init=True,
+        transformers=regression_one_hot["transformers"],
+        openai_client=mock_openai_client["client"],
+    )
+
+    x_one_dim = pd.DataFrame([[2, 10, 10]], columns=["A", "B", "C"])
+    explanation = lfc.produce_narrative_explanation(x_one_dim)
+    assert explanation[0] == mock_openai_client["response"]
+
+    x_multi_dim = pd.DataFrame([[2, 10, 10], [2, 11, 11]], columns=["A", "B", "C"])
+    explanation = lfc.produce_narrative_explanation(x_multi_dim)
+    assert explanation[0] == mock_openai_client["response"]
+    assert explanation[1] == mock_openai_client["response"]
+
+
+def test_produce_narrative_explanation_with_training(regression_one_hot, mock_openai_client):
+    lfc = LocalFeatureContribution(
+        model=regression_one_hot["model"],
+        x_train_orig=regression_one_hot["x"],
+        e_algorithm="shap",
+        fit_on_init=True,
+        transformers=regression_one_hot["transformers"],
+        openai_client=mock_openai_client["client"],
+    )
+
+    training_data = [("(f1, 1, 1), (f2, 2, 2", "the model uses f1 and f2")]
+    lfc.set_llm_training_data(training_data)
+    assert lfc.llm_training_data is training_data
+
+    x_one_dim = pd.DataFrame([[2, 10, 10]], columns=["A", "B", "C"])
+    explanation = lfc.produce_narrative_explanation(x_one_dim)
+    assert explanation[0] == mock_openai_client["response"]
+
+    lfc.clear_llm_training_data()
+    assert lfc.llm_training_data is None
+
+
+def test_train_llm(regression_one_hot, mock_openai_client, mocker):
+    lfc = LocalFeatureContribution(
+        model=regression_one_hot["model"],
+        x_train_orig=regression_one_hot["x"],
+        e_algorithm="shap",
+        fit_on_init=True,
+        transformers=regression_one_hot["transformers"],
+        openai_client=mock_openai_client["client"],
+    )
+
+    def custom_input(prompt):
+        if "Save training data? (y/n)" in prompt:
+            return "y"
+        return "example explanation"
+
+    mocker.patch("builtins.input", side_effect=custom_input)
+    mocker.patch("builtins.print")  # disable printing for cleaner logs
+    narratives = lfc.train_llm(num_inputs=2, provide_examples=True)
+    mocker.stopall()
+    assert len(narratives) == 2
+    assert narratives[0][1] == "example explanation"
+    assert narratives[1][1] == "example explanation"
+    assert lfc.llm_training_data == narratives

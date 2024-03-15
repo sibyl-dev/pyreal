@@ -24,7 +24,7 @@ The indexing on instances and variables can also be used together
 import numpy as np
 import pandas as pd
 
-from pyreal.transformers import Transformer, fit_transformers, run_transformers
+from pyreal.transformers import TransformerBase, fit_transformers, run_transformers
 
 
 def _check_is_np2d(x):
@@ -81,7 +81,7 @@ def is_valid_dataframe(x):
     return True
 
 
-class Numpy2dToMultiIndexFrame(Transformer):
+class Numpy2dToMultiIndexFrame(TransformerBase):
     """
     **This Transformer should only be used on univariate time series data**
     Convert 2D NumPy array to Pyreal time-series format.
@@ -147,7 +147,7 @@ class Numpy2dToMultiIndexFrame(Transformer):
         return df
 
 
-class Pandas2dToMultiIndexFrame(Transformer):
+class Pandas2dToMultiIndexFrame(TransformerBase):
     """
     Convert 2D DataFrame to Pyreal time-series format.
     """
@@ -210,7 +210,7 @@ class Pandas2dToMultiIndexFrame(Transformer):
         return df
 
 
-class Numpy3dToMultiIndexFrame(Transformer):
+class Numpy3dToMultiIndexFrame(TransformerBase):
     """
     Convert 3D NumPy array to Pyreal time-series format.
     """
@@ -276,7 +276,7 @@ class Numpy3dToMultiIndexFrame(Transformer):
         return df
 
 
-class MultiIndexFrameToNumpy3d(Transformer):
+class MultiIndexFrameToNumpy3d(TransformerBase):
     """
     Convert Pyreal time-series format into NumPy ndarray with shape
     (n_instances, n_columns, n_timepoints).
@@ -308,7 +308,7 @@ class MultiIndexFrameToNumpy2d(MultiIndexFrameToNumpy3d):
         return array.squeeze(axis=1)
 
 
-class NestedFrameToMultiIndexFrame(Transformer):
+class NestedFrameToMultiIndexFrame(TransformerBase):
     """
     Convert sktime nested DataFrame format into Pyreal time-series format.
     """
@@ -366,7 +366,7 @@ class NestedFrameToMultiIndexFrame(Transformer):
         return df
 
 
-class NestedFrameToNumpy3d(Transformer):
+class NestedFrameToNumpy3d(TransformerBase):
     """
     Convert sktime nested DataFrame format into NumPy ndarray
     with shape (n_instances, n_variables, n_timepoints).
@@ -389,7 +389,7 @@ class NestedFrameToNumpy3d(Transformer):
         )
 
 
-class MultiIndexFrameToNestedFrame(Transformer):
+class MultiIndexFrameToNestedFrame(TransformerBase):
     """
     Convert Pyreal time-series format to sktime nested DataFrame.
     """
@@ -415,7 +415,7 @@ class MultiIndexFrameToNestedFrame(Transformer):
         return x_nested
 
 
-class Numpy2dToNestedFrame(Transformer):
+class Numpy2dToNestedFrame(TransformerBase):
     """
     Convert 2D NumPy array to sktime nested DataFrame.
     """
@@ -454,7 +454,7 @@ class Numpy2dToNestedFrame(Transformer):
         return run_transformers(self._transformers, x)
 
 
-class Numpy3dToNestedFrame(Transformer):
+class Numpy3dToNestedFrame(TransformerBase):
     """
     Convert 3D NumPy array to sktime nested DataFrame.
     """
@@ -493,7 +493,7 @@ class Numpy3dToNestedFrame(Transformer):
         return run_transformers(self._transformers, x)
 
 
-class DimensionAdder(Transformer):
+class DimensionAdder(TransformerBase):
     """
     Adds an additional dimension to univariate time series data
         (n_instances, n_timesteps) -> (n_instances, n_timesteps, 1)

@@ -11,7 +11,13 @@ Explanation Type
 
     base.Explanation
     base.Explanation.get
+    base.Explanation.get_explanation
+    base.Explanation.get_values
+    base.Explanation.update_explanation
+    base.Explanation.apply_feature_descriptions
+    base.Explanation.update_values
     base.Explanation.validate
+    base.Explanation.validate_values
 
 DataFrame Explanation Type
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -19,8 +25,6 @@ DataFrame Explanation Type
     :toctree: api/
 
     feature_based.FeatureBased
-    feature_based.FeatureBased.get
-    feature_based.FeatureBased.validate
 
 Feature Importance Explanation Type
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -28,8 +32,6 @@ Feature Importance Explanation Type
     :toctree: api/
 
     feature_based.FeatureImportanceExplanation
-    feature_based.FeatureImportanceExplanation.get
-    feature_based.FeatureImportanceExplanation.validate
 
 Additive Feature Importance Explanation Type
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -37,8 +39,6 @@ Additive Feature Importance Explanation Type
     :toctree: api/
 
     feature_based.AdditiveFeatureImportanceExplanation
-    feature_based.AdditiveFeatureImportanceExplanation.get
-    feature_based.AdditiveFeatureImportanceExplanation.validate
 
 Feature Contribution Explanation Type
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -46,8 +46,6 @@ Feature Contribution Explanation Type
     :toctree: api/
 
     feature_based.FeatureContributionExplanation
-    feature_based.FeatureContributionExplanation.get
-    feature_based.FeatureContributionExplanation.validate
 
 Additive Feature Contribution Explanation Type
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -55,8 +53,6 @@ Additive Feature Contribution Explanation Type
     :toctree: api/
 
     feature_based.AdditiveFeatureContributionExplanation
-    feature_based.AdditiveFeatureContributionExplanation.get
-    feature_based.AdditiveFeatureContributionExplanation.validate
 
 Feature Value Based Explanation Type
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -64,8 +60,6 @@ Feature Value Based Explanation Type
     :toctree: api/
 
     feature_value_based.FeatureValueBased
-    feature_value_based.FeatureValueBased.get
-    feature_value_based.FeatureValueBased.validate
 
 Partial Dependence Explanation Type
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -73,8 +67,6 @@ Partial Dependence Explanation Type
     :toctree: api/
 
     feature_value_based.PartialDependenceExplanation
-    feature_value_based.PartialDependenceExplanation.get
-    feature_value_based.PartialDependenceExplanation.validate
 
 Decision Tree Explanation Type
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -82,8 +74,6 @@ Decision Tree Explanation Type
     :toctree: api/
 
     decision_tree.DecisionTreeExplanation
-    decision_tree.DecisionTreeExplanation.get
-    decision_tree.DecisionTreeExplanation.validate
 
 Example Based Explanation Type
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -91,8 +81,6 @@ Example Based Explanation Type
     :toctree: api/
 
     example_based.ExampleBasedExplanation
-    example_based.ExampleBasedExplanation.get
-    example_based.ExampleBasedExplanation.validate
 
 Similar Examples Explanation Type
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -100,5 +88,3 @@ Similar Examples Explanation Type
     :toctree: api/
 
     example_based.SimilarExampleExplanation
-    example_based.SimilarExampleExplanation.get
-    example_based.SimilarExampleExplanation.validate

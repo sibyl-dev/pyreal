@@ -10,7 +10,7 @@ maintainers = [
 
 description = "Library for evaluating and deploying human readable machine learning explanations."
 name = "pyreal"
-version = "0.4.7"
+version = "0.4.8"
 
 license = ""
 
@@ -46,9 +46,11 @@ shap = "=0.42.1" # Explicit shap prevents break with newer versions
 lime = "^0.2.0.1"
 seaborn = "^0.13.0"
 
-# Development Requirements
 faiss-cpu = "^1.7.4"
 reverse-geocoder = "^1.5.1"
+
+# Development Requirements
+openai = {version = "^1.13.3", extras = ["llm"]}
 [tool.poetry.group.dev.dependencies]
 
 # Testing Dependencies
@@ -58,6 +60,7 @@ jupyter = ">=1.0.0"
 pytest = ">=7.1.3"
 pytest-cov = ">=4.0.0"
 nbmake = "^1.4.1"
+pytest-mock = "^3.12.0"
 
 # Style Dependencies
 flake8 = "^5.0.4"
@@ -76,6 +79,7 @@ pydata-sphinx-theme = ">=0.10.1"
 # Tutorial dependencies
 [tool.poetry.group.tutorial.dependencies]
 lightgbm = "^3.3.2"
+
 
 [tool.black]
 line-length = 99
