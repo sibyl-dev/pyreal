@@ -14,7 +14,7 @@ If you already have a fully set-up ML workflow (including an ML model, data, and
 
 ## On this page...
 
-<table data-view="cards"><thead><tr><th></th><th></th><th data-hidden data-card-target data-type="content-ref"></th></tr></thead><tbody><tr><td><h3>Training and Input Data</h3></td><td>Learn to prepare your data as pandas DataFrames</td><td><a href="data-preparation-and-modelling.md#training-and-input-data-1">#training-and-input-data-1</a></td></tr><tr><td><h3>Transformers</h3></td><td>Learn to create Pyreal data transformers for feature engineering </td><td><a href="data-preparation-and-modelling.md#transformers-1">#transformers-1</a></td></tr><tr><td><h3>Modelling</h3></td><td>Learn how to train models to make predictions on your data</td><td><a href="data-preparation-and-modelling.md#modelling-1">#modelling-1</a></td></tr></tbody></table>
+<table data-view="cards"><thead><tr><th></th><th></th><th data-hidden data-card-target data-type="content-ref"></th></tr></thead><tbody><tr><td><h3>Training and Input Data</h3></td><td>Learn to prepare your data as pandas DataFrames</td><td><a href="./#training-and-input-data-1">#training-and-input-data-1</a></td></tr><tr><td><h3>Transformers</h3></td><td>Learn to create Pyreal data transformers for feature engineering </td><td><a href="./#transformers-1">#transformers-1</a></td></tr><tr><td><h3>Modelling</h3></td><td>Learn how to train models to make predictions on your data</td><td><a href="./#modelling-1">#modelling-1</a></td></tr></tbody></table>
 
 ## Training and Input Data
 
@@ -22,7 +22,7 @@ Pyreal expects data in the format of [Pandas DataFrames](https://pandas.pydata.o
 
 For example, a part of your data may look like:
 
-<table><thead><tr><th data-type="number">House ID</th><th data-type="number">Size (sq. ft.)</th><th>Location</th><th>Garden size</th></tr></thead><tbody><tr><td>101</td><td>2200</td><td>Pinewood</td><td>100</td></tr><tr><td>102</td><td>1500</td><td>Oceanview</td><td><em>N/A</em></td></tr><tr><td>103</td><td>1800</td><td>Placedale</td><td>120</td></tr></tbody></table>
+<table><thead><tr><th data-type="number">house_id</th><th data-type="number">size</th><th>location</th><th>garden_size</th></tr></thead><tbody><tr><td>101</td><td>2200</td><td>Pinewood</td><td>100</td></tr><tr><td>102</td><td>1500</td><td>Oceanview</td><td><em>N/A</em></td></tr><tr><td>103</td><td>1800</td><td>Placedale</td><td>120</td></tr></tbody></table>
 
 There are two categories of data relevant to ML decision-making: the training data and the input data.
 
@@ -30,7 +30,7 @@ The training data is used to train the ML model and explainers. The input data i
 
 For example, if we are trying to predict house prices, you would have additional information about the price of houses in your training dataset.
 
-<table data-full-width="false"><thead><tr><th data-type="number">House ID</th><th data-type="number">Price ($)</th></tr></thead><tbody><tr><td>101</td><td>250000</td></tr><tr><td>102</td><td>220000</td></tr><tr><td>103</td><td>180000</td></tr></tbody></table>
+<table data-full-width="false"><thead><tr><th data-type="number">house_id</th><th data-type="number">price ($)</th></tr></thead><tbody><tr><td>101</td><td>250000</td></tr><tr><td>102</td><td>220000</td></tr><tr><td>103</td><td>180000</td></tr></tbody></table>
 
 ## Transformers
 
@@ -50,7 +50,7 @@ If this topic is new to you, you may find it helpful to look at more guides like
 
 One way to handle categorical features like the Location feature above is with **one-hot encoding**. In this process, we turn a single column into one column per feature value. We set the value-column corresponding to the row's value to True, and all others to False (and then represent these values as True=1, False=0). For example, after one-hot encoding the Location feature, our location features will look like:
 
-<table><thead><tr><th data-type="number">House ID</th><th>Location (Pinewood)</th><th>Location (Oceanview)</th><th width="232">Location (Placedale)</th></tr></thead><tbody><tr><td>101</td><td>1</td><td>0</td><td>0</td></tr><tr><td>102</td><td>0</td><td>1</td><td>0</td></tr><tr><td>103</td><td>0</td><td>0</td><td>1</td></tr></tbody></table>
+<table><thead><tr><th data-type="number">house_id</th><th>location (Pinewood)</th><th>location (Oceanview)</th><th width="232">location (Placedale)</th></tr></thead><tbody><tr><td>101</td><td>1</td><td>0</td><td>0</td></tr><tr><td>102</td><td>0</td><td>1</td><td>0</td></tr><tr><td>103</td><td>0</td><td>0</td><td>1</td></tr></tbody></table>
 
 **With Pyreal** you can one-hot encode data using the **OneHotEncoder** transformer, setting the `columns`  parameter to a list of your categorical columns:
 
