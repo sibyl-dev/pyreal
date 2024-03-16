@@ -14,14 +14,13 @@ In this guide, you will learn how to combine these components into a RealApp obj
 
 At minimum, RealApps require the ML model and any transformers necessary to prepare input data for model predictions. For example, following up our example from the [data preparation](data-preparation-and-modelling/) guide:
 
-```python
-from pyreal import RealApp
+<pre class="language-python"><code class="lang-python">from pyreal import RealApp
 
-app = RealApp(model,
-              X_train_orig=X_train,
-              y_train=y_train, 
-              transformers=transformers)
-```
+<strong>realapp = RealApp(model,
+</strong>                  X_train_orig=X_train,
+                  y_train=y_train, 
+                  transformers=transformers)
+</code></pre>
 
 {% hint style="info" %}
 RealApps take in a parameter called `X_train_orig`. You can read this as "training data in the original feature space". Data in the _original feature space_ is data in whatever format the transformer list operates on. For example, in our sample dataset from the [data preparation guide](data-preparation-and-modelling/), we started with data that had categorical, unstandardized features with missing data. Our transformer list then prepares this data for the model.
@@ -36,11 +35,11 @@ The ID column will be automatically dropped before running the data through the 
 ```python
 from pyreal import RealApp
 
-app = RealApp(model,
-              X_train_orig=X_train,
-              y_train=y_train, 
-              transformers=transformers,
-              id_column="house_id")
+realapp = RealApp(model,
+                  X_train_orig=X_train,
+                  y_train=y_train, 
+                  transformers=transformers,
+                  id_column="house_id")
 ```
 
 ## Adding Feature Descriptions
@@ -55,37 +54,36 @@ from pyreal import RealApp
 feature_descriptions = {"size": "Size (sq ft)",
                         "garden_size": "Size of Garden (sq ft)"}
 
-app = RealApp(model,
-              X_train_orig=X_train, 
-              y_train=y_train,
-              transformers=transformers,
-              feature_descriptions=feature_descriptions)
+realapp = RealApp(model,
+                  X_train_orig=X_train, 
+                  y_train=y_train,
+                  transformers=transformers,
+                  feature_descriptions=feature_descriptions)
 ```
 
 ## Formatting Predictions
 
 You can format predictions coming from RealApp objects (such as setting decimal places for numeric predictions, or converting True/False predictions to more meaningful values) with the `pred_format_func` parameter
 
-```python
-from pyreal import RealApp
-
+<pre class="language-python"><code class="lang-python"><strong>from pyreal import RealApp
+</strong>
 # Format numerics into dollar amounts (1523.273 -> $1,523.27)
-app = RealApp(model,
-              X_train_orig=X_train, 
-              y_train=y_train,
-              transformers=transformers,
-              pred_format_func='${:,.2f}'.format)
+realapp = RealApp(model,
+                  X_train_orig=X_train, 
+                  y_train=y_train,
+                  transformers=transformers,
+                  pred_format_func='${:,.2f}'.format)
               
 # Format True/False into Failure/Success
 def format_func(pred):
      return "Failure" if x else "Success"
      
-app = RealApp(model,
-              X_train_orig=X_train, 
-              y_train=y_train,
-              transformers=transformers,
-              pred_format_func=format_func)
-```
+realapp = RealApp(model,
+                  X_train_orig=X_train, 
+                  y_train=y_train,
+                  transformers=transformers,
+                  pred_format_func=format_func)
+</code></pre>
 
 ## Passing Data at Fit Time
 
@@ -96,8 +94,8 @@ If you need smaller RealApp objects, or would otherwise like to avoid storing th
 ```python
 from pyreal import RealApp
 
-app = RealApp(model,
-              transformers=transformers)
+realapp = RealApp(model,
+                  transformers=transformers)
 
 # You will need to manually pass data in when preparing explainers.
 app.prepare_feature_contributions(X_train, y_train)
