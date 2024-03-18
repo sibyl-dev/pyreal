@@ -1,6 +1,6 @@
 import pandas as pd
 
-data = pd.read_csv("data_small.csv")
+data = pd.read_csv("data.csv")
 data["Exterior1st"].replace(
     {
         "BrkComm": "Brick",
@@ -49,4 +49,5 @@ neighborhoods = {
     "Veenker": "Veenker",
 }
 data["Neighborhood"].replace(neighborhoods, inplace=True)
+data["CentralAir"].replace({"Y": True, "N": False}, inplace=True)
 data.to_csv("data_small.csv", index=False)
