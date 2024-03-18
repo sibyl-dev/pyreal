@@ -18,7 +18,7 @@ You can answer these questions by look at ML model explanations. Explanations ar
 Pyreal generates explanations that are naturally readable, in the same _feature space_ as your input data. This means explanations will show the original values of features, before scaling, one-hot encoding, imputing, or any other muddling transformations.&#x20;
 
 {% hint style="info" %}
-To make Pyreal's explanations even more readable, you can use advanced transformers, as described in the [Transformers: Extended Guide](../data-preparation-and-modelling/transformers-extended-guide.md).
+To make Pyreal's explanations even more readable, you can use advanced transformers, as described in the [Transformers: Extended Guide](../data-preparation-and-modelling/transformers/transformers-extended-guide.md).
 {% endhint %}
 
 ## Setup
