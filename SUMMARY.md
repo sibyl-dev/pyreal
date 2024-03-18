@@ -17,7 +17,8 @@
   * [Transformers: Extended Guide](user-guides/data-preparation-and-modelling/transformers-extended-guide.md)
 * [Creating new applications (RealApps)](user-guides/creating-new-applications-realapps.md)
 * [Using applications (RealApps)](user-guides/generating-explanations/README.md)
-  * [Introduction to explanations](user-guides/using-applications-realapps/introduction-to-explanations.md)
+  * [Making Predictions](user-guides/using-applications-realapps/making-predictions.md)
+  * [Generating Explanations](user-guides/using-applications-realapps/generating-explanations.md)
   * [Visualizing Explanations](user-guides/using-applications-realapps/visualizing-explanations.md)
   * [Narrative explanations with LLMs](user-guides/using-applications-realapps/narrative-explanations-with-llms.md)
 
@@ -35,13 +36,15 @@
   * [Benchmarking Guidelines](developer-guides/contributing-guide/benchmarking-guidelines.md)
   * [Release Workflow](developer-guides/contributing-guide/release-workflow.md)
 
+## Further Reading
+
+* [Introduction to explanations](further-reading/introduction-to-explanations.md)
+
 ## Glossaries
 
-***
-
-* [📗 Glossary of Explantions](glossary-of-explantions.md)
-* [📘 Glossary of Transformers](glossary-of-transformers.md)
-* [📕 Glossary of Visualizations](glossary-of-visualizations.md)
+* [📗 Glossary of Explantions](glossaries/glossary-of-explantions.md)
+* [📘 Glossary of Transformers](glossaries/glossary-of-transformers.md)
+* [📕 Glossary of Visualizations](glossaries/glossary-of-visualizations.md)
 
 ## Important Links
 
