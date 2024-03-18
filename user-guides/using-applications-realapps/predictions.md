@@ -1,6 +1,10 @@
-# Making Predictions
+---
+description: >-
+  You can use RealApps to make predictions with your ML model. All data
+  transformations required and handled under-the-hood.
+---
 
-## Making Predictions
+# Predictions
 
 The most basic yet important functionality of an ML model is making predictions. For this, you can use the `.predict()` function. This function takes data in the original format, and then runs all transformers needed to prepare your input data for the model.
 
