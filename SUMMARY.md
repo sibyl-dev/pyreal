@@ -19,7 +19,7 @@
 * [Using applications (RealApps)](user-guides/generating-explanations/README.md)
   * [Predictions](user-guides/using-applications-realapps/predictions.md)
   * [Explanations](user-guides/using-applications-realapps/explanations.md)
-  * [Visualization](user-guides/using-applications-realapps/visualization.md)
+  * [Visualization](user-guides/using-applications-realapps/visualizing-explanations.md)
   * [Narrative explanations with LLMs](user-guides/using-applications-realapps/narrative-explanations-with-llms.md)
 
 ## Developer Guides

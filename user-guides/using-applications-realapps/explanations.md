@@ -146,7 +146,7 @@ values["Lot size in square feet"]
 ```
 
 {% hint style="info" %}
-The easiest way to understand a feature's contribution across a dataset is with a plot. See the [visualization ](visualization.md)guide for code to do this with Pyreal.
+The easiest way to understand a feature's contribution across a dataset is with a plot. See the [visualization ](visualizing-explanations.md)guide for code to do this with Pyreal.
 {% endhint %}
 
 ## Next steps
