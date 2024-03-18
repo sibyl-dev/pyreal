@@ -1036,7 +1036,11 @@ class RealApp:
                 already exists
 
         Returns:
-            DataFrame with a Feature Name column and an Importance column
+            {"X": DataFrame, "y": Series, "Input": Series} (if series),
+                else {"id" -> {"X": DataFrame, "y": Series, "Input": Series}}
+            X is the examples, ordered from top to bottom by similarity to input and
+            y is the corresponding y values
+            Input is the original input in the same feature space
         """
         if algorithm is None:
             algorithm = "nn"
