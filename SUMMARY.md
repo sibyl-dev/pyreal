@@ -16,7 +16,7 @@
 * [Data Preparation and Modelling](user-guides/data-preparation-and-modelling/README.md)
   * [Training and Input Data](user-guides/data-preparation-and-modelling/training-and-input-data.md)
   * [Transformers](user-guides/data-preparation-and-modelling/transformers/README.md)
-    * [Transformers: Extended Guide](user-guides/data-preparation-and-modelling/transformers/transformers-extended-guide.md)
+    * [Transformers: Extended Guide](user-guides/data-preparation-and-modelling/transformers-extended-guide.md)
   * [Modelling](user-guides/data-preparation-and-modelling/modelling.md)
 * [Creating new applications (RealApps)](user-guides/creating-new-applications-realapps.md)
 * [Using applications (RealApps)](user-guides/generating-explanations/README.md)
