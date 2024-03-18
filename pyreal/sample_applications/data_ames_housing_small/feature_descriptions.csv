@@ -1,9 +1,9 @@
 Name,Description
 LotArea, Lot size in square feet
 Neighborhood, Neighborhood
-OverallQual, Rates the overall material and finish of the house
+OverallQuality, Overall quality of the house finishing and materials (1-5)
 YearBuilt, Original construction date
-Exterior1st, Exterior covering on house
-TotalBsmtSF, Total basement area in square feet
+Material, Exterior material of house
+BasementSize, Total basement area in square feet
 CentralAir, Central air conditioning
-GrLivArea, Total above ground living area in square feet
+HouseSize, Total above ground living area in square feet
