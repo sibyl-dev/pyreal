@@ -14,7 +14,7 @@
 ## User Guides
 
 * [Data Preparation and Modelling](user-guides/data-preparation-and-modelling/README.md)
-  * [Training and Input Data](user-guides/data-preparation-and-modelling/training-and-input-data.md)
+  * [Training, Testing, and Input Data](user-guides/data-preparation-and-modelling/training-testing-and-input-data.md)
   * [Transformers](user-guides/data-preparation-and-modelling/transformers/README.md)
     * [Transformers: Extended Guide](user-guides/data-preparation-and-modelling/transformers-extended-guide.md)
   * [Modelling](user-guides/data-preparation-and-modelling/modelling.md)

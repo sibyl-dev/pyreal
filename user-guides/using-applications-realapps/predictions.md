@@ -12,37 +12,15 @@ The most basic yet important functionality of an ML model is making predictions.
 import pandas as pd
 from pyreal import RealApp
 
-realapp = RealApp(model,
-                  X_train_orig=X_train, 
-                  y_train=y_train,
-                  transformers=transformers,
-                  pred_format_func='${:,.2f}'.format)
-
-X_input = pd.DataFrame([[2300, "Pinewood", 50],
-                        [1850, "Placedale", None]],
-                        columns=["size", "location", "garden_size"])
-realapp.predict(X_input)
-# Sample output: {0: "$102,300", 1: "$342,000"}
+predictions = realapp.predict(x_input)
+# predictions: {"House 101": "$149,003.42", "House 102": "$188,169.59", ...}
 ```
 
-The output of the predict function is a dictionary with keys determined by input index (row names) by default. Alternatively, the keys can be taken from an ID column if specified:
+The output of the predict function is a dictionary with keys determined by the ID column. If not ID column is provided, the output is indexed by input index (row names). This allows you to access predictions for specific instances by ID.
 
-```
-import pandas as pd
-from pyreal import RealApp
-
-realapp = RealApp(model,
-                  X_train_orig=X_train, 
-                  y_train=y_train,
-                  transformers=transformers,
-                  pred_format_func='${:,.2f}'.format,
-                  id_column="house_id")
-
-X_input = pd.DataFrame([["house 201", 2300, "Pinewood", 50],
-                        ["house 202", 1850, "Placedale", None]],
-                        columns=["house_id", "size", "location", "garden_size"])
-realapp.predict(X_input)
-# Sample output: {"house 201": "$102,300", "house 202": "$342,000"}
+```python
+predictions["House 101"]
+# Output: $149,003.42
 ```
 
 {% hint style="info" %}

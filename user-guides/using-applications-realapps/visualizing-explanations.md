@@ -41,27 +41,26 @@ strip_plot(contributions)
 
 Scatter plots allow you to investigate how the model uses a specific feature, across the full range of that feature's values:
 
-```python
-from pyreal.visualize import feature_scatter_plot
+<pre class="language-python"><code class="lang-python">from pyreal.visualize import feature_scatter_plot
 
 contributions = realapp.produce_feature_contributions(houses)
 
-# Optionally pass in predictions to color the plot by prediction
-predictions = realapp.predict(houses)
+<strong># Optionally pass in predictions to color the plot by prediction
+</strong>predictions = realapp.predict(houses)
 
 feature_scatter_plot(contributions, 
                      feature="Lot size in square feet",
                      predictions=predictions)
-```
+</code></pre>
 
 ## Example Table
 
-To get a clean table comparing the feature values of a input data to those of similiar examples, you can use the `example_table` function:
+To get a clean table comparing the feature values of a input data to those of similar examples, you can use the `example_table` function:
 
 ```python
 from pyreal.visualize import example_table
 
 similar_houses = realapp.produce_similar_examples(houses)
 
-example_table(similiar_houses)
+example_table(similar_houses)
 ```

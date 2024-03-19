@@ -21,18 +21,6 @@ Pyreal generates explanations that are naturally readable, in the same _feature 
 To make Pyreal's explanations even more readable, you can use advanced transformers, as described in the [Transformers: Extended Guide](../data-preparation-and-modelling/transformers-extended-guide.md).
 {% endhint %}
 
-## Setup
-
-In all explanation code examples, we will use the following sample setup code:
-
-<pre class="language-python"><code class="lang-python"><strong>from pyreal.sample_applications import ames_housing
-</strong><strong>
-</strong><strong>realapp = ames_housing.load_app()
-</strong><strong>
-</strong><strong># Load in information about 10 houses (pandas DataFrame) to look into
-</strong><strong>houses = ames_housing.load_data().iloc[0:10]
-</strong></code></pre>
-
 ## Sample Explanations
 
 In this guide, we will go through a few common questions you may have your model/model predictions, and the appropriate Pyreal explanation functions to answer them.
@@ -41,8 +29,9 @@ In this guide, we will go through a few common questions you may have your model
 
 To get a list of how much each feature in your input data contributed to the model's prediction, you can use the `.produce_feature_contributions(x_orig)` function
 
-<pre class="language-python"><code class="lang-python"><strong>contributions = realapp.produce_feature_contributions(houses)
-</strong></code></pre>
+```python
+contribution_scores = realapp.produce_feature_contributions(x_input)
+```
 
 {% hint style="info" %}
 You can read `x_orig` as the input data in the original feature space. That means, you pass your data into Pyreal in its original format, without any transformations. The transformers passed to your RealApp object handle the rest.
@@ -53,50 +42,52 @@ Feature contribution outputs from RealApps are indexed by row ids, found in the 
 This allows us to access the explanation for a given house by ID:
 
 ```python
-contributions ["House 201"]
+contributions ["House 101"]
 ```
 
 ... which outputs a DataFrame with all features, their contributions, and their average or mode value:
 
 | Feature Name               | Feature Value | Contribution | Average/Mode |
 | -------------------------- | ------------- | ------------ | ------------ |
-| Lot size in square feet    | 9937          | -1529.91     | 10203        |
-| Original construction date | 1965          | -2402.63     | 1998         |
+| Lot size in square feet    | 9937          | 1137.73      | 10847.56     |
+| Original construction date | 1965          | -3514.96     | 1981         |
 | ...                        | ...           | ...          | ...          |
 
-The default algorithm for computing feature contributions is SHAP, which means the contribution values take the same units as the model's prediction. For example, in this case the lot size reduced the predicted price of the house by $1,529.91.
+The default algorithm for computing feature contributions is SHAP, which means the contribution values take the same units as the model's prediction. For example, in this case the lot size increased the predicted price of the house by $1,137.73.
 
-If you are only interested in the most contributing features (either positively, negatively, or by absolute value), you can using the `num_features` and `select_by` parameters. Alternatively, you can extract the top contributing features from an already-generated explanation using the `get_top_contributors` function.
-
-<pre class="language-python"><code class="lang-python">from pyreal.utils import get_top_contributors
-
-# select_by is one of: "absolute", "min", "max"
-<strong>top_contributions = realapp.produce_feature_contributions(houses, 
-</strong>                                                          num_features=5
-                                                          select_by="absolute")
-# Or...
-<strong>contributions = realapp.produce_feature_contributions(houses)
-</strong><strong>top_contributions = get_top_contributors(contributions, 
-</strong><strong>                                         num_features=5, s
-</strong><strong>                                         elect_by="absolute")
-</strong></code></pre>
-
-### Which past cases are similiar to this one?
-
-You can get a list of past cases (rows of data in the training data) that are similiar to your input data, as well as the ground-truth target (y) value for those cases, by using the `produce_similiar_examples` function:
+If you are only interested in the most contributing features (either positively, negatively, or by absolute value), you can using the `num_features` and `select_by` parameters. Alternatively, you can extract the top contributing features from an already-generated explanation using the `get_top_contributors` function on the contribution explanation for your input of interest.
 
 ```python
-# Get the three most similiar houses from the 
-# training dataset to each house in houses
-similar_houses = realapp.produce_similiar_examples(houses, 
-                                                   num_examples=3)
+from pyreal.utils import get_top_contributors
+
+# select_by is one of: "absolute", "min", "max"
+top_contributions_for_house_101 = get_top_contributors(contribution_scores["House 101"], 
+                                                       num_features=5, 
+                                                       select_by="absolute")
+
+# Or...
+top_5_contribution_scores = realapp.produce_feature_contributions(x_input, 
+                                                                  num_features=5,
+                                                                  select_by="absolute")
+top_5_contribution_scores["House 101"]
 ```
 
-The return type for these explanations is a dictionary indexed by row IDs (either from the specified ID column or the index (row labels) of the input data). For each ID, `similiar_houses[ID]` contains:
+### Which past cases are similar to this one?
 
-* `similiar_houses[ID][X]` (_DataFrame):_ The feature values of the houses most similar to the house specified by ID.
-* `similiar_houses[ID][y]` (_Series_): The corresponding ground-truth target values (y) for all similiar houses.
-* `similiar_houses[ID][Input]` (_Series_): The input features (ie. the feature values for the house specified by ID) in the same feature space as the similiar examples
+You can get a list of past cases (rows of data in the training data) that are similar to your input data, as well as the ground-truth target (y) value for those cases, by using the `produce_similar_examples` function:
+
+```python
+# Get the three most similar houses from the 
+# training dataset to each house in houses
+similar_houses = realapp.produce_similar_examples(x_input, 
+                                                  num_examples=3)
+```
+
+The return type for these explanations is a dictionary indexed by row IDs (either from the specified ID column or the index (row labels) of the input data). For each ID, `similar_houses[ID]` contains:
+
+* `similar_houses[ID][X]` (_DataFrame):_ The feature values of the houses most similar to the house specified by ID.
+* `similar_houses[ID][y]` (_Series_): The corresponding ground-truth target values (y) for all similar houses.
+* `similar_houses[ID][Input]` (_Series_): The input features (ie. the feature values for the house specified by ID) in the same feature space as the similar examples
 
 {% hint style="info" %}
 The output for similar examples includes the input values because the transformers you pass in may result in outputs in a different feature space than the one you pass your data in with. This simply ensures you have the same feature space available for both.
@@ -106,21 +97,20 @@ The output for similar examples includes the input values because the transforme
 
 You may be interested in understanding which features the model considers most important in general, without considering a specific input. For this, you can use the `produce_feature_importance` function, which takes no required inputs:
 
-<pre class="language-python"><code class="lang-python"><strong>importance = realapp.produce_feature_importance()
+<pre class="language-python"><code class="lang-python"><strong>importance_scores = realapp.produce_feature_importance()
 </strong><strong>
 </strong><strong># Like with feature contributions, you can return only the most important features
 </strong><strong>#  or extract the most important features using `get_top_contributors`
-</strong><strong>
-</strong><strong>importance = realapp.produce_feature_importance(num_features=5)
-</strong></code></pre>
+</strong>top_5_importance_scores = realapp.produce_feature_importance(num_features=5)
+</code></pre>
 
 ... which generates a DataFrame of feature importance values
 
-| Feature Name               | Importance |
-| -------------------------- | ---------- |
-| Lot size in square feet    | 1001       |
-| Original construction date | 820        |
-| ...                        | ...        |
+| Feature Name                                                | Importance |
+| ----------------------------------------------------------- | ---------- |
+| Overall quality of the house finishing and materials (1-10) | 23149.06   |
+| Total above ground living area in square feet               | 17930.23   |
+| ...                                                         | ...        |
 
 {% hint style="info" %}
 These importance scores are unitless, meaning they should only be considered in relative terms to other importance score.
@@ -133,12 +123,12 @@ To understand how the model uses a specific feature, you can generate feature co
 To save time generating large numbers of contributions, and get the output in a more usable format for this specific use-case, you can set the `format_output` parameter to produce functions to `False`.
 
 ```python
-explanation = realapp.produce_feature_contributions(houses, format_output=False)
+contribution_scores_df = realapp.produce_feature_contributions(
+    x_input, format_output=False)
 
 # explanations is now a tuple of (feature contributions, feature values), where
 #  the column names are feature descriptions and the index are the row ids.
-
-contributions, values = explanation
+contributions, values = contribution_scores_df 
 
 # You can now investigate a single features contributions with:
 contributions["Lot size in square feet"]

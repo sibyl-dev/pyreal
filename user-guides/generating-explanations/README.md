@@ -4,7 +4,7 @@ description: Using and understanding your ML model with Pyreal RealApps.
 
 # Using applications (RealApps)
 
-Having created your RealApp per the [Creating new applications](../creating-new-applications-realapps.md) guide, you can now use it to use and understand your ML model
+Having created your RealApp per the [Creating new applications](../creating-new-applications-realapps.md) guide, you can now use it to make predictions with and understand your ML model.
 
 ## In this guide...
 

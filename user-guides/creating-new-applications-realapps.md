@@ -17,7 +17,7 @@ At minimum, RealApps require the ML model and any transformers necessary to prep
 <pre class="language-python"><code class="lang-python">from pyreal import RealApp
 
 <strong>realapp = RealApp(model,
-</strong>                  X_train_orig=X_train,
+</strong>                  X_train_orig=x_train,
                   y_train=y_train, 
                   transformers=transformers)
 </code></pre>
@@ -36,10 +36,10 @@ The ID column will be automatically dropped before running the data through the 
 from pyreal import RealApp
 
 realapp = RealApp(model,
-                  X_train_orig=X_train,
+                  X_train_orig=x_train,
                   y_train=y_train, 
                   transformers=transformers,
-                  id_column="house_id")
+                  id_column="House ID")
 ```
 
 ## Adding Feature Descriptions
@@ -51,11 +51,12 @@ In this case, you can additionally pass a `feature_descriptions` dictionary.
 ```python
 from pyreal import RealApp
 
-feature_descriptions = {"size": "Size (sq ft)",
-                        "garden_size": "Size of Garden (sq ft)"}
+feature_descriptions = {'HouseSize': 'Total above ground living area in square feet',
+                        'Material': 'Exterior material of house',
+                        ...}
 
 realapp = RealApp(model,
-                  X_train_orig=X_train, 
+                  X_train_orig=x_train, 
                   y_train=y_train,
                   transformers=transformers,
                   feature_descriptions=feature_descriptions)
@@ -69,17 +70,17 @@ You can format predictions coming from RealApp objects (such as setting decimal 
 </strong>
 # Format numerics into dollar amounts (1523.273 -> $1,523.27)
 realapp = RealApp(model,
-                  X_train_orig=X_train, 
+                  X_train_orig=x_train, 
                   y_train=y_train,
                   transformers=transformers,
-                  pred_format_func='${:,.2f}'.format)
+                  pred_format_func=lambda x: f"${x:,.2f}")
               
 # Format True/False into Failure/Success
 def format_func(pred):
      return "Failure" if x else "Success"
      
 realapp = RealApp(model,
-                  X_train_orig=X_train, 
+                  X_train_orig=x_train, 
                   y_train=y_train,
                   transformers=transformers,
                   pred_format_func=format_func)
@@ -98,6 +99,6 @@ realapp = RealApp(model,
                   transformers=transformers)
 
 # You will need to manually pass data in when preparing explainers.
-app.prepare_feature_contributions(X_train, y_train)
+app.prepare_feature_contributions(x_train, y_train)
 ```
 
