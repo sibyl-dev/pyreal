@@ -10,13 +10,13 @@ description: >-
 The full code for this and all other user guides can be found in our [user guide tutorial](https://github.com/sibyl-dev/pyreal/blob/dev/tutorials/user\_guide.ipynb).
 {% endhint %}
 
-In the [Data Preparation and Modeling guide](data-preparation-and-modeling/), you learned how to set up your data, transformers, and model for an ML application.&#x20;
+In the [Data Preparation and Modeling guide](data-preparation-and-modelling/), you learned how to set up your data, transformers, and model for an ML application.&#x20;
 
 In this guide, you will learn how to combine these components into a RealApp object, which in turn makes it fast and easy to use and understand your ML models.
 
 ## Initializing RealApps
 
-At minimum, RealApps require the ML model and any transformers necessary to prepare input data for model predictions. For example, following up our example from the [data preparation](data-preparation-and-modeling/) guide:
+At minimum, RealApps require the ML model and any transformers necessary to prepare input data for model predictions. For example, following up our example from the [data preparation](data-preparation-and-modelling/) guide:
 
 <pre class="language-python"><code class="lang-python">from pyreal import RealApp
 
@@ -27,7 +27,7 @@ At minimum, RealApps require the ML model and any transformers necessary to prep
 </code></pre>
 
 {% hint style="info" %}
-RealApps take in a parameter called `X_train_orig`. You can read this as "training data in the original feature space". Data in the _original feature space_ is data in whatever format the transformer list operates on. For example, in our sample dataset from the [data preparation guide](data-preparation-and-modeling/), we started with data that had categorical, unstandardized features with missing data. Our transformer list then prepares this data for the model.
+RealApps take in a parameter called `X_train_orig`. You can read this as "training data in the original feature space". Data in the _original feature space_ is data in whatever format the transformer list operates on. For example, in our sample dataset from the [data preparation guide](data-preparation-and-modelling/), we started with data that had categorical, unstandardized features with missing data. Our transformer list then prepares this data for the model.
 {% endhint %}
 
 ## Setting ID Columns

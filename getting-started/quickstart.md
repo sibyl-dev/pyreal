@@ -46,7 +46,7 @@ To make a RealApp object for a new application to generate explanations, you wil
 
 1. A trained model. This can be any object with a `.predict()` function that takes an input and outputs a prediction, such as an sklearn estimator or a pytorch neural network.
 2. The training data and targets (in their original format)
-3. Any data transformers that prepare the data for predictions, and possibly additional transformers that make the data easier to understand. The [Data Preparation and Modelling](../user-guides/data-preparation-and-modeling/) guides give more details on selecting these transformers.
+3. Any data transformers that prepare the data for predictions, and possibly additional transformers that make the data easier to understand. The [Data Preparation and Modelling](../user-guides/data-preparation-and-modelling/) guides give more details on selecting these transformers.
 4. Optionally, a dictionary of default feature names to more descriptive feature strings
 
 ```python
