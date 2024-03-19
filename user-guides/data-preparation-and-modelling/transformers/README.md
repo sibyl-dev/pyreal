@@ -39,7 +39,7 @@ In this case, one solution is the **impute** the missing values using the averag
 ```python
 from pyreal.transformers import MultiTypeImputer
 
-imputer = MultiTypeImputer()If you'd like to use alternative imputation 
+imputer = MultiTypeImputer()
 ```
 
 {% hint style="info" %}

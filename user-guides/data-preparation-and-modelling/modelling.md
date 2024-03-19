@@ -1,6 +1,6 @@
 # Modelling
 
-One you have your data and transformers ready, you can train an ML model to make predictions.
+Once you have your data and transformers ready, you can train an ML model to make predictions.
 
 {% hint style="info" %}
 Here we give a quick overview to training ML models with one type of model. If this is a new topic to you, you may find it helpful to look into further guides like the [sklearn user guide](https://scikit-learn.org/stable/user\_guide.html).
