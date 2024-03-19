@@ -1,0 +1,10 @@
+House ID,LotArea,Neighborhood,OverallQuality,YearBuilt,Material,BasementSize,CentralAir,HouseSize
+House 101,9937,Edwards,5,1965,Hard Board,1256,True,1256
+House 102,8450,College Creek,7,2003,Vinyl Siding,856,True,1710
+House 103,9600,Veenker,6,1976,Metal Siding,1262,True,1262
+House 104,11250,College Creek,7,2001,Vinyl Siding,920,True,1786
+House 105,9550,Crawford,7,1915,Wood Siding,756,True,1717
+House 106,14260,Northridge,8,2000,Vinyl Siding,1145,True,2198
+House 107,14115,Mitchell,5,1993,Vinyl Siding,796,True,1362
+House 108,10084,Somerset,8,2004,Vinyl Siding,1686,True,1694
+House 109,10382,Northwest Ames,7,1973,Hard Board,1107,True,2090

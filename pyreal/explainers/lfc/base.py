@@ -167,18 +167,23 @@ class LocalFeatureContributionsBase(ExplainerBase, ABC):
         narratives = []
         print("For each of the following inputs, please provide an appropriate narrative version.")
         for i in range(num_inputs):
+            instruction = ""
             parsed_explanation_formatted = parsed_explanations[i].replace("), ", "),\n")
-            print(f"Input {i+1} (feature, value, contribution):\n{parsed_explanation_formatted}")
+            instruction += (
+                f"Input {i+1} (feature, value, contribution):\n{parsed_explanation_formatted}\n"
+            )
             if provide_examples:
                 example = LocalFeatureContributionsBase.narrify(
                     self.openai_client, explanation[i], num_features=num_features
                 )[0]
-                print(f"Example: {example}")
-                narrative = input("Narrative explanation ('k' to keep example, 'q' to quit): ")
+                instruction += f"Example: {example}\n"
+                instruction += "Narrative explanation ('k' to keep example, 'q' to quit): "
+                narrative = input(instruction)
                 if narrative.lower() == "k":
                     narrative = example
             else:
-                narrative = input("Narrative explanation ('q' to quit): ")
+                instruction += "Narrative explanation ('q' to quit): "
+                narrative = input(instruction)
             if narrative.lower() == "q":
                 break
             narratives.append((parsed_explanations[i], narrative))

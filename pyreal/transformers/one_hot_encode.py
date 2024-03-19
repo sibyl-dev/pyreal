@@ -112,15 +112,21 @@ class OneHotEncoder(TransformerBase):
     One-hot encodes categorical feature values
     """
 
-    def __init__(self, columns=None, **kwargs):
+    def __init__(self, columns=None, handle_unknown="error", **kwargs):
         """
         Initializes the base one-hot encoder
 
         Args:
             columns (dataframe column label type or list of dataframe column label type):
                 Label of column to select, or an ordered list of column labels to select
+            handle_unknown (one of "error", "ignore", "infrequent_if_exist"):
+                How to handle unknown categories encountered during transform. "error" will raise
+                an error, "ignore" will ignore the unknown category, and "infrequent_if_exist"
+                will treat the unknown category as if it were an infrequent category.
         """
-        self.ohe = SklearnOneHotEncoder(sparse_output=False).set_output(transform="pandas")
+        self.ohe = SklearnOneHotEncoder(
+            sparse_output=False, handle_unknown=handle_unknown
+        ).set_output(transform="pandas")
         if columns is not None and not isinstance(columns, (list, tuple, np.ndarray, pd.Index)):
             columns = [columns]
         self.columns = columns
