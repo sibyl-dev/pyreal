@@ -346,7 +346,7 @@ document.write(`
 <span class="sd">            List of row ids</span>
 <span class="sd">        series (Boolean):</span>
 <span class="sd">            If True, the produce function was passed a series input</span>
-<span class="sd">        optimized (Boolean)</span>
+<span class="sd">        optimized (Boolean):</span>
 <span class="sd">            If True, return in a simple DataFrame format</span>
 
 <span class="sd">    Returns:</span>
@@ -397,7 +397,9 @@ document.write(`
     <span class="n">importances</span> <span class="o">=</span> <span class="n">explanation</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
     <span class="k">if</span> <span class="n">optimized</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">importances</span>
-    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">&quot;Feature Name&quot;</span><span class="p">:</span> <span class="n">importances</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span> <span class="s2">&quot;Importance&quot;</span><span class="p">:</span> <span class="n">importances</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()})</span>
+    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+        <span class="p">{</span><span class="s2">&quot;Feature Name&quot;</span><span class="p">:</span> <span class="n">importances</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span> <span class="s2">&quot;Importance&quot;</span><span class="p">:</span> <span class="n">importances</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()}</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
 
 <span class="k">def</span> <span class="nf">format_similar_examples_output</span><span class="p">(</span>
@@ -1360,7 +1362,11 @@ document.write(`
 <span class="sd">                already exists</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            DataFrame with a Feature Name column and an Importance column</span>
+<span class="sd">            {&quot;X&quot;: DataFrame, &quot;y&quot;: Series, &quot;Input&quot;: Series} (if series),</span>
+<span class="sd">                else {&quot;id&quot; -&gt; {&quot;X&quot;: DataFrame, &quot;y&quot;: Series, &quot;Input&quot;: Series}}</span>
+<span class="sd">            X is the examples, ordered from top to bottom by similarity to input and</span>
+<span class="sd">            y is the corresponding y values</span>
+<span class="sd">            Input is the original input in the same feature space</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">algorithm</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">algorithm</span> <span class="o">=</span> <span class="s2">&quot;nn&quot;</span>

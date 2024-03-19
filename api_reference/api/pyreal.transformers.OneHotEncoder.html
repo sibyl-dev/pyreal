@@ -383,9 +383,10 @@ document.write(`
 <li class="toctree-l1 has-children"><a class="reference internal" href="../visualize.html">Visualization</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.visualize.plot_explanation.html">pyreal.visualize.plot_explanation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.visualize.feature_bar_plot.html">pyreal.visualize.feature_bar_plot</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyreal.visualize.plot_tree_explanation.html">pyreal.visualize.plot_tree_explanation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.visualize.strip_plot.html">pyreal.visualize.strip_plot</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.visualize.feature_scatter_plot.html">pyreal.visualize.feature_scatter_plot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyreal.visualize.example_table.html">pyreal.visualize.example_table</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyreal.visualize.plot_tree_explanation.html">pyreal.visualize.plot_tree_explanation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.visualize.plot_timeseries_saliency.html">pyreal.visualize.plot_timeseries_saliency</a></li>
 </ul>
 </li>
@@ -453,15 +454,20 @@ document.write(`
 <h1>pyreal.transformers.OneHotEncoder<a class="headerlink" href="#pyreal-transformers-onehotencoder" title="Permalink to this heading">#</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="pyreal.transformers.OneHotEncoder">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyreal.transformers.</span></span><span class="sig-name descname"><span class="pre">OneHotEncoder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">columns</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyreal/transformers/one_hot_encode.html#OneHotEncoder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyreal.transformers.OneHotEncoder" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyreal.transformers.</span></span><span class="sig-name descname"><span class="pre">OneHotEncoder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">columns</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">handle_unknown</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'error'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyreal/transformers/one_hot_encode.html#OneHotEncoder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyreal.transformers.OneHotEncoder" title="Permalink to this definition">#</a></dt>
 <dd><p>One-hot encodes categorical feature values</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="pyreal.transformers.OneHotEncoder.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">columns</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyreal/transformers/one_hot_encode.html#OneHotEncoder.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyreal.transformers.OneHotEncoder.__init__" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">columns</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">handle_unknown</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'error'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyreal/transformers/one_hot_encode.html#OneHotEncoder.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyreal.transformers.OneHotEncoder.__init__" title="Permalink to this definition">#</a></dt>
 <dd><p>Initializes the base one-hot encoder</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>columns</strong> (<em>dataframe column label type</em><em> or </em><em>list</em><em> of </em><em>dataframe column label type</em>) – Label of column to select, or an ordered list of column labels to select</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>columns</strong> (<em>dataframe column label type</em><em> or </em><em>list</em><em> of </em><em>dataframe column label type</em>) – Label of column to select, or an ordered list of column labels to select</p></li>
+<li><p><strong>handle_unknown</strong> (<em>one</em><em> of </em><em>&quot;error&quot;</em><em>, </em><em>&quot;ignore&quot;</em><em>, </em><em>&quot;infrequent_if_exist&quot;</em>) – How to handle unknown categories encountered during transform. “error” will raise
+an error, “ignore” will ignore the unknown category, and “infrequent_if_exist”
+will treat the unknown category as if it were an infrequent category.</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
@@ -469,7 +475,7 @@ document.write(`
 <p class="rubric">Methods</p>
 <table class="autosummary longtable table autosummary">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#pyreal.transformers.OneHotEncoder.__init__" title="pyreal.transformers.OneHotEncoder.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>([columns])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pyreal.transformers.OneHotEncoder.__init__" title="pyreal.transformers.OneHotEncoder.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>([columns, handle_unknown])</p></td>
 <td><p>Initializes the base one-hot encoder</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">data_transform</span></code>(x)</p></td>

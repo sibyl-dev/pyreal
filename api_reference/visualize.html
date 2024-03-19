@@ -383,9 +383,10 @@ document.write(`
 <li class="toctree-l1 current active has-children"><a class="current reference internal" href="#">Visualization</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="api/pyreal.visualize.plot_explanation.html">pyreal.visualize.plot_explanation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/pyreal.visualize.feature_bar_plot.html">pyreal.visualize.feature_bar_plot</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api/pyreal.visualize.plot_tree_explanation.html">pyreal.visualize.plot_tree_explanation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/pyreal.visualize.strip_plot.html">pyreal.visualize.strip_plot</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/pyreal.visualize.feature_scatter_plot.html">pyreal.visualize.feature_scatter_plot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/pyreal.visualize.example_table.html">pyreal.visualize.example_table</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/pyreal.visualize.plot_tree_explanation.html">pyreal.visualize.plot_tree_explanation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/pyreal.visualize.plot_timeseries_saliency.html">pyreal.visualize.plot_timeseries_saliency</a></li>
 </ul>
 </li>
@@ -448,18 +449,22 @@ document.write(`
                   
   <section id="visualization">
 <span id="pyreal-visualize"></span><h1>Visualization<a class="headerlink" href="#visualization" title="Permalink to this heading">#</a></h1>
-<section id="feature-contribution-visualizations">
-<h2>Feature Contribution Visualizations<a class="headerlink" href="#feature-contribution-visualizations" title="Permalink to this heading">#</a></h2>
+<section id="general-visualization">
+<h2>General Visualization<a class="headerlink" href="#general-visualization" title="Permalink to this heading">#</a></h2>
 <table class="autosummary longtable table autosummary">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="api/pyreal.visualize.plot_explanation.html#pyreal.visualize.plot_explanation" title="pyreal.visualize.plot_explanation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_explanation</span></code></a>(explanation[, feature, ...])</p></td>
 <td><p>Plots a RealApp output or Pyreal explanation using the most appropriate visualization method</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/pyreal.visualize.feature_bar_plot.html#pyreal.visualize.feature_bar_plot" title="pyreal.visualize.feature_bar_plot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">feature_bar_plot</span></code></a>(explanation[, select_by, ...])</p></td>
+</tbody>
+</table>
+</section>
+<section id="feature-contribution-importance">
+<h2>Feature Contribution/Importance<a class="headerlink" href="#feature-contribution-importance" title="Permalink to this heading">#</a></h2>
+<table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/pyreal.visualize.feature_bar_plot.html#pyreal.visualize.feature_bar_plot" title="pyreal.visualize.feature_bar_plot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">feature_bar_plot</span></code></a>(explanation[, select_by, ...])</p></td>
 <td><p>Plot the most contributing features</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/pyreal.visualize.plot_tree_explanation.html#pyreal.visualize.plot_tree_explanation" title="pyreal.visualize.plot_tree_explanation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_tree_explanation</span></code></a>(dte[, transparent, ...])</p></td>
-<td><p>Plot the decision tree given the decision tree explainer</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="api/pyreal.visualize.strip_plot.html#pyreal.visualize.strip_plot" title="pyreal.visualize.strip_plot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">strip_plot</span></code></a>(explanation[, type, ...])</p></td>
 <td><p>Generates a strip plot (type=&quot;strip&quot;) or a swarm plot (type=&quot;swarm&quot;) from a set of feature contributions.</p></td>
@@ -467,7 +472,34 @@ document.write(`
 <tr class="row-odd"><td><p><a class="reference internal" href="api/pyreal.visualize.feature_scatter_plot.html#pyreal.visualize.feature_scatter_plot" title="pyreal.visualize.feature_scatter_plot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">feature_scatter_plot</span></code></a>(explanation, feature[, ...])</p></td>
 <td><p>Plot a contribution scatter plot for one feature</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/pyreal.visualize.plot_timeseries_saliency.html#pyreal.visualize.plot_timeseries_saliency" title="pyreal.visualize.plot_timeseries_saliency"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_timeseries_saliency</span></code></a>(data, colors[, ...])</p></td>
+</tbody>
+</table>
+</section>
+<section id="example-based-explanations">
+<h2>Example-Based Explanations<a class="headerlink" href="#example-based-explanations" title="Permalink to this heading">#</a></h2>
+<table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/pyreal.visualize.example_table.html#pyreal.visualize.example_table" title="pyreal.visualize.example_table"><code class="xref py py-obj docutils literal notranslate"><span class="pre">example_table</span></code></a>(explanation[, input_name, ...])</p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="decision-tree-explanations">
+<h2>Decision Tree Explanations<a class="headerlink" href="#decision-tree-explanations" title="Permalink to this heading">#</a></h2>
+<table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/pyreal.visualize.plot_tree_explanation.html#pyreal.visualize.plot_tree_explanation" title="pyreal.visualize.plot_tree_explanation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_tree_explanation</span></code></a>(dte[, transparent, ...])</p></td>
+<td><p>Plot the decision tree given the decision tree explainer</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="time-series">
+<h2>Time Series<a class="headerlink" href="#time-series" title="Permalink to this heading">#</a></h2>
+<table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/pyreal.visualize.plot_timeseries_saliency.html#pyreal.visualize.plot_timeseries_saliency" title="pyreal.visualize.plot_timeseries_saliency"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_timeseries_saliency</span></code></a>(data, colors[, ...])</p></td>
 <td><p></p></td>
 </tr>
 </tbody>
@@ -522,7 +554,11 @@ document.write(`
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#feature-contribution-visualizations">Feature Contribution Visualizations</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#general-visualization">General Visualization</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#feature-contribution-importance">Feature Contribution/Importance</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-based-explanations">Example-Based Explanations</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#decision-tree-explanations">Decision Tree Explanations</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#time-series">Time Series</a></li>
 </ul>
   </nav></div>
 

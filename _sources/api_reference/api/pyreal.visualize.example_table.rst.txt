@@ -1,0 +1,6 @@
+﻿pyreal.visualize.example\_table
+===============================
+
+.. currentmodule:: pyreal.visualize
+
+.. autofunction:: example_table

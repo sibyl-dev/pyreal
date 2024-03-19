@@ -383,9 +383,10 @@ document.write(`
 <li class="toctree-l1 has-children"><a class="reference internal" href="../visualize.html">Visualization</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.visualize.plot_explanation.html">pyreal.visualize.plot_explanation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.visualize.feature_bar_plot.html">pyreal.visualize.feature_bar_plot</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyreal.visualize.plot_tree_explanation.html">pyreal.visualize.plot_tree_explanation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.visualize.strip_plot.html">pyreal.visualize.strip_plot</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.visualize.feature_scatter_plot.html">pyreal.visualize.feature_scatter_plot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyreal.visualize.example_table.html">pyreal.visualize.example_table</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyreal.visualize.plot_tree_explanation.html">pyreal.visualize.plot_tree_explanation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.visualize.plot_timeseries_saliency.html">pyreal.visualize.plot_timeseries_saliency</a></li>
 </ul>
 </li>
@@ -475,7 +476,17 @@ already exists</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>DataFrame with a Feature Name column and an Importance column</p>
+<dd class="field-even"><p><dl class="simple">
+<dt>DataFrame, “y”: Series, “Input”: Series} (if series),</dt><dd><p>else {“id” -&gt; {“X”: DataFrame, “y”: Series, “Input”: Series}}</p>
+</dd>
+</dl>
+<p>X is the examples, ordered from top to bottom by similarity to input and
+y is the corresponding y values
+Input is the original input in the same feature space</p>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>{“X”</p>
 </dd>
 </dl>
 </dd></dl>

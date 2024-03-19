@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>pyreal.explanation_types.feature_based.FeatureContributionExplanation &#8212; Pyreal 0.4.8 documentation</title>
+    <title>pyreal.visualize.example_table &#8212; Pyreal 0.4.8 documentation</title>
   
   
   
@@ -38,12 +38,12 @@
     <script src="../../_static/doctools.js"></script>
     <script src="../../_static/sphinx_highlight.js"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'api_reference/api/pyreal.explanation_types.feature_based.FeatureContributionExplanation';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'api_reference/api/pyreal.visualize.example_table';</script>
     <link rel="icon" href="../../_static/dai-logo-white.ico"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="pyreal.explanation_types.feature_based.AdditiveFeatureContributionExplanation" href="pyreal.explanation_types.feature_based.AdditiveFeatureContributionExplanation.html" />
-    <link rel="prev" title="pyreal.explanation_types.feature_based.AdditiveFeatureImportanceExplanation" href="pyreal.explanation_types.feature_based.AdditiveFeatureImportanceExplanation.html" />
+    <link rel="next" title="pyreal.visualize.plot_tree_explanation" href="pyreal.visualize.plot_tree_explanation.html" />
+    <link rel="prev" title="pyreal.visualize.feature_scatter_plot" href="pyreal.visualize.feature_scatter_plot.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -349,7 +349,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="pyreal.transformers.LatLongToPlace.html">pyreal.transformers.LatLongToPlace</a></li>
 </ul>
 </li>
-<li class="toctree-l1 current active has-children"><a class="reference internal" href="../explanation_types.html">Explanation Type</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../explanation_types.html">Explanation Type</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.explanation_types.base.Explanation.html">pyreal.explanation_types.base.Explanation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.explanation_types.base.Explanation.get.html">pyreal.explanation_types.base.Explanation.get</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.explanation_types.base.Explanation.get_explanation.html">pyreal.explanation_types.base.Explanation.get_explanation</a></li>
@@ -362,7 +362,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="pyreal.explanation_types.feature_based.FeatureBased.html">pyreal.explanation_types.feature_based.FeatureBased</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.explanation_types.feature_based.FeatureImportanceExplanation.html">pyreal.explanation_types.feature_based.FeatureImportanceExplanation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.explanation_types.feature_based.AdditiveFeatureImportanceExplanation.html">pyreal.explanation_types.feature_based.AdditiveFeatureImportanceExplanation</a></li>
-<li class="toctree-l2 current active"><a class="current reference internal" href="#">pyreal.explanation_types.feature_based.FeatureContributionExplanation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyreal.explanation_types.feature_based.FeatureContributionExplanation.html">pyreal.explanation_types.feature_based.FeatureContributionExplanation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.explanation_types.feature_based.AdditiveFeatureContributionExplanation.html">pyreal.explanation_types.feature_based.AdditiveFeatureContributionExplanation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.explanation_types.feature_value_based.FeatureValueBased.html">pyreal.explanation_types.feature_value_based.FeatureValueBased</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.explanation_types.feature_value_based.PartialDependenceExplanation.html">pyreal.explanation_types.feature_value_based.PartialDependenceExplanation</a></li>
@@ -380,12 +380,12 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="pyreal.utils.model_utils.load_model_from_weights.html">pyreal.utils.model_utils.load_model_from_weights</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../visualize.html">Visualization</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../visualize.html">Visualization</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="pyreal.visualize.plot_explanation.html">pyreal.visualize.plot_explanation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.visualize.feature_bar_plot.html">pyreal.visualize.feature_bar_plot</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.visualize.strip_plot.html">pyreal.visualize.strip_plot</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.visualize.feature_scatter_plot.html">pyreal.visualize.feature_scatter_plot</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyreal.visualize.example_table.html">pyreal.visualize.example_table</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">pyreal.visualize.example_table</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.visualize.plot_tree_explanation.html">pyreal.visualize.plot_tree_explanation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.visualize.plot_timeseries_saliency.html">pyreal.visualize.plot_timeseries_saliency</a></li>
 </ul>
@@ -431,9 +431,9 @@ document.write(`
     <li class="breadcrumb-item"><a href="../index.html" class="nav-link">API Reference</a></li>
     
     
-    <li class="breadcrumb-item"><a href="../explanation_types.html" class="nav-link">Explanation Type</a></li>
+    <li class="breadcrumb-item"><a href="../visualize.html" class="nav-link">Visualization</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page">pyreal.explanation_types.feature_based.FeatureContributionExplanation</li>
+    <li class="breadcrumb-item active" aria-current="page">pyreal.visualize.example_table</li>
   </ul>
 </nav>
 </div>
@@ -450,67 +450,12 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <section id="pyreal-explanation-types-feature-based-featurecontributionexplanation">
-<h1>pyreal.explanation_types.feature_based.FeatureContributionExplanation<a class="headerlink" href="#pyreal-explanation-types-feature-based-featurecontributionexplanation" title="Permalink to this heading">#</a></h1>
-<dl class="py class">
-<dt class="sig sig-object py" id="pyreal.explanation_types.feature_based.FeatureContributionExplanation">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyreal.explanation_types.feature_based.</span></span><span class="sig-name descname"><span class="pre">FeatureContributionExplanation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">explanation</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">values</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyreal/explanation_types/feature_based.html#FeatureContributionExplanation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyreal.explanation_types.feature_based.FeatureContributionExplanation" title="Permalink to this definition">#</a></dt>
-<dd><p>A type wrapper for local feature contribution DataFrame type outputs from explanation
-algorithms. Local feature contribution explanations give one numeric value per instance
-per feature, representing that feature’s contribution to the model’s prediction
-for this instance.</p>
-<dl class="py method">
-<dt class="sig sig-object py" id="pyreal.explanation_types.feature_based.FeatureContributionExplanation.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">explanation</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">values</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyreal.explanation_types.feature_based.FeatureContributionExplanation.__init__" title="Permalink to this definition">#</a></dt>
-<dd><p>Set the wrapped explanation to <cite>explanation</cite> and values to <cite>values</cite> and validate
-:param explanation: wrapped explanation
-:type explanation: object
-:param values: Values corresponding with the object being explained
-:type values: DataFrame of shape (n_instances, n_features) or None</p>
-</dd></dl>
-
-<p class="rubric">Methods</p>
-<table class="autosummary longtable table autosummary">
-<tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#pyreal.explanation_types.feature_based.FeatureContributionExplanation.__init__" title="pyreal.explanation_types.feature_based.FeatureContributionExplanation.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(explanation[, values])</p></td>
-<td><p>Set the wrapped explanation to <cite>explanation</cite> and values to <cite>values</cite> and validate :param explanation: wrapped explanation :type explanation: object :param values: Values corresponding with the object being explained :type values: DataFrame of shape (n_instances, n_features) or None</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">apply_feature_descriptions</span></code>(feature_descriptions)</p></td>
-<td><p>Apply feature descriptions to explanation</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">combine_columns</span></code>(columns, new_column)</p></td>
-<td><p>Combine the values for columns into a new column, if appropriate :param columns: Columns to sum :type columns: list of strings :param new_column: Name of new column :type new_column: string</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get</span></code>()</p></td>
-<td><p>Get the explanation wrapped by this type.</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_all</span></code>()</p></td>
-<td><p>Get the explanation and wrapped values as a tuple.</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_explanation</span></code>()</p></td>
-<td><p>Get the explanation wrapped by this type</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_top_features</span></code>([num_features, select_by])</p></td>
-<td><p>Get the top features from the explanation :returns:</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_values</span></code>()</p></td>
-<td><p>Return the values associated with the explanation</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">update_explanation</span></code>(new_explanation[, ...])</p></td>
-<td><p>Sets this object's explanation to the new value.</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">update_values</span></code>(values[, inplace])</p></td>
-<td><p>Updates this objects values, and validates</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">validate</span></code>()</p></td>
-<td><p>Validate that <cite>self.explanation</cite> is a valid <cite>DataFrame</cite> :returns: None</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">validate_values</span></code>()</p></td>
-<td><p>Validate that self.values are valid values for this Explanation.</p></td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
+  <section id="pyreal-visualize-example-table">
+<h1>pyreal.visualize.example_table<a class="headerlink" href="#pyreal-visualize-example-table" title="Permalink to this heading">#</a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="pyreal.visualize.example_table">
+<span class="sig-prename descclassname"><span class="pre">pyreal.visualize.</span></span><span class="sig-name descname"><span class="pre">example_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">explanation</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Original</span> <span class="pre">Input'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_column_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Ground</span> <span class="pre">Truth'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_format_func</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyreal/visualize/example_based_vis.html#example_table"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyreal.visualize.example_table" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
 
 </section>
 
@@ -526,20 +471,20 @@ for this instance.</p>
     <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
-       href="pyreal.explanation_types.feature_based.AdditiveFeatureImportanceExplanation.html"
+       href="pyreal.visualize.feature_scatter_plot.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">pyreal.explanation_types.feature_based.AdditiveFeatureImportanceExplanation</p>
+        <p class="prev-next-title">pyreal.visualize.feature_scatter_plot</p>
       </div>
     </a>
     <a class="right-next"
-       href="pyreal.explanation_types.feature_based.AdditiveFeatureContributionExplanation.html"
+       href="pyreal.visualize.plot_tree_explanation.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">pyreal.explanation_types.feature_based.AdditiveFeatureContributionExplanation</p>
+        <p class="prev-next-title">pyreal.visualize.plot_tree_explanation</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -561,16 +506,13 @@ for this instance.</p>
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pyreal.explanation_types.feature_based.FeatureContributionExplanation"><code class="docutils literal notranslate"><span class="pre">FeatureContributionExplanation</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyreal.explanation_types.feature_based.FeatureContributionExplanation.__init__"><code class="docutils literal notranslate"><span class="pre">FeatureContributionExplanation.__init__()</span></code></a></li>
-</ul>
-</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pyreal.visualize.example_table"><code class="docutils literal notranslate"><span class="pre">example_table()</span></code></a></li>
 </ul>
   </nav></div>
 
   <div class="sidebar-secondary-item">
   <div class="tocsection sourcelink">
-    <a href="../../_sources/api_reference/api/pyreal.explanation_types.feature_based.FeatureContributionExplanation.rst.txt">
+    <a href="../../_sources/api_reference/api/pyreal.visualize.example_table.rst.txt">
       <i class="fa-solid fa-file-lines"></i> Show Source
     </a>
   </div>
