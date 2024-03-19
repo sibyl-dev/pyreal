@@ -1,4 +1,4 @@
-House ID,LotArea,Neighborhood,OverallQual,YearBuilt,Exterior1st,TotalBsmtSF,CentralAir,GrLivArea
+House ID,LotArea,Neighborhood,OverallQuality,YearBuilt,Material,BasementSize,CentralAir,HouseSize
 House 101,9937,Edwards,5,1965,Hard Board,1256,True,1256
 House 102,8450,College Creek,7,2003,Vinyl Siding,856,True,1710
 House 103,9600,Veenker,6,1976,Metal Siding,1262,True,1262

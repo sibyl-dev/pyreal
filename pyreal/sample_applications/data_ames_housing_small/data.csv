@@ -1,4 +1,4 @@
-LotArea,Neighborhood,OverallQual,YearBuilt,Exterior1st,TotalBsmtSF,CentralAir,GrLivArea,SalePrice
+LotArea,Neighborhood,OverallQuality,YearBuilt,Material,BasementSize,CentralAir,HouseSize,SalePrice
 6120.0,Old Town,7.0,1931.0,Brick Face,952.0,True,1774.0,129900
 7420.0,Brookside,5.0,1939.0,Metal Siding,991.0,True,1077.0,118000
 ,Sawyer,,1965.0,Hard Board,1040.0,True,1040.0,129500

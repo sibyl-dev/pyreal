@@ -1,9 +1,9 @@
 Name,Description
-LotArea, Lot size in square feet
-Neighborhood, Neighborhood
-OverallQuality, Overall quality of the house finishing and materials (1-5)
-YearBuilt, Original construction date
-Material, Exterior material of house
-BasementSize, Total basement area in square feet
-CentralAir, Central air conditioning
-HouseSize, Total above ground living area in square feet
+LotArea,Lot size in square feet
+Neighborhood,Neighborhood
+OverallQuality,Overall quality of the house finishing and materials (1-10)
+YearBuilt,Original construction date
+Material,Exterior material of house
+BasementSize,Total basement area in square feet
+CentralAir,Central air conditioning
+HouseSize,Total above ground living area in square feet

@@ -30,7 +30,7 @@ def load_data(n_rows=None, include_targets=False):
     else:
         raise FileNotFoundError("Ames housing data is missing")
 
-    df = df[df.GrLivArea < 4000]
+    df = df[df["HouseSize"] < 4000]
     y = df["SalePrice"]
     x_orig = df.drop("SalePrice", axis="columns")
     x_orig["CentralAir"].replace({"True": True, "False": False}, inplace=True)
