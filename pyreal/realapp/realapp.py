@@ -22,7 +22,7 @@ def format_feature_contribution_output(explanation, ids=None, series=False, opti
             List of row ids
         series (Boolean):
             If True, the produce function was passed a series input
-        optimized (Boolean)
+        optimized (Boolean):
             If True, return in a simple DataFrame format
 
     Returns:
