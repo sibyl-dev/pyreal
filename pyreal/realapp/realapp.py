@@ -75,7 +75,7 @@ def format_feature_importance_output(explanation, optimized=False):
         return importances
     return pd.DataFrame(
         {"Feature Name": importances.columns, "Importance": importances.squeeze()}
-    ).reset_index()
+    ).reset_index(drop=True)
 
 
 def format_similar_examples_output(
