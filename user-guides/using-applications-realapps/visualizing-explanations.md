@@ -12,46 +12,57 @@ All visualization functions take in many customization parameters. See the[ API 
 
 ## Feature Bar Plot
 
-The feature bar plot can visualize general feature importance or feature contributions for a single input.
+The feature bar plot can visualize general feature importance scores...
 
 ```python
 from pyreal.visualize import feature_bar_plot
 
-# create or load realapp and input data (houses) as in previous guides
+feature_bar_plot(importance_scores)
 
-importance = realapp.produce_feature_importance()
-feature_bar_plot(importance)
-
-contributions = realapp.produce_feature_contributions(houses)
 feature_bar_plot(contributions["House 201"]
 ```
+
+<figure><img src="../../.gitbook/assets/importance.png" alt=""><figcaption></figcaption></figure>
+
+... or contribution scores for a single input
+
+```python
+feature_bar_plot(contribution_scores["House 101"])
+```
+
+<figure><img src="../../.gitbook/assets/contributions.png" alt=""><figcaption></figcaption></figure>
 
 ## Strip Plot
 
 Strip plots are an effective way to visualize feature contributions for multiple inputs at a time, to understand the general trends of how the ML model uses features.
 
+To increase the amount of information displayed in these plots, you can generate feature contributions for the full training set.
+
 ```python
 from pyreal.visualize import strip_plot
 
-contributions = realapp.produce_feature_contributions(houses)
-strip_plot(contributions)
+training_set_contributions = realapp.produce_feature_contributions(x_train)
+strip_plot(training_set_contributions)
 ```
+
+<figure><img src="../../.gitbook/assets/strip_plot.png" alt=""><figcaption></figcaption></figure>
 
 ## Feature Scatter Plot
 
 Scatter plots allow you to investigate how the model uses a specific feature, across the full range of that feature's values:
 
-<pre class="language-python"><code class="lang-python">from pyreal.visualize import feature_scatter_plot
+```python
+from pyreal.visualize import feature_scatter_plot
 
-contributions = realapp.produce_feature_contributions(houses)
+# Optionally pass in predictions to color the plot by prediction
+predictions = realapp.predict(x_train, format=False)
 
-<strong># Optionally pass in predictions to color the plot by prediction
-</strong>predictions = realapp.predict(houses)
-
-feature_scatter_plot(contributions, 
-                     feature="Lot size in square feet",
+feature_scatter_plot(training_set_contributions, 
+                     "Total above ground living area in square feet", 
                      predictions=predictions)
-</code></pre>
+```
+
+<figure><img src="../../.gitbook/assets/scatter_plot.png" alt=""><figcaption></figcaption></figure>
 
 ## Example Table
 
@@ -60,7 +71,14 @@ To get a clean table comparing the feature values of a input data to those of si
 ```python
 from pyreal.visualize import example_table
 
-similar_houses = realapp.produce_similar_examples(houses)
-
-example_table(similar_houses)
+example_table(similar_houses["House 101"])
 ```
+
+This will give you a table like:
+
+|                | Ground Truth | Lot size in square feet | Neighborhood | ... |
+| -------------- | ------------ | ----------------------- | ------------ | --- |
+| Original Input | N/A          | 9937                    | Edwards      | ... |
+| House 984      | $144,500.00  | 8562.0                  | Edwards      | ... |
+| House 1004     | $149,900.00  | 17755.0                 | Edwards      | ... |
+
