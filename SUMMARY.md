@@ -13,11 +13,11 @@
 
 ## User Guides
 
-* [Data Preparation and Modelling](user-guides/data-preparation-and-modelling/README.md)
-  * [Training, Testing, and Input Data](user-guides/data-preparation-and-modelling/training-and-input-data.md)
-  * [Transformers](user-guides/data-preparation-and-modelling/transformers/README.md)
-    * [Transformers: Extended Guide](user-guides/data-preparation-and-modelling/transformers-extended-guide.md)
-  * [Modelling](user-guides/data-preparation-and-modelling/modelling.md)
+* [Data Preparation and Modeling](user-guides/data-preparation-and-modeling/README.md)
+  * [Training, Testing, and Input Data](user-guides/data-preparation-and-modeling/training-testing-and-input-data.md)
+  * [Transformers](user-guides/data-preparation-and-modeling/transformers/README.md)
+    * [Transformers: Extended Guide](user-guides/data-preparation-and-modeling/transformers/transformers-extended-guide.md)
+  * [Modeling](user-guides/data-preparation-and-modeling/modeling.md)
 * [Creating new applications (RealApps)](user-guides/creating-new-applications-realapps.md)
 * [Using applications (RealApps)](user-guides/generating-explanations/README.md)
   * [Predictions](user-guides/using-applications-realapps/predictions.md)

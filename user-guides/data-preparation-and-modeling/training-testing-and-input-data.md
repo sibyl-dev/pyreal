@@ -1,5 +1,9 @@
 # Training, Testing, and Input Data
 
+{% hint style="info" %}
+The full code for this and all other user guides can be found in our [user guide tutorial](https://github.com/sibyl-dev/pyreal/blob/dev/tutorials/user\_guide.ipynb).
+{% endhint %}
+
 The first step to getting started with Pyreal is to prepare your data.
 
 Pyreal expects data in the format of [Pandas DataFrames](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html). Each row refers to one _data instance_ (a person, place, thing, or entity), and each column refers to a _feature_, or piece of information about that instance. Column headers are the names of feature. Each instance may optionally have an instance ID, which can either be stored as the DataFrame's indices (row IDs) or as a separate column.

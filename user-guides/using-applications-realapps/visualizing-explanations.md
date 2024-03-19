@@ -4,6 +4,10 @@ description: You can use Pyreal's `visualize` module to quickly get explanation 
 
 # Visualization
 
+{% hint style="info" %}
+The full code for this and all other user guides can be found in our [user guide tutorial](https://github.com/sibyl-dev/pyreal/blob/dev/tutorials/user\_guide.ipynb).
+{% endhint %}
+
 Pyreal's visualize module includes several functions that take in RealApp output directly to generate explanation plots.
 
 {% hint style="info" %}

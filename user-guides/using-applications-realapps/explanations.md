@@ -6,6 +6,10 @@ description: >-
 
 # Explanations
 
+{% hint style="info" %}
+The full code for this and all other user guides can be found in our [user guide tutorial](https://github.com/sibyl-dev/pyreal/blob/dev/tutorials/user\_guide.ipynb).
+{% endhint %}
+
 Sometimes you may want more information about how an ML model came up with its prediction on an input. Or, you may have questions about the ML model in general. For our example application of predicting house prices based on information about houses, you may have questions like:
 
 1. [What information about the house (or _features_) contributed to the prediction of $102,300?](explanations.md#what-features-contributed-to-the-model-prediction)
@@ -18,7 +22,7 @@ You can answer these questions by look at ML model explanations. Explanations ar
 Pyreal generates explanations that are naturally readable, in the same _feature space_ as your input data. This means explanations will show the original values of features, before scaling, one-hot encoding, imputing, or any other muddling transformations.&#x20;
 
 {% hint style="info" %}
-To make Pyreal's explanations even more readable, you can use advanced transformers, as described in the [Transformers: Extended Guide](../data-preparation-and-modelling/transformers-extended-guide.md).
+To make Pyreal's explanations even more readable, you can use advanced transformers, as described in the [Transformers: Extended Guide](../data-preparation-and-modeling/transformers/transformers-extended-guide.md).
 {% endhint %}
 
 ## Sample Explanations

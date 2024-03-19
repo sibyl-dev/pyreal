@@ -4,6 +4,10 @@ description: Using and understanding your ML model with Pyreal RealApps.
 
 # Using applications (RealApps)
 
+{% hint style="info" %}
+The full code for this and all other user guides can be found in our [user guide tutorial](https://github.com/sibyl-dev/pyreal/blob/dev/tutorials/user\_guide.ipynb).
+{% endhint %}
+
 Having created your RealApp per the [Creating new applications](../creating-new-applications-realapps.md) guide, you can now use it to make predictions with and understand your ML model.
 
 ## In this guide...

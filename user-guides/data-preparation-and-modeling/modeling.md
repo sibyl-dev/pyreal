@@ -1,4 +1,8 @@
-# Modelling
+# Modeling
+
+{% hint style="info" %}
+The full code for this and all other user guides can be found in our [user guide tutorial](https://github.com/sibyl-dev/pyreal/blob/dev/tutorials/user\_guide.ipynb).
+{% endhint %}
 
 Once you have your data and transformers ready, you can train an ML model to make predictions.
 

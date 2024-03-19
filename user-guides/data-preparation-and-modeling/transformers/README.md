@@ -1,5 +1,9 @@
 # Transformers
 
+{% hint style="info" %}
+The full code for this and all other user guides can be found in our [user guide tutorial](https://github.com/sibyl-dev/pyreal/blob/dev/tutorials/user\_guide.ipynb).
+{% endhint %}
+
 Many ML models either require data to be in a specific format, or preform significantly better when data is a specific format.&#x20;
 
 For example, many models require all data to be numeric, cannot handle missing data, or expect all features to be on similar numeric scales. But this is rarely the case in real-world applications, so we need to perform **feature engineering** using **data transformers**.
