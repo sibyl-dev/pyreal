@@ -12,6 +12,7 @@ from pyreal.transformers import (
 )
 
 DATA_DIR = os.path.join(os.path.dirname(__file__), "data_ames_housing_small")
+INPUT_DATA_FILE = os.path.join(DATA_DIR, "input_data.csv")
 DATA_FILE = os.path.join(DATA_DIR, "data.csv")
 MODEL_FILE = os.path.join(DATA_DIR, "model.pkl")
 DESCRIPTION_FILE = os.path.join(DATA_DIR, "feature_descriptions.csv")
@@ -42,6 +43,17 @@ def load_data(n_rows=None, include_targets=False):
         return x_orig, y
     else:
         return x_orig
+
+
+def load_input_data():
+    if os.path.exists(INPUT_DATA_FILE):
+        x_orig = pd.read_csv(INPUT_DATA_FILE)
+    else:
+        raise FileNotFoundError("Ames housing data is missing")
+
+    x_orig["CentralAir"].replace({"True": True, "False": False}, inplace=True)
+
+    return x_orig
 
 
 def load_model():
