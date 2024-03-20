@@ -4,7 +4,7 @@
 
 To install **Pyreal** using `pip`, run the following command in your terminal:
 
-```
+```bash
 pip install pyreal
 ```
 
@@ -16,7 +16,7 @@ The source code of **Pyreal** can be downloaded from the [Github Repository](htt
 
 You can clone the repository and install the latest development version from source by running `poetry install` on the `dev` branch:
 
-```
+```bash
 git clone git://github.com/dai-lab/pyreal
 cd pyreal
 poetry install
