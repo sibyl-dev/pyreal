@@ -22,10 +22,10 @@ An easier approach to understanding your model's predictions.
 | :book: **[Documentation]**                    | Quickstarts and user guides                                          |
 | :memo: **[API Reference]**                    | Full library API                                                     |
 | :apple: **[Tutorials]**                       | Notebooks with example usage                                          |
-| :scroll: **[License]**                        | The repository is published under the MIT License                    |
-| :computer: **[Website]**                      | Check out the Sibyl Project Website for more information             |
+| :scroll: **[License]**                        | This repository is published under the MIT License                    |
+| :computer: **[Project Homepage]**             | Check out the Sibyl project website for more information             |
 
-[Website]: https://sibyl-ml.dev/
+[Project Homepage]: https://sibyl-ml.dev/
 [Documentation]: https://dtail.gitbook.io/pyreal/
 [Tutorials]: https://github.com/sibyl-dev/pyreal/tree/dev/tutorials
 [License]: https://github.com/sibyl-dev/pyreal/blob/dev/LICENSE
