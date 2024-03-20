@@ -20,7 +20,7 @@ An easier approach to understanding your model's predictions.
 | Important Links                               |                                                                      |
 | --------------------------------------------- | -------------------------------------------------------------------- |
 | :book: **[Documentation]**                    | Quickstarts and user guides                                          |
-| :memo: **[API Reference]**                    | Endpoint usage and details                                           |
+| :memo: **[API Reference]**                    | Full library API                                                     |
 | :star: **[Tutorials]**                        | Checkout our notebooks                                               |
 | :scroll: **[License]**                        | The repository is published under the MIT License                    |
 | :computer: **[Website]**                      | Check out the Sibyl Project Website for more information             |
