@@ -10,6 +10,16 @@ description: >-
 The full code for this and all other user guides can be found in our [user guide tutorial](https://github.com/sibyl-dev/pyreal/blob/dev/tutorials/user\_guide.ipynb).
 {% endhint %}
 
+## Installation
+
+To use narrative explanation functions, you will need to install Pyreal with the extra LLM dependencies:
+
+```bash
+pip install pyreal[llm]
+```
+
+## Narrative Explanations
+
 You may prefer to get explanations in natural-language sentences. For example, instead of a table or graph of feature contributions, you may prefer what we call a _narrative explanation_:
 
 > The predicted price of the house increased significantly (by about $20,000) because of its location in the expensive neighborhood of Sawyer. However, the house is smaller than average (at 605 sq. ft.) and does not have AC, which reduced its predicted price by about $12,000.
