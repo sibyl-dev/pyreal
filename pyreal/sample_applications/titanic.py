@@ -96,6 +96,9 @@ def load_transformers(save=False, use_saved=False):
 
 
 def load_app(n_rows=None):
+    def pred_format_func(pred):
+        return "Survived" if pred else "Died"
+
     x_train_orig, y = load_data(include_targets=True, n_rows=n_rows)
     model = load_model()
     transformers = load_transformers()
@@ -107,4 +110,5 @@ def load_app(n_rows=None):
         y_train=y,
         transformers=transformers,
         feature_descriptions=feature_descriptions,
+        pred_format_func=pred_format_func,
     )
