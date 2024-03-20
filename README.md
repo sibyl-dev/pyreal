@@ -21,7 +21,7 @@ An easier approach to understanding your model's predictions.
 | --------------------------------------------- | -------------------------------------------------------------------- |
 | :book: **[Documentation]**                    | Quickstarts and user guides                                          |
 | :memo: **[API Reference]**                    | Full library API                                                     |
-| :star: **[Tutorials]**                        | Checkout our notebooks                                               |
+| :apple: **[Tutorials]**                        | Checkout our notebooks                                               |
 | :scroll: **[License]**                        | The repository is published under the MIT License                    |
 | :computer: **[Website]**                      | Check out the Sibyl Project Website for more information             |
 
