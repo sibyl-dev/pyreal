@@ -43,12 +43,6 @@
 
 * [Introduction to explanations](user-guides/using-applications-realapps/introduction-to-explanations.md)
 
-## Glossaries
-
-* [📗 Glossary of Explantions](glossary-of-explantions.md)
-* [📘 Glossary of Transformers](glossary-of-transformers.md)
-* [📕 Glossary of Visualizations](glossary-of-visualizations.md)
-
 ## Important Links
 
 * [📚 API Documentation](https://sibyl-ml.dev/pyreal/api\_reference/index.html)
