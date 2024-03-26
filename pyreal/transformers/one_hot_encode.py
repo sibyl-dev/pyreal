@@ -117,8 +117,10 @@ class OneHotEncoder(TransformerBase):
         Initializes the base one-hot encoder
 
         Args:
-            columns (dataframe column label type or list of dataframe column label type):
-                Label of column to select, or an ordered list of column labels to select
+            columns (list, None, or "object_columns"):
+                List of columns to apply one-hot encoding to. If None, all columns will be encoded.
+                If "all_categorical", all columns with an object dtype will be
+                    automatically encoded.
             handle_unknown (one of "error", "ignore", "infrequent_if_exist"):
                 How to handle unknown categories encountered during transform. "error" will raise
                 an error, "ignore" will ignore the unknown category, and "infrequent_if_exist"
@@ -127,6 +129,10 @@ class OneHotEncoder(TransformerBase):
         self.ohe = SklearnOneHotEncoder(
             sparse_output=False, handle_unknown=handle_unknown
         ).set_output(transform="pandas")
+        self.all_categorical = False
+        if columns == "all_categorical":
+            self.all_categorical = True
+            columns = None
         if columns is not None and not isinstance(columns, (list, tuple, np.ndarray, pd.Index)):
             columns = [columns]
         self.columns = columns
@@ -145,7 +151,8 @@ class OneHotEncoder(TransformerBase):
         Returns:
             None
         """
-
+        if self.all_categorical:
+            self.columns = x.select_dtypes(include=["object"]).columns
         if self.columns is None:
             self.columns = x.columns
         self.orig_columns = x.columns

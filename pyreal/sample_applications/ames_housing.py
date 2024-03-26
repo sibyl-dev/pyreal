@@ -138,8 +138,7 @@ def load_transformers():
     x_orig = x_orig.drop("Id", axis="columns")
     ames_imputer = AmesHousingImputer()
     x_imputed = fit_transformers(ames_imputer, x_orig)
-    object_columns = x_imputed.select_dtypes(include=["object"]).columns
-    onehotencoder = OneHotEncoder(object_columns)
+    onehotencoder = OneHotEncoder(columns="all_categorical")
     fit_transformers(onehotencoder, x_imputed)
 
     transformers = [ames_imputer, onehotencoder]
