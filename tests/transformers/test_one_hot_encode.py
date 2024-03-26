@@ -11,7 +11,7 @@ from pyreal.transformers import (
 
 
 def test_fit_transform_one_hot_encoder(transformer_test_data):
-    ohe_transformer = OneHotEncoder(columns=transformer_test_data["columns"])
+    ohe_transformer = OneHotEncoder(columns=pd.Index(transformer_test_data["columns"]))
     ohe_transformer.fit(transformer_test_data["x"])
     transformed_x = ohe_transformer.transform(transformer_test_data["x"])
     expected_transformed_x = pd.DataFrame(

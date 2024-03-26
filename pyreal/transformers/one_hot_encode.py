@@ -130,7 +130,8 @@ class OneHotEncoder(TransformerBase):
             sparse_output=False, handle_unknown=handle_unknown
         ).set_output(transform="pandas")
         self.all_categorical = False
-        if columns == "all_categorical":
+        # Check if columns is a string
+        if isinstance(columns, str) and columns == "all_categorical":
             self.all_categorical = True
             columns = None
         if columns is not None and not isinstance(columns, (list, tuple, np.ndarray, pd.Index)):
