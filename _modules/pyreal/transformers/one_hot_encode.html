@@ -441,8 +441,10 @@ document.write(`
 <span class="sd">        Initializes the base one-hot encoder</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            columns (dataframe column label type or list of dataframe column label type):</span>
-<span class="sd">                Label of column to select, or an ordered list of column labels to select</span>
+<span class="sd">            columns (list, None, or &quot;object_columns&quot;):</span>
+<span class="sd">                List of columns to apply one-hot encoding to. If None, all columns will be encoded.</span>
+<span class="sd">                If &quot;all_categorical&quot;, all columns with an object dtype will be</span>
+<span class="sd">                    automatically encoded.</span>
 <span class="sd">            handle_unknown (one of &quot;error&quot;, &quot;ignore&quot;, &quot;infrequent_if_exist&quot;):</span>
 <span class="sd">                How to handle unknown categories encountered during transform. &quot;error&quot; will raise</span>
 <span class="sd">                an error, &quot;ignore&quot; will ignore the unknown category, and &quot;infrequent_if_exist&quot;</span>
@@ -451,6 +453,10 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">ohe</span> <span class="o">=</span> <span class="n">SklearnOneHotEncoder</span><span class="p">(</span>
             <span class="n">sparse_output</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">handle_unknown</span><span class="o">=</span><span class="n">handle_unknown</span>
         <span class="p">)</span><span class="o">.</span><span class="n">set_output</span><span class="p">(</span><span class="n">transform</span><span class="o">=</span><span class="s2">&quot;pandas&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">all_categorical</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">if</span> <span class="n">columns</span> <span class="o">==</span> <span class="s2">&quot;all_categorical&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">all_categorical</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="n">columns</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">if</span> <span class="n">columns</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">columns</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Index</span><span class="p">)):</span>
             <span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="n">columns</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">columns</span>
@@ -469,7 +475,8 @@ document.write(`
 <span class="sd">        Returns:</span>
 <span class="sd">            None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">all_categorical</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;object&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">columns</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">columns</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">columns</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">orig_columns</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">columns</span>
