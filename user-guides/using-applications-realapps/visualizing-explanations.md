@@ -23,7 +23,7 @@ from pyreal.visualize import feature_bar_plot
 
 feature_bar_plot(importance_scores)
 
-feature_bar_plot(contributions["House 201"]
+feature_bar_plot(contributions_scores["House 101"])
 ```
 
 <figure><img src="../../.gitbook/assets/importance.png" alt=""><figcaption><p>In feature bar plots, each bar represents the importance or contribution of the feature. By default, feature bar plots show just the top 5 more important features, but this can be changed with the num_features parameter.</p></figcaption></figure>
