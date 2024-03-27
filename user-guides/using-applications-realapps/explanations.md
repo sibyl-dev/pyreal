@@ -46,7 +46,7 @@ Feature contribution outputs from RealApps are indexed by row ids, found in the 
 This allows us to access the explanation for a given house by ID:
 
 ```python
-contributions ["House 101"]
+contribution_scores["House 101"]
 ```
 
 ... which outputs a DataFrame with all features, their contributions, and their average or mode value:
