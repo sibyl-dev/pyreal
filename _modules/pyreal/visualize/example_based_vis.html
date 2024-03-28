@@ -326,7 +326,11 @@ document.write(`
 
 
 <div class="viewcode-block" id="example_table"><a class="viewcode-back" href="../../../api_reference/api/pyreal.visualize.example_table.html#pyreal.visualize.example_table">[docs]</a><span class="k">def</span> <span class="nf">example_table</span><span class="p">(</span>
-    <span class="n">explanation</span><span class="p">,</span> <span class="n">input_name</span><span class="o">=</span><span class="s2">&quot;Original Input&quot;</span><span class="p">,</span> <span class="n">y_column_name</span><span class="o">=</span><span class="s2">&quot;Ground Truth&quot;</span><span class="p">,</span> <span class="n">y_format_func</span><span class="o">=</span><span class="kc">None</span>
+    <span class="n">explanation</span><span class="p">,</span>
+    <span class="n">input_name</span><span class="o">=</span><span class="s2">&quot;Original Input&quot;</span><span class="p">,</span>
+    <span class="n">y_column_name</span><span class="o">=</span><span class="s2">&quot;Ground Truth&quot;</span><span class="p">,</span>
+    <span class="n">y_format_func</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">show_only_different</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
 <span class="p">):</span>
     <span class="n">table</span> <span class="o">=</span> <span class="n">explanation</span><span class="p">[</span><span class="s2">&quot;X&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
     <span class="n">y</span> <span class="o">=</span> <span class="n">explanation</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
@@ -334,11 +338,12 @@ document.write(`
     <span class="n">input_col</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">input_name</span>
     <span class="n">y</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">explanation</span><span class="p">[</span><span class="s2">&quot;X&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">index</span>
     <span class="n">table</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">input_col</span><span class="o">.</span><span class="n">to_frame</span><span class="p">()</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">table</span><span class="p">])</span>
-    <span class="n">y</span> <span class="o">=</span> <span class="n">explanation</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span>
     <span class="k">if</span> <span class="n">y_format_func</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">y</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">y_format_func</span><span class="p">)</span>
     <span class="n">y</span><span class="p">[</span><span class="n">input_name</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;N/A&quot;</span>
     <span class="n">table</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">y_column_name</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">show_only_different</span><span class="p">:</span>
+        <span class="n">table</span> <span class="o">=</span> <span class="n">table</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="n">table</span><span class="o">.</span><span class="n">nunique</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">]</span>
     <span class="k">return</span> <span class="n">table</span></div>
 </pre></div>
 
