@@ -1,6 +1,6 @@
 Name,Description
-MSSubClass,Identifies the type of dwelling involved in the sale.
-MSZoning,Identifies the general zoning classification of the sale.
+MSSubClass,Type of dwelling involved in the sale.
+MSZoning,General zoning classification of the sale.
 LotFrontage,Linear feet of street connected to property
 LotArea,Lot size in square feet
 Street,Type of road access to property
@@ -15,8 +15,8 @@ Condition1,Proximity to various conditions
 Condition2,Proximity to various conditions (if more than one is present)
 BldgType,Type of dwelling
 HouseStyle,Style of dwelling
-OverallQual,Rates the overall material and finish of the house
-OverallCond,Rates the overall condition of the house
+OverallQual,Rates the overall material and finish of the house from 1 to 10
+OverallCond,Rates the overall condition of the house from 1 to 10
 YearBuilt,Original construction date
 YearRemodAdd,Remodel date (same as construction date if no remodeling or additions)
 RoofStyle,Type of roof
@@ -32,9 +32,9 @@ BsmtQual,Evaluates the height of the basement
 BsmtCond,Evaluates the general condition of the basement
 BsmtExposure,Refers to walkout or garden level walls
 BsmtFinType1,Rating of basement finished area
-BsmtFinSF1,Type 1 finished square feet
+BsmtFinSF1,Basement type 1 finished square feet
 BsmtFinType2,Rating of basement finished area (if multiple types)
-BsmtFinSF2,Type 2 finished square feet
+BsmtFinSF2,Basement type 2 finished square feet
 BsmtUnfSF,Unfinished square feet of basement area
 TotalBsmtSF,Total square feet of basement area
 Heating,Type of heating
@@ -44,7 +44,7 @@ Electrical,Electrical system
 1stFlrSF,First Floor square feet
 2ndFlrSF,Second floor square feet
 LowQualFinSF,Low quality finished square feet (all floors)
-GrLivArea,Above grade (ground) living area square feet
+GrLivArea,Above ground living area square feet
 BsmtFullBath,Basement full bathrooms
 BsmtHalfBath,Basement half bathrooms
 FullBath,Full bathrooms above grade
