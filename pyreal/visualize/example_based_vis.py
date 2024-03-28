@@ -14,7 +14,6 @@ def example_table(
     input_col.name = input_name
     y.index = explanation["X"].index
     table = pd.concat([input_col.to_frame().T, table])
-    y = explanation["y"].squeeze()
     if y_format_func is not None:
         y = y.apply(y_format_func)
     y[input_name] = "N/A"
