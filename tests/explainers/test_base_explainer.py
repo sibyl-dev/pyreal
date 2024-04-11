@@ -54,7 +54,10 @@ def test_transform_to_functions(regression_one_hot):
 
 def test_transform_to_functions_series(regression_one_hot):
     x = pd.Series([2, 1, 3], index=["A", "B", "C"])
-    expected = pd.Series([1, 3, 1, 0, 0], index=["B", "C", "A_2", "A_4", "A_6"])
+    expected = pd.Series(
+        [1, 0, 0, 1, 3],
+        index=["A_2", "A_4", "A_6", "B", "C"],
+    )
 
     regression_one_hot["transformers"].set_flags(model=True, interpret=True)
     feature_select = FeatureSelectTransformer(columns=["B", "A_2"], algorithm=False, model=True)
