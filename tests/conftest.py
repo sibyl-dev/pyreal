@@ -140,7 +140,7 @@ def regression_one_hot(test_root):
     y = pd.DataFrame([1, 2, 3])
     model_one_hot = LinearRegression()
     model_one_hot.fit(x_trans, y)
-    model_one_hot.coef_ = np.array([0, 0, 1, 2, 3])
+    model_one_hot.coef_ = np.array([1, 2, 3, 0, 0])
     model_one_hot.intercept_ = 0
     model_one_hot_filename = os.path.join(test_root, "data", "model_one_hot.pkl")
     with open(model_one_hot_filename, "wb") as f:

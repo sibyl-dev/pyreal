@@ -10,8 +10,8 @@ from pyreal.transformers import (
     ColumnDropTransformer,
     OneHotEncoder,
     Transformer,
-    run_transformers,
     fit_transformers,
+    run_transformers,
 )
 
 
@@ -89,12 +89,12 @@ def test_realapp_from_sklearn_pipeline(fitted):
 def test_realapp_from_sklearn_pipeline_with_column_transformer(fitted):
     model = LinearRegression()
     column_transformer = ColumnTransformer(
-        [("onehot", SklearnOneHotEncoder(), ["a"]), ("drop", "drop", ["b"])],
+        [("onehot", SklearnOneHotEncoder(), ["c"]), ("drop", "drop", ["b"])],
         remainder="passthrough",
     )
     pipeline = Pipeline([("column_transformer", column_transformer), ("model", model)])
 
-    X = pd.DataFrame([[1, 2, 3], [3, 4, 5]], columns=["a", "b", "c"])
+    X = pd.DataFrame([[1, 2, 3, 4], [3, 4, 5, 6]], columns=["a", "b", "c", "d"])
     y = pd.Series([1, 2])
     if fitted:
         pipeline.fit(X, y)
@@ -104,7 +104,7 @@ def test_realapp_from_sklearn_pipeline_with_column_transformer(fitted):
     assert realapp.y_train is y
     assert len(realapp.transformers) == 2
     assert isinstance(realapp.transformers[0], OneHotEncoder)
-    assert realapp.transformers[0].columns == ["a"]
+    assert realapp.transformers[0].columns == ["c"]
     assert isinstance(realapp.transformers[1], ColumnDropTransformer)
     assert realapp.transformers[1].dropped_columns == ["b"]
 
