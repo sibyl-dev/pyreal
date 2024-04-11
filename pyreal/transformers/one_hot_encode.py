@@ -177,7 +177,7 @@ class OneHotEncoder(TransformerBase):
             raise RuntimeError("Must fit one hot encoder before transforming")
         x_to_encode = x[self.columns]
         x_cat_ohe = self.ohe.transform(x_to_encode)
-        return pd.concat([x.drop(self.columns, axis="columns"), x_cat_ohe], axis=1)
+        return pd.concat([x_cat_ohe, x.drop(self.columns, axis="columns")], axis=1)
 
     def inverse_data_transform(self, x_new):
         """
