@@ -17,7 +17,7 @@ from pyreal.transformers import (
 
 class DummyTransformer:
     def transform(self, X):
-        return X
+        return X * 2
 
     def fit(self, *args, **kwargs):
         return self
