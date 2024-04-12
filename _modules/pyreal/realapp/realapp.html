@@ -332,7 +332,7 @@ document.write(`
     <span class="n">LocalFeatureContribution</span><span class="p">,</span>
     <span class="n">SimilarExamples</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">pyreal.transformers</span> <span class="kn">import</span> <span class="n">sklearn_pipeline_to_pyreal_transformers</span>
+<span class="kn">from</span> <span class="nn">pyreal.transformers</span> <span class="kn">import</span> <span class="n">run_transformers</span><span class="p">,</span> <span class="n">sklearn_pipeline_to_pyreal_transformers</span>
 <span class="kn">from</span> <span class="nn">pyreal.utils</span> <span class="kn">import</span> <span class="n">get_top_contributors</span>
 
 
@@ -1462,6 +1462,7 @@ document.write(`
         <span class="n">transformers</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">X_train</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">y_train</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">refit_model</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
         <span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span>
     <span class="p">):</span>
@@ -1486,6 +1487,10 @@ document.write(`
 <span class="sd">            y_train (DataFrame or Series):</span>
 <span class="sd">                Training targets to fit transformers and explanations to. If not provided, must be</span>
 <span class="sd">                provided when preparing and using realapp explainers.</span>
+<span class="sd">            refit_model (bool):</span>
+<span class="sd">                If True, refit the model using the new Pyreal transformers. This may be necessary</span>
+<span class="sd">                as sklearn and Pyreal transformers may result in an unaligned column order.</span>
+<span class="sd">                Requires X_train and y_train to be provided.</span>
 <span class="sd">            verbose (int):</span>
 <span class="sd">                Verbosity level. If 0, no output. If 1, detailed output</span>
 <span class="sd">            **kwargs:</span>
@@ -1511,6 +1516,10 @@ document.write(`
             <span class="n">pyreal_transformers</span> <span class="o">=</span> <span class="n">sklearn_pipeline_to_pyreal_transformers</span><span class="p">(</span>
                 <span class="n">transformers</span><span class="p">,</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span>
             <span class="p">)</span>
+        <span class="k">if</span> <span class="n">refit_model</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">X_train</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">y_train</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;X_train and y_train must be provided to refit the model&quot;</span><span class="p">)</span>
+            <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">run_transformers</span><span class="p">(</span><span class="n">pyreal_transformers</span><span class="p">,</span> <span class="n">X_train</span><span class="p">),</span> <span class="n">y_train</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">RealApp</span><span class="p">(</span>
             <span class="n">models</span><span class="o">=</span><span class="n">model</span><span class="p">,</span>
             <span class="n">transformers</span><span class="o">=</span><span class="n">pyreal_transformers</span><span class="p">,</span>
