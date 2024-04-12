@@ -8,7 +8,7 @@ from pyreal.explainers import (
     LocalFeatureContribution,
     SimilarExamples,
 )
-from pyreal.transformers import sklearn_pipeline_to_pyreal_transformers
+from pyreal.transformers import run_transformers, sklearn_pipeline_to_pyreal_transformers
 from pyreal.utils import get_top_contributors
 
 
@@ -1138,6 +1138,7 @@ class RealApp:
         transformers=None,
         X_train=None,
         y_train=None,
+        refit_model=True,
         verbose=0,
         **kwargs
     ):
@@ -1162,6 +1163,10 @@ class RealApp:
             y_train (DataFrame or Series):
                 Training targets to fit transformers and explanations to. If not provided, must be
                 provided when preparing and using realapp explainers.
+            refit_model (bool):
+                If True, refit the model using the new Pyreal transformers. This may be necessary
+                as sklearn and Pyreal transformers may result in an unaligned column order.
+                Requires X_train and y_train to be provided.
             verbose (int):
                 Verbosity level. If 0, no output. If 1, detailed output
             **kwargs:
@@ -1187,6 +1192,10 @@ class RealApp:
             pyreal_transformers = sklearn_pipeline_to_pyreal_transformers(
                 transformers, X_train, verbose=verbose
             )
+        if refit_model:
+            if X_train is None or y_train is None:
+                raise ValueError("X_train and y_train must be provided to refit the model")
+            model.fit(run_transformers(pyreal_transformers, X_train), y_train)
         return RealApp(
             models=model,
             transformers=pyreal_transformers,
