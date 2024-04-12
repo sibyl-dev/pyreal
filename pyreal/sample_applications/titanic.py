@@ -65,7 +65,7 @@ def load_model(save=False, use_saved=False):
         x_orig, y = load_data(include_targets=True)
         x_model = run_transformers(transformers, x_orig)
         model = LGBMClassifier(verbose=-1)
-        model.fit(x_model, y, verbose=-1)
+        model.fit(x_model, y)
 
         if save:
             if not os.path.isdir(DATA_DIR):

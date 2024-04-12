@@ -78,7 +78,7 @@ pydata-sphinx-theme = ">=0.10.1"
 
 # Tutorial dependencies
 [tool.poetry.group.tutorial.dependencies]
-lightgbm = "^3.3.2"
+lightgbm = "4.1.0"
 
 
 [tool.black]
