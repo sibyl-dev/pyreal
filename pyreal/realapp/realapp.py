@@ -8,7 +8,7 @@ from pyreal.explainers import (
     LocalFeatureContribution,
     SimilarExamples,
 )
-from pyreal.transformers import sklearn_pipeline_to_pyreal_transformers, run_transformers
+from pyreal.transformers import run_transformers, sklearn_pipeline_to_pyreal_transformers
 from pyreal.utils import get_top_contributors
 
 
