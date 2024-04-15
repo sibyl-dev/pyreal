@@ -63,7 +63,7 @@ def load_model():
     x_orig = x_orig.drop("House ID", axis="columns")
     x_model = run_transformers(transformers, x_orig)
     model = LGBMRegressor(verbose=-1)
-    model.fit(x_model, y, verbose=-1)
+    model.fit(x_model, y)
 
     return model
 
