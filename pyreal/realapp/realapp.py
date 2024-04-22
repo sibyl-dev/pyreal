@@ -8,7 +8,7 @@ from pyreal.explainers import (
     LocalFeatureContribution,
     SimilarExamples,
 )
-from pyreal.transformers import sklearn_pipeline_to_pyreal_transformers
+from pyreal.transformers import run_transformers, sklearn_pipeline_to_pyreal_transformers
 from pyreal.utils import get_top_contributors
 
 
@@ -22,7 +22,7 @@ def format_feature_contribution_output(explanation, ids=None, series=False, opti
             List of row ids
         series (Boolean):
             If True, the produce function was passed a series input
-        optimized (Boolean)
+        optimized (Boolean):
             If True, return in a simple DataFrame format
 
     Returns:
@@ -73,7 +73,9 @@ def format_feature_importance_output(explanation, optimized=False):
     importances = explanation.get()
     if optimized:
         return importances
-    return pd.DataFrame({"Feature Name": importances.columns, "Importance": importances.squeeze()})
+    return pd.DataFrame(
+        {"Feature Name": importances.columns, "Importance": importances.squeeze()}
+    ).reset_index(drop=True)
 
 
 def format_similar_examples_output(
@@ -1036,7 +1038,11 @@ class RealApp:
                 already exists
 
         Returns:
-            DataFrame with a Feature Name column and an Importance column
+            {"X": DataFrame, "y": Series, "Input": Series} (if series),
+                else {"id" -> {"X": DataFrame, "y": Series, "Input": Series}}
+            X is the examples, ordered from top to bottom by similarity to input and
+            y is the corresponding y values
+            Input is the original input in the same feature space
         """
         if algorithm is None:
             algorithm = "nn"
@@ -1132,6 +1138,7 @@ class RealApp:
         transformers=None,
         X_train=None,
         y_train=None,
+        refit_model=True,
         verbose=0,
         **kwargs
     ):
@@ -1156,6 +1163,10 @@ class RealApp:
             y_train (DataFrame or Series):
                 Training targets to fit transformers and explanations to. If not provided, must be
                 provided when preparing and using realapp explainers.
+            refit_model (bool):
+                If True, refit the model using the new Pyreal transformers. This may be necessary
+                as sklearn and Pyreal transformers may result in an unaligned column order.
+                Requires X_train and y_train to be provided.
             verbose (int):
                 Verbosity level. If 0, no output. If 1, detailed output
             **kwargs:
@@ -1181,6 +1192,10 @@ class RealApp:
             pyreal_transformers = sklearn_pipeline_to_pyreal_transformers(
                 transformers, X_train, verbose=verbose
             )
+        if refit_model:
+            if X_train is None or y_train is None:
+                raise ValueError("X_train and y_train must be provided to refit the model")
+            model.fit(run_transformers(pyreal_transformers, X_train), y_train)
         return RealApp(
             models=model,
             transformers=pyreal_transformers,

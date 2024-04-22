@@ -1,0 +1,1372 @@
+LotArea,Neighborhood,OverallQuality,YearBuilt,Material,BasementSize,CentralAir,HouseSize,SalePrice
+6120.0,Old Town,7.0,1931.0,Brick Face,952.0,True,1774.0,129900
+7420.0,Brookside,5.0,1939.0,Metal Siding,991.0,True,1077.0,118000
+,Sawyer,,1965.0,Hard Board,1040.0,True,1040.0,129500
+11924.0,Northridge Heights,9.0,2005.0,Wood Shingles,1175.0,True,2324.0,345000
+12968.0,Sawyer,5.0,1962.0,Hard Board,912.0,True,912.0,144000
+10652.0,College Creek,7.0,2006.0,Vinyl Siding,1494.0,True,1494.0,279500
+10920.0,North Ames,6.0,1960.0,Metal Siding,,True,1253.0,157000
+6120.0,Brookside,7.0,1929.0,Wood Siding,,True,854.0,132000
+11241.0,North Ames,6.0,1970.0,Wood Siding,1004.0,True,1004.0,149000
+10791.0,Sawyer,4.0,1967.0,Metal Siding,0.0,True,1296.0,90000
+13695.0,Sawyer West,,2004.0,Vinyl Siding,1114.0,True,1114.0,159000
+7560.0,North Ames,5.0,1958.0,Brick Face,1029.0,True,1339.0,139000
+,Northridge Heights,8.0,2005.0,Vinyl Siding,1158.0,True,2376.0,325300
+7449.0,Iowa DOT and Rail Road,7.0,,Wood Siding,637.0,True,1108.0,139400
+9742.0,College Creek,8.0,2002.0,Vinyl Siding,1777.0,True,1795.0,230000
+4224.0,Meadow Village,5.0,1976.0,Cement Board,1040.0,,1060.0,129900
+14230.0,Northridge Heights,8.0,2007.0,Vinyl Siding,1566.0,True,1600.0,256300
+7200.0,North Ames,5.0,1951.0,Wood Siding,900.0,True,900.0,134800
+11478.0,,8.0,2007.0,Vinyl Siding,1704.0,True,1704.0,306000
+16321.0,North Ames,5.0,1957.0,Metal Siding,1484.0,True,1600.0,207500
+6324.0,Brookside,4.0,1927.0,Metal Siding,520.0,False,520.0,68500
+8500.0,Iowa DOT and Rail Road,4.0,1920.0,Brick Face,649.0,False,1317.0,40000
+8544.0,Sawyer,5.0,1966.0,Hard Board,1228.0,True,1228.0,149350
+11049.0,College Creek,8.0,2007.0,Vinyl Siding,1234.0,True,1234.0,179900
+,North Ames,5.0,1959.0,Brick Face,1398.0,True,1700.0,165500
+7313.0,Northridge Heights,9.0,2005.0,Metal Siding,1561.0,True,1561.0,277500
+13418.0,,8.0,2004.0,Vinyl Siding,1117.0,True,2452.0,309000
+10859.0,College Creek,5.0,,Vinyl Siding,1097.0,True,1097.0,145000
+8532.0,North Ames,5.0,1954.0,Wood Siding,1297.0,True,1297.0,153000
+6040.0,Edwards,4.0,1955.0,Asbestos Shingles,,False,1152.0,82000
+,North Ames,6.0,1965.0,Wood Siding,1088.0,True,1324.0,160000
+16905.0,Timberland,5.0,1959.0,Vinyl Siding,1350.0,True,1328.0,170000
+9180.0,Sawyer West,5.0,1983.0,Hard Board,840.0,True,884.0,144000
+9200.0,College Creek,5.0,1975.0,Vinyl Siding,938.0,True,938.0,130250
+7945.0,North Ames,,1959.0,Brick Face,1150.0,True,1150.0,141000
+7658.0,Northridge Heights,9.0,2005.0,Metal Siding,1752.0,True,1752.0,319900
+12822.0,Mitchell,7.0,2003.0,Vinyl Siding,1434.0,True,2149.0,239686
+11096.0,Somerset,8.0,,Vinyl Siding,1656.0,True,1656.0,249700
+4456.0,Old Town,4.0,1920.0,Metal Siding,736.0,True,1452.0,113000
+7742.0,Sawyer,5.0,1966.0,Hard Board,955.0,True,955.0,127000
+13869.0,Gilbert,6.0,1997.0,Vinyl Siding,794.0,True,1470.0,177000
+6240.0,Brookside,6.0,1934.0,Wood Siding,816.0,True,1176.0,114500
+8472.0,,5.0,1963.0,Wood Siding,816.0,False,816.0,110000
+50271.0,Veenker,9.0,1981.0,Wood Shingles,,True,1842.0,385000
+10175.0,North Ames,6.0,1964.0,Hard Board,1425.0,True,1425.0,180500
+2645.0,Somerset,8.0,1999.0,Metal Siding,970.0,,1739.0,172500
+11645.0,College Creek,7.0,2004.0,Vinyl Siding,860.0,True,1720.0,196500
+,Stone Brook,10.0,2006.0,Vinyl Siding,1410.0,,2945.0,438780
+13072.0,Sawyer West,6.0,2004.0,Vinyl Siding,1158.0,,1158.0,158000
+7200.0,Iowa DOT and Rail Road,5.0,1920.0,Metal Siding,530.0,False,1111.0,101000
+6442.0,Northridge Heights,8.0,2006.0,Vinyl Siding,1370.0,True,1370.0,202500
+10300.0,Old Town,7.0,,,576.0,,1710.0,140000
+9375.0,,7.0,1997.0,Vinyl Siding,1057.0,True,2034.0,219500
+9591.0,Northridge Heights,8.0,2004.0,Vinyl Siding,1143.0,True,2473.0,317000
+19900.0,North Ames,,1970.0,Plywood,1947.0,True,2207.0,180000
+10665.0,College Creek,7.0,2003.0,Vinyl Siding,1453.0,True,1479.0,226000
+4608.0,Old Town,4.0,1945.0,Metal Siding,747.0,True,747.0,80000
+15593.0,Clear Creek,7.0,,Brick Face,1304.0,True,2287.0,225000
+13651.0,North Ames,7.0,1973.0,Plywood,2223.0,True,2223.0,244000
+7599.0,Mitchell,4.0,1982.0,Hard Board,845.0,,845.0,129500
+10141.0,Gilbert,7.0,1998.0,Vinyl Siding,832.0,True,1718.0,185000
+10200.0,North Ames,5.0,1954.0,Wood Siding,1086.0,True,1086.0,144900
+5790.0,Old Town,3.0,1915.0,Vinyl Siding,,False,1605.0,107400
+1596.0,Meadow Village,4.0,1973.0,Cement Board,462.0,True,988.0,91000
+8475.0,North Ames,4.0,1956.0,Vinyl Siding,952.0,,952.0,135750
+8635.0,Brookside,5.0,1948.0,Wood Siding,672.0,True,1285.0,127000
+10778.0,Sawyer,4.0,1968.0,Hard Board,1768.0,False,1768.0,136500
+,Old Town,5.0,1910.0,Wood Siding,440.0,True,1230.0,110000
+13000.0,North Ames,6.0,1968.0,Vinyl Siding,896.0,True,2142.0,193500
+4500.0,Mitchell,6.0,1998.0,Vinyl Siding,1237.0,True,1337.0,153500
+10206.0,Somerset,8.0,2007.0,Vinyl Siding,1563.0,True,1563.0,245000
+8892.0,North Ames,5.0,1960.0,Metal Siding,1065.0,True,1065.0,126500
+8530.0,Gilbert,,1995.0,Hard Board,384.0,True,1474.0,168500
+11911.0,Gilbert,6.0,2005.0,Vinyl Siding,684.0,True,1560.0,174000
+3951.0,Somerset,6.0,2009.0,Vinyl Siding,612.0,True,1224.0,164500
+8470.0,Iowa DOT and Rail Road,3.0,1915.0,Plywood,1013.0,False,1526.0,85000
+8070.0,College Creek,4.0,1994.0,Vinyl Siding,,True,990.0,123600
+7200.0,North Ames,4.0,1950.0,Brick Face,0.0,True,1040.0,109900
+8500.0,North Ames,5.0,1961.0,Hard Board,1235.0,True,1235.0,98600
+13360.0,Crawford,5.0,1921.0,Wood Siding,876.0,True,964.0,163500
+,,6.0,1910.0,Metal Siding,1214.0,False,2291.0,133900
+9337.0,College Creek,6.0,1997.0,Vinyl Siding,824.0,True,1786.0,204750
+9765.0,Gilbert,6.0,1993.0,Vinyl Siding,680.0,True,1470.0,185000
+10921.0,,,1965.0,Hard Board,960.0,True,960.0,94750
+10625.0,,5.0,1920.0,Wood Siding,458.0,False,835.0,83000
+9320.0,North Ames,4.0,1959.0,Plywood,950.0,True,1225.0,128950
+10603.0,Northwest Ames,6.0,1977.0,Plywood,1610.0,True,1610.0,205000
+9206.0,Sawyer West,6.0,1985.0,,741.0,True,1732.0,178000
+7018.0,Sawyer West,5.0,1979.0,Hard Board,0.0,True,1535.0,118964
+10402.0,,7.0,2009.0,Vinyl Siding,1226.0,True,1226.0,198900
+7758.0,Iowa DOT and Rail Road,7.0,1931.0,,1040.0,True,1818.0,169500
+9375.0,Somerset,8.0,2003.0,Vinyl Siding,1053.0,True,1992.0,250000
+10800.0,Old Town,4.0,1885.0,Vinyl Siding,641.0,True,1047.0,100000
+6000.0,Old Town,5.0,1948.0,Vinyl Siding,789.0,True,789.0,115000
+8500.0,Iowa DOT and Rail Road,5.0,1919.0,Cement Board,793.0,,1517.0,115000
+11751.0,Northwest Ames,6.0,1977.0,Plywood,1844.0,True,1844.0,190000
+9525.0,Edwards,6.0,1954.0,Wood Siding,,True,1855.0,136900
+7750.0,Gilbert,7.0,2000.0,Vinyl Siding,384.0,True,1430.0,180000
+9965.0,College Creek,7.0,2007.0,Vinyl Siding,1264.0,True,2696.0,383970
+21000.0,Crawford,6.0,1953.0,Wood Siding,1809.0,True,2259.0,217000
+7259.0,Crawford,6.0,1945.0,Wood Siding,1028.0,True,2320.0,259500
+3230.0,Somerset,6.0,1999.0,Metal Siding,729.0,True,1458.0,176000
+11616.0,Sawyer,5.0,1962.0,Wood Siding,1092.0,True,1092.0,139000
+12376.0,Sawyer West,7.0,1990.0,Plywood,1673.0,True,3222.0,320000
+8461.0,College Creek,6.0,2005.0,Vinyl Siding,728.0,True,1456.0,163990
+21453.0,Clear Creek,6.0,1969.0,Plywood,,True,988.0,180000
+6060.0,Iowa DOT and Rail Road,4.0,1939.0,Asbestos Shingles,732.0,True,1123.0,100000
+9464.0,North Ames,6.0,1958.0,Metal Siding,1080.0,True,1080.0,136000
+7892.0,Sawyer West,6.0,1993.0,Plywood,1199.0,True,1199.0,153900
+17043.0,Northwest Ames,6.0,1979.0,Hard Board,1362.0,True,1586.0,181000
+4928.0,Northpark Villa,6.0,1976.0,Plywood,1078.0,,958.0,128000
+4388.0,Old Town,5.0,1930.0,Wood Shingles,672.0,True,840.0,87000
+7590.0,North Ames,6.0,1966.0,Vinyl Siding,660.0,True,1348.0,155000
+8973.0,North Ames,5.0,1958.0,Plywood,1008.0,True,1053.0,150000
+14200.0,North Ames,7.0,1966.0,Metal Siding,924.0,True,2157.0,226000
+7388.0,North Ames,5.0,1959.0,Metal Siding,1063.0,True,1327.0,150750
+6853.0,Timberland,8.0,2001.0,Vinyl Siding,1267.0,True,1296.0,220000
+10400.0,Northwest Ames,7.0,1970.0,Plywood,1304.0,True,1682.0,174000
+10355.0,North Ames,5.0,1967.0,Metal Siding,1214.0,True,1214.0,143000
+11070.0,Mitchell,7.0,1988.0,Vinyl Siding,1907.0,True,1959.0,171000
+9066.0,College Creek,8.0,1999.0,Vinyl Siding,1004.0,True,1852.0,230000
+15426.0,College Creek,6.0,1997.0,Vinyl Siding,928.0,True,1764.0,231500
+10500.0,North Ames,,,Hard Board,864.0,True,864.0,115000
+11645.0,College Creek,7.0,2005.0,Vinyl Siding,1734.0,True,1734.0,260000
+8520.0,North Ames,5.0,1952.0,Brick Face,910.0,True,1385.0,166000
+10335.0,College Creek,7.0,1999.0,Vinyl Siding,1490.0,True,1501.0,204000
+9100.0,Sawyer,5.0,1963.0,Hard Board,1728.0,True,1728.0,125000
+2522.0,Edwards,6.0,2004.0,Vinyl Siding,970.0,True,1709.0,130000
+6120.0,Brookside,5.0,1931.0,Wood Siding,715.0,True,875.0,105000
+9505.0,Gilbert,7.0,2001.0,Vinyl Siding,884.0,True,2035.0,222500
+7500.0,Sawyer West,7.0,2004.0,Vinyl Siding,1080.0,True,1080.0,141000
+6240.0,Brookside,5.0,,Metal Siding,896.0,,1344.0,115000
+10356.0,College Creek,,1975.0,Hard Board,969.0,True,969.0,122000
+13891.0,Northridge Heights,8.0,2007.0,Vinyl Siding,1710.0,True,1710.0,372402
+14803.0,Northwest Ames,6.0,1971.0,Hard Board,825.0,True,1993.0,190000
+13500.0,Clear Creek,6.0,1960.0,Brick Face,1602.0,True,1252.0,235000
+11340.0,Old Town,6.0,1923.0,Wood Siding,1200.0,True,1200.0,125000
+9600.0,Edwards,6.0,1924.0,Wood Siding,572.0,False,1096.0,79000
+7200.0,North Ames,5.0,1950.0,Wood Siding,0.0,True,1040.0,109500
+12003.0,Timberland,8.0,2009.0,Vinyl Siding,774.0,True,1968.0,269500
+12552.0,Somerset,7.0,2004.0,Vinyl Siding,991.0,True,1947.0,254900
+19378.0,Gilbert,7.0,2005.0,Vinyl Siding,1392.0,True,2462.0,320000
+11120.0,Veenker,,1984.0,Plywood,1232.0,True,1232.0,162500
+13688.0,Northridge Heights,9.0,2003.0,Vinyl Siding,1572.0,True,2668.0,412500
+12182.0,Northridge Heights,7.0,2005.0,Vinyl Siding,1541.0,True,1541.0,220000
+5500.0,Old Town,,1956.0,Metal Siding,882.0,True,882.0,103200
+5400.0,Old Town,6.0,1926.0,,1149.0,True,1616.0,152000
+10106.0,Edwards,5.0,1940.0,Wood Siding,644.0,True,1355.0,127500
+10708.0,Clear Creek,5.0,1955.0,Wood Siding,1617.0,True,1867.0,190000
+10562.0,Northridge Heights,8.0,2007.0,Vinyl Siding,1582.0,True,2161.0,325624
+8244.0,Gilbert,7.0,2004.0,Vinyl Siding,840.0,True,1720.0,183500
+16669.0,,8.0,1981.0,Plywood,1686.0,True,1707.0,228000
+31770.0,North Ames,6.0,1960.0,Brick Face,1080.0,True,1656.0,215000
+5306.0,Stone Brook,7.0,1987.0,Hard Board,1064.0,True,1767.0,239000
+10197.0,North Ames,,1961.0,Wood Shingles,1362.0,True,1362.0,163000
+12416.0,Timberland,6.0,1986.0,Vinyl Siding,1606.0,True,1651.0,184000
+12615.0,Edwards,6.0,1950.0,Wood Shingles,1202.0,True,2158.0,243000
+10029.0,Clear Creek,6.0,1988.0,Plywood,1151.0,True,2060.0,211000
+13650.0,Sawyer,5.0,1958.0,Metal Siding,,True,1920.0,172500
+17423.0,Stone Brook,9.0,2008.0,Vinyl Siding,2216.0,True,2234.0,501837
+2117.0,Somerset,6.0,2000.0,Metal Siding,756.0,True,1525.0,177000
+7588.0,Crawford,7.0,1920.0,Stucco,793.0,,1802.0,200100
+9060.0,Edwards,5.0,1957.0,Wood Siding,0.0,True,1340.0,120000
+11426.0,Old Town,7.0,2003.0,Vinyl Siding,1362.0,True,2082.0,200000
+7438.0,Brookside,5.0,,Asbestos Shingles,504.0,True,1252.0,127000
+22950.0,Old Town,,1892.0,Wood Siding,1107.0,True,3608.0,475000
+9947.0,Mitchell,7.0,1990.0,Hard Board,1188.0,True,1217.0,173000
+10410.0,Old Town,5.0,1916.0,Hard Board,660.0,True,1656.0,135000
+7018.0,Sawyer West,5.0,1979.0,Plywood,1086.0,True,1224.0,153337
+10570.0,Crawford,8.0,1932.0,,853.0,True,2727.0,315000
+7472.0,North Ames,7.0,1972.0,Hard Board,725.0,True,1479.0,184000
+,College Creek,7.0,1999.0,Vinyl Siding,1431.0,True,1431.0,192000
+2522.0,Edwards,7.0,2004.0,Vinyl Siding,970.0,True,1709.0,130000
+7180.0,College Creek,5.0,1972.0,Hard Board,864.0,True,864.0,127000
+2280.0,Northpark Villa,,1976.0,Plywood,855.0,True,1456.0,148500
+25419.0,,8.0,,Stucco,1360.0,True,3112.0,235000
+5520.0,Old Town,6.0,1912.0,Wood Siding,755.0,True,2229.0,104000
+9591.0,Northridge Heights,8.0,2004.0,Vinyl Siding,1713.0,True,1713.0,274900
+8546.0,Edwards,4.0,2003.0,Vinyl Siding,1121.0,True,1121.0,140000
+10125.0,Mitchell,6.0,1977.0,Plywood,1196.0,True,1279.0,171500
+7000.0,Old Town,6.0,1924.0,Metal Siding,617.0,True,1310.0,112000
+4438.0,College Creek,6.0,2004.0,Vinyl Siding,848.0,True,848.0,149000
+3500.0,Old Town,5.0,1947.0,Asbestos Shingles,720.0,True,1284.0,110000
+11851.0,Gilbert,7.0,1990.0,Hard Board,1424.0,True,1442.0,180500
+13673.0,Sawyer,5.0,1962.0,Hard Board,1140.0,True,1696.0,143900
+12493.0,North Ames,4.0,1960.0,Wood Siding,1100.0,True,1100.0,141000
+8250.0,North Ames,6.0,1964.0,Hard Board,1092.0,True,1092.0,145000
+10420.0,Edwards,6.0,2009.0,Vinyl Siding,1212.0,True,1212.0,186000
+13568.0,College Creek,5.0,1995.0,Vinyl Siding,990.0,True,990.0,156000
+10900.0,College Creek,6.0,1977.0,Hard Board,689.0,True,1392.0,161750
+10011.0,North Ames,5.0,1957.0,Hard Board,1070.0,True,1236.0,134450
+8450.0,College Creek,7.0,2004.0,Vinyl Siding,1436.0,True,1436.0,210000
+9906.0,Old Town,4.0,1925.0,Metal Siding,686.0,False,1328.0,107000
+15660.0,Crawford,7.0,1939.0,Vinyl Siding,798.0,True,1954.0,311500
+3010.0,Bloomington Heights,7.0,2005.0,Vinyl Siding,1248.0,True,1248.0,167240
+8068.0,Gilbert,6.0,2002.0,Vinyl Siding,1010.0,True,2267.0,200000
+11475.0,Northwest Ames,6.0,1975.0,Vinyl Siding,713.0,True,1552.0,179900
+10500.0,North Ames,4.0,1971.0,,864.0,True,864.0,97000
+13472.0,Northridge Heights,10.0,2003.0,Vinyl Siding,2392.0,True,2392.0,386250
+1680.0,Briardale,5.0,1971.0,Hard Board,630.0,True,1302.0,112000
+9950.0,Northridge,7.0,1995.0,Vinyl Siding,,True,2520.0,290000
+1869.0,Briardale,6.0,1970.0,Hard Board,483.0,True,987.0,106000
+8521.0,Sawyer,5.0,1967.0,Hard Board,912.0,True,912.0,125000
+3182.0,Bloomington Heights,,2005.0,Vinyl Siding,1373.0,True,1555.0,192500
+8760.0,North Ames,6.0,1959.0,Metal Siding,1194.0,True,1194.0,148000
+15138.0,Northridge,8.0,1995.0,Vinyl Siding,1462.0,True,2794.0,403000
+1680.0,Briardale,6.0,,Hard Board,483.0,True,987.0,94500
+10650.0,College Creek,,1976.0,Hard Board,894.0,True,894.0,128200
+7851.0,Gilbert,6.0,2002.0,Vinyl Siding,860.0,True,1960.0,216500
+1680.0,Briardale,6.0,1971.0,Hard Board,483.0,True,987.0,89500
+8773.0,College Creek,7.0,2004.0,Vinyl Siding,1414.0,True,1414.0,185500
+9453.0,Sawyer West,7.0,1993.0,Hard Board,996.0,True,1744.0,194500
+12030.0,Northridge Heights,8.0,2007.0,Vinyl Siding,1694.0,True,1694.0,318000
+8741.0,Edwards,6.0,1945.0,Vinyl Siding,735.0,True,1487.0,113000
+9000.0,Somerset,8.0,2008.0,Vinyl Siding,1566.0,True,1566.0,262500
+3880.0,Old Town,5.0,1945.0,Vinyl Siding,686.0,,866.0,110500
+5000.0,Old Town,5.0,1900.0,Wood Siding,540.0,False,1440.0,79000
+10762.0,Sawyer West,6.0,,Plywood,626.0,True,1217.0,120000
+8880.0,Sawyer West,7.0,1994.0,Vinyl Siding,948.0,True,2110.0,205000
+10400.0,Northwest Ames,7.0,1988.0,Wood Siding,1845.0,True,1872.0,241500
+9142.0,Old Town,,1910.0,Asbestos Shingles,1020.0,False,1928.0,137000
+11310.0,North Ames,6.0,1954.0,Wood Siding,1367.0,True,1375.0,140000
+11317.0,College Creek,7.0,2003.0,Vinyl Siding,840.0,True,1668.0,180000
+5350.0,Brookside,3.0,1940.0,Wood Siding,728.0,True,1306.0,76500
+4750.0,Crawford,8.0,2006.0,Vinyl Siding,1573.0,True,1625.0,235000
+8366.0,Sawyer West,6.0,2004.0,Vinyl Siding,798.0,True,1640.0,173000
+9350.0,North Ames,6.0,1964.0,Hard Board,,True,1302.0,158000
+8400.0,North Ames,5.0,1957.0,Metal Siding,1314.0,True,1314.0,145000
+8738.0,Gilbert,7.0,1999.0,Vinyl Siding,975.0,True,2291.0,230000
+8791.0,Somerset,6.0,2003.0,Vinyl Siding,864.0,True,1728.0,207500
+8814.0,College Creek,7.0,,Vinyl Siding,1604.0,True,1604.0,220000
+12435.0,College Creek,7.0,2001.0,Vinyl Siding,963.0,True,1792.0,231500
+12702.0,Old Town,5.0,1956.0,Brick Face,0.0,True,882.0,97000
+19296.0,North Ames,6.0,1962.0,Wood Siding,1362.0,True,1382.0,176000
+9588.0,College Creek,8.0,2007.0,Cement Board,1482.0,True,2574.0,276000
+8471.0,Sawyer,6.0,1977.0,Hard Board,506.0,True,1212.0,151000
+5500.0,Old Town,5.0,1929.0,Wood Siding,926.0,True,1316.0,130000
+5232.0,Old Town,5.0,1925.0,Wood Siding,680.0,False,764.0,73000
+,Gilbert,6.0,1997.0,Vinyl Siding,802.0,True,1511.0,185000
+8400.0,South & West of Iowa State University,5.0,1939.0,Wood Siding,720.0,True,2192.0,179500
+7917.0,Edwards,6.0,1976.0,,1143.0,True,1113.0,148000
+39104.0,Clear Creek,7.0,1954.0,Plywood,1385.0,True,1363.0,241500
+11764.0,Northridge,8.0,1999.0,Vinyl Siding,1152.0,True,2270.0,290000
+9600.0,North Ames,6.0,1958.0,Wood Siding,1240.0,True,1632.0,139000
+8314.0,Mitchell,5.0,1982.0,Hard Board,816.0,True,816.0,124500
+7264.0,Brookside,7.0,,Wood Siding,,False,1548.0,205000
+9196.0,Mitchell,7.0,2003.0,Vinyl Siding,1560.0,True,1560.0,201000
+19138.0,Gilbert,4.0,1951.0,Vinyl Siding,864.0,True,864.0,141000
+14450.0,Northridge Heights,9.0,2006.0,Cement Board,2121.0,True,2121.0,415298
+,Clear Creek,7.0,1977.0,Plywood,1160.0,True,2022.0,192000
+11287.0,Sawyer West,7.0,1989.0,Plywood,807.0,True,1982.0,228500
+,Somerset,6.0,,Vinyl Siding,1262.0,True,1262.0,185000
+5063.0,Northridge Heights,7.0,2007.0,Vinyl Siding,1314.0,True,1314.0,207500
+9612.0,Somerset,8.0,2008.0,Vinyl Siding,1468.0,True,1468.0,244600
+8012.0,Sawyer West,6.0,1992.0,Plywood,1575.0,True,1575.0,179200
+4251.0,Somerset,7.0,2006.0,Metal Siding,625.0,,1250.0,164700
+9786.0,North Ames,6.0,1962.0,Wood Siding,912.0,True,1734.0,159000
+8125.0,North Ames,4.0,1971.0,Hard Board,858.0,True,858.0,88000
+9819.0,Sawyer,5.0,1967.0,Metal Siding,882.0,True,900.0,122000
+8730.0,Brookside,6.0,1915.0,Wood Siding,698.0,True,1396.0,153575
+15611.0,College Creek,8.0,2006.0,Vinyl Siding,1079.0,True,1919.0,233230
+5687.0,South & West of Iowa State University,5.0,1912.0,Vinyl Siding,780.0,False,1716.0,135900
+11409.0,Edwards,5.0,1949.0,Wood Siding,768.0,True,1716.0,131000
+16659.0,Northwest Ames,7.0,1977.0,Plywood,795.0,True,2263.0,235000
+9600.0,North Ames,6.0,1953.0,Hard Board,1416.0,True,1644.0,167000
+7937.0,Mitchell,,,Hard Board,1003.0,True,1003.0,142500
+13710.0,Iowa DOT and Rail Road,5.0,1950.0,Wood Siding,910.0,True,1558.0,152000
+7399.0,Somerset,7.0,1997.0,Vinyl Siding,975.0,True,1950.0,239000
+11700.0,Northwest Ames,6.0,,Hard Board,702.0,True,1743.0,175000
+14000.0,Crawford,6.0,1950.0,Hard Board,1092.0,True,1152.0,158500
+15750.0,Crawford,5.0,1953.0,Metal Siding,1165.0,True,1336.0,157000
+16226.0,College Creek,,1998.0,Vinyl Siding,1028.0,True,2452.0,267000
+13704.0,College Creek,7.0,2001.0,Vinyl Siding,1541.0,True,1541.0,205000
+9800.0,College Creek,5.0,1972.0,Vinyl Siding,894.0,True,894.0,149900
+18386.0,Old Town,,1880.0,Cement Board,1470.0,True,3493.0,295000
+10386.0,College Creek,8.0,,Cement Board,2000.0,True,2000.0,305900
+13474.0,Sawyer West,7.0,1990.0,Hard Board,700.0,True,2243.0,225000
+7920.0,Iowa DOT and Rail Road,6.0,1920.0,Metal Siding,319.0,True,1406.0,89500
+12342.0,Edwards,4.0,1940.0,Vinyl Siding,,True,861.0,82500
+12378.0,Northridge Heights,9.0,2003.0,Vinyl Siding,1896.0,,1944.0,360000
+7685.0,Gilbert,6.0,1993.0,Hard Board,697.0,True,1501.0,165600
+8000.0,North Ames,6.0,1948.0,Vinyl Siding,,True,972.0,132000
+7800.0,Old Town,5.0,1939.0,Metal Siding,793.0,True,1118.0,119900
+215245.0,Timberland,7.0,1965.0,Brick Face,2136.0,True,2036.0,375000
+9600.0,Old Town,7.0,,Wood Siding,728.0,True,1641.0,178000
+7795.0,Gilbert,7.0,2004.0,Vinyl Siding,716.0,True,1432.0,188500
+13005.0,Northwest Ames,,1980.0,Cement Board,845.0,True,2353.0,260000
+9000.0,Somerset,,2006.0,Vinyl Siding,1088.0,True,1959.0,270000
+14115.0,Northwest Ames,7.0,1980.0,Plywood,1372.0,True,1472.0,187500
+16259.0,Northridge Heights,9.0,2006.0,Vinyl Siding,1249.0,True,2596.0,342643
+12099.0,Northridge Heights,8.0,2004.0,,1136.0,True,2468.0,354000
+10380.0,Sawyer West,7.0,1986.0,Plywood,1502.0,True,2730.0,301000
+5820.0,Old Town,3.0,1955.0,Vinyl Siding,1162.0,True,1163.0,126175
+11275.0,North Ames,,1967.0,Wood Siding,710.0,True,2978.0,242000
+5000.0,Iowa DOT and Rail Road,5.0,1941.0,Metal Siding,720.0,False,803.0,87000
+10846.0,Veenker,8.0,1993.0,Brick Face,1719.0,True,1719.0,324000
+11600.0,North Ames,6.0,1960.0,Wood Siding,1383.0,True,1383.0,145250
+11888.0,Brookside,6.0,1916.0,Wood Siding,844.0,False,2134.0,214500
+6402.0,Iowa DOT and Rail Road,5.0,1920.0,Wood Siding,596.0,False,1192.0,78000
+10624.0,North Ames,,1964.0,Hard Board,1728.0,True,1728.0,119000
+8176.0,North Ames,5.0,1958.0,Wood Siding,,True,1056.0,139000
+10655.0,Northridge Heights,8.0,2003.0,Vinyl Siding,3206.0,True,1629.0,284000
+8198.0,Northridge Heights,,2004.0,Vinyl Siding,1358.0,True,1358.0,207000
+,Gilbert,6.0,1998.0,Vinyl Siding,943.0,True,1638.0,192000
+164660.0,Timberland,5.0,1965.0,Plywood,,True,1786.0,228950
+14157.0,Stone Brook,9.0,2005.0,Vinyl Siding,1922.0,,1922.0,377426
+9135.0,College Creek,7.0,2002.0,Vinyl Siding,1536.0,True,1536.0,214000
+14145.0,Northwest Ames,7.0,1984.0,Wood Siding,1208.0,True,1621.0,202500
+12400.0,North Ames,6.0,1958.0,Wood Siding,1215.0,True,1215.0,155000
+,Timberland,8.0,,Vinyl Siding,967.0,True,1908.0,202900
+,Sawyer West,4.0,1950.0,Wood Siding,721.0,True,841.0,82000
+8544.0,North Ames,3.0,1949.0,Stucco,0.0,False,1040.0,87500
+8849.0,Northridge Heights,9.0,2005.0,Metal Siding,1684.0,True,1684.0,266000
+2592.0,Meadow Village,5.0,1976.0,Cement Board,536.0,True,1112.0,85000
+6435.0,Brookside,6.0,1939.0,Metal Siding,972.0,,1577.0,140200
+12772.0,North Ames,6.0,,Metal Siding,958.0,True,958.0,151500
+17600.0,North Ames,6.0,1960.0,Wood Siding,1478.0,True,1478.0,157500
+2448.0,Northridge Heights,7.0,2003.0,Vinyl Siding,,True,1626.0,154000
+20431.0,Northridge Heights,9.0,2005.0,Cement Board,1848.0,True,2728.0,437154
+7820.0,,9.0,2007.0,Metal Siding,1869.0,True,1869.0,318061
+5271.0,Clear Creek,7.0,1986.0,Wood Siding,1453.0,True,1453.0,190000
+9084.0,Edwards,5.0,1941.0,Vinyl Siding,616.0,False,1111.0,95000
+8520.0,Old Town,6.0,1928.0,Vinyl Siding,,True,720.0,105900
+11249.0,College Creek,6.0,1995.0,Vinyl Siding,1200.0,True,1200.0,177500
+9248.0,Gilbert,6.0,1992.0,Hard Board,1158.0,True,1167.0,173000
+4224.0,Meadow Village,5.0,1976.0,Cement Board,1142.0,True,1142.0,134000
+6930.0,Clear Creek,5.0,1958.0,Wood Siding,1062.0,True,1352.0,130000
+7540.0,Mitchell,6.0,,,,True,912.0,156000
+9144.0,Brookside,5.0,1940.0,Metal Siding,883.0,True,1505.0,145000
+,Edwards,7.0,2003.0,Hard Board,0.0,True,1922.0,198500
+1680.0,Briardale,,1972.0,Hard Board,483.0,True,987.0,118000
+18800.0,Northwest Ames,,,Hard Board,796.0,True,1574.0,190000
+10690.0,,5.0,1920.0,Vinyl Siding,672.0,True,1344.0,147000
+9500.0,North Ames,6.0,1963.0,Plywood,1394.0,True,1394.0,159000
+9150.0,,6.0,1962.0,Plywood,1099.0,True,1431.0,165000
+7800.0,North Ames,5.0,1954.0,Hard Board,1268.0,True,1268.0,132000
+9830.0,North Ames,5.0,1959.0,Wood Siding,1063.0,True,1287.0,162000
+8121.0,Gilbert,6.0,2000.0,Vinyl Siding,953.0,True,1664.0,172400
+17120.0,Clear Creek,4.0,1959.0,Wood Shingles,0.0,True,1588.0,134432
+7175.0,Sawyer West,6.0,1984.0,Plywood,744.0,True,752.0,125000
+10634.0,North Ames,5.0,1953.0,Metal Siding,608.0,True,1319.0,123000
+8200.0,College Creek,7.0,2003.0,Vinyl Siding,847.0,True,1928.0,219500
+8846.0,College Creek,5.0,1996.0,Vinyl Siding,870.0,True,914.0,148000
+11143.0,Somerset,8.0,2004.0,Cement Board,1580.0,True,2466.0,340000
+11394.0,Stone Brook,9.0,2010.0,Vinyl Siding,1856.0,True,1856.0,394432
+8123.0,Gilbert,6.0,2000.0,,982.0,True,1800.0,179000
+5000.0,South & West of Iowa State University,5.0,1924.0,Brick Face,1026.0,True,1691.0,127000
+7200.0,Somerset,7.0,2006.0,,1293.0,True,1301.0,187750
+9245.0,College Creek,7.0,,Vinyl Siding,,True,1797.0,213500
+9000.0,Sawyer West,6.0,,Wood Siding,784.0,False,784.0,76000
+53107.0,Clear Creek,6.0,1992.0,Hard Board,1580.0,True,1953.0,240000
+3182.0,Bloomington Heights,8.0,2004.0,Vinyl Siding,1256.0,True,1269.0,192000
+8410.0,Edwards,5.0,1910.0,Wood Siding,658.0,True,1184.0,81000
+7200.0,Edwards,6.0,1976.0,Metal Siding,1041.0,True,1125.0,125000
+9382.0,College Creek,7.0,1999.0,Vinyl Siding,1468.0,True,1479.0,191000
+12474.0,Northridge Heights,10.0,2007.0,Vinyl Siding,1682.0,True,2332.0,426000
+8405.0,Edwards,5.0,1900.0,Metal Siding,861.0,True,1367.0,119000
+,Mitchell,6.0,2001.0,Vinyl Siding,,True,1961.0,215000
+8339.0,North Ames,5.0,1959.0,Metal Siding,,True,882.0,106500
+7446.0,Brookside,4.0,1941.0,Wood Shingles,788.0,True,788.0,100000
+10134.0,Old Town,5.0,1940.0,,735.0,True,1034.0,109000
+9571.0,Edwards,5.0,1956.0,Wood Siding,1144.0,True,1144.0,129000
+7200.0,,5.0,1972.0,Metal Siding,894.0,True,894.0,123000
+7590.0,North Ames,5.0,1962.0,Vinyl Siding,864.0,True,1812.0,169500
+8967.0,Iowa DOT and Rail Road,5.0,1920.0,Metal Siding,961.0,True,1077.0,67000
+,Somerset,7.0,2006.0,Cement Board,1092.0,True,1550.0,241000
+14963.0,Veenker,8.0,1996.0,Brick Face,1260.0,True,1288.0,245500
+8767.0,College Creek,7.0,2005.0,Vinyl Siding,1310.0,True,1310.0,164990
+12090.0,Northridge,8.0,1998.0,Vinyl Siding,1141.0,True,2263.0,258000
+9991.0,Sawyer,,1976.0,Plywood,1281.0,True,1620.0,150000
+10480.0,South & West of Iowa State University,6.0,1936.0,Metal Siding,1064.0,True,1639.0,115000
+15576.0,Crawford,6.0,1915.0,Wood Siding,840.0,True,1680.0,177000
+14154.0,Northridge Heights,7.0,2006.0,Vinyl Siding,1063.0,True,2172.0,280000
+10800.0,Somerset,8.0,2007.0,Vinyl Siding,1034.0,True,2078.0,339750
+9571.0,Edwards,5.0,1958.0,Brick,1276.0,True,1276.0,60000
+34650.0,Gilbert,5.0,1955.0,Wood Siding,1056.0,False,1056.0,145000
+4403.0,Somerset,7.0,2009.0,Metal Siding,1470.0,,1478.0,222000
+8960.0,Old Town,5.0,1927.0,Wood Shingles,1008.0,True,1028.0,115000
+11228.0,Sawyer West,7.0,1993.0,Vinyl Siding,1080.0,True,2097.0,228000
+7844.0,Sawyer,6.0,1978.0,Hard Board,672.0,True,1400.0,149500
+22420.0,Crawford,6.0,1918.0,Wood Siding,1370.0,False,2624.0,239000
+8160.0,Edwards,5.0,1940.0,Metal Siding,756.0,False,1134.0,126000
+8450.0,North Ames,5.0,1968.0,Vinyl Siding,1056.0,True,1056.0,142000
+7060.0,Mitchell,7.0,1997.0,Vinyl Siding,1344.0,True,1344.0,206300
+16635.0,Northwest Ames,6.0,,Cement Board,1602.0,True,1602.0,215000
+21750.0,Mitchell,,1954.0,Hard Board,988.0,True,988.0,113000
+,Northridge,8.0,1998.0,Vinyl Siding,1470.0,True,2630.0,315000
+9000.0,North Ames,6.0,1956.0,Wood Siding,1196.0,True,1196.0,139000
+3378.0,Old Town,7.0,1946.0,Hard Board,651.0,True,1389.0,135000
+12800.0,Sawyer West,7.0,1989.0,Wood Siding,1518.0,True,1644.0,275000
+8593.0,North Ames,4.0,1957.0,Metal Siding,907.0,True,907.0,109008
+6762.0,College Creek,7.0,2007.0,Vinyl Siding,1208.0,True,1208.0,195400
+11457.0,Timberland,6.0,1988.0,Hard Board,,True,1412.0,175000
+1680.0,Briardale,6.0,1971.0,Hard Board,483.0,True,987.0,85400
+5586.0,Old Town,6.0,1920.0,Metal Siding,901.0,True,1198.0,79900
+1920.0,Briardale,5.0,1971.0,Hard Board,765.0,True,1365.0,122500
+10839.0,Gilbert,6.0,1997.0,Vinyl Siding,926.0,True,1604.0,181000
+1890.0,Meadow Village,4.0,1972.0,Cement Board,630.0,True,630.0,81000
+10667.0,College Creek,7.0,1996.0,Vinyl Siding,799.0,True,1661.0,212000
+4400.0,Old Town,6.0,1920.0,Stucco,648.0,,1118.0,116000
+6000.0,Brookside,6.0,1926.0,Wood Siding,884.0,True,904.0,119000
+4280.0,Crawford,5.0,1913.0,Wood Shingles,440.0,False,694.0,90350
+12354.0,Edwards,6.0,1920.0,Wood Siding,,True,1196.0,110000
+15431.0,Northridge Heights,10.0,2008.0,Vinyl Siding,3094.0,,2402.0,555000
+6240.0,Brookside,5.0,1930.0,Metal Siding,1078.0,True,1573.0,162900
+3922.0,Bloomington Heights,,2006.0,Wood Shingles,1258.0,True,1258.0,172500
+8750.0,College Creek,7.0,1994.0,Vinyl Siding,915.0,True,1908.0,210000
+9855.0,Edwards,6.0,1956.0,Wood Siding,1436.0,True,1689.0,127500
+16492.0,North Ames,6.0,1966.0,Brick Face,1517.0,True,1888.0,190000
+11214.0,Gilbert,7.0,1998.0,Vinyl Siding,930.0,True,1886.0,199900
+8600.0,Iowa DOT and Rail Road,6.0,1937.0,Metal Siding,780.0,True,1376.0,119500
+6000.0,Old Town,3.0,1948.0,Metal Siding,649.0,True,1183.0,120000
+5684.0,Old Town,6.0,,Wood Siding,813.0,True,813.0,110000
+70761.0,Clear Creek,7.0,1975.0,Plywood,1533.0,True,1533.0,280000
+9303.0,Timberland,6.0,1996.0,Vinyl Siding,872.0,True,1756.0,204000
+9000.0,Somerset,8.0,2008.0,Vinyl Siding,768.0,True,1590.0,210000
+9297.0,Mitchell,5.0,1976.0,Plywood,1728.0,True,1728.0,188000
+9600.0,Northwest Ames,7.0,1973.0,Hard Board,1242.0,True,1242.0,175500
+4571.0,Old Town,5.0,1916.0,Asbestos Shingles,624.0,False,1344.0,98000
+53227.0,Clear Creek,4.0,1954.0,Plywood,,True,1663.0,256000
+5100.0,,8.0,1925.0,Stucco,588.0,True,1666.0,161000
+7015.0,Brookside,5.0,1950.0,,709.0,True,1203.0,110000
+,Somerset,8.0,2009.0,Vinyl Siding,832.0,True,1935.0,263435
+7200.0,South & West of Iowa State University,7.0,1936.0,Wood Siding,560.0,True,1135.0,155000
+8281.0,Sawyer,5.0,1965.0,Metal Siding,864.0,True,864.0,62383
+11988.0,Crawford,6.0,1934.0,Stucco,715.0,True,1660.0,188700
+8430.0,College Creek,5.0,1978.0,Hard Board,1040.0,True,1040.0,124000
+3072.0,Bloomington Heights,7.0,2004.0,Vinyl Siding,1375.0,True,1414.0,178740
+10628.0,North Ames,7.0,1970.0,Plywood,1277.0,True,1277.0,167000
+9480.0,North Ames,5.0,1942.0,Metal Siding,728.0,True,1644.0,146500
+11428.0,Northridge Heights,8.0,2006.0,Vinyl Siding,1626.0,True,1634.0,250000
+9291.0,,6.0,1993.0,Hard Board,832.0,,1710.0,187000
+6820.0,Stone Brook,8.0,1985.0,Hard Board,1488.0,True,1502.0,212000
+11952.0,Northwest Ames,7.0,1977.0,Wood Shingles,808.0,True,1969.0,190000
+3675.0,Edwards,6.0,2005.0,Vinyl Siding,547.0,True,1072.0,148000
+14977.0,Northridge Heights,8.0,2006.0,Vinyl Siding,,True,1976.0,440000
+5330.0,Stone Brook,8.0,2000.0,Cement Board,1494.0,True,1652.0,251000
+,Sawyer,,1963.0,Hard Board,970.0,True,970.0,132500
+13125.0,College Creek,6.0,1997.0,Vinyl Siding,1478.0,True,1493.0,208900
+13693.0,Northridge Heights,,2006.0,Vinyl Siding,2153.0,True,2643.0,380000
+5925.0,Old Town,4.0,1937.0,Stucco,907.0,True,1131.0,89471
+16033.0,Northridge Heights,,2004.0,Vinyl Siding,1833.0,True,1850.0,326000
+11846.0,Northridge Heights,9.0,2003.0,Vinyl Siding,1792.0,,1792.0,374000
+2500.0,Old Town,7.0,1915.0,Stucco,910.0,True,1826.0,155000
+4500.0,Mitchell,6.0,1998.0,Vinyl Siding,1216.0,True,1216.0,164000
+7758.0,Sawyer,5.0,1962.0,,999.0,True,999.0,132500
+,North Ames,5.0,1950.0,Metal Siding,1113.0,True,1113.0,147000
+10289.0,North Ames,5.0,1965.0,Metal Siding,1073.0,True,1073.0,156000
+12243.0,Northwest Ames,5.0,,,1484.0,True,1484.0,175000
+10800.0,Old Town,5.0,,Wood Siding,954.0,False,2414.0,160000
+1526.0,Meadow Village,4.0,1970.0,Cement Board,630.0,True,630.0,86000
+2665.0,Meadow Village,5.0,1976.0,Cement Board,264.0,True,1304.0,115000
+9490.0,North Ames,6.0,1941.0,Wood Siding,806.0,True,1578.0,133000
+15578.0,Gilbert,6.0,2006.0,Vinyl Siding,728.0,True,1456.0,172785
+7931.0,North Ames,5.0,1960.0,Brick Face,1269.0,True,1269.0,155000
+,Old Town,5.0,1938.0,Metal Siding,190.0,True,886.0,91300
+7879.0,,4.0,1920.0,Wood Siding,720.0,False,720.0,34900
+12692.0,Northridge,8.0,1992.0,Brick Face,3200.0,True,3228.0,430000
+9120.0,,7.0,1925.0,Wood Siding,1026.0,True,1820.0,184000
+7800.0,Sawyer,5.0,1967.0,Hard Board,864.0,True,899.0,130000
+7535.0,North Ames,5.0,1958.0,Metal Siding,912.0,True,912.0,120000
+1890.0,Briardale,6.0,1973.0,Hard Board,672.0,True,1218.0,113000
+9803.0,Somerset,7.0,2005.0,Vinyl Siding,866.0,True,1768.0,226700
+9170.0,,5.0,1965.0,Metal Siding,1214.0,True,1214.0,140000
+15602.0,Crawford,7.0,1959.0,Brick Face,1501.0,True,1801.0,289000
+9554.0,Sawyer West,8.0,1993.0,Vinyl Siding,777.0,True,1911.0,215000
+7862.0,Somerset,6.0,2009.0,Vinyl Siding,1218.0,True,1218.0,208300
+9600.0,Old Town,7.0,1928.0,Metal Siding,689.0,True,1378.0,161000
+9600.0,North Ames,5.0,1959.0,Metal Siding,1041.0,True,1041.0,124500
+14559.0,North Ames,5.0,1951.0,Wood Siding,1008.0,True,1363.0,164900
+6792.0,Northridge Heights,7.0,2005.0,Vinyl Siding,1368.0,True,1368.0,202665
+9187.0,Mitchell,6.0,1983.0,,1084.0,True,1080.0,134000
+10594.0,Crawford,5.0,1926.0,Wood Siding,768.0,False,789.0,96500
+10448.0,Northwest Ames,,1972.0,Hard Board,689.0,True,2119.0,158000
+10208.0,Northridge,7.0,1996.0,Vinyl Siding,1264.0,True,2344.0,265000
+9531.0,College Creek,6.0,1998.0,Vinyl Siding,,True,1796.0,211000
+10918.0,Crawford,7.0,1926.0,,1276.0,True,2080.0,234000
+10800.0,Old Town,4.0,1900.0,Metal Siding,0.0,False,1294.0,106250
+11988.0,North Ames,6.0,1957.0,Vinyl Siding,1244.0,True,1244.0,150000
+7500.0,Somerset,7.0,2005.0,,1257.0,True,1266.0,176000
+13300.0,North Ames,5.0,1956.0,Wood Siding,928.0,True,928.0,132000
+14948.0,Northridge Heights,9.0,2008.0,Vinyl Siding,1452.0,True,2713.0,446261
+9098.0,Edwards,4.0,,Wood Siding,528.0,True,605.0,86000
+32668.0,Crawford,6.0,1957.0,Wood Siding,2035.0,True,2515.0,200624
+10200.0,Timberland,6.0,,Hard Board,1461.0,,1509.0,175000
+6155.0,Brookside,6.0,1920.0,Wood Siding,611.0,True,1362.0,128000
+7200.0,North Ames,5.0,1955.0,Vinyl Siding,0.0,True,827.0,107500
+5000.0,Brookside,1.0,1946.0,Vinyl Siding,0.0,False,334.0,39300
+9056.0,Gilbert,,2004.0,Vinyl Siding,707.0,True,1414.0,178000
+7000.0,Edwards,5.0,1910.0,Metal Siding,1117.0,True,1347.0,107500
+,College Creek,7.0,1998.0,Vinyl Siding,880.0,True,1724.0,188000
+,North Ames,4.0,1972.0,Metal Siding,864.0,True,864.0,111250
+11553.0,,5.0,1968.0,Plywood,1051.0,True,1159.0,158000
+,College Creek,8.0,2001.0,Vinyl Siding,1581.0,True,1601.0,272000
+,Timberland,9.0,2006.0,Vinyl Siding,1838.0,True,1838.0,315000
+10140.0,Northwest Ames,7.0,1998.0,Vinyl Siding,1650.0,True,1680.0,213250
+4058.0,North Ames,7.0,1998.0,Metal Siding,723.0,True,767.0,133000
+17104.0,Gilbert,7.0,2006.0,Vinyl Siding,654.0,True,1496.0,179665
+13837.0,Northwest Ames,7.0,1988.0,Hard Board,1204.0,True,2183.0,229000
+7244.0,Mitchell,5.0,1970.0,Vinyl Siding,768.0,,768.0,129500
+8235.0,Old Town,5.0,1955.0,,825.0,True,825.0,125000
+9375.0,Somerset,7.0,2003.0,Vinyl Siding,912.0,True,2094.0,263000
+4043.0,Northpark Villa,6.0,1977.0,Plywood,1069.0,True,1069.0,140000
+6000.0,Old Town,5.0,1957.0,Brick Face,928.0,True,928.0,112500
+11146.0,Northridge Heights,8.0,2006.0,,1709.0,True,1717.0,255500
+8777.0,Edwards,,1949.0,Vinyl Siding,0.0,True,1126.0,108000
+10625.0,Northridge Heights,7.0,2003.0,Vinyl Siding,998.0,True,2046.0,284000
+6380.0,Brookside,5.0,1922.0,,993.0,True,1048.0,113000
+14850.0,North Ames,5.0,1957.0,,1092.0,True,1092.0,141000
+11040.0,Iowa DOT and Rail Road,4.0,1920.0,Metal Siding,637.0,True,1336.0,108000
+21872.0,Gilbert,7.0,,Hard Board,729.0,True,1446.0,175000
+3196.0,Bloomington Heights,7.0,2003.0,Vinyl Siding,1374.0,True,1557.0,234000
+11341.0,Sawyer,5.0,1957.0,Wood Siding,1392.0,True,1392.0,121500
+10010.0,Mitchell,5.0,1974.0,Hard Board,1389.0,,1389.0,170000
+13907.0,Edwards,5.0,1940.0,Wood Shingles,996.0,True,996.0,108000
+21780.0,Edwards,6.0,1918.0,Wood Siding,1163.0,True,1674.0,185000
+13346.0,Northridge,7.0,1992.0,Hard Board,,True,2295.0,268000
+6858.0,South & West of Iowa State University,6.0,1915.0,Wood Siding,806.0,False,1647.0,128000
+11198.0,Stone Brook,9.0,2005.0,,1122.0,True,2504.0,325000
+10171.0,Northridge Heights,7.0,2004.0,Vinyl Siding,1517.0,True,1535.0,214000
+12327.0,Sawyer West,8.0,1983.0,Wood Siding,1496.0,True,2132.0,316600
+7032.0,North Ames,5.0,1979.0,Metal Siding,943.0,True,943.0,135960
+13101.0,,5.0,1965.0,Hard Board,,True,1728.0,142600
+,North Ames,6.0,1959.0,Wood Shingles,864.0,True,864.0,120000
+13159.0,Timberland,,2009.0,Vinyl Siding,846.0,True,1692.0,224500
+9967.0,Gilbert,7.0,2000.0,Vinyl Siding,384.0,True,1430.0,170000
+10500.0,North Ames,5.0,1971.0,Metal Siding,372.0,True,1109.0,139000
+8480.0,North Ames,5.0,1947.0,Metal Siding,832.0,True,1216.0,118500
+6292.0,South & West of Iowa State University,7.0,1928.0,Wood Siding,,True,1477.0,145000
+11777.0,Sawyer,5.0,1966.0,Vinyl Siding,1164.0,True,1320.0,164500
+,Somerset,7.0,2007.0,Vinyl Siding,689.0,True,1392.0,146000
+12150.0,Old Town,5.0,1954.0,Metal Siding,1050.0,False,1795.0,131500
+14585.0,North Ames,6.0,1960.0,Wood Siding,1144.0,,1429.0,181900
+12704.0,Northridge Heights,8.0,2008.0,Vinyl Siding,2042.0,True,2042.0,253293
+11841.0,Edwards,6.0,1990.0,Hard Board,816.0,True,816.0,118500
+13500.0,Old Town,10.0,1893.0,Wood Siding,1237.0,,2775.0,325000
+6120.0,,4.0,1935.0,Asbestos Shingles,884.0,True,1573.0,133000
+11443.0,Timberland,8.0,2005.0,Vinyl Siding,1868.0,True,2028.0,369900
+10267.0,Brookside,6.0,1918.0,Stucco,816.0,True,838.0,130000
+8740.0,Sawyer,5.0,1982.0,Hard Board,840.0,True,860.0,137000
+25095.0,Clear Creek,5.0,1968.0,Wood Siding,1437.0,True,1473.0,143000
+9100.0,Brookside,5.0,1930.0,Vinyl Siding,742.0,True,935.0,79500
+8320.0,,7.0,2004.0,Vinyl Siding,770.0,True,1582.0,185900
+13478.0,,10.0,2008.0,Cement Board,1722.0,True,2296.0,451950
+6600.0,Mitchell,5.0,1982.0,Hard Board,816.0,True,816.0,138000
+4435.0,College Creek,6.0,2003.0,Vinyl Siding,848.0,True,848.0,140000
+7990.0,College Creek,5.0,1975.0,Hard Board,924.0,True,924.0,110000
+11302.0,Stone Brook,8.0,2005.0,Vinyl Siding,1814.0,True,1826.0,319000
+3600.0,Old Town,6.0,1910.0,Vinyl Siding,684.0,False,1368.0,114504
+3922.0,Bloomington Heights,7.0,2006.0,Vinyl Siding,1258.0,True,1402.0,194201
+12984.0,Crawford,5.0,1977.0,Plywood,1430.0,True,1647.0,217500
+1950.0,Bluestem,6.0,1980.0,Metal Siding,716.0,True,1556.0,151000
+,Northridge Heights,8.0,2005.0,Vinyl Siding,1058.0,True,1904.0,275000
+9000.0,Iowa DOT and Rail Road,6.0,1937.0,Wood Siding,780.0,True,1375.0,141000
+10041.0,Sawyer West,8.0,1992.0,Hard Board,908.0,True,1915.0,220000
+3182.0,Somerset,7.0,2004.0,Metal Siding,600.0,True,1200.0,151000
+12803.0,College Creek,7.0,2002.0,Vinyl Siding,1494.0,True,1494.0,221000
+13600.0,North Ames,7.0,1965.0,Hard Board,768.0,True,1986.0,205000
+12464.0,College Creek,5.0,1996.0,Vinyl Siding,1040.0,True,1040.0,152000
+7800.0,Edwards,5.0,1948.0,Metal Siding,896.0,,2008.0,225000
+12168.0,Crawford,8.0,1934.0,Brick Face,965.0,True,3194.0,359100
+7943.0,Sawyer,4.0,1961.0,Vinyl Siding,1029.0,True,1029.0,118500
+11050.0,College Creek,9.0,2000.0,Vinyl Siding,,True,2153.0,313000
+10395.0,Northwest Ames,6.0,1978.0,Hard Board,1032.0,True,1032.0,148000
+11885.0,College Creek,8.0,2001.0,Vinyl Siding,1299.0,True,1872.0,261500
+8402.0,Mitchell,,2007.0,Vinyl Siding,1120.0,True,1120.0,147000
+8800.0,North Ames,6.0,1963.0,Metal Siding,936.0,True,1054.0,137500
+7861.0,Gilbert,6.0,2002.0,Vinyl Siding,783.0,True,1509.0,183200
+7227.0,North Ames,6.0,1954.0,Metal Siding,832.0,True,832.0,105500
+11694.0,,9.0,2007.0,Cement Board,1822.0,True,1828.0,314813
+12244.0,Timberland,8.0,2003.0,,1482.0,True,2262.0,305000
+8248.0,Edwards,3.0,1914.0,Stucco,864.0,False,864.0,67000
+10800.0,Northwest Ames,6.0,1974.0,Hard Board,,True,2614.0,240000
+7064.0,Sawyer,5.0,1977.0,Plywood,980.0,True,980.0,135000
+2117.0,Somerset,6.0,2000.0,Metal Siding,756.0,True,1512.0,168500
+10400.0,Northwest Ames,6.0,1972.0,Vinyl Siding,732.0,True,1790.0,165150
+10000.0,North Ames,6.0,1962.0,Wood Siding,1116.0,True,1116.0,160000
+12342.0,North Ames,5.0,1960.0,Wood Siding,978.0,True,1422.0,139900
+9600.0,North Ames,6.0,1955.0,Asbestos Shingles,1156.0,True,1520.0,153000
+11606.0,North Ames,5.0,1969.0,Plywood,1040.0,True,2080.0,135000
+9020.0,North Ames,6.0,1964.0,Plywood,1248.0,True,1350.0,168500
+9000.0,Old Town,5.0,1880.0,Vinyl Siding,636.0,True,1750.0,124000
+4590.0,Northridge Heights,8.0,2006.0,Vinyl Siding,1554.0,True,1554.0,209500
+11900.0,Northwest Ames,7.0,1977.0,Plywood,1386.0,True,1411.0,82500
+9250.0,North Ames,5.0,1954.0,Wood Siding,1056.0,True,1056.0,139400
+6979.0,Old Town,6.0,1980.0,Plywood,,True,1056.0,144000
+10896.0,South & West of Iowa State University,6.0,1914.0,Vinyl Siding,1440.0,True,3395.0,200000
+6120.0,Brookside,2.0,1936.0,Asbestos Shingles,264.0,False,800.0,60000
+6000.0,Old Town,5.0,1954.0,Wood Siding,811.0,True,1387.0,93000
+8777.0,Edwards,5.0,1910.0,Metal Siding,796.0,True,796.0,85000
+3982.0,Bloomington Heights,8.0,2006.0,Vinyl Siding,1520.0,,1567.0,264561
+12677.0,Northridge Heights,8.0,2003.0,Metal Siding,1518.0,True,1518.0,274000
+7050.0,Somerset,7.0,2001.0,Vinyl Siding,,True,1929.0,226000
+10793.0,Northwest Ames,5.0,1969.0,Wood Shingles,780.0,True,1620.0,152000
+9187.0,Somerset,9.0,2009.0,Cement Board,1766.0,True,1766.0,370878
+10530.0,North Ames,6.0,,Plywood,981.0,True,981.0,143250
+7200.0,North Ames,5.0,1950.0,Metal Siding,0.0,,1048.0,98300
+10452.0,Edwards,6.0,1953.0,Wood Siding,1094.0,True,1094.0,155000
+7700.0,North Ames,6.0,1966.0,Metal Siding,756.0,True,1839.0,155000
+1936.0,Meadow Village,4.0,1970.0,Cement Board,630.0,,630.0,84500
+8125.0,Somerset,7.0,2007.0,Cement Board,813.0,,1665.0,205950
+9084.0,Edwards,4.0,1940.0,Metal Siding,755.0,True,1510.0,108000
+8750.0,College Creek,7.0,1996.0,Vinyl Siding,880.0,True,1716.0,191000
+10320.0,Iowa DOT and Rail Road,6.0,1906.0,Metal Siding,756.0,True,1469.0,135000
+10437.0,Northridge,8.0,1995.0,Metal Siding,2109.0,True,2113.0,350000
+1680.0,Briardale,6.0,1971.0,Hard Board,525.0,True,1092.0,88000
+10007.0,North Ames,5.0,1959.0,Hard Board,1053.0,True,1053.0,145500
+7200.0,Crawford,7.0,1931.0,Stucco,776.0,True,1502.0,149000
+17503.0,North Ames,6.0,1948.0,Vinyl Siding,912.0,True,1458.0,97500
+9937.0,Edwards,5.0,1964.0,Metal Siding,1486.0,True,1486.0,167000
+12384.0,Northwest Ames,7.0,1976.0,Plywood,793.0,True,1935.0,197900
+46589.0,Northridge,8.0,1994.0,Vinyl Siding,1629.0,True,2448.0,402000
+13560.0,North Ames,6.0,1968.0,Wood Siding,1392.0,True,1392.0,110000
+10012.0,Edwards,4.0,1972.0,Plywood,1138.0,True,1181.0,137500
+20896.0,Somerset,,2005.0,Vinyl Siding,2077.0,,2097.0,423000
+,Gilbert,8.0,2000.0,,1406.0,True,1936.0,230500
+18450.0,North Ames,6.0,1965.0,Plywood,,True,2380.0,129000
+8125.0,Sawyer West,6.0,1994.0,Hard Board,1408.0,True,1679.0,193500
+11600.0,,4.0,1922.0,Metal Siding,700.0,True,1180.0,137500
+8633.0,College Creek,6.0,2005.0,Vinyl Siding,738.0,True,1476.0,173500
+6629.0,Edwards,6.0,1925.0,Wood Siding,672.0,False,1369.0,103600
+11250.0,Veenker,6.0,1977.0,Plywood,1208.0,True,1208.0,165000
+14442.0,Crawford,6.0,1957.0,Cement Board,1477.0,True,1839.0,257500
+9200.0,North Ames,6.0,1965.0,Hard Board,1136.0,True,1136.0,140000
+2289.0,Northpark Villa,,1978.0,Plywood,,True,1441.0,148500
+,,4.0,1900.0,Asbestos Shingles,1095.0,False,1774.0,87000
+9022.0,Old Town,5.0,1924.0,Vinyl Siding,768.0,True,792.0,109500
+,Stone Brook,8.0,2008.0,Vinyl Siding,2046.0,True,2046.0,372500
+9945.0,Sawyer,5.0,1961.0,Wood Siding,988.0,True,988.0,128500
+8012.0,Sawyer West,6.0,1980.0,Plywood,923.0,True,923.0,143000
+4500.0,South & West of Iowa State University,5.0,1932.0,Vinyl Siding,793.0,True,1520.0,159434
+2887.0,Clear Creek,6.0,,Wood Siding,1291.0,True,1291.0,173000
+11248.0,College Creek,9.0,2002.0,,1626.0,True,1668.0,285000
+16770.0,Northridge,7.0,1998.0,Vinyl Siding,1195.0,True,1839.0,221000
+5062.0,,7.0,1984.0,Hard Board,1190.0,True,2090.0,207500
+10207.0,Somerset,7.0,2007.0,Vinyl Siding,874.0,True,1761.0,227875
+5105.0,Somerset,,2004.0,Metal Siding,551.0,True,1102.0,148800
+,Stone Brook,8.0,2007.0,Metal Siding,1419.0,True,1419.0,392000
+7577.0,Northridge Heights,6.0,2005.0,Vinyl Siding,1362.0,,1362.0,194700
+4426.0,College Creek,6.0,2004.0,Vinyl Siding,848.0,True,848.0,141000
+26178.0,,7.0,1989.0,Metal Siding,1210.0,True,2519.0,335000
+5400.0,Old Town,,1921.0,Metal Siding,,True,1073.0,108480
+6120.0,Brookside,5.0,1936.0,Wood Siding,927.0,True,1539.0,141500
+13811.0,Timberland,6.0,1987.0,Hard Board,1112.0,True,1137.0,176000
+6000.0,Brookside,5.0,1921.0,Wood Siding,616.0,True,616.0,89000
+6420.0,Edwards,,1952.0,Wood Siding,980.0,True,1148.0,123500
+8450.0,Sawyer,,1965.0,Metal Siding,894.0,True,894.0,138500
+4282.0,Somerset,7.0,2004.0,Metal Siding,1391.0,True,1391.0,196000
+14331.0,Timberland,8.0,2002.0,Vinyl Siding,1800.0,True,1800.0,312500
+9600.0,Northwest Ames,7.0,1969.0,Hard Board,1164.0,True,1164.0,140000
+12438.0,,8.0,2006.0,Vinyl Siding,1234.0,True,2576.0,361919
+7630.0,Old Town,5.0,1900.0,Wood Siding,360.0,True,1812.0,140000
+8400.0,College Creek,7.0,2004.0,Vinyl Siding,1473.0,True,1484.0,213000
+5600.0,Iowa DOT and Rail Road,4.0,1930.0,Vinyl Siding,0.0,False,1092.0,55000
+115149.0,Clear Creek,7.0,1971.0,Plywood,1643.0,True,1824.0,302000
+6240.0,Northridge Heights,8.0,2006.0,Metal Siding,1324.0,True,1324.0,254000
+,Sawyer,5.0,1966.0,Hard Board,876.0,True,904.0,109900
+4130.0,Brookside,3.0,1935.0,Vinyl Siding,270.0,,729.0,52000
+8712.0,Iowa DOT and Rail Road,4.0,1900.0,Metal Siding,859.0,,1178.0,102776
+4671.0,Stone Brook,8.0,,,1228.0,,1228.0,189000
+9873.0,Brookside,4.0,1970.0,Hard Board,960.0,False,960.0,129000
+13517.0,Sawyer,6.0,1976.0,Hard Board,725.0,True,1479.0,130500
+10140.0,Northwest Ames,6.0,1974.0,Hard Board,1064.0,True,1350.0,165000
+10800.0,Old Town,7.0,1890.0,Wood Siding,718.0,,2554.0,159500
+10000.0,Northwest Ames,5.0,1973.0,Hard Board,1176.0,True,1178.0,157000
+10542.0,Northridge,7.0,1993.0,Wood Siding,1311.0,True,2418.0,341000
+9920.0,College Creek,5.0,1969.0,Hard Board,971.0,True,971.0,128500
+6563.0,Stone Brook,8.0,1985.0,,1742.0,True,1742.0,275000
+4426.0,College Creek,6.0,2004.0,Vinyl Siding,848.0,True,848.0,143000
+8120.0,North Ames,4.0,1970.0,Metal Siding,864.0,True,864.0,124500
+8172.0,Edwards,4.0,,Metal Siding,941.0,True,1470.0,135000
+13286.0,Edwards,9.0,2007.0,Cement Board,1698.0,True,1698.0,320000
+6960.0,North Ames,4.0,1970.0,Hard Board,864.0,True,864.0,120500
+21695.0,Crawford,6.0,1988.0,Wood Siding,880.0,True,1680.0,222000
+11475.0,North Ames,5.0,1958.0,Vinyl Siding,,True,1776.0,110000
+6240.0,Iowa DOT and Rail Road,4.0,1925.0,Metal Siding,780.0,True,1208.0,103000
+5389.0,Stone Brook,8.0,1995.0,Cement Board,1595.0,True,1616.0,236500
+9590.0,Timberland,7.0,2003.0,Vinyl Siding,868.0,True,1146.0,187500
+11404.0,College Creek,7.0,1998.0,Vinyl Siding,1153.0,True,2031.0,222500
+,Sawyer,5.0,1961.0,Hard Board,864.0,True,1144.0,131400
+8978.0,Sawyer,5.0,1968.0,Plywood,948.0,True,948.0,108000
+10800.0,Old Town,7.0,1914.0,Wood Siding,,False,1768.0,163000
+8544.0,North Ames,3.0,1950.0,Stucco,0.0,False,1040.0,93500
+10463.0,Gilbert,8.0,2005.0,,893.0,True,1801.0,239900
+9313.0,College Creek,7.0,2004.0,Vinyl Siding,864.0,True,1728.0,190000
+9600.0,Old Town,5.0,1910.0,Wood Siding,264.0,True,1432.0,132000
+6768.0,Sawyer,6.0,1961.0,Hard Board,912.0,True,912.0,142000
+8450.0,Sawyer West,7.0,2000.0,Vinyl Siding,1349.0,True,1349.0,179000
+12886.0,Sawyer,5.0,1963.0,Hard Board,520.0,True,1464.0,175000
+5395.0,Stone Brook,8.0,1993.0,Hard Board,1337.0,True,1337.0,180000
+8963.0,Northwest Ames,8.0,1976.0,Vinyl Siding,1142.0,True,2715.0,299800
+8795.0,Gilbert,7.0,2000.0,Vinyl Siding,952.0,True,2256.0,236000
+11700.0,Old Town,7.0,1880.0,Stucco,1240.0,,2640.0,265979
+10593.0,Northridge,7.0,1996.0,Vinyl Siding,,True,1720.0,260400
+8405.0,Edwards,4.0,1945.0,Wood Shingles,0.0,False,1529.0,98000
+8800.0,Old Town,4.0,1910.0,,576.0,True,1140.0,96500
+7750.0,Gilbert,,2003.0,,660.0,True,1320.0,162000
+9236.0,College Creek,6.0,1997.0,Vinyl Siding,,True,1494.0,217000
+10240.0,Northridge Heights,8.0,2005.0,,1030.0,True,2098.0,275500
+7930.0,North Ames,6.0,1969.0,Plywood,1026.0,True,1026.0,156000
+10769.0,College Creek,8.0,2007.0,Vinyl Siding,866.0,True,1768.0,212000
+11616.0,Sawyer,6.0,1978.0,Hard Board,672.0,True,1386.0,158900
+2280.0,Somerset,7.0,1999.0,Metal Siding,744.0,True,1501.0,179400
+12257.0,Northridge,8.0,1995.0,Vinyl Siding,1318.0,True,2531.0,290000
+9100.0,North Ames,6.0,1959.0,Wood Siding,864.0,True,864.0,127500
+6911.0,Brookside,5.0,1924.0,,1145.0,True,1301.0,100000
+8640.0,Somerset,7.0,2009.0,Vinyl Siding,756.0,True,1547.0,215200
+,Northridge,8.0,1999.0,Vinyl Siding,,True,2365.0,337000
+9549.0,Veenker,8.0,,Brick Face,1494.0,True,1494.0,270000
+14587.0,Somerset,9.0,2008.0,Vinyl Siding,1498.0,True,1506.0,264132
+10421.0,Northwest Ames,7.0,1988.0,,980.0,True,1714.0,196500
+12508.0,Mitchell,6.0,1940.0,Vinyl Siding,983.0,True,1750.0,160000
+9100.0,College Creek,7.0,2004.0,Vinyl Siding,1860.0,True,1836.0,216837
+53504.0,Stone Brook,8.0,,,1650.0,True,3279.0,538000
+7252.0,Sawyer,,1982.0,Wood Siding,858.0,True,858.0,134900
+8877.0,Edwards,4.0,1951.0,Wood Siding,,True,1220.0,102000
+7819.0,Edwards,6.0,,Plywood,1029.0,True,1117.0,107000
+10150.0,North Ames,5.0,1958.0,Wood Siding,912.0,True,912.0,114500
+14226.0,Northridge Heights,8.0,2006.0,Vinyl Siding,1935.0,True,1973.0,395000
+4500.0,Mitchell,6.0,1998.0,Vinyl Siding,1204.0,True,1204.0,162000
+11210.0,College Creek,7.0,2005.0,Vinyl Siding,1614.0,True,1614.0,221500
+13350.0,Sawyer,5.0,1974.0,Hard Board,864.0,True,894.0,142500
+8400.0,Sawyer West,5.0,1977.0,Plywood,0.0,True,2020.0,144000
+10530.0,Mitchell,6.0,,Plywood,975.0,True,1004.0,135000
+7875.0,Gilbert,7.0,1995.0,Hard Board,1237.0,True,1253.0,176000
+7153.0,Sawyer West,6.0,1992.0,Vinyl Siding,761.0,True,1603.0,175900
+9101.0,Mitchell,5.0,1978.0,Plywood,1097.0,True,1110.0,165500
+6300.0,Old Town,6.0,1914.0,Wood Siding,742.0,True,1484.0,128000
+9790.0,Northwest Ames,6.0,1967.0,Brick Face,1372.0,True,1342.0,161500
+10800.0,Old Town,5.0,1915.0,Metal Siding,686.0,True,1652.0,139000
+10142.0,,7.0,2004.0,Vinyl Siding,956.0,True,2084.0,233000
+6000.0,Old Town,4.0,1954.0,Metal Siding,901.0,True,901.0,107900
+12205.0,Clear Creek,6.0,1966.0,Hard Board,832.0,True,2087.0,187500
+3182.0,Bloomington Heights,7.0,2005.0,Vinyl Siding,1145.0,True,1145.0,160200
+11333.0,Mitchell,6.0,1976.0,Hard Board,,True,1062.0,146800
+9920.0,Northridge,7.0,1996.0,Metal Siding,1117.0,True,2013.0,269790
+9158.0,Somerset,8.0,2007.0,Cement Board,1496.0,True,1496.0,225000
+10832.0,,7.0,1994.0,Metal Siding,712.0,True,1895.0,194500
+8400.0,Sawyer West,6.0,1980.0,Hard Board,650.0,True,1564.0,171000
+8197.0,Sawyer,6.0,1977.0,Plywood,660.0,True,1285.0,143500
+7677.0,North Ames,5.0,1953.0,Vinyl Siding,773.0,True,773.0,110000
+13518.0,Northridge Heights,9.0,2008.0,Vinyl Siding,1926.0,True,3140.0,485000
+7200.0,South & West of Iowa State University,5.0,1937.0,Wood Siding,731.0,True,1768.0,175000
+12798.0,Clear Creek,6.0,1997.0,Vinyl Siding,616.0,True,1688.0,200000
+4800.0,Iowa DOT and Rail Road,,1916.0,Metal Siding,1196.0,True,1196.0,109900
+8199.0,,7.0,,Wood Shingles,728.0,True,1456.0,189000
+13891.0,Northridge Heights,9.0,2008.0,Vinyl Siding,1734.0,True,2822.0,582933
+9000.0,North Ames,5.0,,Wood Siding,936.0,True,1128.0,118000
+12274.0,Somerset,7.0,2008.0,Vinyl Siding,1417.0,True,1428.0,227680
+9750.0,North Ames,5.0,1967.0,Vinyl Siding,980.0,True,980.0,135500
+21384.0,Brookside,,1923.0,Wood Siding,1324.0,True,1576.0,223500
+,North Ames,5.0,1966.0,Vinyl Siding,1024.0,True,1086.0,159950
+,Northwest Ames,6.0,1974.0,Hard Board,1040.0,True,1309.0,181000
+4438.0,College Creek,6.0,2004.0,Vinyl Siding,848.0,True,848.0,144500
+8712.0,Iowa DOT and Rail Road,5.0,1952.0,Wood Siding,540.0,False,1044.0,55993
+9750.0,North Ames,6.0,1958.0,Metal Siding,1442.0,True,1442.0,157900
+8248.0,Edwards,5.0,1918.0,Stucco,686.0,True,1250.0,116000
+12137.0,College Creek,7.0,1998.0,Vinyl Siding,1649.0,True,1661.0,224900
+11425.0,North Ames,5.0,1954.0,Brick Face,1008.0,True,1008.0,137000
+13265.0,Mitchell,8.0,2002.0,Cement Board,1568.0,True,1689.0,271000
+8816.0,Clear Creek,6.0,1971.0,Hard Board,1010.0,True,1052.0,155000
+7226.0,College Creek,7.0,2003.0,Vinyl Siding,,True,1640.0,183000
+,Old Town,4.0,1953.0,Metal Siding,936.0,False,936.0,93000
+9900.0,South & West of Iowa State University,6.0,1940.0,Vinyl Siding,778.0,True,1489.0,139500
+11216.0,Somerset,8.0,2006.0,Vinyl Siding,1489.0,True,1489.0,232600
+14803.0,Northridge Heights,10.0,2007.0,Cement Board,2078.0,,2084.0,385000
+6130.0,Brookside,5.0,1924.0,,784.0,,784.0,109500
+8529.0,Sawyer West,7.0,2001.0,Vinyl Siding,1454.0,True,1434.0,189000
+28698.0,Clear Creek,5.0,1967.0,Plywood,1013.0,True,2126.0,185000
+2544.0,Somerset,7.0,2005.0,Metal Siding,600.0,True,1223.0,147400
+11900.0,North Ames,6.0,1957.0,Hard Board,1392.0,True,1392.0,166000
+3180.0,Somerset,7.0,2005.0,Metal Siding,600.0,True,1200.0,151000
+9548.0,College Creek,7.0,2003.0,Vinyl Siding,941.0,True,1829.0,237000
+10004.0,North Ames,6.0,1964.0,Hard Board,1516.0,,1516.0,167000
+7875.0,North Ames,5.0,1961.0,Vinyl Siding,1144.0,True,1144.0,139950
+9600.0,Sawyer,4.0,1950.0,Vinyl Siding,1067.0,True,1067.0,128000
+8100.0,,5.0,,Vinyl Siding,1559.0,True,1559.0,153500
+1680.0,Briardale,6.0,1973.0,Hard Board,483.0,True,987.0,100000
+,College Creek,5.0,1995.0,Vinyl Siding,1099.0,True,1099.0,144000
+11767.0,,5.0,1946.0,Metal Siding,,True,1200.0,130500
+12155.0,South & West of Iowa State University,6.0,1925.0,Wood Siding,672.0,False,1482.0,140000
+10440.0,Old Town,5.0,1904.0,Metal Siding,650.0,True,1539.0,157500
+9020.0,North Ames,6.0,1966.0,Hard Board,1127.0,True,1165.0,174900
+,North Ames,5.0,1961.0,Brick Face,1800.0,False,1800.0,141000
+12665.0,,5.0,1915.0,Wood Siding,876.0,True,1416.0,153900
+16647.0,Sawyer,5.0,1975.0,Hard Board,1390.0,True,1701.0,171000
+9317.0,Sawyer West,7.0,1993.0,Hard Board,740.0,True,1775.0,213000
+15523.0,College Creek,5.0,,Hard Board,864.0,True,864.0,133500
+45600.0,Clear Creek,6.0,1908.0,Wood Siding,907.0,True,2358.0,240000
+9600.0,Veenker,6.0,1976.0,Plywood,528.0,True,1855.0,187000
+4435.0,College Creek,6.0,2003.0,Vinyl Siding,848.0,True,848.0,131500
+3196.0,Bloomington Heights,8.0,2003.0,Vinyl Siding,1273.0,True,1456.0,215000
+7128.0,Crawford,7.0,1941.0,Metal Siding,918.0,True,1646.0,164000
+12095.0,North Ames,6.0,1964.0,Metal Siding,1127.0,True,1445.0,158000
+17920.0,Sawyer,5.0,1955.0,Wood Siding,1763.0,True,1779.0,170000
+6897.0,,5.0,1962.0,Hard Board,1040.0,True,1040.0,127000
+10970.0,College Creek,6.0,1978.0,Plywood,940.0,True,1026.0,147000
+8125.0,Gilbert,6.0,1994.0,Hard Board,702.0,True,1481.0,174000
+10400.0,Northwest Ames,7.0,1976.0,Hard Board,1090.0,True,1370.0,152000
+11029.0,Northwest Ames,6.0,1968.0,Hard Board,1054.0,True,2654.0,250000
+7642.0,Crawford,7.0,1918.0,Wood Siding,912.0,True,1426.0,189950
+11625.0,Sawyer,5.0,1965.0,Plywood,,True,1039.0,131500
+9672.0,Sawyer West,6.0,1984.0,Hard Board,,True,1097.0,152000
+7931.0,North Ames,,1959.0,Brick Face,1148.0,True,1148.0,132500
+8640.0,,7.0,2007.0,Vinyl Siding,1372.0,True,1372.0,250580
+8750.0,North Ames,5.0,1970.0,Metal Siding,,True,1002.0,148500
+10656.0,Timberland,8.0,2006.0,Vinyl Siding,1638.0,True,1646.0,248900
+6970.0,Sawyer,4.0,1961.0,Vinyl Siding,1040.0,True,1120.0,129000
+14762.0,Gilbert,5.0,1948.0,Plywood,0.0,True,2320.0,169000
+9938.0,Sawyer West,7.0,1993.0,Metal Siding,1050.0,True,1949.0,236000
+6600.0,,,1962.0,Metal Siding,894.0,False,894.0,109500
+8892.0,North Ames,5.0,1953.0,Wood Shingles,105.0,True,910.0,116000
+12144.0,North Ames,5.0,1949.0,Hard Board,832.0,True,1268.0,133000
+5720.0,Old Town,5.0,1941.0,Wood Siding,676.0,True,1131.0,66500
+9000.0,Somerset,8.0,2007.0,Cement Board,1184.0,True,2610.0,303477
+25286.0,Mitchell,4.0,1963.0,Hard Board,1064.0,True,1040.0,132250
+,Northridge Heights,9.0,2004.0,Vinyl Siding,1462.0,True,2224.0,350000
+11782.0,Sawyer,5.0,1961.0,Hard Board,1109.0,True,1155.0,148000
+7000.0,College Creek,5.0,1978.0,Vinyl Siding,864.0,True,864.0,136500
+7024.0,Edwards,5.0,2005.0,Vinyl Siding,1090.0,True,1090.0,157000
+13758.0,Timberland,7.0,1990.0,Hard Board,1156.0,True,1717.0,187500
+9636.0,Gilbert,6.0,1992.0,Vinyl Siding,808.0,True,1593.0,178000
+6204.0,South & West of Iowa State University,4.0,1912.0,Wood Siding,795.0,False,2230.0,118500
+7150.0,,5.0,1967.0,Hard Board,892.0,True,892.0,100000
+5119.0,Somerset,9.0,1999.0,Metal Siding,,True,1709.0,328900
+,North Ames,5.0,1959.0,Metal Siding,1626.0,True,1712.0,145000
+16466.0,Edwards,5.0,1955.0,Metal Siding,816.0,True,1393.0,135500
+,North Ames,8.0,1970.0,Wood Siding,2217.0,True,2217.0,268000
+12160.0,North Ames,6.0,1953.0,Wood Siding,1505.0,True,1505.0,149500
+8064.0,North Ames,5.0,1949.0,Metal Siding,672.0,True,924.0,122900
+11184.0,Sawyer,6.0,1978.0,Hard Board,918.0,True,1683.0,172500
+8414.0,Sawyer,6.0,1963.0,Hard Board,,,1068.0,154500
+13284.0,Sawyer,5.0,1954.0,Wood Siding,1383.0,True,1383.0,165000
+7018.0,Sawyer West,5.0,1979.0,Plywood,0.0,True,1535.0,118858
+8765.0,Iowa DOT and Rail Road,4.0,1936.0,Wood Siding,951.0,False,951.0,106500
+7018.0,Sawyer West,5.0,1979.0,Plywood,0.0,True,2240.0,142953
+12919.0,Northridge Heights,9.0,,Vinyl Siding,2330.0,True,2364.0,611657
+6993.0,Sawyer,5.0,1961.0,,912.0,True,1236.0,135000
+7340.0,North Ames,4.0,1971.0,Hard Board,858.0,True,858.0,110000
+8712.0,North Ames,5.0,1957.0,Metal Siding,,True,1306.0,153000
+,Gilbert,7.0,2003.0,Vinyl Siding,783.0,True,1509.0,180000
+14859.0,Gilbert,7.0,2006.0,Vinyl Siding,1670.0,True,1670.0,240000
+,Sawyer,5.0,1967.0,Hard Board,876.0,True,902.0,125500
+9920.0,North Ames,5.0,1954.0,Hard Board,1056.0,True,1063.0,128000
+13501.0,Somerset,8.0,2006.0,Vinyl Siding,1623.0,True,1636.0,255000
+11500.0,Crawford,7.0,1936.0,Brick Face,1017.0,True,2057.0,250000
+8885.0,Mitchell,5.0,1983.0,Hard Board,864.0,True,902.0,131000
+12589.0,Gilbert,6.0,2005.0,Vinyl Siding,742.0,True,1484.0,174000
+11600.0,North Ames,5.0,1960.0,Metal Siding,1105.0,True,2274.0,154300
+9286.0,College Creek,5.0,1977.0,Hard Board,,True,1268.0,143500
+6120.0,,5.0,1925.0,Metal Siding,768.0,False,1015.0,88000
+,Crawford,,1949.0,,1001.0,False,2002.0,145000
+3000.0,Somerset,6.0,,Vinyl Siding,612.0,True,1224.0,173733
+2001.0,Meadow Village,4.0,1970.0,Cement Board,546.0,True,1092.0,75000
+9000.0,Iowa DOT and Rail Road,2.0,1949.0,Asbestos Shingles,480.0,False,480.0,35311
+17140.0,Edwards,4.0,,Vinyl Siding,1134.0,True,1229.0,135000
+13125.0,Sawyer West,7.0,1991.0,Hard Board,1104.0,True,2127.0,238000
+11029.0,North Ames,6.0,1958.0,Metal Siding,1184.0,True,1414.0,176500
+8462.0,Sawyer West,6.0,1994.0,Hard Board,928.0,True,1721.0,201000
+8777.0,Edwards,,1900.0,Metal Siding,1272.0,True,2200.0,145900
+10237.0,,6.0,2005.0,Vinyl Siding,1316.0,True,1316.0,169990
+8012.0,Sawyer West,,1993.0,Plywood,1604.0,True,1617.0,193000
+10240.0,,6.0,1980.0,Plywood,1686.0,True,1686.0,207500
+15611.0,Northwest Ames,5.0,1977.0,Vinyl Siding,1126.0,True,1126.0,175000
+11999.0,Northridge Heights,8.0,2003.0,Vinyl Siding,1181.0,True,2374.0,285000
+11838.0,College Creek,8.0,2001.0,Vinyl Siding,1753.0,,1788.0,236500
+13006.0,Gilbert,7.0,1997.0,Hard Board,964.0,True,2236.0,222000
+8925.0,Timberland,8.0,,Vinyl Siding,1466.0,True,1466.0,201000
+,North Ames,5.0,1965.0,Vinyl Siding,925.0,True,925.0,117500
+11670.0,Somerset,9.0,2006.0,Vinyl Siding,1905.0,True,1905.0,320000
+8487.0,College Creek,7.0,2004.0,Vinyl Siding,1500.0,True,1500.0,190000
+27650.0,North Ames,7.0,1960.0,Wood Siding,585.0,,2069.0,242000
+5825.0,Brookside,,1926.0,Metal Siding,600.0,True,747.0,79900
+10083.0,Sawyer West,7.0,2003.0,Vinyl Siding,1176.0,True,1200.0,184900
+9675.0,Somerset,7.0,2005.0,Vinyl Siding,1113.0,True,1971.0,253000
+8760.0,College Creek,7.0,2006.0,Vinyl Siding,1391.0,True,1962.0,239799
+24090.0,Clear Creek,7.0,1940.0,Metal Siding,1032.0,True,2403.0,244400
+12640.0,Mitchell,,1976.0,Plywood,1728.0,True,1728.0,150900
+8755.0,Gilbert,7.0,1999.0,Vinyl Siding,992.0,True,2060.0,214000
+7711.0,Edwards,4.0,1977.0,Metal Siding,1440.0,True,1440.0,150000
+25000.0,Mitchell,5.0,1967.0,Hard Board,,True,1632.0,143000
+14375.0,Timberland,6.0,1958.0,Hard Board,819.0,True,1344.0,137500
+8820.0,,5.0,1890.0,Vinyl Siding,1088.0,True,1869.0,124900
+8163.0,North Ames,5.0,1959.0,Hard Board,1144.0,True,1144.0,143000
+14536.0,Timberland,8.0,2002.0,Vinyl Siding,1616.0,True,1629.0,270000
+14006.0,College Creek,7.0,2002.0,Vinyl Siding,936.0,True,1776.0,192500
+9360.0,Northwest Ames,6.0,1972.0,Plywood,1161.0,True,1381.0,197500
+7200.0,North Ames,5.0,1950.0,Vinyl Siding,864.0,True,864.0,129000
+7800.0,Sawyer West,5.0,1965.0,,828.0,True,965.0,119900
+7200.0,College Creek,5.0,1972.0,Wood Shingles,,True,768.0,133900
+11075.0,Mitchell,5.0,1969.0,Hard Board,784.0,True,1968.0,172000
+9400.0,Edwards,6.0,1975.0,Wood Shingles,945.0,True,980.0,127500
+7136.0,Crawford,6.0,1946.0,Metal Siding,979.0,False,1958.0,145000
+1300.0,Bluestem,6.0,1980.0,Metal Siding,561.0,,1229.0,124000
+7420.0,Sawyer,5.0,1962.0,Metal Siding,1057.0,True,1057.0,132000
+8450.0,College Creek,7.0,2003.0,Vinyl Siding,1337.0,True,1337.0,185000
+2572.0,Somerset,7.0,1999.0,Metal Siding,696.0,True,1416.0,155000
+7207.0,Brookside,5.0,1958.0,Wood Siding,858.0,True,858.0,116500
+12227.0,Northwest Ames,6.0,1977.0,Hard Board,1330.0,True,2872.0,272000
+,Northpark Villa,6.0,1976.0,Plywood,804.0,True,1548.0,155000
+11923.0,College Creek,9.0,2007.0,Vinyl Siding,1800.0,True,1800.0,239000
+10237.0,Gilbert,6.0,2005.0,Vinyl Siding,783.0,,1484.0,178900
+9600.0,Crawford,5.0,1940.0,Metal Siding,728.0,True,1308.0,160000
+7390.0,North Ames,5.0,,Wood Siding,1098.0,True,1098.0,135000
+5925.0,Old Town,3.0,1910.0,Vinyl Siding,600.0,False,968.0,37900
+10382.0,North Ames,6.0,1958.0,Hard Board,588.0,True,1095.0,140000
+10800.0,North Ames,4.0,1949.0,Asbestos Shingles,720.0,False,1192.0,135000
+2268.0,Northridge Heights,7.0,2003.0,Vinyl Siding,,True,1626.0,173000
+7892.0,Sawyer West,6.0,1979.0,Plywood,918.0,True,918.0,99500
+11639.0,Somerset,7.0,2007.0,Cement Board,1428.0,True,1428.0,182000
+11414.0,Brookside,7.0,1910.0,Hard Board,728.0,False,2019.0,167500
+2651.0,Somerset,7.0,2000.0,Metal Siding,673.0,True,1382.0,165000
+5900.0,Brookside,4.0,1923.0,Wood Siding,440.0,True,869.0,85500
+4274.0,Somerset,7.0,2006.0,Vinyl Siding,1241.0,True,1241.0,199900
+9450.0,Edwards,4.0,1954.0,Metal Siding,894.0,,894.0,110000
+8816.0,Sawyer,5.0,1963.0,Vinyl Siding,1121.0,True,1121.0,139000
+12122.0,,7.0,1961.0,Cement Board,944.0,,999.0,178400
+12203.0,Northridge,8.0,1998.0,Vinyl Siding,1225.0,True,2612.0,336000
+3182.0,Bloomington Heights,7.0,2007.0,Vinyl Siding,,True,1266.0,159895
+11250.0,College Creek,8.0,2002.0,Cement Board,1128.0,True,2290.0,255900
+10125.0,Mitchell,,1977.0,Plywood,0.0,True,1734.0,126000
+10880.0,Edwards,5.0,1950.0,Metal Siding,1164.0,False,1164.0,125000
+10159.0,Northridge Heights,9.0,2009.0,Vinyl Siding,1930.0,True,1940.0,395192
+12046.0,Northwest Ames,6.0,1976.0,Plywood,848.0,True,2030.0,195000
+9452.0,Northridge,8.0,1997.0,Vinyl Siding,1396.0,True,2392.0,348000
+17671.0,Old Town,8.0,1882.0,Wood Siding,916.0,True,1742.0,168000
+9760.0,North Ames,6.0,1964.0,Wood Siding,822.0,True,1851.0,187000
+8846.0,College Creek,6.0,2005.0,Vinyl Siding,750.0,True,1500.0,173900
+12456.0,Northridge Heights,,2006.0,Cement Board,1700.0,True,1718.0,337500
+4712.0,Brookside,4.0,1946.0,Metal Siding,747.0,True,1230.0,121600
+10659.0,North Ames,5.0,1961.0,Wood Siding,1050.0,True,1050.0,136500
+9786.0,Iowa DOT and Rail Road,3.0,1922.0,Wood Siding,1007.0,False,1077.0,91000
+6762.0,College Creek,7.0,2006.0,Vinyl Siding,1187.0,True,1208.0,206000
+10206.0,Edwards,3.0,1952.0,Brick,0.0,False,944.0,82000
+5400.0,Old Town,5.0,1920.0,Wood Siding,691.0,True,691.0,86000
+11957.0,Somerset,8.0,2006.0,Vinyl Siding,1574.0,True,1574.0,232000
+11500.0,Northwest Ames,5.0,1976.0,Vinyl Siding,1680.0,True,1680.0,136905
+3182.0,Bloomington Heights,7.0,2005.0,Vinyl Siding,1346.0,True,1504.0,181000
+8385.0,College Creek,5.0,1977.0,Hard Board,985.0,True,985.0,149900
+12155.0,North Ames,6.0,1970.0,Plywood,1657.0,True,1657.0,163500
+2217.0,Meadow Village,4.0,1970.0,Cement Board,546.0,True,1092.0,88000
+12118.0,Mitchell,7.0,2004.0,Vinyl Siding,1710.0,True,1710.0,240000
+6000.0,South & West of Iowa State University,5.0,1926.0,Wood Siding,1008.0,True,1522.0,102000
+21286.0,Sawyer,5.0,,Wood Siding,720.0,True,1271.0,135000
+9825.0,Edwards,5.0,1965.0,Asphalt Shingles,0.0,False,1664.0,100000
+10592.0,Crawford,6.0,1923.0,Wood Siding,602.0,True,1502.0,165000
+7200.0,Old Town,5.0,1910.0,Metal Siding,1022.0,False,1022.0,85000
+11664.0,,6.0,1948.0,Metal Siding,1082.0,True,1082.0,119200
+8400.0,Northwest Ames,8.0,2001.0,Vinyl Siding,810.0,True,1665.0,227000
+11883.0,College Creek,7.0,1996.0,Vinyl Siding,1504.0,True,1504.0,203000
+10784.0,Gilbert,7.0,1991.0,Hard Board,384.0,True,1472.0,160000
+3013.0,Bloomington Heights,7.0,2005.0,Vinyl Siding,1362.0,True,1506.0,213490
+7024.0,Edwards,4.0,2005.0,Vinyl Siding,1132.0,True,1132.0,176000
+7406.0,College Creek,7.0,2006.0,Vinyl Siding,1199.0,True,1220.0,194000
+9439.0,Old Town,5.0,1930.0,Wood Siding,912.0,,1248.0,87000
+3182.0,Bloomington Heights,7.0,2005.0,Vinyl Siding,,True,1504.0,191000
+15498.0,Timberland,8.0,1976.0,Stone,1565.0,True,2898.0,287000
+7700.0,College Creek,5.0,1972.0,Vinyl Siding,882.0,True,882.0,112500
+,North Ames,5.0,1960.0,Metal Siding,1268.0,True,1264.0,167500
+9520.0,Timberland,8.0,2007.0,Vinyl Siding,1638.0,True,1646.0,293077
+9492.0,,5.0,1941.0,Wood Shingles,768.0,True,1376.0,105000
+1680.0,Briardale,6.0,1972.0,Hard Board,672.0,True,1218.0,118000
+7082.0,South & West of Iowa State University,5.0,1916.0,Vinyl Siding,686.0,True,1928.0,160000
+14541.0,Northridge,8.0,1993.0,Metal Siding,1338.0,True,2520.0,310000
+8125.0,College Creek,,2002.0,Vinyl Siding,1654.0,True,1654.0,230000
+6305.0,Crawford,5.0,1938.0,Metal Siding,920.0,True,954.0,119750
+11500.0,Edwards,4.0,1957.0,,0.0,False,845.0,84000
+12898.0,Timberland,9.0,2007.0,Vinyl Siding,1620.0,True,1620.0,315500
+9240.0,College Creek,8.0,2001.0,Vinyl Siding,1055.0,True,2263.0,287000
+1533.0,Meadow Village,4.0,1970.0,Cement Board,546.0,True,1344.0,97000
+1477.0,Meadow Village,4.0,1970.0,Cement Board,630.0,True,630.0,80000
+13125.0,Sawyer,5.0,1957.0,Wood Siding,1134.0,True,1803.0,155000
+9130.0,Northwest Ames,6.0,1966.0,Hard Board,800.0,True,1632.0,173000
+5381.0,Northridge Heights,6.0,2005.0,,1306.0,True,1306.0,196000
+11839.0,Sawyer West,7.0,1990.0,Hard Board,1475.0,,2329.0,262280
+9600.0,Northwest Ames,8.0,1981.0,Brick Face,2524.0,True,2524.0,278000
+13680.0,Edwards,3.0,1955.0,Brick Face,0.0,True,1733.0,139600
+16056.0,Stone Brook,9.0,2005.0,Cement Board,,True,2868.0,556581
+9245.0,College Creek,5.0,1994.0,Vinyl Siding,,True,990.0,145000
+21750.0,Mitchell,5.0,1960.0,Hard Board,0.0,True,1771.0,115000
+11100.0,Edwards,4.0,1946.0,Metal Siding,0.0,True,930.0,84900
+8993.0,Gilbert,7.0,2007.0,Vinyl Siding,1302.0,True,1302.0,176485
+11175.0,College Creek,7.0,2007.0,Vinyl Siding,1316.0,True,1316.0,200141
+9500.0,North Ames,6.0,1964.0,Vinyl Siding,816.0,True,1977.0,165000
+8562.0,Edwards,5.0,1957.0,Hard Board,1216.0,True,1526.0,144500
+11367.0,College Creek,8.0,2002.0,Vinyl Siding,1065.0,True,1989.0,255000
+11361.0,Northwest Ames,6.0,1976.0,Plywood,1193.0,True,1523.0,180000
+7052.0,Northridge Heights,7.0,2005.0,Vinyl Siding,1364.0,True,1364.0,185850
+29959.0,Northridge,7.0,1994.0,Hard Board,973.0,True,1850.0,248000
+11308.0,Northridge Heights,9.0,2008.0,Vinyl Siding,1104.0,True,2184.0,335000
+11275.0,Crawford,6.0,1932.0,Metal Siding,854.0,True,1991.0,220000
+4920.0,Stone Brook,8.0,2001.0,Cement Board,1338.0,True,1338.0,213500
+18000.0,Iowa DOT and Rail Road,3.0,1935.0,Metal Siding,,True,894.0,81000
+13600.0,Old Town,5.0,1900.0,Wood Siding,662.0,False,2337.0,90000
+6000.0,Old Town,6.0,1925.0,Metal Siding,1103.0,True,1103.0,110500
+11000.0,North Ames,5.0,1966.0,Plywood,1154.0,True,1154.0,154000
+14000.0,Clear Creek,,1996.0,Wood Siding,1306.0,True,2260.0,328000
+7837.0,Gilbert,6.0,1993.0,Vinyl Siding,799.0,True,1571.0,178000
+9760.0,North Ames,6.0,1964.0,Hard Board,,True,1611.0,167900
+3964.0,Meadow Village,6.0,1973.0,Cement Board,942.0,True,2521.0,151400
+9600.0,North Ames,5.0,1949.0,Metal Siding,845.0,True,893.0,135000
+10152.0,North Ames,5.0,1956.0,Metal Siding,1048.0,True,1048.0,135000
+11700.0,,6.0,1968.0,Metal Siding,727.0,True,1556.0,154000
+7585.0,Edwards,5.0,1948.0,Metal Siding,810.0,True,1456.0,91500
+7950.0,Edwards,6.0,1977.0,Hard Board,690.0,True,1426.0,159500
+8556.0,College Creek,7.0,2006.0,Vinyl Siding,1240.0,True,1240.0,194000
+13125.0,Crawford,7.0,1940.0,Wood Siding,,True,1740.0,219500
+4435.0,College Creek,6.0,2004.0,Vinyl Siding,848.0,True,848.0,155900
+8775.0,College Creek,,,Vinyl Siding,990.0,True,990.0,126000
+7500.0,Sawyer,5.0,1963.0,,1040.0,True,1040.0,133000
+8749.0,College Creek,7.0,2002.0,Vinyl Siding,1459.0,True,1459.0,192000
+8800.0,North Ames,6.0,1964.0,Hard Board,1251.0,True,1251.0,160000
+13031.0,Gilbert,6.0,1995.0,Hard Board,691.0,True,1498.0,187500
+9069.0,Sawyer West,6.0,1992.0,Hard Board,936.0,True,996.0,147000
+1974.0,Meadow Village,4.0,1973.0,,546.0,True,1092.0,83500
+10574.0,Somerset,8.0,2005.0,Vinyl Siding,,True,1953.0,252000
+2522.0,Edwards,,2004.0,Vinyl Siding,970.0,True,1709.0,137500
+3316.0,,8.0,2005.0,Metal Siding,1247.0,True,1247.0,197000
+8544.0,North Ames,3.0,1950.0,Brick Face,0.0,False,1040.0,92900
+2160.0,Somerset,7.0,1999.0,Metal Siding,600.0,True,1252.0,160000
+8400.0,South & West of Iowa State University,6.0,1925.0,Metal Siding,1181.0,True,1694.0,136500
+9230.0,North Ames,5.0,1965.0,Metal Siding,864.0,True,1200.0,146000
+5868.0,North Ames,5.0,1956.0,Metal Siding,936.0,True,936.0,129000
+9317.0,College Creek,6.0,2006.0,Vinyl Siding,1314.0,True,1314.0,176432
+6882.0,Iowa DOT and Rail Road,6.0,1914.0,Wood Siding,684.0,True,1355.0,127000
+3696.0,Stone Brook,8.0,1986.0,Hard Board,1074.0,True,1088.0,170000
+6000.0,Brookside,4.0,1936.0,Metal Siding,672.0,True,1324.0,128000
+11880.0,Northwest Ames,7.0,1978.0,Plywood,1271.0,True,1601.0,157000
+8400.0,,2.0,1920.0,Wood Siding,290.0,,438.0,60000
+9758.0,North Ames,5.0,1971.0,Hard Board,950.0,,950.0,119500
+7000.0,North Ames,,1960.0,Wood Siding,1010.0,True,1134.0,135000
+8910.0,North Ames,6.0,1959.0,Brick Face,655.0,True,1194.0,159500
+2016.0,Briardale,5.0,1970.0,Hard Board,630.0,True,1302.0,106000
+12256.0,Northridge,8.0,1994.0,Hard Board,1463.0,True,2622.0,325000
+10357.0,Sawyer West,7.0,1990.0,Hard Board,910.0,True,1442.0,179900
+23257.0,Gilbert,7.0,2006.0,Vinyl Siding,868.0,True,2021.0,274725
+8063.0,Gilbert,6.0,2000.0,Vinyl Siding,924.0,,1690.0,181000
+8000.0,Gilbert,6.0,1995.0,Hard Board,773.0,True,1658.0,188000
+10480.0,,7.0,1976.0,,803.0,True,1964.0,205000
+7100.0,North Ames,5.0,1957.0,Wood Shingles,816.0,True,816.0,129900
+8923.0,North Ames,5.0,1953.0,Wood Siding,1008.0,,1008.0,134500
+,Old Town,5.0,1954.0,Metal Siding,833.0,True,833.0,117000
+12085.0,Northridge Heights,8.0,2007.0,Vinyl Siding,1734.0,True,1734.0,318000
+7750.0,Gilbert,8.0,2002.0,Vinyl Siding,408.0,True,1419.0,184100
+9764.0,Sawyer,5.0,1967.0,Vinyl Siding,894.0,True,894.0,130000
+13825.0,Sawyer,5.0,,Metal Siding,533.0,True,1601.0,140000
+7560.0,North Ames,5.0,1959.0,Brick Face,1040.0,True,1040.0,133700
+8263.0,Iowa DOT and Rail Road,6.0,1920.0,Brick Face,1012.0,True,1012.0,118400
+10084.0,College Creek,7.0,,Vinyl Siding,1552.0,True,1552.0,212900
+8926.0,Edwards,4.0,1956.0,Asbestos Shingles,672.0,True,960.0,112000
+9405.0,Edwards,5.0,1947.0,Vinyl Siding,698.0,True,698.0,118000
+9125.0,Gilbert,7.0,1992.0,,384.0,True,1482.0,163900
+10434.0,North Ames,4.0,1955.0,Plywood,1005.0,True,1005.0,115000
+3684.0,Bloomington Heights,,2007.0,Vinyl Siding,1373.0,True,1555.0,174000
+14572.0,Gilbert,7.0,2004.0,Vinyl Siding,1530.0,True,1530.0,259000
+11796.0,Gilbert,7.0,2004.0,Vinyl Siding,847.0,True,1959.0,215000
+7200.0,Old Town,5.0,,Metal Siding,936.0,,936.0,140000
+7804.0,South & West of Iowa State University,4.0,1928.0,Wood Shingles,1122.0,True,1981.0,135000
+10712.0,Mitchell,5.0,1991.0,Hard Board,,,974.0,93500
+9900.0,Old Town,6.0,1880.0,Wood Siding,1008.0,True,2210.0,117500
+9828.0,Sawyer West,8.0,1995.0,Vinyl Siding,1128.0,True,2020.0,239500
+8773.0,Gilbert,6.0,1997.0,,916.0,True,1600.0,169000
+6180.0,Brookside,6.0,,,960.0,False,986.0,102000
+9600.0,North Ames,6.0,1950.0,Vinyl Siding,1032.0,True,1252.0,119000
+6342.0,Sawyer,5.0,,Vinyl Siding,780.0,False,1020.0,94000
+9819.0,Mitchell,6.0,1977.0,Plywood,1567.0,True,1567.0,196000
+8731.0,Brookside,5.0,1920.0,Stucco,915.0,True,1167.0,144000
+7350.0,North Ames,5.0,1951.0,Hard Board,952.0,True,952.0,139000
+,Northwest Ames,5.0,1976.0,Plywood,780.0,True,1868.0,197500
+9965.0,College Creek,8.0,2006.0,Vinyl Siding,1466.0,,2828.0,424870
+9000.0,Sawyer,5.0,,Wood Siding,1006.0,True,1006.0,80000
+12180.0,Edwards,4.0,1941.0,Metal Siding,672.0,False,924.0,80000
+6240.0,Brookside,5.0,1928.0,Metal Siding,1042.0,True,1576.0,149000
+11200.0,Sawyer West,6.0,1985.0,Wood Siding,1298.0,,1298.0,180000
+12000.0,Crawford,7.0,1941.0,Metal Siding,704.0,True,1564.0,174500
+5700.0,Old Town,7.0,1926.0,,572.0,True,1111.0,116900
+9000.0,Old Town,7.0,1920.0,Vinyl Siding,650.0,True,1482.0,143000
+8280.0,North Ames,6.0,1950.0,Brick Face,932.0,True,932.0,124000
+17755.0,Edwards,5.0,1959.0,Hard Board,1466.0,True,1466.0,149900
+14115.0,Crawford,6.0,1956.0,,1073.0,True,1811.0,230000
+5890.0,Iowa DOT and Rail Road,6.0,1930.0,,816.0,True,816.0,120500
+13700.0,North Ames,7.0,1965.0,Vinyl Siding,864.0,True,1820.0,201800
+10768.0,Veenker,5.0,1976.0,Plywood,1437.0,True,1437.0,218000
+9350.0,North Ames,5.0,1965.0,Brick Face,1219.0,True,1265.0,179900
+5001.0,Northridge Heights,7.0,2007.0,Vinyl Siding,1314.0,True,1314.0,230000
+11932.0,Somerset,8.0,2007.0,Vinyl Siding,,True,1580.0,235128
+9120.0,Northwest Ames,6.0,1974.0,Hard Board,,True,1876.0,185000
+2280.0,Northpark Villa,6.0,1978.0,Plywood,855.0,True,1456.0,146000
+14778.0,Crawford,6.0,1954.0,Hard Board,1296.0,True,1640.0,224000
+8724.0,Sawyer,5.0,1968.0,Vinyl Siding,894.0,True,894.0,129000
+16157.0,Veenker,5.0,1978.0,Plywood,1360.0,True,1432.0,194000
+10475.0,College Creek,8.0,2008.0,Vinyl Siding,1694.0,True,1694.0,245350
+10852.0,Gilbert,6.0,2000.0,Vinyl Siding,959.0,True,1671.0,173000
+35760.0,Northridge,10.0,1995.0,Hard Board,1930.0,True,3627.0,625000
+9880.0,,6.0,1977.0,Plywood,1096.0,True,1118.0,171000
+9120.0,North Ames,6.0,1958.0,Metal Siding,1261.0,True,1261.0,163000
+4017.0,Somerset,7.0,2006.0,Metal Siding,625.0,True,1250.0,171900
+18030.0,Clear Creek,5.0,1946.0,Metal Siding,1598.0,True,3086.0,200500
+16560.0,Crawford,6.0,1932.0,Wood Siding,952.0,True,2345.0,239000
+10678.0,Northridge,8.0,1992.0,Hard Board,1683.0,True,2872.0,285000
+6951.0,Mitchell,5.0,1984.0,Hard Board,,True,923.0,119500
+,Old Town,6.0,1926.0,Metal Siding,818.0,True,1224.0,115000
+7681.0,Crawford,5.0,1921.0,Wood Siding,731.0,True,1343.0,154900
+8335.0,Edwards,,1954.0,Wood Siding,0.0,True,1124.0,93000
+11170.0,,7.0,1990.0,Metal Siding,1216.0,True,2514.0,250000
+5587.0,Crawford,8.0,2008.0,Cement Board,1600.0,True,1652.0,392500
+10800.0,Old Town,5.0,1920.0,Stucco,1120.0,True,1130.0,120000
+35133.0,Timberland,5.0,1963.0,Metal Siding,,True,1572.0,186700
+9738.0,Edwards,5.0,1924.0,Asbestos Shingles,784.0,True,1221.0,104900
+10615.0,Old Town,3.0,1900.0,Hard Board,978.0,True,1699.0,95000
+12461.0,Northridge,8.0,1994.0,Imitation Stucco,1624.0,,1624.0,262000
+8935.0,,,2002.0,Vinyl Siding,831.0,True,1660.0,195000
+7500.0,Gilbert,7.0,1999.0,Vinyl Siding,994.0,True,1804.0,189000
+32463.0,Mitchell,4.0,1961.0,Metal Siding,1249.0,True,1622.0,168000
+2645.0,Somerset,8.0,1999.0,Metal Siding,776.0,True,1441.0,174000
+9600.0,Old Town,5.0,1925.0,Vinyl Siding,702.0,True,1472.0,125000
+4500.0,Mitchell,,1999.0,Vinyl Siding,1224.0,True,1224.0,165000
+9364.0,Sawyer,6.0,1969.0,Hard Board,663.0,True,1352.0,158000
+8029.0,Gilbert,6.0,2005.0,Vinyl Siding,728.0,True,1456.0,176000
+14054.0,Gilbert,7.0,2006.0,Vinyl Siding,879.0,True,1863.0,219210
+8850.0,Old Town,7.0,1916.0,Metal Siding,815.0,True,1690.0,144000
+9100.0,College Creek,7.0,2001.0,Vinyl Siding,1212.0,True,1212.0,178000
+11235.0,Sawyer,4.0,1963.0,Hard Board,1051.0,True,1382.0,148000
+9353.0,North Ames,4.0,1970.0,Metal Siding,864.0,True,864.0,116050
+10400.0,College Creek,7.0,1998.0,Vinyl Siding,866.0,,1779.0,197900
+6000.0,Brookside,5.0,1925.0,Wood Siding,884.0,True,1348.0,117000
+9750.0,College Creek,7.0,2000.0,Vinyl Siding,1630.0,True,1630.0,213000
+10140.0,Northwest Ames,5.0,1975.0,Hard Board,1056.0,True,1074.0,153500
+14684.0,Sawyer West,7.0,1990.0,Hard Board,,True,2196.0,271900
+8900.0,Sawyer West,4.0,1966.0,Hard Board,1056.0,True,1056.0,107000
+9135.0,College Creek,6.0,2003.0,Vinyl Siding,1682.0,True,1700.0,200000
+7763.0,North Ames,5.0,1962.0,Metal Siding,,True,1283.0,140000
+10182.0,Somerset,8.0,2006.0,Vinyl Siding,1660.0,True,1660.0,290000
+11218.0,Sawyer West,6.0,1992.0,Wood Siding,1055.0,True,1845.0,189000
+12134.0,Gilbert,8.0,1988.0,Wood Siding,559.0,True,1752.0,164000
+9340.0,Edwards,4.0,1941.0,Metal Siding,672.0,True,672.0,113000
+,Sawyer,4.0,1965.0,Vinyl Siding,648.0,True,960.0,145000
+10205.0,North Ames,5.0,1962.0,Metal Siding,925.0,True,999.0,134500
+7094.0,Sawyer,5.0,1966.0,Vinyl Siding,894.0,True,894.0,125000
+8930.0,Sawyer,6.0,1978.0,Vinyl Siding,0.0,True,1902.0,112000
+8640.0,Somerset,8.0,2009.0,Cement Board,1300.0,True,1314.0,229456
+6240.0,Brookside,4.0,1947.0,Asbestos Shingles,0.0,False,912.0,80500
+1680.0,,6.0,1971.0,Cement Board,672.0,True,1218.0,91500
+7800.0,North Ames,5.0,1964.0,Wood Siding,912.0,True,912.0,115000
+8250.0,Sawyer,5.0,,Hard Board,952.0,True,1211.0,134000
+10496.0,North Ames,6.0,1949.0,Wood Siding,1040.0,True,1846.0,143000
+10680.0,North Ames,5.0,1951.0,Wood Siding,2136.0,False,2136.0,137900
+15384.0,Gilbert,7.0,2004.0,Vinyl Siding,788.0,True,1490.0,184000
+10482.0,North Ames,6.0,1958.0,Vinyl Siding,588.0,True,1138.0,145000
+14598.0,Somerset,6.0,2007.0,Vinyl Siding,894.0,True,1933.0,214000
+8872.0,North Ames,5.0,1965.0,Vinyl Siding,912.0,True,912.0,147000
+8769.0,Northridge Heights,9.0,2008.0,Metal Siding,1702.0,True,1702.0,367294
+7910.0,,5.0,1960.0,Brick Face,1075.0,True,1507.0,127000
+18890.0,Sawyer,5.0,1977.0,Plywood,1361.0,True,2620.0,190000
+7728.0,North Ames,5.0,1962.0,Wood Siding,1106.0,True,1190.0,132500
+9842.0,North Ames,4.0,1962.0,Hard Board,0.0,True,1224.0,101800
+12160.0,North Ames,5.0,1959.0,Plywood,1188.0,True,1188.0,142000
+8525.0,,,1911.0,Metal Siding,940.0,False,1964.0,130000
+13132.0,Crawford,5.0,1914.0,Wood Siding,747.0,True,1784.0,138887
+2628.0,Northridge Heights,7.0,2003.0,Vinyl Siding,764.0,True,1626.0,175500
+12393.0,College Creek,7.0,2004.0,Vinyl Siding,847.0,True,1948.0,195000
+13072.0,Sawyer West,6.0,2005.0,Vinyl Siding,1141.0,True,1141.0,142500
+9037.0,Timberland,8.0,2006.0,Vinyl Siding,,True,1484.0,265900
+8158.0,College Creek,7.0,2003.0,Vinyl Siding,884.0,True,1768.0,224900
+9849.0,Somerset,7.0,2007.0,Vinyl Siding,1689.0,True,1689.0,248328
+10625.0,Northwest Ames,7.0,1974.0,Plywood,1053.0,True,1173.0,170000
+13891.0,Northridge Heights,10.0,2006.0,Vinyl Siding,2076.0,True,2076.0,465000
+11435.0,Crawford,8.0,1929.0,Brick Face,792.0,True,1517.0,230000
+12090.0,Northwest Ames,6.0,1984.0,Vinyl Siding,585.0,True,1868.0,178000
+8125.0,Somerset,,2005.0,Vinyl Siding,756.0,True,1553.0,186500
+12328.0,Mitchell,6.0,1976.0,Hard Board,1012.0,True,1034.0,169900
+9600.0,Old Town,6.0,1917.0,Asbestos Shingles,735.0,False,2058.0,129500
+7200.0,North Ames,5.0,1950.0,Metal Siding,876.0,True,988.0,119000
+11160.0,North Ames,7.0,1968.0,Brick Face,2110.0,True,2110.0,244000
+3136.0,Northridge Heights,7.0,,Vinyl Siding,1405.0,True,1405.0,171750
+9858.0,Mitchell,5.0,1968.0,Hard Board,864.0,True,874.0,130000
+17542.0,Veenker,7.0,1974.0,Wood Siding,1192.0,True,2167.0,294000
+6240.0,Brookside,6.0,1931.0,Wood Siding,884.0,True,1367.0,127500
+14303.0,Northridge,8.0,1994.0,Hard Board,1986.0,True,1987.0,301500
+4060.0,Edwards,5.0,1922.0,Wood Siding,864.0,True,864.0,99900
+9587.0,Gilbert,7.0,2005.0,Vinyl Siding,856.0,True,1166.0,190000
+9750.0,North Ames,6.0,1969.0,Hard Board,,True,1054.0,151000
+24682.0,Gilbert,6.0,1999.0,Vinyl Siding,841.0,True,1675.0,181000
+9600.0,North Ames,5.0,1956.0,Metal Siding,1050.0,True,1050.0,128900
+11250.0,Clear Creek,4.0,1957.0,Wood Siding,1104.0,True,1788.0,161500
+13515.0,Brookside,6.0,1919.0,Wood Siding,764.0,,1824.0,180500
+4060.0,North Ames,6.0,1998.0,Metal Siding,1405.0,True,1337.0,181000
+3735.0,Somerset,7.0,1999.0,Metal Siding,691.0,True,1452.0,183900
+13214.0,Timberland,9.0,2008.0,Stucco,2002.0,True,2018.0,378500
+14100.0,Crawford,8.0,1935.0,Stucco,728.0,True,3447.0,381000
+11344.0,North Ames,5.0,1958.0,Metal Siding,874.0,True,1524.0,144000
+23595.0,Clear Creek,7.0,1979.0,Plywood,1332.0,True,1524.0,260000
+9156.0,Northwest Ames,6.0,1968.0,Brick Face,1489.0,True,1489.0,185750
+13526.0,Sawyer,5.0,1965.0,Hard Board,935.0,True,935.0,137000
+11512.0,Edwards,6.0,1959.0,Plywood,1019.0,True,1357.0,177000
+5362.0,Crawford,5.0,1910.0,Wood Siding,661.0,True,1250.0,139000
+11345.0,North Ames,5.0,1948.0,Asbestos Shingles,928.0,True,1920.0,137000
+17871.0,Northwest Ames,6.0,1967.0,Hard Board,1680.0,True,1724.0,197900
+9473.0,,8.0,2002.0,Vinyl Siding,1128.0,True,2031.0,237000
+7500.0,Iowa DOT and Rail Road,4.0,1920.0,Metal Siding,698.0,True,1128.0,68400
+9808.0,College Creek,7.0,2002.0,Vinyl Siding,1573.0,True,1573.0,227000
+8049.0,Timberland,7.0,1990.0,Hard Board,1309.0,True,1339.0,180000
+8800.0,College Creek,5.0,1977.0,Hard Board,1040.0,True,1040.0,150500
+9400.0,Mitchell,6.0,1971.0,Metal Siding,912.0,True,1824.0,139000
+9638.0,South & West of Iowa State University,6.0,1919.0,Wood Siding,804.0,True,2447.0,169000
+6000.0,Brookside,6.0,1939.0,Metal Siding,780.0,True,1412.0,132500
+36500.0,Clear Creek,5.0,1964.0,Wood Siding,1624.0,True,1582.0,190000
+5664.0,Stone Brook,8.0,2000.0,Cement Board,1501.0,True,1659.0,278000
+11065.0,Northridge Heights,8.0,2006.0,Vinyl Siding,1085.0,,1970.0,281000
+14112.0,North Ames,5.0,1964.0,Wood Siding,1152.0,True,1152.0,180500
+1680.0,,,1972.0,Cement Board,630.0,True,1302.0,119500
+6600.0,Old Town,5.0,1892.0,Wood Siding,994.0,False,2372.0,107500
+10140.0,Northwest Ames,7.0,1976.0,Hard Board,832.0,True,1664.0,162900
+8172.0,Edwards,5.0,1955.0,Wood Shingles,864.0,True,864.0,115000
+8400.0,North Ames,5.0,1968.0,Hard Board,1052.0,True,1052.0,138500
+8700.0,North Ames,5.0,1963.0,Metal Siding,1120.0,True,1128.0,155000
+3675.0,Edwards,6.0,2005.0,Vinyl Siding,547.0,True,1072.0,140000
+7500.0,North Ames,5.0,1959.0,Brick Face,1246.0,True,1246.0,154000
+10762.0,Gilbert,7.0,1999.0,Vinyl Siding,978.0,True,1983.0,225000
+7500.0,Crawford,6.0,1942.0,Wood Siding,771.0,,1494.0,177500
+10120.0,Northridge,8.0,1994.0,Vinyl Siding,1165.0,True,2526.0,290000
+8688.0,Somerset,,2005.0,Vinyl Siding,,True,1616.0,232000
+3363.0,Edwards,7.0,2004.0,Vinyl Siding,976.0,True,1708.0,130000
+13173.0,Northridge Heights,9.0,2006.0,,1652.0,True,1652.0,325000
+6955.0,Northridge Heights,7.0,2005.0,Vinyl Siding,1368.0,True,1368.0,202500
+8072.0,College Creek,5.0,1994.0,Vinyl Siding,,True,990.0,138000
+12000.0,Old Town,5.0,1948.0,Metal Siding,924.0,True,1122.0,147000
+7153.0,Sawyer West,6.0,1991.0,Hard Board,1278.0,True,1294.0,179200
+17500.0,Crawford,7.0,1959.0,Brick Face,1902.0,True,1902.0,335000
+8814.0,College Creek,7.0,2005.0,Vinyl Siding,1274.0,True,1274.0,203000
+9572.0,Northridge,8.0,,Wood Siding,1453.0,True,2810.0,302000
+14774.0,Northridge,9.0,1999.0,,1393.0,True,2599.0,333168
+8190.0,Edwards,,1954.0,Wood Siding,948.0,True,948.0,119000
+11075.0,North Ames,6.0,1969.0,Hard Board,,True,2112.0,206900
+4230.0,Somerset,7.0,2006.0,Vinyl Siding,1352.0,True,1352.0,208900
+14781.0,College Creek,8.0,2001.0,Vinyl Siding,1753.0,True,1787.0,275000
+10215.0,Edwards,4.0,1954.0,Wood Siding,864.0,True,948.0,111000
+8400.0,North Ames,6.0,1957.0,Brick Face,1478.0,True,1478.0,156500
+6627.0,Brookside,3.0,,Vinyl Siding,0.0,False,720.0,72500
+10186.0,Northridge,7.0,1992.0,Hard Board,750.0,True,1923.0,190000
+5330.0,,,1940.0,Vinyl Siding,,True,708.0,82500
+,Somerset,8.0,2006.0,Vinyl Siding,1795.0,True,1795.0,147000
+3636.0,Iowa DOT and Rail Road,4.0,1922.0,Asbestos Shingles,796.0,False,796.0,55000
+4270.0,Edwards,3.0,1931.0,Metal Siding,544.0,True,774.0,79000
+,Mitchell,5.0,1982.0,Vinyl Siding,816.0,,816.0,130500
+10440.0,Old Town,6.0,1920.0,Brick Face,1510.0,True,2792.0,256000
+9084.0,Gilbert,7.0,1998.0,Vinyl Siding,935.0,True,1632.0,176500
+10000.0,Somerset,8.0,2006.0,Vinyl Siding,1588.0,True,1588.0,227000
+10780.0,College Creek,5.0,1976.0,Metal Siding,,True,954.0,132500
+8877.0,Edwards,4.0,1938.0,Metal Siding,816.0,True,816.0,100000
+7200.0,Iowa DOT and Rail Road,5.0,1938.0,Wood Siding,803.0,True,1360.0,125500
+2368.0,Briardale,,1970.0,,765.0,True,1365.0,125000
+,Northwest Ames,,1977.0,Plywood,1350.0,True,1334.0,167900
+9246.0,Northwest Ames,5.0,1973.0,Plywood,1656.0,True,1656.0,135000
+4118.0,,4.0,1941.0,Wood Siding,693.0,False,693.0,52500
+9560.0,College Creek,5.0,1972.0,Metal Siding,864.0,True,864.0,128500
+8294.0,North Ames,4.0,1971.0,Metal Siding,858.0,True,872.0,123000
+13695.0,Sawyer West,6.0,2003.0,,1114.0,True,1114.0,155000
+9375.0,College Creek,8.0,,Vinyl Siding,1284.0,True,2169.0,228500
+,Crawford,6.0,1928.0,Brick Face,896.0,True,1913.0,177000
+11103.0,College Creek,7.0,2006.0,Vinyl Siding,728.0,True,1456.0,155835
+6000.0,Old Town,4.0,1920.0,Metal Siding,960.0,True,960.0,108500
+20781.0,Northwest Ames,7.0,1968.0,Brick Face,1568.0,True,2156.0,262500
+15306.0,Timberland,8.0,2006.0,Vinyl Siding,1732.0,True,1776.0,283463
+16196.0,Sawyer West,7.0,1998.0,Vinyl Siding,1482.0,True,1494.0,215000
+5250.0,Old Town,8.0,1872.0,Metal Siding,684.0,False,2358.0,122000
+11643.0,North Ames,5.0,1969.0,Metal Siding,1248.0,True,2634.0,200000
+9247.0,North Ames,6.0,1962.0,Hard Board,858.0,True,1716.0,171000
+6000.0,Brookside,6.0,1937.0,Metal Siding,698.0,True,1176.0,134900
+14720.0,Northridge,8.0,1995.0,Vinyl Siding,2033.0,True,3238.0,410000
+10316.0,College Creek,7.0,2000.0,Vinyl Siding,992.0,True,1865.0,235000
+10192.0,Northwest Ames,7.0,1968.0,Metal Siding,570.0,True,1920.0,170000
+9477.0,North Ames,5.0,1966.0,Hard Board,864.0,True,892.0,110000
+12537.0,North Ames,5.0,1971.0,Vinyl Siding,1078.0,True,1078.0,149900
+,Somerset,6.0,2000.0,Metal Siding,756.0,True,1573.0,177500
+16737.0,Northridge Heights,9.0,2004.0,Vinyl Siding,1980.0,True,1980.0,315000
+9842.0,South & West of Iowa State University,5.0,1921.0,Metal Siding,612.0,True,2601.0,189000
+16158.0,Stone Brook,7.0,2005.0,Vinyl Siding,,True,1530.0,260000
+12513.0,North Ames,4.0,1920.0,Vinyl Siding,715.0,True,1738.0,104900
+8499.0,Gilbert,6.0,2006.0,Vinyl Siding,616.0,True,1412.0,156932
+3180.0,Somerset,7.0,,,600.0,True,1200.0,144152
+7500.0,Somerset,7.0,2000.0,Vinyl Siding,814.0,True,1674.0,216000
+9179.0,College Creek,7.0,1999.0,Vinyl Siding,873.0,True,1790.0,193000
+2665.0,Meadow Village,5.0,1977.0,Cement Board,757.0,True,1475.0,127000
+4435.0,College Creek,6.0,2003.0,Vinyl Siding,848.0,True,848.0,144000
+10635.0,College Creek,8.0,2003.0,Vinyl Siding,1657.0,True,1668.0,232000
+9600.0,North Ames,6.0,1955.0,Asbestos Shingles,992.0,True,1661.0,165500
+11400.0,Northridge,10.0,2001.0,Vinyl Siding,2633.0,True,2633.0,466500
+,Somerset,7.0,2005.0,Cement Board,1026.0,True,1958.0,250000
+10991.0,Timberland,8.0,2007.0,Vinyl Siding,1571.0,True,1571.0,239000
+6292.0,South & West of Iowa State University,6.0,1930.0,,768.0,False,790.0,91000
+10998.0,Edwards,5.0,1941.0,Wood Siding,984.0,True,1604.0,117000
+1953.0,Briardale,6.0,1973.0,Hard Board,483.0,True,987.0,83000
+9735.0,Timberland,5.0,2006.0,Vinyl Siding,384.0,True,1394.0,167500
+8212.0,Edwards,3.0,1914.0,Stucco,864.0,False,864.0,58500
+12925.0,North Ames,6.0,1970.0,Brick Face,1205.0,True,2117.0,237500
+7200.0,Old Town,7.0,1920.0,Wood Siding,596.0,True,1762.0,157000
+25339.0,Sawyer,5.0,1918.0,Wood Siding,816.0,True,1416.0,112000
+9060.0,Edwards,6.0,1939.0,Wood Shingles,560.0,True,1258.0,105000
+5436.0,Iowa DOT and Rail Road,4.0,1922.0,Vinyl Siding,796.0,True,1154.0,125500
+16692.0,Northwest Ames,7.0,1978.0,Plywood,1392.0,True,2784.0,250000
+8520.0,Old Town,6.0,1916.0,Stucco,714.0,False,2526.0,136000
+14892.0,Gilbert,9.0,2006.0,Vinyl Siding,,True,1746.0,377500
+6000.0,Brookside,6.0,1941.0,Wood Siding,735.0,True,1218.0,131000
+9100.0,College Creek,7.0,2000.0,Vinyl Siding,1525.0,True,1525.0,235000
+8944.0,North Ames,5.0,1967.0,Plywood,,True,1584.0,124000
+7838.0,North Ames,5.0,1967.0,Hard Board,864.0,True,900.0,123000
+4045.0,Bloomington Heights,7.0,2006.0,Vinyl Siding,1356.0,True,1500.0,246578
+12665.0,Timberland,8.0,2005.0,Vinyl Siding,1094.0,True,2482.0,281213
+57200.0,Timberland,5.0,1948.0,Wood Siding,747.0,True,1687.0,160000
+6120.0,,5.0,1920.0,Metal Siding,939.0,True,1513.0,137500
+,North Ames,5.0,,,1208.0,True,1904.0,138000
+6171.0,South & West of Iowa State University,6.0,1925.0,Wood Shingles,976.0,True,1608.0,137450
+,Gilbert,6.0,2004.0,Vinyl Siding,839.0,True,1593.0,193000
+6762.0,College Creek,7.0,2006.0,Vinyl Siding,1286.0,True,1294.0,193879
+15256.0,Somerset,8.0,2007.0,Vinyl Siding,1485.0,True,1464.0,282922
+10410.0,Old Town,3.0,1915.0,Wood Siding,672.0,True,1214.0,105000
+3842.0,Crawford,8.0,2004.0,,1594.0,True,1646.0,275000
+8445.0,College Creek,5.0,1972.0,Hard Board,768.0,True,768.0,133000
+8780.0,Mitchell,5.0,1985.0,Hard Board,833.0,True,833.0,112000
+7740.0,Old Town,4.0,1910.0,Vinyl Siding,622.0,True,1363.0,125500
+20544.0,Northwest Ames,7.0,,Plywood,791.0,True,2093.0,215000
+12420.0,College Creek,7.0,2001.0,Vinyl Siding,944.0,True,1840.0,230000
+9600.0,North Ames,6.0,1950.0,Vinyl Siding,856.0,,1668.0,140000
+7200.0,North Ames,,1949.0,Brick Face,0.0,False,1040.0,90000
+10994.0,Sawyer West,8.0,2005.0,Vinyl Siding,1844.0,,1844.0,257000
+,Brookside,6.0,1923.0,Wood Siding,833.0,True,1848.0,207000
+3635.0,Bloomington Heights,7.0,2007.0,Vinyl Siding,1386.0,True,1569.0,175900
+11340.0,Old Town,4.0,1885.0,Vinyl Siding,777.0,True,2290.0,122500
+16545.0,Northridge,8.0,1998.0,Vinyl Siding,1284.0,True,2450.0,340000
+9204.0,North Ames,5.0,1963.0,Hard Board,1144.0,,1144.0,124000
+16381.0,Crawford,6.0,1969.0,Plywood,1844.0,True,1844.0,223000
+11700.0,Northwest Ames,6.0,1968.0,Hard Board,708.0,True,1416.0,179900
+4043.0,Northpark Villa,6.0,1977.0,Plywood,,True,1069.0,127500
+4435.0,College Creek,6.0,2003.0,Vinyl Siding,848.0,True,848.0,136500
+19690.0,Edwards,6.0,,Plywood,697.0,True,2201.0,274970
+9503.0,North Ames,5.0,1958.0,Hard Board,1024.0,True,1344.0,144000
+10721.0,North Ames,6.0,1959.0,Hard Board,1252.0,True,1252.0,142000
+,Northridge,7.0,1994.0,Vinyl Siding,1223.0,True,2127.0,271000
+10930.0,North Ames,5.0,1945.0,Metal Siding,913.0,True,1558.0,140000
+7200.0,Old Town,5.0,1940.0,Metal Siding,788.0,True,804.0,119000
+12546.0,Northwest Ames,6.0,1981.0,Metal Siding,1440.0,True,1440.0,182900
+21930.0,Gilbert,5.0,2005.0,Vinyl Siding,732.0,True,1838.0,192140
+4928.0,Northpark Villa,6.0,1976.0,Plywood,958.0,True,958.0,143750
+10800.0,Old Town,4.0,1927.0,Wood Siding,656.0,True,968.0,64500
+10261.0,Gilbert,6.0,2000.0,Vinyl Siding,936.0,True,1792.0,186500
+17400.0,Mitchell,5.0,1977.0,Brick Face,1126.0,True,1126.0,160000
+8400.0,North Ames,6.0,1962.0,Wood Siding,1319.0,True,1537.0,174000
+9000.0,North Ames,4.0,1971.0,Hard Board,864.0,True,864.0,120500
+12444.0,Northridge Heights,8.0,2008.0,Vinyl Siding,,True,1932.0,394617
+,Old Town,6.0,1957.0,,912.0,True,1236.0,149700
+11584.0,Northwest Ames,7.0,1979.0,Hard Board,539.0,True,1725.0,197000
+11526.0,Crawford,6.0,1922.0,,588.0,True,2555.0,191000
+4426.0,College Creek,,2004.0,Vinyl Siding,848.0,True,848.0,149300
+11003.0,Somerset,10.0,2008.0,Vinyl Siding,1017.0,True,2007.0,310000
+8854.0,Brookside,6.0,1916.0,Wood Siding,952.0,False,952.0,121000
+8500.0,College Creek,7.0,2004.0,Vinyl Siding,1422.0,True,1422.0,179600
+8400.0,Sawyer,,1966.0,Vinyl Siding,814.0,True,913.0,129000
+26142.0,Mitchell,5.0,1962.0,Hard Board,1188.0,True,1188.0,157900
+10000.0,College Creek,8.0,1995.0,Vinyl Siding,1220.0,True,2090.0,240000
+11767.0,Edwards,4.0,1910.0,Metal Siding,560.0,False,1346.0,112000
+1533.0,Meadow Village,5.0,1970.0,Cement Board,630.0,True,630.0,92000
+9000.0,North Ames,5.0,1974.0,Vinyl Siding,896.0,,1792.0,136000
+9262.0,Somerset,8.0,2008.0,Cement Board,1573.0,True,1578.0,287090
+3675.0,Edwards,5.0,2005.0,Vinyl Siding,547.0,True,1072.0,145000
+,Mitchell,5.0,2006.0,Vinyl Siding,1140.0,True,1140.0,84500
+7500.0,Somerset,7.0,2004.0,Vinyl Siding,,True,1221.0,185000
+7917.0,Gilbert,6.0,1999.0,Vinyl Siding,953.0,True,1647.0,175000
+13175.0,Northwest Ames,6.0,1978.0,Plywood,1542.0,True,2073.0,210000
+9042.0,Crawford,7.0,1941.0,Cement Board,1152.0,True,2340.0,266500
+9717.0,North Ames,5.0,1950.0,Metal Siding,1078.0,True,1078.0,142125

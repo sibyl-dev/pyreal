@@ -11,14 +11,18 @@ from pyreal.transformers import (
 
 
 def test_fit_transform_one_hot_encoder(transformer_test_data):
-    ohe_transformer = OneHotEncoder(columns=transformer_test_data["columns"])
+    ohe_transformer = OneHotEncoder(columns=pd.Index(transformer_test_data["columns"]))
     ohe_transformer.fit(transformer_test_data["x"])
     transformed_x = ohe_transformer.transform(transformer_test_data["x"])
     expected_transformed_x = pd.DataFrame(
         [[1, 9, 0, 1, 0, 1, 0, 0], [3, 0, 0, 0, 1, 0, 1, 0], [7, 2, 1, 0, 0, 0, 0, 1]],
         columns=["B", "D", "C_2", "C_3", "C_4", "A_2", "A_4", "A_6"],
     )
-    assert_frame_equal(transformed_x, expected_transformed_x, check_dtype=False)
+    assert_frame_equal(
+        transformed_x.sort_index(axis=1),
+        expected_transformed_x.sort_index(axis=1),
+        check_dtype=False,
+    )
 
 
 def test_transform_one_hot_encoder(transformer_test_data):
@@ -30,7 +34,11 @@ def test_transform_one_hot_encoder(transformer_test_data):
         [[0, 1, 1, 0, 0, 0, 0, 1], [1, 8, 0, 1, 0, 0, 1, 0], [0, 3, 0, 0, 1, 1, 0, 0]],
         columns=["B", "D", "C_2", "C_3", "C_4", "A_2", "A_4", "A_6"],
     )
-    assert_frame_equal(transformed_x, expected_transformed_x, check_dtype=False)
+    assert_frame_equal(
+        transformed_x.sort_index(axis=1),
+        expected_transformed_x.sort_index(axis=1),
+        check_dtype=False,
+    )
 
 
 def test_transform_all_columns_one_hot_encoder(transformer_test_data):

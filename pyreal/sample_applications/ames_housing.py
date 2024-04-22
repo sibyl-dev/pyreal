@@ -8,6 +8,7 @@ from pyreal.transformers import OneHotEncoder, TransformerBase, fit_transformers
 
 DATA_DIR = os.path.join(os.path.dirname(__file__), "data_ames_housing")
 DATA_FILE = os.path.join(DATA_DIR, "data.csv")
+INPUT_DATA_FILE = os.path.join(DATA_DIR, "input_data.csv")
 MODEL_FILE = os.path.join(DATA_DIR, "model.pkl")
 DESCRIPTION_FILE = os.path.join(DATA_DIR, "feature_descriptions.csv")
 TRANSFORMER_FILE = os.path.join(DATA_DIR, "transformers.pkl")
@@ -122,10 +123,16 @@ def load_data(n_rows=None, include_targets=False):
         return x_orig
 
 
+def load_sample_houses():
+    if os.path.exists(INPUT_DATA_FILE):
+        return pd.read_csv(INPUT_DATA_FILE)
+    else:
+        raise FileNotFoundError("Ames housing data is missing")
+
+
 def load_model():
     transformers = load_transformers()
     x_orig, y = load_data(include_targets=True)
-    x_orig = x_orig.drop("Id", axis="columns")
     x_model = run_transformers(transformers, x_orig)
     model = Ridge()
     model.fit(x_model, y)
@@ -135,11 +142,9 @@ def load_model():
 
 def load_transformers():
     x_orig = load_data()
-    x_orig = x_orig.drop("Id", axis="columns")
     ames_imputer = AmesHousingImputer()
     x_imputed = fit_transformers(ames_imputer, x_orig)
-    object_columns = x_imputed.select_dtypes(include=["object"]).columns
-    onehotencoder = OneHotEncoder(object_columns)
+    onehotencoder = OneHotEncoder(columns="all_categorical")
     fit_transformers(onehotencoder, x_imputed)
 
     transformers = [ames_imputer, onehotencoder]
@@ -159,5 +164,5 @@ def load_app():
         y_train=y,
         transformers=transformers,
         feature_descriptions=feature_descriptions,
-        id_column="Id",
+        id_column="Address",
     )

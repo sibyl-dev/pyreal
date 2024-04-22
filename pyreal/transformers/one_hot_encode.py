@@ -112,15 +112,28 @@ class OneHotEncoder(TransformerBase):
     One-hot encodes categorical feature values
     """
 
-    def __init__(self, columns=None, **kwargs):
+    def __init__(self, columns=None, handle_unknown="error", **kwargs):
         """
         Initializes the base one-hot encoder
 
         Args:
-            columns (dataframe column label type or list of dataframe column label type):
-                Label of column to select, or an ordered list of column labels to select
+            columns (list, None, or "object_columns"):
+                List of columns to apply one-hot encoding to. If None, all columns will be encoded.
+                If "all_categorical", all columns with an object dtype will be
+                    automatically encoded.
+            handle_unknown (one of "error", "ignore", "infrequent_if_exist"):
+                How to handle unknown categories encountered during transform. "error" will raise
+                an error, "ignore" will ignore the unknown category, and "infrequent_if_exist"
+                will treat the unknown category as if it were an infrequent category.
         """
-        self.ohe = SklearnOneHotEncoder(sparse_output=False).set_output(transform="pandas")
+        self.ohe = SklearnOneHotEncoder(
+            sparse_output=False, handle_unknown=handle_unknown
+        ).set_output(transform="pandas")
+        self.all_categorical = False
+        # Check if columns is a string
+        if isinstance(columns, str) and columns == "all_categorical":
+            self.all_categorical = True
+            columns = None
         if columns is not None and not isinstance(columns, (list, tuple, np.ndarray, pd.Index)):
             columns = [columns]
         self.columns = columns
@@ -139,7 +152,8 @@ class OneHotEncoder(TransformerBase):
         Returns:
             None
         """
-
+        if self.all_categorical:
+            self.columns = x.select_dtypes(include=["object"]).columns
         if self.columns is None:
             self.columns = x.columns
         self.orig_columns = x.columns
@@ -163,7 +177,7 @@ class OneHotEncoder(TransformerBase):
             raise RuntimeError("Must fit one hot encoder before transforming")
         x_to_encode = x[self.columns]
         x_cat_ohe = self.ohe.transform(x_to_encode)
-        return pd.concat([x.drop(self.columns, axis="columns"), x_cat_ohe], axis=1)
+        return pd.concat([x_cat_ohe, x.drop(self.columns, axis="columns")], axis=1)
 
     def inverse_data_transform(self, x_new):
         """

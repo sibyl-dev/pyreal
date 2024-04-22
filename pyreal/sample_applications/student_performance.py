@@ -94,7 +94,7 @@ def load_model():
     transformers = load_transformers()
     x_orig, y = load_data()
     x_model = run_transformers(transformers, x_orig)
-    model = LGBMClassifier()
+    model = LGBMClassifier(verbose=-1)
     model.fit(x_model, y)
 
     return model
