@@ -37,6 +37,10 @@ An easier approach to understanding your model's predictions.
 **Pyreal** gives you easy-to-understand explanations of your machine learning models in a low-code manner.
 Pyreal wraps full ML pipelines in a RealApp object that makes it easy to use, understand, and interact with your ML model — regardless of your ML expertise.
 
+See our tutorial series for an example of using Pyreal for house-price prediction:
+- [Part 1: Learn about feature engineering and modelling](https://medium.com/mit-data-to-ai-lab/using-and-understanding-machine-learning-ml-models-ada6525cf192)
+- [Part 2: Learn how to use Pyreal to use and understand ML models ](https://medium.com/mit-data-to-ai-lab/using-and-understanding-machine-learning-ml-models-0ce7c227837e) 
+
 # Install
 
 ## Requirements
