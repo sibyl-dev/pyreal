@@ -79,7 +79,13 @@ def format_feature_importance_output(explanation, optimized=False):
 
 
 def format_similar_examples_output(
-    explanation, ids=None, series=False, y_format_func=None, optimized=False
+    explanation,
+    ids=None,
+    series=False,
+    y_format_func=None,
+    optimized=False,
+    id_column_name=None,
+    training_ids=None,
 ):
     """
     Format Pyreal SimilarExamples objects into Similar Examples outputs
@@ -95,6 +101,10 @@ def format_similar_examples_output(
                 optimized (Boolean)
         optimized (Boolean):
             Current a no-op, included for consistency
+        id_column (string or int):
+            Name of column that contains item ids in input data
+        training_ids (Series):
+            Series of ids associated with X_train
 
     Returns:
         {"X": DataFrame, "y": Series, "Input": Series} (if series),
@@ -106,16 +116,20 @@ def format_similar_examples_output(
     result = {}
     if ids is None:
         ids = explanation.get_row_ids()
-    for key, row_id in enumerate(ids):
+    for key, id_column in enumerate(ids):
         examples = explanation.get_examples(row_id=key)
         targets = explanation.get_targets(row_id=key)
         if y_format_func is not None:
             targets = targets.apply(y_format_func)
-        result[row_id] = {
+        result[id_column] = {
             "X": examples,
             "y": targets,
             "Input": explanation.get_values().iloc[key, :],
         }
+        if training_ids is not None:
+            if id_column is None:
+                id_column = "row_id"
+            result[id_column]["X"][id_column_name] = training_ids.loc[result[id_column]["X"].index]
     if series:
         return result[next(iter(result))]
     return result
@@ -225,11 +239,13 @@ class RealApp:
 
         self.id_column = id_column
 
+        self.training_ids = None
         if (
             X_train_orig is not None
             and self.id_column is not None
             and self.id_column in X_train_orig
         ):
+            self.training_ids = X_train_orig[self.id_column]
             self.X_train_orig = X_train_orig.drop(columns=self.id_column)
         else:
             self.X_train_orig = X_train_orig
@@ -989,7 +1005,9 @@ class RealApp:
             standardize=standardize,
             fast=fast,
         )
-        explainer.fit(self._get_x_train_orig(x_train_orig), self._get_y_train(y_train))
+        x_train, training_ids = self._get_x_train_orig(x_train_orig, return_ids=True)
+        explainer.fit(x_train, self._get_y_train(y_train))
+        self.training_ids = training_ids
         self._add_explainer("se", algorithm, explainer)
         return explainer
 
@@ -1050,6 +1068,8 @@ class RealApp:
         format_kwargs = dict()
         if format_y:
             format_kwargs["y_format_func"] = self.pred_format_func
+            format_kwargs["training_ids"] = self.training_ids
+            format_kwargs["id_column_name"] = self.id_column
 
         return self._produce_explanation_helper(
             "se",
@@ -1204,7 +1224,7 @@ class RealApp:
             **kwargs
         )
 
-    def _get_x_train_orig(self, x_train_orig):
+    def _get_x_train_orig(self, x_train_orig, return_ids=False):
         """
         Helper function to get the appropriate x_orig or raise errors if something goes wrong
         Args:
@@ -1215,10 +1235,12 @@ class RealApp:
         """
         if x_train_orig is not None:
             if self.id_column is not None and self.id_column in x_train_orig:
-                return x_train_orig.drop(columns=self.id_column)
-            return x_train_orig
+                if return_ids:
+                    ids = x_train_orig[self.id_column]
+                    return x_train_orig.drop(columns=self.id_column), ids
+            return x_train_orig, None
         else:
-            return self.X_train_orig
+            return self.X_train_orig, self.training_ids
 
     def _get_y_train(self, y_train):
         """
