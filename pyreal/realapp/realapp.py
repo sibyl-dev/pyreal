@@ -239,13 +239,13 @@ class RealApp:
 
         self.id_column = id_column
 
-        self.training_ids = None
+        self.training_ids_for_se = None
         if (
             X_train_orig is not None
             and self.id_column is not None
             and self.id_column in X_train_orig
         ):
-            self.training_ids = X_train_orig[self.id_column]
+            self.training_ids_for_se = X_train_orig[self.id_column]
             self.X_train_orig = X_train_orig.drop(columns=self.id_column)
         else:
             self.X_train_orig = X_train_orig
@@ -1007,7 +1007,7 @@ class RealApp:
         )
         x_train, training_ids = self._get_x_train_orig(x_train_orig, return_ids=True)
         explainer.fit(x_train, self._get_y_train(y_train))
-        self.training_ids = training_ids
+        self.training_ids_for_se = training_ids
         self._add_explainer("se", algorithm, explainer)
         return explainer
 
@@ -1068,7 +1068,7 @@ class RealApp:
         format_kwargs = dict()
         if format_y:
             format_kwargs["y_format_func"] = self.pred_format_func
-            format_kwargs["training_ids"] = self.training_ids
+            format_kwargs["training_ids"] = self.training_ids_for_se
             format_kwargs["id_column_name"] = self.id_column
 
         return self._produce_explanation_helper(
@@ -1240,7 +1240,7 @@ class RealApp:
                     return x_train_orig.drop(columns=self.id_column), ids
             return x_train_orig, None
         else:
-            return self.X_train_orig, self.training_ids
+            return self.X_train_orig, self.training_ids_for_se
 
     def _get_y_train(self, y_train):
         """

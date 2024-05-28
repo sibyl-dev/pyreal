@@ -93,7 +93,13 @@ def test_prepare_similar_examples_with_id_column(regression_no_transforms):
     real_app.prepare_similar_examples(x_train_orig=x_multi_dim, y_train=pd.Series([0, 1, 1]))
 
     # Confirm explainer was prepped and now works without being given data
-    real_app.produce_similar_examples(x_multi_dim, num_examples=1)
+    examples = real_app.produce_similar_examples(x_multi_dim, num_examples=1)
+    assert_frame_equal(examples["a"]["X"], x_multi_dim.iloc[0:1, :])
+    assert examples["a"]["y"].iloc[0] == 0
+    assert_frame_equal(examples["b"]["X"], x_multi_dim.iloc[1:2, :])
+    assert examples["b"]["y"].iloc[0] == 1
+    assert_frame_equal(examples["c"]["X"], x_multi_dim.iloc[2:3, :])
+    assert examples["c"]["y"].iloc[0] == 1
 
 
 def test_produce_similar_examples_with_standardization(dummy_model):
