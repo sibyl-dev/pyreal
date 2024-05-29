@@ -403,7 +403,13 @@ document.write(`
 
 
 <span class="k">def</span> <span class="nf">format_similar_examples_output</span><span class="p">(</span>
-    <span class="n">explanation</span><span class="p">,</span> <span class="n">ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">series</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">y_format_func</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">optimized</span><span class="o">=</span><span class="kc">False</span>
+    <span class="n">explanation</span><span class="p">,</span>
+    <span class="n">ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">series</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">y_format_func</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">optimized</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">id_column_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">training_ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Format Pyreal SimilarExamples objects into Similar Examples outputs</span>
@@ -419,6 +425,10 @@ document.write(`
 <span class="sd">                optimized (Boolean)</span>
 <span class="sd">        optimized (Boolean):</span>
 <span class="sd">            Current a no-op, included for consistency</span>
+<span class="sd">        id_column (string or int):</span>
+<span class="sd">            Name of column that contains item ids in input data</span>
+<span class="sd">        training_ids (Series):</span>
+<span class="sd">            Series of ids associated with X_train</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        {&quot;X&quot;: DataFrame, &quot;y&quot;: Series, &quot;Input&quot;: Series} (if series),</span>
@@ -430,16 +440,20 @@ document.write(`
     <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="k">if</span> <span class="n">ids</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">ids</span> <span class="o">=</span> <span class="n">explanation</span><span class="o">.</span><span class="n">get_row_ids</span><span class="p">()</span>
-    <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">row_id</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">ids</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">id_column</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">ids</span><span class="p">):</span>
         <span class="n">examples</span> <span class="o">=</span> <span class="n">explanation</span><span class="o">.</span><span class="n">get_examples</span><span class="p">(</span><span class="n">row_id</span><span class="o">=</span><span class="n">key</span><span class="p">)</span>
         <span class="n">targets</span> <span class="o">=</span> <span class="n">explanation</span><span class="o">.</span><span class="n">get_targets</span><span class="p">(</span><span class="n">row_id</span><span class="o">=</span><span class="n">key</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">y_format_func</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">targets</span> <span class="o">=</span> <span class="n">targets</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">y_format_func</span><span class="p">)</span>
-        <span class="n">result</span><span class="p">[</span><span class="n">row_id</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="n">result</span><span class="p">[</span><span class="n">id_column</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s2">&quot;X&quot;</span><span class="p">:</span> <span class="n">examples</span><span class="p">,</span>
             <span class="s2">&quot;y&quot;</span><span class="p">:</span> <span class="n">targets</span><span class="p">,</span>
             <span class="s2">&quot;Input&quot;</span><span class="p">:</span> <span class="n">explanation</span><span class="o">.</span><span class="n">get_values</span><span class="p">()</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">key</span><span class="p">,</span> <span class="p">:],</span>
         <span class="p">}</span>
+        <span class="k">if</span> <span class="n">training_ids</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">id_column</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">id_column</span> <span class="o">=</span> <span class="s2">&quot;row_id&quot;</span>
+            <span class="n">result</span><span class="p">[</span><span class="n">id_column</span><span class="p">][</span><span class="s2">&quot;X&quot;</span><span class="p">][</span><span class="n">id_column_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">training_ids</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">result</span><span class="p">[</span><span class="n">id_column</span><span class="p">][</span><span class="s2">&quot;X&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">]</span>
     <span class="k">if</span> <span class="n">series</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">result</span><span class="p">[</span><span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">result</span><span class="p">))]</span>
     <span class="k">return</span> <span class="n">result</span>
@@ -549,11 +563,13 @@ document.write(`
 
         <span class="bp">self</span><span class="o">.</span><span class="n">id_column</span> <span class="o">=</span> <span class="n">id_column</span>
 
+        <span class="bp">self</span><span class="o">.</span><span class="n">training_ids_for_se</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">if</span> <span class="p">(</span>
             <span class="n">X_train_orig</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
             <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">id_column</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
             <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">id_column</span> <span class="ow">in</span> <span class="n">X_train_orig</span>
         <span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">training_ids_for_se</span> <span class="o">=</span> <span class="n">X_train_orig</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">id_column</span><span class="p">]</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">X_train_orig</span> <span class="o">=</span> <span class="n">X_train_orig</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">id_column</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">X_train_orig</span> <span class="o">=</span> <span class="n">X_train_orig</span>
@@ -1313,7 +1329,9 @@ document.write(`
             <span class="n">standardize</span><span class="o">=</span><span class="n">standardize</span><span class="p">,</span>
             <span class="n">fast</span><span class="o">=</span><span class="n">fast</span><span class="p">,</span>
         <span class="p">)</span>
-        <span class="n">explainer</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_x_train_orig</span><span class="p">(</span><span class="n">x_train_orig</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_y_train</span><span class="p">(</span><span class="n">y_train</span><span class="p">))</span>
+        <span class="n">x_train</span><span class="p">,</span> <span class="n">training_ids</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_x_train_orig</span><span class="p">(</span><span class="n">x_train_orig</span><span class="p">,</span> <span class="n">return_ids</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">explainer</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_y_train</span><span class="p">(</span><span class="n">y_train</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">training_ids_for_se</span> <span class="o">=</span> <span class="n">training_ids</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_add_explainer</span><span class="p">(</span><span class="s2">&quot;se&quot;</span><span class="p">,</span> <span class="n">algorithm</span><span class="p">,</span> <span class="n">explainer</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">explainer</span></div>
 
@@ -1374,6 +1392,8 @@ document.write(`
         <span class="n">format_kwargs</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">format_y</span><span class="p">:</span>
             <span class="n">format_kwargs</span><span class="p">[</span><span class="s2">&quot;y_format_func&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pred_format_func</span>
+            <span class="n">format_kwargs</span><span class="p">[</span><span class="s2">&quot;training_ids&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">training_ids_for_se</span>
+            <span class="n">format_kwargs</span><span class="p">[</span><span class="s2">&quot;id_column_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">id_column</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_produce_explanation_helper</span><span class="p">(</span>
             <span class="s2">&quot;se&quot;</span><span class="p">,</span>
@@ -1528,7 +1548,7 @@ document.write(`
             <span class="o">**</span><span class="n">kwargs</span>
         <span class="p">)</span></div>
 
-    <span class="k">def</span> <span class="nf">_get_x_train_orig</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_train_orig</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_get_x_train_orig</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_train_orig</span><span class="p">,</span> <span class="n">return_ids</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Helper function to get the appropriate x_orig or raise errors if something goes wrong</span>
 <span class="sd">        Args:</span>
@@ -1539,9 +1559,16 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">x_train_orig</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">id_column</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">id_column</span> <span class="ow">in</span> <span class="n">x_train_orig</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">return_ids</span><span class="p">:</span>
+                    <span class="n">ids</span> <span class="o">=</span> <span class="n">x_train_orig</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">id_column</span><span class="p">]</span>
+                    <span class="k">return</span> <span class="n">x_train_orig</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">id_column</span><span class="p">),</span> <span class="n">ids</span>
                 <span class="k">return</span> <span class="n">x_train_orig</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">id_column</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">return_ids</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">x_train_orig</span><span class="p">,</span> <span class="kc">None</span>
             <span class="k">return</span> <span class="n">x_train_orig</span>
         <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">return_ids</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">X_train_orig</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">training_ids_for_se</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">X_train_orig</span>
 
     <span class="k">def</span> <span class="nf">_get_y_train</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y_train</span><span class="p">):</span>
