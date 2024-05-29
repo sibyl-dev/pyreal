@@ -1238,9 +1238,14 @@ class RealApp:
                 if return_ids:
                     ids = x_train_orig[self.id_column]
                     return x_train_orig.drop(columns=self.id_column), ids
-            return x_train_orig, None
+                return x_train_orig.drop(columns=self.id_column)
+            if return_ids:
+                return x_train_orig, None
+            return x_train_orig
         else:
-            return self.X_train_orig, self.training_ids_for_se
+            if return_ids:
+                return self.X_train_orig, self.training_ids_for_se
+            return self.X_train_orig
 
     def _get_y_train(self, y_train):
         """
