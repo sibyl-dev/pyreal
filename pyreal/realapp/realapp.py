@@ -10,6 +10,7 @@ from pyreal.explainers import (
 )
 from pyreal.transformers import run_transformers, sklearn_pipeline_to_pyreal_transformers
 from pyreal.utils import get_top_contributors
+from pyreal.explanation_types import NarrativeExplanation
 
 
 def format_feature_contribution_output(explanation, ids=None, series=False, optimized=False):
@@ -472,9 +473,22 @@ class RealApp:
                 )
             else:
                 explanation = explainer.produce(x_orig, **produce_kwargs)
-                return format_output_func(
-                    explanation, ids, optimized=not format_output, series=series, **format_kwargs
-                )
+                if isinstance(explanation, NarrativeExplanation):
+                    return format_narratives(
+                        explanation.get(),
+                        ids=ids,
+                        series=series,
+                        optimized=not format_output,
+                        **format_kwargs
+                    )
+                else:
+                    return format_output_func(
+                        explanation,
+                        ids,
+                        optimized=not format_output,
+                        series=series,
+                        **format_kwargs
+                    )
         else:
             if narrative:
                 return explainer.produce_narrative_explanation(**produce_kwargs)
