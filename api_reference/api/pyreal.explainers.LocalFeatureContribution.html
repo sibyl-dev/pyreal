@@ -347,6 +347,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="pyreal.transformers.DataFrameWrapper.html">pyreal.transformers.DataFrameWrapper</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.transformers.TimeSeriesPadder.html">pyreal.transformers.TimeSeriesPadder</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.transformers.LatLongToPlace.html">pyreal.transformers.LatLongToPlace</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyreal.transformers.NarrativeTransformer.html">pyreal.transformers.NarrativeTransformer</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../explanation_types.html">Explanation Type</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -540,40 +541,37 @@ ignored</p></li>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">model_predict_proba</span></code>(x_orig)</p></td>
 <td><p>Return the output probabilities of each class for x_orig</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">narrify</span></code>(openai_client, explanation[, ...])</p></td>
-<td><p>Generate a narrative explanation from a feature contribution explanation :param openai_client: OpenAI API client, with API key set :type openai_client: OpenAI API client :param explanation: Feature contribution explanations. Each row represents an instance, and each                     column a feature. :type explanation: LocalFeatureContributionExplanation :param num_features: Number of features to include in the explanation. If None, all features will be                      included :type num_features: int :param llm_model: One of [&quot;gpt3.5&quot;, &quot;gpt4&quot;]. LLM model to use to generate the explanation. GPT4 may provide better results, but is more expensive. :type llm_model: string :param detail_level: One of [&quot;high&quot;, &quot;low&quot;]. Level of detail to include in the explanation. High detail should include precise contribution values. Low detail                      will include only basic information about features used. :type detail_level: string :param context_description: Description of the model's prediction task, in sentence format. This will be                             passed to the LLM and may help produce more accurate explanations. For example: &quot;The model predicts the price of houses.&quot; :type context_description: string :param max_tokens: Maximum number of tokens to use in the explanation :type max_tokens: int :param temperature: LLM Temperature to use. Values closer to 1 will produce more creative values. Values closer to 0 will produce more consistent or conservative explanations. :type temperature: float :param few_shot_training_examples: Training examples to use for few-shot learning. If provided, the LLM will be                                    trained on these examples before generating the explanation. :type few_shot_training_examples: list of (explanation, narrative) pairs.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="pyreal.explainers.LocalFeatureContribution.produce.html#pyreal.explainers.LocalFeatureContribution.produce" title="pyreal.explainers.LocalFeatureContribution.produce"><code class="xref py py-obj docutils literal notranslate"><span class="pre">produce</span></code></a>([x_orig, disable_feature_descriptions])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="pyreal.explainers.LocalFeatureContribution.produce.html#pyreal.explainers.LocalFeatureContribution.produce" title="pyreal.explainers.LocalFeatureContribution.produce"><code class="xref py py-obj docutils literal notranslate"><span class="pre">produce</span></code></a>([x_orig, disable_feature_descriptions])</p></td>
 <td><p>Return the explanation, in the interpretable feature space with feature descriptions applied.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">produce_explanation</span></code>(x_orig, **kwargs)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">produce_explanation</span></code>(x_orig, **kwargs)</p></td>
 <td><p>Gets the raw explanation.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">produce_explanation_interpret</span></code>(x_orig, **kwargs)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">produce_explanation_interpret</span></code>(x_orig, **kwargs)</p></td>
 <td><p>Produce an interpretable explanation and corresponding values</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">produce_narrative_explanation</span></code>(x_orig[, ...])</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">produce_narrative_explanation</span></code>(x_orig[, ...])</p></td>
 <td><p>Produces an explanation in narrative (natural-language) form. :param x_orig: Input to explain :type x_orig: DataFrame of shape (n_instances, n_features :param num_features: Number of features to include in the explanation. If None, all features will be                      included :type num_features: int :param llm_model: One of [&quot;gpt3.5&quot;, &quot;gpt4&quot;]. LLM model to use to generate the explanation. GPT4 may provide better results, but is more expensive. :type llm_model: string :param detail_level: One of [&quot;high&quot;, &quot;low&quot;]. Level of detail to include in the explanation. High detail should include precise contribution values. Low detail                      will include only basic information about features used. :type detail_level: string :param context_description: Description of the model's prediction task, in sentence format. This will be                             passed to the LLM and may help produce more accurate explanations. For example: &quot;The model predicts the price of houses.&quot; :type context_description: string :param max_tokens: Maximum number of tokens to use in the explanation :type max_tokens: int :param temperature: LLM Temperature to use. Values closer to 1 will produce more creative values. Values closer to 0 will produce more consistent or conservative explanations. :type temperature: float :param openai_client: OpenAI API client, with API key set. If None, the API key must be provided to the                       explainer at initialization. :type openai_client: OpenAI API client.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_llm_training_data</span></code>(training_data)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_llm_training_data</span></code>(training_data)</p></td>
 <td><p>Manually set llm training data</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">train_llm</span></code>([x_train, live, provide_examples, ...])</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">train_llm</span></code>([x_train, live, provide_examples, ...])</p></td>
 <td><p>Run the training process for the LLM model used to generate narrative feature contribution explanations.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_explanation</span></code>(explanation[, x_orig])</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_explanation</span></code>(explanation[, x_orig])</p></td>
 <td><p>Transform the explanation into its interpretable form, by running the algorithm transformer's &quot;inverse_transform_explanation&quot; and interpretable transformers &quot;transform_explanation&quot; functions.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_to_x_algorithm</span></code>(x_orig)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_to_x_algorithm</span></code>(x_orig)</p></td>
 <td><p>Transform x_orig to x_algorithm, using the algorithm transformers</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_to_x_interpret</span></code>(x_orig)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_to_x_interpret</span></code>(x_orig)</p></td>
 <td><p>Transform x_orig to x_interpret, using the interpret transformers :param x_orig: Original input :type x_orig: DataFrame of shape (n_instances, x_orig_feature_count) or Series</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_to_x_model</span></code>(x_orig)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_to_x_model</span></code>(x_orig)</p></td>
 <td><p>Transform x_orig to x_model, using the model transformers</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_x_from_algorithm_to_model</span></code>(x_algorithm)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_x_from_algorithm_to_model</span></code>(x_algorithm)</p></td>
 <td><p>Transform x_algorithm to x_model, using the model transformers</p></td>
 </tr>
 </tbody>

@@ -347,6 +347,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="pyreal.transformers.DataFrameWrapper.html">pyreal.transformers.DataFrameWrapper</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.transformers.TimeSeriesPadder.html">pyreal.transformers.TimeSeriesPadder</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.transformers.LatLongToPlace.html">pyreal.transformers.LatLongToPlace</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyreal.transformers.NarrativeTransformer.html">pyreal.transformers.NarrativeTransformer</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../explanation_types.html">Explanation Type</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -454,11 +455,11 @@ document.write(`
 <h1>pyreal.transformers.NestedFrameToMultiIndexFrame<a class="headerlink" href="#pyreal-transformers-nestedframetomultiindexframe" title="Permalink to this heading">#</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="pyreal.transformers.NestedFrameToMultiIndexFrame">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyreal.transformers.</span></span><span class="sig-name descname"><span class="pre">NestedFrameToMultiIndexFrame</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interpret</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">algorithm</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyreal/transformers/time_series_formatter.html#NestedFrameToMultiIndexFrame"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyreal.transformers.NestedFrameToMultiIndexFrame" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyreal.transformers.</span></span><span class="sig-name descname"><span class="pre">NestedFrameToMultiIndexFrame</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interpret</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">algorithm</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">require_values</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyreal/transformers/time_series_formatter.html#NestedFrameToMultiIndexFrame"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyreal.transformers.NestedFrameToMultiIndexFrame" title="Permalink to this definition">#</a></dt>
 <dd><p>Convert sktime nested DataFrame format into Pyreal time-series format.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="pyreal.transformers.NestedFrameToMultiIndexFrame.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interpret</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">algorithm</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyreal.transformers.NestedFrameToMultiIndexFrame.__init__" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interpret</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">algorithm</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">require_values</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyreal.transformers.NestedFrameToMultiIndexFrame.__init__" title="Permalink to this definition">#</a></dt>
 <dd><p>Set this Transformer’s flags.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -470,6 +471,8 @@ run any time a model prediction is needed</p></li>
 algorithm is False, but model is True, this transformer will be applied only
 when making model predictions during the explanation algorithm. Cannot be True if
 if the model flag is False</p></li>
+<li><p><strong>require_values</strong> (<em>Boolean</em>) – If True, this transformer must be given values alongside the explanation in order
+to work for local explanations (for global explanations, this parameter is ignored)</p></li>
 </ul>
 </dd>
 </dl>
@@ -478,7 +481,7 @@ if the model flag is False</p></li>
 <p class="rubric">Methods</p>
 <table class="autosummary longtable table autosummary">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#pyreal.transformers.NestedFrameToMultiIndexFrame.__init__" title="pyreal.transformers.NestedFrameToMultiIndexFrame.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>([model, interpret, algorithm])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pyreal.transformers.NestedFrameToMultiIndexFrame.__init__" title="pyreal.transformers.NestedFrameToMultiIndexFrame.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>([model, interpret, algorithm, ...])</p></td>
 <td><p>Set this Transformer's flags.</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">data_transform</span></code>(x)</p></td>

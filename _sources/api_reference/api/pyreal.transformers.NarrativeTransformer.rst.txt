@@ -1,0 +1,49 @@
+﻿pyreal.transformers.NarrativeTransformer
+========================================
+
+.. currentmodule:: pyreal.transformers
+
+.. autoclass:: NarrativeTransformer
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~NarrativeTransformer.__init__
+      ~NarrativeTransformer.data_transform
+      ~NarrativeTransformer.fit
+      ~NarrativeTransformer.fit_transform
+      ~NarrativeTransformer.inverse_data_transform
+      ~NarrativeTransformer.inverse_transform
+      ~NarrativeTransformer.inverse_transform_explanation
+      ~NarrativeTransformer.inverse_transform_explanation_additive_feature_contribution
+      ~NarrativeTransformer.inverse_transform_explanation_additive_feature_importance
+      ~NarrativeTransformer.inverse_transform_explanation_decision_tree
+      ~NarrativeTransformer.inverse_transform_explanation_example
+      ~NarrativeTransformer.inverse_transform_explanation_feature_based
+      ~NarrativeTransformer.inverse_transform_explanation_feature_contribution
+      ~NarrativeTransformer.inverse_transform_explanation_feature_importance
+      ~NarrativeTransformer.inverse_transform_explanation_similar_example
+      ~NarrativeTransformer.parse_feature_contribution_explanation_for_llm
+      ~NarrativeTransformer.set_flags
+      ~NarrativeTransformer.set_training_examples
+      ~NarrativeTransformer.transform
+      ~NarrativeTransformer.transform_explanation
+      ~NarrativeTransformer.transform_explanation_additive_feature_contribution
+      ~NarrativeTransformer.transform_explanation_additive_feature_importance
+      ~NarrativeTransformer.transform_explanation_decision_tree
+      ~NarrativeTransformer.transform_explanation_example
+      ~NarrativeTransformer.transform_explanation_feature_based
+      ~NarrativeTransformer.transform_explanation_feature_contribution
+      ~NarrativeTransformer.transform_explanation_feature_importance
+      ~NarrativeTransformer.transform_explanation_similar_example
+   
+   
+
+   
+   
+   

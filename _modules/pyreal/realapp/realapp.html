@@ -332,7 +332,12 @@ document.write(`
     <span class="n">LocalFeatureContribution</span><span class="p">,</span>
     <span class="n">SimilarExamples</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">pyreal.transformers</span> <span class="kn">import</span> <span class="n">run_transformers</span><span class="p">,</span> <span class="n">sklearn_pipeline_to_pyreal_transformers</span>
+<span class="kn">from</span> <span class="nn">pyreal.explanation_types</span> <span class="kn">import</span> <span class="n">NarrativeExplanation</span>
+<span class="kn">from</span> <span class="nn">pyreal.transformers</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">NarrativeTransformer</span><span class="p">,</span>
+    <span class="n">run_transformers</span><span class="p">,</span>
+    <span class="n">sklearn_pipeline_to_pyreal_transformers</span><span class="p">,</span>
+<span class="p">)</span>
 <span class="kn">from</span> <span class="nn">pyreal.utils</span> <span class="kn">import</span> <span class="n">get_top_contributors</span>
 
 
@@ -579,11 +584,10 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">class_descriptions</span> <span class="o">=</span> <span class="n">class_descriptions</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">pred_format_func</span> <span class="o">=</span> <span class="n">pred_format_func</span>
 
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">transformers</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">transformers</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">transformers</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">transformers</span> <span class="o">=</span> <span class="n">transformers</span>
         <span class="k">else</span><span class="p">:</span>  <span class="c1"># assume single transformer given</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">transformers</span> <span class="o">=</span> <span class="p">[</span><span class="n">transformers</span><span class="p">]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">transformers</span> <span class="o">=</span> <span class="n">transformers</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">feature_descriptions</span> <span class="o">=</span> <span class="n">feature_descriptions</span>
 
         <span class="k">if</span> <span class="n">openai_client</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -788,7 +792,7 @@ document.write(`
                 <span class="k">if</span> <span class="n">ids</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                     <span class="n">ids</span> <span class="o">=</span> <span class="n">x_orig</span><span class="o">.</span><span class="n">index</span>
                 <span class="k">return</span> <span class="n">format_narratives</span><span class="p">(</span>
-                    <span class="n">narratives</span><span class="p">,</span>
+                    <span class="n">narratives</span><span class="o">.</span><span class="n">get</span><span class="p">(),</span>
                     <span class="n">ids</span><span class="o">=</span><span class="n">ids</span><span class="p">,</span>
                     <span class="n">series</span><span class="o">=</span><span class="n">series</span><span class="p">,</span>
                     <span class="n">optimized</span><span class="o">=</span><span class="ow">not</span> <span class="n">format_output</span><span class="p">,</span>
@@ -796,12 +800,25 @@ document.write(`
                 <span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">explanation</span> <span class="o">=</span> <span class="n">explainer</span><span class="o">.</span><span class="n">produce</span><span class="p">(</span><span class="n">x_orig</span><span class="p">,</span> <span class="o">**</span><span class="n">produce_kwargs</span><span class="p">)</span>
-                <span class="k">return</span> <span class="n">format_output_func</span><span class="p">(</span>
-                    <span class="n">explanation</span><span class="p">,</span> <span class="n">ids</span><span class="p">,</span> <span class="n">optimized</span><span class="o">=</span><span class="ow">not</span> <span class="n">format_output</span><span class="p">,</span> <span class="n">series</span><span class="o">=</span><span class="n">series</span><span class="p">,</span> <span class="o">**</span><span class="n">format_kwargs</span>
-                <span class="p">)</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">explanation</span><span class="p">,</span> <span class="n">NarrativeExplanation</span><span class="p">):</span>
+                    <span class="k">return</span> <span class="n">format_narratives</span><span class="p">(</span>
+                        <span class="n">explanation</span><span class="o">.</span><span class="n">get</span><span class="p">(),</span>
+                        <span class="n">ids</span><span class="o">=</span><span class="n">ids</span><span class="p">,</span>
+                        <span class="n">series</span><span class="o">=</span><span class="n">series</span><span class="p">,</span>
+                        <span class="n">optimized</span><span class="o">=</span><span class="ow">not</span> <span class="n">format_output</span><span class="p">,</span>
+                        <span class="o">**</span><span class="n">format_kwargs</span>
+                    <span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="n">format_output_func</span><span class="p">(</span>
+                        <span class="n">explanation</span><span class="p">,</span>
+                        <span class="n">ids</span><span class="p">,</span>
+                        <span class="n">optimized</span><span class="o">=</span><span class="ow">not</span> <span class="n">format_output</span><span class="p">,</span>
+                        <span class="n">series</span><span class="o">=</span><span class="n">series</span><span class="p">,</span>
+                        <span class="o">**</span><span class="n">format_kwargs</span>
+                    <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">narrative</span><span class="p">:</span>
-                <span class="k">return</span> <span class="n">explainer</span><span class="o">.</span><span class="n">produce_narrative_explanation</span><span class="p">(</span><span class="o">**</span><span class="n">produce_kwargs</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">explainer</span><span class="o">.</span><span class="n">produce_narrative_explanation</span><span class="p">(</span><span class="o">**</span><span class="n">produce_kwargs</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">explanation</span> <span class="o">=</span> <span class="n">explainer</span><span class="o">.</span><span class="n">produce</span><span class="p">(</span><span class="o">**</span><span class="n">produce_kwargs</span><span class="p">)</span>
                 <span class="k">return</span> <span class="n">format_output_func</span><span class="p">(</span>
@@ -1084,6 +1101,8 @@ document.write(`
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Produce a feature contribution explanation, formatted in natural language sentence</span>
 <span class="sd">        format using LLMs.</span>
+<span class="sd">        Do not use this function if your transformer list ends with a NarrativeTransformer -</span>
+<span class="sd">        simply call produce_feature_contributions instead.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            x_orig (DataFrame of shape (n_instances, n_features) or Series of length (n_features)):</span>
@@ -1133,6 +1152,15 @@ document.write(`
 <span class="sd">                One dataframe per id, with each row representing a feature, and four columns:</span>
 <span class="sd">                Feature Name    Feature Value   Contribution    Average/Mode</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">transformer</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">transformers</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">transformer</span><span class="p">,</span> <span class="n">NarrativeTransformer</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s2">&quot;Currently we do not support using produce_narrative functions when&quot;</span>
+                    <span class="s2">&quot; NarrativeTransformers are passed in. Either remove the NarrativeTransformer&quot;</span>
+                    <span class="s2">&quot; and call this function,or simply call produce_feature_contributions using&quot;</span>
+                    <span class="s2">&quot; the NarrativeTransformer&quot;</span>
+                <span class="p">)</span>
+
         <span class="k">if</span> <span class="n">algorithm</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">algorithm</span> <span class="o">=</span> <span class="s2">&quot;shap&quot;</span>
 
@@ -1412,13 +1440,22 @@ document.write(`
         <span class="p">)</span></div>
 
 <div class="viewcode-block" id="RealApp.train_feature_contribution_llm"><a class="viewcode-back" href="../../../api_reference/api/pyreal.RealApp.train_feature_contribution_llm.html#pyreal.RealApp.train_feature_contribution_llm">[docs]</a>    <span class="k">def</span> <span class="nf">train_feature_contribution_llm</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">x_train_orig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">live</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">provide_examples</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">num_inputs</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">num_features</span><span class="o">=</span><span class="mi">3</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">transformer</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">x_train_orig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">live</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">provide_examples</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">num_inputs</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+        <span class="n">num_features</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
     <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Run the training process for the LLM model used to generate narrative feature</span>
 <span class="sd">        contribution explanations.</span>
 
 <span class="sd">        Args:</span>
+<span class="sd">            transformer (NarrativeTransformer):</span>
+<span class="sd">                NarrativeTransformer to train. If None, this RealApp object will save the</span>
+<span class="sd">                training data for use in its produce_narrative functions</span>
 <span class="sd">            x_train_orig (DataFrame of shape (n_instances, n_features)):</span>
 <span class="sd">                Training set to take sample inputs from. If None, the training set must be provided</span>
 <span class="sd">                to the explainer at initialization.</span>
@@ -1443,10 +1480,10 @@ document.write(`
         <span class="k">if</span> <span class="ow">not</span> <span class="n">lfc_explainers</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">prepare_feature_contributions</span><span class="p">(</span><span class="n">x_train_orig</span><span class="o">=</span><span class="n">x_train_orig</span><span class="p">,</span> <span class="n">algorithm</span><span class="o">=</span><span class="s2">&quot;shap&quot;</span><span class="p">)</span>
             <span class="n">lfc_explainers</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_explainer</span><span class="p">(</span><span class="s2">&quot;lfc&quot;</span><span class="p">)</span>
-        <span class="n">training_data</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">training_examples</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">algorithm</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">lfc_explainers</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="n">training_data</span> <span class="o">=</span> <span class="n">lfc_explainers</span><span class="p">[</span><span class="n">algorithm</span><span class="p">]</span><span class="o">.</span><span class="n">train_llm</span><span class="p">(</span>
+                <span class="n">training_examples</span> <span class="o">=</span> <span class="n">lfc_explainers</span><span class="p">[</span><span class="n">algorithm</span><span class="p">]</span><span class="o">.</span><span class="n">train_llm</span><span class="p">(</span>
                     <span class="n">x_train</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_x_train_orig</span><span class="p">(</span><span class="n">x_train_orig</span><span class="p">),</span>
                     <span class="n">live</span><span class="o">=</span><span class="n">live</span><span class="p">,</span>
                     <span class="n">provide_examples</span><span class="o">=</span><span class="n">provide_examples</span><span class="p">,</span>
@@ -1454,7 +1491,11 @@ document.write(`
                     <span class="n">num_features</span><span class="o">=</span><span class="n">num_features</span><span class="p">,</span>
                 <span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">lfc_explainers</span><span class="p">[</span><span class="n">algorithm</span><span class="p">]</span><span class="o">.</span><span class="n">set_llm_training_data</span><span class="p">(</span><span class="n">training_data</span><span class="o">=</span><span class="n">training_data</span><span class="p">)</span></div>
+                <span class="n">lfc_explainers</span><span class="p">[</span><span class="n">algorithm</span><span class="p">]</span><span class="o">.</span><span class="n">set_llm_training_data</span><span class="p">(</span><span class="n">training_data</span><span class="o">=</span><span class="n">training_examples</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">transformer</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">transformer</span><span class="o">.</span><span class="n">set_training_examples</span><span class="p">(</span>
+                <span class="s2">&quot;feature_contributions&quot;</span><span class="p">,</span> <span class="n">training_examples</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="kc">True</span>
+            <span class="p">)</span></div>
 
     <span class="k">def</span> <span class="nf">set_openai_client</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">openai_client</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">openai_api_key</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>

@@ -347,6 +347,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="api/pyreal.transformers.DataFrameWrapper.html">pyreal.transformers.DataFrameWrapper</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/pyreal.transformers.TimeSeriesPadder.html">pyreal.transformers.TimeSeriesPadder</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/pyreal.transformers.LatLongToPlace.html">pyreal.transformers.LatLongToPlace</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/pyreal.transformers.NarrativeTransformer.html">pyreal.transformers.NarrativeTransformer</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="explanation_types.html">Explanation Type</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -558,7 +559,7 @@ document.write(`
 <h2>Type Casters<a class="headerlink" href="#type-casters" title="Permalink to this heading">#</a></h2>
 <table class="autosummary longtable table autosummary">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/pyreal.transformers.BoolToIntCaster.html#pyreal.transformers.BoolToIntCaster" title="pyreal.transformers.BoolToIntCaster"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BoolToIntCaster</span></code></a>([model, interpret, algorithm])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/pyreal.transformers.BoolToIntCaster.html#pyreal.transformers.BoolToIntCaster" title="pyreal.transformers.BoolToIntCaster"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BoolToIntCaster</span></code></a>([model, interpret, ...])</p></td>
 <td><p></p></td>
 </tr>
 </tbody>
@@ -590,6 +591,16 @@ document.write(`
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="api/pyreal.transformers.LatLongToPlace.html#pyreal.transformers.LatLongToPlace" title="pyreal.transformers.LatLongToPlace"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LatLongToPlace</span></code></a>([level, latitude_column, ...])</p></td>
 <td><p>Converts latitude and longitude columns to neighborhood, city, or state/country names.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="narrative-transformers">
+<h2>Narrative Transformers<a class="headerlink" href="#narrative-transformers" title="Permalink to this heading">#</a></h2>
+<table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/pyreal.transformers.NarrativeTransformer.html#pyreal.transformers.NarrativeTransformer" title="pyreal.transformers.NarrativeTransformer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NarrativeTransformer</span></code></a>([openai_client, ...])</p></td>
+<td><p>Transforms explanations to narrative (natural-language) form.</p></td>
 </tr>
 </tbody>
 </table>
@@ -653,6 +664,7 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#wrappers">Wrappers</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#time-series-padders">Time Series Padders</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#geo-transformers">Geo Transformers</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#narrative-transformers">Narrative Transformers</a></li>
 </ul>
   </nav></div>
 

@@ -22,7 +22,6 @@
       ~LocalFeatureContribution.model_predict
       ~LocalFeatureContribution.model_predict_on_algorithm
       ~LocalFeatureContribution.model_predict_proba
-      ~LocalFeatureContribution.narrify
       ~LocalFeatureContribution.produce
       ~LocalFeatureContribution.produce_explanation
       ~LocalFeatureContribution.produce_explanation_interpret
