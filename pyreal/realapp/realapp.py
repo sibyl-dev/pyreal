@@ -465,7 +465,7 @@ class RealApp:
                 if ids is None:
                     ids = x_orig.index
                 return format_narratives(
-                    narratives,
+                    narratives.get(),
                     ids=ids,
                     series=series,
                     optimized=not format_output,
@@ -491,7 +491,7 @@ class RealApp:
                     )
         else:
             if narrative:
-                return explainer.produce_narrative_explanation(**produce_kwargs)
+                return explainer.produce_narrative_explanation(**produce_kwargs).get()
             else:
                 explanation = explainer.produce(**produce_kwargs)
                 return format_output_func(

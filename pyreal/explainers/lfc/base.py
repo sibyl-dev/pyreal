@@ -3,6 +3,7 @@ from abc import ABC
 import numpy as np
 
 from pyreal.explainers import ExplainerBase
+from pyreal.transformers import NarrativeTransformer
 
 
 class LocalFeatureContributionsBase(ExplainerBase, ABC):
@@ -108,17 +109,20 @@ class LocalFeatureContributionsBase(ExplainerBase, ABC):
                 raise ValueError("OpenAI API key or client must be provided to produce narrative")
             openai_client = self.openai_client
 
-        return self.narrify(
-            openai_client,
-            self.produce(x_orig),
+        narrative_transformer = NarrativeTransformer(
+            openai_client=openai_client,
             num_features=num_features,
-            max_tokens=max_tokens,
-            temperature=temperature,
             llm_model=llm_model,
             detail_level=detail_level,
             context_description=context_description,
-            few_shot_training_examples=self.llm_training_data,
+            max_tokens=max_tokens,
+            temperature=temperature,
+            training_examples={"feature_contributions": self.llm_training_data},
         )
+        self.transformers.append(narrative_transformer)
+        result = self.produce(x_orig)
+        self.transformers.pop()
+        return result
 
     def train_llm(
         self, x_train=None, live=True, provide_examples=False, num_inputs=5, num_features=3
@@ -163,7 +167,9 @@ class LocalFeatureContributionsBase(ExplainerBase, ABC):
         else:
             x_train = x_train.sample(num_inputs)
         explanation = self.produce(x_train)
-        parsed_explanations = parse_explanation_for_llm(explanation, num_features=num_features)
+        parsed_explanations = NarrativeTransformer.parse_feature_contribution_explanation_for_llm(
+            explanation, num_features=num_features
+        )
         narratives = []
         print("For each of the following inputs, please provide an appropriate narrative version.")
         for i in range(num_inputs):
@@ -173,9 +179,13 @@ class LocalFeatureContributionsBase(ExplainerBase, ABC):
                 f"Input {i+1} (feature, value, contribution):\n{parsed_explanation_formatted}\n"
             )
             if provide_examples:
-                example = LocalFeatureContributionsBase.narrify(
-                    self.openai_client, explanation[i], num_features=num_features
-                )[0]
+                example = (
+                    NarrativeTransformer(
+                        openai_client=self.openai_client, num_features=num_features
+                    )
+                    .transform_explanation_feature_contribution(explanation[i])
+                    .get()[0]
+                )
                 instruction += f"Example: {example}\n"
                 instruction += "Narrative explanation ('k' to keep example, 'q' to quit): "
                 narrative = input(instruction)
@@ -210,114 +220,3 @@ class LocalFeatureContributionsBase(ExplainerBase, ABC):
                 trained on these examples before generating the explanation.
         """
         self.llm_training_data = training_data
-
-    @staticmethod
-    def narrify(
-        openai_client,
-        explanation,
-        num_features=None,
-        llm_model="gpt3.5",
-        detail_level="high",
-        context_description="",
-        max_tokens=200,
-        temperature=0.5,
-        few_shot_training_examples=None,
-    ):
-        """
-        Generate a narrative explanation from a feature contribution explanation
-        Args:
-            openai_client (OpenAI API client):
-                OpenAI API client, with API key set
-            explanation (LocalFeatureContributionExplanation):
-                Feature contribution explanations. Each row represents an instance, and each
-                column a feature.
-            num_features (int):
-                Number of features to include in the explanation. If None, all features will be
-                included
-            llm_model (string):
-                One of ["gpt3.5", "gpt4"]. LLM model to use to generate the explanation.
-                GPT4 may provide better results, but is more expensive.
-            detail_level (string):
-                One of ["high", "low"]. Level of detail to include in the explanation.
-                High detail should include precise contribution values. Low detail
-                will include only basic information about features used.
-            context_description (string):
-                Description of the model's prediction task, in sentence format. This will be
-                passed to the LLM and may help produce more accurate explanations.
-                For example: "The model predicts the price of houses."
-            max_tokens (int):
-                Maximum number of tokens to use in the explanation
-            temperature (float):
-                LLM Temperature to use. Values closer to 1 will produce more creative values.
-                Values closer to 0 will produce more consistent or conservative explanations.
-            few_shot_training_examples (list of (explanation, narrative) pairs):
-                Training examples to use for few-shot learning. If provided, the LLM will be
-                trained on these examples before generating the explanation.
-
-        Returns:
-            DataFrame of shape (n_instances, n_features)
-                Narrative explanation
-        """
-        if llm_model == "gpt3.5":
-            model = "gpt-3.5-turbo-0125"
-        elif llm_model == "gpt4":
-            model = "gpt-4-0125-preview"
-        else:
-            raise ValueError(
-                "Invalid LLM model %s. Expected one of ['gpt3.5', 'gpt4']" % llm_model
-            )
-        if context_description is None:
-            context_description = ""
-        if context_description:
-            context_description = context_description.strip()
-            if not context_description.endswith("."):
-                context_description += "."
-        prompt = (
-            "You are helping users who do not have experience working with ML understand an ML"
-            f" model's predictions. {context_description} I will give you feature contribution"
-            " explanations, generated using SHAP, in (feature, feature_value, contribution )"
-            " format. Convert the explanations into simple narratives. Do not use more tokens"
-            " than necessary. Make your answers sound very natural, as if said in conversation. "
-        )
-        if detail_level == "low":
-            prompt += (
-                "Keep the explanations simple and easy to understand. Do not include exact"
-                " contribution values. "
-            )
-        elif detail_level == "high":
-            prompt += "Include all exact contribution values in your response. "
-        else:
-            raise ValueError(
-                "Invalid detail_level %s. Expected one of ['high', 'low']" % detail_level
-            )
-        # explanation = explanation.get_top_features(num_features=num_features)
-        narrative_explanations = []
-        base_messages = [{"role": "system", "content": prompt}]
-        if few_shot_training_examples is not None:
-            for training_exp, training_narr in few_shot_training_examples:
-                base_messages.append({"role": "user", "content": training_exp})
-                base_messages.append({"role": "assistant", "content": training_narr})
-        parsed_explanations = parse_explanation_for_llm(explanation, num_features=num_features)
-        for parsed_explanation in parsed_explanations:
-            messages = base_messages + [{"role": "user", "content": parsed_explanation}]
-            response = openai_client.chat.completions.create(
-                model=model,
-                messages=messages,
-                max_tokens=max_tokens,
-                temperature=temperature,
-            )
-            narrative_explanations.append(response.choices[0].message.content)
-        return narrative_explanations
-
-
-def parse_explanation_for_llm(explanation, num_features=None):
-    explanations = explanation.get_top_features(num_features=num_features)
-    parsed_explanations = []
-    for explanation in explanations:
-        strings = []
-        for feature, value, contribution in zip(
-            explanation[0].index, explanation[1], explanation[0]
-        ):
-            strings.append(f"({feature}, {value}, {contribution})")
-        parsed_explanations.append(", ".join(strings))
-    return parsed_explanations

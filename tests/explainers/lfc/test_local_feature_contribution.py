@@ -88,11 +88,11 @@ def test_produce_narrative_explanation(regression_one_hot, mock_openai_client):
     )
 
     x_one_dim = pd.DataFrame([[2, 10, 10]], columns=["A", "B", "C"])
-    explanation = lfc.produce_narrative_explanation(x_one_dim)
+    explanation = lfc.produce_narrative_explanation(x_one_dim).get()
     assert explanation[0] == mock_openai_client["response"]
 
     x_multi_dim = pd.DataFrame([[2, 10, 10], [2, 11, 11]], columns=["A", "B", "C"])
-    explanation = lfc.produce_narrative_explanation(x_multi_dim)
+    explanation = lfc.produce_narrative_explanation(x_multi_dim).get()
     assert explanation[0] == mock_openai_client["response"]
     assert explanation[1] == mock_openai_client["response"]
 
@@ -112,7 +112,7 @@ def test_produce_narrative_explanation_with_training(regression_one_hot, mock_op
     assert lfc.llm_training_data is training_data
 
     x_one_dim = pd.DataFrame([[2, 10, 10]], columns=["A", "B", "C"])
-    explanation = lfc.produce_narrative_explanation(x_one_dim)
+    explanation = lfc.produce_narrative_explanation(x_one_dim).get()
     assert explanation[0] == mock_openai_client["response"]
 
     lfc.clear_llm_training_data()

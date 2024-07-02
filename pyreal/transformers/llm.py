@@ -14,6 +14,7 @@ class NarrativeTransformer(TransformerBase):
         context_description="",
         max_tokens=200,
         temperature=0.5,
+        training_examples=None,
         **kwargs,
     ):
         """
@@ -43,7 +44,12 @@ class NarrativeTransformer(TransformerBase):
             openai_client (OpenAI API client):
                 OpenAI API client, with API key set. If None, the API key must be provided to the
                 explainer at initialization.
-
+            examples (dictionary of string:list of tuples):
+                Few-shot training examples.
+                Keys are explanation type (currently support: "feature_contributions")
+                Values are lists of tuples, where the first element is the input to the model
+                    and the second element is the example output.
+                Use the RealApp train_llm functions to populate this
         Returns:
             list of strings of length n_instances
                 Narrative version of feature contribution explanation, one item per instance
@@ -62,7 +68,10 @@ class NarrativeTransformer(TransformerBase):
         self.max_tokens = max_tokens
         self.temperature = temperature
 
-        self.few_shot_training_examples = {}
+        if training_examples is not None:
+            self.training_examples = training_examples
+        else:
+            self.training_examples = {}
 
         if "interpret" not in kwargs:
             kwargs["interpret"] = True
@@ -115,13 +124,11 @@ class NarrativeTransformer(TransformerBase):
 
         narrative_explanations = []
         base_messages = [{"role": "system", "content": prompt}]
-        if "feature_contributions" in self.few_shot_training_examples:
-            for training_exp, training_narr in self.few_shot_training_examples[
-                "feature_contributions"
-            ]:
+        if self.training_examples.get("feature_contributions") is not None:
+            for training_exp, training_narr in self.training_examples["feature_contributions"]:
                 base_messages.append({"role": "user", "content": training_exp})
                 base_messages.append({"role": "assistant", "content": training_narr})
-        parsed_explanations = parse_feature_contribution_explanation_for_llm(
+        parsed_explanations = self.parse_feature_contribution_explanation_for_llm(
             explanation, num_features=num_features
         )
         for parsed_explanation in parsed_explanations:
@@ -135,93 +142,15 @@ class NarrativeTransformer(TransformerBase):
             narrative_explanations.append(response.choices[0].message.content)
         return NarrativeExplanation(narrative_explanations)
 
-
-def parse_feature_contribution_explanation_for_llm(explanation, num_features=None):
-    explanations = explanation.get_top_features(num_features=num_features)
-    parsed_explanations = []
-    for explanation in explanations:
-        strings = []
-        for feature, value, contribution in zip(
-            explanation[0].index, explanation[1], explanation[0]
-        ):
-            strings.append(f"({feature}, {value}, {contribution})")
-        parsed_explanations.append(", ".join(strings))
-    return parsed_explanations
-
-
-def train_feature_contributions(
-    self, x_train=None, live=True, provide_examples=False, num_inputs=5, num_features=3
-):
-    """
-    Run the training process for the LLM model used to generate narrative feature
-    contribution explanations.
-
-    Args:
-        x_train (DataFrame of shape (n_instances, n_features)):
-            Training set to take sample inputs from. If None, the training set must be provided
-            to the explainer at initialization.
-        live (Boolean):
-            If True, run the training process through CLI input/outputs. If False,
-            this function will generate a shell training file that will need to be filled out
-            and added to the RealApp manually. Currently only live training is supported.
-        provide_examples (Boolean):
-            If True, generate a base example of explanations at each step. This may make
-            the process faster, but will incur costs to your OpenAI API account.
-        num_inputs (int):
-            Number of inputs to request.
-        num_features (int):
-            Number of features to include per explanation. If None, all features will be
-            included
-
-    Returns:
-        list of (explanation, narrative) pairs
-            The generated training data
-    """
-    if not live:
-        raise NotImplementedError("Non-interactive training not yet implemented")
-    if provide_examples and self.openai_client is None:
-        raise ValueError(
-            "OpenAI API key or client must be provided to provide examples during training"
-        )
-    x_train = self._get_x_train_orig(x_train)
-    if num_inputs > len(x_train):
-        print(
-            "Warning: number of inputs in x_train is less than num_inputs, using all available"
-            " inputs"
-        )
-    else:
-        x_train = x_train.sample(num_inputs)
-    explanation = self.produce(x_train)
-    parsed_explanations = parse_feature_contribution_explanation_for_llm(
-        explanation, num_features=num_features
-    )
-    narratives = []
-    print("For each of the following inputs, please provide an appropriate narrative version.")
-    for i in range(num_inputs):
-        instruction = ""
-        parsed_explanation_formatted = parsed_explanations[i].replace("), ", "),\n")
-        instruction += (
-            f"Input {i+1} (feature, value, contribution):\n{parsed_explanation_formatted}\n"
-        )
-        if provide_examples:
-            example = self.transform_feature_contributions(
-                explanation[i], num_features=num_features
-            ).get()[0]
-            instruction += f"Example: {example}\n"
-            instruction += "Narrative explanation ('k' to keep example, 'q' to quit): "
-            narrative = input(instruction)
-            if narrative.lower() == "k":
-                narrative = example
-        else:
-            instruction += "Narrative explanation ('q' to quit): "
-            narrative = input(instruction)
-        if narrative.lower() == "q":
-            break
-        narratives.append((parsed_explanations[i], narrative))
-    if len(narratives) > 0 and input("Save training data? (y/n): ").lower() == "y":
-        self.llm_training_data = narratives
-        print(f"Training complete. Training data: {narratives}")
-    else:
-        print("Training data not saved.")
-    self.few_shot_training_examples["feature_contributions"] = narratives
-    return narratives
+    @staticmethod
+    def parse_feature_contribution_explanation_for_llm(explanation, num_features=None):
+        explanations = explanation.get_top_features(num_features=num_features)
+        parsed_explanations = []
+        for explanation in explanations:
+            strings = []
+            for feature, value, contribution in zip(
+                explanation[0].index, explanation[1], explanation[0]
+            ):
+                strings.append(f"({feature}, {value}, {contribution})")
+            parsed_explanations.append(", ".join(strings))
+        return parsed_explanations
