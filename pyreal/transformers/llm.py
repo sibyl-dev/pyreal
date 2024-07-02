@@ -1,6 +1,7 @@
-from pyreal.transformers import TransformerBase
 from openai import OpenAI
+
 from pyreal.explanation_types import NarrativeExplanation
+from pyreal.transformers import TransformerBase
 
 
 class NarrativeTransformer(TransformerBase):
@@ -85,6 +86,32 @@ class NarrativeTransformer(TransformerBase):
 
     def fit(self, x, **params):
         return self
+
+    def set_training_examples(self, explanation_type, training_examples, replace=False):
+        """
+        Set examples of narrative explanations for the request explanation type.
+
+        Args:
+            explanation_type (string):
+                Type of explanation to set examples for. Currently only "feature_contributions"
+                is supported.
+            training_examples (list of tuples):
+                List of tuples, where the first element is the input to the model
+                and the second element is the example output.
+            replace (bool):
+                If True, replace existing examples. If False, append to existing examples.
+        """
+        if explanation_type not in ["feature_contributions"]:
+            raise ValueError(
+                "Invalid training example type %s. Expected one of ['feature_contributions']"
+                % explanation_type
+            )
+        if replace:
+            self.training_examples[explanation_type] = training_examples
+        else:
+            if self.training_examples.get(explanation_type) is None:
+                self.training_examples[explanation_type] = []
+            self.training_examples[explanation_type].extend(training_examples)
 
     def transform_explanation_feature_contribution(self, explanation, num_features=None):
         if num_features is None:

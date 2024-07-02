@@ -8,9 +8,13 @@ from pyreal.explainers import (
     LocalFeatureContribution,
     SimilarExamples,
 )
-from pyreal.transformers import run_transformers, sklearn_pipeline_to_pyreal_transformers
-from pyreal.utils import get_top_contributors
 from pyreal.explanation_types import NarrativeExplanation
+from pyreal.transformers import (
+    NarrativeTransformer,
+    run_transformers,
+    sklearn_pipeline_to_pyreal_transformers,
+)
+from pyreal.utils import get_top_contributors
 
 
 def format_feature_contribution_output(explanation, ids=None, series=False, optimized=False):
@@ -823,6 +827,15 @@ class RealApp:
                 One dataframe per id, with each row representing a feature, and four columns:
                 Feature Name    Feature Value   Contribution    Average/Mode
         """
+        for transformer in self.transformers:
+            if isinstance(transformer, NarrativeTransformer):
+                raise ValueError(
+                    "Currently we do not support using produce_narrative functions when"
+                    " NarrativeTransformers are passed in. Either remove the NarrativeTransformer"
+                    " and call this function,or simply call produce_feature_contributions using"
+                    " the NarrativeTransformer"
+                )
+
         if algorithm is None:
             algorithm = "shap"
 
@@ -1102,13 +1115,22 @@ class RealApp:
         )
 
     def train_feature_contribution_llm(
-        self, x_train_orig=None, live=True, provide_examples=False, num_inputs=5, num_features=3
+        self,
+        transformer=None,
+        x_train_orig=None,
+        live=True,
+        provide_examples=False,
+        num_inputs=5,
+        num_features=3,
     ):
         """
         Run the training process for the LLM model used to generate narrative feature
         contribution explanations.
 
         Args:
+            transformer (NarrativeTransformer):
+                NarrativeTransformer to train. If None, this RealApp object will save the
+                training data for use in its produce_narrative functions
             x_train_orig (DataFrame of shape (n_instances, n_features)):
                 Training set to take sample inputs from. If None, the training set must be provided
                 to the explainer at initialization.
@@ -1133,10 +1155,10 @@ class RealApp:
         if not lfc_explainers:
             self.prepare_feature_contributions(x_train_orig=x_train_orig, algorithm="shap")
             lfc_explainers = self._get_explainer("lfc")
-        training_data = None
+        training_examples = None
         for i, algorithm in enumerate(lfc_explainers):
             if i == 0:
-                training_data = lfc_explainers[algorithm].train_llm(
+                training_examples = lfc_explainers[algorithm].train_llm(
                     x_train=self._get_x_train_orig(x_train_orig),
                     live=live,
                     provide_examples=provide_examples,
@@ -1144,7 +1166,11 @@ class RealApp:
                     num_features=num_features,
                 )
             else:
-                lfc_explainers[algorithm].set_llm_training_data(training_data=training_data)
+                lfc_explainers[algorithm].set_llm_training_data(training_data=training_examples)
+        if transformer is not None:
+            transformer.set_training_examples(
+                "feature_contributions", training_examples, replace=True
+            )
 
     def set_openai_client(self, openai_client=None, openai_api_key=None):
         """

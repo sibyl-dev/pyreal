@@ -1,9 +1,9 @@
-from pyreal.transformers import NarrativeTransformer
-from pyreal.explanation_types import FeatureContributionExplanation
 import pandas as pd
-import yaml
-from pyreal.explainers import LocalFeatureContribution
+
 from pyreal import RealApp
+from pyreal.explainers import LocalFeatureContribution
+from pyreal.explanation_types import FeatureContributionExplanation
+from pyreal.transformers import NarrativeTransformer
 
 
 def test_transform_feature_contribution(mock_openai_client):
