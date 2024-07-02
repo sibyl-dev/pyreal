@@ -260,7 +260,7 @@ class RealApp:
         self.class_descriptions = class_descriptions
         self.pred_format_func = pred_format_func
 
-        if isinstance(transformers, list):
+        if transformers is None or isinstance(transformers, list):
             self.transformers = transformers
         else:  # assume single transformer given
             self.transformers = [transformers]
