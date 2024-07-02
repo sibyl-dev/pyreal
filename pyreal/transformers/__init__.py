@@ -34,6 +34,7 @@ from pyreal.transformers.scale import MinMaxScaler, StandardScaler, Normalizer
 from pyreal.transformers.geo import LatLongToPlace
 from pyreal.transformers.generic_transformer import Transformer
 from pyreal.transformers.utils import sklearn_pipeline_to_pyreal_transformers
+from pyreal.transformers.llm import NarrativeTransformer
 
 __all__ = [
     "TransformerBase",
@@ -67,6 +68,7 @@ __all__ = [
     "Normalizer",
     "StandardScaler",
     "LatLongToPlace",
+    "NarrativeTransformer",
     "sklearn_pipeline_to_pyreal_transformers",
     "Transformer",
 ]

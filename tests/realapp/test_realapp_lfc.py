@@ -5,6 +5,7 @@ from pandas.testing import assert_frame_equal, assert_series_equal
 
 from pyreal import RealApp
 from pyreal.realapp.realapp import _get_average_or_mode
+from pyreal.transformers import NarrativeTransformer
 
 
 def test_average_or_mode():
@@ -273,3 +274,57 @@ def test_produce_narrative_feature_contributions_optimized(regression_one_hot, m
 
     assert explanation[0] == mock_openai_client["response"]
     assert explanation[1] == mock_openai_client["response"]
+
+
+def test_train_llm(regression_one_hot, mock_openai_client, mocker):
+    real_app = RealApp(
+        regression_one_hot["model"],
+        regression_one_hot["x"],
+        transformers=regression_one_hot["transformers"],
+        openai_client=mock_openai_client["client"],
+        id_column="ID",
+    )
+
+    def custom_input(prompt):
+        if "Save training data? (y/n)" in prompt:
+            return "y"
+        return "example explanation"
+
+    mocker.patch("builtins.input", side_effect=custom_input)
+    mocker.patch("builtins.print")  # disable printing for cleaner logs
+    real_app.train_feature_contribution_llm(num_inputs=2, provide_examples=True)
+    for algorithm in real_app.explainers["lfc"]:
+        narratives = real_app.explainers["lfc"][algorithm].llm_training_data
+        mocker.stopall()
+        assert len(narratives) == 2
+        assert narratives[0][1] == "example explanation"
+        assert narratives[1][1] == "example explanation"
+
+
+def test_train_llm_input_transformer(regression_one_hot, mock_openai_client, mocker):
+    real_app = RealApp(
+        regression_one_hot["model"],
+        regression_one_hot["x"],
+        transformers=regression_one_hot["transformers"],
+        openai_client=mock_openai_client["client"],
+        id_column="ID",
+    )
+    input_transformer = NarrativeTransformer(
+        openai_client=mock_openai_client["client"], num_features=3
+    )
+
+    def custom_input(prompt):
+        if "Save training data? (y/n)" in prompt:
+            return "y"
+        return "example explanation"
+
+    mocker.patch("builtins.input", side_effect=custom_input)
+    mocker.patch("builtins.print")  # disable printing for cleaner logs
+    real_app.train_feature_contribution_llm(
+        num_inputs=2, provide_examples=True, transformer=input_transformer
+    )
+    narratives = input_transformer.training_examples["feature_contributions"]
+    mocker.stopall()
+    assert len(narratives) == 2
+    assert narratives[0][1] == "example explanation"
+    assert narratives[1][1] == "example explanation"

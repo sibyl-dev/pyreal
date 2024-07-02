@@ -45,11 +45,6 @@ def test_produce_similar_examples_id_column(regression_one_hot):
     input_rows = pd.DataFrame([["id1", 6, 7, 9], ["id2", 2, 1, 1]], columns=["ID", "A", "B", "C"])
     explanation = real_app.produce_similar_examples(input_rows, num_examples=2)
     assert "id1" in explanation
-    for key in explanation:
-        print(key)
-        for key2 in explanation[key]:
-            print(key2)
-            print(explanation[key][key2])
     assert_frame_equal(explanation["id1"]["X"], x.iloc[[2, 1], :])
     assert_series_equal(explanation["id1"]["y"], y.iloc[[2, 1]])
     assert_series_equal(explanation["id1"]["Input"], input_rows.iloc[0, 1:], check_dtype=False)

@@ -114,7 +114,3 @@ def test_inverse_transform_standardscale(scale_data):
 
     for i in range(len(sk)):
         assert all([sk[i][j] == std.values[i][j] for j in range(len(sk[i]))])
-
-
-if __name__ == "__main__":
-    print()
