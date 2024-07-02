@@ -778,6 +778,8 @@ class RealApp:
         """
         Produce a feature contribution explanation, formatted in natural language sentence
         format using LLMs.
+        Do not use this function if your transformer list ends with a NarrativeTransformer -
+        simply call produce_feature_contributions instead.
 
         Args:
             x_orig (DataFrame of shape (n_instances, n_features) or Series of length (n_features)):
