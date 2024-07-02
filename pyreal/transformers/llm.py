@@ -5,6 +5,10 @@ from pyreal.transformers import TransformerBase
 
 
 class NarrativeTransformer(TransformerBase):
+    """
+    Transforms explanations to narrative (natural-language) form.
+    """
+
     def __init__(
         self,
         openai_client=None,

@@ -264,7 +264,6 @@ class RealApp:
             self.transformers = transformers
         else:  # assume single transformer given
             self.transformers = [transformers]
-        self.transformers = transformers
         self.feature_descriptions = feature_descriptions
 
         if openai_client is not None:
