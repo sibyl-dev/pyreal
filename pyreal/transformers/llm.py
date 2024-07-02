@@ -14,6 +14,7 @@ class NarrativeTransformer(TransformerBase):
         context_description="",
         max_tokens=200,
         temperature=0.5,
+        **kwargs,
     ):
         """
         Transforms explanations to narrative (natural-language) form.
@@ -63,7 +64,12 @@ class NarrativeTransformer(TransformerBase):
 
         self.few_shot_training_examples = {}
 
-        super().__init__()
+        if "interpret" not in kwargs:
+            kwargs["interpret"] = True
+        if "model" not in kwargs:
+            kwargs["model"] = False
+
+        super().__init__(require_values=True, **kwargs)
 
     def data_transform(self, x):
         return x
@@ -106,7 +112,7 @@ class NarrativeTransformer(TransformerBase):
             raise ValueError(
                 "Invalid detail_level %s. Expected one of ['high', 'low']" % self.detail_level
             )
-        # explanation = explanation.get_top_features(num_features=num_features)
+
         narrative_explanations = []
         base_messages = [{"role": "system", "content": prompt}]
         if "feature_contributions" in self.few_shot_training_examples:
