@@ -171,6 +171,41 @@ def test_produce_local_feature_contributions_with_id_column(regression_one_hot):
     assert list(explanation_b["Average/Mode"]) == [5, 1.5, 2]
 
 
+def test_produce_local_feature_contributions_with_index_names(regression_one_hot):
+    real_app = RealApp(
+        regression_one_hot["model"],
+        regression_one_hot["x"],
+        transformers=regression_one_hot["transformers"],
+    )
+
+    features = ["A", "B", "C"]
+    x_one_dim = pd.Series([4, 1, 1], index=features, name="ab")
+    explanation = real_app.produce_feature_contributions(x_one_dim)
+    explanation_a1 = explanation.sort_values(by="Feature Name", axis=0)
+
+    x_multi_dim = pd.DataFrame([[4, 1, 1], [6, 2, 3]], columns=features, index=["a", "b"])
+
+    explanation = real_app.produce_feature_contributions(x_multi_dim)
+
+    explanation_a2 = explanation["a"].sort_values(by="Feature Name", axis=0)
+    explanation_b = explanation["b"].sort_values(by="Feature Name", axis=0)
+
+    for explanation_a in [explanation_a1, explanation_a2]:
+        assert list(explanation_a["Feature Name"]) == features
+        assert list(explanation_a["Feature Value"]) == list(x_multi_dim.iloc[0])
+        for num in list(explanation_a["Contribution"]):
+            assert abs(num) < 0.001
+    assert list(explanation_a1["Average/Mode"]) == [4, 1, 1]
+    assert list(explanation_a2["Average/Mode"]) == [5, 1.5, 2]
+
+    assert list(explanation_b["Feature Name"]) == features
+    assert list(explanation_b["Feature Value"]) == list(x_multi_dim.iloc[1])
+    assert abs(list(explanation_b["Contribution"])[0] - 1) < 0.001
+    for num in list(explanation_a["Contribution"][1:]):
+        assert abs(num) < 0.001
+    assert list(explanation_b["Average/Mode"]) == [5, 1.5, 2]
+
+
 def test_produce_local_feature_contributions_no_data_on_init(regression_no_transforms):
     real_app = RealApp(
         regression_no_transforms["model"],

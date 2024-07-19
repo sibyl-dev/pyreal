@@ -61,6 +61,27 @@ def helper_produce_shap_regression_no_transforms(explainer, model):
     assert (contributions.iloc[:, 2] == 0).all()
 
 
+def test_produce_shap_regression_with_index_names(regression_no_transforms):
+    explainer = ShapFeatureContribution(
+        model=regression_no_transforms["model"],
+        x_train_orig=regression_no_transforms["x"],
+        transformers=regression_no_transforms["transformers"],
+        fit_on_init=True,
+    )
+
+    x_multi_dim = pd.DataFrame(
+        [[2, 1, 1], [4, 2, 3]], columns=["A", "B", "C"], index=["row1", "row2"]
+    )
+    expected = np.mean(regression_no_transforms["y"])
+
+    contributions = explainer.produce(x_multi_dim).get()
+    assert x_multi_dim.shape == contributions.shape
+    assert contributions.loc["row1", "A"] == x_multi_dim.loc["row1", "A"] - expected
+    assert contributions.iloc[1, 0] == x_multi_dim.iloc[1, 0] - expected
+    assert (contributions.iloc[:, 1] == 0).all()
+    assert (contributions.iloc[:, 2] == 0).all()
+
+
 def test_produce_shap_regression_transforms(regression_one_hot):
     model = regression_one_hot
     lfc = LocalFeatureContribution(
