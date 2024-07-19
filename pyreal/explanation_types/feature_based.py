@@ -35,6 +35,10 @@ class FeatureBased(Explanation):
         self.update_explanation(
             convert_columns_with_dict(self.explanation, feature_descriptions), inplace=True
         )
+        if "average_values" in self.other_properties:
+            self.other_properties["average_values"] = convert_columns_with_dict(
+                self.other_properties["average_values"], feature_descriptions
+            )
         super().apply_feature_descriptions(feature_descriptions)
 
     def combine_columns(self, columns, new_column):
@@ -68,6 +72,12 @@ class FeatureBased(Explanation):
             else:
                 results.append(row.iloc[order])
         return results
+
+    def get_average_values(self):
+        """
+        Return the expected values of features, for explanations where this is relevant
+        """
+        return self.other_properties.get("average_values", None)
 
     def __getitem__(self, item):
         return self.__class__(

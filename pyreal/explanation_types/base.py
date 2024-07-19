@@ -16,7 +16,7 @@ class Explanation:
     valid explanation output.
     """
 
-    def __init__(self, explanation, values=None):
+    def __init__(self, explanation, values=None, other_properties=None):
         """
         Set the wrapped explanation to `explanation` and values to `values` and validate
         Args:
@@ -24,16 +24,23 @@ class Explanation:
                 wrapped explanation
             values (DataFrame of shape (n_instances, n_features) or None):
                 Values corresponding with the object being explained
+            other_properties (dict):
+                Other information relevant to the explanation
 
         """
         self.explanation = explanation
         self.values = values
+        self.other_properties = other_properties
+        if self.other_properties is None:
+            self.other_properties = {}
 
         self.validate()
         if self.values is not None:
             if hasattr(values, "ndim") and values.ndim == 1:
                 self.values = values.to_frame().T
             self.validate_values()
+        if other_properties is not None:
+            self.validate_other_properties()
 
     def get(self):
         """
@@ -100,7 +107,7 @@ class Explanation:
                 self.validate_values()
             return self
         else:
-            return self.__class__(self.explanation, values)
+            return self.__class__(self.explanation, values, self.other_properties)
 
     def update_explanation(self, new_explanation, inplace=False, persist_values=True):
         """
@@ -126,9 +133,9 @@ class Explanation:
             return self
         else:
             if persist_values:
-                return self.__class__(new_explanation, self.values)
+                return self.__class__(new_explanation, self.values, self.other_properties)
             else:
-                return self.__class__(new_explanation)
+                return self.__class__(new_explanation, self.other_properties)
 
     def apply_feature_descriptions(self, feature_descriptions):
         """
@@ -168,6 +175,12 @@ class Explanation:
         """
         if not isinstance(self.values, pd.DataFrame) and not isinstance(self.values, pd.Series):
             raise AssertionError("values must be of type DataFrame")
+
+    def validate_other_properties(self):
+        """
+        Validate that any additional properties are valid
+        """
+        pass
 
     def __getitem__(self, item):
         return self.__class__(self.explanation[item], self.values[item])

@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+from pandas.testing import assert_series_equal
 
 from pyreal.explainers import LocalFeatureContribution
 
@@ -18,11 +19,14 @@ def test_produce_with_renames(regression_one_hot):
     )
     x_one_dim = pd.DataFrame([[2, 10, 10]], columns=["A", "B", "C"])
 
-    contributions = lfc.produce(x_one_dim).get()
+    explanation = lfc.produce(x_one_dim)
+    contributions = explanation.get()
     assert x_one_dim.shape == contributions.shape
     assert abs(contributions["Feature A"][0] + 1) < 0.0001
     assert abs(contributions["Feature B"][0]) < 0.0001
     assert abs(contributions["C"][0]) < 0.0001
+    means_with_descriptions = model["x"].mean().rename(feature_descriptions)
+    assert_series_equal(explanation.get_average_values(), means_with_descriptions)
 
 
 def test_evaluate_variation(classification_no_transforms):
