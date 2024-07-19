@@ -31,10 +31,11 @@ In this guide, we will go through a few common questions you may have your model
 
 ### What features contributed to the model prediction?
 
-To get a list of how much each feature in your input data contributed to the model's prediction, you can use the `.produce_feature_contributions(x_orig)` function
+To get a list of how much each feature in your input data contributed to the model's prediction, you can use the `.produce_feature_contributions(x_orig)` function. We add the `include_average_values` parameter to get some extra context information about how rows compare to the full dataset.
 
 ```python
-contribution_scores = realapp.produce_feature_contributions(x_input)
+contribution_scores = realapp.produce_feature_contributions(
+                                   x_input, include_average_values=True)
 ```
 
 {% hint style="info" %}
