@@ -73,6 +73,22 @@ def test_produce_local_feature_contributions(regression_no_transforms):
     assert list(explanation[1]["Contribution"]) == [x_multi_dim.iloc[1, 0] - expected, 0, 0]
 
 
+def test_produce_local_feature_contributions_with_averages(regression_no_transforms):
+    real_app = RealApp(
+        regression_no_transforms["model"],
+        regression_no_transforms["x"],
+        transformers=regression_no_transforms["transformers"],
+    )
+    features = ["A", "B", "C"]
+
+    x_multi_dim = pd.DataFrame([[2, 1, 1], [4, 2, 3]], columns=features)
+    explanation = real_app.produce_feature_contributions(x_multi_dim, include_average_values=True)
+    averages = list(regression_no_transforms["x"].mean(axis="rows"))
+
+    assert list(explanation[0]["Average/Mode"]) == averages
+    assert list(explanation[1]["Average/Mode"]) == averages
+
+
 def test_produce_local_feature_contributions_no_format(
     regression_no_transforms, regression_one_hot
 ):
