@@ -35,6 +35,10 @@ class FeatureBased(Explanation):
         self.update_explanation(
             convert_columns_with_dict(self.explanation, feature_descriptions), inplace=True
         )
+        if "average_values" in self.other_properties:
+            self.other_properties["average_values"] = convert_columns_with_dict(
+                self.other_properties["average_values"], feature_descriptions
+            )
         super().apply_feature_descriptions(feature_descriptions)
 
     def combine_columns(self, columns, new_column):

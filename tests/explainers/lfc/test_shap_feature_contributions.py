@@ -2,8 +2,8 @@ import numpy as np
 import pandas as pd
 from shap import LinearExplainer
 
-from pyreal.explainers import LocalFeatureContribution, ShapFeatureContribution
 import pyreal.explainers.lfc.shap_feature_contribution
+from pyreal.explainers import LocalFeatureContribution, ShapFeatureContribution
 
 
 def test_average_or_mode():
