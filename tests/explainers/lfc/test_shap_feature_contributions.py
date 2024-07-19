@@ -3,6 +3,27 @@ import pandas as pd
 from shap import LinearExplainer
 
 from pyreal.explainers import LocalFeatureContribution, ShapFeatureContribution
+import pyreal.explainers.lfc.shap_feature_contribution
+
+
+def test_average_or_mode():
+    mix = pd.DataFrame([[1, "a", 2, "a"], [1, "a", 4, "a"], [1, "b", 3, "a"]])
+    expected = [1, "a", 3, "a"]
+    result = pyreal.explainers.lfc.shap_feature_contribution._get_average_or_mode(mix)
+    for i in range(len(expected)):
+        assert expected[i] == result[i]
+
+    mode_only = pd.DataFrame([["a", "a", "b", "d"], ["b", "a", "b", "d"], ["a", "b", "d", "d"]])
+    expected = ["a", "a", "b", "d"]
+    result = pyreal.explainers.lfc.shap_feature_contribution._get_average_or_mode(mode_only)
+    for i in range(len(expected)):
+        assert expected[i] == result[i]
+
+    mean_only = pd.DataFrame([[1, 0, 2, 2], [1, 5, 3, 3], [1, -5, 4, 4]])
+    expected = [1, 0, 3, 3]
+    result = pyreal.explainers.lfc.shap_feature_contribution._get_average_or_mode(mean_only)
+    for i in range(len(expected)):
+        assert expected[i] == result[i]
 
 
 def test_fit_shap(all_models):

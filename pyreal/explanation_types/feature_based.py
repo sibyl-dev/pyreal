@@ -69,6 +69,12 @@ class FeatureBased(Explanation):
                 results.append(row.iloc[order])
         return results
 
+    def get_average_values(self):
+        """
+        Return the expected values of features, for explanations where this is relevant
+        """
+        return self.other_properties.get("average_values", None)
+
     def __getitem__(self, item):
         return self.__class__(
             self.explanation.iloc[item : item + 1], self.values.iloc[item : item + 1]

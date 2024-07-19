@@ -17,7 +17,9 @@ from pyreal.transformers import (
 from pyreal.utils import get_top_contributors
 
 
-def format_feature_contribution_output(explanation, ids=None, series=False, optimized=False):
+def format_feature_contribution_output(
+    explanation, ids=None, series=False, optimized=False, include_average_values=False
+):
     """
     Format Pyreal FeatureContributionExplanation objects into Local Feature Contribution outputs
     Args:
@@ -29,7 +31,8 @@ def format_feature_contribution_output(explanation, ids=None, series=False, opti
             If True, the produce function was passed a series input
         optimized (Boolean):
             If True, return in a simple DataFrame format
-
+        include_average_values (Boolean):
+            If True, include the expected (average) value of each feature in the output
     Returns:
         DataFrame (if series), else {"id" -> DataFrame}
             One dataframe per id, with each row representing a feature, and four columns:
@@ -40,23 +43,36 @@ def format_feature_contribution_output(explanation, ids=None, series=False, opti
         ids = explanation.get().index
     if optimized:
         return explanation.get().set_index(ids), explanation.get_values().set_index(ids)
-    average_mode = _get_average_or_mode(explanation.get_values())
     explanation_dict = {}
     for i, row_id in enumerate(ids):
         contributions = explanation.get().iloc[i, :]
         values = explanation.get_values().iloc[i, :].loc[contributions.index]
-        average_mode = average_mode.loc[contributions.index]
-
         feature_names = contributions.index
 
-        explanation_dict[row_id] = pd.DataFrame.from_dict(
-            {
-                "Feature Name": feature_names.values,
-                "Feature Value": values.values,
-                "Contribution": contributions.values,
-                "Average/Mode": average_mode.values,
-            }
-        )
+        if include_average_values:
+            if explanation.get_average_values() is None:
+                raise ValueError(
+                    "Requested average values to be included in explanation, but explainer did not"
+                    " provide them"
+                )
+            average_mode = explanation.get_average_values()[contributions.index]
+            explanation_dict[row_id] = pd.DataFrame.from_dict(
+                {
+                    "Feature Name": feature_names.values,
+                    "Feature Value": values.values,
+                    "Contribution": contributions.values,
+                    "Average/Mode": average_mode.values,
+                }
+            )
+        else:
+            explanation_dict[row_id] = pd.DataFrame.from_dict(
+                {
+                    "Feature Name": feature_names.values,
+                    "Feature Value": values.values,
+                    "Contribution": contributions.values,
+                }
+            )
+
     if series:
         return explanation_dict[next(iter(explanation_dict))]
     return explanation_dict
@@ -144,23 +160,6 @@ def format_narratives(narratives, ids, series=False, optimized=False):
     if optimized or series:
         return narratives
     return {row_id: narr for row_id, narr in zip(ids, narratives)}
-
-
-def _get_average_or_mode(df):
-    """
-    Gets the average of numeric features and the mode of categorical features
-
-    Args:
-        df (DataFrame):
-            Input
-    Returns:
-        Series
-            Average or mode of every column in df
-    """
-    s = df.select_dtypes(np.number).mean()
-    if len(s) == df.shape[1]:  # all columns are numeric
-        return s
-    return pd.concat((df.drop(s.index, axis=1).mode().iloc[0], s))
 
 
 class RealApp:
@@ -472,7 +471,6 @@ class RealApp:
                     ids=ids,
                     series=series,
                     optimized=not format_output,
-                    **format_kwargs
                 )
             else:
                 explanation = explainer.produce(x_orig, **produce_kwargs)
@@ -482,7 +480,6 @@ class RealApp:
                         ids=ids,
                         series=series,
                         optimized=not format_output,
-                        **format_kwargs
                     )
                 else:
                     return format_output_func(
@@ -692,6 +689,7 @@ class RealApp:
         training_size=None,
         num_features=None,
         select_by="absolute",
+        include_average_values=False,
     ):
         """
         Produce a feature contribution explanation
@@ -722,6 +720,8 @@ class RealApp:
             select_by (one of "absolute", "min", "max"):
                 If `num_features` is not None, method to use for selecting which features to show.
                 Not used if num_features is None
+            include_average_values (Boolean):
+                If True, include the average/mode value of each feature in the output
 
         Returns:
             dictionary (if x_orig is DataFrame) or DataFrame (if x_orig is Series)
@@ -744,6 +744,7 @@ class RealApp:
             force_refit=force_refit,
             training_size=training_size,
             prepare_kwargs={"shap_type": shap_type},
+            format_kwargs={"include_average_values": include_average_values},
         )
         if num_features is not None:
             return {
