@@ -26,6 +26,7 @@
       ~ExampleBasedExplanation.update_explanation
       ~ExampleBasedExplanation.update_values
       ~ExampleBasedExplanation.validate
+      ~ExampleBasedExplanation.validate_other_properties
       ~ExampleBasedExplanation.validate_values
    
    

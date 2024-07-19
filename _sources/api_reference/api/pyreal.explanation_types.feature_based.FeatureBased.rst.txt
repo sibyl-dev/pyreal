@@ -18,12 +18,14 @@
       ~FeatureBased.combine_columns
       ~FeatureBased.get
       ~FeatureBased.get_all
+      ~FeatureBased.get_average_values
       ~FeatureBased.get_explanation
       ~FeatureBased.get_top_features
       ~FeatureBased.get_values
       ~FeatureBased.update_explanation
       ~FeatureBased.update_values
       ~FeatureBased.validate
+      ~FeatureBased.validate_other_properties
       ~FeatureBased.validate_values
    
    

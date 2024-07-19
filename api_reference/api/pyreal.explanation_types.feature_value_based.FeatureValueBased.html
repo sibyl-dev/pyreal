@@ -464,14 +464,16 @@ document.write(`
 :param explanation: wrapped explanation
 :type explanation: object
 :param values: Values corresponding with the object being explained
-:type values: DataFrame of shape (n_instances, n_features) or None</p>
+:type values: DataFrame of shape (n_instances, n_features) or None
+:param other_properties: Other information relevant to the explanation
+:type other_properties: dict</p>
 </dd></dl>
 
 <p class="rubric">Methods</p>
 <table class="autosummary longtable table autosummary">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#pyreal.explanation_types.feature_value_based.FeatureValueBased.__init__" title="pyreal.explanation_types.feature_value_based.FeatureValueBased.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(feature_names, predictions, grid)</p></td>
-<td><p>Set the wrapped explanation to <cite>explanation</cite> and values to <cite>values</cite> and validate :param explanation: wrapped explanation :type explanation: object :param values: Values corresponding with the object being explained :type values: DataFrame of shape (n_instances, n_features) or None</p></td>
+<td><p>Set the wrapped explanation to <cite>explanation</cite> and values to <cite>values</cite> and validate :param explanation: wrapped explanation :type explanation: object :param values: Values corresponding with the object being explained :type values: DataFrame of shape (n_instances, n_features) or None :param other_properties: Other information relevant to the explanation :type other_properties: dict</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">apply_feature_descriptions</span></code>(feature_descriptions)</p></td>
 <td><p>Wrapper method for renaming features.</p></td>
@@ -497,7 +499,10 @@ document.write(`
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">validate</span></code>()</p></td>
 <td><p>Validate that <cite>self.explanation</cite> is a valid <cite>FeatureValueExplanation</cite> :returns: None</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">validate_values</span></code>()</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">validate_other_properties</span></code>()</p></td>
+<td><p>Validate that any additional properties are valid</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">validate_values</span></code>()</p></td>
 <td><p>Validate that <cite>self.values</cite> are valid values for this Explanation.</p></td>
 </tr>
 </tbody>

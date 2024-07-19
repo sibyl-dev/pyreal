@@ -455,25 +455,27 @@ document.write(`
 <h1>pyreal.explanation_types.feature_based.FeatureImportanceExplanation<a class="headerlink" href="#pyreal-explanation-types-feature-based-featureimportanceexplanation" title="Permalink to this heading">#</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="pyreal.explanation_types.feature_based.FeatureImportanceExplanation">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyreal.explanation_types.feature_based.</span></span><span class="sig-name descname"><span class="pre">FeatureImportanceExplanation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">explanation</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">values</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyreal/explanation_types/feature_based.html#FeatureImportanceExplanation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyreal.explanation_types.feature_based.FeatureImportanceExplanation" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyreal.explanation_types.feature_based.</span></span><span class="sig-name descname"><span class="pre">FeatureImportanceExplanation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">explanation</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">values</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">other_properties</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyreal/explanation_types/feature_based.html#FeatureImportanceExplanation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyreal.explanation_types.feature_based.FeatureImportanceExplanation" title="Permalink to this definition">#</a></dt>
 <dd><p>A type wrapper for global feature importance FeatureBased type outputs from explanation
 algorithms. Global feature importance explanations give one numeric value per feature,
 representing that feature’s overall importance to the model’s prediction.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="pyreal.explanation_types.feature_based.FeatureImportanceExplanation.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">explanation</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">values</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyreal.explanation_types.feature_based.FeatureImportanceExplanation.__init__" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">explanation</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">values</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">other_properties</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyreal.explanation_types.feature_based.FeatureImportanceExplanation.__init__" title="Permalink to this definition">#</a></dt>
 <dd><p>Set the wrapped explanation to <cite>explanation</cite> and values to <cite>values</cite> and validate
 :param explanation: wrapped explanation
 :type explanation: object
 :param values: Values corresponding with the object being explained
-:type values: DataFrame of shape (n_instances, n_features) or None</p>
+:type values: DataFrame of shape (n_instances, n_features) or None
+:param other_properties: Other information relevant to the explanation
+:type other_properties: dict</p>
 </dd></dl>
 
 <p class="rubric">Methods</p>
 <table class="autosummary longtable table autosummary">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#pyreal.explanation_types.feature_based.FeatureImportanceExplanation.__init__" title="pyreal.explanation_types.feature_based.FeatureImportanceExplanation.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(explanation[, values])</p></td>
-<td><p>Set the wrapped explanation to <cite>explanation</cite> and values to <cite>values</cite> and validate :param explanation: wrapped explanation :type explanation: object :param values: Values corresponding with the object being explained :type values: DataFrame of shape (n_instances, n_features) or None</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pyreal.explanation_types.feature_based.FeatureImportanceExplanation.__init__" title="pyreal.explanation_types.feature_based.FeatureImportanceExplanation.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(explanation[, values, other_properties])</p></td>
+<td><p>Set the wrapped explanation to <cite>explanation</cite> and values to <cite>values</cite> and validate :param explanation: wrapped explanation :type explanation: object :param values: Values corresponding with the object being explained :type values: DataFrame of shape (n_instances, n_features) or None :param other_properties: Other information relevant to the explanation :type other_properties: dict</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">apply_feature_descriptions</span></code>(feature_descriptions)</p></td>
 <td><p>Apply feature descriptions to explanation</p></td>
@@ -487,23 +489,29 @@ representing that feature’s overall importance to the model’s prediction.</p
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_all</span></code>()</p></td>
 <td><p>Get the explanation and wrapped values as a tuple.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_explanation</span></code>()</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_average_values</span></code>()</p></td>
+<td><p>Return the expected values of features, for explanations where this is relevant</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_explanation</span></code>()</p></td>
 <td><p>Get the explanation wrapped by this type</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_top_features</span></code>([num_features, select_by])</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_top_features</span></code>([num_features, select_by])</p></td>
 <td><p>Get the top features from the explanation :returns:</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_values</span></code>()</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_values</span></code>()</p></td>
 <td><p>Return the values associated with the explanation</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">update_explanation</span></code>(new_explanation[, ...])</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">update_explanation</span></code>(new_explanation[, ...])</p></td>
 <td><p>Sets this object's explanation to the new value.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">update_values</span></code>(values[, inplace])</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">update_values</span></code>(values[, inplace])</p></td>
 <td><p>Updates this objects values, and validates</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">validate</span></code>()</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">validate</span></code>()</p></td>
 <td><p>Validate that <cite>self.explanation</cite> is a valid single-row <cite>DataFrame</cite> :returns: None</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">validate_other_properties</span></code>()</p></td>
+<td><p>Validate that any additional properties are valid</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">validate_values</span></code>()</p></td>
 <td><p>Validate that <cite>self.values</cite> are valid values for this Explanation.</p></td>

@@ -22,6 +22,7 @@
       ~Explanation.update_explanation
       ~Explanation.update_values
       ~Explanation.validate
+      ~Explanation.validate_other_properties
       ~Explanation.validate_values
    
    

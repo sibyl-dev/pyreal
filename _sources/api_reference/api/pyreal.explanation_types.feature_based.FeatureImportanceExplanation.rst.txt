@@ -18,12 +18,14 @@
       ~FeatureImportanceExplanation.combine_columns
       ~FeatureImportanceExplanation.get
       ~FeatureImportanceExplanation.get_all
+      ~FeatureImportanceExplanation.get_average_values
       ~FeatureImportanceExplanation.get_explanation
       ~FeatureImportanceExplanation.get_top_features
       ~FeatureImportanceExplanation.get_values
       ~FeatureImportanceExplanation.update_explanation
       ~FeatureImportanceExplanation.update_values
       ~FeatureImportanceExplanation.validate
+      ~FeatureImportanceExplanation.validate_other_properties
       ~FeatureImportanceExplanation.validate_values
    
    

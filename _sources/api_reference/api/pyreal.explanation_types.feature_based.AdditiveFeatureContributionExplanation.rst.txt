@@ -18,12 +18,14 @@
       ~AdditiveFeatureContributionExplanation.combine_columns
       ~AdditiveFeatureContributionExplanation.get
       ~AdditiveFeatureContributionExplanation.get_all
+      ~AdditiveFeatureContributionExplanation.get_average_values
       ~AdditiveFeatureContributionExplanation.get_explanation
       ~AdditiveFeatureContributionExplanation.get_top_features
       ~AdditiveFeatureContributionExplanation.get_values
       ~AdditiveFeatureContributionExplanation.update_explanation
       ~AdditiveFeatureContributionExplanation.update_values
       ~AdditiveFeatureContributionExplanation.validate
+      ~AdditiveFeatureContributionExplanation.validate_other_properties
       ~AdditiveFeatureContributionExplanation.validate_values
    
    

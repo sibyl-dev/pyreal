@@ -22,6 +22,7 @@
       ~PartialDependenceExplanation.update_explanation
       ~PartialDependenceExplanation.update_values
       ~PartialDependenceExplanation.validate
+      ~PartialDependenceExplanation.validate_other_properties
       ~PartialDependenceExplanation.validate_values
    
    

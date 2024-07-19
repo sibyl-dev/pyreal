@@ -322,8 +322,7 @@ document.write(`
                 <article class="bd-article" role="main">
                   
   <h1>Source code for pyreal.realapp.realapp</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">from</span> <span class="nn">openai</span> <span class="kn">import</span> <span class="n">OpenAI</span>
 
 <span class="kn">from</span> <span class="nn">pyreal.explainers</span> <span class="kn">import</span> <span class="p">(</span>
@@ -341,7 +340,9 @@ document.write(`
 <span class="kn">from</span> <span class="nn">pyreal.utils</span> <span class="kn">import</span> <span class="n">get_top_contributors</span>
 
 
-<span class="k">def</span> <span class="nf">format_feature_contribution_output</span><span class="p">(</span><span class="n">explanation</span><span class="p">,</span> <span class="n">ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">series</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">optimized</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">format_feature_contribution_output</span><span class="p">(</span>
+    <span class="n">explanation</span><span class="p">,</span> <span class="n">ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">series</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">optimized</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">include_average_values</span><span class="o">=</span><span class="kc">False</span>
+<span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Format Pyreal FeatureContributionExplanation objects into Local Feature Contribution outputs</span>
 <span class="sd">    Args:</span>
@@ -353,7 +354,8 @@ document.write(`
 <span class="sd">            If True, the produce function was passed a series input</span>
 <span class="sd">        optimized (Boolean):</span>
 <span class="sd">            If True, return in a simple DataFrame format</span>
-
+<span class="sd">        include_average_values (Boolean):</span>
+<span class="sd">            If True, include the expected (average) value of each feature in the output</span>
 <span class="sd">    Returns:</span>
 <span class="sd">        DataFrame (if series), else {&quot;id&quot; -&gt; DataFrame}</span>
 <span class="sd">            One dataframe per id, with each row representing a feature, and four columns:</span>
@@ -364,23 +366,36 @@ document.write(`
         <span class="n">ids</span> <span class="o">=</span> <span class="n">explanation</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">index</span>
     <span class="k">if</span> <span class="n">optimized</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">explanation</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="n">ids</span><span class="p">),</span> <span class="n">explanation</span><span class="o">.</span><span class="n">get_values</span><span class="p">()</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="n">ids</span><span class="p">)</span>
-    <span class="n">average_mode</span> <span class="o">=</span> <span class="n">_get_average_or_mode</span><span class="p">(</span><span class="n">explanation</span><span class="o">.</span><span class="n">get_values</span><span class="p">())</span>
     <span class="n">explanation_dict</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">row_id</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">ids</span><span class="p">):</span>
         <span class="n">contributions</span> <span class="o">=</span> <span class="n">explanation</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:]</span>
         <span class="n">values</span> <span class="o">=</span> <span class="n">explanation</span><span class="o">.</span><span class="n">get_values</span><span class="p">()</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:]</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">contributions</span><span class="o">.</span><span class="n">index</span><span class="p">]</span>
-        <span class="n">average_mode</span> <span class="o">=</span> <span class="n">average_mode</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">contributions</span><span class="o">.</span><span class="n">index</span><span class="p">]</span>
-
         <span class="n">feature_names</span> <span class="o">=</span> <span class="n">contributions</span><span class="o">.</span><span class="n">index</span>
 
-        <span class="n">explanation_dict</span><span class="p">[</span><span class="n">row_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span>
-            <span class="p">{</span>
-                <span class="s2">&quot;Feature Name&quot;</span><span class="p">:</span> <span class="n">feature_names</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
-                <span class="s2">&quot;Feature Value&quot;</span><span class="p">:</span> <span class="n">values</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
-                <span class="s2">&quot;Contribution&quot;</span><span class="p">:</span> <span class="n">contributions</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
-                <span class="s2">&quot;Average/Mode&quot;</span><span class="p">:</span> <span class="n">average_mode</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
-            <span class="p">}</span>
-        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">include_average_values</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">explanation</span><span class="o">.</span><span class="n">get_average_values</span><span class="p">()</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s2">&quot;Requested average values to be included in explanation, but explainer did not&quot;</span>
+                    <span class="s2">&quot; provide them&quot;</span>
+                <span class="p">)</span>
+            <span class="n">average_mode</span> <span class="o">=</span> <span class="n">explanation</span><span class="o">.</span><span class="n">get_average_values</span><span class="p">()[</span><span class="n">contributions</span><span class="o">.</span><span class="n">index</span><span class="p">]</span>
+            <span class="n">explanation_dict</span><span class="p">[</span><span class="n">row_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span>
+                <span class="p">{</span>
+                    <span class="s2">&quot;Feature Name&quot;</span><span class="p">:</span> <span class="n">feature_names</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
+                    <span class="s2">&quot;Feature Value&quot;</span><span class="p">:</span> <span class="n">values</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
+                    <span class="s2">&quot;Contribution&quot;</span><span class="p">:</span> <span class="n">contributions</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
+                    <span class="s2">&quot;Average/Mode&quot;</span><span class="p">:</span> <span class="n">average_mode</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
+                <span class="p">}</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">explanation_dict</span><span class="p">[</span><span class="n">row_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span>
+                <span class="p">{</span>
+                    <span class="s2">&quot;Feature Name&quot;</span><span class="p">:</span> <span class="n">feature_names</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
+                    <span class="s2">&quot;Feature Value&quot;</span><span class="p">:</span> <span class="n">values</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
+                    <span class="s2">&quot;Contribution&quot;</span><span class="p">:</span> <span class="n">contributions</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
+                <span class="p">}</span>
+            <span class="p">)</span>
+
     <span class="k">if</span> <span class="n">series</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">explanation_dict</span><span class="p">[</span><span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">explanation_dict</span><span class="p">))]</span>
     <span class="k">return</span> <span class="n">explanation_dict</span>
@@ -468,23 +483,6 @@ document.write(`
     <span class="k">if</span> <span class="n">optimized</span> <span class="ow">or</span> <span class="n">series</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">narratives</span>
     <span class="k">return</span> <span class="p">{</span><span class="n">row_id</span><span class="p">:</span> <span class="n">narr</span> <span class="k">for</span> <span class="n">row_id</span><span class="p">,</span> <span class="n">narr</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">ids</span><span class="p">,</span> <span class="n">narratives</span><span class="p">)}</span>
-
-
-<span class="k">def</span> <span class="nf">_get_average_or_mode</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Gets the average of numeric features and the mode of categorical features</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">        df (DataFrame):</span>
-<span class="sd">            Input</span>
-<span class="sd">    Returns:</span>
-<span class="sd">        Series</span>
-<span class="sd">            Average or mode of every column in df</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">s</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">number</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
-    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">==</span> <span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>  <span class="c1"># all columns are numeric</span>
-        <span class="k">return</span> <span class="n">s</span>
-    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">((</span><span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">mode</span><span class="p">()</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">s</span><span class="p">))</span>
 
 
 <div class="viewcode-block" id="RealApp"><a class="viewcode-back" href="../../../api_reference/api/pyreal.RealApp.html#pyreal.RealApp">[docs]</a><span class="k">class</span> <span class="nc">RealApp</span><span class="p">:</span>
@@ -796,7 +794,6 @@ document.write(`
                     <span class="n">ids</span><span class="o">=</span><span class="n">ids</span><span class="p">,</span>
                     <span class="n">series</span><span class="o">=</span><span class="n">series</span><span class="p">,</span>
                     <span class="n">optimized</span><span class="o">=</span><span class="ow">not</span> <span class="n">format_output</span><span class="p">,</span>
-                    <span class="o">**</span><span class="n">format_kwargs</span>
                 <span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">explanation</span> <span class="o">=</span> <span class="n">explainer</span><span class="o">.</span><span class="n">produce</span><span class="p">(</span><span class="n">x_orig</span><span class="p">,</span> <span class="o">**</span><span class="n">produce_kwargs</span><span class="p">)</span>
@@ -806,7 +803,6 @@ document.write(`
                         <span class="n">ids</span><span class="o">=</span><span class="n">ids</span><span class="p">,</span>
                         <span class="n">series</span><span class="o">=</span><span class="n">series</span><span class="p">,</span>
                         <span class="n">optimized</span><span class="o">=</span><span class="ow">not</span> <span class="n">format_output</span><span class="p">,</span>
-                        <span class="o">**</span><span class="n">format_kwargs</span>
                     <span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="k">return</span> <span class="n">format_output_func</span><span class="p">(</span>
@@ -1016,6 +1012,7 @@ document.write(`
         <span class="n">training_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">num_features</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">select_by</span><span class="o">=</span><span class="s2">&quot;absolute&quot;</span><span class="p">,</span>
+        <span class="n">include_average_values</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Produce a feature contribution explanation</span>
@@ -1046,6 +1043,8 @@ document.write(`
 <span class="sd">            select_by (one of &quot;absolute&quot;, &quot;min&quot;, &quot;max&quot;):</span>
 <span class="sd">                If `num_features` is not None, method to use for selecting which features to show.</span>
 <span class="sd">                Not used if num_features is None</span>
+<span class="sd">            include_average_values (Boolean):</span>
+<span class="sd">                If True, include the average/mode value of each feature in the output</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            dictionary (if x_orig is DataFrame) or DataFrame (if x_orig is Series)</span>
@@ -1068,6 +1067,7 @@ document.write(`
             <span class="n">force_refit</span><span class="o">=</span><span class="n">force_refit</span><span class="p">,</span>
             <span class="n">training_size</span><span class="o">=</span><span class="n">training_size</span><span class="p">,</span>
             <span class="n">prepare_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;shap_type&quot;</span><span class="p">:</span> <span class="n">shap_type</span><span class="p">},</span>
+            <span class="n">format_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;include_average_values&quot;</span><span class="p">:</span> <span class="n">include_average_values</span><span class="p">},</span>
         <span class="p">)</span>
         <span class="k">if</span> <span class="n">num_features</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="p">{</span>

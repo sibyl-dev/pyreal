@@ -22,6 +22,7 @@
       ~FeatureValueBased.update_explanation
       ~FeatureValueBased.update_values
       ~FeatureValueBased.validate
+      ~FeatureValueBased.validate_other_properties
       ~FeatureValueBased.validate_values
    
    

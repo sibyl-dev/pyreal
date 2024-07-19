@@ -26,6 +26,7 @@
       ~SimilarExampleExplanation.update_explanation
       ~SimilarExampleExplanation.update_values
       ~SimilarExampleExplanation.validate
+      ~SimilarExampleExplanation.validate_other_properties
       ~SimilarExampleExplanation.validate_values
    
    
