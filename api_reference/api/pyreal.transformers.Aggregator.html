@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>pyreal.explanation_types.base.Explanation.validate_values &#8212; Pyreal 0.4.9 documentation</title>
+    <title>pyreal.transformers.Aggregator &#8212; Pyreal 0.4.9 documentation</title>
   
   
   
@@ -38,12 +38,12 @@
     <script src="../../_static/doctools.js"></script>
     <script src="../../_static/sphinx_highlight.js"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'api_reference/api/pyreal.explanation_types.base.Explanation.validate_values';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'api_reference/api/pyreal.transformers.Aggregator';</script>
     <link rel="icon" href="../../_static/dai-logo-white.ico"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="pyreal.explanation_types.feature_based.FeatureBased" href="pyreal.explanation_types.feature_based.FeatureBased.html" />
-    <link rel="prev" title="pyreal.explanation_types.base.Explanation.validate" href="pyreal.explanation_types.base.Explanation.validate.html" />
+    <link rel="next" title="Explanation Type" href="../explanation_types.html" />
+    <link rel="prev" title="pyreal.transformers.NarrativeTransformer" href="pyreal.transformers.NarrativeTransformer.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -321,7 +321,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="pyreal.explainers.SimilarExamples.produce.html">pyreal.explainers.SimilarExamples.produce</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../transformer.html">Transformer</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../transformer.html">Transformer</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="pyreal.transformers.Transformer.html">pyreal.transformers.Transformer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.transformers.FeatureSelectTransformer.html">pyreal.transformers.FeatureSelectTransformer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.transformers.ColumnDropTransformer.html">pyreal.transformers.ColumnDropTransformer</a></li>
@@ -348,10 +348,10 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="pyreal.transformers.TimeSeriesPadder.html">pyreal.transformers.TimeSeriesPadder</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.transformers.LatLongToPlace.html">pyreal.transformers.LatLongToPlace</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.transformers.NarrativeTransformer.html">pyreal.transformers.NarrativeTransformer</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyreal.transformers.Aggregator.html">pyreal.transformers.Aggregator</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">pyreal.transformers.Aggregator</a></li>
 </ul>
 </li>
-<li class="toctree-l1 current active has-children"><a class="reference internal" href="../explanation_types.html">Explanation Type</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../explanation_types.html">Explanation Type</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.explanation_types.base.Explanation.html">pyreal.explanation_types.base.Explanation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.explanation_types.base.Explanation.get.html">pyreal.explanation_types.base.Explanation.get</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.explanation_types.base.Explanation.get_explanation.html">pyreal.explanation_types.base.Explanation.get_explanation</a></li>
@@ -360,7 +360,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="pyreal.explanation_types.base.Explanation.apply_feature_descriptions.html">pyreal.explanation_types.base.Explanation.apply_feature_descriptions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.explanation_types.base.Explanation.update_values.html">pyreal.explanation_types.base.Explanation.update_values</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.explanation_types.base.Explanation.validate.html">pyreal.explanation_types.base.Explanation.validate</a></li>
-<li class="toctree-l2 current active"><a class="current reference internal" href="#">pyreal.explanation_types.base.Explanation.validate_values</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyreal.explanation_types.base.Explanation.validate_values.html">pyreal.explanation_types.base.Explanation.validate_values</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.explanation_types.feature_based.FeatureBased.html">pyreal.explanation_types.feature_based.FeatureBased</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.explanation_types.feature_based.FeatureImportanceExplanation.html">pyreal.explanation_types.feature_based.FeatureImportanceExplanation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.explanation_types.feature_based.AdditiveFeatureImportanceExplanation.html">pyreal.explanation_types.feature_based.AdditiveFeatureImportanceExplanation</a></li>
@@ -433,9 +433,9 @@ document.write(`
     <li class="breadcrumb-item"><a href="../index.html" class="nav-link">API Reference</a></li>
     
     
-    <li class="breadcrumb-item"><a href="../explanation_types.html" class="nav-link">Explanation Type</a></li>
+    <li class="breadcrumb-item"><a href="../transformer.html" class="nav-link">Transformer</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page">pyreal.explanation_types.base.Explanation.validate_values</li>
+    <li class="breadcrumb-item active" aria-current="page">pyreal.transformers.Aggregator</li>
   </ul>
 </nav>
 </div>
@@ -452,20 +452,118 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <section id="pyreal-explanation-types-base-explanation-validate-values">
-<h1>pyreal.explanation_types.base.Explanation.validate_values<a class="headerlink" href="#pyreal-explanation-types-base-explanation-validate-values" title="Permalink to this heading">#</a></h1>
+  <section id="pyreal-transformers-aggregator">
+<h1>pyreal.transformers.Aggregator<a class="headerlink" href="#pyreal-transformers-aggregator" title="Permalink to this heading">#</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="pyreal.transformers.Aggregator">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyreal.transformers.</span></span><span class="sig-name descname"><span class="pre">Aggregator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mappings</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">func</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'sum'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">drop_original</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">missing</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'ignore'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyreal/transformers/aggregator.html#Aggregator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyreal.transformers.Aggregator" title="Permalink to this definition">#</a></dt>
+<dd><p>Aggregate features into a single parent feature class</p>
 <dl class="py method">
-<dt class="sig sig-object py" id="pyreal.explanation_types.base.Explanation.validate_values">
-<span class="sig-prename descclassname"><span class="pre">Explanation.</span></span><span class="sig-name descname"><span class="pre">validate_values</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyreal/explanation_types/base.html#Explanation.validate_values"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyreal.explanation_types.base.Explanation.validate_values" title="Permalink to this definition">#</a></dt>
-<dd><p>Validate that <cite>self.values</cite> are valid values for this Explanation.</p>
+<dt class="sig sig-object py" id="pyreal.transformers.Aggregator.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mappings</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">func</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'sum'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">drop_original</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">missing</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'ignore'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyreal/transformers/aggregator.html#Aggregator.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyreal.transformers.Aggregator.__init__" title="Permalink to this definition">#</a></dt>
+<dd><p>Initialize a new Aggregator object</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>None</p>
-</dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>AssertionException</strong> – if <cite>self.values</cite> is invalid</p>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mappings</strong> (<em>Mappings</em>) – A Mappings object representing the column relationships
+(see Mappings.generate_mappings to produce)</p></li>
+<li><p><strong>func</strong> (<em>callable</em><em> or </em><em>one</em><em> of </em><em>[</em><em>&quot;sum&quot;</em><em>, </em><em>&quot;mean&quot;</em><em>, </em><em>&quot;max&quot;</em><em>, </em><em>&quot;min&quot;</em><em>, </em><em>&quot;remove&quot;</em><em>]</em>) – The function to use to aggregate the features. If set to “remove”, the parent
+feature will be given None values (use in cases where you want to aggregate
+explanations on features, but no valid aggregation exists)</p></li>
+<li><p><strong>drop_original</strong> (<em>bool</em>) – Whether to drop the original features after aggregation</p></li>
+<li><p><strong>missing</strong> (<em>str</em>) – How to handle values in the mappings but not the transform data.
+One of [“ignore”, “raise”]
+If “ignore”, parent features will be made out of any child features that exist. If
+no child features exist, the parent feature will not be added.
+If “raise”, an error will be raised if any child features are missing</p></li>
+</ul>
 </dd>
 </dl>
+</dd></dl>
+
+<p class="rubric">Methods</p>
+<table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pyreal.transformers.Aggregator.__init__" title="pyreal.transformers.Aggregator.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(mappings[, func, drop_original, ...])</p></td>
+<td><p>Initialize a new Aggregator object</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">data_transform</span></code>(X)</p></td>
+<td><p>Transform the input data, aggregating the features as specified in the mappings</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit</span></code>(x, **params)</p></td>
+<td><p>Fit this transformer to data</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit_transform</span></code>(x, **fit_params)</p></td>
+<td><p>Fits this transformer to data and then transforms the same data</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">inverse_data_transform</span></code>(x_new)</p></td>
+<td><p>Wrapper for inverse_data_transform.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">inverse_transform</span></code>(x_new)</p></td>
+<td><p>Transforms data <cite>x_new</cite> from new feature space back into the original feature space.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">inverse_transform_explanation</span></code>(explanation)</p></td>
+<td><p>Transforms the explanation from the second feature space handled by this transformer to the first.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">inverse_transform_explanation_additive_feature_contribution</span></code>(...)</p></td>
+<td><p>Inverse transforms additive feature contribution explanations</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">inverse_transform_explanation_additive_feature_importance</span></code>(...)</p></td>
+<td><p>Inverse transforms additive feature importance explanations</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">inverse_transform_explanation_decision_tree</span></code>(...)</p></td>
+<td><p>Inverse transforms decision-tree explanations</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">inverse_transform_explanation_example</span></code>(...)</p></td>
+<td><p>Inverse transforms example-based explanations</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">inverse_transform_explanation_feature_based</span></code>(...)</p></td>
+<td><p>Inverse transforms feature-based explanations</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">inverse_transform_explanation_feature_contribution</span></code>(...)</p></td>
+<td><p>Inverse transforms feature contribution explanations</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">inverse_transform_explanation_feature_importance</span></code>(...)</p></td>
+<td><p>Inverse transforms feature importance explanations</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">inverse_transform_explanation_similar_example</span></code>(...)</p></td>
+<td><p>Inverse transforms similar-example-based explanations</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_flags</span></code>([model, interpret, algorithm])</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform</span></code>(x)</p></td>
+<td><p>Wrapper for data_transform.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_explanation</span></code>(explanation)</p></td>
+<td><p>Transforms the explanation from the first feature space handled by this transformer to the second.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_explanation_additive_feature_contribution</span></code>(...)</p></td>
+<td><p>Sum together the contributions in explanation from the child features to get the parent features</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_explanation_additive_feature_importance</span></code>(...)</p></td>
+<td><p>Sum together the importances in explanation from the child features to get the parent features</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_explanation_decision_tree</span></code>(explanation)</p></td>
+<td><p>Inverse transforms feature-based explanations</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_explanation_example</span></code>(explanation)</p></td>
+<td><p>Transforms example-based explanations</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_explanation_feature_based</span></code>(explanation)</p></td>
+<td><p>Transforms feature-based explanations</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_explanation_feature_contribution</span></code>(...)</p></td>
+<td><p>Transforms feature contribution explanations</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_explanation_feature_importance</span></code>(...)</p></td>
+<td><p>Transforms feature importance explanations</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_explanation_similar_example</span></code>(...)</p></td>
+<td><p>Transforms example-based explanations</p></td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 </section>
@@ -482,20 +580,20 @@ document.write(`
     <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
-       href="pyreal.explanation_types.base.Explanation.validate.html"
+       href="pyreal.transformers.NarrativeTransformer.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">pyreal.explanation_types.base.Explanation.validate</p>
+        <p class="prev-next-title">pyreal.transformers.NarrativeTransformer</p>
       </div>
     </a>
     <a class="right-next"
-       href="pyreal.explanation_types.feature_based.FeatureBased.html"
+       href="../explanation_types.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">pyreal.explanation_types.feature_based.FeatureBased</p>
+        <p class="prev-next-title">Explanation Type</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -517,13 +615,16 @@ document.write(`
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pyreal.explanation_types.base.Explanation.validate_values"><code class="docutils literal notranslate"><span class="pre">Explanation.validate_values()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pyreal.transformers.Aggregator"><code class="docutils literal notranslate"><span class="pre">Aggregator</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyreal.transformers.Aggregator.__init__"><code class="docutils literal notranslate"><span class="pre">Aggregator.__init__()</span></code></a></li>
+</ul>
+</li>
 </ul>
   </nav></div>
 
   <div class="sidebar-secondary-item">
   <div class="tocsection sourcelink">
-    <a href="../../_sources/api_reference/api/pyreal.explanation_types.base.Explanation.validate_values.rst.txt">
+    <a href="../../_sources/api_reference/api/pyreal.transformers.Aggregator.rst.txt">
       <i class="fa-solid fa-file-lines"></i> Show Source
     </a>
   </div>

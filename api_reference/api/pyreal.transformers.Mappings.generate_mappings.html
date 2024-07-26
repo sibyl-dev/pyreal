@@ -348,6 +348,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="pyreal.transformers.TimeSeriesPadder.html">pyreal.transformers.TimeSeriesPadder</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.transformers.LatLongToPlace.html">pyreal.transformers.LatLongToPlace</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyreal.transformers.NarrativeTransformer.html">pyreal.transformers.NarrativeTransformer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyreal.transformers.Aggregator.html">pyreal.transformers.Aggregator</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../explanation_types.html">Explanation Type</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -455,16 +456,20 @@ document.write(`
 <h1>pyreal.transformers.Mappings.generate_mappings<a class="headerlink" href="#pyreal-transformers-mappings-generate-mappings" title="Permalink to this heading">#</a></h1>
 <dl class="py method">
 <dt class="sig sig-object py" id="pyreal.transformers.Mappings.generate_mappings">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Mappings.</span></span><span class="sig-name descname"><span class="pre">generate_mappings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">categorical_to_one_hot</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">one_hot_to_categorical</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataframe</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyreal/transformers/one_hot_encode.html#Mappings.generate_mappings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyreal.transformers.Mappings.generate_mappings" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Mappings.</span></span><span class="sig-name descname"><span class="pre">generate_mappings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">one_to_many</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">many_to_one</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataframe</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyreal/transformers/aggregator.html#Mappings.generate_mappings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyreal.transformers.Mappings.generate_mappings" title="Permalink to this definition">#</a></dt>
 <dd><p>Generate a new Mappings object using one of the input formats
 All but one keyword should be None</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>categorical_to_one_hot</strong> – {categorical_feature_name : {OHE_feature_name : value, …}, … }</p></li>
-<li><p><strong>one_hot_to_categorical</strong> – {OHE_feature_name : (categorical_feature_name, value), …}</p></li>
-<li><p><strong>dataframe</strong> – DataFrame with three columns named [categorical, one_hot_encoded, values]
-ie., [[“A_a”, “A”, “a”], [“A_b”, “B”, “b”]]</p></li>
+<li><p><strong>one_to_many</strong> – {parent_feature_name : [child_feature_name_1], …}</p></li>
+<li><p><strong>many_to_one</strong> – {child_feature_name_1 : parent_feature_name, …}</p></li>
+<li><p><strong>dataframe</strong> – <p>DataFrame with three columns named [parent, child]
+ie., [[“Feat1”, “feat1a”],</p>
+<blockquote>
+<div><p>[“Feat1”, “feat1b”]]</p>
+</div></blockquote>
+</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>

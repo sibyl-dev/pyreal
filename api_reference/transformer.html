@@ -348,6 +348,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="api/pyreal.transformers.TimeSeriesPadder.html">pyreal.transformers.TimeSeriesPadder</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/pyreal.transformers.LatLongToPlace.html">pyreal.transformers.LatLongToPlace</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/pyreal.transformers.NarrativeTransformer.html">pyreal.transformers.NarrativeTransformer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/pyreal.transformers.Aggregator.html">pyreal.transformers.Aggregator</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="explanation_types.html">Explanation Type</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -512,7 +513,7 @@ document.write(`
 <tr class="row-odd"><td><p><a class="reference internal" href="api/pyreal.transformers.MappingsOneHotDecoder.html#pyreal.transformers.MappingsOneHotDecoder" title="pyreal.transformers.MappingsOneHotDecoder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MappingsOneHotDecoder</span></code></a>(mappings, **kwargs)</p></td>
 <td><p>Converts data from one-hot encoded form to categorical, with feature names based on a mappings object which includes two dictionaries</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/pyreal.transformers.Mappings.generate_mappings.html#pyreal.transformers.Mappings.generate_mappings" title="pyreal.transformers.Mappings.generate_mappings"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Mappings.generate_mappings</span></code></a>([...])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/pyreal.transformers.Mappings.generate_mappings.html#pyreal.transformers.Mappings.generate_mappings" title="pyreal.transformers.Mappings.generate_mappings"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Mappings.generate_mappings</span></code></a>([one_to_many, ...])</p></td>
 <td><p>Generate a new Mappings object using one of the input formats All but one keyword should be None</p></td>
 </tr>
 </tbody>
@@ -605,6 +606,16 @@ document.write(`
 </tbody>
 </table>
 </section>
+<section id="aggregating-transformers">
+<h2>Aggregating Transformers<a class="headerlink" href="#aggregating-transformers" title="Permalink to this heading">#</a></h2>
+<table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/pyreal.transformers.Aggregator.html#pyreal.transformers.Aggregator" title="pyreal.transformers.Aggregator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Aggregator</span></code></a>(mappings[, func, drop_original, ...])</p></td>
+<td><p>Aggregate features into a single parent feature class</p></td>
+</tr>
+</tbody>
+</table>
+</section>
 </section>
 
 
@@ -665,6 +676,7 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#time-series-padders">Time Series Padders</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#geo-transformers">Geo Transformers</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#narrative-transformers">Narrative Transformers</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#aggregating-transformers">Aggregating Transformers</a></li>
 </ul>
   </nav></div>
 

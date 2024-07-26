@@ -1,0 +1,47 @@
+﻿pyreal.transformers.Aggregator
+==============================
+
+.. currentmodule:: pyreal.transformers
+
+.. autoclass:: Aggregator
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~Aggregator.__init__
+      ~Aggregator.data_transform
+      ~Aggregator.fit
+      ~Aggregator.fit_transform
+      ~Aggregator.inverse_data_transform
+      ~Aggregator.inverse_transform
+      ~Aggregator.inverse_transform_explanation
+      ~Aggregator.inverse_transform_explanation_additive_feature_contribution
+      ~Aggregator.inverse_transform_explanation_additive_feature_importance
+      ~Aggregator.inverse_transform_explanation_decision_tree
+      ~Aggregator.inverse_transform_explanation_example
+      ~Aggregator.inverse_transform_explanation_feature_based
+      ~Aggregator.inverse_transform_explanation_feature_contribution
+      ~Aggregator.inverse_transform_explanation_feature_importance
+      ~Aggregator.inverse_transform_explanation_similar_example
+      ~Aggregator.set_flags
+      ~Aggregator.transform
+      ~Aggregator.transform_explanation
+      ~Aggregator.transform_explanation_additive_feature_contribution
+      ~Aggregator.transform_explanation_additive_feature_importance
+      ~Aggregator.transform_explanation_decision_tree
+      ~Aggregator.transform_explanation_example
+      ~Aggregator.transform_explanation_feature_based
+      ~Aggregator.transform_explanation_feature_contribution
+      ~Aggregator.transform_explanation_feature_importance
+      ~Aggregator.transform_explanation_similar_example
+   
+   
+
+   
+   
+   
