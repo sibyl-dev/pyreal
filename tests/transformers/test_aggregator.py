@@ -170,3 +170,14 @@ def test_transform_additive_importance(mappings):
 
     expected = pd.DataFrame([[3, 3, 10]], columns=["parent1", "parent2", "extra"])
     pd.testing.assert_frame_equal(result[["parent1", "parent2", "extra"]], expected)
+
+
+def test_transform_additive_contributions_raise(mappings):
+    contributions = pd.DataFrame(
+        [[1, 2, 3, 10], [4, 5, 6, 10]], columns=["child1", "child2", "child3", "extra"]
+    )
+    explanation = AdditiveFeatureContributionExplanation(contributions)
+
+    agg = Aggregator(mappings, func=max, missing="raise")
+    with pytest.raises(ValueError):
+        agg.transform_explanation(explanation).get()
