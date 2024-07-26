@@ -1,6 +1,6 @@
 import pandas as pd
 
-from pyreal.transformers.base import TransformerBase
+from pyreal.transformers.base import BreakingTransformError, TransformerBase
 
 
 def _generate_many_to_one(one_to_many):
@@ -176,6 +176,17 @@ class Aggregator(TransformerBase):
         """
         return explanation.update_explanation(
             _helper_sum_columns(explanation.get(), self.mappings, self.missing)
+        )
+
+    def inverse_transform_explanation(self, x_new):
+        """
+        Currently do not support reversing aggregations on explanations
+        """
+        raise BreakingTransformError("Aggregator does not support inverse transform")
+
+    def transform_explanation_feature_based(self, explanation):
+        raise BreakingTransformError(
+            "Aggregator does not support transform explanation on this explanation type"
         )
 
 
