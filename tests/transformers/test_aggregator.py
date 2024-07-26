@@ -59,8 +59,8 @@ def test_generate_mappings():
     assert test_mappings.many_to_one == many_to_one
 
 
-def test_fit(mapping_input):
-    agg = Aggregator(mapping_input)
+def test_fit(mappings):
+    agg = Aggregator(mappings)
     assert agg.fit(pd.DataFrame([])) == agg  # aggregator does not define custom fit
 
 

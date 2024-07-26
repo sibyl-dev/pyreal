@@ -3,10 +3,10 @@ import pytest
 from pandas.testing import assert_frame_equal
 
 from pyreal.transformers import (
-    Mappings,
     MappingsOneHotDecoder,
     MappingsOneHotEncoder,
     OneHotEncoder,
+    OneHotMappings,
 )
 
 
@@ -98,9 +98,9 @@ dataframe = pd.DataFrame(
     ],
     columns=["one_hot_encoded", "categorical", "value"],
 )
-mappings_ctoh = Mappings.generate_mappings(categorical_to_one_hot=categorical_to_one_hot)
-mappings_ohtc = Mappings.generate_mappings(one_hot_to_categorical=one_hot_to_categorical)
-mappings_df = Mappings.generate_mappings(dataframe=dataframe)
+mappings_ctoh = OneHotMappings.generate_mappings(categorical_to_one_hot=categorical_to_one_hot)
+mappings_ohtc = OneHotMappings.generate_mappings(one_hot_to_categorical=one_hot_to_categorical)
+mappings_df = OneHotMappings.generate_mappings(dataframe=dataframe)
 mappings_choices = [mappings_ctoh, mappings_ohtc, mappings_df]
 
 
