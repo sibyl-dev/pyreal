@@ -1,3 +1,5 @@
+import pandas as pd
+
 from pyreal.transformers.base import TransformerBase
 
 
@@ -135,3 +137,53 @@ class Aggregator(TransformerBase):
         if self.drop_original:
             X = X.drop(columns=list(self.mappings.many_to_one.keys()), errors="ignore")
         return X
+
+    def transform_explanation_additive_feature_contribution(self, explanation):
+        """
+        Sum together the contributions in explanation from the child features to get the
+        parent features
+
+        Args:
+            explanation (AdditiveFeatureContributionExplanation):
+                The explanation to transform
+        """
+        return explanation.update_explanation(
+            _helper_sum_columns(explanation.get(), self.mappings, self.missing)
+        )
+
+    def transform_explanation_additive_feature_importance(self, explanation):
+        """
+        Sum together the importances in explanation from the child features to get the
+        parent features
+
+        Args:
+            explanation (AdditiveFeatureImportanceExplanation):
+                The explanation to transform
+        """
+        return explanation.update_explanation(
+            _helper_sum_columns(explanation.get(), self.mappings, self.missing)
+        )
+
+
+def _helper_sum_columns(df, mappings, missing):
+    # Remove any children not present in df
+    if missing == "ignore":
+        one_to_many = {
+            parent: [child for child in children if child in df]
+            for parent, children in mappings.one_to_many.items()
+        }
+
+        one_to_many = {parent: children for parent, children in one_to_many.items() if children}
+    else:
+        one_to_many = mappings.one_to_many
+
+    if missing == "raise":
+        if not all(child in df for children in one_to_many.values() for child in children):
+            raise ValueError("Missing child features")
+
+    mappings = Mappings.generate_mappings(one_to_many=one_to_many)
+
+    parents = pd.DataFrame(
+        {parent: df[children].sum(axis=1) for parent, children in mappings.one_to_many.items()}
+    )
+    return pd.concat([df.drop(columns=list(mappings.many_to_one.keys())), parents], axis=1)

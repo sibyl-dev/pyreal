@@ -1,6 +1,10 @@
 from pyreal.transformers.aggregator import Mappings, Aggregator
 import pandas as pd
 import pytest
+from pyreal.explanation_types.feature_based import (
+    AdditiveFeatureImportanceExplanation,
+    AdditiveFeatureContributionExplanation,
+)
 
 
 @pytest.fixture
@@ -142,3 +146,27 @@ def test_transform_no_drop(mappings):
     )
     print(result)
     pd.testing.assert_frame_equal(result[["child1", "child2", "extra", "parent1"]], expected)
+
+
+def test_transform_additive_contributions(mappings):
+    contributions = pd.DataFrame(
+        [[1, 2, 3, 10], [4, 5, 6, 10]], columns=["child1", "child2", "child3", "extra"]
+    )
+    explanation = AdditiveFeatureContributionExplanation(contributions)
+
+    agg = Aggregator(mappings, func=max)
+    result = agg.transform_explanation(explanation).get()
+
+    expected = pd.DataFrame([[3, 3, 10], [9, 6, 10]], columns=["parent1", "parent2", "extra"])
+
+    pd.testing.assert_frame_equal(result[["parent1", "parent2", "extra"]], expected)
+
+
+def test_transform_additive_importance(mappings):
+    importance = pd.DataFrame([[1, 2, 3, 10]], columns=["child1", "child2", "child3", "extra"])
+    explanation = AdditiveFeatureImportanceExplanation(importance)
+    agg = Aggregator(mappings, func=max)
+    result = agg.transform_explanation(explanation).get()
+
+    expected = pd.DataFrame([[3, 3, 10]], columns=["parent1", "parent2", "extra"])
+    pd.testing.assert_frame_equal(result[["parent1", "parent2", "extra"]], expected)
