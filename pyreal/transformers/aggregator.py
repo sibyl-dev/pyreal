@@ -73,6 +73,14 @@ class Mappings:
             return Mappings(one_to_many, _generate_many_to_one(one_to_many))
 
 
+def _mean(x):
+    return sum(x) / len(x)
+
+
+def _remove(x):
+    return None
+
+
 class Aggregator(TransformerBase):
     """
     Aggregate features into a single parent feature class
@@ -100,23 +108,17 @@ class Aggregator(TransformerBase):
                 If "raise", an error will be raised if any child features are missing
         """
 
-        def mean(x):
-            return sum(x) / len(x)
-
-        def remove(x):
-            return None
-
         self.mappings = mappings
         if func == "sum":
             func = sum
         elif func == "mean":
-            func = mean
+            func = _mean
         elif func == "max":
             func = max
         elif func == "min":
             func = min
         elif func == "remove":
-            func = remove
+            func = _remove
         self.func = func
         self.drop_original = drop_original
         self.missing = missing
