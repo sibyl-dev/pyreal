@@ -96,3 +96,10 @@ Narrative Transformers
 
     NarrativeTransformer
 
+Aggregating Transformers
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.. autosummary::
+    :toctree: api/
+
+    Aggregator
+

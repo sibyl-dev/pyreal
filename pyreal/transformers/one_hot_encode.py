@@ -55,7 +55,7 @@ def _generate_from_df(df):
     return categorical_to_one_hot
 
 
-class Mappings:
+class OneHotMappings:
     def __init__(self, categorical_to_one_hot, one_hot_to_categorical):
         """
         Initialize a new mappings object
@@ -93,16 +93,16 @@ class Mappings:
         """
 
         if categorical_to_one_hot is not None:
-            return Mappings(
+            return OneHotMappings(
                 categorical_to_one_hot, _generate_one_hot_to_categorical(categorical_to_one_hot)
             )
         if one_hot_to_categorical is not None:
-            return Mappings(
+            return OneHotMappings(
                 _generate_categorical_to_one_hot(one_hot_to_categorical), one_hot_to_categorical
             )
         if dataframe is not None:
             categorical_to_one_hot = _generate_from_df(dataframe)
-            return Mappings(
+            return OneHotMappings(
                 categorical_to_one_hot, _generate_one_hot_to_categorical(categorical_to_one_hot)
             )
 
@@ -338,7 +338,7 @@ class MappingsOneHotEncoder(TransformerBase):
         Initialize the transformer
 
         Args:
-            mappings (Mappings):
+            mappings (OneHotMappings):
                 Mappings from categorical column names to one-hot-encoded
         """
         self.mappings = mappings
@@ -419,7 +419,7 @@ class MappingsOneHotDecoder(TransformerBase):
         Initialize the transformer
 
         Args:
-            mappings (Mappings):
+            mappings (OneHotMappings):
                 Mappings from categorical column names to one-hot-encoded
         """
         self.mappings = mappings
