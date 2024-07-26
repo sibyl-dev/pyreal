@@ -85,6 +85,7 @@ class Aggregator(TransformerBase):
         Args:
             mappings (Mappings):
                 A Mappings object representing the column relationships
+                (see Mappings.generate_mappings to produce)
             func (callable or one of ["sum", "mean", "max", "min", "remove"]):
                 The function to use to aggregate the features. If set to "remove", the parent
                 feature will be given None values (use in cases where you want to aggregate
