@@ -98,17 +98,24 @@ class Aggregator(TransformerBase):
                 no child features exist, the parent feature will not be added.
                 If "raise", an error will be raised if any child features are missing
         """
+
+        def mean(x):
+            return sum(x) / len(x)
+
+        def remove(x):
+            return None
+
         self.mappings = mappings
         if func == "sum":
             func = sum
         elif func == "mean":
-            func = lambda x: sum(x) / len(x)
+            func = mean
         elif func == "max":
             func = max
         elif func == "min":
             func = min
         elif func == "remove":
-            func = lambda x: None
+            func = remove
         self.func = func
         self.drop_original = drop_original
         self.missing = missing

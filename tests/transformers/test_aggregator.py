@@ -1,10 +1,11 @@
-from pyreal.transformers.aggregator import Mappings, Aggregator
 import pandas as pd
 import pytest
+
 from pyreal.explanation_types.feature_based import (
-    AdditiveFeatureImportanceExplanation,
     AdditiveFeatureContributionExplanation,
+    AdditiveFeatureImportanceExplanation,
 )
+from pyreal.transformers.aggregator import Aggregator, Mappings
 
 
 @pytest.fixture
