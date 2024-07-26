@@ -76,4 +76,62 @@ class Aggregator(TransformerBase):
     Aggregate features into a single parent feature class
     """
 
-    pass
+    def __init__(self, mappings, func="sum", drop_original=True, missing="ignore", **kwargs):
+        """
+        Initialize a new Aggregator object
+
+        Args:
+            mappings (Mappings):
+                A Mappings object representing the column relationships
+            func (callable or one of ["sum", "mean", "max", "min"]):
+                The function to use to aggregate the features
+            drop_original (bool):
+                Whether to drop the original features after aggregation
+            missing (str):
+                How to handle values in the mappings but not the transform data.
+                One of ["ignore", "raise"]
+                If "ignore", parent features will be made out of any child features that exist. If
+                no child features exist, the parent feature will not be added.
+                If "raise", an error will be raised if any child features are missing
+        """
+        self.mappings = mappings
+        if func == "sum":
+            func = sum
+        elif func == "mean":
+            func = lambda x: sum(x) / len(x)
+        elif func == "max":
+            func = max
+        elif func == "min":
+            func = min
+        self.func = func
+        self.drop_original = drop_original
+        self.missing = missing
+        super().__init__(**kwargs)
+
+    def data_transform(self, X):
+        """
+        Transform the input data, aggregating the features as specified in the mappings
+
+        Args:
+            X (DataFrame):
+                The input data
+
+        Returns:
+            DataFrame of shape (n_samples, n_features_new):
+                The transformed data with the aggregated features
+        """
+        X = X.copy()
+        for parent in self.mappings.one_to_many:
+            children = self.mappings.one_to_many[parent]
+            if self.missing == "raise":
+                if not all(child in X for child in self.mappings.one_to_many[parent]):
+                    raise ValueError("Missing child features")
+            if self.missing == "ignore":
+                if not any(child in X for child in self.mappings.one_to_many[parent]):
+                    continue
+                else:
+                    children = [child for child in self.mappings.one_to_many[parent] if child in X]
+            X[parent] = X[children].apply(self.func, axis=1)
+        if self.drop_original:
+            X = X.drop(columns=list(self.mappings.many_to_one.keys()), errors="ignore")
+        return X
