@@ -85,8 +85,10 @@ class Aggregator(TransformerBase):
         Args:
             mappings (Mappings):
                 A Mappings object representing the column relationships
-            func (callable or one of ["sum", "mean", "max", "min"]):
-                The function to use to aggregate the features
+            func (callable or one of ["sum", "mean", "max", "min", "remove"]):
+                The function to use to aggregate the features. If set to "remove", the parent
+                feature will be given None values (use in cases where you want to aggregate
+                explanations on features, but no valid aggregation exists)
             drop_original (bool):
                 Whether to drop the original features after aggregation
             missing (str):
@@ -105,6 +107,8 @@ class Aggregator(TransformerBase):
             func = max
         elif func == "min":
             func = min
+        elif func == "remove":
+            func = lambda x: None
         self.func = func
         self.drop_original = drop_original
         self.missing = missing

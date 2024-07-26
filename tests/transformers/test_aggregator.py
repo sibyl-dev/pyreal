@@ -88,6 +88,16 @@ def test_transform_basic_string_inputs():
     pd.testing.assert_frame_equal(result, expected)
 
 
+def test_transform_remove():
+    small_mappings = Mappings.generate_mappings(one_to_many={"parent1": ["child1", "child2"]})
+    x = pd.DataFrame([[1, 2, 10], [3, 4, 10]], columns=["child1", "child2", "extra"])
+
+    agg = Aggregator(small_mappings, func="remove")
+    result = agg.transform(x)
+    expected = pd.DataFrame([[None, 10], [None, 10]], columns=["parent1", "extra"])
+    pd.testing.assert_frame_equal(result[["parent1", "extra"]], expected)
+
+
 def test_transform_extra_columns(mappings):
     small_mappings = Mappings.generate_mappings(one_to_many={"parent1": ["child1", "child2"]})
     x = pd.DataFrame([[1, 2, 3], [4, 5, 6]], columns=["child1", "child2", "extra"])
