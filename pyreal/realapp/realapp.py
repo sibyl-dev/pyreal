@@ -1,4 +1,3 @@
-import numpy as np
 import pandas as pd
 from openai import OpenAI
 
@@ -8,11 +7,18 @@ from pyreal.explainers import (
     LocalFeatureContribution,
     SimilarExamples,
 )
-from pyreal.transformers import run_transformers, sklearn_pipeline_to_pyreal_transformers
+from pyreal.explanation_types import NarrativeExplanation
+from pyreal.transformers import (
+    NarrativeTransformer,
+    run_transformers,
+    sklearn_pipeline_to_pyreal_transformers,
+)
 from pyreal.utils import get_top_contributors
 
 
-def format_feature_contribution_output(explanation, ids=None, series=False, optimized=False):
+def format_feature_contribution_output(
+    explanation, ids=None, series=False, optimized=False, include_average_values=False
+):
     """
     Format Pyreal FeatureContributionExplanation objects into Local Feature Contribution outputs
     Args:
@@ -24,7 +30,8 @@ def format_feature_contribution_output(explanation, ids=None, series=False, opti
             If True, the produce function was passed a series input
         optimized (Boolean):
             If True, return in a simple DataFrame format
-
+        include_average_values (Boolean):
+            If True, include the expected (average) value of each feature in the output
     Returns:
         DataFrame (if series), else {"id" -> DataFrame}
             One dataframe per id, with each row representing a feature, and four columns:
@@ -35,23 +42,36 @@ def format_feature_contribution_output(explanation, ids=None, series=False, opti
         ids = explanation.get().index
     if optimized:
         return explanation.get().set_index(ids), explanation.get_values().set_index(ids)
-    average_mode = _get_average_or_mode(explanation.get_values())
     explanation_dict = {}
     for i, row_id in enumerate(ids):
         contributions = explanation.get().iloc[i, :]
         values = explanation.get_values().iloc[i, :].loc[contributions.index]
-        average_mode = average_mode.loc[contributions.index]
-
         feature_names = contributions.index
 
-        explanation_dict[row_id] = pd.DataFrame.from_dict(
-            {
-                "Feature Name": feature_names.values,
-                "Feature Value": values.values,
-                "Contribution": contributions.values,
-                "Average/Mode": average_mode.values,
-            }
-        )
+        if include_average_values:
+            if explanation.get_average_values() is None:
+                raise ValueError(
+                    "Requested average values to be included in explanation, but explainer did not"
+                    " provide them"
+                )
+            average_mode = explanation.get_average_values()[contributions.index]
+            explanation_dict[row_id] = pd.DataFrame.from_dict(
+                {
+                    "Feature Name": feature_names.values,
+                    "Feature Value": values.values,
+                    "Contribution": contributions.values,
+                    "Average/Mode": average_mode.values,
+                }
+            )
+        else:
+            explanation_dict[row_id] = pd.DataFrame.from_dict(
+                {
+                    "Feature Name": feature_names.values,
+                    "Feature Value": values.values,
+                    "Contribution": contributions.values,
+                }
+            )
+
     if series:
         return explanation_dict[next(iter(explanation_dict))]
     return explanation_dict
@@ -79,7 +99,13 @@ def format_feature_importance_output(explanation, optimized=False):
 
 
 def format_similar_examples_output(
-    explanation, ids=None, series=False, y_format_func=None, optimized=False
+    explanation,
+    ids=None,
+    series=False,
+    y_format_func=None,
+    optimized=False,
+    id_column_name=None,
+    training_ids=None,
 ):
     """
     Format Pyreal SimilarExamples objects into Similar Examples outputs
@@ -95,6 +121,10 @@ def format_similar_examples_output(
                 optimized (Boolean)
         optimized (Boolean):
             Current a no-op, included for consistency
+        id_column (string or int):
+            Name of column that contains item ids in input data
+        training_ids (Series):
+            Series of ids associated with X_train
 
     Returns:
         {"X": DataFrame, "y": Series, "Input": Series} (if series),
@@ -106,16 +136,20 @@ def format_similar_examples_output(
     result = {}
     if ids is None:
         ids = explanation.get_row_ids()
-    for key, row_id in enumerate(ids):
+    for key, id_column in enumerate(ids):
         examples = explanation.get_examples(row_id=key)
         targets = explanation.get_targets(row_id=key)
         if y_format_func is not None:
             targets = targets.apply(y_format_func)
-        result[row_id] = {
+        result[id_column] = {
             "X": examples,
             "y": targets,
             "Input": explanation.get_values().iloc[key, :],
         }
+        if training_ids is not None:
+            if id_column is None:
+                id_column = "row_id"
+            result[id_column]["X"][id_column_name] = training_ids.loc[result[id_column]["X"].index]
     if series:
         return result[next(iter(result))]
     return result
@@ -125,23 +159,6 @@ def format_narratives(narratives, ids, series=False, optimized=False):
     if optimized or series:
         return narratives
     return {row_id: narr for row_id, narr in zip(ids, narratives)}
-
-
-def _get_average_or_mode(df):
-    """
-    Gets the average of numeric features and the mode of categorical features
-
-    Args:
-        df (DataFrame):
-            Input
-    Returns:
-        Series
-            Average or mode of every column in df
-    """
-    s = df.select_dtypes(np.number).mean()
-    if len(s) == df.shape[1]:  # all columns are numeric
-        return s
-    return pd.concat((df.drop(s.index, axis=1).mode().iloc[0], s))
 
 
 class RealApp:
@@ -225,11 +242,13 @@ class RealApp:
 
         self.id_column = id_column
 
+        self.training_ids_for_se = None
         if (
             X_train_orig is not None
             and self.id_column is not None
             and self.id_column in X_train_orig
         ):
+            self.training_ids_for_se = X_train_orig[self.id_column]
             self.X_train_orig = X_train_orig.drop(columns=self.id_column)
         else:
             self.X_train_orig = X_train_orig
@@ -239,11 +258,10 @@ class RealApp:
         self.class_descriptions = class_descriptions
         self.pred_format_func = pred_format_func
 
-        if isinstance(transformers, list):
+        if transformers is None or isinstance(transformers, list):
             self.transformers = transformers
         else:  # assume single transformer given
             self.transformers = [transformers]
-        self.transformers = transformers
         self.feature_descriptions = feature_descriptions
 
         if openai_client is not None:
@@ -448,20 +466,31 @@ class RealApp:
                 if ids is None:
                     ids = x_orig.index
                 return format_narratives(
-                    narratives,
+                    narratives.get(),
                     ids=ids,
                     series=series,
                     optimized=not format_output,
-                    **format_kwargs
                 )
             else:
                 explanation = explainer.produce(x_orig, **produce_kwargs)
-                return format_output_func(
-                    explanation, ids, optimized=not format_output, series=series, **format_kwargs
-                )
+                if isinstance(explanation, NarrativeExplanation):
+                    return format_narratives(
+                        explanation.get(),
+                        ids=ids,
+                        series=series,
+                        optimized=not format_output,
+                    )
+                else:
+                    return format_output_func(
+                        explanation,
+                        ids,
+                        optimized=not format_output,
+                        series=series,
+                        **format_kwargs
+                    )
         else:
             if narrative:
-                return explainer.produce_narrative_explanation(**produce_kwargs)
+                return explainer.produce_narrative_explanation(**produce_kwargs).get()
             else:
                 explanation = explainer.produce(**produce_kwargs)
                 return format_output_func(
@@ -659,6 +688,7 @@ class RealApp:
         training_size=None,
         num_features=None,
         select_by="absolute",
+        include_average_values=False,
     ):
         """
         Produce a feature contribution explanation
@@ -689,6 +719,8 @@ class RealApp:
             select_by (one of "absolute", "min", "max"):
                 If `num_features` is not None, method to use for selecting which features to show.
                 Not used if num_features is None
+            include_average_values (Boolean):
+                If True, include the average/mode value of each feature in the output
 
         Returns:
             dictionary (if x_orig is DataFrame) or DataFrame (if x_orig is Series)
@@ -711,6 +743,7 @@ class RealApp:
             force_refit=force_refit,
             training_size=training_size,
             prepare_kwargs={"shap_type": shap_type},
+            format_kwargs={"include_average_values": include_average_values},
         )
         if num_features is not None:
             return {
@@ -744,6 +777,8 @@ class RealApp:
         """
         Produce a feature contribution explanation, formatted in natural language sentence
         format using LLMs.
+        Do not use this function if your transformer list ends with a NarrativeTransformer -
+        simply call produce_feature_contributions instead.
 
         Args:
             x_orig (DataFrame of shape (n_instances, n_features) or Series of length (n_features)):
@@ -793,6 +828,15 @@ class RealApp:
                 One dataframe per id, with each row representing a feature, and four columns:
                 Feature Name    Feature Value   Contribution    Average/Mode
         """
+        for transformer in self.transformers:
+            if isinstance(transformer, NarrativeTransformer):
+                raise ValueError(
+                    "Currently we do not support using produce_narrative functions when"
+                    " NarrativeTransformers are passed in. Either remove the NarrativeTransformer"
+                    " and call this function,or simply call produce_feature_contributions using"
+                    " the NarrativeTransformer"
+                )
+
         if algorithm is None:
             algorithm = "shap"
 
@@ -989,7 +1033,9 @@ class RealApp:
             standardize=standardize,
             fast=fast,
         )
-        explainer.fit(self._get_x_train_orig(x_train_orig), self._get_y_train(y_train))
+        x_train, training_ids = self._get_x_train_orig(x_train_orig, return_ids=True)
+        explainer.fit(x_train, self._get_y_train(y_train))
+        self.training_ids_for_se = training_ids
         self._add_explainer("se", algorithm, explainer)
         return explainer
 
@@ -1050,6 +1096,8 @@ class RealApp:
         format_kwargs = dict()
         if format_y:
             format_kwargs["y_format_func"] = self.pred_format_func
+            format_kwargs["training_ids"] = self.training_ids_for_se
+            format_kwargs["id_column_name"] = self.id_column
 
         return self._produce_explanation_helper(
             "se",
@@ -1068,13 +1116,22 @@ class RealApp:
         )
 
     def train_feature_contribution_llm(
-        self, x_train_orig=None, live=True, provide_examples=False, num_inputs=5, num_features=3
+        self,
+        transformer=None,
+        x_train_orig=None,
+        live=True,
+        provide_examples=False,
+        num_inputs=5,
+        num_features=3,
     ):
         """
         Run the training process for the LLM model used to generate narrative feature
         contribution explanations.
 
         Args:
+            transformer (NarrativeTransformer):
+                NarrativeTransformer to train. If None, this RealApp object will save the
+                training data for use in its produce_narrative functions
             x_train_orig (DataFrame of shape (n_instances, n_features)):
                 Training set to take sample inputs from. If None, the training set must be provided
                 to the explainer at initialization.
@@ -1099,10 +1156,10 @@ class RealApp:
         if not lfc_explainers:
             self.prepare_feature_contributions(x_train_orig=x_train_orig, algorithm="shap")
             lfc_explainers = self._get_explainer("lfc")
-        training_data = None
+        training_examples = None
         for i, algorithm in enumerate(lfc_explainers):
             if i == 0:
-                training_data = lfc_explainers[algorithm].train_llm(
+                training_examples = lfc_explainers[algorithm].train_llm(
                     x_train=self._get_x_train_orig(x_train_orig),
                     live=live,
                     provide_examples=provide_examples,
@@ -1110,7 +1167,11 @@ class RealApp:
                     num_features=num_features,
                 )
             else:
-                lfc_explainers[algorithm].set_llm_training_data(training_data=training_data)
+                lfc_explainers[algorithm].set_llm_training_data(training_data=training_examples)
+        if transformer is not None:
+            transformer.set_training_examples(
+                "feature_contributions", training_examples, replace=True
+            )
 
     def set_openai_client(self, openai_client=None, openai_api_key=None):
         """
@@ -1204,7 +1265,7 @@ class RealApp:
             **kwargs
         )
 
-    def _get_x_train_orig(self, x_train_orig):
+    def _get_x_train_orig(self, x_train_orig, return_ids=False):
         """
         Helper function to get the appropriate x_orig or raise errors if something goes wrong
         Args:
@@ -1215,9 +1276,16 @@ class RealApp:
         """
         if x_train_orig is not None:
             if self.id_column is not None and self.id_column in x_train_orig:
+                if return_ids:
+                    ids = x_train_orig[self.id_column]
+                    return x_train_orig.drop(columns=self.id_column), ids
                 return x_train_orig.drop(columns=self.id_column)
+            if return_ids:
+                return x_train_orig, None
             return x_train_orig
         else:
+            if return_ids:
+                return self.X_train_orig, self.training_ids_for_se
             return self.X_train_orig
 
     def _get_y_train(self, y_train):

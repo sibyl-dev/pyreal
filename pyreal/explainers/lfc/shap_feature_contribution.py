@@ -7,6 +7,23 @@ from pyreal.explainers import LocalFeatureContributionsBase
 from pyreal.explanation_types import AdditiveFeatureContributionExplanation
 
 
+def _get_average_or_mode(df):
+    """
+    Gets the average of numeric features and the mode of categorical features
+
+    Args:
+        df (DataFrame):
+            Input
+    Returns:
+        Series
+            Average or mode of every column in df
+    """
+    s = df.select_dtypes(np.number).mean()
+    if len(s) == df.shape[1]:  # all columns are numeric
+        return s
+    return pd.concat((df.drop(s.index, axis=1).mode().iloc[0], s))
+
+
 class ShapFeatureContribution(LocalFeatureContributionsBase):
     """
     ShapFeatureContribution object.
@@ -20,13 +37,13 @@ class ShapFeatureContribution(LocalFeatureContributionsBase):
            Filepath to the pickled model to explain, or model object with .predict() function
         x_train_orig (DataFrame of size (n_instances, n_features)):
             Training set in original form.
-        shap_type (string, one of ["kernel", "linear"]):
+        shap_type (string, one of ["kernel", "linear", "tree"]):
             Type of shap algorithm to use. If None, SHAP will pick one.
         **kwargs: see base Explainer args
     """
 
     def __init__(self, model, x_train_orig=None, shap_type=None, **kwargs):
-        supported_types = ["kernel", "linear"]
+        supported_types = ["kernel", "linear", "tree"]
         if shap_type is not None and shap_type not in supported_types:
             raise ValueError(
                 "Shap type not supported, given %s, expected one of %s or None"
@@ -37,6 +54,7 @@ class ShapFeatureContribution(LocalFeatureContributionsBase):
 
         self.explainer = None
         self.explainer_input_size = None
+        self.average_values = None
         super(ShapFeatureContribution, self).__init__(model, x_train_orig, **kwargs)
 
     def fit(self, x_train_orig=None, y_train=None):
@@ -50,6 +68,7 @@ class ShapFeatureContribution(LocalFeatureContributionsBase):
                 Targets of training set, required if not provided on initialization
         """
         x_train_orig = self._get_x_train_orig(x_train_orig)
+        self.average_values = _get_average_or_mode(x_train_orig)
 
         dataset = self.transform_to_x_algorithm(x_train_orig)
         self.explainer_input_size = dataset.shape[1]
@@ -58,6 +77,8 @@ class ShapFeatureContribution(LocalFeatureContributionsBase):
         # Note: we manually check for linear model here because of SHAP bug
         elif self.shap_type == "linear":
             self.explainer = LinearExplainer(self.model, dataset)
+        elif self.shap_type == "tree":
+            self.explainer = TreeExplainer(self.model, dataset)
         else:
             self.explainer = ShapExplainer(self.model, dataset)  # SHAP will pick an algorithm
         return self
@@ -83,6 +104,7 @@ class ShapFeatureContribution(LocalFeatureContributionsBase):
                 )
             )
         columns = x.columns
+        index = x.index
         x = np.asanyarray(x)
 
         if isinstance(self.explainer, TreeExplainer):
@@ -93,7 +115,8 @@ class ShapFeatureContribution(LocalFeatureContributionsBase):
             raise RuntimeError("Something went wrong with SHAP - expected at least 2 dimensions")
         if shap_values.ndim == 2:
             return AdditiveFeatureContributionExplanation(
-                pd.DataFrame(shap_values, columns=columns)
+                pd.DataFrame(shap_values, columns=columns, index=index),
+                other_properties={"average_values": self.average_values},
             )
         if shap_values.ndim > 2:
             predictions = self.model_predict(x_orig)
@@ -101,5 +124,6 @@ class ShapFeatureContribution(LocalFeatureContributionsBase):
                 predictions = [np.where(self.classes == i)[0][0] for i in predictions]
             shap_values = shap_values[predictions, np.arange(shap_values.shape[1]), :]
             return AdditiveFeatureContributionExplanation(
-                pd.DataFrame(shap_values, columns=columns)
+                pd.DataFrame(shap_values, columns=columns, index=index),
+                other_properties={"average_values": self.average_values},
             )

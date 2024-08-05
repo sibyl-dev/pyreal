@@ -8,7 +8,7 @@ from pyreal.transformers.feature_select import ColumnDropTransformer, FeatureSel
 from pyreal.transformers.impute import MultiTypeImputer
 from pyreal.transformers.time_series_formatter import DimensionAdder
 from pyreal.transformers.one_hot_encode import (
-    Mappings,
+    OneHotMappings,
     MappingsOneHotDecoder,
     MappingsOneHotEncoder,
     OneHotEncoder,
@@ -34,6 +34,8 @@ from pyreal.transformers.scale import MinMaxScaler, StandardScaler, Normalizer
 from pyreal.transformers.geo import LatLongToPlace
 from pyreal.transformers.generic_transformer import Transformer
 from pyreal.transformers.utils import sklearn_pipeline_to_pyreal_transformers
+from pyreal.transformers.llm import NarrativeTransformer
+from pyreal.transformers.aggregator import Mappings, Aggregator
 
 __all__ = [
     "TransformerBase",
@@ -44,7 +46,7 @@ __all__ = [
     "FeatureSelectTransformer",
     "ColumnDropTransformer",
     "MultiTypeImputer",
-    "Mappings",
+    "OneHotMappings",
     "OneHotEncoder",
     "MappingsOneHotDecoder",
     "MappingsOneHotEncoder",
@@ -67,6 +69,9 @@ __all__ = [
     "Normalizer",
     "StandardScaler",
     "LatLongToPlace",
+    "NarrativeTransformer",
     "sklearn_pipeline_to_pyreal_transformers",
+    "Aggregator",
+    "Mappings",
     "Transformer",
 ]

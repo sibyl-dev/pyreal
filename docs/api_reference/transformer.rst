@@ -89,3 +89,17 @@ Geo Transformers
 
     LatLongToPlace
 
+Narrative Transformers
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.. autosummary::
+    :toctree: api/
+
+    NarrativeTransformer
+
+Aggregating Transformers
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.. autosummary::
+    :toctree: api/
+
+    Aggregator
+

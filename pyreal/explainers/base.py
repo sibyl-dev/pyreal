@@ -387,6 +387,10 @@ class ExplainerBase(ABC):
 
         # Iterate through algorithm transformers
         for i, t in enumerate(a_transformers[::-1]):
+            if t.require_values:
+                explanation.update_values(  # UNTESTED
+                    run_transformers(a_transformers[0 : len(a_transformers) - i], x), inplace=True
+                )
             try:
                 explanation = t.inverse_transform_explanation(explanation)
             # If this is a breaking transformer, transform x to the current point and return
@@ -404,6 +408,8 @@ class ExplainerBase(ABC):
                     return explanation
         # Iterate through interpret transformers
         for t in i_transformers:
+            if t.require_values and x is not None:
+                explanation.update_values(x, inplace=True)
             if not t.algorithm:
                 try:
                     explanation = t.transform_explanation(explanation)

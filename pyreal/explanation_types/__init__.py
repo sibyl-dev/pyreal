@@ -18,6 +18,7 @@ from pyreal.explanation_types.feature_value_based import (
     PartialDependenceExplanation,
 )
 from pyreal.explanation_types.time_series_saliency import TimeSeriesSaliency
+from pyreal.explanation_types.narrative import NarrativeExplanation
 
 __all__ = [
     "Explanation",
@@ -34,4 +35,5 @@ __all__ = [
     "FeatureValueBased",
     "PartialDependenceExplanation",
     "TimeSeriesSaliency",
+    "NarrativeExplanation",
 ]

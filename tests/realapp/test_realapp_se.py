@@ -28,6 +28,32 @@ def test_produce_similar_examples(regression_one_hot_with_interpret):
     assert_series_equal(explanation["id2"]["y"], y.iloc[[3, 0]])
 
 
+def test_produce_similar_examples_id_column(regression_one_hot):
+    x = pd.DataFrame(
+        [[2, 0, 0, "id1"], [6, 6, 6, "id2"], [6, 7, 8, "id3"], [2, 0, 1, "id4"]],
+        columns=["A", "B", "C", "ID"],
+    )
+    y = pd.Series([1, 0, 0, 1])
+    real_app = RealApp(
+        regression_one_hot["model"],
+        X_train_orig=x,
+        y_train=y,
+        transformers=regression_one_hot["transformers"],
+        id_column="ID",
+    )
+
+    input_rows = pd.DataFrame([["id1", 6, 7, 9], ["id2", 2, 1, 1]], columns=["ID", "A", "B", "C"])
+    explanation = real_app.produce_similar_examples(input_rows, num_examples=2)
+    assert "id1" in explanation
+    assert_frame_equal(explanation["id1"]["X"], x.iloc[[2, 1], :])
+    assert_series_equal(explanation["id1"]["y"], y.iloc[[2, 1]])
+    assert_series_equal(explanation["id1"]["Input"], input_rows.iloc[0, 1:], check_dtype=False)
+
+    assert "id2" in explanation
+    assert_frame_equal(explanation["id2"]["X"], x.iloc[[3, 0], :])
+    assert_series_equal(explanation["id2"]["y"], y.iloc[[3, 0]])
+
+
 def test_prepare_similar_examples(regression_no_transforms):
     real_app = RealApp(
         regression_no_transforms["model"],
@@ -62,7 +88,13 @@ def test_prepare_similar_examples_with_id_column(regression_no_transforms):
     real_app.prepare_similar_examples(x_train_orig=x_multi_dim, y_train=pd.Series([0, 1, 1]))
 
     # Confirm explainer was prepped and now works without being given data
-    real_app.produce_similar_examples(x_multi_dim, num_examples=1)
+    examples = real_app.produce_similar_examples(x_multi_dim, num_examples=1)
+    assert_frame_equal(examples["a"]["X"], x_multi_dim.iloc[0:1, :])
+    assert examples["a"]["y"].iloc[0] == 0
+    assert_frame_equal(examples["b"]["X"], x_multi_dim.iloc[1:2, :])
+    assert examples["b"]["y"].iloc[0] == 1
+    assert_frame_equal(examples["c"]["X"], x_multi_dim.iloc[2:3, :])
+    assert examples["c"]["y"].iloc[0] == 1
 
 
 def test_produce_similar_examples_with_standardization(dummy_model):

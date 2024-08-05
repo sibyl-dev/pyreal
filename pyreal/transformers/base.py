@@ -109,7 +109,7 @@ class TransformerBase(ABC):
     to a second, and explanations from the second back to the first.
     """
 
-    def __init__(self, model=True, interpret=False, algorithm=None):
+    def __init__(self, model=True, interpret=False, algorithm=None, require_values=False):
         """
         Set this Transformer's flags.
 
@@ -124,6 +124,9 @@ class TransformerBase(ABC):
                 algorithm is False, but model is True, this transformer will be applied only
                 when making model predictions during the explanation algorithm. Cannot be True if
                 if the model flag is False
+            require_values (Boolean):
+                If True, this transformer must be given values alongside the explanation in order
+                to work for local explanations (for global explanations, this parameter is ignored)
         """
         self.model = model
         self.interpret = interpret
@@ -134,6 +137,8 @@ class TransformerBase(ABC):
         if self.model is False and self.algorithm is True:
             raise ValueError("algorithm flag cannot be True if model flag is False")
         self.fitted = False
+
+        self.require_values = require_values
 
     def set_flags(self, model=None, interpret=None, algorithm=None):
         if model is not None:

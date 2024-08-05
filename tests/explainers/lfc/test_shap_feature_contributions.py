@@ -2,7 +2,28 @@ import numpy as np
 import pandas as pd
 from shap import LinearExplainer
 
+import pyreal.explainers.lfc.shap_feature_contribution
 from pyreal.explainers import LocalFeatureContribution, ShapFeatureContribution
+
+
+def test_average_or_mode():
+    mix = pd.DataFrame([[1, "a", 2, "a"], [1, "a", 4, "a"], [1, "b", 3, "a"]])
+    expected = [1, "a", 3, "a"]
+    result = pyreal.explainers.lfc.shap_feature_contribution._get_average_or_mode(mix)
+    for i in range(len(expected)):
+        assert expected[i] == result[i]
+
+    mode_only = pd.DataFrame([["a", "a", "b", "d"], ["b", "a", "b", "d"], ["a", "b", "d", "d"]])
+    expected = ["a", "a", "b", "d"]
+    result = pyreal.explainers.lfc.shap_feature_contribution._get_average_or_mode(mode_only)
+    for i in range(len(expected)):
+        assert expected[i] == result[i]
+
+    mean_only = pd.DataFrame([[1, 0, 2, 2], [1, 5, 3, 3], [1, -5, 4, 4]])
+    expected = [1, 0, 3, 3]
+    result = pyreal.explainers.lfc.shap_feature_contribution._get_average_or_mode(mean_only)
+    for i in range(len(expected)):
+        assert expected[i] == result[i]
 
 
 def test_fit_shap(all_models):
@@ -38,24 +59,49 @@ def test_produce_shap_regression_no_transforms(regression_no_transforms):
         transformers=model["transformers"],
         fit_on_init=True,
     )
+    averages = list(model["x"].mean(axis="rows"))
+    helper_produce_shap_regression_no_transforms(lfc, model, averages=averages)
+    helper_produce_shap_regression_no_transforms(shap, model, averages=averages)
 
-    helper_produce_shap_regression_no_transforms(lfc, model)
-    helper_produce_shap_regression_no_transforms(shap, model)
 
-
-def helper_produce_shap_regression_no_transforms(explainer, model):
+def helper_produce_shap_regression_no_transforms(explainer, model, averages):
     x_one_dim = pd.DataFrame([[2, 10, 10]], columns=["A", "B", "C"])
     x_multi_dim = pd.DataFrame([[2, 1, 1], [4, 2, 3]], columns=["A", "B", "C"])
     expected = np.mean(model["y"])
-    contributions = explainer.produce(x_one_dim).get()
+    explanation = explainer.produce(x_one_dim)
+    contributions = explanation.get()
     assert x_one_dim.shape == contributions.shape
     assert contributions.iloc[0, 0] == x_one_dim.iloc[0, 0] - expected
     assert contributions.iloc[0, 1] == 0
     assert contributions.iloc[0, 2] == 0
+    assert list(explanation.get_average_values()) == averages
+
+    explanation = explainer.produce(x_multi_dim)
+    contributions = explanation.get()
+    assert x_multi_dim.shape == contributions.shape
+    assert contributions.iloc[0, 0] == x_multi_dim.iloc[0, 0] - expected
+    assert contributions.iloc[1, 0] == x_multi_dim.iloc[1, 0] - expected
+    assert (contributions.iloc[:, 1] == 0).all()
+    assert (contributions.iloc[:, 2] == 0).all()
+    assert list(explanation.get_average_values()) == averages
+
+
+def test_produce_shap_regression_with_index_names(regression_no_transforms):
+    explainer = ShapFeatureContribution(
+        model=regression_no_transforms["model"],
+        x_train_orig=regression_no_transforms["x"],
+        transformers=regression_no_transforms["transformers"],
+        fit_on_init=True,
+    )
+
+    x_multi_dim = pd.DataFrame(
+        [[2, 1, 1], [4, 2, 3]], columns=["A", "B", "C"], index=["row1", "row2"]
+    )
+    expected = np.mean(regression_no_transforms["y"])
 
     contributions = explainer.produce(x_multi_dim).get()
     assert x_multi_dim.shape == contributions.shape
-    assert contributions.iloc[0, 0] == x_multi_dim.iloc[0, 0] - expected
+    assert contributions.loc["row1", "A"] == x_multi_dim.loc["row1", "A"] - expected
     assert contributions.iloc[1, 0] == x_multi_dim.iloc[1, 0] - expected
     assert (contributions.iloc[:, 1] == 0).all()
     assert (contributions.iloc[:, 2] == 0).all()
@@ -76,9 +122,9 @@ def test_produce_shap_regression_transforms(regression_one_hot):
         transformers=model["transformers"],
         fit_on_init=True,
     )
-
-    helper_produce_shap_regression_one_hot(lfc)
-    helper_produce_shap_regression_one_hot(shap)
+    averages = list(model["x"].mean(axis="rows"))
+    helper_produce_shap_regression_one_hot(lfc, averages=averages)
+    helper_produce_shap_regression_one_hot(shap, averages=averages)
 
 
 def test_produce_shap_no_dataset_on_init(regression_one_hot):
@@ -96,25 +142,30 @@ def test_produce_shap_no_dataset_on_init(regression_one_hot):
     lfc.fit(x)
     shap.fit(x)
 
-    helper_produce_shap_regression_one_hot(lfc)
-    helper_produce_shap_regression_one_hot(shap)
+    averages = list(model["x"].mean(axis="rows"))
+    helper_produce_shap_regression_one_hot(lfc, averages)
+    helper_produce_shap_regression_one_hot(shap, averages)
 
 
-def helper_produce_shap_regression_one_hot(explainer):
+def helper_produce_shap_regression_one_hot(explainer, averages):
     x_one_dim = pd.DataFrame([[2, 10, 10]], columns=["A", "B", "C"])
     x_multi_dim = pd.DataFrame([[4, 1, 1], [6, 2, 3]], columns=["A", "B", "C"])
-    contributions = explainer.produce(x_one_dim).get()
+    explanation = explainer.produce(x_one_dim)
+    contributions = explanation.get()
     assert x_one_dim.shape == contributions.shape
     assert abs(contributions["A"][0] + 1) < 0.0001
     assert abs(contributions["B"][0]) < 0.0001
     assert abs(contributions["C"][0]) < 0.0001
+    assert list(explanation.get_average_values()) == averages
 
-    contributions = explainer.produce(x_multi_dim).get()
+    explanation = explainer.produce(x_multi_dim)
+    contributions = explanation.get()
     assert x_multi_dim.shape == contributions.shape
     assert abs(contributions["A"][0]) < 0.0001
     assert abs(contributions["A"][1] - 1 < 0.0001)
     assert (contributions["B"] == 0).all()
     assert (contributions["C"] == 0).all()
+    assert list(explanation.get_average_values()) == averages
 
 
 def test_produce_shap_classification_no_transforms(classification_no_transforms):
