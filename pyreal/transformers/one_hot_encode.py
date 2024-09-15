@@ -117,7 +117,7 @@ class OneHotEncoder(TransformerBase):
         Initializes the base one-hot encoder
 
         Args:
-            columns (list, None, or "object_columns"):
+            columns (list, None, or "all_categorical"):
                 List of columns to apply one-hot encoding to. If None, all columns will be encoded.
                 If "all_categorical", all columns with an object dtype will be
                     automatically encoded.

@@ -112,7 +112,7 @@ class LocalFeatureContributionsBase(ExplainerBase, ABC):
         narrative_transformer = NarrativeTransformer(
             openai_client=openai_client,
             num_features=num_features,
-            llm_model=llm_model,
+            gpt_model_type=llm_model,
             detail_level=detail_level,
             context_description=context_description,
             max_tokens=max_tokens,
