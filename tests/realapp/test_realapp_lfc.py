@@ -224,63 +224,61 @@ def test_produce_local_feature_contributions_num_features(regression_no_transfor
     assert explanation[0].shape == (2, 3)
 
 
-def test_produce_narrative_feature_contributions(regression_one_hot, mock_openai_client):
+def test_produce_narrative_feature_contributions(regression_one_hot, mock_llm):
     real_app = RealApp(
         regression_one_hot["model"],
         regression_one_hot["x"],
         transformers=regression_one_hot["transformers"],
-        openai_client=mock_openai_client["client"],
+        llm=mock_llm["llm"],
     )
     features = ["A", "B", "C"]
     x_one_dim = pd.DataFrame([[2, 10, 10]], columns=features)
 
     explanation = real_app.produce_narrative_feature_contributions(x_one_dim)
-    assert explanation[0] == mock_openai_client["response"]
+    assert explanation[0] == mock_llm["response"]
 
     x_multi_dim = pd.DataFrame([[2, 1, 1], [4, 2, 3]], columns=features, index=["a", "b"])
     explanation = real_app.produce_narrative_feature_contributions(x_multi_dim)
-    assert explanation["a"] == mock_openai_client["response"]
-    assert explanation["b"] == mock_openai_client["response"]
+    assert explanation["a"] == mock_llm["response"]
+    assert explanation["b"] == mock_llm["response"]
 
     x_series = pd.Series([2, 10, 10], index=features)
     explanation = real_app.produce_narrative_feature_contributions(x_series)
-    assert explanation[0] == mock_openai_client["response"]
+    assert explanation[0] == mock_llm["response"]
 
 
-def test_produce_narrative_feature_contributions_with_id_column(
-    regression_one_hot, mock_openai_client
-):
+def test_produce_narrative_feature_contributions_with_id_column(regression_one_hot, mock_llm):
     real_app = RealApp(
         regression_one_hot["model"],
         regression_one_hot["x"],
         transformers=regression_one_hot["transformers"],
-        openai_client=mock_openai_client["client"],
+        llm=mock_llm["llm"],
         id_column="ID",
     )
     features = ["A", "B", "C", "ID"]
     x_one_dim = pd.DataFrame([[2, 10, 10, "A"]], columns=features)
 
     explanation = real_app.produce_narrative_feature_contributions(x_one_dim)
-    assert explanation["A"] == mock_openai_client["response"]
+    assert explanation["A"] == mock_llm["response"]
 
     x_multi_dim = pd.DataFrame(
         [[2, 1, 1, "A"], [4, 2, 3, "B"]], columns=features, index=["a", "b"]
     )
     explanation = real_app.produce_narrative_feature_contributions(x_multi_dim)
-    assert explanation["A"] == mock_openai_client["response"]
-    assert explanation["B"] == mock_openai_client["response"]
+    assert explanation["A"] == mock_llm["response"]
+    assert explanation["B"] == mock_llm["response"]
 
     x_series = pd.Series([2, 10, 10, "A"], index=features)
     explanation = real_app.produce_narrative_feature_contributions(x_series)
-    assert explanation[0] == mock_openai_client["response"]
+    assert explanation[0] == mock_llm["response"]
 
 
-def test_produce_narrative_feature_contributions_optimized(regression_one_hot, mock_openai_client):
+def test_produce_narrative_feature_contributions_optimized(regression_one_hot, mock_llm):
     real_app = RealApp(
         regression_one_hot["model"],
         regression_one_hot["x"],
         transformers=regression_one_hot["transformers"],
-        openai_client=mock_openai_client["client"],
+        llm=mock_llm["llm"],
         id_column="ID",
     )
     features = ["A", "B", "C", "ID"]
@@ -292,16 +290,16 @@ def test_produce_narrative_feature_contributions_optimized(regression_one_hot, m
         x_multi_dim, format_output=False
     )
 
-    assert explanation[0] == mock_openai_client["response"]
-    assert explanation[1] == mock_openai_client["response"]
+    assert explanation[0] == mock_llm["response"]
+    assert explanation[1] == mock_llm["response"]
 
 
-def test_train_llm(regression_one_hot, mock_openai_client, mocker):
+def test_train_llm(regression_one_hot, mock_llm, mocker):
     real_app = RealApp(
         regression_one_hot["model"],
         regression_one_hot["x"],
         transformers=regression_one_hot["transformers"],
-        openai_client=mock_openai_client["client"],
+        llm=mock_llm["llm"],
         id_column="ID",
     )
 
@@ -321,17 +319,15 @@ def test_train_llm(regression_one_hot, mock_openai_client, mocker):
         assert narratives[1][1] == "example explanation"
 
 
-def test_train_llm_input_transformer(regression_one_hot, mock_openai_client, mocker):
+def test_train_llm_input_transformer(regression_one_hot, mock_llm, mocker):
     real_app = RealApp(
         regression_one_hot["model"],
         regression_one_hot["x"],
         transformers=regression_one_hot["transformers"],
-        openai_client=mock_openai_client["client"],
+        llm=mock_llm["llm"],
         id_column="ID",
     )
-    input_transformer = NarrativeTransformer(
-        openai_client=mock_openai_client["client"], num_features=3
-    )
+    input_transformer = NarrativeTransformer(llm=mock_llm["llm"], num_features=3)
 
     def custom_input(prompt):
         if "Save training data? (y/n)" in prompt:
