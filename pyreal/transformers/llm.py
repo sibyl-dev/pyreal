@@ -20,6 +20,7 @@ class NarrativeTransformer(TransformerBase):
         context_description="",
         max_tokens=200,
         training_examples=None,
+        narrator=None,
         **kwargs,
     ):
         """
@@ -47,21 +48,25 @@ class NarrativeTransformer(TransformerBase):
                 Values are lists of tuples, where the first element is the input to the model
                     and the second element is the example output.
                 Use the RealApp train_llm functions to populate this
+            narrator (Explingo Narrator object): Narrator object to use to generate narratives.
+                Should only be used for testing - use llm or openai_api_key for production.
         Returns:
             list of strings of length n_instances
                 Narrative version of feature contribution explanation, one item per instance
         """
         self.llm = llm
         self.openai_api_key = openai_api_key
-        if self.llm is None and self.openai_api_key is None:
+        if self.llm is None and self.openai_api_key is None and narrator is None:
             raise ValueError("Must provide openai_client or openai_api_key")
+
+        self.narrators = {}
+        if narrator is not None:
+            self.narrators = {"feature_contributions": narrator}
 
         self.num_features = num_features
         self.llm_model = gpt_model_type
         self.context_description = context_description
         self.max_tokens = max_tokens
-
-        self.narrators = {}
 
         if training_examples is not None:
             self.training_examples = training_examples
@@ -108,11 +113,11 @@ class NarrativeTransformer(TransformerBase):
             self.training_examples[explanation_type].extend(training_examples)
 
     def transform_explanation_feature_contribution(self, explanation, num_features=None):
-        if ["feature_contributions"] not in self.narrators:
+        if "feature_contributions" not in self.narrators:
             self.narrators["feature_contributions"] = explingo.Narrator(
                 llm=self.llm,
-                openai_key=self.openai_api_key,
-                gpt_model_type=self.llm_model,
+                openai_api_key=self.openai_api_key,
+                gpt_model_name=self.llm_model,
                 explanation_format="(feature, feature_value, SHAP contribution)",
                 context=self.context_description,
                 labeled_train_data=self.training_examples.get("feature_contribution"),
