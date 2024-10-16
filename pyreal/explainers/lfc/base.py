@@ -90,7 +90,7 @@ class LocalFeatureContributionsBase(ExplainerBase, ABC):
             list of strings of length n_instances
                 Narrative version of feature contribution explanation, one item per instance
         """
-        if self.llm is None and self.openai_api_key is None and self.narrator is None:
+        if self.llm is None and self.openai_api_key is None:
             raise ValueError("Must provide openai_client or openai_api_key")
 
         narrative_transformer = NarrativeTransformer(
@@ -101,7 +101,6 @@ class LocalFeatureContributionsBase(ExplainerBase, ABC):
             context_description=context_description,
             max_tokens=max_tokens,
             training_examples={"feature_contributions": self.llm_training_data},
-            narrator=self.narrator,
         )
         self.transformers.append(narrative_transformer)
         result = self.produce(x_orig)
@@ -169,7 +168,6 @@ class LocalFeatureContributionsBase(ExplainerBase, ABC):
                     NarrativeTransformer(
                         llm=self.llm,
                         openai_api_key=self.openai_api_key,
-                        narrator=self.narrator,
                         num_features=num_features,
                     )
                     .transform_explanation_feature_contribution(explanation[i])

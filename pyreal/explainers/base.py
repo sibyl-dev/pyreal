@@ -94,7 +94,6 @@ class ExplainerBase(ABC):
         fit_transformers=False,
         openai_api_key=None,
         llm=None,
-        narrator=None,
     ):
         """
         Generic ExplainerBase object
@@ -140,9 +139,6 @@ class ExplainerBase(ABC):
                 is provided
             llm (LLM model object): Local LLM object or LLM client object to use to generate \
                 narratives. One of `llm` or `openai_api_key` must be provided.
-            narrator (Explingo narrator):
-                Explingo narrator object to use for generating narratives. Should only be used for
-                testing - use llm or openai_api_key for production.
         """
         if isinstance(model, str):
             self.model = model_utils.load_model_from_pickle(model)
@@ -206,7 +202,6 @@ class ExplainerBase(ABC):
             self.fit()
 
         self.llm = llm
-        self.narrator = narrator
         self.openai_api_key = openai_api_key
 
     def fit(self, x_train_orig=None, y_train=None):
