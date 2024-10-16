@@ -215,8 +215,8 @@ def feature_contribution_explanation():
 
 
 @pytest.fixture()
-def mock_narrator(mocker):
+def mock_llm(mocker):
     test_narrative = "the model predicts because A"
-    narrator = mocker.MagicMock()
-    narrator.narrate.return_value = test_narrative
-    return {"narrator": narrator, "response": test_narrative}
+    llm = mocker.MagicMock()
+    llm.return_value = ["Narrative: " + test_narrative]
+    return {"llm": llm, "response": test_narrative}

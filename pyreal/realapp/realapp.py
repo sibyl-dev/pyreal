@@ -180,7 +180,8 @@ class RealApp:
         fit_transformers=False,
         id_column=None,
         openai_api_key=None,
-        openai_client=None,
+        llm=None,
+        narrator=None,
         context_description="",
     ):
         """
@@ -216,9 +217,11 @@ class RealApp:
             openai_api_key (string):
                 OpenAI API key. Required for GPT narrative explanations, unless openai client
                 is provided
-            openai_client (openai.Client):
-                OpenAI client object, with API key already set. If provided, openai_api_key is
-                ignored
+            llm (LLM model object):
+                Local LLM object or LLM client object to use to generate narratives.
+            narrator (Explingo Narrator object):
+                Narrator object to use to generate narratives. Should only be used for testing -
+                use llm or openai_api_key for production.
             context_description (string):
                 Description of the model's prediction task, in sentence format. This is used by
                 LLM model for narrative explanations.
@@ -264,12 +267,9 @@ class RealApp:
             self.transformers = [transformers]
         self.feature_descriptions = feature_descriptions
 
-        if openai_client is not None:
-            self.openai_client = openai_client
-        elif openai_api_key is not None:
-            self.openai_client = OpenAI(api_key=openai_api_key)
-        else:
-            self.openai_client = None
+        self.llm = llm
+        self.openai_api_key = openai_api_key
+        self.narrator = narrator
 
         if fit_transformers:
             # Hacky way of fitting transformers, may want to clean up later
@@ -669,7 +669,8 @@ class RealApp:
             classes=self.classes,
             class_descriptions=self.class_descriptions,
             training_size=training_size,
-            openai_client=self.openai_client,
+            llm=self.llm,
+            openai_api_key=self.openai_api_key,
         )
         explainer.fit(self._get_x_train_orig(x_train_orig), self._get_y_train(y_train))
         self._add_explainer("lfc", algorithm, explainer)
