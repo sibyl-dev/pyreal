@@ -1,7 +1,7 @@
+import explingo
+
 from pyreal.explanation_types import NarrativeExplanation
 from pyreal.transformers import TransformerBase
-
-import explingo
 
 
 class NarrativeTransformer(TransformerBase):
