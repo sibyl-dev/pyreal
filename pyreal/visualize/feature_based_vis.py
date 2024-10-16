@@ -45,6 +45,7 @@ def feature_bar_plot(
     include_axis=True,
     show=False,
     filename=None,
+    paper=False,
     **kwargs
 ):
     """
@@ -75,6 +76,8 @@ def feature_bar_plot(
             Show the figure
         filename (string or None):
             If not None, save the figure as filename
+        paper (boolean):
+            If true, increase font size to be more readable in papers
         **kwargs:
             Additional parameters to pass into plt.barh
 
@@ -148,25 +151,27 @@ def feature_bar_plot(
     else:
         colors = [POSITIVE_COLOR if (c < 0) else NEGATIVE_COLOR for c in contributions[::-1]]
 
-    if transparent:
-        _, ax = plt.subplots()
-    else:
-        _, ax = plt.subplots(facecolor="w")
+    # Adjust the figure size and font size
+    _, ax = plt.subplots(figsize=(8, 4), facecolor="w" if not transparent else None)
     plt.barh(features[::-1], contributions[::-1], color=colors, **kwargs)
     if are_importances:
         title = "Feature Importance Scores"
     else:
         title = "Feature Contributions"
-    plt.title(title, fontsize=18)
+    plt.title(title, fontsize=22)
     if prediction is not None:
         plt.title("Overall prediction: %s" % prediction, fontsize=12)
         plt.suptitle(title, fontsize=18, y=1)
+
     if include_axis:
-        plt.tick_params(axis="x", which="both", bottom=True, top=False, labelbottom=True)
+        plt.tick_params(
+            axis="x", which="both", bottom=True, top=False, labelbottom=True, labelsize=14
+        )
+        plt.tick_params(axis="y", labelsize=18)
         if are_importances:
-            plt.xlabel("Importance")
+            plt.xlabel("Importance", fontsize=18)
         else:
-            plt.xlabel("Contribution")
+            plt.xlabel("Contribution", fontsize=18)
     else:
         plt.tick_params(axis="x", which="both", bottom=False, top=False, labelbottom=False)
 

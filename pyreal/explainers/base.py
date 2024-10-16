@@ -3,7 +3,6 @@ from abc import ABC, abstractmethod
 
 import numpy as np
 import pandas as pd
-from openai import OpenAI
 from sklearn.base import is_classifier
 from sklearn.metrics import get_scorer
 
@@ -93,7 +92,7 @@ class ExplainerBase(ABC):
         return_original_explanation=False,
         fit_transformers=False,
         openai_api_key=None,
-        openai_client=None,
+        llm=None,
     ):
         """
         Generic ExplainerBase object
@@ -137,9 +136,8 @@ class ExplainerBase(ABC):
             openai_api_key (string):
                 OpenAI API key. Required for GPT narrative explanations, unless openai client
                 is provided
-            openai_client (openai.Client):
-                OpenAI client object, with API key already set. If provided, openai_api_key is
-                ignored
+            llm (LLM model object): Local LLM object or LLM client object to use to generate \
+                narratives. One of `llm` or `openai_api_key` must be provided.
         """
         if isinstance(model, str):
             self.model = model_utils.load_model_from_pickle(model)
@@ -202,12 +200,8 @@ class ExplainerBase(ABC):
                 raise
             self.fit()
 
-        if openai_client is not None:
-            self.openai_client = openai_client
-        elif openai_api_key is not None:
-            self.openai_client = OpenAI(api_key=openai_api_key)
-        else:
-            self.openai_client = None
+        self.llm = llm
+        self.openai_api_key = openai_api_key
 
     def fit(self, x_train_orig=None, y_train=None):
         """

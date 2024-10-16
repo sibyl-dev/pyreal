@@ -65,12 +65,9 @@ class LocalFeatureContributionsBase(ExplainerBase, ABC):
         self,
         x_orig,
         num_features=5,
-        llm_model="gpt3.5",
-        detail_level="high",
+        gpt_model_type="gpt-4o",
         context_description="",
         max_tokens=200,
-        temperature=0.5,
-        openai_client=None,
     ):
         """
         Produces an explanation in narrative (natural-language) form.
@@ -80,43 +77,29 @@ class LocalFeatureContributionsBase(ExplainerBase, ABC):
             num_features (int):
                 Number of features to include in the explanation. If None, all features will be
                 included
-            llm_model (string):
-                One of ["gpt3.5", "gpt4"]. LLM model to use to generate the explanation.
-                GPT4 may provide better results, but is more expensive.
-            detail_level (string):
-                One of ["high", "low"]. Level of detail to include in the explanation.
-                High detail should include precise contribution values. Low detail
-                will include only basic information about features used.
+            gpt_model_type (string):
+                OpenAI model to use to generate the explanation, if passing in an openai api key
             context_description (string):
                 Description of the model's prediction task, in sentence format. This will be
                 passed to the LLM and may help produce more accurate explanations.
                 For example: "The model predicts the price of houses."
             max_tokens (int):
                 Maximum number of tokens to use in the explanation
-            temperature (float):
-                LLM Temperature to use. Values closer to 1 will produce more creative values.
-                Values closer to 0 will produce more consistent or conservative explanations.
-            openai_client (OpenAI API client):
-                OpenAI API client, with API key set. If None, the API key must be provided to the
-                explainer at initialization.
 
         Returns:
             list of strings of length n_instances
                 Narrative version of feature contribution explanation, one item per instance
         """
-        if openai_client is None:
-            if self.openai_client is None:
-                raise ValueError("OpenAI API key or client must be provided to produce narrative")
-            openai_client = self.openai_client
+        if self.llm is None and self.openai_api_key is None:
+            raise ValueError("Must provide openai_client or openai_api_key")
 
         narrative_transformer = NarrativeTransformer(
-            openai_client=openai_client,
+            llm=self.llm,
+            openai_api_key=self.openai_api_key,
             num_features=num_features,
-            llm_model=llm_model,
-            detail_level=detail_level,
+            gpt_model_type=gpt_model_type,
             context_description=context_description,
             max_tokens=max_tokens,
-            temperature=temperature,
             training_examples={"feature_contributions": self.llm_training_data},
         )
         self.transformers.append(narrative_transformer)
@@ -154,7 +137,9 @@ class LocalFeatureContributionsBase(ExplainerBase, ABC):
         """
         if not live:
             raise NotImplementedError("Non-interactive training not yet implemented")
-        if provide_examples and self.openai_client is None:
+        if provide_examples and (
+            self.llm is None and self.openai_api_key is None and self.narrator is None
+        ):
             raise ValueError(
                 "OpenAI API key or client must be provided to provide examples during training"
             )
@@ -181,7 +166,9 @@ class LocalFeatureContributionsBase(ExplainerBase, ABC):
             if provide_examples:
                 example = (
                     NarrativeTransformer(
-                        openai_client=self.openai_client, num_features=num_features
+                        llm=self.llm,
+                        openai_api_key=self.openai_api_key,
+                        num_features=num_features,
                     )
                     .transform_explanation_feature_contribution(explanation[i])
                     .get()[0]

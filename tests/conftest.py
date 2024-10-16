@@ -215,21 +215,8 @@ def feature_contribution_explanation():
 
 
 @pytest.fixture()
-def mock_openai_client(mocker):
-    class MockResponse:
-        def __init__(self, content):
-            self.choices = [MockMessage(content)]
-
-    class MockMessage:
-        def __init__(self, content):
-            self.message = MockContent(content)
-
-    class MockContent:
-        def __init__(self, content):
-            self.content = content
-
-    test_narrative_exp = "the model predicts because A"
-    mock_response = MockResponse(test_narrative_exp)
-    client = mocker.MagicMock()
-    client.chat.completions.create.return_value = mock_response
-    return {"client": client, "response": test_narrative_exp}
+def mock_llm(mocker):
+    test_narrative = "the model predicts because A"
+    llm = mocker.MagicMock()
+    llm.return_value = ["Narrative: " + test_narrative]
+    return {"llm": llm, "response": test_narrative}

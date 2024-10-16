@@ -81,34 +81,34 @@ def test_evaluate_variation_with_size(classification_no_transforms):
     lfc.evaluate_variation(with_fit=True, n_iterations=5)
 
 
-def test_produce_narrative_explanation(regression_one_hot, mock_openai_client):
+def test_produce_narrative_explanation(regression_one_hot, mock_llm):
     lfc = LocalFeatureContribution(
         model=regression_one_hot["model"],
         x_train_orig=regression_one_hot["x"],
         e_algorithm="shap",
         fit_on_init=True,
         transformers=regression_one_hot["transformers"],
-        openai_client=mock_openai_client["client"],
+        llm=mock_llm["llm"],
     )
 
     x_one_dim = pd.DataFrame([[2, 10, 10]], columns=["A", "B", "C"])
     explanation = lfc.produce_narrative_explanation(x_one_dim).get()
-    assert explanation[0] == mock_openai_client["response"]
+    assert explanation[0] == mock_llm["response"]
 
     x_multi_dim = pd.DataFrame([[2, 10, 10], [2, 11, 11]], columns=["A", "B", "C"])
     explanation = lfc.produce_narrative_explanation(x_multi_dim).get()
-    assert explanation[0] == mock_openai_client["response"]
-    assert explanation[1] == mock_openai_client["response"]
+    assert explanation[0] == mock_llm["response"]
+    assert explanation[1] == mock_llm["response"]
 
 
-def test_produce_narrative_explanation_with_training(regression_one_hot, mock_openai_client):
+def test_produce_narrative_explanation_with_training(regression_one_hot, mock_llm):
     lfc = LocalFeatureContribution(
         model=regression_one_hot["model"],
         x_train_orig=regression_one_hot["x"],
         e_algorithm="shap",
         fit_on_init=True,
         transformers=regression_one_hot["transformers"],
-        openai_client=mock_openai_client["client"],
+        llm=mock_llm["llm"],
     )
 
     training_data = [("(f1, 1, 1), (f2, 2, 2", "the model uses f1 and f2")]
@@ -117,20 +117,20 @@ def test_produce_narrative_explanation_with_training(regression_one_hot, mock_op
 
     x_one_dim = pd.DataFrame([[2, 10, 10]], columns=["A", "B", "C"])
     explanation = lfc.produce_narrative_explanation(x_one_dim).get()
-    assert explanation[0] == mock_openai_client["response"]
+    assert explanation[0] == mock_llm["response"]
 
     lfc.clear_llm_training_data()
     assert lfc.llm_training_data is None
 
 
-def test_train_llm(regression_one_hot, mock_openai_client, mocker):
+def test_train_llm(regression_one_hot, mock_llm, mocker):
     lfc = LocalFeatureContribution(
         model=regression_one_hot["model"],
         x_train_orig=regression_one_hot["x"],
         e_algorithm="shap",
         fit_on_init=True,
         transformers=regression_one_hot["transformers"],
-        openai_client=mock_openai_client["client"],
+        llm=mock_llm["llm"],
     )
 
     def custom_input(prompt):

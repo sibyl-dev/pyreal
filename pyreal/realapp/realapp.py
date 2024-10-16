@@ -180,7 +180,7 @@ class RealApp:
         fit_transformers=False,
         id_column=None,
         openai_api_key=None,
-        openai_client=None,
+        llm=None,
         context_description="",
     ):
         """
@@ -216,9 +216,8 @@ class RealApp:
             openai_api_key (string):
                 OpenAI API key. Required for GPT narrative explanations, unless openai client
                 is provided
-            openai_client (openai.Client):
-                OpenAI client object, with API key already set. If provided, openai_api_key is
-                ignored
+            llm (LLM model object):
+                Local LLM object or LLM client object to use to generate narratives.
             context_description (string):
                 Description of the model's prediction task, in sentence format. This is used by
                 LLM model for narrative explanations.
@@ -264,12 +263,8 @@ class RealApp:
             self.transformers = [transformers]
         self.feature_descriptions = feature_descriptions
 
-        if openai_client is not None:
-            self.openai_client = openai_client
-        elif openai_api_key is not None:
-            self.openai_client = OpenAI(api_key=openai_api_key)
-        else:
-            self.openai_client = None
+        self.llm = llm
+        self.openai_api_key = openai_api_key
 
         if fit_transformers:
             # Hacky way of fitting transformers, may want to clean up later
@@ -460,9 +455,7 @@ class RealApp:
                 x_orig = x_orig.drop(self.id_column, axis=x_orig.ndim - 1)
 
             if narrative:
-                narratives = explainer.produce_narrative_explanation(
-                    x_orig, openai_client=self.openai_client, **produce_kwargs
-                )
+                narratives = explainer.produce_narrative_explanation(x_orig, **produce_kwargs)
                 if ids is None:
                     ids = x_orig.index
                 return format_narratives(
@@ -669,7 +662,8 @@ class RealApp:
             classes=self.classes,
             class_descriptions=self.class_descriptions,
             training_size=training_size,
-            openai_client=self.openai_client,
+            llm=self.llm,
+            openai_api_key=self.openai_api_key,
         )
         explainer.fit(self._get_x_train_orig(x_train_orig), self._get_y_train(y_train))
         self._add_explainer("lfc", algorithm, explainer)
@@ -768,11 +762,9 @@ class RealApp:
         format_output=True,
         num_features=5,
         select_by="absolute",
-        llm_model="gpt3.5",
-        detail_level="high",
+        gpt_model_type="gpt-3.5",
         context_description=None,
         max_tokens=200,
-        temperature=0.5,
     ):
         """
         Produce a feature contribution explanation, formatted in natural language sentence
@@ -806,22 +798,15 @@ class RealApp:
             select_by (one of "absolute", "min", "max"):
                 If `num_features` is not None, method to use for selecting which features to show.
                 Not used if num_features is None
-            llm_model (string):
+            gpt_model_type (string):
                 One of ["gpt3.5", "gpt4"]. LLM model to use to generate the explanation.
                 GPT4 may provide better results, but is more expensive.
-            detail_level (string):
-                One of ["high", "low"]. Level of detail to include in the explanation.
-                High detail should include precise contribution values. Low detail
-                will include only basic information about features used.
             context_description (string):
                 Description of the model's prediction task, in sentence format. This will be
                 passed to the LLM and may help produce more accurate explanations.
                 For example: "The model predicts the price of houses."
             max_tokens (int):
                 Maximum number of tokens to use in the explanation
-            temperature (float):
-                LLM Temperature to use. Values closer to 1 will produce more creative values.
-                Values closer to 0 will produce more consistent or conservative explanations.
 
         Returns:
             dictionary (if x_orig is DataFrame) or DataFrame (if x_orig is Series)
@@ -857,10 +842,8 @@ class RealApp:
             format_output=format_output,
             prepare_kwargs={"shap_type": shap_type},
             produce_kwargs={
-                "llm_model": llm_model,
-                "detail_level": detail_level,
+                "gpt_model_type": gpt_model_type,
                 "max_tokens": max_tokens,
-                "temperature": temperature,
                 "num_features": num_features,
                 "context_description": context_description,
             },
