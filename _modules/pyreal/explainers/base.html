@@ -327,7 +327,6 @@ document.write(`
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">from</span> <span class="nn">openai</span> <span class="kn">import</span> <span class="n">OpenAI</span>
 <span class="kn">from</span> <span class="nn">sklearn.base</span> <span class="kn">import</span> <span class="n">is_classifier</span>
 <span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">get_scorer</span>
 
@@ -417,7 +416,7 @@ document.write(`
         <span class="n">return_original_explanation</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
         <span class="n">fit_transformers</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
         <span class="n">openai_api_key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-        <span class="n">openai_client</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">llm</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Generic ExplainerBase object</span>
@@ -461,9 +460,8 @@ document.write(`
 <span class="sd">            openai_api_key (string):</span>
 <span class="sd">                OpenAI API key. Required for GPT narrative explanations, unless openai client</span>
 <span class="sd">                is provided</span>
-<span class="sd">            openai_client (openai.Client):</span>
-<span class="sd">                OpenAI client object, with API key already set. If provided, openai_api_key is</span>
-<span class="sd">                ignored</span>
+<span class="sd">            llm (LLM model object): Local LLM object or LLM client object to use to generate \</span>
+<span class="sd">                narratives. One of `llm` or `openai_api_key` must be provided.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">model_utils</span><span class="o">.</span><span class="n">load_model_from_pickle</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
@@ -526,12 +524,8 @@ document.write(`
                 <span class="k">raise</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
 
-        <span class="k">if</span> <span class="n">openai_client</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">openai_client</span> <span class="o">=</span> <span class="n">openai_client</span>
-        <span class="k">elif</span> <span class="n">openai_api_key</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">openai_client</span> <span class="o">=</span> <span class="n">OpenAI</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="n">openai_api_key</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">openai_client</span> <span class="o">=</span> <span class="kc">None</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">llm</span> <span class="o">=</span> <span class="n">llm</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">openai_api_key</span> <span class="o">=</span> <span class="n">openai_api_key</span></div>
 
 <div class="viewcode-block" id="ExplainerBase.fit"><a class="viewcode-back" href="../../../api_reference/api/pyreal.explainers.ExplainerBase.fit.html#pyreal.explainers.ExplainerBase.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_train_orig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">y_train</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>

@@ -322,7 +322,7 @@ document.write(`
                 <article class="bd-article" role="main">
                   
   <h1>Source code for pyreal.transformers.llm</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">openai</span> <span class="kn">import</span> <span class="n">OpenAI</span>
+<span></span><span class="kn">import</span> <span class="nn">explingo</span>
 
 <span class="kn">from</span> <span class="nn">pyreal.explanation_types</span> <span class="kn">import</span> <span class="n">NarrativeExplanation</span>
 <span class="kn">from</span> <span class="nn">pyreal.transformers</span> <span class="kn">import</span> <span class="n">TransformerBase</span>
@@ -335,45 +335,35 @@ document.write(`
 
 <div class="viewcode-block" id="NarrativeTransformer.__init__"><a class="viewcode-back" href="../../../api_reference/api/pyreal.transformers.NarrativeTransformer.html#pyreal.transformers.NarrativeTransformer.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="n">openai_client</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">llm</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">openai_api_key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">num_features</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
-        <span class="n">llm_model</span><span class="o">=</span><span class="s2">&quot;gpt3.5&quot;</span><span class="p">,</span>
-        <span class="n">detail_level</span><span class="o">=</span><span class="s2">&quot;high&quot;</span><span class="p">,</span>
+        <span class="n">gpt_model_type</span><span class="o">=</span><span class="s2">&quot;gpt-4o&quot;</span><span class="p">,</span>
         <span class="n">context_description</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
         <span class="n">max_tokens</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span>
-        <span class="n">temperature</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
         <span class="n">training_examples</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
     <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Transforms explanations to narrative (natural-language) form.</span>
 <span class="sd">        Args:</span>
+<span class="sd">            llm (LLM model object): Local LLM object or LLM client object to use to generate \</span>
+<span class="sd">                narratives. One of `llm` or `openai_api_key` must be provided.</span>
+<span class="sd">            openai_api_key (string): OpenAI API key to use</span>
 <span class="sd">            x_orig (DataFrame of shape (n_instances, n_features):</span>
 <span class="sd">                Input to explain</span>
 <span class="sd">            num_features (int):</span>
 <span class="sd">                Number of features to include in the explanation, when relevant.</span>
 <span class="sd">                If None, all features will be included</span>
-<span class="sd">            llm_model (string):</span>
-<span class="sd">                One of [&quot;gpt3.5&quot;, &quot;gpt4&quot;]. LLM model to use to generate the explanation.</span>
-<span class="sd">                GPT4 may provide better results, but is more expensive.</span>
-<span class="sd">            detail_level (string):</span>
-<span class="sd">                One of [&quot;high&quot;, &quot;low&quot;]. Level of detail to include in the explanation.</span>
-<span class="sd">                High detail should include precise contribution values. Low detail</span>
-<span class="sd">                will include only basic information about features used.</span>
+<span class="sd">            gpt_model_type (string):</span>
+<span class="sd">                OpenAI model to use to generate the explanation, if passing in an openai api key</span>
 <span class="sd">            context_description (string):</span>
 <span class="sd">                Description of the model&#39;s prediction task, in sentence format. This will be</span>
 <span class="sd">                passed to the LLM and may help produce more accurate explanations.</span>
 <span class="sd">                For example: &quot;The model predicts the price of houses.&quot;</span>
 <span class="sd">            max_tokens (int):</span>
 <span class="sd">                Maximum number of tokens to use in the explanation</span>
-<span class="sd">            temperature (float):</span>
-<span class="sd">                LLM Temperature to use. Values closer to 1 will produce more creative values.</span>
-<span class="sd">                Values closer to 0 will produce more consistent or conservative explanations.</span>
-<span class="sd">            openai_client (OpenAI API client):</span>
-<span class="sd">                OpenAI API client, with API key set. If None, the API key must be provided to the</span>
-<span class="sd">                explainer at initialization.</span>
-<span class="sd">            examples (dictionary of string:list of tuples):</span>
+<span class="sd">            training_examples (dictionary of string:list of tuples):</span>
 <span class="sd">                Few-shot training examples.</span>
 <span class="sd">                Keys are explanation type (currently support: &quot;feature_contributions&quot;)</span>
 <span class="sd">                Values are lists of tuples, where the first element is the input to the model</span>
@@ -383,19 +373,17 @@ document.write(`
 <span class="sd">            list of strings of length n_instances</span>
 <span class="sd">                Narrative version of feature contribution explanation, one item per instance</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">openai_client</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">openai_client</span> <span class="o">=</span> <span class="n">openai_client</span>
-        <span class="k">elif</span> <span class="n">openai_api_key</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">openai_client</span> <span class="o">=</span> <span class="n">OpenAI</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="n">openai_api_key</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Must provide openai_client or openai_api_key&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">llm</span> <span class="o">=</span> <span class="n">llm</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">openai_api_key</span> <span class="o">=</span> <span class="n">openai_api_key</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">llm</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">openai_api_key</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Must provide llm or openai_api_key&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">narrators</span> <span class="o">=</span> <span class="p">{}</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">num_features</span> <span class="o">=</span> <span class="n">num_features</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">llm_model</span> <span class="o">=</span> <span class="n">llm_model</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">detail_level</span> <span class="o">=</span> <span class="n">detail_level</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">llm_model</span> <span class="o">=</span> <span class="n">gpt_model_type</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">context_description</span> <span class="o">=</span> <span class="n">context_description</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">max_tokens</span> <span class="o">=</span> <span class="n">max_tokens</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">temperature</span> <span class="o">=</span> <span class="n">temperature</span>
 
         <span class="k">if</span> <span class="n">training_examples</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">training_examples</span> <span class="o">=</span> <span class="n">training_examples</span>
@@ -442,59 +430,28 @@ document.write(`
             <span class="bp">self</span><span class="o">.</span><span class="n">training_examples</span><span class="p">[</span><span class="n">explanation_type</span><span class="p">]</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">training_examples</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">transform_explanation_feature_contribution</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">explanation</span><span class="p">,</span> <span class="n">num_features</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">num_features</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">num_features</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_features</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">llm_model</span> <span class="o">==</span> <span class="s2">&quot;gpt3.5&quot;</span><span class="p">:</span>
-            <span class="n">model</span> <span class="o">=</span> <span class="s2">&quot;gpt-3.5-turbo-0125&quot;</span>
-        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">llm_model</span> <span class="o">==</span> <span class="s2">&quot;gpt4&quot;</span><span class="p">:</span>
-            <span class="n">model</span> <span class="o">=</span> <span class="s2">&quot;gpt-4-0125-preview&quot;</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="s2">&quot;Invalid LLM model </span><span class="si">%s</span><span class="s2">. Expected one of [&#39;gpt3.5&#39;, &#39;gpt4&#39;]&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">llm_model</span>
-            <span class="p">)</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">context_description</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">context_description</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">context_description</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">context_description</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">context_description</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">):</span>
-                <span class="n">context_description</span> <span class="o">+=</span> <span class="s2">&quot;.&quot;</span>
-        <span class="n">prompt</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="s2">&quot;You are helping users who do not have experience working with ML understand an ML&quot;</span>
-            <span class="sa">f</span><span class="s2">&quot; model&#39;s predictions. </span><span class="si">{</span><span class="n">context_description</span><span class="si">}</span><span class="s2"> I will give you feature contribution&quot;</span>
-            <span class="s2">&quot; explanations, generated using SHAP, in (feature, feature_value, contribution )&quot;</span>
-            <span class="s2">&quot; format. Convert the explanations into simple narratives. Do not use more tokens&quot;</span>
-            <span class="s2">&quot; than necessary. Make your answers sound very natural, as if said in conversation. &quot;</span>
-        <span class="p">)</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">detail_level</span> <span class="o">==</span> <span class="s2">&quot;low&quot;</span><span class="p">:</span>
-            <span class="n">prompt</span> <span class="o">+=</span> <span class="p">(</span>
-                <span class="s2">&quot;Keep the explanations simple and easy to understand. Do not include exact&quot;</span>
-                <span class="s2">&quot; contribution values. &quot;</span>
-            <span class="p">)</span>
-        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">detail_level</span> <span class="o">==</span> <span class="s2">&quot;high&quot;</span><span class="p">:</span>
-            <span class="n">prompt</span> <span class="o">+=</span> <span class="s2">&quot;Include all exact contribution values in your response. &quot;</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="s2">&quot;Invalid detail_level </span><span class="si">%s</span><span class="s2">. Expected one of [&#39;high&#39;, &#39;low&#39;]&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">detail_level</span>
+        <span class="k">if</span> <span class="s2">&quot;feature_contributions&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">narrators</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">narrators</span><span class="p">[</span><span class="s2">&quot;feature_contributions&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">explingo</span><span class="o">.</span><span class="n">Narrator</span><span class="p">(</span>
+                <span class="n">llm</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">llm</span><span class="p">,</span>
+                <span class="n">openai_api_key</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">openai_api_key</span><span class="p">,</span>
+                <span class="n">gpt_model_name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">llm_model</span><span class="p">,</span>
+                <span class="n">explanation_format</span><span class="o">=</span><span class="s2">&quot;(feature, feature_value, SHAP contribution)&quot;</span><span class="p">,</span>
+                <span class="n">context</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">context_description</span><span class="p">,</span>
+                <span class="n">labeled_train_data</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">training_examples</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;feature_contribution&quot;</span><span class="p">),</span>
             <span class="p">)</span>
 
+        <span class="n">narrator</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">narrators</span><span class="p">[</span><span class="s2">&quot;feature_contributions&quot;</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">num_features</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">num_features</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_features</span>
+
         <span class="n">narrative_explanations</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="n">base_messages</span> <span class="o">=</span> <span class="p">[{</span><span class="s2">&quot;role&quot;</span><span class="p">:</span> <span class="s2">&quot;system&quot;</span><span class="p">,</span> <span class="s2">&quot;content&quot;</span><span class="p">:</span> <span class="n">prompt</span><span class="p">}]</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">training_examples</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;feature_contributions&quot;</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">for</span> <span class="n">training_exp</span><span class="p">,</span> <span class="n">training_narr</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">training_examples</span><span class="p">[</span><span class="s2">&quot;feature_contributions&quot;</span><span class="p">]:</span>
-                <span class="n">base_messages</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">&quot;role&quot;</span><span class="p">:</span> <span class="s2">&quot;user&quot;</span><span class="p">,</span> <span class="s2">&quot;content&quot;</span><span class="p">:</span> <span class="n">training_exp</span><span class="p">})</span>
-                <span class="n">base_messages</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">&quot;role&quot;</span><span class="p">:</span> <span class="s2">&quot;assistant&quot;</span><span class="p">,</span> <span class="s2">&quot;content&quot;</span><span class="p">:</span> <span class="n">training_narr</span><span class="p">})</span>
         <span class="n">parsed_explanations</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parse_feature_contribution_explanation_for_llm</span><span class="p">(</span>
             <span class="n">explanation</span><span class="p">,</span> <span class="n">num_features</span><span class="o">=</span><span class="n">num_features</span>
         <span class="p">)</span>
+
         <span class="k">for</span> <span class="n">parsed_explanation</span> <span class="ow">in</span> <span class="n">parsed_explanations</span><span class="p">:</span>
-            <span class="n">messages</span> <span class="o">=</span> <span class="n">base_messages</span> <span class="o">+</span> <span class="p">[{</span><span class="s2">&quot;role&quot;</span><span class="p">:</span> <span class="s2">&quot;user&quot;</span><span class="p">,</span> <span class="s2">&quot;content&quot;</span><span class="p">:</span> <span class="n">parsed_explanation</span><span class="p">}]</span>
-            <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">openai_client</span><span class="o">.</span><span class="n">chat</span><span class="o">.</span><span class="n">completions</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
-                <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span>
-                <span class="n">messages</span><span class="o">=</span><span class="n">messages</span><span class="p">,</span>
-                <span class="n">max_tokens</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">max_tokens</span><span class="p">,</span>
-                <span class="n">temperature</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">temperature</span><span class="p">,</span>
-            <span class="p">)</span>
-            <span class="n">narrative_explanations</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">choices</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">message</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
+            <span class="n">narrative_explanations</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">narrator</span><span class="o">.</span><span class="n">narrate</span><span class="p">(</span><span class="n">parsed_explanation</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">NarrativeExplanation</span><span class="p">(</span><span class="n">narrative_explanations</span><span class="p">)</span>
 
     <span class="nd">@staticmethod</span>

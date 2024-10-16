@@ -505,8 +505,7 @@ entire x_train_orig.</p></li>
 <li><p><strong>fit_transformers</strong> (<em>Boolean</em>) – If True, fit transformers on x_train_orig. Requires x_train_orig not be None</p></li>
 <li><p><strong>openai_api_key</strong> (<em>string</em>) – OpenAI API key. Required for GPT narrative explanations, unless openai client
 is provided</p></li>
-<li><p><strong>openai_client</strong> (<em>openai.Client</em>) – OpenAI client object, with API key already set. If provided, openai_api_key is
-ignored</p></li>
+<li><p><strong>llm</strong> (<em>LLM model object</em>) – Local LLM object or LLM client object to use to generate                 narratives. One of <cite>llm</cite> or <cite>openai_api_key</cite> must be provided.</p></li>
 </ul>
 </dd>
 </dl>
@@ -552,7 +551,7 @@ ignored</p></li>
 <td><p>Produce an interpretable explanation and corresponding values</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">produce_narrative_explanation</span></code>(x_orig[, ...])</p></td>
-<td><p>Produces an explanation in narrative (natural-language) form. :param x_orig: Input to explain :type x_orig: DataFrame of shape (n_instances, n_features :param num_features: Number of features to include in the explanation. If None, all features will be                      included :type num_features: int :param llm_model: One of [&quot;gpt3.5&quot;, &quot;gpt4&quot;]. LLM model to use to generate the explanation. GPT4 may provide better results, but is more expensive. :type llm_model: string :param detail_level: One of [&quot;high&quot;, &quot;low&quot;]. Level of detail to include in the explanation. High detail should include precise contribution values. Low detail                      will include only basic information about features used. :type detail_level: string :param context_description: Description of the model's prediction task, in sentence format. This will be                             passed to the LLM and may help produce more accurate explanations. For example: &quot;The model predicts the price of houses.&quot; :type context_description: string :param max_tokens: Maximum number of tokens to use in the explanation :type max_tokens: int :param temperature: LLM Temperature to use. Values closer to 1 will produce more creative values. Values closer to 0 will produce more consistent or conservative explanations. :type temperature: float :param openai_client: OpenAI API client, with API key set. If None, the API key must be provided to the                       explainer at initialization. :type openai_client: OpenAI API client.</p></td>
+<td><p>Produces an explanation in narrative (natural-language) form. :param x_orig: Input to explain :type x_orig: DataFrame of shape (n_instances, n_features :param num_features: Number of features to include in the explanation. If None, all features will be                      included :type num_features: int :param gpt_model_type: OpenAI model to use to generate the explanation, if passing in an openai api key :type gpt_model_type: string :param context_description: Description of the model's prediction task, in sentence format. This will be                             passed to the LLM and may help produce more accurate explanations. For example: &quot;The model predicts the price of houses.&quot; :type context_description: string :param max_tokens: Maximum number of tokens to use in the explanation :type max_tokens: int.</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_llm_training_data</span></code>(training_data)</p></td>
 <td><p>Manually set llm training data</p></td>

@@ -505,8 +505,7 @@ entire x_train_orig.</p></li>
 <li><p><strong>fit_transformers</strong> (<em>Boolean</em>) – If True, fit transformers on x_train_orig. Requires x_train_orig not be None</p></li>
 <li><p><strong>openai_api_key</strong> (<em>string</em>) – OpenAI API key. Required for GPT narrative explanations, unless openai client
 is provided</p></li>
-<li><p><strong>openai_client</strong> (<em>openai.Client</em>) – OpenAI client object, with API key already set. If provided, openai_api_key is
-ignored</p></li>
+<li><p><strong>llm</strong> (<em>LLM model object</em>) – Local LLM object or LLM client object to use to generate                 narratives. One of <cite>llm</cite> or <cite>openai_api_key</cite> must be provided.</p></li>
 </ul>
 </dd>
 </dl>
