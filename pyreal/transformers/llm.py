@@ -1,5 +1,3 @@
-from openai import OpenAI
-
 from pyreal.explanation_types import NarrativeExplanation
 from pyreal.transformers import TransformerBase
 

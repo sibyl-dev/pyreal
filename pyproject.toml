@@ -50,7 +50,6 @@ faiss-cpu = "^1.7.4"
 reverse-geocoder = "^1.5.1"
 
 # Development Requirements
-openai = {version = "^1.13.3", extras = ["llm"]}
 explingo = "^0.1.0.1"
 [tool.poetry.group.dev.dependencies]
 

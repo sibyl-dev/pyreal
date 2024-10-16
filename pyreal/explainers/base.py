@@ -3,7 +3,6 @@ from abc import ABC, abstractmethod
 
 import numpy as np
 import pandas as pd
-from openai import OpenAI
 from sklearn.base import is_classifier
 from sklearn.metrics import get_scorer
 
