@@ -4,13 +4,12 @@ import pickle
 import numpy as np
 import pandas as pd
 import pytest
+from explingo.testing import MockNarratorLLM
 from pandas import DataFrame
 from sklearn.linear_model import LinearRegression, LogisticRegression
 
 from pyreal.transformers import TransformerBase
 from pyreal.transformers.one_hot_encode import OneHotEncoder
-
-from explingo.testing import MockNarratorLLM
 
 
 class DummyModel:
