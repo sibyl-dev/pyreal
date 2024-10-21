@@ -50,7 +50,7 @@ faiss-cpu = "^1.7.4"
 reverse-geocoder = "^1.5.1"
 
 # Development Requirements
-explingo = "^0.1.0.1"
+explingo = "^0.1.1"
 [tool.poetry.group.dev.dependencies]
 
 # Testing Dependencies
@@ -63,7 +63,7 @@ nbmake = "^1.4.1"
 pytest-mock = "^3.12.0"
 
 # Style Dependencies
-flake8 = "^5.0.4"
+flake8 = ">=7.1.1,<8.0.0"
 isort = "^5.11.4"
 black = "^23.1.0"
 

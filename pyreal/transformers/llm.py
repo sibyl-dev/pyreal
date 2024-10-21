@@ -113,7 +113,7 @@ class NarrativeTransformer(TransformerBase):
                 gpt_model_name=self.llm_model,
                 explanation_format="(feature, feature_value, SHAP contribution)",
                 context=self.context_description,
-                labeled_train_data=self.training_examples.get("feature_contribution"),
+                sample_narratives=self.training_examples.get("feature_contribution"),
             )
 
         narrator = self.narrators["feature_contributions"]

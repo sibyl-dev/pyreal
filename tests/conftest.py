@@ -10,6 +10,8 @@ from sklearn.linear_model import LinearRegression, LogisticRegression
 from pyreal.transformers import TransformerBase
 from pyreal.transformers.one_hot_encode import OneHotEncoder
 
+from explingo.testing import MockNarratorLLM
+
 
 class DummyModel:
     def __init__(self, value):
@@ -217,6 +219,4 @@ def feature_contribution_explanation():
 @pytest.fixture()
 def mock_llm(mocker):
     test_narrative = "the model predicts because A"
-    llm = mocker.MagicMock()
-    llm.return_value = ["Narrative: " + test_narrative]
-    return {"llm": llm, "response": test_narrative}
+    return {"llm": MockNarratorLLM(response=test_narrative), "response": test_narrative}
