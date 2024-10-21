@@ -4,6 +4,7 @@ import pickle
 import numpy as np
 import pandas as pd
 import pytest
+from explingo.testing import MockNarratorLLM
 from pandas import DataFrame
 from sklearn.linear_model import LinearRegression, LogisticRegression
 
@@ -217,6 +218,4 @@ def feature_contribution_explanation():
 @pytest.fixture()
 def mock_llm(mocker):
     test_narrative = "the model predicts because A"
-    llm = mocker.MagicMock()
-    llm.return_value = ["Narrative: " + test_narrative]
-    return {"llm": llm, "response": test_narrative}
+    return {"llm": MockNarratorLLM(response=test_narrative), "response": test_narrative}
