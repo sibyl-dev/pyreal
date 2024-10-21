@@ -437,7 +437,7 @@ document.write(`
                 <span class="n">gpt_model_name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">llm_model</span><span class="p">,</span>
                 <span class="n">explanation_format</span><span class="o">=</span><span class="s2">&quot;(feature, feature_value, SHAP contribution)&quot;</span><span class="p">,</span>
                 <span class="n">context</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">context_description</span><span class="p">,</span>
-                <span class="n">labeled_train_data</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">training_examples</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;feature_contribution&quot;</span><span class="p">),</span>
+                <span class="n">sample_narratives</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">training_examples</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;feature_contribution&quot;</span><span class="p">),</span>
             <span class="p">)</span>
 
         <span class="n">narrator</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">narrators</span><span class="p">[</span><span class="s2">&quot;feature_contributions&quot;</span><span class="p">]</span>
